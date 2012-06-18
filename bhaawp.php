@@ -39,7 +39,7 @@ class BhaaLoader
 		add_action( 'plugins_loaded', array(&$this, 'initialize') );
 	
 		if ( is_admin() )
-			$this->admin = new BHAAAdmin();
+			$this->admin = new BhaaAdmin();
 	}
 	
 	function initialize()

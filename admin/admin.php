@@ -8,7 +8,7 @@ class BhaaAdmin
 // 		add_action('admin_print_scripts', array(&$this, 'loadScripts') );
 // 		add_action('admin_print_styles', array(&$this, 'loadStyles') );
 	
-// 		add_action( 'admin_menu', array(&$this, 'menu') );
+ 		add_action( 'admin_menu', array(&$this, 'bhaa_admin_plugin_menu') );
 	
 // 		// Add meta box to post screen
 // 		add_meta_box( 'leaguemanager', __('Match-Report','leaguemanager'), array(&$this, 'addMetaBox'), 'post' );
