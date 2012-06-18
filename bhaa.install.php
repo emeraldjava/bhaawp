@@ -20,12 +20,12 @@
 				$charset_collate .= " COLLATE $wpdb->collate";
 		}
 		$event_sql = "CREATE TABLE `".$wpdb->prefix."bhaa_event` (
-		  `id` int(11) NOT NULL auto_increment,
-		  `name` varchar(40) NOT NULL,
-		  `tag` varchar(15) NOT NULL,
-		  `location` varchar(100) NOT NULL,
-		  `date` date NOT NULL,
-		  PRIMARY KEY  (`id`)
+			  `id` int(11) NOT NULL auto_increment,
+			  `name` varchar(40) NOT NULL,
+			  `tag` varchar(15) NOT NULL,
+			  `location` varchar(100) NOT NULL,
+			  `date` date NOT NULL,
+			  PRIMARY KEY  (`id`)
 		) ENGINE=InnoDB $charset_collate;";
 		
 		global $wpdb;
