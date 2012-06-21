@@ -10,6 +10,11 @@ class Company
 		$this->__construct();
 	}
 	
+	public function listCompanies()
+	{
+		return "this will be a list of companies!";
+	}
+	
 	public function getTableName()
 	{
 		global $wpdb;

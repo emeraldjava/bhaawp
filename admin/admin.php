@@ -33,18 +33,15 @@ class BhaaAdmin
 	
 	function bhaa_admin_plugin_menu()
 	{
-		add_menu_page('BHAA Admin Menu Title', 'BHAA Menu', 'manage_options', 'main', array(&$this, 'main'));
-		add_submenu_page('main', 'BHAA', 'Menu', 'manage_options', 'main', array(&$this, 'main'));
+		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
 		
-		add_submenu_page('main' ,'BHAA','Companies','manage_options', 'company' , array(&$this->company,'table'));
+		add_submenu_page('bhaa', 'BHAA', 'Menu', 'manage_options', 'main', array(&$this, 'main'));
 		
-		add_submenu_page('main' ,'BHAA Help','Help','manage_options', 'help' , array(&$this, 'help'));
+		add_submenu_page('bhaa' ,'BHAA','Companies','manage_options', 'company' , array(&$this->company,'table'));
+		
+		add_submenu_page('bhaa' ,'BHAA Help','Help','manage_options', 'help' , array(&$this, 'help'));
 
-		
-		add_options_page( 'BHAA Plugin Options', 'BHAA Plugin', 'manage_options', 'my-unique-identifier', 'bhaa_plugin_options' );
-		
-
-		//add_menu_page('Example Plugin List Table', 'List Table Example', 'activate_plugins', 'tt_list_test', 'tt_render_list_page');
+		add_options_page( 'BHAA Plugin Options', 'BHAA Plugin', 'manage_options', 'my-unique-identifier', 'bhaa_plugin_options');
 	}
 	
 	function main()
