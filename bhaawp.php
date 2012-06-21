@@ -3,16 +3,17 @@
 Plugin Name: BHAA wordpress plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.06.18
+Version: 2012.06.21
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.06.18';
+	var $version = '2012.06.21';
 	
 	var $admin;
+	var $company;
 	
 	function BhaaLoader()
 	{
@@ -46,7 +47,7 @@ class BhaaLoader
 	{
 		// Add the script and style files
 		add_action('wp_head', array(&$this, 'loadScripts') );
-		add_action('wp_print_styles', array(&$this, 'loadStyles') );
+		//add_action('wp_print_styles', array(&$this, 'loadStyles') );
 	}
 		
 	function registerWidget()
@@ -57,6 +58,10 @@ class BhaaLoader
 	function loadLibraries()
 	{
 		global $bhaaShortCodes, $bhaaAJAX;
+		
+		// classes
+		require_once (dirname (__FILE__) . '/classes/company.class.php');
+		$this->company = new Company();
 		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
@@ -135,6 +140,8 @@ class BhaaLoader
 			PRIMARY KEY  (`id`)
 			) ENGINE=InnoDB $charset_collate;";
 		dbDelta($runner_sql);
+		
+		$this->company->createTable();
 		//$rows_affected = $wpdb->insert( $table_name, array( 'time' => current_time('mysql'), 'name' => $welcome_name, 'text' => $welcome_text ) );
 
 	}
@@ -143,8 +150,8 @@ class BhaaLoader
 	{
 		global $wpdb;
 		
-		$wpdb->query( "DROP TABLE $wpdb->bhaa_event" );
-		$wpdb->query( "DROP TABLE $wpdb->bhaa_runner" );
+		$wpdb->query( "DROP TABLE ".$wpdb->prefix."bhaa_event" );
+		$wpdb->query( "DROP TABLE ".$wpdb->bhaa_runner );
 		
 		delete_option( 'bhaa_widget' );
 		delete_option( 'bhaa' );
