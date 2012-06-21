@@ -5,8 +5,10 @@ class BhaaAdmin
 	
 	function __construct()
 	{
+		
+//		require_once('../../../wp-load.php');
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
-	
+			
 		require_once (dirname (__FILE__) . '/company.admin.class.php');
 		$this->company = new CompanyAdmin();
 		
