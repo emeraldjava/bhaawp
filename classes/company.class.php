@@ -25,7 +25,11 @@ class Company
 			image VARCHAR(100),
 			PRIMARY KEY  (id)
 		);" ;
-		dbDelta($sql) ;
+		dbDelta($sql);
+		
+		global $wpdb;
+		$rows_affected = $wpdb->insert( $this->getTableName(), 
+			array( 'name' => 'BHAA', 'web' => 'http://www.bhaa.ie', 'image' => 'http://www.bhaa.ie' ) );
 	}
 }
 ?>
