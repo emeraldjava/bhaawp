@@ -15,6 +15,7 @@ class BhaaLoader
 	var $admin;
 	var $company;
 	var $event;
+	var $race;
 	var $runner;
 	
 	function BhaaLoader()
@@ -28,7 +29,6 @@ class BhaaLoader
 		$wpdb->show_errors();
 		//$this->loadOptions();
 		//$this->defineConstants();
-		//$this->defineTables();
 		//$this->loadTextdomain();
 		$this->loadLibraries();
 	
@@ -68,6 +68,8 @@ class BhaaLoader
 		$this->event = new Event();
 		require_once (dirname (__FILE__) . '/classes/runner.class.php');
 		$this->runner = new Runner();
+		require_once (dirname (__FILE__) . '/classes/race.class.php');
+		$this->race = new Race();
 		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
@@ -100,58 +102,15 @@ class BhaaLoader
 		$options = array();
 		add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
 		add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
-		
 		$this->install();
 	}
-	
-	function defineTables()
-	{
-		global $wpdb;
-		//$wpdb->bhaa_event = $wpdb->prefix .'bhaa_event';
-		//$wpdb->bhaa_runner = $wpdb->prefix .'bhaa_runner';
-	}
-	
+		
 	function install()
 	{
-		global $wpdb;
-		include_once( ABSPATH.'/wp-admin/includes/upgrade.php' );
-		
-		$charset_collate = '';
-		if ( $wpdb->has_cap( 'collation' ) ) {
-			if ( ! empty($wpdb->charset) )
-				$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-			if ( ! empty($wpdb->collate) )
-				$charset_collate .= " COLLATE $wpdb->collate";
-		}
-		
-// 		$event_tablename = $wpdb->prefix."bhaa_event";
-// 		$event_sql = "CREATE TABLE `$event_tablename` (
-// 				`id` int(11) NOT NULL auto_increment,
-// 				`name` varchar(40) NOT NULL,
-// 				`tag` varchar(15) NOT NULL,
-// 				`location` varchar(100) NOT NULL,
-// 				`date` date NOT NULL,
-// 				PRIMARY KEY  (`id`)
-// 			) ENGINE=InnoDB $charset_collate;";
-// 		dbDelta($event_sql);
-		
-// 		$runner_tablename = $wpdb->prefix . "bhaa_runner";
-// 		$runner_sql = "CREATE TABLE `$runner_tablename` (
-// 			`id` int(11) NOT NULL auto_increment,
-// 			`firstname` varchar(40) NOT NULL,
-// 			`surnamename` varchar(40) NOT NULL,
-// 			`status` varchar(15) NOT NULL,
-// 			`standard` varchar(100) NOT NULL,
-// 			`dateofbirth` date NOT NULL,
-// 			PRIMARY KEY  (`id`)
-// 			) ENGINE=InnoDB $charset_collate;";
-// 		dbDelta($runner_sql);
-		
 		$this->company->createTable();
 		$this->event->createTable();
+		$this->race->createTable();
 		$this->runner->createTable();
-		//$rows_affected = $wpdb->insert( $table_name, array( 'time' => current_time('mysql'), 'name' => $welcome_name, 'text' => $welcome_text ) );
-
 	}
 	
 	function uninstall()
