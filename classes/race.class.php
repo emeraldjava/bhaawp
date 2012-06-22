@@ -19,6 +19,7 @@ class Race
 	public function createTable()
 	{
 		global $wpdb;
+		include_once( ABSPATH.'/wp-admin/includes/upgrade.php' );
 		
 		$charset_collate = '';
 		if ( $wpdb->has_cap( 'collation' ) ) {
@@ -32,7 +33,7 @@ class Race
 			`id` int(11) NOT NULL auto_increment,
 				`event` varchar(40) NOT NULL,
 				`distance` varchar(15) NOT NULL,
-				`unit` enum('KM','Mile' DEFAULT 'KM',
+				`unit` enum('KM','Mile') DEFAULT 'KM',
 				PRIMARY KEY  (`id`)
 			) ENGINE=InnoDB $charset_collate;";
 		dbDelta($sql);

@@ -110,6 +110,9 @@ class BhaaLoader
 		
 	function install()
 	{
+		//global $wpdb;
+		//include_once( ABSPATH.'/wp-admin/includes/upgrade.php' );
+		
 		$this->company->createTable();
 		$this->event->createTable();
 		$this->race->createTable();

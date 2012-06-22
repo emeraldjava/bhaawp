@@ -19,6 +19,7 @@ class RaceResult
 	public function createTable()
 	{
 		global $wpdb;
+		include_once( ABSPATH.'/wp-admin/includes/upgrade.php' );
 		
 		$charset_collate = '';
 		if ( $wpdb->has_cap( 'collation' ) ) {
@@ -29,33 +30,28 @@ class RaceResult
 		}
 		
 		$sql = "CREATE TABLE " . $this->getTableName() . " (
-			`race` int(11) NOT NULL,
-			`runner` int(11) NOT NULL,
-			`time` time,
-			`number` int(11)
+			race int(11) NOT NULL,
+			runner int(11) NOT NULL,
+			racetime time,
+			number int(11)
 			) ENGINE=InnoDB $charset_collate;";
 		dbDelta($sql);
 		
-		$wpdb->insert( $this->getTableName(), 
-			array( 'race' => '201001','runner'=>'7713','time'=>'00:50:00','number'=>'3'),
-			array( 'race' => '201001','runner'=>'1000','time'=>'00:51:00','number'=>'1'),
-			array( 'race' => '201001','runner'=>'2000','time'=>'00:54:00','number'=>'2')
-		);
-		$wpdb->insert( $this->getTableName(),
-			array( 'race' => '201102','runner'=>'7713','time'=>'00:50:00','number'=>'13'),
-			array( 'race' => '201102','runner'=>'1000','time'=>'00:51:00','number'=>'11'),
-			array( 'race' => '201102','runner'=>'2000','time'=>'00:54:00','number'=>'12')
-		);
-		$wpdb->insert( $this->getTableName(),
-			array( 'race' => '201210','runner'=>'7713','time'=>'00:50:00','number'=>'23'),
-			array( 'race' => '201210','runner'=>'1000','time'=>'00:51:00','number'=>'21'),
-			array( 'race' => '201210','runner'=>'2000','time'=>'00:54:00','number'=>'22')
-		);
-		$wpdb->insert( $this->getTableName(),
-			array( 'race' => '201220','runner'=>'7713','time'=>'00:50:00','number'=>'33'),
-			array( 'race' => '201220','runner'=>'1000','time'=>'00:51:00','number'=>'31'),
-			array( 'race' => '201220','runner'=>'2000','time'=>'00:54:00','number'=>'32')
-		);
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201001','runner'=>'7713','racetime'=>'00:50:00','number'=>'3'));
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201001','runner'=>'1000','racetime'=>'00:51:00','number'=>'1'));
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201001','runner'=>'2000','racetime'=>'00:54:00','number'=>'2'));
+
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201102','runner'=>'7713','racetime'=>'00:50:00','number'=>'13'));
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201102','runner'=>'1000','racetime'=>'00:51:00','number'=>'11'));
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201102','runner'=>'2000','racetime'=>'00:54:00','number'=>'12'));
+		
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201210','runner'=>'7713','racetime'=>'00:50:00','number'=>'23'));
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201210','runner'=>'1000','racetime'=>'00:51:00','number'=>'21'));
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201210','runner'=>'2000','racetime'=>'00:54:00','number'=>'22'));
+		
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201220','runner'=>'7713','racetime'=>'00:50:00','number'=>'33'));
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201220','runner'=>'1000','racetime'=>'00:51:00','number'=>'31'));
+		$wpdb->insert( $this->getTableName(),array( 'race' => '201220','runner'=>'2000','racetime'=>'00:54:00','number'=>'32'));
 	}
 }
 ?>

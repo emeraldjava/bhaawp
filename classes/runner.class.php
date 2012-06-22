@@ -20,6 +20,7 @@ class Runner
 	public function createTable()
 	{
 		global $wpdb;
+		include_once( ABSPATH.'/wp-admin/includes/upgrade.php' );
 		
 		$charset_collate = '';
 		if ( $wpdb->has_cap( 'collation' ) ) {
