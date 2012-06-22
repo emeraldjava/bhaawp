@@ -16,6 +16,7 @@ class BhaaLoader
 	var $company;
 	var $event;
 	var $race;
+	var $raceresult;
 	var $runner;
 	
 	function BhaaLoader()
@@ -70,7 +71,9 @@ class BhaaLoader
 		$this->runner = new Runner();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
 		$this->race = new Race();
-		
+		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
+		$this->raceresult = new RaceResult();
+				
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
 		require_once (dirname (__FILE__) . '/lib/ajax.php');
@@ -110,6 +113,7 @@ class BhaaLoader
 		$this->company->createTable();
 		$this->event->createTable();
 		$this->race->createTable();
+		$this->raceresult->createTable();
 		$this->runner->createTable();
 	}
 	
