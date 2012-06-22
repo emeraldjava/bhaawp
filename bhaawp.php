@@ -14,6 +14,8 @@ class BhaaLoader
 	
 	var $admin;
 	var $company;
+	var $event;
+	var $runner;
 	
 	function BhaaLoader()
 	{
@@ -26,7 +28,7 @@ class BhaaLoader
 		$wpdb->show_errors();
 		//$this->loadOptions();
 		//$this->defineConstants();
-		$this->defineTables();
+		//$this->defineTables();
 		//$this->loadTextdomain();
 		$this->loadLibraries();
 	
@@ -62,6 +64,10 @@ class BhaaLoader
 		// classes
 		require_once (dirname (__FILE__) . '/classes/company.class.php');
 		$this->company = new Company();
+		require_once (dirname (__FILE__) . '/classes/event.class.php');
+		$this->event = new Event();
+		require_once (dirname (__FILE__) . '/classes/runner.class.php');
+		$this->runner = new Runner();
 		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
@@ -101,8 +107,8 @@ class BhaaLoader
 	function defineTables()
 	{
 		global $wpdb;
-		$wpdb->bhaa_event = $wpdb->prefix .'bhaa_event';
-		$wpdb->bhaa_runner = $wpdb->prefix .'bhaa_runner';
+		//$wpdb->bhaa_event = $wpdb->prefix .'bhaa_event';
+		//$wpdb->bhaa_runner = $wpdb->prefix .'bhaa_runner';
 	}
 	
 	function install()
@@ -118,30 +124,32 @@ class BhaaLoader
 				$charset_collate .= " COLLATE $wpdb->collate";
 		}
 		
-		$event_tablename = $wpdb->prefix."bhaa_event";
-		$event_sql = "CREATE TABLE `$event_tablename` (
-				`id` int(11) NOT NULL auto_increment,
-				`name` varchar(40) NOT NULL,
-				`tag` varchar(15) NOT NULL,
-				`location` varchar(100) NOT NULL,
-				`date` date NOT NULL,
-				PRIMARY KEY  (`id`)
-			) ENGINE=InnoDB $charset_collate;";
-		dbDelta($event_sql);
+// 		$event_tablename = $wpdb->prefix."bhaa_event";
+// 		$event_sql = "CREATE TABLE `$event_tablename` (
+// 				`id` int(11) NOT NULL auto_increment,
+// 				`name` varchar(40) NOT NULL,
+// 				`tag` varchar(15) NOT NULL,
+// 				`location` varchar(100) NOT NULL,
+// 				`date` date NOT NULL,
+// 				PRIMARY KEY  (`id`)
+// 			) ENGINE=InnoDB $charset_collate;";
+// 		dbDelta($event_sql);
 		
-		$runner_tablename = $wpdb->prefix . "bhaa_runner";
-		$runner_sql = "CREATE TABLE `$runner_tablename` (
-			`id` int(11) NOT NULL auto_increment,
-			`firstname` varchar(40) NOT NULL,
-			`surnamename` varchar(40) NOT NULL,
-			`status` varchar(15) NOT NULL,
-			`standard` varchar(100) NOT NULL,
-			`dateofbirth` date NOT NULL,
-			PRIMARY KEY  (`id`)
-			) ENGINE=InnoDB $charset_collate;";
-		dbDelta($runner_sql);
+// 		$runner_tablename = $wpdb->prefix . "bhaa_runner";
+// 		$runner_sql = "CREATE TABLE `$runner_tablename` (
+// 			`id` int(11) NOT NULL auto_increment,
+// 			`firstname` varchar(40) NOT NULL,
+// 			`surnamename` varchar(40) NOT NULL,
+// 			`status` varchar(15) NOT NULL,
+// 			`standard` varchar(100) NOT NULL,
+// 			`dateofbirth` date NOT NULL,
+// 			PRIMARY KEY  (`id`)
+// 			) ENGINE=InnoDB $charset_collate;";
+// 		dbDelta($runner_sql);
 		
 		$this->company->createTable();
+		$this->event->createTable();
+		$this->runner->createTable();
 		//$rows_affected = $wpdb->insert( $table_name, array( 'time' => current_time('mysql'), 'name' => $welcome_name, 'text' => $welcome_text ) );
 
 	}
@@ -150,8 +158,15 @@ class BhaaLoader
 	{
 		global $wpdb;
 		
-		$wpdb->query( "DROP TABLE ".$wpdb->prefix."bhaa_event" );
-		$wpdb->query( "DROP TABLE ".$wpdb->bhaa_runner );
+		$delete_event_sql = "DROP TABLE ".$wpdb->prefix."bhaa_event;";
+		$wpdb->query($delete_event_sql);
+		
+		$delete_runner_sql = "DROP TABLE ".$wpdb->prefix."bhaa_runner;";
+		$wpdb->query($delete_runner_sql);
+		
+		//require_once(ABSPATH .’wp-admin/includes/upgrade.php’);
+		dbDelta($delete_event_sql);
+		dbDelta($delete_runner_sql);
 		
 		delete_option( 'bhaa_widget' );
 		delete_option( 'bhaa' );
