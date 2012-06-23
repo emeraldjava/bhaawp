@@ -60,7 +60,7 @@ class BhaaLoader
 	
 	function loadLibraries()
 	{
-		global $bhaaShortCodes, $bhaaAJAX;
+		global $bhaaAJAX;
 		
 		// classes
 		require_once (dirname (__FILE__) . '/classes/company.class.php');
@@ -78,7 +78,7 @@ class BhaaLoader
 		//require_once (dirname (__FILE__) . '/lib/core.php');
 		require_once (dirname (__FILE__) . '/lib/ajax.php');
 		//require_once (dirname (__FILE__) . '/lib/stats.php');
-		require_once (dirname (__FILE__) . '/lib/shortcodes.php');
+		//require_once (dirname (__FILE__) . '/lib/shortcodes.php');
 		//require_once (dirname (__FILE__) . '/lib/widget.php');
 		//require_once (dirname (__FILE__) . '/functions.php');
 		//require_once (dirname (__FILE__) . '/lib/championship.php');
@@ -90,8 +90,7 @@ class BhaaLoader
 			//require_once (dirname (__FILE__) . '/lib/image.php');
 			require_once (dirname (__FILE__) . '/admin/admin.php');
 		}
-			
-		$bhaaShortCodes = new BhaaShortCodes();
+		$this->addShortCodes();
 	}
 	
 	function loadScripts()
@@ -100,12 +99,18 @@ class BhaaLoader
 	function loadStyle()
 	{}
 	
+	function addShortCodes()
+	{
+		add_shortcode( 'bhaa_companies', array($this->company,'listCompanies'));
+		add_shortcode( 'bhaa_events', array($this->event,'listEvents'));
+	}
+	
 	function activate()
 	{
 		$options = array();
 		add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
 		add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
-		$this->install();
+		//$this->install();
 	}
 		
 	function install()

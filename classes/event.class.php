@@ -10,6 +10,11 @@ class Event
 		$this->__construct();
 	}
 	
+	function listEvents($attr)
+	{
+		return "BHAA Events Short Code";
+	}
+	
 	public function getTableName()
 	{
 		global $wpdb;
