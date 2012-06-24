@@ -1,5 +1,5 @@
 <?php
-class Event
+class Event extends Base
 {
 	function __construct()
 	{
@@ -12,7 +12,14 @@ class Event
 	
 	function listEvents($attr)
 	{
-		return "BHAA Events Short Code";
+		$events = "SQL Result";
+		$filename = "events";
+		$out = $this->loadTemplate( 
+			$filename,
+			array('events' => $events) 
+		);
+		return $out;
+		//return "BHAA Events Short Code";
 	}
 	
 	public function getTableName()
