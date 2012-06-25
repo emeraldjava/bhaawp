@@ -12,7 +12,10 @@ class Event extends Base
 	
 	function listEvents($attr)
 	{
-		$events = "SQL Result";
+		global $wpdb;
+		//$events = "SQL Result";
+		$events = $wpdb->get_results("SELECT * FROM ".$this->getTableName());
+		//echo sprintf("%s",$events);
 		$filename = "events";
 		$out = $this->loadTemplate( 
 			$filename,
