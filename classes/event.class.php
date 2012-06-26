@@ -10,19 +10,21 @@ class Event extends Base
 		$this->__construct();
 	}
 	
+	function events($attr)
+	{
+		return "This is an event";
+	}
+	
 	function listEvents($attr)
 	{
 		global $wpdb;
-		//$events = "SQL Result";
-		$events = $wpdb->get_results("SELECT * FROM ".$this->getTableName());
-		//echo sprintf("%s",$events);
+		$events = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$this->getTableName()));
 		$filename = "events";
 		$out = $this->loadTemplate( 
 			$filename,
 			array('events' => $events) 
 		);
 		return $out;
-		//return "BHAA Events Short Code";
 	}
 	
 	public function getTableName()

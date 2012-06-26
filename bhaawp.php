@@ -3,14 +3,14 @@
 Plugin Name: BHAA wordpress plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.06.24
+Version: 2012.06.26
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.06.24';
+	var $version = '2012.06.26';
 	
 	var $admin;
 	var $company;
@@ -107,7 +107,6 @@ class BhaaLoader
 		//$this->loadSports();
 		$bhaaAjax = new BhaaAjax();
 		
-
 		$this->addShortCodes();
 	}
 	
@@ -121,6 +120,7 @@ class BhaaLoader
 	{
 		add_shortcode( 'bhaa_companies', array($this->company,'listCompanies'));
 		add_shortcode( 'bhaa_events', array($this->event,'listEvents'));
+		add_shortcode( 'bhaa_event', array($this->event,'event'));
 	}
 	
 	function activate()
@@ -128,14 +128,11 @@ class BhaaLoader
 		$options = array();
 		add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
 		add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
-		//$this->install();
+		$this->install();
 	}
 		
 	function install()
 	{
-		//global $wpdb;
-		//include_once( ABSPATH.'/wp-admin/includes/upgrade.php' );
-		
 		$this->company->createTable();
 		$this->event->createTable();
 		$this->race->createTable();
@@ -170,5 +167,4 @@ class BhaaLoader
 // Run the Plugin
 global $loader;
 $loader = new BhaaLoader();
-
 ?>

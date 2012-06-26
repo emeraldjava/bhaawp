@@ -30,14 +30,24 @@ class Runner
 				$charset_collate .= " COLLATE $wpdb->collate";
 		}
 		
+		// The ID will be foreign key'ed to the wp_user table
 		$sql = "CREATE TABLE " . $this->getTableName() . " (
 			`id` int(11) NOT NULL auto_increment,
-			`firstname` varchar(40) NOT NULL,
-			`surnamename` varchar(40) NOT NULL,
+			`firstname` varchar(20) NOT NULL,
+			`surnamename` varchar(20) NOT NULL,
 			`gender` enum('M','W') DEFAULT 'M',
-			`status` varchar(15) NOT NULL,
+			`status` varchar(2) NOT NULL,
 			`standard` varchar(2) NOT NULL,
-			`dateofbirth` date NOT NULL,
+			dateofbirth date NOT NULL,
+			email varchar(20),
+			textmessage enum('Y','N') default 'N',
+			mobilephone varchar(12) default NULL,
+			newsletter enum('Y','N') default 'N',
+			insertdate date NOT NULL,
+			renewaldate date NOT NULL,
+			address1 varchar(20) default NULL,
+			address2 varchar(20) default NULL,
+			address3 varchar(20) default NULL,
 			PRIMARY KEY  (`id`)
 			) ENGINE=InnoDB $charset_collate;";
 		dbDelta($sql);
