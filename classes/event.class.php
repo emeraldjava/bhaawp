@@ -10,9 +10,16 @@ class Event extends Base
 		$this->__construct();
 	}
 	
-	function events($attr)
+	function getEvent($attr)
 	{
-		return "This is an event";
+		extract( shortcode_atts( array(
+				'event' => 'humm'
+//				'bar' => 'something else',
+		), $atts ) );
+		
+		//return "foo = {$foo}";
+		
+		return 'This is an event. :: '.$event;
 	}
 	
 	function listEvents($attr)

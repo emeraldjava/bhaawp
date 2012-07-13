@@ -63,19 +63,24 @@ class BhaaLoader
 	
 	function defineConstants()
 	{
-		if ( !defined( 'WP_CONTENT_URL' ) )
-			define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
-		if ( !defined( 'WP_PLUGIN_URL' ) )
-			define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-		if ( !defined( 'WP_CONTENT_DIR' ) )
-			define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-		if ( !defined( 'WP_PLUGIN_DIR' ) )
-			define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+		define('BHAAWP_PATH', plugin_dir_path(__FILE__));
+// 		if ( !defined( 'WP_CONTENT_URL' ) )
+// 			define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
+// 		if ( !defined( 'WP_PLUGIN_URL' ) )
+			
+// 			define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+// 		if ( !defined( 'WP_CONTENT_DIR' ) )
+// 			define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+// 		if ( !defined( 'WP_PLUGIN_DIR' ) )
+// 		{
+// 			define('WP_PLUGIN_DIR', plugin_dir_path(__FILE__));
+// 			//define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+// 		}
 			
 		//define( 'LEAGUEMANAGER_VERSION', $this->version );
 		//define( 'LEAGUEMANAGER_DBVERSION', $this->dbversion );
-		define( 'BHAAWP_URL', WP_PLUGIN_URL.'/bhaawp' );
-		define( 'BHAAWP_PATH', WP_PLUGIN_DIR.'/bhaawp' );
+// 		define( 'BHAAWP_URL', WP_PLUGIN_URL.'/gitbhaawp' );
+// 		define( 'BHAAWP_PATH', plugin_dir_path(__FILE__));//WP_PLUGIN_DIR.'/bhaawp' );
 	}
 	
 	function loadLibraries()
@@ -120,7 +125,46 @@ class BhaaLoader
 	{
 		add_shortcode( 'bhaa_companies', array($this->company,'listCompanies'));
 		add_shortcode( 'bhaa_events', array($this->event,'listEvents'));
-		add_shortcode( 'bhaa_event', array($this->event,'event'));
+		add_shortcode( 'bhaa_event', array($this->event,'getEvent'));
+		add_shortcode( 'bhaa', array($this,'bhaa_shortcode'));
+	}
+	
+	public function bhaa_shortcode($attributes)
+	{
+		// Extract data
+		extract(shortcode_atts(
+				array(
+						'id'      => 1,
+						'type'    => 'table',
+						'style'   => 'general',
+						//'event' => '',
+						//'race' => '',
+						'latest'  => 'false'
+				),
+				$attributes
+		));
+
+		if ( isset($_GET['event']) )
+		{
+			echo "event is a GET param ";
+		}
+		else
+		{
+			echo "event is NOT a GET param ";
+		}
+		
+		if (isset($_GET['event']))
+		{
+			echo "EVENT";
+			return $this->event->getEvent($attr);//$_GET['event']);
+			//echo $front->get_club_information((int) $_GET['club']);
+		}
+		else
+		{
+			
+			return $this->event->listEvents($attributes);
+		//	echo "HERE";
+		}
 	}
 	
 	function activate()

@@ -9,7 +9,10 @@
     </thead>
 <tbody id="the-list">
 <?php foreach ( $events AS $event ) : $class = ('alternate' == $class) ? '' : 'alternate'; ?>
-<?php $url = "http://wplocal/bhaa_event=1";//add_query_arg('bhaa_event', $event->tag, get_permalink()); ?>
+<?php 
+$permalink = get_permalink();
+$url       = add_query_arg('event', $event->tag, $permalink);
+//$url = "http://wplocal/bhaa_event=1";//add_query_arg('bhaa_event', $event->tag, get_permalink()); ?>
 <tr class="<?php echo $class ?>">
 	<td><a href="<?php echo $url; ?>"><?php echo $event->name ?></a></td>
 	<td><?php echo $event->tag ?></td>

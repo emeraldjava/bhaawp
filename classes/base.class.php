@@ -7,13 +7,14 @@ class Base
 		extract($vars);
 	
 		ob_start();
-		if ( file_exists( TEMPLATEPATH . "/bhaawp/$template.php")) {
-			include(TEMPLATEPATH . "/bhaawp/$template.php");
+		if ( file_exists( BHAAWP_PATH . '$template.php')) {
+			include(BHAAWP_PATH . '$template.php');
 		}
-		elseif ( file_exists(BHAAWP_PATH . "/templates/".$template.".php") ) {
-			include(BHAAWP_PATH . "/templates/".$template.".php");
+		elseif ( file_exists(BHAAWP_PATH . 'templates/'.$template.'.php') ) {
+			include(BHAAWP_PATH . 'templates/'.$template.'.php');
 		} 
-		else {
+		else 
+		{
 			parent::setMessage( sprintf(__('Could not load template %s.php', 'leaguemanager'), $template), true );
 			parent::printMessage();
 		}
