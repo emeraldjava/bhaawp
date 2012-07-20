@@ -19,7 +19,12 @@ class Event extends Base
 		
 		//return "foo = {$foo}";
 		
-		return 'This is an event. :: '.$event;
+		if (isset($wp_query->query_vars['event']))
+		{
+			print $wp_query->query_vars['event'];
+		}
+		
+		return 'This is an event. :: '.$event.' - get_query_var= '.get_query_var('event');
 	}
 	
 	function listEvents($attr)

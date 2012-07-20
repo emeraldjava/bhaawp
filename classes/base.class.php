@@ -30,8 +30,23 @@ class Base
 		} elseif ( file_exists(BHAAWP_PATH . "/templates/".$template.".php") ) {
 			return true;
 		}
-	
 		return false;
+	}
+	
+	function run_install_or_upgrade($table_name, $sql)//, $db_version)
+	{
+		global $wpdb;
+	
+		// Table does not exist, we create it!
+		// We use InnoDB and UTF-8 by default
+		if ($wpdb->get_var("SHOW TABLES LIKE '".$table_name."'") != $table_name)
+		{
+			$create = "CREATE TABLE ".$table_name." ( ".$sql." ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+	
+			// We use the dbDelta method given by WP!
+			require_once ABSPATH.'wp-admin/includes/upgrade.php';
+			dbDelta($create);
+		}
 	}
 }
 ?>

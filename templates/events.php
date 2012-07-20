@@ -10,8 +10,10 @@
 <tbody id="the-list">
 <?php foreach ( $events AS $event ) : $class = ('alternate' == $class) ? '' : 'alternate'; ?>
 <?php 
-$permalink = get_permalink();
-$url       = add_query_arg('event', $event->tag, $permalink);
+$url = get_permalink();
+$url       = add_query_arg('btype', 'event', $url);
+$url       = add_query_arg('bhaa_id', $event->id, $url);
+//$url       = add_query_arg('event_id', $event->id, $permalink);
 //$url = "http://wplocal/bhaa_event=1";//add_query_arg('bhaa_event', $event->tag, get_permalink()); ?>
 <tr class="<?php echo $class ?>">
 	<td><a href="<?php echo $url; ?>"><?php echo $event->name ?></a></td>

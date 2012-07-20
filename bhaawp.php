@@ -33,19 +33,67 @@ class BhaaLoader
 		//$this->loadTextdomain();
 		$this->loadLibraries();
 	
-		register_activation_hook(__FILE__, array(&$this, 'activate') );
-			
-		//if (function_exists('register_uninstall_hook'))
-			//register_uninstall_hook(__FILE__, array(&$this, 'uninstall'));
-	
 		add_action( 'widgets_init', array(&$this, 'registerWidget') );
 		// Start this plugin once all other plugins are fully loaded
 		add_action( 'plugins_loaded', array(&$this, 'initialize') );
-	
+
+		
+		//add_action('parse_query',array($this,'parse_query'), 1);
+		//add_filter('query_vars', array($this,'query_vars') );
+		//add_action('parse_request', array(&$this,'my_plugin_parse_request'));
 		if ( is_admin() )
 		{
+			register_activation_hook(__FILE__, array('BhaaLoader', 'activate') );
+			register_uninstall_hook(__FILE__, array('BhaaLoader', 'uninstall'));
+			
 			require_once (dirname (__FILE__) . '/admin/admin.php');
 			$this->admin = new BhaaAdmin();
+		}
+		else 
+		{
+			$this->addShortCodes();
+		}
+	}
+	
+	/**
+	 * http://www.voidtrance.net/2010/02/passing-and-receiving-query-variables/
+	 * http://willnorris.com/2009/06/wordpress-plugin-pet-peeve-2-direct-calls-to-plugin-files
+	 * @param unknown_type $wp
+	 */
+	function my_plugin_parse_request($wp) {
+		// only process requests with "my-plugin=ajax-handler"
+		
+		// http://www.voidtrance.net/2010/02/passing-and-receiving-query-variables/
+		if (array_key_exists ("event", $wp->query_vars))
+		{
+			$this->query["event"] = $wp->query_vars["event"];
+			return $this->event->getEvent($this->query);
+		}
+	}
+	
+	static $queryvars = array(
+		'event_id','race_id'
+	);
+	
+	// Adding the id var so that WP recognizes it
+	function query_vars($vars){
+		$vars[] = 'bhaa_id';
+		$vars[] = 'btype';
+		return $vars;
+	}
+	
+	/**
+	 * Not the "WP way" but for now this'll do!
+	 */
+	function parse_query($wp){
+		//global $wp_query, $wp_rewrite;
+		if (array_key_exists ("bhaa_id", $wp->query_vars))
+		{
+			$this->query["bhaa_id"] = $wp->query_vars["bhaa_id"];
+		}
+		if (array_key_exists ("btype", $wp->query_vars))
+		{
+			$this->query["btype"] = $wp->query_vars["btype"];
 		}
 	}
 	
@@ -59,28 +107,6 @@ class BhaaLoader
 	function registerWidget()
 	{
 		//register_widget('LeagueManagerWidget');
-	}
-	
-	function defineConstants()
-	{
-		define('BHAAWP_PATH', plugin_dir_path(__FILE__));
-// 		if ( !defined( 'WP_CONTENT_URL' ) )
-// 			define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
-// 		if ( !defined( 'WP_PLUGIN_URL' ) )
-			
-// 			define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-// 		if ( !defined( 'WP_CONTENT_DIR' ) )
-// 			define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-// 		if ( !defined( 'WP_PLUGIN_DIR' ) )
-// 		{
-// 			define('WP_PLUGIN_DIR', plugin_dir_path(__FILE__));
-// 			//define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
-// 		}
-			
-		//define( 'LEAGUEMANAGER_VERSION', $this->version );
-		//define( 'LEAGUEMANAGER_DBVERSION', $this->dbversion );
-// 		define( 'BHAAWP_URL', WP_PLUGIN_URL.'/gitbhaawp' );
-// 		define( 'BHAAWP_PATH', plugin_dir_path(__FILE__));//WP_PLUGIN_DIR.'/bhaawp' );
 	}
 	
 	function loadLibraries()
@@ -110,9 +136,7 @@ class BhaaLoader
 		//require_once (dirname (__FILE__) . '/lib/championship.php');
 		
 		//$this->loadSports();
-		$bhaaAjax = new BhaaAjax();
-		
-		$this->addShortCodes();
+		$bhaaAjax = new BhaaAjax();		
 	}
 	
 	function loadScripts()
@@ -123,80 +147,138 @@ class BhaaLoader
 	
 	function addShortCodes()
 	{
-		add_shortcode( 'bhaa_companies', array($this->company,'listCompanies'));
-		add_shortcode( 'bhaa_events', array($this->event,'listEvents'));
-		add_shortcode( 'bhaa_event', array($this->event,'getEvent'));
+		//add_shortcode( 'bhaa_companies', array($this->company,'listCompanies'));
+		//add_shortcode( 'bhaa_events', array($this->event,'listEvents'));
+		//add_shortcode( 'bhaa_event', array($this->event,'getEvent'));
 		add_shortcode( 'bhaa', array($this,'bhaa_shortcode'));
 	}
 	
 	public function bhaa_shortcode($attributes)
 	{
+		//echo "attributes ".var_dump($attributes);
 		// Extract data
 		extract(shortcode_atts(
 				array(
 						'id'      => 1,
 						'type'    => 'table',
-						'style'   => 'general',
+						//'style'   => 'general',
 						//'event' => '',
 						//'race' => '',
-						'latest'  => 'false'
+						//'latest'  => 'false'
 				),
 				$attributes
 		));
 
-		if ( isset($_GET['event']) )
-		{
-			echo "event is a GET param ";
-		}
-		else
-		{
-			echo "event is NOT a GET param ";
-		}
+// 		echo "wp_query ".var_dump($wp_query)."\n";
+// 		echo "attributes ".var_dump($attributes)."\n";
 		
-		if (isset($_GET['event']))
+// 		echo "type ".$type;
+// 		echo "bhaa_id ".$this->query['bhaa_id'];
+// 		echo "event_id A ".$this->query['event_id'];
+// 		echo "event_id B ".$wp_query['event_id'];
+		
+		if (isset($wp_query->query_vars['event_id']))
 		{
-			echo "EVENT";
-			return $this->event->getEvent($attr);//$_GET['event']);
-			//echo $front->get_club_information((int) $_GET['club']);
+			print $wp_query->query_vars['event_id'];
+		}
+				
+		if ($type == 'event_id') // Display club information
+		{
+			//echo "event_id is a GET param ";
+			return $this->event->getEvent($attr);
+		}
+		elseif ( isset($_GET['event_id']) )
+		{
+			//echo "event is a GET param ";
+			return $this->event->getEvent($attr);
 		}
 		else
 		{
-			
+			//echo "event is NOT a GET param ";
 			return $this->event->listEvents($attributes);
-		//	echo "HERE";
-		}
-	}
-	
-	function activate()
-	{
-		$options = array();
-		add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
-		add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
-		$this->install();
+		}		
 	}
 		
-	function install()
+	function defineConstants()
 	{
-		$this->company->createTable();
-		$this->event->createTable();
-		$this->race->createTable();
-		$this->raceresult->createTable();
-		$this->runner->createTable();
+		define('BHAAWP_PATH', plugin_dir_path(__FILE__));
+	
+		global $wpdb;
+	
+		// tables
+		$wpdb->event        = $wpdb->prefix.'bhaa_event';
+		$wpdb->raceresult     = $wpdb->prefix.'bhaa_race';
+		$wpdb->race     = $wpdb->prefix.'bhaa_raceresult';
+		//$wpdb->sector     = $wpdb->prefix.'bhaa_sector';
+		$wpdb->company    = $wpdb->prefix.'bhaa_company';
 	}
 	
-	function uninstall()
+	public static function activate()
 	{
 		global $wpdb;
 		
-		$delete_event_sql = "DROP TABLE ".$wpdb->prefix."bhaa_event;";
-		$wpdb->query($delete_event_sql);
+		$options = array();
+		add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
+		add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
+
+		// company SQL
+		$companySql = "id INT(11) NOT NULL auto_increment,
+			name VARCHAR(100) NOT NULL,
+			web VARCHAR(100),
+			image VARCHAR(100),
+			PRIMARY KEY  (id)";
+		BhaaLoader::run_install_or_upgrade($wpdb->company,$companySql);
+		$wpdb->insert( $wpdb->company,
+			array( 'name' => 'BHAA', 'web' => 'http://www.bhaa.ie', 'image' => 'http://www.bhaa.ie' ) );
 		
-		$delete_runner_sql = "DROP TABLE ".$wpdb->prefix."bhaa_runner;";
-		$wpdb->query($delete_runner_sql);
+//		$this->company->createDbTable();
+// 		$this->event->createTable();
+// 		$this->race->createTable();
+// 		$this->raceresult->createTable();
+	}
+	
+	public static function run_install_or_upgrade($table_name, $sql)//, $db_version)
+	{
+		global $wpdb;
+		// Table does not exist, we create it!
+		// We use InnoDB and UTF-8 by default
+		if ($wpdb->get_var("SHOW TABLES LIKE '".$table_name."'") != $table_name)
+		{
+			$create = "CREATE TABLE ".$table_name." ( ".$sql." ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+	
+			// We use the dbDelta method given by WP!
+			require_once ABSPATH.'wp-admin/includes/upgrade.php';
+			dbDelta($create);
+		}
+	}
+	
+	public static function uninstall()
+	{	
+		global $wpdb;
 		
-		//require_once(ABSPATH .’wp-admin/includes/upgrade.php’);
-		dbDelta($delete_event_sql);
-		dbDelta($delete_runner_sql);
+		// PHPLeague tables
+		$tables = array(
+				$wpdb->event,
+				$wpdb->raceresult,
+				$wpdb->race,
+				$wpdb->company
+		);
+		
+		// Delete each table one by one
+		foreach ($tables as $table)
+		{
+			$wpdb->query('DROP TABLE IF EXISTS '.$table.';');
+		}
+		
+// 		$delete_event_sql = "DROP TABLE ".$wpdb->prefix."bhaa_event;";
+// 		$wpdb->query($delete_event_sql);
+		
+// 		$delete_runner_sql = "DROP TABLE ".$wpdb->prefix."bhaa_runner;";
+// 		$wpdb->query($delete_runner_sql);
+		
+// 		//require_once(ABSPATH .’wp-admin/includes/upgrade.php’);
+// 		dbDelta($delete_event_sql);
+// 		dbDelta($delete_runner_sql);
 		
 		delete_option( 'bhaa_widget' );
 		delete_option( 'bhaa' );
