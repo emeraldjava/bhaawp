@@ -194,7 +194,7 @@ class BhaaLoader
 		}
 		else
 		{
-			//echo "event is NOT a GET param ";
+			// default shortcode action
 			return $this->event->listEvents($attributes);
 		}		
 	}
@@ -209,7 +209,6 @@ class BhaaLoader
 		$wpdb->event        = $wpdb->prefix.'bhaa_event';
 		$wpdb->raceresult     = $wpdb->prefix.'bhaa_race';
 		$wpdb->race     = $wpdb->prefix.'bhaa_raceresult';
-		//$wpdb->sector     = $wpdb->prefix.'bhaa_sector';
 		$wpdb->company    = $wpdb->prefix.'bhaa_company';
 	}
 	

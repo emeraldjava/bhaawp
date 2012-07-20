@@ -30,7 +30,7 @@ class Event extends Base
 	function listEvents($attr)
 	{
 		global $wpdb;
-		$events = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$this->getTableName()));
+		$events = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->event));
 		$filename = "events";
 		$out = $this->loadTemplate( 
 			$filename,
