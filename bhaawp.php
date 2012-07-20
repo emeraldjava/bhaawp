@@ -264,8 +264,34 @@ class BhaaLoader
 						'location' => 'Park',
 						'date' => '2012-07-01' ) );
 		
-//		$this->company->createDbTable();
-// 		$this->event->createTable();
+		// race sql
+		$raceSql = "id int(11) NOT NULL auto_increment,
+			event varchar(40) NOT NULL,
+			distance varchar(15) NOT NULL,
+			unit enum('KM','Mile') DEFAULT 'KM',
+			PRIMARY KEY  (`id`)";
+		BhaaLoader::run_install_or_upgrade($wpdb->race,$raceSql);
+		$wpdb->insert( $wpdb->race,
+				array( 'id' => '201001',
+						'event'=>'201001',
+						'distance'=>'5',
+						'unit'=>'KM') );
+		$wpdb->insert( $wpdb->race,
+				array( 'id' => '201102',
+						'event'=>'201001',
+						'distance'=>'8',
+						'unit'=>'KM') );
+		$wpdb->insert( $wpdb->race,
+				array( 'id' => '201210',
+						'event'=>'201205',
+						'distance'=>'10',
+						'unit'=>'KM') );
+		$wpdb->insert( $wpdb->race,
+				array( 'id' => '201220',
+						'event'=>'201210',
+						'distance'=>'9',
+						'unit'=>'KM') );
+		
 // 		$this->race->createTable();
 // 		$this->raceresult->createTable();
 	}
