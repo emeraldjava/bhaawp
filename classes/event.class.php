@@ -12,19 +12,19 @@ class Event extends Base
 	
 	function getEvent($attr)
 	{
-		extract( shortcode_atts( array(
-				'event' => 'humm'
-//				'bar' => 'something else',
-		), $atts ) );
+// 		echo $attr['id'];
+// 		extract( shortcode_atts( array(
+// 				'event' => 'humm'
+// 		), $atts ) );
 		
 		//return "foo = {$foo}";
 		
-		if (isset($wp_query->query_vars['event']))
-		{
-			print $wp_query->query_vars['event'];
-		}
+// 		if (isset($wp_query->query_vars['event']))
+// 		{
+// 			print $wp_query->query_vars['event'];
+// 		}
 		
-		return 'This is an event. :: '.$event.' - get_query_var= '.get_query_var('event');
+		return 'This the event specific page for id :: '.$attr;
 	}
 	
 	function listEvents($attr)

@@ -155,19 +155,15 @@ class BhaaLoader
 	
 	public function bhaa_shortcode($attributes)
 	{
-		//echo "attributes ".var_dump($attributes);
 		// Extract data
 		extract(shortcode_atts(
 				array(
 						'id'      => 1,
-						'type'    => 'table',
-						//'style'   => 'general',
-						//'event' => '',
-						//'race' => '',
-						//'latest'  => 'false'
+						'type'    => 'default'
 				),
 				$attributes
 		));
+		$id = (int) $id;
 
 // 		echo "wp_query ".var_dump($wp_query)."\n";
 // 		echo "attributes ".var_dump($attributes)."\n";
@@ -177,21 +173,22 @@ class BhaaLoader
 // 		echo "event_id A ".$this->query['event_id'];
 // 		echo "event_id B ".$wp_query['event_id'];
 		
-		if (isset($wp_query->query_vars['event_id']))
-		{
-			print $wp_query->query_vars['event_id'];
-		}
+// 		if (isset($wp_query->query_vars['event_id']))
+// 		{
+// 			print $wp_query->query_vars['event_id'];
+// 		}
 				
-		if ($type == 'event_id') // Display club information
+		// event shortcode with id?
+		if ($type == 'event') 
 		{
-			//echo "event_id is a GET param ";
-			return $this->event->getEvent($attr);
+			if(isset($id))
+				return $this->event->getEvent($id);
 		}
-		elseif ( isset($_GET['event_id']) )
-		{
-			//echo "event is a GET param ";
-			return $this->event->getEvent($attr);
-		}
+// 		elseif ( isset($_GET['event_id']) )
+// 		{
+// 			//echo "event is a GET param ";
+// 			return $this->event->getEvent($attr);
+// 		}
 		else
 		{
 			// default shortcode action
