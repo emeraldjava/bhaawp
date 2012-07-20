@@ -184,11 +184,11 @@ class BhaaLoader
 			if(isset($id))
 				return $this->event->getEvent($id);
 		}
-// 		elseif ( isset($_GET['event_id']) )
-// 		{
-// 			//echo "event is a GET param ";
-// 			return $this->event->getEvent($attr);
-// 		}
+		elseif($type == 'races')
+		{
+			// li
+			return $this->race->listRaces();
+		}
 		else
 		{
 			// default shortcode action
