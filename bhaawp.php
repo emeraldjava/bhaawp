@@ -231,6 +231,39 @@ class BhaaLoader
 		$wpdb->insert( $wpdb->company,
 			array( 'name' => 'BHAA', 'web' => 'http://www.bhaa.ie', 'image' => 'http://www.bhaa.ie' ) );
 		
+		// event SQL
+		$eventSql = "id int(11) NOT NULL auto_increment,
+			name varchar(40) NOT NULL,
+			tag varchar(15) NOT NULL,
+			location varchar(100) NOT NULL,
+			date date NOT NULL,
+			PRIMARY KEY (id)";
+		BhaaLoader::run_install_or_upgrade($wpdb->event,$eventSql);
+		$wpdb->insert( $wpdb->event,
+				array( 'id' => '201001',
+						'name'=>'South Dublin County Council',
+						'tag'=>'sdcc2012',
+						'location' => 'Tymon Park',
+						'date' => '2010-01-05' ) );
+		$wpdb->insert( $wpdb->event,
+				array( 'id' => '201101',
+						'name'=>'RTE',
+						'tag'=>'rte2011',
+						'location' => 'RTE',
+						'date' => '2011-05-01' ) );
+		$wpdb->insert( $wpdb->event,
+				array( 'id' => '201205',
+						'name'=>'KCLUB',
+						'tag'=>'kclub2012',
+						'location' => 'k-club',
+						'date' => '2012-04-01' ) );
+		$wpdb->insert( $wpdb->event,
+				array( 'id' => '201210',
+						'name'=>'DublinHalf',
+						'tag'=>'dublinhalf2012',
+						'location' => 'Park',
+						'date' => '2012-07-01' ) );
+		
 //		$this->company->createDbTable();
 // 		$this->event->createTable();
 // 		$this->race->createTable();
