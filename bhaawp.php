@@ -292,8 +292,28 @@ class BhaaLoader
 						'distance'=>'9',
 						'unit'=>'KM') );
 		
-// 		$this->race->createTable();
-// 		$this->raceresult->createTable();
+		// raceresult SQL
+		$raceResultSql = "race int(11) NOT NULL,
+			runner int(11) NOT NULL,
+			racetime time,
+			number int(11)";
+		BhaaLoader::run_install_or_upgrade($wpdb->raceresult,$raceResultSql);
+		
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'7713','racetime'=>'00:50:00','number'=>'3'));
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'1000','racetime'=>'00:51:00','number'=>'1'));
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'2000','racetime'=>'00:54:00','number'=>'2'));
+		
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'7713','racetime'=>'00:50:00','number'=>'13'));
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'1000','racetime'=>'00:51:00','number'=>'11'));
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'2000','racetime'=>'00:54:00','number'=>'12'));
+		
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'7713','racetime'=>'00:50:00','number'=>'23'));
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'1000','racetime'=>'00:51:00','number'=>'21'));
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'2000','racetime'=>'00:54:00','number'=>'22'));
+		
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'7713','racetime'=>'00:50:00','number'=>'33'));
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'1000','racetime'=>'00:51:00','number'=>'31'));
+		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'2000','racetime'=>'00:54:00','number'=>'32'));
 	}
 	
 	public static function run_install_or_upgrade($table_name, $sql)//, $db_version)
