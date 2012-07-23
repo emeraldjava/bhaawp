@@ -2,7 +2,8 @@
 class BhaaAdmin
 {
 	var $company;
-	
+	var $import;
+		
 	function __construct()
 	{
 		
@@ -11,6 +12,9 @@ class BhaaAdmin
 			
 		require_once (dirname (__FILE__) . '/company.admin.class.php');
 		$this->company = new CompanyAdmin();
+		
+		require_once (dirname (__FILE__) . '/import.php');
+		$this->import = new BhaaImport();
 		
 // 		add_action('admin_print_scripts', array(&$this, 'loadScripts') );
 // 		add_action('admin_print_styles', array(&$this, 'loadStyles') );
@@ -39,9 +43,17 @@ class BhaaAdmin
 		
 		add_submenu_page('bhaa' ,'BHAA','Companies','manage_options', 'company' , array(&$this->company,'table'));
 		
-		add_submenu_page('bhaa' ,'BHAA Help','Help','manage_options', 'help' , array(&$this, 'help'));
+		add_submenu_page('bhaa' ,'BHAA','Help','manage_options', 'help' , array(&$this, 'help'));
 
+		add_submenu_page('bhaa' ,'BHAA','Import','manage_options', 'import' , array(&$this->import, 'dispatch'));
+		
 		add_options_page( 'BHAA Plugin Options', 'BHAA Plugin', 'manage_options', 'my-unique-identifier', 'bhaa_plugin_options');
+		
+//		add_management_page(
+	//		'bhaaimport', 'BhaaImport', __('Import bhaa details'), array ($import, 'dispatch'));
+				
+	//			'edit.php', 'CSV Importer', 'manage_options', __FILE__,
+		//		array($plugin, 'form'));
 	}
 	
 	function main()

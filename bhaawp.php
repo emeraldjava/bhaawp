@@ -52,7 +52,7 @@ class BhaaLoader
 		else 
 		{
 			$this->addShortCodes();
-		}
+		}		
 	}
 	
 	/**
