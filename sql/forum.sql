@@ -24,7 +24,7 @@ select * from wp_forum_posts
 -- each parent post is a thread
 select * from wp_forum_threads
 delete from wp_forum_threads
-select * from gl_forum_topic where pid=0;
+select * from gl_forum_topic where pid!=0;
 
 -- insert topics
 insert into wp_forum_threads
@@ -34,6 +34,12 @@ from gl_forum_topic where pid=0;
 insert into wp_forum_posts
 select id,comment,id,FROM_UNIXTIME(lastupdated),uid,subject,views 
 from gl_forum_topic where pid=0;
+
+-- insert the replies
+insert into wp_forum_posts
+select 0,comment,pid,FROM_UNIXTIME(date),uid,subject,views 
+from gl_forum_topic where pid!=0;
+
 -- move the replies
 select * from wp_forum_posts
 delete from wp_forum_posts
