@@ -13,9 +13,8 @@ class Race extends Base
 	function listRaces($attr)
 	{
 		global $wpdb;
-		$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->race));
-		$out = $this->loadTemplate('races',array('result' => $result));
-		return $out;
+		$resultx = $wpdb->get_results($wpdb->prepare("SELECT id,event,distance,unit FROM ".$wpdb->race));
+		return $this->loadTemplate('races',array('result' => $resultx));
 	}
 }
 ?>

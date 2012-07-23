@@ -3,14 +3,14 @@
 Plugin Name: BHAA wordpress plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.06.26
+Version: 2012.07.23
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.06.26';
+	var $version = '2012.07.23';
 	
 	var $admin;
 	var $company;
@@ -187,7 +187,12 @@ class BhaaLoader
 		elseif($type == 'races')
 		{
 			// li
-			return $this->race->listRaces();
+			return $this->race->listRaces($attributes);
+		}
+		elseif($type == 'raceresult')
+		{
+			// li
+			return $this->raceresult->listRaceResult($attributes);
 		}
 		else
 		{
@@ -204,9 +209,9 @@ class BhaaLoader
 	
 		// tables
 		$wpdb->event        = $wpdb->prefix.'bhaa_event';
-		$wpdb->raceresult     = $wpdb->prefix.'bhaa_race';
-		$wpdb->race     = $wpdb->prefix.'bhaa_raceresult';
-		$wpdb->company    = $wpdb->prefix.'bhaa_company';
+		$wpdb->race   		= $wpdb->prefix.'bhaa_race';
+		$wpdb->raceresult 	= $wpdb->prefix.'bhaa_raceresult';
+		$wpdb->company    	= $wpdb->prefix.'bhaa_company';
 	}
 	
 	public static function activate()

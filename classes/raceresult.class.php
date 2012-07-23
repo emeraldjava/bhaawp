@@ -1,5 +1,5 @@
 <?php
-class RaceResult
+class RaceResult extends Base
 {
 	function __construct()
 	{
@@ -8,6 +8,14 @@ class RaceResult
 	function RaceResult()
 	{
 		$this->__construct();
+	}
+	
+	function listRaceResult($attr)
+	{
+		global $wpdb;
+		$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->raceresult));
+		$out = $this->loadTemplate('raceresult',array('result' => $result));
+		return $out;
 	}
 }
 ?>

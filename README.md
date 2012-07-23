@@ -11,5 +11,7 @@ shortcode details
 
 [bhaa type=races] - lists all races
 
+[bhaa type=raceresult] - list race results
+
 The main issue i'm having is how to cross link the url's on the specific tables to
 drill down from events -> event -> races -> race.

@@ -11,10 +11,11 @@
 <?php foreach ( $result AS $row ) : $class = ('alternate' == $class) ? '' : 'alternate'; ?>
 <?php 
 $url = get_permalink();
-$url       = add_query_arg('type', 'race', $url);
-$url       = add_query_arg('id', $row->id, $url);
+$url = add_query_arg('type', 'race', $url);
+$url = add_query_arg('id', $row->id, $url);
 ?>
 <tr class="<?php echo $class ?>">
+
 	<td><a href="<?php echo $url; ?>"><?php echo $row->id ?></a></td>
 	<td><?php echo $row->event ?></td>
 	<td><?php echo $row->distance ?></td>
