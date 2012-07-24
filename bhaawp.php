@@ -37,7 +37,7 @@ class BhaaLoader
 		// Start this plugin once all other plugins are fully loaded
 		add_action( 'plugins_loaded', array(&$this, 'initialize') );
 
-		
+		add_action( 'init', array(&$this,'register_cpt_sector') );
 		//add_action('parse_query',array($this,'parse_query'), 1);
 		//add_filter('query_vars', array($this,'query_vars') );
 		//add_action('parse_request', array(&$this,'my_plugin_parse_request'));
@@ -367,6 +367,48 @@ class BhaaLoader
 	function getAdmin()
 	{
 		return $this->admin;
+	}
+	
+	// http://themergency.com/generators/wordpress-custom-post-types/
+	function register_cpt_sector() {
+	
+		$labels = array(
+				'name' => _x( 'Sectors', 'sector' ),
+				'singular_name' => _x( 'Sector', 'sector' ),
+				'add_new' => _x( 'Add New', 'sector' ),
+				'add_new_item' => _x( 'Add New Sector', 'sector' ),
+				'edit_item' => _x( 'Edit Sector', 'sector' ),
+				'new_item' => _x( 'New Sector', 'sector' ),
+				'view_item' => _x( 'View Sector', 'sector' ),
+				'search_items' => _x( 'Search Sectors', 'sector' ),
+				'not_found' => _x( 'No sectors found', 'sector' ),
+				'not_found_in_trash' => _x( 'No sectors found in Trash', 'sector' ),
+				'parent_item_colon' => _x( 'Parent Sector:', 'sector' ),
+				'menu_name' => _x( 'Sectors', 'sector' ),
+		);
+	
+		$args = array(
+				'labels' => $labels,
+				'hierarchical' => false,
+	
+				'supports' => array( 'title', 'author' ),
+				'taxonomies' => array( 'category', 'post_tag', 'page-category' ),
+				'public' => true,
+				'show_ui' => true,
+				'show_in_menu' => true,
+	
+	
+				'show_in_nav_menus' => true,
+				'publicly_queryable' => true,
+				'exclude_from_search' => false,
+				'has_archive' => true,
+				'query_var' => true,
+				'can_export' => true,
+				'rewrite' => true,
+				'capability_type' => 'post'
+		);
+	
+		register_post_type( 'sector', $args );
 	}
 }
 
