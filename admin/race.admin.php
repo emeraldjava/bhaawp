@@ -27,24 +27,46 @@ class RaceAdmin
 	
 	function save_post($post_id){
 		global $wpdb;
-		error_log('RaceAdmin save_post('.$post_id.')');
+		
+		remove_action('save_post',array($this,'save_post'),10,1);
 		
 		$post_type = get_post_type($post_id);
-		error_log('post type '.$post_type);
+		error_log('bhaa post type '.$post_type);
+		error_log('bhaa RaceAdmin save_post('.$post_id.')');
 		
-		$race = $wpdb->query($wpdb->prepare("SELECT id FROM wp_bhaa_race WHERE id = %d",$post_id));
-		if($race==0)
-		{
-			$sql_post = "INSERT INTO wp_bhaa_race (id,distance) VALUES(%s, %d)";
-			$wpdb->query($wpdb->prepare($post_id, "update message"));
-			$new_id = $wpdb->insert_id;
-			error_log('bhaa insert race '.$new_id);
-		}	
-		else	
-		{
-			$wpdb->query('UPDATE wp_bhaa_race set distance="test" where id='.$post_id);
-			error_log('bhaa updated race '.$id);
+		$post_array = array();
+		if( !empty($post_id) ){
+			$post_array = (array) get_post($post_id);
 		}
+		
+		// save wp post and continue with meta
+		$post_id = wp_insert_post($post_array);
+		
+		if(!is_wp_error($post_id))
+		{
+			$race = $wpdb->query($wpdb->prepare("SELECT id FROM wp_bhaa_race WHERE id = %d",$post_id));
+			error_log('bhaa RaceAdmin exists? ('.$race.')');
+			if(isset($race))
+			{
+				$wpdb->insert( 'wp_bhaa_race',
+						array( 'id' => $post_id, 
+								'event'=> 8,
+								'distance' => 9.9, 
+								'unit' => 'km' ) );
+//				$sql_post = 'INSERT INTO wp_bhaa_race (id,event,distance,unit) VALUES ('.$post_id.',1,8.7,"km");';
+	//			$wpdb->insert($wpdb->prepare($sql_post));//$wpdb->prepare( $post_id,1,8.7,"km"));
+//				$new_id = $wpdb->insert_id;
+				error_log('bhaa insert race ');
+			}
+			else
+			{
+				$wpdb->query('UPDATE wp_bhaa_race set distance=8 where id='.$post_id);
+				error_log('bhaa updated race '.$id);
+			}			
+		}
+		
+		
+
 // 		if( $post->post_type == "race" )
 // 		{
 // 			echo "saving a BHAA race post";
