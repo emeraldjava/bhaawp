@@ -38,7 +38,7 @@ class BhaaLoader
 		add_action( 'plugins_loaded', array(&$this, 'initialize') );
 
 		add_action( 'init', array(&$this,'register_cpt_company'));
-		add_action( 'init', array(&$this,'register_cpt_race'));
+		add_action( 'init',  array(&$this,'humm'));
 				
 		//add_action('parse_query',array($this,'parse_query'), 1);
 		//add_filter('query_vars', array($this,'query_vars') );
@@ -55,6 +55,45 @@ class BhaaLoader
 		{
 			$this->addShortCodes();
 		}		
+	}
+	
+	public function humm()
+	{
+// 		$labels = array(
+// 				'name' => _x( 'races', 'race' ),
+// 				'singular_name' => _x( 'race', 'race' ),
+// 				'add_new' => _x( 'Add New', 'race' ),
+// 				'add_new_item' => _x( 'Add New race', 'race' ),
+// 				'edit_item' => _x( 'Edit race', 'race' ),
+// 				'new_item' => _x( 'New race', 'race' ),
+// 				'view_item' => _x( 'View race', 'race' ),
+// 				'search_items' => _x( 'Search races', 'race' ),
+// 				'not_found' => _x( 'No races found', 'race' ),
+// 				'not_found_in_trash' => _x( 'No races found in Trash', 'race' ),
+// 				'parent_item_colon' => _x( 'Parent event:', 'event' ),
+// 				'menu_name' => _x( 'races', 'race' ),
+// 		);
+		
+// 		$args = array(
+// 				'labels' => $labels,
+// 				'hierarchical' => false,
+// 				'description' => 'bhaa race post',
+// 				'supports' => array( 'title', 'editor'),// 'custom-fields', 'page-attributes' ),
+// 				'public' => true,
+// 				'show_ui' => true,
+// 				'show_in_menu' => true,
+// 				'show_in_nav_menus' => true,
+// 				'publicly_queryable' => true,
+// 				'exclude_from_search' => false,
+// 				'has_archive' => true,
+// 				'query_var' => 'race',
+// 				'can_export' => true,
+// 				'rewrite' => array('slug' => 'race'),
+// 				'capability_type' => 'post'
+// 		);
+//		register_post_type( 'race', $args );
+		register_post_type( 'race', $this->race->getCPT() );
+		
 	}
 	
 	/**
@@ -125,6 +164,10 @@ class BhaaLoader
 		$this->runner = new Runner();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
 		$this->race = new Race();
+		
+
+		
+		
 		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
 		$this->raceresult = new RaceResult();
 				
@@ -415,83 +458,40 @@ class BhaaLoader
 		
 		
 		
-		function register_taxonomy_sector() {
+// 		function register_taxonomy_sector() {
 		
-			$labels = array(
-					'name' => _x( 'sectors', 'sector' ),
-					'singular_name' => _x( 'sector', 'sector' ),
-					'search_items' => _x( 'Search sectors', 'sector' ),
-					'popular_items' => _x( 'Popular sectors', 'sector' ),
-					'all_items' => _x( 'All sectors', 'sector' ),
-					'parent_item' => _x( 'Parent sector', 'sector' ),
-					'parent_item_colon' => _x( 'Parent sector:', 'sector' ),
-					'edit_item' => _x( 'Edit sector', 'sector' ),
-					'update_item' => _x( 'Update sector', 'sector' ),
-					'add_new_item' => _x( 'Add New sector', 'sector' ),
-					'new_item_name' => _x( 'New sector', 'sector' ),
-					'separate_items_with_commas' => _x( 'Separate sectors with commas', 'sector' ),
-					'add_or_remove_items' => _x( 'Add or remove sectors', 'sector' ),
-					'choose_from_most_used' => _x( 'Choose from most used sectors', 'sector' ),
-					'menu_name' => _x( 'sectors', 'sector' ),
-			);
+// 			$labels = array(
+// 					'name' => _x( 'sectors', 'sector' ),
+// 					'singular_name' => _x( 'sector', 'sector' ),
+// 					'search_items' => _x( 'Search sectors', 'sector' ),
+// 					'popular_items' => _x( 'Popular sectors', 'sector' ),
+// 					'all_items' => _x( 'All sectors', 'sector' ),
+// 					'parent_item' => _x( 'Parent sector', 'sector' ),
+// 					'parent_item_colon' => _x( 'Parent sector:', 'sector' ),
+// 					'edit_item' => _x( 'Edit sector', 'sector' ),
+// 					'update_item' => _x( 'Update sector', 'sector' ),
+// 					'add_new_item' => _x( 'Add New sector', 'sector' ),
+// 					'new_item_name' => _x( 'New sector', 'sector' ),
+// 					'separate_items_with_commas' => _x( 'Separate sectors with commas', 'sector' ),
+// 					'add_or_remove_items' => _x( 'Add or remove sectors', 'sector' ),
+// 					'choose_from_most_used' => _x( 'Choose from most used sectors', 'sector' ),
+// 					'menu_name' => _x( 'sectors', 'sector' ),
+// 			);
 		
-			$args = array(
-					'labels' => $labels,
-					'public' => true,
-					'show_in_nav_menus' => true,
-					'show_ui' => true,
-					'show_tagcloud' => true,
-					'hierarchical' => false,
+// 			$args = array(
+// 					'labels' => $labels,
+// 					'public' => true,
+// 					'show_in_nav_menus' => true,
+// 					'show_ui' => true,
+// 					'show_tagcloud' => true,
+// 					'hierarchical' => false,
 		
-					'rewrite' => true,
-					'query_var' => true
-			);
+// 					'rewrite' => true,
+// 					'query_var' => true
+// 			);
 		
-			register_taxonomy( 'sector', array('post'), $args );
-		}
-	
-		
-		
-		function register_cpt_race() {
-		
-			$labels = array(
-					'name' => _x( 'races', 'race' ),
-					'singular_name' => _x( 'race', 'race' ),
-					'add_new' => _x( 'Add New', 'race' ),
-					'add_new_item' => _x( 'Add New race', 'race' ),
-					'edit_item' => _x( 'Edit race', 'race' ),
-					'new_item' => _x( 'New race', 'race' ),
-					'view_item' => _x( 'View race', 'race' ),
-					'search_items' => _x( 'Search races', 'race' ),
-					'not_found' => _x( 'No races found', 'race' ),
-					'not_found_in_trash' => _x( 'No races found in Trash', 'race' ),
-					'parent_item_colon' => _x( 'Parent event:', 'event' ),
-					'menu_name' => _x( 'races', 'race' ),
-			);
-		
-			$args = array(
-					'labels' => $labels,
-					'hierarchical' => true,
-					'description' => 'bhaa race post',
-					'supports' => array( 'title', 'editor'),// 'custom-fields', 'page-attributes' ),
-		
-					'public' => false,
-					'show_ui' => true,
-					'show_in_menu' => true,
-		
-		
-					'show_in_nav_menus' => true,
-					'publicly_queryable' => true,
-					'exclude_from_search' => false,
-					'has_archive' => true,
-					'query_var' => true,
-					'can_export' => true,
-					'rewrite' => true,
-					'capability_type' => 'post'
-			);
-		
-			register_post_type( 'race', $args );
-		}
+// 			register_taxonomy( 'sector', array('post'), $args );
+// 		}
 }
 
 // Run the Plugin

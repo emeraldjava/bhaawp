@@ -45,13 +45,13 @@ class RaceAdmin
 		if(!is_wp_error($post_id))
 		{
 			$race = $wpdb->query($wpdb->prepare("SELECT id FROM wp_bhaa_race WHERE id = %d",$post_id));
-			error_log('bhaa RaceAdmin exists? ('.$race.')');
+			error_log('bhaa RaceAdmin exists? ('.$post_id.')');
 			if(isset($race))
 			{
 				$wpdb->insert( 'wp_bhaa_race',
 						array( 'id' => $post_id, 
-								'event'=> 8,
-								'distance' => 9.9, 
+								'event'=> $post_array['post_title'],
+								'distance' => $post_id, 
 								'unit' => 'km' ) );
 //				$sql_post = 'INSERT INTO wp_bhaa_race (id,event,distance,unit) VALUES ('.$post_id.',1,8.7,"km");';
 	//			$wpdb->insert($wpdb->prepare($sql_post));//$wpdb->prepare( $post_id,1,8.7,"km"));
@@ -60,8 +60,8 @@ class RaceAdmin
 			}
 			else
 			{
-				$wpdb->query('UPDATE wp_bhaa_race set distance=8 where id='.$post_id);
-				error_log('bhaa updated race '.$id);
+				$wpdb->query('UPDATE wp_bhaa_race set event='.$post_array['post_title'].' where id='.$post_id);
+				error_log('bhaa updated race '.$post_id);
 			}			
 		}
 		
