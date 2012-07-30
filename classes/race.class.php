@@ -14,24 +14,13 @@ class Race extends Base
 	public function Race()
 	{
 		//self::$instance = $this;
-		add_action( 'admin_init', array(&$this, 'admin_init') ); // this must be first
-		add_action( 'template_redirect', array(&$this, 'template_redirect') );
-		add_action( 'wp_insert_post', array(&$this, 'wp_insert_post'), 10, 2 );
-	}
-	
-	public function admin_init()
-	{
-		// http://codex.wordpress.org/Function_Reference/add_meta_box
-		add_meta_box( "race-meta", "BHAA Race", array( &$this, "meta_options" ), "race", "side", "low" );
-	}
-	
-	public function meta_options()
-	{
-		echo '<label for="bhaa_race_unit">';
-		//	_e("Description for this field", 'myplugin_textdomain' );
-		echo '</label> ';
-		echo '<input type="text" id="distance" name="distance" value="distance" size="25" />';
-		echo '<input type="text" id="unit" name="unit" value="unit" size="25" />';
+		//add_action( 'admin_init', array(&$this, 'admin_init') ); // this must be first
+		
+		add_action( 'add_meta_boxes', array( &$this, 'raceMeta' ) );
+		add_action( 'save_post', array( &$this, 'saveRaceMeta' ) );
+		
+		//add_action( 'template_redirect', array(&$this, 'template_redirect') );
+		//add_action( 'wp_insert_post', array(&$this, 'wp_insert_post'), 10, 2 );
 	}
 	
 	public function getCPT()
@@ -50,7 +39,7 @@ class Race extends Base
 				'parent_item_colon' => _x( 'Parent event:', 'event' ),
 				'menu_name' => _x( 'races', 'race' ),
 		);
-
+	
 		$args = array(
 				'labels' => $labels,
 				'hierarchical' => false,
@@ -70,6 +59,105 @@ class Race extends Base
 		);
 		return $args;
 	}
+	
+	
+	
+// 	public function admin_init()
+// 	{
+// 		// http://codex.wordpress.org/Function_Reference/add_meta_box
+// 		add_meta_box( "race-meta", "BHAA Race", array( &$this, "meta_options" ), "race", "side", "low" );
+// 	}
+	
+	/**
+	 * Register the race meta box
+	 */
+	public function raceMeta() {
+		add_meta_box(
+			'bhaa-race-meta',
+			__( 'BHAA Race Details', 'bhaa-race-meta' ),
+			array(&$this, 'raceMetaRender'),
+			'race',
+			'side', 
+			'low'
+		);
+	}
+	
+	/**
+	 * display the meta fields
+	 * @param unknown_type $post
+	 */
+	public function raceMetaRender( $post ) {
+		//wp_nonce_field( plugin_basename( __FILE__ ), 'myplugin_noncename' );
+	
+		$distance = get_post_custom_values('bhaa-race-distance', $post->ID);
+		print '<p>Distance <input type="text" name="bhaa-race-distance" value="'.$distance[0].'" /></p>';
+	
+		$unit = get_post_custom_values('bhaa-race-unit', $post->ID);
+		print '<p>Unit <input type="text" name="bhaa-race-unit" value="'.$unit[0].'" /></p>';
+		
+		$raceid = get_post_custom_values('bhaa-race-id', $post->ID);
+		print '<p>Unit <input type="text" name="bhaa-race-id" value="'.$raceid[0].'" /></p>';
+	}
+	
+	public function saveRaceMeta( $post_id ){
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+			return;
+	
+		if ( empty( $_POST ) )
+			return;
+	
+		if ( !empty($_POST['bhaa-race-distance']))
+			update_post_meta( $post_id, 'bhaa-race-distance', $_POST['bhaa-race-distance'] );
+	
+		if ( !empty($_POST['bhaa-race-unit']))
+			update_post_meta( $post_id, 'bhaa-race-unit', $_POST['bhaa-race-unit'] );
+
+		if ( !empty($_POST['bhaa-race-id']))
+			update_post_meta( $post_id, 'bhaa-race-id', $_POST['bhaa-race-id'] );
+		
+		// 		if ( !empty($_POST['tracks_street']))
+			// 			update_post_meta( $post_id, 'tracks_state', $_POST['tracks_state'] );
+	
+			// 		if ( !empty($_POST['lat']))
+				// 			update_post_meta( $post_id, 'lat', $_POST['lat'] );
+	
+				// 		if ( !empty($_POST['long']))
+					// 			update_post_meta( $post_id, 'long', $_POST['long'] );
+	
+					// 		if ( !empty($_POST['website']))
+						// 			update_post_meta( $post_id, 'website', $_POST['website'] );
+	
+						// 		if ( !empty($_POST['email']))
+							// 			update_post_meta( $post_id, 'email', $_POST['email'] );
+	
+							// 		if ( !empty($_POST['primary_contact']))
+								// 			update_post_meta( $post_id, 'primary_contact', $_POST['primary_contact'] );
+	
+	}
+		
+	/**
+	 * Save the custom meta fields for the function 'bmx_rs_event_date'
+	 * custom meta fields
+	 */
+// 	public function eventDateSave( $post_id ){
+	
+// 		if ( !empty($_POST['bmx_re_start_date']))
+// 			update_post_meta( $post_id, 'bmx_re_start_date', $_POST['bmx_re_start_date'] );
+	
+// 		if ( !empty($_POST['bmx_re_end_date']))
+// 			update_post_meta( $post_id, 'bmx_re_end_date', $_POST['bmx_re_end_date'] );
+// 	}
+	
+// 	public function meta_options()
+// 	{
+// 		echo '<label for="bhaa_race_unit">';
+// 		//	_e("Description for this field", 'myplugin_textdomain' );
+// 		echo '</label> ';
+// 		echo '<input type="text" id="distance" name="distance" value="distance" size="25" />';
+// 		echo '<input type="text" id="unit" name="unit" value="unit" size="25" />';
+// 	}
+	
+
 	
 	/**
 	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series1/
