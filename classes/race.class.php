@@ -13,15 +13,22 @@ class Race extends Base
 	 */
 	public function Race()
 	{
-		//self::$instance = $this;
-		//add_action( 'admin_init', array(&$this, 'admin_init') ); // this must be first
-		
 		add_action( 'add_meta_boxes', array( &$this, 'raceMeta' ) );
 		add_action( 'save_post', array( &$this, 'saveRaceMeta' ) );
-		
-		//add_action( 'template_redirect', array(&$this, 'template_redirect') );
-		//add_action( 'wp_insert_post', array(&$this, 'wp_insert_post'), 10, 2 );
+		//add_filter( 'single_template',array( &$this,'race_single_template') );
+		add_filter( 'single_template', array( &$this, 'get_custom_post_type_template') ) ;
 	}
+	
+	function get_custom_post_type_template($single_template) {
+		global $post;
+	
+		if ($post->post_type == 'race') {
+			$single_template = dirname( __FILE__ ) . '/single-race.php';
+		}
+		return $single_template;
+	}
+	
+
 	
 	public function getCPT()
 	{
@@ -60,14 +67,6 @@ class Race extends Base
 		return $args;
 	}
 	
-	
-	
-// 	public function admin_init()
-// 	{
-// 		// http://codex.wordpress.org/Function_Reference/add_meta_box
-// 		add_meta_box( "race-meta", "BHAA Race", array( &$this, "meta_options" ), "race", "side", "low" );
-// 	}
-	
 	/**
 	 * Register the race meta box
 	 */
@@ -81,6 +80,14 @@ class Race extends Base
 			'low'
 		);
 	}
+	
+// 	function race_single_template($single_template) {
+// 		global $post;
+// 		if ($post->post_type == 'race')
+// 			echo $this->loadTemplate('single-race');
+// 		//$single_template = dirname( __FILE__ ) . '\templates\single-race.php';
+// 		//return $single_template;
+// 	}
 	
 	/**
 	 * display the meta fields
@@ -114,51 +121,8 @@ class Race extends Base
 
 		if ( !empty($_POST['bhaa-race-id']))
 			update_post_meta( $post_id, 'bhaa-race-id', $_POST['bhaa-race-id'] );
-		
-		// 		if ( !empty($_POST['tracks_street']))
-			// 			update_post_meta( $post_id, 'tracks_state', $_POST['tracks_state'] );
-	
-			// 		if ( !empty($_POST['lat']))
-				// 			update_post_meta( $post_id, 'lat', $_POST['lat'] );
-	
-				// 		if ( !empty($_POST['long']))
-					// 			update_post_meta( $post_id, 'long', $_POST['long'] );
-	
-					// 		if ( !empty($_POST['website']))
-						// 			update_post_meta( $post_id, 'website', $_POST['website'] );
-	
-						// 		if ( !empty($_POST['email']))
-							// 			update_post_meta( $post_id, 'email', $_POST['email'] );
-	
-							// 		if ( !empty($_POST['primary_contact']))
-								// 			update_post_meta( $post_id, 'primary_contact', $_POST['primary_contact'] );
-	
 	}
 		
-	/**
-	 * Save the custom meta fields for the function 'bmx_rs_event_date'
-	 * custom meta fields
-	 */
-// 	public function eventDateSave( $post_id ){
-	
-// 		if ( !empty($_POST['bmx_re_start_date']))
-// 			update_post_meta( $post_id, 'bmx_re_start_date', $_POST['bmx_re_start_date'] );
-	
-// 		if ( !empty($_POST['bmx_re_end_date']))
-// 			update_post_meta( $post_id, 'bmx_re_end_date', $_POST['bmx_re_end_date'] );
-// 	}
-	
-// 	public function meta_options()
-// 	{
-// 		echo '<label for="bhaa_race_unit">';
-// 		//	_e("Description for this field", 'myplugin_textdomain' );
-// 		echo '</label> ';
-// 		echo '<input type="text" id="distance" name="distance" value="distance" size="25" />';
-// 		echo '<input type="text" id="unit" name="unit" value="unit" size="25" />';
-// 	}
-	
-
-	
 	/**
 	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series1/
 	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series2/
@@ -167,12 +131,6 @@ class Race extends Base
 	// Template redirect for custom templates
 	public function template_redirect() {
 		global $wp_query;
-// 		if ($wp_query->query_vars['post_type'] == 'race') {
-// 			include(TEMPLATEPATH . '/single-race.php'); // a custom single-slug.php template
-// 			die();
-// 		} else {
-// 			$wp_query->is_404 = true;
-// 		}
 	}
 	
 	// For inserting posts
