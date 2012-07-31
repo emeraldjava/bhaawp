@@ -100,9 +100,26 @@ class BhaaAdmin
 	 */
 	public function import()
 	{
+		if (empty ($_GET['action']))
+			$action = "";
+		else
+			$step = (int) $_GET['step'];
+
 		$this->header();
-		$this->greet();
+		if(empty ($_GET['action']))
+			$this->greet();
+		elseif($_GET['action']=='events')
+			$this->importA();
+		elseif($_GET['action']=='users')
+			$this->importA();
+		else
+			$this->greet();
 		$this->footer();
+	}
+	
+	function importA()
+	{
+		echo '<p>Action '.$_GET['action'].' was called</p>';
 	}
 	
 	function header()
@@ -114,6 +131,7 @@ class BhaaAdmin
 	
 	function footer()
 	{
+		echo '<br/><br/><b>Return to the <a href="admin.php?import=bhaa">BHAA Importer</a></b>';
 		echo '</div>';
 	}
 		
