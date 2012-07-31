@@ -9,6 +9,11 @@
 // http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
 class BhaaImport
 {
+	var $dbusername = 'wordpress';
+	var $dbpassword = 'wordpress';
+	var $dbname = 'wordpress';
+	var $dbhost = 'localhost';
+	
 	function BhaaImport()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/import.php' );
@@ -30,7 +35,7 @@ class BhaaImport
 		if(empty ($_GET['action']))
 			$this->greet();
 		elseif($_GET['action']=='events')
-		$this->importA();
+		$this->importEvents();
 		elseif($_GET['action']=='users')
 		$this->importA();
 		else
@@ -41,6 +46,18 @@ class BhaaImport
 	function importA()
 	{
 		echo '<p>Action '.$_GET['action'].' was called</p>';
+	}
+	
+	function importEvents()
+	{
+		$this->importA();
+		$events = $this->getBhaaEvents();
+		//$this->runners2wp($users);
+		foreach($events as $event)
+		{
+			$count++;
+			echo '<p>'.$count.' - '.$event->id.' '.$event->name.'</p>';
+		}
 	}
 	
 	function header()
@@ -62,10 +79,7 @@ class BhaaImport
 		echo '<p>'.__('Hit the links below and pray:').'</p>';
 		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a><br/>';
-		//		echo '<form action="admin.php?import=geeklog&amp;step=1" method="post">';
-		//	$this->db_form();
-		//echo '<input type="submit" name="submit" value="'.__('Import Categories').'" />';
-		//echo '</form>';
+		echo '<br/>';
 	}
 	
 	public function dispatch()
@@ -113,6 +127,15 @@ class BhaaImport
         	             'display_name'  => $user->email));
         	echo '<p>'.$count.' - '.$user->id.' '.$ret_id.'</p>';
         }
+	}
+
+	function getBhaaEvents()
+	{
+		global $wpdb;
+		$gldb = new wpdb('wordpress','wordpress','wordpress','localhost');
+		set_magic_quotes_runtime(0);
+//		$prefix = get_option('tpre');
+		return $gldb->get_results('SELECT id,name,tag,date FROM event limit 25');//, ARRAY_A);
 	}
 	
 	function getrunners()
