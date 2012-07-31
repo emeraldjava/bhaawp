@@ -48,14 +48,48 @@ class BhaaImport
 		echo '<p>Action '.$_GET['action'].' was called</p>';
 	}
 	
+	/**
+	 * DELETE FROM `wp_posts` WHERE post_type=`event` and ID>10
+	 * 
+	 * DELETE FROM `wp_em_events` WHERE event_id>10
+	 * 
+	 */
 	function importEvents()
 	{
 		$this->importA();
 		$events = $this->getBhaaEvents();
 		//$this->runners2wp($users);
+		
+		require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-event.php' );
+		
 		foreach($events as $event)
 		{
 			$count++;
+			
+// 			$ret_id = wp_insert_post(array(
+// 					//'ID'                    => $pinfo,
+// 					'post_date'             => $date,
+// 					'post_author'           => $authorid,
+// 					'post_modified'         => $date,
+// 					'post_title'            => $wpdb->escape($Title),
+// 					'post_content'          => $wpdb->escape($Body),
+// 					'post_excerpt'          => $wpdb->escape($Excerpt),
+// 					'post_status'           => 'publish'//$post_status,
+// 					//'comment_status'        => $comment_status,
+// 					//'comment_count'         => $comments
+// 					)
+// 			);
+			
+			$EM_Event = new EM_Event();
+			//do what's needed
+			$EM_Event->save(array(
+					'post_title'            => $event->name,
+					'post_content'          => $event->tag,
+					'user_id'               => 1,
+					'post_status'           => 'publish'
+				)
+			);
+			
 			echo '<p>'.$count.' - '.$event->id.' '.$event->tag.' '.$event->name.'</p>';
 		}
 	}
