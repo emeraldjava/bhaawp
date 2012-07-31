@@ -39,7 +39,10 @@ class BhaaLoader
 
 		add_action( 'init', array(&$this,'register_cpt_company'));
 		add_action( 'init',  array(&$this,'humm'));
-				
+
+		require_once( ABSPATH . 'wp-admin/includes/import.php' );
+		register_importer('bhaa', 'BHAA', __('BHAA Importer'), array (&$this,'import'));
+		
 		//add_action('parse_query',array($this,'parse_query'), 1);
 		//add_filter('query_vars', array($this,'query_vars') );
 		//add_action('parse_request', array(&$this,'my_plugin_parse_request'));
@@ -50,6 +53,9 @@ class BhaaLoader
 			
 			require_once (dirname (__FILE__) . '/admin/admin.php');
 			$this->admin = new BhaaAdmin();
+			
+			//require_once (dirname (__FILE__) . '/admin/admin.php');
+
 		}
 		else 
 		{
@@ -57,6 +63,39 @@ class BhaaLoader
 		}		
 	}
 	
+	/**
+	 * http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
+	 * http://wordpress.org/support/topic/converting-geeklog-to-wordpress?replies=7
+	 */
+	public function import()
+	{
+		$this->header();
+		$this->greet();
+		$this->footer();
+	}
+	
+	function header()
+	{
+		echo '<div class="wrap">';
+		echo '<h2>'.__('Import BHAA').'</h2>';
+		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
+	}
+	
+	function footer()
+	{
+		echo '</div>';
+	}
+			
+	function greet()
+	{
+		echo '<p>'.__('This importer allows you to extract topics, posts, users, and comments from GeekLog 1.3.9 into your blog. This has not been tested on any other versions of GeekLog.  Mileage may vary.').'</p>';
+		echo '<p>'.__('Please enter your GeekLog database onfiguration settings:').'</p>';
+//		echo '<form action="admin.php?import=geeklog&amp;step=1" method="post">';
+	//	$this->db_form();
+		//echo '<input type="submit" name="submit" value="'.__('Import Categories').'" />';
+		//echo '</form>';
+	}
+
 	public function humm()
 	{
 // 		$labels = array(

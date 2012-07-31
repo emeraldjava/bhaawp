@@ -1,17 +1,13 @@
 <?php
 
-
 /**
-
-* Single Topic
-
-*
-
-* @package bbPress
-
-* @subpackage Theme
-
-*/
+ * Template Name: BHAA Race Template
+ * @package WordPress
+ * @subpackage BHAA
+ * @since Twenty Ten 1.0
+ * 
+ * http://sixrevisions.com/wordpress/wordpress-custom-post-types-guide/
+ */
 
 get_header(); ?>
 
