@@ -56,7 +56,7 @@ class BhaaImport
 		foreach($events as $event)
 		{
 			$count++;
-			echo '<p>'.$count.' - '.$event->id.' '.$event->name.'</p>';
+			echo '<p>'.$count.' - '.$event->id.' '.$event->tag.' '.$event->name.'</p>';
 		}
 	}
 	
@@ -64,12 +64,13 @@ class BhaaImport
 	{
 		echo '<div class="wrap">';
 		echo '<h2>'.__('Import BHAA').'</h2>';
+		echo '<b>Return to the <a href="admin.php?import=bhaa">BHAA Importer</a></b>';
 		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
 	}
 	
 	function footer()
 	{
-		echo '<br/><br/><b>Return to the <a href="admin.php?import=bhaa">BHAA Importer</a></b>';
+		
 		echo '</div>';
 	}
 	
@@ -132,9 +133,8 @@ class BhaaImport
 	function getBhaaEvents()
 	{
 		global $wpdb;
-		$gldb = new wpdb('wordpress','wordpress','wordpress','localhost');
+		$gldb = new wpdb($this->dbusername,$this->dbpassword,$this->dbname,$this->dbhost);
 		set_magic_quotes_runtime(0);
-//		$prefix = get_option('tpre');
 		return $gldb->get_results('SELECT id,name,tag,date FROM event limit 25');//, ARRAY_A);
 	}
 	
