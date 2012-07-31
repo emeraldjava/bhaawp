@@ -3,6 +3,7 @@ class BhaaAdmin
 {
 	var $company;
 	var $import;
+	var $raceAdmin;
 		
 	function __construct()
 	{
@@ -10,8 +11,14 @@ class BhaaAdmin
 //		require_once('../../../wp-load.php');
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
 			
-		require_once (dirname (__FILE__) . '/company.admin.class.php');
-		$this->company = new CompanyAdmin();
+		require_once( ABSPATH . 'wp-admin/includes/import.php' );
+		register_importer('bhaa', 'BHAA', __('BHAA Importer'), array (&$this,'import'));
+		
+		//require_once (dirname (__FILE__) . '/company.admin.class.php');
+		//$this->company = new CompanyAdmin();
+		
+		require_once (dirname (__FILE__) . '/race.admin.php');
+		$this->raceAdmin = new RaceAdmin();
 		
 		require_once (dirname (__FILE__) . '/import.php');
 		$this->import = new BhaaImport();
@@ -19,6 +26,8 @@ class BhaaAdmin
 // 		add_action('admin_print_scripts', array(&$this, 'loadScripts') );
 // 		add_action('admin_print_styles', array(&$this, 'loadStyles') );
 	
+		add_action('admin_init',array($this->raceAdmin,'init'));
+		
  		add_action( 'admin_menu', array(&$this, 'bhaa_admin_plugin_menu') );
 	
 // 		// Add meta box to post screen
@@ -41,7 +50,7 @@ class BhaaAdmin
 		
 		add_submenu_page('bhaa', 'BHAA', 'Menu', 'manage_options', 'main', array(&$this, 'main'));
 		
-		add_submenu_page('bhaa' ,'BHAA','Companies','manage_options', 'company' , array(&$this->company,'table'));
+		//add_submenu_page('bhaa' ,'BHAA','Companies','manage_options', 'company' , array(&$this->company,'table'));
 		
 		add_submenu_page('bhaa' ,'BHAA','Help','manage_options', 'help' , array(&$this, 'help'));
 
@@ -83,5 +92,40 @@ class BhaaAdmin
 		echo '<div class="wrap">';
 		echo '<p>Here is where the form would go if I actually had options.</p>';
 		echo '</div>';
+	}
+	
+	/**
+	 * http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
+	 * http://wordpress.org/support/topic/converting-geeklog-to-wordpress?replies=7
+	 */
+	public function import()
+	{
+		$this->header();
+		$this->greet();
+		$this->footer();
+	}
+	
+	function header()
+	{
+		echo '<div class="wrap">';
+		echo '<h2>'.__('Import BHAA').'</h2>';
+		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
+	}
+	
+	function footer()
+	{
+		echo '</div>';
+	}
+		
+	function greet()
+	{
+		echo '<p>'.__('This importer allows you to import BHAA stuff.').'</p>';
+		echo '<p>'.__('Hit the links below and pray:').'</p>';
+		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a><br/>';
+		//		echo '<form action="admin.php?import=geeklog&amp;step=1" method="post">';
+		//	$this->db_form();
+		//echo '<input type="submit" name="submit" value="'.__('Import Categories').'" />';
+		//echo '</form>';
 	}
 }
