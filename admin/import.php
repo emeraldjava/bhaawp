@@ -11,13 +11,61 @@ class BhaaImport
 {
 	function BhaaImport()
 	{
-		$this->__construct();
+		require_once( ABSPATH . 'wp-admin/includes/import.php' );
+		register_importer('bhaa', 'BHAA', __('BHAA Importer'), array (&$this,'import'));
 	}
 	
-	function __construct()
+	/**
+	 * http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
+	 * http://wordpress.org/support/topic/converting-geeklog-to-wordpress?replies=7
+	 */
+	public function import()
 	{
-		//require_once( ABSPATH . 'wp-admin/includes/import.php' );
-		//$this->dispatch();
+		if (empty ($_GET['action']))
+			$action = "";
+		else
+			$step = (int) $_GET['step'];
+	
+		$this->header();
+		if(empty ($_GET['action']))
+			$this->greet();
+		elseif($_GET['action']=='events')
+		$this->importA();
+		elseif($_GET['action']=='users')
+		$this->importA();
+		else
+			$this->greet();
+		$this->footer();
+	}
+	
+	function importA()
+	{
+		echo '<p>Action '.$_GET['action'].' was called</p>';
+	}
+	
+	function header()
+	{
+		echo '<div class="wrap">';
+		echo '<h2>'.__('Import BHAA').'</h2>';
+		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
+	}
+	
+	function footer()
+	{
+		echo '<br/><br/><b>Return to the <a href="admin.php?import=bhaa">BHAA Importer</a></b>';
+		echo '</div>';
+	}
+	
+	function greet()
+	{
+		echo '<p>'.__('This importer allows you to import BHAA stuff.').'</p>';
+		echo '<p>'.__('Hit the links below and pray:').'</p>';
+		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a><br/>';
+		//		echo '<form action="admin.php?import=geeklog&amp;step=1" method="post">';
+		//	$this->db_form();
+		//echo '<input type="submit" name="submit" value="'.__('Import Categories').'" />';
+		//echo '</form>';
 	}
 	
 	public function dispatch()
