@@ -37,6 +37,8 @@ class BhaaImport
 			$this->greet();
 		elseif($_GET['action']=='events')
 			$this->importEvents();
+		elseif($_GET['action']=='deleteEvents')
+			$this->deleteEvents();
 		elseif($_GET['action']=='users')
 			$this->importA();
 		else
@@ -59,43 +61,43 @@ class BhaaImport
 	function importEvents()
 	{
 		$this->importA();
-		$events = $this->getBhaaEvents();
-		//$this->runners2wp($users);
-		
+		$events = $this->getEvents();
 		require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-event.php' );
-		
+		require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-location.php' );
 		foreach($events as $event)
 		{
 			$count++;
-			
-// 			$ret_id = wp_insert_post(array(
-// 					//'ID'                    => $pinfo,
-// 					'post_date'             => $date,
-// 					'post_author'           => $authorid,
-// 					'post_modified'         => $date,
-// 					'post_title'            => $wpdb->escape($Title),
-// 					'post_content'          => $wpdb->escape($Body),
-// 					'post_excerpt'          => $wpdb->escape($Excerpt),
-// 					'post_status'           => 'publish'//$post_status,
-// 					//'comment_status'        => $comment_status,
-// 					//'comment_count'         => $comments
-// 					)
-// 			);
+						
+			// default location 1
+			$emLocation = new EM_Location();
+			$emLocation->location_owner = 1;
+			$emLocation->location_name = $event->tag.' '.$event->location;
+			$emLocation->location_slug = $event->tag;
+			$emLocation->location_address = $event->location;
+			$emLocation->location_status = 'publish';
+			$emLocation->location_town = 'Dublin';
+			$emLocation->location_country = 'IE';
+			$emLocation->post_title = $event->tag.' '.$event->location;
+			$emLocation->post_name = $event->tag;
+			$emLocation->save();
+			echo '<p>emLocation '.$emLocation->post_id.' '.$emLocation->location_id.'</p>';
 			
 			$emEvent = new EM_Event();
-			$emEvent->event_id = $event->id;
 			$emEvent->event_name = $event->name;
 			$emEvent->event_slug = $event->tag;
 			$emEvent->event_owner = 1;
-			$emEvent->event_start_date = $event-date;
+			$emEvent->event_start_date = $event->date;
+			$emEvent->event_end_date = $event->date;
+			$emEvent->event_all_day = 0;
+			$emEvent->event_start_time = '11:00:00';
+			$emEvent->event_end_time = '11:00:00';
 			$emEvent->post_content = $event->name.' - '.$event->tag;
 			$emEvent->event_status = 'publish';
 			$emEvent->event_date_created = date('Y-m-d H:i:s');
-			
-			//do what's needed
+			$emEvent->location_id=$emLocation->location_id;
 			$emEvent->save();
-			echo '<p>emEvent '.$emEvent->post_id.'</p>';
-			
+			echo '<p>emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id.'</p>';
+			error_log('emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id);
 			echo '<p>'.$count.' - '.$event->id.' '.$event->tag.' '.$event->name.'</p>';
 		}
 	}
@@ -110,7 +112,6 @@ class BhaaImport
 	
 	function footer()
 	{
-		
 		echo '</div>';
 	}
 	
@@ -118,26 +119,26 @@ class BhaaImport
 	{
 		echo '<p>'.__('This importer allows you to import BHAA stuff.').'</p>';
 		echo '<p>'.__('Hit the links below and pray:').'</p>';
-		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a> - <a href="admin.php?import=bhaa&action=deleteEvents">Delete Events</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a><br/>';
 		echo '<br/>';
 	}
 	
-	public function dispatch()
-	{
-// 		if ( !current_user_can( 'manage_options' ) )  {
-// 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-// 		}
+// 	public function dispatch()
+// 	{
+// // 		if ( !current_user_can( 'manage_options' ) )  {
+// // 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+// // 		}
 		
-		echo '<div class="wrap">';
-        echo '<h2>'.__('Import GeekLog').'</h2>';
-        echo '<p>BHAA</p>';
-        echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
+// 		echo '<div class="wrap">';
+//         echo '<h2>'.__('Import BHAA').'</h2>';
+//         echo '<p>BHAA</p>';
+//         echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
 
-        $users = $this->getrunners();
-        $this->runners2wp($users);
-        echo '</div>';
-	}
+//         $users = $this->getrunners();
+//         $this->runners2wp($users);
+//         echo '</div>';
+// 	}
 	
 	/**
 	 * http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
@@ -170,12 +171,29 @@ class BhaaImport
         }
 	}
 
-	function getBhaaEvents()
+	function getEvents()
 	{
 		global $wpdb;
 		$gldb = new wpdb($this->dbusername,$this->dbpassword,$this->dbname,$this->dbhost);
 		set_magic_quotes_runtime(0);
-		return $gldb->get_results('SELECT id,name,tag,date FROM event limit 25');//, ARRAY_A);
+		return $gldb->get_results('SELECT id,name,tag,date,location FROM event limit 25');//, ARRAY_A);
+	}
+	
+	function deleteEvents()
+	{
+		global $wpdb;
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_em_events WHERE event_id > %d",3)
+		);
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_posts WHERE post_type = %s",'event')
+		);
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_em_locations WHERE location_id > %d",3)
+		);
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_posts WHERE post_type = %s",'location')
+		);
 	}
 	
 	function getrunners()
