@@ -32,14 +32,16 @@ class BhaaImport
 			$step = (int) $_GET['step'];
 	
 		$this->header();
+		
 		if(empty ($_GET['action']))
 			$this->greet();
 		elseif($_GET['action']=='events')
-		$this->importEvents();
+			$this->importEvents();
 		elseif($_GET['action']=='users')
-		$this->importA();
+			$this->importA();
 		else
 			$this->greet();
+		
 		$this->footer();
 	}
 	
@@ -80,15 +82,19 @@ class BhaaImport
 // 					)
 // 			);
 			
-			$EM_Event = new EM_Event();
+			$emEvent = new EM_Event();
+			$emEvent->event_id = $event->id;
+			$emEvent->event_name = $event->name;
+			$emEvent->event_slug = $event->tag;
+			$emEvent->event_owner = 1;
+			$emEvent->event_start_date = $event-date;
+			$emEvent->post_content = $event->name.' - '.$event->tag;
+			$emEvent->event_status = 'publish';
+			$emEvent->event_date_created = date('Y-m-d H:i:s');
+			
 			//do what's needed
-			$EM_Event->save(array(
-					'post_title'            => $event->name,
-					'post_content'          => $event->tag,
-					'user_id'               => 1,
-					'post_status'           => 'publish'
-				)
-			);
+			$emEvent->save();
+			echo '<p>emEvent '.$emEvent->post_id.'</p>';
 			
 			echo '<p>'.$count.' - '.$event->id.' '.$event->tag.' '.$event->name.'</p>';
 		}
