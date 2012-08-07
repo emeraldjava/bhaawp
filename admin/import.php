@@ -1,4 +1,5 @@
 <?php
+set_time_limit(500);
 // http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
 class BhaaImport
 {
@@ -249,7 +250,7 @@ class BhaaImport
     			status,
     			insertdate,
     			dateofrenewal
-    		FROM runner where ID IN (%d,%d)",7713,1050));
+    		FROM runner where status != 'D'"));//ID IN (%d,%d)",7713,1050));
 	}
 
 	/**
