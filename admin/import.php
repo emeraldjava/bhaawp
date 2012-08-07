@@ -155,16 +155,24 @@ class BhaaImport
 
 //        	wp_create_user( $username, $password, $email );
 
+        	$name = strtolower($user->firstname.'.'.$user->surname);
+        	$name = str_replace(' ', '', $name);
+        	$name = str_replace("'", '', $name);
+        	$password = wp_hash_password($user->id);
+        	
+        	// DB insert user
+        	$this->insertUser($user->id,$name,$password,$user->email);
+
         	// http://codex.wordpress.org/Function_Reference/wp_insert_user
         	// INSERT INTO `wp_users`(`ID`) VALUES (7713);
         	$id = wp_insert_user(array(
         	        'ID'            => $user->id,
-        		    'user_login'    => $user->email,
-        			'user_pass' => wp_hash_password($user->id),
+        		    'user_login'    => $name,// strtolower(mysql_real_escape_string($user->firstname.'.'.$user->surname)),// $user->email,
+        			//'user_pass' => wp_hash_password($user->id),
         		    //'user_nicename' => $user->email,
         			// ''user_url
         		    'user_email'    => $user->email,
-        			'nickname' => $user->email,
+        			'nickname' => $user->firstname.' '.$user->surname,
         			'display_name'=> $user->firstname.' '.$user->surname,
         			'first_name' => $user->firstname,
         			'last_name'=> $user->surname
@@ -182,6 +190,9 @@ class BhaaImport
 				error_log($id);
 			}
 			update_usermeta( $id, 'rich_editing', 'false');
+			
+			$u = new WP_User( $id );
+			$u->add_role( 'subscriber' );
 			
         	//echo '<p>'.$count.' - '.$user->id.' '.$ret_id.'</p>';
         	//echo '<p>emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id.'</p>';
@@ -238,7 +249,47 @@ class BhaaImport
     			status,
     			insertdate,
     			dateofrenewal
-    		FROM runner where ID = %d",7713));
+    		FROM runner where ID IN (%d,%d)",7713,1050));
+	}
+
+	/**
+	 * INSERT INTO `wp_users`(`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES 
+	 * ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6],[value-7],[value-8],[value-9],[value-10])
+	 * @param unknown_type $id
+	 * @param unknown_type $name
+	 */
+	function insertUser($id,$name,$password,$email)
+	{
+		global $wpdb;
+		$sql;
+		if(isset($email))
+		{
+			$sql = $wpdb->prepare(
+				"INSERT INTO wp_users(
+				ID,
+				user_login,
+				user_pass,
+				user_nicename,
+				user_email,
+				user_status,
+				display_name)
+				VALUES (%d,%s,%s,%s,%s,%d,%s)",
+				$id,$name,$password,$name,$email,0,$name);
+		}	
+		else
+		{
+			$sql = $wpdb->prepare(
+				"INSERT INTO wp_users(
+				ID,
+				user_login,
+				user_pass,
+				user_nicename,
+				user_status,
+				display_name)
+				VALUES (%d,%s,%s,%s,%s,%s)",
+				$id,$name,$password,$name,0,$name);
+		}
+		$wpdb->query($sql);
 	}
 	
 	function deleteUsers()
