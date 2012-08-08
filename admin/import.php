@@ -35,6 +35,10 @@ class BhaaImport
 			$this->importStories();
 		elseif($_GET['action']=='deleteStories')
 			$this->deleteStories();
+		elseif($_GET['action']=='companies')
+			$this->importCompanies();
+		elseif($_GET['action']=='deleteCompanies')
+			$this->deleteCompanies();
 		else
 			$this->greet();
 		$this->footer();
@@ -65,6 +69,7 @@ class BhaaImport
 		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a> - <a href="admin.php?import=bhaa&action=deleteEvents">Delete Events</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a> - <a href="admin.php?import=bhaa&action=deleteUsers">Delete Users</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=stories">Import BHAA Stories</a> - <a href="admin.php?import=bhaa&action=deleteStories">Delete Stories</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=companies">Import BHAA Companies</a> - <a href="admin.php?import=bhaa&action=deleteCompanies">Delete Companies</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -283,6 +288,54 @@ class BhaaImport
 		global $wpdb;
 		$wpdb->query($wpdb->prepare(
 			"DELETE FROM wp_posts WHERE post_author=1 and post_type='post' ")
+		);
+	}
+	
+	function importCompanies()
+	{
+		global $wpdb;
+		$count = 0;
+		$companies = $this->getCompanies();
+	
+		require_once( ABSPATH . 'wp-includes/post.php' );
+		foreach($companies as $company)
+		{
+			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
+			$my_post = array(
+					'post_title' => mysql_real_escape_string($company->name),
+					'post_content' => $company->website,
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'comment_status' => 'closed',
+					'ping_status' => 'closed',
+					'post_date' => getdate(),
+					'post_date_gmt' => getdate(),
+					//'tags_input' => array($company->sector),
+					'post_type' => 'company',
+					'post_category' => array(4)
+			);
+			// Insert the post into the database
+			$id = wp_insert_post( $my_post );
+				
+			$mgs = 'added post '.$id.' for company '.$company->name;
+			echo '<p>'.$mgs.'</p>';
+			error_log($mgs);
+		}
+	}
+	
+	function getCompanies()
+	{
+		global $wpdb;
+		return $wpdb->get_results($wpdb->prepare(
+			'select id,name,sector,website,image from company limit 100') // limit x
+		);
+	}
+	
+	function deleteCompanies()
+	{
+		global $wpdb;
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_posts WHERE post_author=1 and post_type='company'")
 		);
 	}
 	
