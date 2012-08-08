@@ -31,6 +31,10 @@ class BhaaImport
 			$this->importUsers();
 		elseif($_GET['action']=='deleteUsers')
 			$this->deleteUsers();
+		elseif($_GET['action']=='stories')
+			$this->importStories();
+		elseif($_GET['action']=='deleteStories')
+			$this->deleteStories();
 		else
 			$this->greet();
 		$this->footer();
@@ -60,6 +64,7 @@ class BhaaImport
 		echo '<p>'.__('Hit the links below and pray:').'</p>';
 		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a> - <a href="admin.php?import=bhaa&action=deleteEvents">Delete Events</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a> - <a href="admin.php?import=bhaa&action=deleteUsers">Delete Users</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=stories">Import BHAA Stories</a> - <a href="admin.php?import=bhaa&action=deleteStories">Delete Stories</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -232,13 +237,61 @@ class BhaaImport
         }
 	}
 
+	function importStories()
+	{
+		// select sid,2,date,date,CONCAT(introtext,bodytext),title,"","open",'publish','open','',title,'','',date,date,'',0,'',0,'post','',1 from gl_stories
+		global $wpdb;
+        $count = 0;
+        $stories = $this->getStories();
+
+        require_once( ABSPATH . 'wp-includes/post.php' );
+        foreach($stories as $story)
+		{
+			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
+			$my_post = array(
+					'post_title' => $story->title,
+					'post_content' => $story->introtext.' '.$story->bodytext,
+					'post_status' => 'publish',
+					'post_author' => 1,
+					'comment_status' => 'closed',
+					'ping_status' => 'closed',
+					'post_date' => $story->date,
+					'post_date_gmt' => $story->date,
+					'post_type' => 'post',
+//					'post_excerpt' => 'importer'
+					'post_category' => array(3)
+			);
+			// Insert the post into the database
+			$id = wp_insert_post( $my_post );
+			
+			$mgs = 'added post '.$id.' for story '.$story->title;
+			echo '<p>'.$mgs.'</p>';
+			error_log($mgs);
+		}
+	}
+	
+	function getStories()
+	{
+		global $wpdb;
+		return $wpdb->get_results($wpdb->prepare(
+			'select sid,date,introtext,bodytext,title from gl_stories') // limit x
+		);
+	}
+	
+	function deleteStories()
+	{
+		global $wpdb;
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_posts WHERE post_author=1 and post_type='post' ")
+		);
+	}
+	
 	function getEvents()
 	{
 		global $wpdb;
 		return $wpdb->get_results($wpdb->prepare(
 			'SELECT id,name,tag,date,location FROM event LIMIT %d',100)
 		);
-		//return $wpdb->get_results('SELECT id,name,tag,date,location FROM event limit 25');//, ARRAY_A);
 	}
 	
 	function deleteEvents()
