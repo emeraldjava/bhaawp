@@ -1,5 +1,5 @@
 <?php
-// set_time_limit(200);
+set_time_limit(500);
 // http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
 class BhaaImport
 {
@@ -90,7 +90,7 @@ class BhaaImport
 			$emLocation->post_title = $event->tag.' '.$event->location;
 			$emLocation->post_name = $event->tag;
 			$emLocation->save();
-			echo '<p>emLocation '.$emLocation->post_id.' '.$emLocation->location_id.'</p>';
+			//echo '<p>emLocation '.$emLocation->post_id.' '.$emLocation->location_id.'</p>';
 				
 			$emEvent = new EM_Event();
 			$emEvent->event_name = $event->name;
@@ -106,8 +106,8 @@ class BhaaImport
 			$emEvent->event_date_created = date('Y-m-d H:i:s');
 			$emEvent->location_id=$emLocation->location_id;
 			$emEvent->save();
-			echo '<p>emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id.'</p>';
-			error_log('emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id);
+			//echo '<p>emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id.'</p>';
+			error_log('emEvent '.$emEvent->post_id.' '.$emEvent->event_name.' '.$emLocation->location_name);
 			echo '<p>'.$count.' - '.$event->id.' '.$event->tag.' '.$event->name.'</p>';
 		}
 	}
@@ -235,7 +235,10 @@ class BhaaImport
 	function getEvents()
 	{
 		global $wpdb;
-		return $gldb->get_results('SELECT id,name,tag,date,location FROM event limit 25');//, ARRAY_A);
+		return $wpdb->get_results($wpdb->prepare(
+			'SELECT id,name,tag,date,location FROM event LIMIT %d',100)
+		);
+		//return $wpdb->get_results('SELECT id,name,tag,date,location FROM event limit 25');//, ARRAY_A);
 	}
 	
 	function deleteEvents()
