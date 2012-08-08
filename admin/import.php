@@ -1,5 +1,5 @@
 <?php
-set_time_limit(500);
+// set_time_limit(200);
 // http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
 class BhaaImport
 {
@@ -185,20 +185,50 @@ class BhaaImport
 				error_log($id->get_error_message());
 				echo $id->get_error_message();
         	}
-			else 
-			{
-				echo '<p>'.$id.'</p>';
-				error_log($id);
-			}
-			update_usermeta( $id, 'rich_editing', 'false');
+			update_user_meta( $id, 'rich_editing', 'false');
+
+			if(isset($user->dateofbirth))
+				update_user_meta( $id, 'bhaa_runner_dateofbirth', $user->dateofbirth);
+			if(isset($user->company))
+				update_user_meta( $id, 'bhaa_runner_company', $user->company);
+			if(isset($user->companyname))
+				update_user_meta( $id, 'bhaa_runner_companyname', $user->companyname);			
+			//         	team,
+			if(isset($user->newsletter))
+				update_user_meta( $id, 'bhaa_runner_newsletter', $user->newsletter);
+			//         	telephone,
+			if(isset($user->telephone))
+				update_user_meta( $id, 'bhaa_runner_telephone', $user->telephone);
+			//         	mobilephone,
+			if(isset($user->mobilephone))
+				update_user_meta( $id, 'bhaa_runner_mobilephone', $user->mobilephone);
+			//         	textmessage,
+			if(isset($user->textmessage))
+				update_user_meta( $id, 'bhaa_runner_textmessage', $user->textmessage);
+			//         	address1,
+			if(isset($user->address1))
+				update_user_meta( $id, 'bhaa_runner_address1', $user->address1);
+			//         	address2,
+			if(isset($user->address2))
+				update_user_meta( $id, 'bhaa_runner_address2', $user->address2);
+			//         	address3,
+			if(isset($user->address3))
+				update_user_meta( $id, 'bhaa_runner_address3', $user->address3);
+			//         	status,
+			if(isset($user->status))
+				update_user_meta( $id, 'bhaa_runner_status', $user->status);
+			//         	insertdate,
+			if(isset($user->insertdate))
+				update_user_meta( $id, 'bhaa_runner_insertdate', $user->insertdate);
+			//         	dateofrenewal
+			if(isset($user->dateofrenewal))
+				update_user_meta( $id, 'bhaa_runner_dateofrenewal', $user->dateofrenewal);
+			
+			echo '<p>'.$id.'</p>';
+			error_log($id);
 			
 			$u = new WP_User( $id );
 			$u->add_role( 'subscriber' );
-			
-        	//echo '<p>'.$count.' - '.$user->id.' '.$ret_id.'</p>';
-        	//echo '<p>emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id.'</p>';
-//        	error_log(print_r($user));
-        	
         }
 	}
 
@@ -229,7 +259,7 @@ class BhaaImport
     {
     	global $wpdb;
     	return $wpdb->get_results($wpdb->prepare(
-   			"SELECT 
+   			'SELECT 
     			id,
     			firstname,
     			surname,
@@ -250,7 +280,11 @@ class BhaaImport
     			status,
     			insertdate,
     			dateofrenewal
-    		FROM runner where status != 'D'"));//ID IN (%d,%d)",7713,1050));
+    		FROM runner where 
+   			id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
+    			7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
+    		// status != 'D'"));
+    		// ID IN (%d,%d)",7713,1050));
 	}
 
 	/**
