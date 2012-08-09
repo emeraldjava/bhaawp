@@ -39,6 +39,13 @@ class BhaaImport
 			$this->importCompanies();
 		elseif($_GET['action']=='deleteCompanies')
 			$this->deleteCompanies();
+		// TODO import race details
+		elseif($_GET['action']=='races')
+			$this->importRaces();
+		elseif($_GET['action']=='deleteRaces')
+			$this->deleteRaces();
+		// TODO import race results
+		
 		else
 			$this->greet();
 		$this->footer();
@@ -70,6 +77,7 @@ class BhaaImport
 		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a> - <a href="admin.php?import=bhaa&action=deleteUsers">Delete Users</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=stories">Import BHAA Stories</a> - <a href="admin.php?import=bhaa&action=deleteStories">Delete Stories</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=companies">Import BHAA Companies</a> - <a href="admin.php?import=bhaa&action=deleteCompanies">Delete Companies</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=races">Import BHAA Races</a> - <a href="admin.php?import=bhaa&action=deleteRaces">Delete Races</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -443,6 +451,65 @@ class BhaaImport
 			"DELETE FROM wp_users where ID != %d",1));
 		$wpdb->query($wpdb->prepare(
 			"DELETE FROM wp_usermeta WHERE user_id != %d",1));
+	}
+	
+	function importRaces()
+	{
+		global $wpdb;
+		$count = 0;
+		$list = $this->getRaces();
+	
+		require_once( ABSPATH . 'wp-includes/post.php' );
+		foreach($list as $row)
+		{
+			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
+			$my_post = array(
+				'post_title' => 'race_'.$row->id,
+				'post_content' => 'race_'.$row->id,
+				'post_status' => 'publish',
+				'post_author' => 1,
+				'comment_status' => 'closed',
+				'ping_status' => 'closed',
+				'post_date' => getdate(),
+				'post_date_gmt' => getdate(),
+				'post_type' => 'race'
+			);
+			// Insert the post into the database
+			$post_id = wp_insert_post( $my_post );
+	
+			update_post_meta($post_id,'bhaa_race_id',$row->id);
+			update_post_meta($post_id,'bhaa_race_event',$row->event);
+			update_post_meta($post_id,'bhaa_race_distance',$row->distance);
+			update_post_meta($post_id,'bhaa_race_unit',$row->unit);
+			update_post_meta($post_id,'bhaa_race_type',$row->type);
+			update_post_meta($post_id,'bhaa_race_category',$row->category);
+			
+			$mgs = 'added post '.$post_id.' for race '.$row->id;
+			echo '<p>'.$mgs.'</p>';
+			error_log($mgs);
+		}
+	}
+	
+	function getRaces()
+	{
+		$db = $this->getBhaaDB();
+		return $db->get_results($db->prepare(
+			'SELECT id,event,starttime,distance,unit,category,type FROM race LIMIT %d',10)
+		);
+	}
+	
+	function deleteRaces()
+	{
+		global $wpdb;
+		$wpdb->query($wpdb->prepare(
+			'DELETE FROM wp_posts WHERE post_type = %s','race')
+		);
+	}
+	
+	function getBhaaDB()
+	{
+		// user, pass, dbname, host
+		return new wpdb('root','','bhaaie_members','localhost');
 	}
 }
 ?>
