@@ -1,13 +1,8 @@
 <?php
-set_time_limit(500);
+set_time_limit(900);
 // http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
 class BhaaImport
 {
-	var $dbusername = 'wordpress';
-	var $dbpassword = 'wordpress';
-	var $dbname = 'wordpress';
-	var $dbhost = 'localhost';
-	
 	function BhaaImport()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/import.php' );
@@ -337,9 +332,9 @@ class BhaaImport
 	
 	function getCompanies()
 	{
-		global $wpdb;
-		return $wpdb->get_results($wpdb->prepare(
-			'select id,name,sector,website,image from company limit 100') // limit x
+		$db = $this->getBhaaDB();
+		return $db->get_results($db->prepare(
+			'select id,name,sector,website,image from company limit 1000') // limit x
 		);
 	}
 	
@@ -402,15 +397,14 @@ class BhaaImport
     			insertdate,
     			dateofrenewal
     		FROM runner where 
-   			id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
-    			7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
+   			status ="M"'));
+//   			id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
+  //  			7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
     		// status != 'D'"));
     		// ID IN (%d,%d)",7713,1050));
 	}
 
 	/**
-	 * INSERT INTO `wp_users`(`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES 
-	 * ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6],[value-7],[value-8],[value-9],[value-10])
 	 * @param unknown_type $id
 	 * @param unknown_type $name
 	 */
@@ -521,7 +515,7 @@ class BhaaImport
 		{
 			$wpdb->query(
 				$wpdb->prepare(
-					"INSERT INTO wp_bhaa_raceresult(
+					'INSERT INTO wp_bhaa_raceresult(
 					race,
 					runner,
 					racetime,
@@ -531,7 +525,7 @@ class BhaaImport
 					standard,
 					paceKM,
 					class)
-					VALUES (%d,%d,%s,%d,%d,%s,%d,%s,%s)",
+					VALUES (%d,%d,%s,%d,%d,%s,%d,%s,%s)',
 					$row->race,
 					$row->runner,
 					$row->racetime,
@@ -541,7 +535,7 @@ class BhaaImport
 					$row->standard,
 					$row->paceKM,
 					$row->class));
-				$mgs = 'added raceresult '.$row->race.' '.$row->runner;
+				$mgs = 'insert raceresult '.$row->race.' '.$row->runner;
 				echo '<p>'.$mgs.'</p>';
 				error_log($mgs);
 		}
@@ -558,13 +552,15 @@ class BhaaImport
 				position,
 				racenumber,
 				category,
-				standard,
+				raceresult.standard,
 				paceKM,
 				class
-				FROM raceresult where
-				runner IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
-				7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
-		// status != 'D'"));
+				FROM raceresult 
+				JOIN runner on runner.id=raceresult.runner
+				where runner.status="M" order by race desc'));
+//		runner IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
+//		7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
+//		 status != 'M'"));
 		// ID IN (%d,%d)",7713,1050));
 	}
 	
