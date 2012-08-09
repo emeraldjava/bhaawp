@@ -60,7 +60,9 @@ $url = add_query_arg('id', $row->race, $url);
 ?>
 <tr class="<?php echo $class ?>">
 	<td><?php echo $row->position ?></td>
-	<td><?php echo $row->runner ?></td>
+	<td><?php
+	$user = new WP_User( $row->runner );
+	echo $user->display_name; ?></td>
 	<td><?php echo $row->racetime ?></td>
 	<td><?php echo $row->racenumber ?></td>
 	<td><?php echo $row->standard ?></td>
@@ -73,15 +75,12 @@ $url = add_query_arg('id', $row->race, $url);
 
 </div><!-- .entry-content -->
 
-</div><!-- #bbp-user-<?php echo "HI"; ?> -->
-
+</div><!-- #bbp-user-->
 
 </div><!-- #content -->
 
 </div><!-- #container -->
 
-
 <?php get_sidebar(); ?>
 
 <?php get_footer(); ?>
-
