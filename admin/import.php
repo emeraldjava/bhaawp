@@ -45,7 +45,10 @@ class BhaaImport
 		elseif($_GET['action']=='deleteRaces')
 			$this->deleteRaces();
 		// TODO import race results
-		
+		elseif($_GET['action']=='raceResults')
+			$this->importRaceResults();
+		elseif($_GET['action']=='deleteRaceResults')
+			$this->deleteRaceResults();
 		else
 			$this->greet();
 		$this->footer();
@@ -78,6 +81,7 @@ class BhaaImport
 		echo '<a href="admin.php?import=bhaa&action=stories">Import BHAA Stories</a> - <a href="admin.php?import=bhaa&action=deleteStories">Delete Stories</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=companies">Import BHAA Companies</a> - <a href="admin.php?import=bhaa&action=deleteCompanies">Delete Companies</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=races">Import BHAA Races</a> - <a href="admin.php?import=bhaa&action=deleteRaces">Delete Races</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=raceResults">Import BHAA Race Results</a> - <a href="admin.php?import=bhaa&action=deleteRaceResults">Delete Race Results</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -374,8 +378,8 @@ class BhaaImport
 	
 	function getUsers()
     {
-    	global $wpdb;
-    	return $wpdb->get_results($wpdb->prepare(
+    	$db = $this->getBhaaDB();
+    	return $db->get_results($db->prepare(
    			'SELECT 
     			id,
     			firstname,
@@ -494,7 +498,7 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT id,event,starttime,distance,unit,category,type FROM race LIMIT %d',10)
+			'SELECT id,event,starttime,distance,unit,category,type FROM race')// LIMIT %d',10)
 		);
 	}
 	
@@ -503,6 +507,72 @@ class BhaaImport
 		global $wpdb;
 		$wpdb->query($wpdb->prepare(
 			'DELETE FROM wp_posts WHERE post_type = %s','race')
+		);
+	}
+	
+	function importRaceResults()
+	{
+		global $wpdb;
+		$count = 0;
+		$list = $this->getRaceResults();
+	
+		global $wpdb;
+		foreach($list as $row)
+		{
+			$wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO wp_bhaa_raceresult(
+					race,
+					runner,
+					racetime,
+					position,
+					racenumber,
+					category,
+					standard,
+					paceKM,
+					class)
+					VALUES (%d,%d,%s,%d,%d,%s,%d,%s,%s)",
+					$row->race,
+					$row->runner,
+					$row->racetime,
+					$row->position,
+					$row->racenumber,
+					$row->category,
+					$row->standard,
+					$row->paceKM,
+					$row->class));
+				$mgs = 'added raceresult '.$row->race.' '.$row->runner;
+				echo '<p>'.$mgs.'</p>';
+				error_log($mgs);
+		}
+	}
+	
+	function getRaceResults()
+	{
+		$db = $this->getBhaaDB();
+		return $db->get_results($db->prepare(
+				'SELECT
+				race,
+				runner,
+				racetime,
+				position,
+				racenumber,
+				category,
+				standard,
+				paceKM,
+				class
+				FROM raceresult where
+				runner IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
+				7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
+		// status != 'D'"));
+		// ID IN (%d,%d)",7713,1050));
+	}
+	
+	function deleteRaceResults()
+	{
+		global $wpdb;
+		$wpdb->query($wpdb->prepare(
+			'DELETE FROM wp_bhaa_raceresult')
 		);
 	}
 	

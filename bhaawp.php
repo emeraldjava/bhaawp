@@ -10,7 +10,7 @@ Author URI: https://github.com/emeraldjava/bhaawp
 
 class BhaaLoader
 {
-	var $version = '2012.07.23';
+	var $version = '2012.08.09';
 	
 	var $admin;
 	var $company;
@@ -38,8 +38,8 @@ class BhaaLoader
 		add_action( 'plugins_loaded', array(&$this, 'initialize') );
 
 		add_action( 'init', array(&$this,'register_cpt_company'));
-		add_action( 'init',  array(&$this,'humm'));
-
+		//add_action( 'init',  array(&$this,'humm'));
+		//add_action( 'init',  array(&$this->race,'humm'));
 
 		
 		//add_action('parse_query',array($this,'parse_query'), 1);
@@ -99,7 +99,7 @@ class BhaaLoader
 // 				'capability_type' => 'post'
 // 		);
 //		register_post_type( 'race', $args );
-		register_post_type( 'race', $this->race->getCPT() );
+		//register_post_type( 'race', $this->race->getCPT() );
 		
 	}
 	
@@ -275,98 +275,103 @@ class BhaaLoader
 		add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
 
 		// company SQL
-		$companySql = "id INT(11) NOT NULL auto_increment,
-			name VARCHAR(100) NOT NULL,
-			web VARCHAR(100),
-			image VARCHAR(100),
-			PRIMARY KEY  (id)";
-		BhaaLoader::run_install_or_upgrade($wpdb->company,$companySql);
-		$wpdb->insert( $wpdb->company,
-			array( 'name' => 'BHAA', 'web' => 'http://www.bhaa.ie', 'image' => 'http://www.bhaa.ie' ) );
+// 		$companySql = "id INT(11) NOT NULL auto_increment,
+// 			name VARCHAR(100) NOT NULL,
+// 			web VARCHAR(100),
+// 			image VARCHAR(100),
+// 			PRIMARY KEY  (id)";
+// 		BhaaLoader::run_install_or_upgrade($wpdb->company,$companySql);
+// 		$wpdb->insert( $wpdb->company,
+// 			array( 'name' => 'BHAA', 'web' => 'http://www.bhaa.ie', 'image' => 'http://www.bhaa.ie' ) );
 		
 		// event SQL
-		$eventSql = "id int(11) NOT NULL auto_increment,
-			name varchar(40) NOT NULL,
-			tag varchar(15) NOT NULL,
-			location varchar(100) NOT NULL,
-			date date NOT NULL,
-			PRIMARY KEY (id)";
-		BhaaLoader::run_install_or_upgrade($wpdb->event,$eventSql);
-		$wpdb->insert( $wpdb->event,
-				array( 'id' => '201001',
-						'name'=>'South Dublin County Council',
-						'tag'=>'sdcc2012',
-						'location' => 'Tymon Park',
-						'date' => '2010-01-05' ) );
-		$wpdb->insert( $wpdb->event,
-				array( 'id' => '201101',
-						'name'=>'RTE',
-						'tag'=>'rte2011',
-						'location' => 'RTE',
-						'date' => '2011-05-01' ) );
-		$wpdb->insert( $wpdb->event,
-				array( 'id' => '201205',
-						'name'=>'KCLUB',
-						'tag'=>'kclub2012',
-						'location' => 'k-club',
-						'date' => '2012-04-01' ) );
-		$wpdb->insert( $wpdb->event,
-				array( 'id' => '201210',
-						'name'=>'DublinHalf',
-						'tag'=>'dublinhalf2012',
-						'location' => 'Park',
-						'date' => '2012-07-01' ) );
+// 		$eventSql = "id int(11) NOT NULL auto_increment,
+// 			name varchar(40) NOT NULL,
+// 			tag varchar(15) NOT NULL,
+// 			location varchar(100) NOT NULL,
+// 			date date NOT NULL,
+// 			PRIMARY KEY (id)";
+// 		BhaaLoader::run_install_or_upgrade($wpdb->event,$eventSql);
+// 		$wpdb->insert( $wpdb->event,
+// 				array( 'id' => '201001',
+// 						'name'=>'South Dublin County Council',
+// 						'tag'=>'sdcc2012',
+// 						'location' => 'Tymon Park',
+// 						'date' => '2010-01-05' ) );
+// 		$wpdb->insert( $wpdb->event,
+// 				array( 'id' => '201101',
+// 						'name'=>'RTE',
+// 						'tag'=>'rte2011',
+// 						'location' => 'RTE',
+// 						'date' => '2011-05-01' ) );
+// 		$wpdb->insert( $wpdb->event,
+// 				array( 'id' => '201205',
+// 						'name'=>'KCLUB',
+// 						'tag'=>'kclub2012',
+// 						'location' => 'k-club',
+// 						'date' => '2012-04-01' ) );
+// 		$wpdb->insert( $wpdb->event,
+// 				array( 'id' => '201210',
+// 						'name'=>'DublinHalf',
+// 						'tag'=>'dublinhalf2012',
+// 						'location' => 'Park',
+// 						'date' => '2012-07-01' ) );
 		
 		// race sql
-		$raceSql = "id int(11) NOT NULL auto_increment,
-			event varchar(40) NOT NULL,
-			distance varchar(15) NOT NULL,
-			unit enum('KM','Mile') DEFAULT 'KM',
-			PRIMARY KEY  (`id`)";
-		BhaaLoader::run_install_or_upgrade($wpdb->race,$raceSql);
-		$wpdb->insert( $wpdb->race,
-				array( 'id' => '201001',
-						'event'=>'201001',
-						'distance'=>'5',
-						'unit'=>'KM') );
-		$wpdb->insert( $wpdb->race,
-				array( 'id' => '201102',
-						'event'=>'201001',
-						'distance'=>'8',
-						'unit'=>'KM') );
-		$wpdb->insert( $wpdb->race,
-				array( 'id' => '201210',
-						'event'=>'201205',
-						'distance'=>'10',
-						'unit'=>'KM') );
-		$wpdb->insert( $wpdb->race,
-				array( 'id' => '201220',
-						'event'=>'201210',
-						'distance'=>'9',
-						'unit'=>'KM') );
-		
+// 		$raceSql = "id int(11) NOT NULL auto_increment,
+// 			event varchar(40) NOT NULL,
+// 			distance varchar(15) NOT NULL,
+// 			unit enum('KM','Mile') DEFAULT 'KM',
+// 			PRIMARY KEY  (`id`)";
+// 		BhaaLoader::run_install_or_upgrade($wpdb->race,$raceSql);
+// 		$wpdb->insert( $wpdb->race,
+// 				array( 'id' => '201001',
+// 						'event'=>'201001',
+// 						'distance'=>'5',
+// 						'unit'=>'KM') );
+// 		$wpdb->insert( $wpdb->race,
+// 				array( 'id' => '201102',
+// 						'event'=>'201001',
+// 						'distance'=>'8',
+// 						'unit'=>'KM') );
+// 		$wpdb->insert( $wpdb->race,
+// 				array( 'id' => '201210',
+// 						'event'=>'201205',
+// 						'distance'=>'10',
+// 						'unit'=>'KM') );
+// 		$wpdb->insert( $wpdb->race,
+// 				array( 'id' => '201220',
+// 						'event'=>'201210',
+// 						'distance'=>'9',
+// 						'unit'=>'KM') );
+
 		// raceresult SQL
 		$raceResultSql = "race int(11) NOT NULL,
 			runner int(11) NOT NULL,
 			racetime time,
-			number int(11)";
+			position int(11),
+			racenumber int(11),
+			category varchar(5),
+			standard int(11),
+			paceKM time,
+			class varchar(25)";
 		BhaaLoader::run_install_or_upgrade($wpdb->raceresult,$raceResultSql);
 		
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'7713','racetime'=>'00:50:00','number'=>'3'));
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'1000','racetime'=>'00:51:00','number'=>'1'));
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'2000','racetime'=>'00:54:00','number'=>'2'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'7713','racetime'=>'00:50:00','number'=>'3'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'1000','racetime'=>'00:51:00','number'=>'1'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201001','runner'=>'2000','racetime'=>'00:54:00','number'=>'2'));
 		
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'7713','racetime'=>'00:50:00','number'=>'13'));
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'1000','racetime'=>'00:51:00','number'=>'11'));
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'2000','racetime'=>'00:54:00','number'=>'12'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'7713','racetime'=>'00:50:00','number'=>'13'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'1000','racetime'=>'00:51:00','number'=>'11'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201102','runner'=>'2000','racetime'=>'00:54:00','number'=>'12'));
 		
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'7713','racetime'=>'00:50:00','number'=>'23'));
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'1000','racetime'=>'00:51:00','number'=>'21'));
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'2000','racetime'=>'00:54:00','number'=>'22'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'7713','racetime'=>'00:50:00','number'=>'23'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'1000','racetime'=>'00:51:00','number'=>'21'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201210','runner'=>'2000','racetime'=>'00:54:00','number'=>'22'));
 		
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'7713','racetime'=>'00:50:00','number'=>'33'));
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'1000','racetime'=>'00:51:00','number'=>'31'));
-		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'2000','racetime'=>'00:54:00','number'=>'32'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'7713','racetime'=>'00:50:00','number'=>'33'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'1000','racetime'=>'00:51:00','number'=>'31'));
+// 		$wpdb->insert( $wpdb->raceresult,array( 'race' => '201220','runner'=>'2000','racetime'=>'00:54:00','number'=>'32'));
 	}
 	
 	public static function run_install_or_upgrade($table_name, $sql)//, $db_version)
@@ -390,10 +395,10 @@ class BhaaLoader
 		
 		// PHPLeague tables
 		$tables = array(
-				$wpdb->event,
-				$wpdb->raceresult,
-				$wpdb->race,
-				$wpdb->company
+				//$wpdb->event,
+				$wpdb->raceresult
+//				$wpdb->race,
+	//			$wpdb->company
 		);
 		
 		// Delete each table one by one

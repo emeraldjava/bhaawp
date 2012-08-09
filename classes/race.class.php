@@ -17,7 +17,12 @@ class Race extends Base
 		add_action( 'save_post', array( &$this, 'saveRaceMeta' ) );
 		//add_filter( 'single_template',array( &$this,'race_single_template') );
 		add_filter( 'single_template', array( &$this, 'get_custom_post_type_template') ) ;
+		
+		add_action( 'init', array(&$this,'getCPT'));
 	}
+// 		require_once( ABSPATH . 'wp-admin/includes/post.php' );
+// 		register_post_type( 'race', getCPT() );
+// 	}
 	
 	function get_custom_post_type_template($single_template) {
 		global $post;
@@ -33,10 +38,10 @@ class Race extends Base
 	public function getCPT()
 	{
 		$labels = array(
-				'name' => _x( 'races', 'race' ),
-				'singular_name' => _x( 'race', 'race' ),
+				'name' => _x( 'BHAA Races', 'race' ),
+				'singular_name' => _x( 'Race', 'race' ),
 				'add_new' => _x( 'Add New', 'race' ),
-				'add_new_item' => _x( 'Add New race', 'race' ),
+				'add_new_item' => _x( 'Add New Race', 'race' ),
 				'edit_item' => _x( 'Edit race', 'race' ),
 				'new_item' => _x( 'New race', 'race' ),
 				'view_item' => _x( 'View race', 'race' ),
@@ -61,10 +66,13 @@ class Race extends Base
 				'has_archive' => true,
 				'query_var' => 'race',
 				'can_export' => true,
-				'rewrite' => array('slug' => 'race'),
+				'publicly_queryable' => true,
+				'rewrite' => true, //array('slug' => 'race'),
 				'capability_type' => 'post'
 		);
-		return $args;
+		require_once( ABSPATH . 'wp-admin/includes/post.php' );
+		register_post_type( 'race', $args );
+	//		return $args;
 	}
 	
 	/**
@@ -97,13 +105,13 @@ class Race extends Base
 		//wp_nonce_field( plugin_basename( __FILE__ ), 'myplugin_noncename' );
 	
 		$distance = get_post_custom_values('bhaa-race-distance', $post->ID);
-		print '<p>Distance <input type="text" name="bhaa-race-distance" value="'.$distance[0].'" /></p>';
+		print '<p>Distance <input type="text" name="bhaa_race_distance" value="'.$distance[0].'" /></p>';
 	
 		$unit = get_post_custom_values('bhaa-race-unit', $post->ID);
-		print '<p>Unit <input type="text" name="bhaa-race-unit" value="'.$unit[0].'" /></p>';
+		print '<p>Unit <input type="text" name="bhaa_race_unit" value="'.$unit[0].'" /></p>';
 		
 		$raceid = get_post_custom_values('bhaa-race-id', $post->ID);
-		print '<p>Unit <input type="text" name="bhaa-race-id" value="'.$raceid[0].'" /></p>';
+		print '<p>Unit <input type="text" name="bhaa_race_id" value="'.$raceid[0].'" /></p>';
 	}
 	
 	public function saveRaceMeta( $post_id ){
@@ -113,14 +121,14 @@ class Race extends Base
 		if ( empty( $_POST ) )
 			return;
 	
-		if ( !empty($_POST['bhaa-race-distance']))
-			update_post_meta( $post_id, 'bhaa-race-distance', $_POST['bhaa-race-distance'] );
+		if ( !empty($_POST['bhaa_race_distance']))
+			update_post_meta( $post_id, 'bhaa_race_distance', $_POST['bhaa-race-distance'] );
 	
-		if ( !empty($_POST['bhaa-race-unit']))
-			update_post_meta( $post_id, 'bhaa-race-unit', $_POST['bhaa-race-unit'] );
+		if ( !empty($_POST['bhaa_race_unit']))
+			update_post_meta( $post_id, 'bhaa_race_unit', $_POST['bhaa-race-unit'] );
 
-		if ( !empty($_POST['bhaa-race-id']))
-			update_post_meta( $post_id, 'bhaa-race-id', $_POST['bhaa-race-id'] );
+		if ( !empty($_POST['bhaa_race_id']))
+			update_post_meta( $post_id, 'bhaa_race_id', $_POST['bhaa-race-id'] );
 	}
 		
 	/**

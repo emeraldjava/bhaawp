@@ -15,3 +15,15 @@ shortcode details
 
 The main issue i'm having is how to cross link the url's on the specific tables to
 drill down from events -> event -> races -> race.
+
+http://wp.smashingmagazine.com/2012/02/03/custom-post-types-organize-online-marketing-campaigns/
+
+
+
+
+
+
+
+
+
+
