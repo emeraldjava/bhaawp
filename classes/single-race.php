@@ -16,7 +16,6 @@ get_header(); ?>
 
 <div id="content" role="main">
 
-
 <div id="bbp-user" class="bbp-single-user">
 
 <div class="entry-content">
@@ -61,8 +60,15 @@ $url = add_query_arg('id', $row->race, $url);
 <tr class="<?php echo $class ?>">
 	<td><?php echo $row->position ?></td>
 	<td><?php
-	$user = new WP_User( $row->runner );
-	echo $user->display_name; ?></td>
+	if(get_userdata($row->runner))
+	{
+		$user = new WP_User( $row->runner );
+		echo $user->display_name;
+	}
+	else
+	{
+		echo $row->runner;		
+	}?></td>
 	<td><?php echo $row->racetime ?></td>
 	<td><?php echo $row->racenumber ?></td>
 	<td><?php echo $row->standard ?></td>
