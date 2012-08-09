@@ -29,8 +29,41 @@ ID : <?php echo the_ID();?>
 <p>Meta information for this post:</p>
 <?php the_meta(); ?>
 
-<p>Shortcode : <?php echo get_post_meta(get_the_ID(),'bhaa-race-id',true);?></p>
-<?php echo do_shortcode('[bhaa type=raceresult id='.get_post_meta(get_the_ID(),'bhaa-race-id',true).']'); ?>
+<p>Shortcode : <?php echo get_the_ID();?></p>
+<?php //echo do_shortcode('[bhaa type=raceresult id='.get_post_meta(get_the_ID(),'bhaa-race-id',true).']'); ?>
+
+<?php 
+global $wpdb;
+$result = $wpdb->get_results(
+	$wpdb->prepare('SELECT * FROM '.$wpdb->raceresult.' where race=%d',get_post_meta(get_the_ID(),'bhaa_race_id',true)));
+
+?>
+
+<table id="mylist" class="sortable">
+    <thead>
+        <tr>
+            <th>Race</th>
+            <th>Runner</th>
+            <th>Time</th>
+            <th>Number</th>
+        </tr>
+    </thead>
+<tbody id="the-list">
+<?php foreach ( $result AS $row ) : $class = ('alternate' == $class) ? '' : 'alternate'; ?>
+<?php 
+$url = get_permalink();
+$url = add_query_arg('type', 'race', $url);
+$url = add_query_arg('id', $row->race, $url);
+?>
+<tr class="<?php echo $class ?>">
+	<td><a href="<?php echo $url; ?>"><?php echo $row->race ?></a></td>
+	<td><?php echo $row->runner ?></td>
+	<td><?php echo $row->racetime ?></td>
+	<td><?php echo $row->number ?></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
 
 </div><!-- .entry-content -->
 
