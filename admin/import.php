@@ -34,12 +34,10 @@ class BhaaImport
 			$this->importCompanies();
 		elseif($_GET['action']=='deleteCompanies')
 			$this->deleteCompanies();
-		// TODO import race details
 		elseif($_GET['action']=='races')
 			$this->importRaces();
 		elseif($_GET['action']=='deleteRaces')
 			$this->deleteRaces();
-		// TODO import race results
 		elseif($_GET['action']=='raceResults')
 			$this->importRaceResults();
 		elseif($_GET['action']=='deleteRaceResults')
@@ -150,29 +148,6 @@ class BhaaImport
         	 * http://codex.wordpress.org/Function_Reference/wp_insert_user
         	 * http://codex.wordpress.org/Function_Reference/wp_create_user
         	 */
-//         	id,
-//         	firstname,
-//         	surname,
-//         	email,
-//         	gender,
-//         	email,
-//         	dateofbirth,
-//         	company,
-//         	companyname,
-//         	team,
-//         	newsletter,
-//         	telephone,
-//         	mobilephone,
-//         	textmessage,
-//         	address1,
-//         	address2,
-//         	address3,
-//         	status,
-//         	insertdate,
-//         	dateofrenewal
-
-//        	wp_create_user( $username, $password, $email );
-
         	$name = strtolower($user->firstname.'.'.$user->surname);
         	$name = str_replace(' ', '', $name);
         	$name = str_replace("'", '', $name);
@@ -182,7 +157,6 @@ class BhaaImport
         	$this->insertUser($user->id,$name,$password,$user->email);
 
         	// http://codex.wordpress.org/Function_Reference/wp_insert_user
-        	// INSERT INTO `wp_users`(`ID`) VALUES (7713);
         	$id = wp_insert_user(array(
         	        'ID'            => $user->id,
         		    'user_login'    => $name,// strtolower(mysql_real_escape_string($user->firstname.'.'.$user->surname)),// $user->email,
@@ -251,7 +225,6 @@ class BhaaImport
 
 	function importStories()
 	{
-		// select sid,2,date,date,CONCAT(introtext,bodytext),title,"","open",'publish','open','',title,'','',date,date,'',0,'',0,'post','',1 from gl_stories
 		global $wpdb;
         $count = 0;
         $stories = $this->getStories();
@@ -284,9 +257,9 @@ class BhaaImport
 	
 	function getStories()
 	{
-		global $wpdb;
-		return $wpdb->get_results($wpdb->prepare(
-			'select sid,date,introtext,bodytext,title from gl_stories') // limit x
+		$db = $this->getGlfusionDB();
+		return $db->get_results($db->prepare(
+			'select sid,date,introtext,bodytext,title from gl_stories')
 		);
 	}
 	
@@ -576,6 +549,12 @@ class BhaaImport
 	{
 		// user, pass, dbname, host
 		return new wpdb('root','','bhaaie_members','localhost');
+	}
+	
+	function getGlfusionDB()
+	{
+		// user, pass, dbname, host
+		return new wpdb('root','','bhaaie_glfusion','localhost');
 	}
 }
 ?>

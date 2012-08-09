@@ -15,14 +15,9 @@ class Race extends Base
 	{
 		add_action( 'add_meta_boxes', array( &$this, 'raceMeta' ) );
 		add_action( 'save_post', array( &$this, 'saveRaceMeta' ) );
-		//add_filter( 'single_template',array( &$this,'race_single_template') );
 		add_filter( 'single_template', array( &$this, 'get_custom_post_type_template') ) ;
-		
 		add_action( 'init', array(&$this,'getCPT'));
 	}
-// 		require_once( ABSPATH . 'wp-admin/includes/post.php' );
-// 		register_post_type( 'race', getCPT() );
-// 	}
 	
 	function get_custom_post_type_template($single_template) {
 		global $post;
@@ -32,9 +27,7 @@ class Race extends Base
 		}
 		return $single_template;
 	}
-	
-
-	
+		
 	public function getCPT()
 	{
 		$labels = array(
@@ -88,15 +81,7 @@ class Race extends Base
 			'low'
 		);
 	}
-	
-// 	function race_single_template($single_template) {
-// 		global $post;
-// 		if ($post->post_type == 'race')
-// 			echo $this->loadTemplate('single-race');
-// 		//$single_template = dirname( __FILE__ ) . '\templates\single-race.php';
-// 		//return $single_template;
-// 	}
-	
+		
 	/**
 	 * display the meta fields
 	 * @param unknown_type $post
