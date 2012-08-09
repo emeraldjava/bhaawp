@@ -42,10 +42,13 @@ $result = $wpdb->get_results(
 <table id="mylist" class="sortable">
     <thead>
         <tr>
-            <th>Race</th>
+        	<th>Position</th>
             <th>Runner</th>
             <th>Time</th>
             <th>Number</th>
+            <th>Standard</th>
+            <th>Pace</th>
+            <th>Category</th>
         </tr>
     </thead>
 <tbody id="the-list">
@@ -56,10 +59,13 @@ $url = add_query_arg('type', 'race', $url);
 $url = add_query_arg('id', $row->race, $url);
 ?>
 <tr class="<?php echo $class ?>">
-	<td><a href="<?php echo $url; ?>"><?php echo $row->race ?></a></td>
+	<td><?php echo $row->position ?></td>
 	<td><?php echo $row->runner ?></td>
 	<td><?php echo $row->racetime ?></td>
-	<td><?php echo $row->number ?></td>
+	<td><?php echo $row->racenumber ?></td>
+	<td><?php echo $row->standard ?></td>
+	<td><?php echo $row->paceKM ?></td>
+	<td><?php echo $row->category ?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
