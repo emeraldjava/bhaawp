@@ -3,6 +3,8 @@
  * http://net.tutsplus.com/tutorials/wordpress/rock-solid-wordpress-3-0-themes-using-custom-post-types/
  * @author oconnellp
  *
+ * http://wordpress.stackexchange.com/questions/50793/add-custom-column-in-custom-post-type-edit-page
+ *
  */
 class RaceAdmin
 {

@@ -5,7 +5,12 @@ if(!class_exists('WP_List_Table')){
 }
 
 /**
- * Handle the admin tasks for the BHAA companies
+ * Handle the admin tasks for the BHAA race results
+ * 
+ * http://wp.smashingmagazine.com/2011/11/03/native-admin-tables-wordpress/
+ * http://wpengineer.com/2426/wp_list_table-a-step-by-step-guide/#actions
+ * http://wp.smashingmagazine.com/2011/11/03/native-admin-tables-wordpress/
+ * 
  * @author assure
  *
  */
@@ -65,6 +70,9 @@ class RaceResultAdmin extends WP_List_Table
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	function prepare_items() {
 		$columns = $this->get_columns();
 		$hidden = array();
