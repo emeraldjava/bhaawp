@@ -1,7 +1,7 @@
 <?php
 class BhaaAdmin
 {
-	var $company;
+	var $raceResult;
 	var $import;
 	var $raceAdmin;
 		
@@ -9,8 +9,8 @@ class BhaaAdmin
 	{
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
 					
-		//require_once (dirname (__FILE__) . '/company.admin.class.php');
-		//$this->company = new CompanyAdmin();
+		require_once (dirname (__FILE__) . '/raceresult.admin.class.php');
+		$this->raceResult = new RaceResultAdmin();
 		
 		require_once (dirname (__FILE__) . '/race.admin.php');
 		$this->raceAdmin = new RaceAdmin();
@@ -22,7 +22,6 @@ class BhaaAdmin
 // 		add_action('admin_print_styles', array(&$this, 'loadStyles') );
 	
 		add_action('admin_init',array($this->raceAdmin,'init'));
-		
  		add_action( 'admin_menu', array(&$this, 'bhaa_admin_plugin_menu') );
 	
 // 		// Add meta box to post screen
@@ -40,7 +39,7 @@ class BhaaAdmin
 		
 		add_submenu_page('bhaa', 'BHAA', 'Menu', 'manage_options', 'main', array(&$this, 'main'));
 		
-		//add_submenu_page('bhaa' ,'BHAA','Companies','manage_options', 'company' , array(&$this->company,'table'));
+		add_submenu_page('bhaa' ,'BHAA','Race Results','manage_options', 'company' , array(&$this->raceResult,'table'));
 		
 		add_submenu_page('bhaa' ,'BHAA','Help','manage_options', 'help' , array(&$this, 'help'));
 

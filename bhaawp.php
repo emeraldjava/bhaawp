@@ -149,10 +149,10 @@ class BhaaLoader
 		global $wpdb;
 	
 		// tables
-		$wpdb->event        = $wpdb->prefix.'bhaa_event';
-		$wpdb->race   		= $wpdb->prefix.'bhaa_race';
+		//$wpdb->event        = $wpdb->prefix.'bhaa_event';
+		//$wpdb->race   		= $wpdb->prefix.'bhaa_race';
 		$wpdb->raceresult 	= $wpdb->prefix.'bhaa_raceresult';
-		$wpdb->company    	= $wpdb->prefix.'bhaa_company';
+		//$wpdb->company    	= $wpdb->prefix.'bhaa_company';
 	}
 	
 	public static function activate()
