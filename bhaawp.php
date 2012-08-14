@@ -36,8 +36,8 @@ class BhaaLoader
 		add_action( 'widgets_init', array(&$this, 'registerWidget') );
 		// Start this plugin once all other plugins are fully loaded
 		add_action( 'plugins_loaded', array(&$this, 'initialize') );
-
-		add_action( 'init', array(&$this,'register_cpt_company'));
+		//add_action( 'init', array(&$this,'register_cpt_company'));
+		add_action( 'wp_loaded', array(&$this,'my_connection_types'));
 		
 		if ( is_admin() )
 		{
@@ -51,6 +51,20 @@ class BhaaLoader
 		{
 			$this->addShortCodes();
 		}		
+	}
+	
+	function my_connection_types() {
+		// Make sure the Posts 2 Posts plugin is active.
+		require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
+		if ( !function_exists( 'p2p_register_connection_type' ) )
+			return;
+	
+		p2p_register_connection_type( array(
+				'name' => 'events_to_races',
+				'from' => 'event',
+				'to' => 'race',
+				'cardinality' => 'one-to-many'
+		) );
 	}
 		
 	function initialize()
@@ -135,11 +149,11 @@ class BhaaLoader
 			// li
 			return $this->raceresult->listRaceResult($attributes);
 		}
-		else
-		{
-			// default shortcode action
-			return $this->event->listEvents($attributes);
-		}		
+// 		else
+// 		{
+// 			// default shortcode action
+// 			return $this->event->listEvents($attributes);
+// 		}		
 	}
 		
 	function defineConstants()
