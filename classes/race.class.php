@@ -15,23 +15,32 @@ class Race extends Base
 	{
 		add_action( 'add_meta_boxes', array( &$this, 'raceMeta' ) );
 		add_action( 'save_post', array( &$this, 'saveRaceMeta' ) );
-		add_filter( 'single_template', array( &$this, 'get_custom_post_type_template') ) ;
+		add_filter( 'template_include', array( &$this, 'race_templates') ) ;
 		add_action( 'init', array(&$this,'getCPT'));
 	}
 	
-	function get_custom_post_type_template($single_template) {
-		global $post;
-	
-		if ($post->post_type == 'race') {
-			$single_template = dirname( __FILE__ ) . '/single-race.php';
-		}
-		return $single_template;
+	function race_templates( $template ) {
+		$post_types = array( 'race' );
+		if ( is_post_type_archive( $post_types ) && ! file_exists( get_stylesheet_directory() . '/archive-race.php' ) )
+			$template = BHAAWP_PATH.'/template/archive-race.php';
+		if ( is_singular( $post_types ) && ! file_exists( get_stylesheet_directory() . '/single-race.php' ) )
+			$template = BHAAWP_PATH.'/template/single-race.php';
+		return $template;
 	}
+	
+// 	function get_custom_post_type_template($single_template) {
+// 		global $post;
+	
+// 		if ($post->post_type == 'race') {
+// 			$single_template = dirname( __FILE__ ) . '/single-race.php';
+// 		}
+// 		return $single_template;
+// 	}
 		
 	public function getCPT()
 	{
 		$labels = array(
-				'name' => _x( 'BHAA Races', 'race' ),
+				'name' => _x( 'Races', 'race' ),
 				'singular_name' => _x( 'Race', 'race' ),
 				'add_new' => _x( 'Add New', 'race' ),
 				'add_new_item' => _x( 'Add New Race', 'race' ),

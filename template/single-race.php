@@ -28,7 +28,7 @@ ID : <?php echo the_ID();?>
 <p>Meta information for this post:</p>
 <?php the_meta(); ?>
 
-<p>Shortcode : <?php echo get_the_ID();?></p>
+<p>The Shortcode ID : <?php echo get_the_ID();?></p>
 <?php //echo do_shortcode('[bhaa type=raceresult id='.get_post_meta(get_the_ID(),'bhaa-race-id',true).']'); ?>
 
 <?php 

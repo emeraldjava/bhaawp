@@ -17,14 +17,14 @@ class Company
 	{
 		add_action( 'init', array(&$this,'register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'register_cpt_company'));
-		add_filter( 'template_include', array(&$this,'my_plugin_templates'));
+		add_filter( 'template_include', array(&$this,'company_templates'));
 	}
 	
 	/**
 	 * http://wordpress.stackexchange.com/questions/55763/is-it-possible-to-define-a-template-for-a-custom-post-type-within-a-plugin-indep
 	 * @param unknown_type $template
 	 */
-	function my_plugin_templates( $template ) {
+	function company_templates( $template ) {
 		$post_types = array( 'company' );
 		if ( is_post_type_archive( $post_types ) && ! file_exists( get_stylesheet_directory() . '/archive-company.php' ) )
 			$template = BHAAWP_PATH.'/template/archive-company.php';
