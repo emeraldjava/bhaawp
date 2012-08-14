@@ -5,6 +5,7 @@
  *
  * http://wordpress.stackexchange.com/questions/50793/add-custom-column-in-custom-post-type-edit-page
  * http://wordpress.stackexchange.com/questions/14973/row-actions-for-custom-post-types
+ * http://wp.tutsplus.com/tutorials/creative-coding/add-a-custom-column-in-posts-and-custom-post-types-admin-screen/
  */
 class RaceAdmin
 {

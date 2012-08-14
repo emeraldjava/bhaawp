@@ -38,6 +38,8 @@ $result = $wpdb->get_results(
 
 ?>
 
+<!-- TODO we should really use the WP_TABLE_LIST for race results here! -->
+
 <table id="mylist" class="sortable">
     <thead>
         <tr>

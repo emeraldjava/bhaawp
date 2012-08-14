@@ -13,9 +13,12 @@ class BhaaLoader
 	var $version = '2012.08.09';
 	
 	var $admin;
+	
 	var $company;
 	var $event;
 	var $race;
+	var $league;
+	
 	var $raceresult;
 	var $runner;
 	
@@ -89,11 +92,12 @@ class BhaaLoader
 		$this->company = new Company();
 		require_once (dirname (__FILE__) . '/classes/event.class.php');
 		$this->event = new Event();
-		require_once (dirname (__FILE__) . '/classes/runner.class.php');
-		$this->runner = new Runner();
+		//require_once (dirname (__FILE__) . '/classes/runner.class.php');
+		//$this->runner = new Runner();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
 		$this->race = new Race();
-		
+		require_once (dirname (__FILE__) . '/classes/league.class.php');
+		$this->league = new League();
 		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
 		$this->raceresult = new RaceResult();
 				

@@ -36,7 +36,7 @@ class Company
 	// 
 	function register_cpt_company() {
 	
-	    $labels = array( 
+	    $companyLabels = array( 
 	        'name' => _x( 'Companies', 'company' ),
 	        'singular_name' => _x( 'Company', 'company' ),
 	        'add_new' => _x( 'Add New', 'company' ),
@@ -51,8 +51,8 @@ class Company
 	        'menu_name' => _x( 'Companies', 'company' ),
 	    );
 	
-	    $args = array( 
-	        'labels' => $labels,
+	    $companyArgs = array( 
+	        'labels' => $companyLabels,
 	        'hierarchical' => false,
 	        'description' => 'BHAA Company Details',
 	        'supports' => array( 'title', 'editor', 'author', 'custom-fields', 'comments' ),
@@ -69,7 +69,7 @@ class Company
 	        'rewrite' => true,
 	        'capability_type' => 'post'
 	    );
-	    register_post_type( 'company', $args );
+	    register_post_type( 'company', $companyArgs );
 	}
 		
 	function register_taxonomy_sector() {

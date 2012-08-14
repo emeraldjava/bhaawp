@@ -39,7 +39,7 @@ class Race extends Base
 		
 	public function getCPT()
 	{
-		$labels = array(
+		$raceLabels = array(
 				'name' => _x( 'Races', 'race' ),
 				'singular_name' => _x( 'Race', 'race' ),
 				'add_new' => _x( 'Add New', 'race' ),
@@ -54,8 +54,8 @@ class Race extends Base
 				'menu_name' => _x( 'races', 'race' ),
 		);
 	
-		$args = array(
-				'labels' => $labels,
+		$raceArgs = array(
+				'labels' => $raceLabels,
 				'hierarchical' => false,
 				'description' => 'bhaa race post',
 				'supports' => array( 'title', 'editor'),// 'custom-fields', 'page-attributes' ),
@@ -72,9 +72,8 @@ class Race extends Base
 				'rewrite' => true, //array('slug' => 'race'),
 				'capability_type' => 'post'
 		);
-		require_once( ABSPATH . 'wp-admin/includes/post.php' );
-		register_post_type( 'race', $args );
-	//		return $args;
+		//require_once( ABSPATH . 'wp-admin/includes/post.php' );
+		register_post_type( 'race', $raceArgs );
 	}
 	
 	/**
