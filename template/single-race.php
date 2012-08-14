@@ -32,10 +32,13 @@ ID : <?php echo the_ID();?>
 <?php //echo do_shortcode('[bhaa type=raceresult id='.get_post_meta(get_the_ID(),'bhaa-race-id',true).']'); ?>
 
 <?php 
+echo $loader->raceresult->table(get_post_meta(get_the_ID(),'bhaa_race_id',true));
+?>
+<hr/>
+<?php
 global $wpdb;
 $result = $wpdb->get_results(
 	$wpdb->prepare('SELECT * FROM '.$wpdb->raceresult.' where race=%d',get_post_meta(get_the_ID(),'bhaa_race_id',true)));
-
 ?>
 
 <!-- TODO we should really use the WP_TABLE_LIST for race results here! -->

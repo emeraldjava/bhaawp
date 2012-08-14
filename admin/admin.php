@@ -9,8 +9,8 @@ class BhaaAdmin
 	{
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
 					
-		require_once (dirname (__FILE__) . '/raceresult.admin.class.php');
-		$this->raceResult = new RaceResultAdmin();
+		//require_once (dirname (__FILE__) . '/raceresult.admin.class.php');
+		//$this->raceResult = new RaceResultAdmin();
 		
 		require_once (dirname (__FILE__) . '/race.admin.php');
 		$this->raceAdmin = new RaceAdmin();
@@ -39,13 +39,13 @@ class BhaaAdmin
 		
 		add_submenu_page('bhaa', 'BHAA', 'Menu', 'manage_options', 'main', array(&$this, 'main'));
 		
-		add_submenu_page('bhaa' ,'BHAA','Race Results','manage_options', 'company' , array(&$this->raceResult,'table'));
+		//add_submenu_page('bhaa' ,'BHAA','Race Results','manage_options', 'company' , array(&$this->raceResult,'table'));
 		
 		add_submenu_page('bhaa' ,'BHAA','Help','manage_options', 'help' , array(&$this, 'help'));
 
 		add_submenu_page('bhaa' ,'BHAA','Import','manage_options', 'import' , array(&$this->import, 'dispatch'));
 		
-		add_options_page( 'BHAA Plugin Options', 'BHAA Plugin', 'manage_options', 'my-unique-identifier', 'bhaa_plugin_options');
+		//add_options_page( 'BHAA Plugin Options', 'BHAA Plugin', 'manage_options', 'my-unique-identifier', 'bhaa_plugin_options');
 		
 //		add_management_page(
 	//		'bhaaimport', 'BhaaImport', __('Import bhaa details'), array ($import, 'dispatch'));

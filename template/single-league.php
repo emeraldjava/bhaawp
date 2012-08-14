@@ -22,7 +22,10 @@ get_header(); ?>
 					BHAA League
 					
 					
-					<?php
+<?php
+					
+// https://github.com/scribu/wp-posts-to-posts/wiki/Basic-usage
+
 // Find connected pages
 $connected = new WP_Query( array(
   'connected_type' => 'league_to_events',
