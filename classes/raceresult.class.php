@@ -4,6 +4,15 @@ if(!class_exists('WP_List_Table')){
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
+/**
+ * https://gist.github.com/7f923479a4ed135e35b2#comments
+ * http://wpengineer.com/2426/wp_list_table-a-step-by-step-guide/
+ * http://codex.wordpress.org/Class_Reference/WP_List_Table
+ * http://wp.smashingmagazine.com/2011/11/03/native-admin-tables-wordpress/
+ * 
+ * @author oconnellp
+ *
+ */
 class RaceResult extends WP_List_Table
 {
 	function __construct(){
@@ -30,6 +39,7 @@ class RaceResult extends WP_List_Table
 	 */
 	function get_columns(){
 		$columns = array(
+			'cb'        => '<input type="checkbox" />',
 			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text
 			'race'     => 'Race',
 			'runner'    => 'Runner',
@@ -58,6 +68,20 @@ class RaceResult extends WP_List_Table
 			default:
 				return print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
 		}
+	}
+	
+	function column_race($item){
+		$actions = array(
+				'edit'      => sprintf('<a href="?page=%s&action=%s&race=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID'])
+			//	'delete'    => sprintf('<a href="?page=%s&action=%s&race=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID']),
+		);
+		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
+	}
+	
+	function column_cb($item) {
+		return sprintf(
+				'<input type="checkbox" name="book[]" value="%s" />', $item['ID']
+		);
 	}
 	
 	/**

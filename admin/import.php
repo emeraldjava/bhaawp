@@ -1,8 +1,14 @@
 <?php
-set_time_limit(900);
-// http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
+set_time_limit(300);
+/**
+ * http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
+ * https://github.com/scribu/wp-posts-to-posts/wiki/Creating-connections-programatically
+ */
 class BhaaImport
 {
+	var $min = 0;
+	var $max = 100;
+	
 	function BhaaImport()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/import.php' );
@@ -16,6 +22,12 @@ class BhaaImport
 	public function import()
 	{
 		$this->header();
+		
+		if(!empty($_GET['min']))
+			$this->min = $_GET['min'];
+		if(!empty($_GET['max']))
+			$this->max = $_GET['max'];
+		
 		if(empty ($_GET['action']))
 			$this->greet();
 		elseif($_GET['action']=='events')
@@ -280,35 +292,50 @@ class BhaaImport
 		require_once( ABSPATH . 'wp-includes/post.php' );
 		foreach($companies as $company)
 		{
+			$wpdb->query($wpdb->prepare(
+					"INSERT INTO wp_posts(
+					ID,
+					post_type)
+					VALUES (%d,%s)",
+					$company->id,'company'));
+			
 			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
 			$my_post = array(
-					'post_title' => mysql_real_escape_string($company->name),
+					'ID' => $company->id,
+					'post_title' => $company->name,//mysql_real_escape_string($company->name),
 					'post_content' => $company->website,
 					'post_status' => 'publish',
 					'post_author' => 1,
 					'comment_status' => 'closed',
 					'ping_status' => 'closed',
-					'post_date' => getdate(),
-					'post_date_gmt' => getdate(),
+					'post_date' => 'NOW()',// getdate(),
+					'post_date_gmt' => 'NOW()',//getdate(),
 					//'tags_input' => array($company->sector),
-					'post_type' => 'company',
-					'post_category' => array(4)
+					'post_type' => 'company'
+					//'post_category' => array(4)
 			);
 			// Insert the post into the database
 			$id = wp_insert_post( $my_post );
-				
+			update_post_meta($id,'bhaa_company_id',$company->id);
+			
 			$mgs = 'added post '.$id.' for company '.$company->name;
 			echo '<p>'.$mgs.'</p>';
 			error_log($mgs);
 		}
 	}
 	
+	/**
+	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=50&max=149
+	 */
 	function getCompanies()
 	{
 		$db = $this->getBhaaDB();
-		return $db->get_results($db->prepare(
-			'select id,name,sector,website,image from company limit 1000') // limit x
-		);
+		$sql = $db->prepare('select id,name,sector,website,image from company limit 10');
+		if($this->min!=0||$this->max!=100)
+			$sql = $db->prepare('select id,name,sector,website,image from company where id>=%d and id<%d',$this->min,$this->max);
+		echo '<p>'.$sql.'</p>';
+		error_log($sql);
+		return $db->get_results($sql);
 	}
 	
 	function deleteCompanies()
@@ -530,7 +557,9 @@ class BhaaImport
 				class
 				FROM raceresult 
 				JOIN runner on runner.id=raceresult.runner
-				where runner.status="M" order by race desc'));
+		runner IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
+		7713, 1500, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
+//				where runner.status="M" order by race desc'));
 //		runner IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
 //		7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
 //		 status != 'M'"));

@@ -19,7 +19,7 @@ get_header(); ?>
 						<span class="nav-previous"><?php previous_post_link( '%link', __( '<span class="meta-nav">&larr;</span> Previous', 'twentyeleven' ) ); ?></span>
 						<span class="nav-next"><?php next_post_link( '%link', __( 'Next <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?></span>
 					</nav><!-- #nav-single -->
-					BHAA Company
+					BHAA Company Name <?php echo the_title();?> ID : <?php echo the_ID();?> 
 					<?php get_template_part( 'content', 'single' ); ?>
 
 					<?php comments_template( '', true ); ?>
