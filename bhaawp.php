@@ -10,7 +10,7 @@ Author URI: https://github.com/emeraldjava/bhaawp
 
 class BhaaLoader
 {
-	var $version = '2012.08.14';
+	var $version = '2012.08.15';
 	
 	var $admin;
 	
