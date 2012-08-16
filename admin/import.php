@@ -329,13 +329,18 @@ class BhaaImport
 	
 	/**
 	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=50&max=149
+	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=50&max=249
+	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=250&max=449
+	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=450&max=749
+	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=750&max=999
+	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=1000&max=1400
 	 */
 	function getCompanies()
 	{
 		$db = $this->getBhaaDB();
-		$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id limit 10');
+		$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id limit 10 order by c.id');
 		if($this->min!=0||$this->max!=100)
-			$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id where id>=%d and id<%d',$this->min,$this->max);
+			$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id where c.id>=%d and c.id<=%d order by c.id',$this->min,$this->max);
 		echo '<p>'.$sql.'</p>';
 		error_log($sql);
 		return $db->get_results($sql);
