@@ -35,7 +35,6 @@ class RaceAdmin
 
 		$post_type = get_post_type($post_id);
 		error_log('bhaa post type '.$post_type);
-		error_log('bhaa RaceAdmin save_post('.$post_id.')');
 
 		$post_array = array();
 		if( !empty($post_id) ){
@@ -45,30 +44,28 @@ class RaceAdmin
 		// save wp post and continue with meta
 		$post_id = wp_insert_post($post_array);
 
-		if(!is_wp_error($post_id))
-		{
-			$race = $wpdb->query($wpdb->prepare("SELECT id FROM wp_bhaa_race WHERE id = %d",$post_id));
-			error_log('bhaa RaceAdmin exists? ('.$post_id.')');
-			if(isset($race))
-			{
-				$wpdb->insert( 'wp_bhaa_race',
-						array( 'id' => $post_id,
-								'event'=> $post_array['post_title'],
-								'distance' => $post_id,
-								'unit' => 'km' ) );
-//				$sql_post = 'INSERT INTO wp_bhaa_race (id,event,distance,unit) VALUES ('.$post_id.',1,8.7,"km");';
-	//			$wpdb->insert($wpdb->prepare($sql_post));//$wpdb->prepare( $post_id,1,8.7,"km"));
-//				$new_id = $wpdb->insert_id;
-				error_log('bhaa insert race ');
-			}
-			else
-			{
-				$wpdb->query('UPDATE wp_bhaa_race set event='.$post_array['post_title'].' where id='.$post_id);
-				error_log('bhaa updated race '.$post_id);
-			}
-		}
-
-
+// 		if(!is_wp_error($post_id))
+// 		{
+// 			$race = $wpdb->query($wpdb->prepare("SELECT id FROM wp_bhaa_race WHERE id = %d",$post_id));
+// 			error_log('bhaa RaceAdmin exists? ('.$post_id.')');
+// 			if(isset($race))
+// 			{
+// 				$wpdb->insert( 'wp_bhaa_race',
+// 						array( 'id' => $post_id,
+// 								'event'=> $post_array['post_title'],
+// 								'distance' => $post_id,
+// 								'unit' => 'km' ) );
+// //				$sql_post = 'INSERT INTO wp_bhaa_race (id,event,distance,unit) VALUES ('.$post_id.',1,8.7,"km");';
+// 	//			$wpdb->insert($wpdb->prepare($sql_post));//$wpdb->prepare( $post_id,1,8.7,"km"));
+// //				$new_id = $wpdb->insert_id;
+// 				error_log('bhaa insert race ');
+// 			}
+// 			else
+// 			{
+// 				$wpdb->query('UPDATE wp_bhaa_race set event='.$post_array['post_title'].' where id='.$post_id);
+// 				error_log('bhaa updated race '.$post_id);
+// 			}
+// 		}
 
 // 		if( $post->post_type == "race" )
 // 		{
