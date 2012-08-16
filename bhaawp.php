@@ -40,7 +40,7 @@ class BhaaLoader
 		// Start this plugin once all other plugins are fully loaded
 		add_action( 'plugins_loaded', array(&$this, 'initialize') );
 		//add_action( 'init', array(&$this,'register_cpt_company'));
-		add_action( 'wp_loaded', array(&$this,'my_connection_types'));
+		add_action( 'wp_loaded', array(&$this,'bhaa_connection_types'));
 		
 		if ( is_admin() )
 		{
@@ -56,18 +56,32 @@ class BhaaLoader
 		}		
 	}
 	
-	function my_connection_types() {
+	function bhaa_connection_types() {
 		// Make sure the Posts 2 Posts plugin is active.
 		require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
 		if ( !function_exists( 'p2p_register_connection_type' ) )
 			return;
-	
+		
 		p2p_register_connection_type( array(
-				'name' => 'events_to_races',
+				'name' => 'event_to_races',
 				'from' => 'event',
 				'to' => 'race',
 				'cardinality' => 'one-to-many'
+		));
+		
+		p2p_register_connection_type( array(
+				'name' => 'league_to_events',
+				'from' => 'league',
+				'to' => 'event',
+				'cardinality' => 'one-to-many'
 		) );
+		
+		p2p_register_connection_type( array(
+				'name' => 'company_to_runners',
+				'from' => 'company',
+				'to' => 'user',
+				'cardinality' => 'one-to-many'
+		));
 	}
 		
 	function initialize()
@@ -122,37 +136,37 @@ class BhaaLoader
 	
 	function addShortCodes()
 	{
-		add_shortcode( 'bhaa', array($this,'bhaa_shortcode'));
+		//add_shortcode( 'bhaa', array($this,'bhaa_shortcode'));
 	}
 	
 	public function bhaa_shortcode($attributes)
 	{
 		// Extract data
-		extract(shortcode_atts(
-				array(
-						'id'      => 1,
-						'type'    => 'default'
-				),
-				$attributes
-		));
-		$id = (int) $id;
+// 		extract(shortcode_atts(
+// 				array(
+// 						'id'      => 1,
+// 						'type'    => 'default'
+// 				),
+// 				$attributes
+// 		));
+// 		$id = (int) $id;
 				
-		// event shortcode with id?
-		if ($type == 'event') 
-		{
-			if(isset($id))
-				return $this->event->getEvent($id);
-		}
-		elseif($type == 'races')
-		{
-			// li
-			return $this->race->listRaces($attributes);
-		}
-		elseif($type == 'raceresult')
-		{
-			// li
-			return $this->raceresult->listRaceResult($attributes);
-		}
+// 		// event shortcode with id?
+// 		if ($type == 'event') 
+// 		{
+// 			if(isset($id))
+// 				return $this->event->getEvent($id);
+// 		}
+// 		elseif($type == 'races')
+// 		{
+// 			// li
+// 			return $this->race->listRaces($attributes);
+// 		}
+// 		elseif($type == 'raceresult')
+// 		{
+// 			// li
+// 			return $this->raceresult->listRaceResult($attributes);
+// 		}
 // 		else
 // 		{
 // 			// default shortcode action

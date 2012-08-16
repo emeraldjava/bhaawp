@@ -27,16 +27,16 @@ class Event extends Base
 		return 'This the event specific page for id :: '.$attr;
 	}
 	
-	function listEvents($attr)
-	{
-		global $wpdb;
-		$events = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->event));
-		$filename = "events";
-		$out = $this->loadTemplate( 
-			$filename,
-			array('events' => $events) 
-		);
-		return $out;
-	}
+// 	function listEvents($attr)
+// 	{
+// 		global $wpdb;
+// 		$events = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->event));
+// 		$filename = "events";
+// 		$out = $this->loadTemplate( 
+// 			$filename,
+// 			array('events' => $events) 
+// 		);
+// 		return $out;
+// 	}
 }
 ?>
