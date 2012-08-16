@@ -20,9 +20,14 @@ get_header(); ?>
 						<span class="nav-next"><?php next_post_link( '%link', __( 'Next <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?></span>
 					</nav><!-- #nav-single -->
 					BHAA Company Name <?php echo the_title();?> ID : <?php echo the_ID();?> 
-					<?php get_template_part( 'content', 'single' ); ?>
+					
+					<?php 
+					echo '<img src="'.get_post_meta(get_the_ID(),'bhaa_company_image',true).'" width="40%" height="100px"/>'
+					?>
 
-					<?php comments_template( '', true ); ?>
+					<?php get_template_part( 'content', 'single' ); ?>
+					
+					<?php //comments_template( '', true ); ?>
 
 				<?php endwhile; // end of the loop. ?>
 

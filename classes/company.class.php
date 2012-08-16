@@ -103,10 +103,9 @@ class Company
 				'query_var' => true
 		);
 		register_taxonomy( 'sector', array('company'), $args );
-		
-		wp_insert_term('Media','sector',array('description'=> 'Media'));
-		wp_insert_term('Banking','sector',array('description'=> 'Banking'));
-		wp_insert_term('IT','sector',array('description'=> 'IT nerds','slug' => 'IT'));
+// 		wp_insert_term('Media','sector',array('description'=> 'Media'));
+// 		wp_insert_term('Banking','sector',array('description'=> 'Banking'));
+// 		wp_insert_term('IT','sector',array('description'=> 'IT nerds','slug' => 'IT'));
 	}
 }
 ?>

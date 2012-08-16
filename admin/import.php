@@ -303,20 +303,23 @@ class BhaaImport
 			$my_post = array(
 					'ID' => $company->id,
 					'post_title' => $company->name,//mysql_real_escape_string($company->name),
-					'post_content' => $company->website,
+					'post_content' => $company->image,
 					'post_status' => 'publish',
 					'post_author' => 1,
-					'comment_status' => 'closed',
-					'ping_status' => 'closed',
+					//'comment_status' => 'closed',
+					//'ping_status' => 'closed',
 					'post_date' => 'NOW()',// getdate(),
 					'post_date_gmt' => 'NOW()',//getdate(),
 					//'tags_input' => array($company->sector),
-					'post_type' => 'company'
+					'post_type' => 'company',
+					'tax_input' => array( 'sector' => array($company->sectorname) )
 					//'post_category' => array(4)
 			);
 			// Insert the post into the database
 			$id = wp_insert_post( $my_post );
 			update_post_meta($id,'bhaa_company_id',$company->id);
+			update_post_meta($id,'bhaa_company_website',$company->website);
+			update_post_meta($id,'bhaa_company_image',$company->image);
 			
 			$mgs = 'added post '.$id.' for company '.$company->name;
 			echo '<p>'.$mgs.'</p>';
@@ -330,9 +333,9 @@ class BhaaImport
 	function getCompanies()
 	{
 		$db = $this->getBhaaDB();
-		$sql = $db->prepare('select id,name,sector,website,image from company limit 10');
+		$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id limit 10');
 		if($this->min!=0||$this->max!=100)
-			$sql = $db->prepare('select id,name,sector,website,image from company where id>=%d and id<%d',$this->min,$this->max);
+			$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id where id>=%d and id<%d',$this->min,$this->max);
 		echo '<p>'.$sql.'</p>';
 		error_log($sql);
 		return $db->get_results($sql);
