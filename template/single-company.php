@@ -22,8 +22,30 @@ get_header(); ?>
 					BHAA Company Name <?php echo the_title();?> ID : <?php echo the_ID();?> 
 					
 					<?php 
-					echo '<img src="'.get_post_meta(get_the_ID(),'bhaa_company_image',true).'" width="40%" height="100px"/>'
+					//echo '<img src="'.get_post_meta(get_the_ID(),'bhaa_company_image',true).'" width="40%" height="100px"/>'
 					?>
+
+					<?php
+// Find connected posts
+// https://github.com/scribu/wp-posts-to-posts/wiki/Posts-2-Users
+$users = get_users( array(
+		'connected_type' => 'company_to_runner',
+		'connected_items' => $post
+) );
+?>
+<h3>Runners :</h3>
+<ul>
+<?php foreach ( $users AS $user ) : ?>
+	<li><?php echo $user->display_name; ?></li>
+<?php endforeach; ?>
+</ul>
+
+<?php 
+// Prevent weirdness
+//wp_reset_postdata();
+//endforeach;
+?>
+
 
 					<?php get_template_part( 'content', 'single' ); ?>
 					

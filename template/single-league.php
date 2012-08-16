@@ -28,7 +28,7 @@ get_header(); ?>
 
 // Find connected pages
 $connected = new WP_Query( array(
-  'connected_type' => 'league_to_events',
+  'connected_type' => 'league_to_event',
   'connected_items' => get_queried_object(),
   'nopaging' => true,
 ) );

@@ -63,21 +63,21 @@ class BhaaLoader
 			return;
 		
 		p2p_register_connection_type( array(
-				'name' => 'event_to_races',
+				'name' => 'event_to_race',
 				'from' => 'event',
 				'to' => 'race',
 				'cardinality' => 'one-to-many'
 		));
 		
 		p2p_register_connection_type( array(
-				'name' => 'league_to_events',
+				'name' => 'league_to_event',
 				'from' => 'league',
 				'to' => 'event',
 				'cardinality' => 'one-to-many'
-		) );
+		));
 		
 		p2p_register_connection_type( array(
-				'name' => 'company_to_runners',
+				'name' => 'company_to_runner',
 				'from' => 'company',
 				'to' => 'user',
 				'cardinality' => 'one-to-many'

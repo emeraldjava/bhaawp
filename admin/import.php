@@ -152,6 +152,7 @@ class BhaaImport
         $users = $this->getUsers();
 
         require_once( ABSPATH . 'wp-includes/user.php' );
+        require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
         foreach($users as $user)
         {
 
@@ -193,7 +194,14 @@ class BhaaImport
 			if(isset($user->dateofbirth))
 				update_user_meta( $id, 'bhaa_runner_dateofbirth', $user->dateofbirth);
 			if(isset($user->company))
+			{
 				update_user_meta( $id, 'bhaa_runner_company', $user->company);
+				p2p_type( 'company_to_runner' )->connect( 
+						$user->company, 
+						$user->id, 
+						array('date' => current_time('mysql')
+				) );
+        	}
 			if(isset($user->companyname))
 				update_user_meta( $id, 'bhaa_runner_companyname', $user->companyname);			
 			//         	team,
@@ -227,8 +235,9 @@ class BhaaImport
 			if(isset($user->dateofrenewal))
 				update_user_meta( $id, 'bhaa_runner_dateofrenewal', $user->dateofrenewal);
 			
-			echo '<p>'.$id.'</p>';
-			error_log($id);
+			$msg = $id.' '.$name.' '.$user->companyname;
+			echo '<p>'.$msg.'</p>';
+			error_log($msg);
 			
 			$u = new WP_User( $id );
 			$u->add_role( 'subscriber' );
@@ -405,9 +414,9 @@ class BhaaImport
     			insertdate,
     			dateofrenewal
     		FROM runner where 
-   			status ="M"'));
-//   			id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
-  //  			7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
+   			id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
+  			7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
+   			//   			status ="M"'));
     		// status != 'D'"));
     		// ID IN (%d,%d)",7713,1050));
 	}
