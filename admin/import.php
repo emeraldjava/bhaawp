@@ -277,6 +277,32 @@ class BhaaImport
 			error_log($mgs);
 		}
 	}
+		
+	function getForumThreads()
+	{
+		$db = $this->getGlfusionDB();
+		return $db->get_results(
+			$db->prepare('select id,pid,uid,FROM_UNIXTIME(date),subject,comment,views,bhaa_runner_id
+				from gl_forum_topic join gluser_bhaarunner on 
+				gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid=0 order by id'));		
+	}
+	
+	function getForumPosts()
+	{
+		$db = $this->getGlfusionDB();
+		return $db->get_results(
+				$db->prepare('select id,pid,uid,FROM_UNIXTIME(date),subject,comment,views,bhaa_runner_id
+						from gl_forum_topic join gluser_bhaarunner on
+						gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid!=0 order by id'));
+	}
+	
+	function deleteForum()
+	{
+		global $wpdb;
+		$wpdb->query($wpdb->prepare("DELETE FROM gl_forum_topic"));
+		$wpdb->query($wpdb->prepare("DELETE FROM wp_forum_posts"));
+	}
+	
 	
 	function getStories()
 	{
