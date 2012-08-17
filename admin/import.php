@@ -108,7 +108,7 @@ class BhaaImport
 			// default location 1
 			$emLocation = new EM_Location();
 			$emLocation->location_owner = 1;
-			$emLocation->location_name = $event->tag.' '.$event->location;
+			$emLocation->location_name = $event->location;
 			$emLocation->location_slug = $event->tag;
 			$emLocation->location_address = $event->location;
 			$emLocation->location_status = 'publish';
@@ -120,15 +120,17 @@ class BhaaImport
 			//echo '<p>emLocation '.$emLocation->post_id.' '.$emLocation->location_id.'</p>';
 				
 			$emEvent = new EM_Event();
-			$emEvent->event_name = $event->name;
+			//$emEvent->event_id = $event->id;
+			$emEvent->event_name = $event->tag;
+			//$emEvent->post_name = $event->tag;
 			$emEvent->event_slug = $event->tag;
 			$emEvent->event_owner = 1;
 			$emEvent->event_start_date = $event->date;
 			$emEvent->event_end_date = $event->date;
 			$emEvent->event_all_day = 0;
 			$emEvent->event_start_time = '11:00:00';
-			$emEvent->event_end_time = '11:00:00';
-			$emEvent->post_content = $event->name.' - '.$event->tag;
+			$emEvent->event_end_time = '12:00:00';
+			$emEvent->post_content = $event->name;//.' - '.$event->tag;
 			$emEvent->event_status = 'publish';
 			$emEvent->event_date_created = date('Y-m-d H:i:s');
 			$emEvent->location_id=$emLocation->location_id;
@@ -365,9 +367,9 @@ class BhaaImport
 	
 	function getEvents()
 	{
-		global $wpdb;
-		return $wpdb->get_results($wpdb->prepare(
-			'SELECT id,name,tag,date,location FROM event LIMIT %d',100)
+		$db = $this->getBhaaDB();
+		return $db->get_results($db->prepare(
+			'SELECT id,name,tag,date,location FROM event order by id desc LIMIT %d',10)
 		);
 	}
 	
