@@ -54,6 +54,12 @@ class BhaaImport
 			$this->importRaceResults();
 		elseif($_GET['action']=='deleteRaceResults')
 			$this->deleteRaceResults();
+		elseif($_GET['action']=='topics')
+			$this->importTopics();
+		elseif($_GET['action']=='posts')
+			$this->importPosts();
+		elseif($_GET['action']=='deleteForum')
+			$this->deleteForum();
 		else
 			$this->greet();
 		$this->footer();
@@ -87,6 +93,10 @@ class BhaaImport
 		echo '<a href="admin.php?import=bhaa&action=companies">Import BHAA Companies</a> - <a href="admin.php?import=bhaa&action=deleteCompanies">Delete Companies</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=races">Import BHAA Races</a> - <a href="admin.php?import=bhaa&action=deleteRaces">Delete Races</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=raceResults">Import BHAA Race Results</a> - <a href="admin.php?import=bhaa&action=deleteRaceResults">Delete Race Results</a><br/>';
+		
+		echo '<a href="admin.php?import=bhaa&action=topics">Import BHAA Topics</a> - 
+			<a href="admin.php?import=bhaa&action=posts">Import BHAA Posts</a> - 
+				<a href="admin.php?import=bhaa&action=deleteForum">Delete Forum</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -277,12 +287,54 @@ class BhaaImport
 			error_log($mgs);
 		}
 	}
+	
+	function importTopics()
+	{
+		global $wpdb;
+		$count = 0;
+		$threads = $this->getForumThreads();
 		
+		foreach($threads as $thread)
+		{
+			// INSERT INTO `wp_forum_threads`(`id`, `parent_id`, `views`, `subject`, `date`, `status`, `closed`, `mngl_id`, `starter`, `last_post`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6],[value-7],[value-8],[value-9],[value-10])
+			$wpdb->query($wpdb->prepare(
+				"insert into wp_forum_threads(id,parent_id,views,subject,date,status,closed,mngl_id,starter,last_post)
+				VALUES (%d,%d,%d,%s,%s,%s,%d,%d,%d,%s)",
+				$thread->id,1,$thread->views,$thread->subject,$thread->date,'open',0,-1,1,$thread->date));
+			
+			$wpdb->query($wpdb->prepare(
+				"insert into wp_forum_posts(id,text,parent_id,date,author_id,subject,views)
+				VALUES (%d,%s,%d,%s,%d,%s,%d)",
+				$thread->id,$thread->comment,$thread->id,$thread->date,$thread->bhaa_runner_id,$thread->subject,$thread->views));
+		}		
+		$mgs = 'added topics';
+		echo '<p>'.$mgs.'</p>';
+		error_log($mgs);
+	}
+	
+	function importPosts()
+	{
+		global $wpdb;
+		$count = 0;
+		$posts = $this->getForumPosts();
+		
+		foreach($posts as $post)
+		{
+			$wpdb->query($wpdb->prepare(
+				"insert into wp_forum_posts(id,text,parent_id,date,author_id,subject,views)
+				VALUES (%d,%s,%d,%s,%d,%s,%d)",
+				$post->id,$post->comment,$post->pid,$post->date,$post->bhaa_runner_id,$post->subject,$post->views));
+		}
+		$mgs = 'added posts';
+		echo '<p>'.$mgs.'</p>';
+		error_log($mgs);
+	}
+	
 	function getForumThreads()
 	{
 		$db = $this->getGlfusionDB();
 		return $db->get_results(
-			$db->prepare('select id,pid,uid,FROM_UNIXTIME(date),subject,comment,views,bhaa_runner_id
+			$db->prepare('select id,pid,uid,FROM_UNIXTIME(date) as date,subject,comment,views,bhaa_runner_id
 				from gl_forum_topic join gluser_bhaarunner on 
 				gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid=0 order by id'));		
 	}
@@ -291,7 +343,7 @@ class BhaaImport
 	{
 		$db = $this->getGlfusionDB();
 		return $db->get_results(
-				$db->prepare('select id,pid,uid,FROM_UNIXTIME(date),subject,comment,views,bhaa_runner_id
+				$db->prepare('select id,pid,uid,FROM_UNIXTIME(date) as date,subject,comment,views,bhaa_runner_id
 						from gl_forum_topic join gluser_bhaarunner on
 						gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid!=0 order by id'));
 	}
@@ -299,7 +351,7 @@ class BhaaImport
 	function deleteForum()
 	{
 		global $wpdb;
-		$wpdb->query($wpdb->prepare("DELETE FROM gl_forum_topic"));
+		$wpdb->query($wpdb->prepare("DELETE FROM wp_forum_threads"));
 		$wpdb->query($wpdb->prepare("DELETE FROM wp_forum_posts"));
 	}
 	
