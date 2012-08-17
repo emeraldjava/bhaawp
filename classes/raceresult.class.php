@@ -70,19 +70,19 @@ class RaceResult extends WP_List_Table
 		}
 	}
 	
-	function column_race($item){
-		$actions = array(
-				'edit'      => sprintf('<a href="?page=%s&action=%s&race=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID'])
-			//	'delete'    => sprintf('<a href="?page=%s&action=%s&race=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID']),
-		);
-		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
-	}
+// 	function column_race($item){
+// 		$actions = array(
+// 				'edit'      => sprintf('<a href="?page=%s&action=%s&race=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID'])
+// 			//	'delete'    => sprintf('<a href="?page=%s&action=%s&race=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID']),
+// 		);
+// 		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
+// 	}
 	
-	function column_cb($item) {
-		return sprintf(
-				'<input type="checkbox" name="book[]" value="%s" />', $item['ID']
-		);
-	}
+// 	function column_cb($item) {
+// 		return sprintf(
+// 				'<input type="checkbox" name="book[]" value="%s" />', $item['ID']
+// 		);
+// 	}
 	
 	/**
 	 * 
