@@ -41,16 +41,17 @@ class RaceResult extends WP_List_Table
 		$columns = array(
 			//'cb'        => '<input type="checkbox" />',
 			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text
-			'race'     => 'Race',
+			//'race'     => 'Race',
 			'runner'    => 'Runner',
 			'display_name'    => 'Name',
+			'cname'    => 'Company',
 			'racetime'  => 'Time',
 			'position'  => 'Position',
 			'racenumber' => 'Number',
 			'category'  => 'Category',
 			'standard'  => 'Std',
 			'paceKM'  => 'Pace',
-			'class'  => 'Class'
+			//'class'  => 'Class'
 		);
 		return $columns;
 	}
@@ -58,16 +59,17 @@ class RaceResult extends WP_List_Table
 	function column_default( $item, $column_name ) {
 		switch( $column_name )
 		{
-			case 'race':
+			//case 'race':
 			case 'runner':
 			case 'display_name':
+			case 'cname':
 			case 'racetime':
 			case 'position':
 			case 'racenumber':
 			case 'category':
 			case 'standard':
 			case 'paceKM':
-			case 'class':
+			//case 'class':
 				return $item[$column_name];
 			default:
 				return print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
@@ -104,9 +106,12 @@ class RaceResult extends WP_List_Table
 				.$wpdb->prefix .'bhaa_raceresult 
 				join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
 		else
-			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
+			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name,
+			cid.meta_value as cid,cname.meta_value as cname FROM '
 				.$wpdb->prefix .'bhaa_raceresult 
 				join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
+left join wp_usermeta as cid on cid.user_id=wp_users.id and cid.meta_key="bhaa_runner_company"
+left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="bhaa_runner_companyname"
 				where race='.$race;
 		
 		//echo $query;
