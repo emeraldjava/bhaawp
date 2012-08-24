@@ -93,6 +93,7 @@ class RaceResult extends WP_List_Table
 	/**
 	 * http://localhost/?post_type=company&p=100
 	 * http://webtide.wordpress.com/2010/12/15/using-custom-permalinks-with-custom-post-types-in-wordpress/
+	 * http://wordpress.org/support/topic/custom-post-type-permalink-structure
 	 * @param unknown_type $item
 	 * @return string
 	 */
