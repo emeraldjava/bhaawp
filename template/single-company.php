@@ -33,6 +33,8 @@ $users = get_users( array(
 		'connected_items' => $post
 ) );
 ?>
+
+<h4><?php echo get_the_term_list( the_ID(), 'sector', 'Sector: ', ', ', ''); ?></h4>
 <h3>Runners :</h3>
 <ul>
 <?php foreach ( $users AS $user ) : ?>
