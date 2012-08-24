@@ -66,7 +66,7 @@ class Company
 	        'has_archive' => true,
 	        'query_var' => true,
 	        'can_export' => true,
-	        'rewrite' => true,
+	    	'rewrite' => true,
 	        'capability_type' => 'post'
 	    );
 	    register_post_type( 'company', $companyArgs );
