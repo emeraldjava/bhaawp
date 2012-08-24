@@ -543,9 +543,9 @@ class BhaaImport
 	{
 		global $wpdb;
 		$wpdb->query($wpdb->prepare(
-			"DELETE FROM wp_users where ID != %d",1));
+			"DELETE FROM wp_users where ID!=%d and ID!=%d",1,7713));
 		$wpdb->query($wpdb->prepare(
-			"DELETE FROM wp_usermeta WHERE user_id != %d",1));
+			"DELETE FROM wp_usermeta WHERE user_id!=%d and user_id!=%d",1,7713));
 	}
 	
 	function importRaces()
@@ -654,7 +654,7 @@ class BhaaImport
 				class
 				FROM raceresult 
 				JOIN runner on runner.id=raceresult.runner
-		runner IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
+		where runner.id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
 		7713, 1500, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
 //				where runner.status="M" order by race desc'));
 //		runner IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
