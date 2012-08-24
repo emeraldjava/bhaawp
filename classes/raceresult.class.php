@@ -9,7 +9,7 @@ if(!class_exists('WP_List_Table')){
  * http://wpengineer.com/2426/wp_list_table-a-step-by-step-guide/
  * http://codex.wordpress.org/Class_Reference/WP_List_Table
  * http://wp.smashingmagazine.com/2011/11/03/native-admin-tables-wordpress/
- * 
+ *
  * @author oconnellp
  *
  */
@@ -19,12 +19,12 @@ class RaceResult extends WP_List_Table
 		global $status, $page;
 		//Set parent defaults
 		parent::__construct( array(
-				'singular'  => 'RaceResult',    
-				'plural'    => 'RaceResults',   
-				'ajax'      => false    
+				'singular'  => 'RaceResult',
+				'plural'    => 'RaceResults',
+				'ajax'      => false
 		));
 	}
-	
+
 	/**
 	 * 		$raceResultSql = "race int(11) NOT NULL,
 			runner int(11) NOT NULL,
@@ -39,70 +39,82 @@ class RaceResult extends WP_List_Table
 	 */
 	function get_columns(){
 		$columns = array(
-			'cb'        => '<input type="checkbox" />',
+			//'cb'        => '<input type="checkbox" />',
 			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text
 			'race'     => 'Race',
 			'runner'    => 'Runner',
+			'display_name'    => 'Name',
 			'racetime'  => 'Time',
 			'position'  => 'Position',
 			'racenumber' => 'Number',
 			'category'  => 'Category',
 			'standard'  => 'Std',
+			'paceKM'  => 'Pace',
 			'class'  => 'Class'
 		);
 		return $columns;
 	}
-		
+
 	function column_default( $item, $column_name ) {
-		switch( $column_name ) 
+		switch( $column_name )
 		{
 			case 'race':
 			case 'runner':
+			case 'display_name':
 			case 'racetime':
 			case 'position':
 			case 'racenumber':
 			case 'category':
 			case 'standard':
+			case 'paceKM':
 			case 'class':
 				return $item[$column_name];
 			default:
 				return print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
 		}
 	}
-	
-// 	function column_race($item){
-// 		$actions = array(
-// 				'edit'      => sprintf('<a href="?page=%s&action=%s&race=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID'])
-// 			//	'delete'    => sprintf('<a href="?page=%s&action=%s&race=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID']),
-// 		);
-// 		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
-// 	}
-	
+
+//  	function column_race($item){
+//  		$actions = array(
+//  				'edit'      => sprintf('<a href="?page=%s&action=%s&race=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID']),
+//  				'delete'    => sprintf('<a href="?page=%s&action=%s&race=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID'])
+//  		);
+//  		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
+//  	}
+
 // 	function column_cb($item) {
 // 		return sprintf(
 // 				'<input type="checkbox" name="book[]" value="%s" />', $item['ID']
 // 		);
 // 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
-	function prepare_items($race) 
+	function prepare_items($race)
 	{
 		$columns = $this->get_columns();
 		$hidden = array();
 		$sortable = array();
 		$this->_column_headers = array($columns, $hidden, $sortable);
-		
+
 		global $wpdb;
 		if(!isset($race))
-			$query = "SELECT * FROM ".$wpdb->prefix .'bhaa_raceresult';
-		else 
-			$query = 'SELECT * FROM '.$wpdb->prefix .'bhaa_raceresult where race='.$race;
+			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
+				.$wpdb->prefix .'bhaa_raceresult 
+				join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
+		else
+			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
+				.$wpdb->prefix .'bhaa_raceresult 
+				join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
+				where race='.$race;
+		
+		//echo $query;
 		$totalitems = $wpdb->query($query);
+		//echo $totalitems;
 		$this->items = $wpdb->get_results($query,ARRAY_A);
 	}
-	
+
 	function table($race)
 	{
 		if ( !current_user_can( 'manage_options' ) )  {
