@@ -99,6 +99,7 @@ class Race
 		
 	/**
 	 * display the meta fields
+	 * http://www.netmagazine.com/tutorials/user-friendly-custom-fields-meta-boxes-wordpress
 	 * @param unknown_type $post
 	 */
 	public function raceMetaRender( $post ) {
