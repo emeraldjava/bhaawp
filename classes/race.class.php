@@ -13,6 +13,7 @@
  */
 class Race
 {
+	const bhaa_race_csv = 'bhaa_race_csv';
 	public $meta_fields = array( 'title', 'description', 'siteurl', 'category', 'post_tags' );
 	
 	/**
@@ -111,6 +112,9 @@ class Race
 		
 		$raceid = get_post_custom_values('bhaa_race_id', $post->ID);
 		print '<p>ID <input type="text" name="bhaa_race_id" value="'.$raceid[0].'" /></p>';
+		
+		$csv = get_post_custom_values(bhaa_race_csv, $post->ID);
+		print '<p>CSV<textarea cols=100 rows=20 name="bhaa_race_csv">'.$csv.'</textarea></p>';
 	}
 	
 	/**
@@ -125,13 +129,25 @@ class Race
 			return;
 	
 		if ( !empty($_POST['bhaa_race_distance']))
+		{
+			error_log($post_id .' -> bhaa_race_distance -> '.$_POST['bhaa_race_distance']);
 			update_post_meta( $post_id, 'bhaa_race_distance', $_POST['bhaa_race_distance'] );
-	
-		if ( !empty($_POST['bhaa_race_unit']))
-			update_post_meta( $post_id, 'bhaa_race_unit', $_POST['bhaa_race_unit'] );
-
+		}
+			
+		if ( !empty($_POST[bhaa_race_csv]))
+		{
+			error_log($post_id .' -> bhaa_race_csv -> '.$_POST[bhaa_race_csv]);
+			update_post_meta( $post_id, bhaa_race_csv, $_POST[bhaa_race_csv] );
+		}
+		
 		if ( !empty($_POST['bhaa_race_id']))
 			update_post_meta( $post_id, 'bhaa_race_id', $_POST['bhaa_race_id'] );
+		
+		if ( !empty($_POST['bhaa_race_distance']))
+		{
+			error_log($post_id .' -> bhaa_race_distance -> '.$_POST['bhaa_race_distance']);
+			update_post_meta( $post_id, 'bhaa_race_distance', $_POST['bhaa_race_distance'] );
+		}
 	}
 		
 	/**
