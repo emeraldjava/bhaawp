@@ -1,11 +1,22 @@
 <?php
-class Race extends Base
+/**
+ * The Race class register a Custom Post Type to track race meta details.
+ * 
+ * The bhaa meta fields are tracked via a metabox, and raceresults can be imported once
+ * via csv string. The details are inserted into RaceResult details.
+ * 
+ * The custom page view reused the WP_List_Table to provide a view of the results.
+ *  
+ * http://www.netmagazine.com/tutorials/user-friendly-custom-fields-meta-boxes-wordpress
+ * @author oconnellp
+ *
+ */
+class Race
 {
 	public $meta_fields = array( 'title', 'description', 'siteurl', 'category', 'post_tags' );
 	
 	/**
 	 * https://github.com/emeraldjava/tmp-bmx/blob/master/controllers/events_controller.php
-	 * 
 	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series1/
 	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series2/
  	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series3/
@@ -13,12 +24,16 @@ class Race extends Base
 	 */
 	public function Race()
 	{
+		add_action( 'init', array(&$this,'getCPT'));
 		add_action( 'add_meta_boxes', array( &$this, 'raceMeta' ) );
 		add_action( 'save_post', array( &$this, 'saveRaceMeta' ) );
 		add_filter( 'template_include', array( &$this, 'race_templates') ) ;
-		add_action( 'init', array(&$this,'getCPT'));
 	}
 	
+	/**
+	 * use a custom post template.
+	 * @param unknown_type $template
+	 */
 	function race_templates( $template ) {
 		$post_types = array( 'race' );
 		if ( is_post_type_archive( $post_types ) && ! file_exists( get_stylesheet_directory() . '/archive-race.php' ) )
@@ -27,52 +42,43 @@ class Race extends Base
 			$template = BHAAWP_PATH.'/template/single-race.php';
 		return $template;
 	}
-	
-// 	function get_custom_post_type_template($single_template) {
-// 		global $post;
-	
-// 		if ($post->post_type == 'race') {
-// 			$single_template = dirname( __FILE__ ) . '/single-race.php';
-// 		}
-// 		return $single_template;
-// 	}
 		
 	public function getCPT()
 	{
 		$raceLabels = array(
-				'name' => _x( 'Races', 'race' ),
-				'singular_name' => _x( 'Race', 'race' ),
-				'add_new' => _x( 'Add New', 'race' ),
-				'add_new_item' => _x( 'Add New Race', 'race' ),
-				'edit_item' => _x( 'Edit race', 'race' ),
-				'new_item' => _x( 'New race', 'race' ),
-				'view_item' => _x( 'View race', 'race' ),
-				'search_items' => _x( 'Search races', 'race' ),
-				'not_found' => _x( 'No races found', 'race' ),
-				'not_found_in_trash' => _x( 'No races found in Trash', 'race' ),
-				'parent_item_colon' => _x( 'Parent event:', 'event' ),
-				'menu_name' => _x( 'races', 'race' ),
+			'name' => _x( 'Races', 'race' ),
+			'singular_name' => _x( 'Race', 'race' ),
+			'add_new' => _x( 'Add New', 'race' ),
+			'add_new_item' => _x( 'Add New Race', 'race' ),
+			'edit_item' => _x( 'Edit race', 'race' ),
+			'new_item' => _x( 'New race', 'race' ),
+			'view_item' => _x( 'View race', 'race' ),
+			'search_items' => _x( 'Search races', 'race' ),
+			'not_found' => _x( 'No races found', 'race' ),
+			'not_found_in_trash' => _x( 'No races found in Trash', 'race' ),
+			'parent_item_colon' => _x( 'Parent event:', 'event' ),
+			'menu_name' => _x( 'races', 'race' ),
 		);
 	
 		$raceArgs = array(
-				'labels' => $raceLabels,
-				'hierarchical' => false,
-				'description' => 'bhaa race post',
-				'supports' => array( 'title', 'editor'),// 'custom-fields', 'page-attributes' ),
-				'public' => true,
-				'show_ui' => true,
-				'show_in_menu' => true,
-				'show_in_nav_menus' => true,
-				'publicly_queryable' => true,
-				'exclude_from_search' => false,
-				'has_archive' => true,
-				'query_var' => 'race',
-				'can_export' => true,
-				'publicly_queryable' => true,
-				'rewrite' => true, //array('slug' => 'race'),
-				'capability_type' => 'post'
+			'labels' => $raceLabels,
+			'hierarchical' => false,
+			'description' => 'bhaa race post',
+			'supports' => array('title','excerpt'),// 'custom-fields', 'page-attributes' ),
+			//'register_meta_box_cb' => 'raceMeta',
+			'public' => true,
+			'show_ui' => true,
+			'show_in_menu' => true,
+			'show_in_nav_menus' => true,
+			'publicly_queryable' => true,
+			'exclude_from_search' => false,
+			'has_archive' => true,
+			'query_var' => 'race',
+			'can_export' => true,
+			'publicly_queryable' => true,
+			'rewrite' => true, //array('slug' => 'race'),
+			'capability_type' => 'post'
 		);
-		//require_once( ABSPATH . 'wp-admin/includes/post.php' );
 		register_post_type( 'race', $raceArgs );
 	}
 	
@@ -85,7 +91,7 @@ class Race extends Base
 			__( 'BHAA Race Details', 'bhaa-race-meta' ),
 			array(&$this, 'raceMetaRender'),
 			'race',
-			'side', 
+			'advanced', 
 			'low'
 		);
 	}
@@ -97,16 +103,20 @@ class Race extends Base
 	public function raceMetaRender( $post ) {
 		//wp_nonce_field( plugin_basename( __FILE__ ), 'myplugin_noncename' );
 	
-		$distance = get_post_custom_values('bhaa-race-distance', $post->ID);
+		$distance = get_post_custom_values('bhaa_race_distance', $post->ID);
 		print '<p>Distance <input type="text" name="bhaa_race_distance" value="'.$distance[0].'" /></p>';
 	
-		$unit = get_post_custom_values('bhaa-race-unit', $post->ID);
+		$unit = get_post_custom_values('bhaa_race_unit', $post->ID);
 		print '<p>Unit <input type="text" name="bhaa_race_unit" value="'.$unit[0].'" /></p>';
 		
-		$raceid = get_post_custom_values('bhaa-race-id', $post->ID);
-		print '<p>Unit <input type="text" name="bhaa_race_id" value="'.$raceid[0].'" /></p>';
+		$raceid = get_post_custom_values('bhaa_race_id', $post->ID);
+		print '<p>ID <input type="text" name="bhaa_race_id" value="'.$raceid[0].'" /></p>';
 	}
 	
+	/**
+	 * Save the race meta data
+	 * @param unknown_type $post_id
+	 */
 	public function saveRaceMeta( $post_id ){
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			return;
@@ -115,13 +125,13 @@ class Race extends Base
 			return;
 	
 		if ( !empty($_POST['bhaa_race_distance']))
-			update_post_meta( $post_id, 'bhaa_race_distance', $_POST['bhaa-race-distance'] );
+			update_post_meta( $post_id, 'bhaa_race_distance', $_POST['bhaa_race_distance'] );
 	
 		if ( !empty($_POST['bhaa_race_unit']))
-			update_post_meta( $post_id, 'bhaa_race_unit', $_POST['bhaa-race-unit'] );
+			update_post_meta( $post_id, 'bhaa_race_unit', $_POST['bhaa_race_unit'] );
 
 		if ( !empty($_POST['bhaa_race_id']))
-			update_post_meta( $post_id, 'bhaa_race_id', $_POST['bhaa-race-id'] );
+			update_post_meta( $post_id, 'bhaa_race_id', $_POST['bhaa_race_id'] );
 	}
 		
 	/**
@@ -156,12 +166,5 @@ class Race extends Base
 			}
 		}
 	}
-	
-// 	function listRaces($attr)
-// 	{
-// 		global $wpdb;
-// 		$resultx = $wpdb->get_results($wpdb->prepare("SELECT id,event,distance,unit FROM ".$wpdb->race));
-// 		return $this->loadTemplate('races',array('result' => $resultx));
-// 	}
 }
 ?>

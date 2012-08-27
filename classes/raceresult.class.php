@@ -20,8 +20,8 @@ class RaceResult extends WP_List_Table
 		//Set parent defaults
 		parent::__construct( array(
 				'singular'  => 'RaceResult',
-				'plural'    => 'RaceResults',
-				'ajax'      => false
+				'plural'    => 'RaceResults'
+				//'ajax'      => false
 		));
 	}
 
@@ -133,9 +133,9 @@ left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="
 
 	function table($race)
 	{
-		if ( !current_user_can( 'manage_options' ) )  {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
+		//if ( !current_user_can( 'manage_options' ) )  {
+		//	wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		//}
 		echo '<div class="wrap"><h2>BHAA Race Result Admin Page</h2>';
 		$this->prepare_items($race);
 		$this->display();

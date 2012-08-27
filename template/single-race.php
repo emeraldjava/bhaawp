@@ -36,53 +36,10 @@ echo $loader->raceresult->table(get_post_meta(get_the_ID(),'bhaa_race_id',true))
 ?>
 <hr/>
 <?php
-global $wpdb;
-$result = $wpdb->get_results(
-	$wpdb->prepare('SELECT * FROM '.$wpdb->raceresult.' where race=%d',get_post_meta(get_the_ID(),'bhaa_race_id',true)));
+//global $wpdb;
+//$result = $wpdb->get_results(
+	//$wpdb->prepare('SELECT * FROM '.$wpdb->raceresult.' where race=%d',get_post_meta(get_the_ID(),'bhaa_race_id',true)));
 ?>
-
-<!-- TODO we should really use the WP_TABLE_LIST for race results here! -->
-
-<table id="mylist" class="sortable">
-    <thead>
-        <tr>
-        	<th>Position</th>
-            <th>Runner</th>
-            <th>Time</th>
-            <th>Number</th>
-            <th>Standard</th>
-            <th>Pace</th>
-            <th>Category</th>
-        </tr>
-    </thead>
-<tbody id="the-list">
-<?php foreach ( $result AS $row ) : $class = ('alternate' == $class) ? '' : 'alternate'; ?>
-<?php 
-$url = get_permalink();
-$url = add_query_arg('type', 'race', $url);
-$url = add_query_arg('id', $row->race, $url);
-?>
-<tr class="<?php echo $class ?>">
-	<td><?php echo $row->position ?></td>
-	<td><?php
-	if(get_userdata($row->runner))
-	{
-		$user = new WP_User( $row->runner );
-		echo $user->display_name;
-	}
-	else
-	{
-		echo $row->runner;		
-	}?></td>
-	<td><?php echo $row->racetime ?></td>
-	<td><?php echo $row->racenumber ?></td>
-	<td><?php echo $row->standard ?></td>
-	<td><?php echo $row->paceKM ?></td>
-	<td><?php echo $row->category ?></td>
-</tr>
-<?php endforeach; ?>
-</tbody>
-</table>
 
 </div><!-- .entry-content -->
 
