@@ -13,11 +13,7 @@
  */
 global $EM_Event;
 /* @var $EM_Event EM_Event */
-
 echo $EM_Event->output_single();
-echo '<div>POC</div>';
-echo '<h2>BHAA</h2>';
-
 ?>
 
 <?php
@@ -31,7 +27,7 @@ $connected = new WP_Query( array(
 // Display connected pages
 if ( $connected->have_posts() ) :
 ?>
-<h3>Races</h3>
+<h2>BHAA Races</h2>
 <ul>
 <?php while ( $connected->have_posts() ) : $connected->the_post(); ?>
 	<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
@@ -41,6 +37,5 @@ if ( $connected->have_posts() ) :
 <?php
 // Prevent weirdness
 wp_reset_postdata();
-
 endif;
 ?>
