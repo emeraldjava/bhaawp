@@ -7,7 +7,8 @@
  * @since Twenty Eleven 1.0
  */
 
-get_header(); ?>
+get_header(); 
+?>
 
 		<div id="primary">
 			<div id="content" role="main">
@@ -36,10 +37,19 @@ $connected = new WP_Query( array(
 // Display connected pages
 if ( $connected->have_posts() ) :
 ?>
-<h3>Related pages:</h3>
+<h3>Events in League</h3>
 <ul>
 <?php while ( $connected->have_posts() ) : $connected->the_post(); ?>
-	<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+	<?php 
+	//$EM_Event = new EM_Events( array( 'post_id'=>the_ID() ) );
+	
+	$EM_Event = em_get_event(the_ID(),'post_id');
+	//$EM_Event = new EM_Event(the_ID());
+	//echo var_dump($EM_Event);
+	echo 'date '.$EM_Event->event_start_date;
+		
+	echo get_post_type(); ?>
+	<li><a href="<?php the_permalink(); ?>"><?php the_title().' '.the_ID(); ?></a></li>
 <?php endwhile; ?>
 </ul>
 
