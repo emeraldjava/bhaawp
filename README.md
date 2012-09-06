@@ -3,27 +3,25 @@ bhaawp
 
 Wordpress plugin for the Business Houses Athletic Assoication
 
-shortcode details
+User profile
+- http://stackoverflow.com/questions/6755921/wordpress-adding-columns-to-user-profile
+- http://wordpress.org/extend/plugins/wordpress-users/developers/
+- http://stackoverflow.com/questions/11669817/issue-with-wordpress-adding-extra-user-profile-fields
+- http://stackoverflow.com/questions/2982047/wordpress-create-profile-pages-for-users
 
-[bhaa] - lists all events
+Custom Post Types
+- http://wp.smashingmagazine.com/2012/02/03/custom-post-types-organize-online-marketing-campaigns/
 
-[bhaa type=event id=201205] - list a specific event by id
+Linking post types
+- http://wordpress.org/extend/plugins/posts-to-posts/
 
-[bhaa type=races] - lists all races
+Event Manager
 
-[bhaa type=raceresult] - list race results
+WP_List_Table
+- http://mac-blog.org.ua/942/ edit/delete links on the WP_Table_List
 
-The main issue i'm having is how to cross link the url's on the specific tables to
-drill down from events -> event -> races -> race.
+PHP Manual
+- http://www.php.net/manual/en/function.strchr.php
 
-http://wp.smashingmagazine.com/2012/02/03/custom-post-types-organize-online-marketing-campaigns/
-
-
-
-
-
-
-
-
-
-
+Email Notification
+- http://codex.wordpress.org/Function_Reference/wp_new_user_notification
