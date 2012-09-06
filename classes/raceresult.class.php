@@ -10,6 +10,8 @@ if(!class_exists('WP_List_Table')){
  * http://codex.wordpress.org/Class_Reference/WP_List_Table
  * http://wp.smashingmagazine.com/2011/11/03/native-admin-tables-wordpress/
  *
+ * to handle the edit/delete row
+ * http://mac-blog.org.ua/942/
  * @author oconnellp
  *
  */
