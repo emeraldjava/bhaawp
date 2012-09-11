@@ -1,17 +1,14 @@
 /**
  * Theme Name: BHAA
- * Theme URI: http://cmbdesign.com
+ * Theme URI: 
  * Description: A serene blogging theme that emphasizes your content with readable typography. It uses post formats; has three nav menu locations; and supports one-, two-, and three-column layouts. Updated to resolve a compatibility issue with my life 0.2
- * Version: 0.3
- * Author: Ross McKinley
- * Author URI: http://wrossmck.wordpress.com
+ * Version: 0.1
+ * Author: 
+ * Author URI: 
  * Template: twentyeleven
  * Tags: theme-options, threaded-comments, microformats, translation-ready, rtl-language-support, one-column, two-columns, three-columns, right-sidebar, left-sidebar, fixed-width, sticky-post, custom-background, custom-header, custom-menu, full-width-template, post-formats, featured-images, featured-image-header
  * License: GNU General Public License v2.0
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- *
- * Copyright (c) 2012 Ross McKinley.  All rights reserved.
- * http://wrossmck.wordpress.com
  */
  
 @import url("../twentyeleven/style.css");
