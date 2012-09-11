@@ -27,7 +27,7 @@ $connected = new WP_Query( array(
 // Display connected pages
 if ( $connected->have_posts() ) :
 ?>
-<h2>BHAA Races</h2>
+<h2>See the Race Results</h2>
 <ul>
 <?php while ( $connected->have_posts() ) : $connected->the_post(); ?>
 	<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
