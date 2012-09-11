@@ -3,14 +3,14 @@
 Plugin Name: BHAA wordpress plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.07.23
+Version: 2012.09.11
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.08.15';
+	var $version = '2012.09.11';
 	
 	var $admin;
 	
