@@ -13,6 +13,10 @@
 		<input type="text" name="user_name" id="user_name" class="input" <?php if(!empty($_REQUEST['user_name'])) echo "value='{$_REQUEST['user_name']}'"; ?> />
 	</p>
 	<p>
+		<label for='gender'><?php _e('Gender','dbem') ?></label>
+		<input type="text" name="gender" id="gender" class="input" <?php if(!empty($_REQUEST['user_name'])) echo "value='{$_REQUEST['gender']}'"; ?> />
+	</p>
+	<p>
 		<label for='date_of_birth'><?php _e('Date Of Birth','dbem') ?></label>
 		<input type="text" name="date_of_birth" id="date_of_birth" class="input" <?php if(!empty($_REQUEST['user_name'])) echo "value='{$_REQUEST['date_of_birth']}'"; ?> />
 	</p>
@@ -24,9 +28,13 @@
 		<label for='user_email'><?php _e('E-mail','dbem') ?></label> 
 		<input type="text" name="user_email" id="user_email" class="input" <?php if(!empty($_REQUEST['user_email'])) echo "value='{$_REQUEST['user_email']}'"; ?>  />
 	</p>
+	<p>
+		<label for='company'><?php _e('Company','dbem') ?></label> 
+		<input type="text" name="company" id="company" class="input" <?php if(!empty($_REQUEST['user_email'])) echo "value='{$_REQUEST['company']}'"; ?>  />
+	</p>
 	<?php do_action('register_form'); //careful if making an add-on, this will only be used if you're not using custom booking forms ?>					
 <?php endif; ?>		
-<p>
-	<label for='booking_comment'><?php _e('Comment', 'dbem') ?></label>
-	<textarea name='booking_comment'><?php echo !empty($_POST['booking_comment']) ? $_POST['booking_comment']:'' ?></textarea>
-</p>	
+<!-- <p>
+	<label for='booking_comment'><php _e('Comment', 'dbem') ?></label>
+	<textarea name='booking_comment'><php echo !empty($_POST['booking_comment']) ? $_POST['booking_comment']:'' ?></textarea>
+</p>-->	
