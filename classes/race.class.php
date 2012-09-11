@@ -58,7 +58,7 @@ class Race
 			'not_found' => _x( 'No races found', 'race' ),
 			'not_found_in_trash' => _x( 'No races found in Trash', 'race' ),
 			'parent_item_colon' => _x( 'Parent event:', 'event' ),
-			'menu_name' => _x( 'races', 'race' ),
+			'menu_name' => _x( 'BHAA Races', 'race' ),
 		);
 	
 		$raceArgs = array(

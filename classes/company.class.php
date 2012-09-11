@@ -48,7 +48,7 @@ class Company
 	        'not_found' => _x( 'No companies found', 'company' ),
 	        'not_found_in_trash' => _x( 'No companies found in Trash', 'company' ),
 	        'parent_item_colon' => _x( 'Parent Company:', 'company' ),
-	        'menu_name' => _x( 'Companies', 'company' ),
+	        'menu_name' => _x( 'BHAA Companies', 'company' ),
 	    );
 	
 	    $companyArgs = array( 

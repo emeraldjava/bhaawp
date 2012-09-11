@@ -63,7 +63,7 @@ class League
 	        'not_found' => _x( 'No league found', 'league' ),
 	        'not_found_in_trash' => _x( 'No leagues found in Trash', 'league' ),
 	        'parent_item_colon' => _x( 'Parent League:', 'league' ),
-	        'menu_name' => _x( 'Companies', 'league' ),
+	        'menu_name' => _x( 'BHAA Leagues', 'league' ),
 	    );
 	
 	    $leagueArgs = array( 
