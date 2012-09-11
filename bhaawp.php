@@ -15,7 +15,6 @@ class BhaaLoader
 	var $admin;
 	
 	var $company;
-	var $event;
 	var $race;
 	var $league;
 	
@@ -121,13 +120,8 @@ class BhaaLoader
 		global $bhaaAJAX;
 		
 		// classes
-		require_once (dirname (__FILE__) . '/classes/base.class.php');
 		require_once (dirname (__FILE__) . '/classes/company.class.php');
 		$this->company = new Company();
-		require_once (dirname (__FILE__) . '/classes/event.class.php');
-		$this->event = new Event();
-		//require_once (dirname (__FILE__) . '/classes/runner.class.php');
-		//$this->runner = new Runner();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
 		$this->race = new Race();
 		require_once (dirname (__FILE__) . '/classes/league.class.php');
