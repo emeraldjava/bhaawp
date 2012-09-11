@@ -37,5 +37,9 @@ if ( $connected->have_posts() ) :
 <?php
 // Prevent weirdness
 wp_reset_postdata();
+else :
+{
+	echo "No races have been linked to this event yet.";
+}
 endif;
 ?>
