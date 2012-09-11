@@ -6,3 +6,5 @@ Username : %username%
 Password : %password%
 
 To view your bookings, please visit <?php echo em_get_my_bookings_url(); ?> after logging in.
+
+BHAA : Please email info@bhaa.ie with any new user queries. 

@@ -10,3 +10,5 @@ Price: <?php echo em_get_currency_symbol(!get_option('dbem_smtp_html'))." ". num
 
 
 <?php endforeach; ?>
+
+BHAA : Please email info@bhaa.ie with any booking queries.
