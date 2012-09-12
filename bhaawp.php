@@ -114,15 +114,8 @@ class BhaaLoader
 		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
-		require_once (dirname (__FILE__) . '/lib/ajax.php');
-		//require_once (dirname (__FILE__) . '/lib/stats.php');
-		//require_once (dirname (__FILE__) . '/lib/shortcodes.php');
-		//require_once (dirname (__FILE__) . '/lib/widget.php');
-		//require_once (dirname (__FILE__) . '/functions.php');
-		//require_once (dirname (__FILE__) . '/lib/championship.php');
-		
-		//$this->loadSports();
-		$bhaaAjax = new BhaaAjax();		
+		//require_once (dirname (__FILE__) . '/lib/ajax.php');
+ 		//$bhaaAjax = new BhaaAjax();		
 	}
 	
 	/**
@@ -144,7 +137,10 @@ class BhaaLoader
 	function addShortCodes()
 	{
 		// TODO add short code link for racetec registration form.
-		//add_shortcode( 'bhaa', array($this,'bhaa_shortcode'));
+		
+		// register two short codes to have the runner class display the required form fields.
+		add_shortcode( 'newrunnerform', array($this->runner,'new_runner_form'));
+		add_shortcode( 'dayrunnerform', array($this->runner,'day_runner_form'));
 	}
 	
 	public function bhaa_shortcode($attributes)

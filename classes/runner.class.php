@@ -24,6 +24,16 @@ class Runner
 		$this->__construct();
 	}
 	
+	function day_runner_form()
+	{
+		echo "display the subset of day runner specific fields";
+	}
+	
+	function new_runner_form()
+	{
+		echo "display the full set of new runner specific fields";
+	}
+	
 	// http://bavotasan.com/2009/adding-extra-fields-to-the-wordpress-user-profile/
 	function add_bhaa_profile_fields($user) {
 	
