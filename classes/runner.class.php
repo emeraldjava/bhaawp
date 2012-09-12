@@ -1,8 +1,15 @@
 <?php
+/**
+ * The runner class will handle user registration and editing of BHAA specific meta-data fields.
+ * @author oconnellp
+ *
+ */
 class Runner
 {
 	function __construct()
 	{
+		add_action('show_user_profile',array(&$this, 'add_extra_profile_fields'));
+		add_action('edit_user_profile',array(&$this, 'extra_user_profile_fields'));
 	}
 	
 	function Runner()
@@ -10,72 +17,29 @@ class Runner
 		$this->__construct();
 	}
 	
+	// http://bavotasan.com/2009/adding-extra-fields-to-the-wordpress-user-profile/
+	function add_extra_profile_fields($user) {
 	
-	public function getTableName()
-	{
-		global $wpdb;
-		return $wpdb->prefix .'bhaa_runner';
-	}
+		$bhaa_runner_address1 = get_usermeta($user->ID,'bhaa_runner_address1');
+		echo '<h3>BHAA Data</h3>';
+		echo '<table class="form-table">
+		<tr>
+		<th><label for="address">Address 1</label></th>
+		<td>
+		<input type="text" name="address" id="address" value="'.$bhaa_runner_address1.'" class="regular-text" /><br />
+		<span class="description">Please enter your address.</span>
+		</td>
+		</table>';
 		
-	public function createTable()
-	{
-		global $wpdb;
-		include_once( ABSPATH.'/wp-admin/includes/upgrade.php' );
-		
-		$charset_collate = '';
-		if ( $wpdb->has_cap( 'collation' ) ) {
-			if ( ! empty($wpdb->charset) )
-				$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-			if ( ! empty($wpdb->collate) )
-				$charset_collate .= " COLLATE $wpdb->collate";
-		}
-		
-		// The ID will be foreign key'ed to the wp_user table
-		$sql = "CREATE TABLE " . $this->getTableName() . " (
-			`id` int(11) NOT NULL auto_increment,
-			`firstname` varchar(20) NOT NULL,
-			`surnamename` varchar(20) NOT NULL,
-			`gender` enum('M','W') DEFAULT 'M',
-			`status` varchar(2) NOT NULL,
-			`standard` varchar(2) NOT NULL,
-			dateofbirth date NOT NULL,
-			email varchar(20),
-			textmessage enum('Y','N') default 'N',
-			mobilephone varchar(12) default NULL,
-			newsletter enum('Y','N') default 'N',
-			insertdate date NOT NULL,
-			renewaldate date NOT NULL,
-			address1 varchar(20) default NULL,
-			address2 varchar(20) default NULL,
-			address3 varchar(20) default NULL,
-			PRIMARY KEY  (`id`)
-			) ENGINE=InnoDB $charset_collate;";
-		dbDelta($sql);
-		
-		$wpdb->insert( $this->getTableName(), 
-			array( 'id' => '7713',
-				 	'firstname'=>'P',
-					'surnamename'=>'O C',
-					'gender'=>'M',
-					'status' => 'Tymon Park',
-					'standard' => '4',
-					'dateofbirth' => '1977-11-18' ) );
-		$wpdb->insert( $this->getTableName(),
-				array( 'id' => '2000',
-					'firstname'=>'J',
-					'surnamename'=>'Bloggs',
-					'gender'=>"M",
-					'status' => 'M',
-					'standard' => '4',
-					'dateofbirth' => '1980-01-01' ) );
-		$wpdb->insert( $this->getTableName(),
-				array( 'id' => '1000',
-						'firstname'=>'Jane',
-						'surnamename'=>'Doe',
-						'gender'=>"W",
-						'status' => 'M',
-						'standard' => '4',
-						'dateofbirth' => '1980-01-01' ) );
+		echo '<table class="form-table">
+		<tr>
+		<th><label for="address">Address 2</label></th>
+		<td>
+		<input type="text" name="address" id="address" value="'.get_usermeta($user->ID,'bhaa_runner_address2').'" class="regular-text" /><br />
+		<span class="description">Please enter your address.</span>
+		</td>
+		</table>';
+		// add extra profile fields to user edit page
 	}
 }
 ?>
