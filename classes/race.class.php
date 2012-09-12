@@ -115,7 +115,7 @@ class Race
 		print '<p>ID <input type="text" name="bhaa_race_id" value="'.$raceid[0].'" /></p>';
 		
 		$csv = get_post_custom_values(bhaa_race_csv, $post->ID);
-		print '<p>CSV<textarea cols=100 rows=20 name="bhaa_race_csv">'.$csv.'</textarea></p>';
+		print '<p>CSV<textarea cols=10 rows=2 name="bhaa_race_csv">'.$csv.'</textarea></p>';
 	}
 	
 	/**

@@ -9,9 +9,13 @@
  * 
  * -- add bhaa fields to registration
  * http://wordpress.org/support/topic/howto-custom-registration-fields
+ * http://www.tutorialstag.com/create-custom-wordpress-registration-page.html
  *
  * -- use email as the login (we'll set the username based on first last name
  * http://wordpress.stackexchange.com/questions/51678/how-to-login-with-email-only-no-username
+ * 
+ * -- show bhaa logo on the login/registration page
+ * http://www.paulund.co.uk/change-wordpress-login-logo-without-a-plugin
  */
 class Runner
 {

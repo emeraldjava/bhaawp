@@ -25,6 +25,10 @@ class RaceResult extends WP_List_Table
 				'plural'    => 'RaceResults'
 				//'ajax'      => false
 		));
+		
+		// register a meta box to edit the row
+		//add_meta_box('persons_form_meta_box', 'Person data', 'custom_table_example_persons_form_meta_box_handler', 'person', 'normal', 'default');
+		
 	}
 
 	/**
@@ -43,7 +47,7 @@ class RaceResult extends WP_List_Table
 		$columns = array(
 			//'cb'        => '<input type="checkbox" />',
 			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text
-			//'race'     => 'Race',
+			'race'     => 'Race',
 			'runner'    => 'Runner',
 			'display_name'    => 'Name',
 			'cname'    => 'Company',
@@ -61,7 +65,7 @@ class RaceResult extends WP_List_Table
 	function column_default( $item, $column_name ) {
 		switch( $column_name )
 		{
-			//case 'race':
+			case 'race':
 			case 'runner':
 			case 'display_name':
 			case 'cname':
@@ -78,13 +82,13 @@ class RaceResult extends WP_List_Table
 		}
 	}
 
-//  	function column_race($item){
-//  		$actions = array(
-//  				'edit'      => sprintf('<a href="?page=%s&action=%s&race=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID']),
-//  				'delete'    => sprintf('<a href="?page=%s&action=%s&race=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID'])
-//  		);
-//  		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
-//  	}
+ 	function column_race($item){
+ 		$actions = array(
+ 				'edit'      => sprintf('<a href="?page=%s&action=%s&race=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID']),
+ 				'delete'    => sprintf('<a href="?page=%s&action=%s&race=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID'])
+ 		);
+ 		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
+ 	}
 
 // 	function column_cb($item) {
 // 		return sprintf(
@@ -143,5 +147,15 @@ left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="
 		$this->display();
 		echo '</div>';
 	}
+	
+	/**
+	 * handle the meta box for edits
+	 * @param unknown_type $item
+	 */
+	function custom_table_example_persons_form_meta_box_handler($item)
+	{
+		
+	}
+	
 }
 ?>
