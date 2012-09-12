@@ -230,13 +230,13 @@ class BhaaImport
 				update_user_meta( $id, 'bhaa_runner_textmessage', $user->textmessage);
 			//         	address1,
 			if(isset($user->address1))
-				update_user_meta( $id, 'bhaa_runner_address1', $user->address1);
+				update_user_meta( $id, Runner::BHAA_RUNNER_ADDRESS1, $user->address1);
 			//         	address2,
 			if(isset($user->address2))
-				update_user_meta( $id, 'bhaa_runner_address2', $user->address2);
+				update_user_meta( $id, Runner::BHAA_RUNNER_ADDRESS2, $user->address2);
 			//         	address3,
 			if(isset($user->address3))
-				update_user_meta( $id, 'bhaa_runner_address3', $user->address3);
+				update_user_meta( $id, Runner::BHAA_RUNNER_ADDRESS3, $user->address3);
 			//         	status,
 			if(isset($user->status))
 				update_user_meta( $id, 'bhaa_runner_status', $user->status);

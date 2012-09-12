@@ -6,6 +6,10 @@
  */
 class Runner
 {
+	const BHAA_RUNNER_ADDRESS1 = 'bhaa_runner_address1';
+	const BHAA_RUNNER_ADDRESS2 = 'bhaa_runner_address2';
+	const BHAA_RUNNER_ADDRESS3 = 'bhaa_runner_address3';
+	
 	function __construct()
 	{
 		add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
@@ -23,7 +27,7 @@ class Runner
 	// http://bavotasan.com/2009/adding-extra-fields-to-the-wordpress-user-profile/
 	function add_bhaa_profile_fields($user) {
 	
-		$bhaa_runner_address1 = get_usermeta($user->ID,'bhaa_runner_address1');
+		$bhaa_runner_address1 = get_usermeta($user->ID,Runner::BHAA_RUNNER_ADDRESS1);
 		echo '<h3>BHAA Data</h3>';
 		echo '<table class="form-table">
 		<tr>
@@ -38,7 +42,16 @@ class Runner
 		<tr>
 		<th><label for="bhaa_runner_address2">Address 2</label></th>
 		<td>
-		<input type="text" name="bhaa_runner_address2" id="bhaa_runner_address2" value="'.get_usermeta($user->ID,'bhaa_runner_address2').'" class="regular-text" /><br />
+		<input type="text" name="bhaa_runner_address2" id="bhaa_runner_address2" value="'.get_usermeta($user->ID,Runner::BHAA_RUNNER_ADDRESS2).'" class="regular-text" /><br />
+		<span class="description">Please enter your address.</span>
+		</td>
+		</table>';
+		
+		echo '<table class="form-table">
+		<tr>
+		<th><label for="bhaa_runner_address2">Address 3</label></th>
+		<td>
+		<input type="text" name="bhaa_runner_address3" id="bhaa_runner_address3" value="'.get_usermeta($user->ID,Runner::BHAA_RUNNER_ADDRESS3).'" class="regular-text" /><br />
 		<span class="description">Please enter your address.</span>
 		</td>
 		</table>';
@@ -51,8 +64,9 @@ class Runner
 			return false;
 		}
 	
-		update_user_meta( $user_id, 'bhaa_runner_address1', $_POST['bhaa_runner_address1'] );
-		update_user_meta( $user_id, 'bhaa_runner_address2', $_POST['bhaa_runner_address2'] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS1, $_POST[Runner::BHAA_RUNNER_ADDRESS1] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS2, $_POST[Runner::BHAA_RUNNER_ADDRESS2] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS3, $_POST[Runner::BHAA_RUNNER_ADDRESS3] );
 		//update_user_meta( $user_id, 'province', $_POST['province'] );
 		//update_user_meta( $user_id, 'postalcode', $_POST['postalcode'] );
 	}
