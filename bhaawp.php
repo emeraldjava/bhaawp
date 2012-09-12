@@ -132,6 +132,7 @@ class BhaaLoader
 	
 	function addShortCodes()
 	{
+		// TODO add short code link for racetec registration form.
 		//add_shortcode( 'bhaa', array($this,'bhaa_shortcode'));
 	}
 	
@@ -173,14 +174,8 @@ class BhaaLoader
 	function defineConstants()
 	{
 		define('BHAAWP_PATH', plugin_dir_path(__FILE__));
-	
 		global $wpdb;
-	
-		// tables
-		//$wpdb->event        = $wpdb->prefix.'bhaa_event';
-		//$wpdb->race   		= $wpdb->prefix.'bhaa_race';
 		$wpdb->raceresult 	= $wpdb->prefix.'bhaa_raceresult';
-		//$wpdb->company    	= $wpdb->prefix.'bhaa_company';
 	}
 	
 	public static function activate()
