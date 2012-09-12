@@ -6,7 +6,10 @@
 //Here we have extra information required for the booking. 
 ?>
 <?php if( !is_user_logged_in() && apply_filters('em_booking_form_show_register_form',true) ): ?>
-	<?php //User can book an event without registering, a username will be created for them based on their email and a random password will be created. ?>
+	<?php //User can book an event without registering, a username will be created for them based on their email and a random password will be created. 
+	echo do_shortcode('[dayrunnerform]');
+	?>
+	
 	<input type="hidden" name="register_user" value="1" />
 	<p>
 		<label for='user_name'><?php _e('Name','dbem') ?></label>
