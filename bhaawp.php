@@ -86,7 +86,8 @@ class BhaaLoader
 	function initialize()
 	{
 		// Add the script and style files
-		add_action('wp_head', array(&$this, 'loadScripts') );
+		//add_action('wp_head', array(&$this, 'loadScripts') );
+		add_action('wp_enqueue_scripts',array(&$this,'loadScripts'));
 		//add_action('wp_print_styles', array(&$this, 'loadStyles') );
 	}
 		
@@ -124,8 +125,18 @@ class BhaaLoader
 		$bhaaAjax = new BhaaAjax();		
 	}
 	
+	/**
+	 * http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 */
 	function loadScripts()
-	{}
+	{
+		wp_deregister_script( 'jquery' );
+		wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
+		wp_enqueue_script( 'jquery' );
+		
+		wp_register_script('bhaawp', plugins_url('bhaawp/assets/js/bhaawp.jquery.js'), array('jquery'));
+		wp_enqueue_script('bhaawp');
+	}
 	
 	function loadStyle()
 	{}

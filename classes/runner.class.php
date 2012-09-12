@@ -55,6 +55,9 @@ class Runner
 		<span class="description">Please enter your address.</span>
 		</td>
 		</table>';
+		
+		echo '<p>Date: <input type="text" id="datepicker"></p>';
+		
 		// add extra profile fields to user edit page
 	}
 	
