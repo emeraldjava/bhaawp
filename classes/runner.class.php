@@ -1,8 +1,17 @@
 <?php
 /**
  * The runner class will handle user registration and editing of BHAA specific meta-data fields.
+ * 
+ * users will use email to login
+ * username will be firstname.surname
+ * 
  * @author oconnellp
+ * 
+ * -- add bhaa fields to registration
+ * http://wordpress.org/support/topic/howto-custom-registration-fields
  *
+ * -- use email as the login (we'll set the username based on first last name
+ * http://wordpress.stackexchange.com/questions/51678/how-to-login-with-email-only-no-username
  */
 class Runner
 {
@@ -12,6 +21,17 @@ class Runner
 	
 	function __construct()
 	{
+		// registration actions
+		add_action('register_form',array(&$this,'bhaa_registration_fields')); // day details
+		//add_action('register_post','check_fields',10,3);
+		add_action('user_register',array(&$this,'register_bhaa_fields'));
+
+		// remove the default filter
+		remove_filter('authenticate',array(&$this,'wp_authenticate_username_password'), 20, 3);
+		// add custom filter
+		add_filter('authenticate',array(&$this,'bhaa_authenticate_username_password'), 20, 3);
+		
+		// user profile stuff
 		add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
 		add_action('edit_user_profile',array(&$this,'add_bhaa_profile_fields'));
 		
@@ -23,6 +43,57 @@ class Runner
 	{
 		$this->__construct();
 	}
+	
+	function bhaa_authenticate_username_password( $user, $username, $password ) {
+	
+		// If an email address is entered in the username box,
+		// then look up the matching username and authenticate as per normal, using that.
+		if ( ! empty( $username ) )
+			$user = get_user_by( 'email', $username );
+	
+		if ( isset( $user->user_login, $user ) )
+			$username = $user->user_login;
+	
+		// using the username found when looking up via email
+		return wp_authenticate_username_password( NULL, $username, $password );
+	}
+	
+	function bhaa_registration_fields()
+	{
+		echo '<p><label>First Name<br />';
+		echo '<input id="user_email" class="input" type="text" tabindex="20" size="25" value="'.$_POST['first'].'" name="first"/></label></p>';
+		
+		echo '<p><label>Last Name<br />';
+		echo '<input id="user_email" class="input" type="text" tabindex="20" size="25" value="'.$_POST['last'].'" name="last"/></label></p>';
+		
+		echo '<p><label for="user_login">Date Of Birth<br/>';
+		echo '<input type="text" name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth" class="input" value="" size="20" tabindex="10" /></label></p>';		
+		
+		echo '<p><label for="user_login">Gender<br/>';
+		echo '<input type="text" name="bhaa_runner_gender" id="bhaa_runner_gender" class="input" value="" size="20" tabindex="10" /></label></p>';
+	}
+	
+	function register_bhaa_fields($user_id, $password="", $meta=array()) 
+	{
+		// Gotta put all the info into an array
+		$userdata = array();
+		$userdata['ID'] = $user_id;
+		
+		// First name
+		$userdata['first_name'] = $_POST['first'];
+		
+		// Last Name
+		$userdata['last_name'] = $_POST['last'];
+		
+		// Enters into DB
+		wp_update_user($userdata);
+		
+		// This is for custom meta data "gender" is the custom key and M is the value
+		// update_usermeta($user_id, 'gender','M');
+		update_user_meta( $user_id, 'bhaa_runner_dateofbirth', $_POST['bhaa_runner_dateofbirth']);
+		update_user_meta( $user_id, 'bhaa_runner_gender', $_POST['bhaa_runner_gender']);
+	}
+	
 	
 	function day_runner_form()
 	{
