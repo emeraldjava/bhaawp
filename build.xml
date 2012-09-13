@@ -5,7 +5,7 @@
 		<echo message="copy"/>
 		<copy todir="C:\poconnell\tools\wamp\www\wp-content\plugins\gitbhaawp" overwrite="true" verbose="true">
 			<fileset dir=".">
-				<include name="**/*.php"/>
+				<include name="**/*"/>
 				<exclude name="*.xml"/>
 			</fileset>
 		</copy>
