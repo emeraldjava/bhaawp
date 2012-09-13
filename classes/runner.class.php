@@ -65,16 +65,16 @@ class Runner
 	function bhaa_registration_fields()
 	{
 		echo '<p><label>First Name<br />';
-		echo '<input id="user_email" class="input" type="text" tabindex="20" size="25" value="'.$_POST['first'].'" name="first"/></label></p>';
+		echo '<input id="user_email" class="input" type="text" tabindex="20" size="20" value="" name="first"/></label></p>';
 		
 		echo '<p><label>Last Name<br />';
-		echo '<input id="user_email" class="input" type="text" tabindex="20" size="25" value="'.$_POST['last'].'" name="last"/></label></p>';
+		echo '<input id="user_email" class="input" type="text" tabindex="20" size="20" value="" name="last"/></label></p>';
 		
-		echo '<p><label for="user_login">Date Of Birth<br/>';
-		echo '<input type="text" name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth" class="input" value="" size="20" tabindex="10" /></label></p>';		
+		echo '<p><label for="user_login">Date Of Birth<br />';
+		echo '<input type="text" class="input" type="text" tabindex="20" size="20" name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth"/></label></p>';		
 		
-		echo '<p><label for="user_login">Gender<br/>';
-		echo '<input type="text" name="bhaa_runner_gender" id="bhaa_runner_gender" class="input" value="" size="20" tabindex="10" /></label></p>';
+		echo '<p><label for="user_login">Gender<br />';
+		echo '<input type="text" class="input" type="text" tabindex="20" size="20" name="bhaa_runner_gender" id="bhaa_runner_gender"/></label></p>';
 	}
 	
 	function register_bhaa_fields($user_id, $password="", $meta=array()) 

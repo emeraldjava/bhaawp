@@ -1,4 +1,8 @@
-var $j = jQuery.noConflict();
-$j(function(){
-	$j("#datepicker").datepicker();
+//var $j = jQuery.noConflict();
+jQuery(document).ready( function(){
+	
+	jQuery(function() {
+		jQuery("#bhaa_runner_dateofbirth").datepicker();
+	});
+	//jQuery("#bhaa_runner_dateofbirth").datepicker();
 });

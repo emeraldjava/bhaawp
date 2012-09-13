@@ -35,9 +35,9 @@ class BhaaLoader
 		//$this->loadTextdomain();
 		$this->loadLibraries();
 	
-		add_action( 'widgets_init', array(&$this, 'registerWidget') );
+		//add_action( 'widgets_init', array(&$this, 'registerWidget') );
 		// Start this plugin once all other plugins are fully loaded
-		add_action( 'plugins_loaded', array(&$this, 'initialize') );
+		//add_action( 'plugins_loaded', array(&$this, 'initialize') );
 		//add_action( 'init', array(&$this,'register_cpt_company'));
 		add_action( 'wp_loaded', array(&$this,'bhaa_connection_types'));
 		
@@ -52,7 +52,9 @@ class BhaaLoader
 		else 
 		{
 			$this->addShortCodes();
-		}		
+		}
+		// init, wp_head, wp_enqueue_scripts
+		add_action('init', array($this,'load_scripts'));
 	}
 		
 	function bhaa_connection_types() {
@@ -87,7 +89,11 @@ class BhaaLoader
 	{
 		// Add the script and style files
 		//add_action('wp_head', array(&$this, 'loadScripts') );
-		add_action('wp_enqueue_scripts',array(&$this,'loadScripts'));
+		//add_action('wp_enqueue_scripts',array(&$this,'loadScripts'));
+		//add_action('wp_enqueue_scripts',array($this,'load_scripts'));
+		//wp_enqueue_script('bhaawp', plugins_url('assets/js/bhaawp.jquery.js',__FILE__), 
+		//	array('jquery', 'jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog')); //jQuery will load as dependency
+		
 		//add_action('wp_print_styles', array(&$this, 'loadStyles') );
 	}
 		
@@ -122,14 +128,21 @@ class BhaaLoader
 	/**
 	 * http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 */
-	function loadScripts()
+	function load_scripts()
 	{
-		wp_deregister_script( 'jquery' );
-		wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
-		wp_enqueue_script( 'jquery' );
 		
-		wp_register_script('bhaawp', plugins_url('bhaawp/assets/js/bhaawp.jquery.js'), array('jquery'));
-		wp_enqueue_script('bhaawp');
+		//wp_deregister_script( 'jquery' );
+		//wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
+		//wp_enqueue_script( 'jquery' );
+		error_log('load_scripts '.plugins_url('assets/js/bhaawp.jquery.js',__FILE__),0);
+		
+//		wp_enqueue_script('bhaawp', plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
+	//		array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog')); //jQuery will load as dependency
+		
+ 		wp_register_script('bhaawp', plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
+ 			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
+ 		wp_enqueue_script('bhaawp');
+ 		error_log('load_scripts',0);
 	}
 	
 	function loadStyle()
