@@ -108,6 +108,7 @@ class BhaaLoader
 		require_once (dirname (__FILE__) . '/classes/league.class.php');
 		$this->league = new League();
 		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
+		require_once (dirname (__FILE__) . '/classes/raceresulttable.class.php');
 		$this->raceresult = new RaceResult();
 		require_once (dirname (__FILE__) . '/classes/runner.class.php');
 		$this->runner = new Runner();

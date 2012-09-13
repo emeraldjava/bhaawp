@@ -8,10 +8,7 @@ class BhaaAdmin
 	function BhaaAdmin()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
-					
-		//require_once (dirname (__FILE__) . '/raceresult.admin.class.php');
-		//$this->raceResult = new RaceResultAdmin();
-		
+				
 		require_once (dirname (__FILE__) . '/race.admin.php');
 		$this->raceAdmin = new RaceAdmin();
 		

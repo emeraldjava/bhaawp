@@ -19,6 +19,11 @@ Event Manager
 
 WP_List_Table
 - http://mac-blog.org.ua/942/ edit/delete links on the WP_Table_List
+- http://pippinsplugins.com/add-custom-links-to-user-row-actions/
+- http://stackoverflow.com/questions/12092707/wordpress-how-to-enable-the-edit-and-delete-action-button-in-wp-list-table-clas
+- http://www.binnash.com/2012/08/13/using-wordpress-wp_list_table-in-the-frontend/#comment-9
+- http://codex.wordpress.org/Class_Reference/WP_List_Table
+- http://wp.smashingmagazine.com/2011/11/03/native-admin-tables-wordpress/
 
 PHP Manual
 - http://www.php.net/manual/en/function.strchr.php

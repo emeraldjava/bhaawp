@@ -32,7 +32,7 @@ ID : <?php echo the_ID();?>
 <?php //echo do_shortcode('[bhaa type=raceresult id='.get_post_meta(get_the_ID(),'bhaa-race-id',true).']'); ?>
 
 <?php 
-echo $loader->raceresult->table(get_post_meta(get_the_ID(),'bhaa_race_id',true));
+echo $loader->raceresult->getTable()->renderTable(get_post_meta(get_the_ID(),'bhaa_race_id',true));
 ?>
 <hr/>
 <?php
