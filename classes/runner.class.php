@@ -18,16 +18,20 @@
  * http://www.paulund.co.uk/change-wordpress-login-logo-without-a-plugin
  */
 class Runner
-{
+{	
 	const BHAA_RUNNER_ADDRESS1 = 'bhaa_runner_address1';
 	const BHAA_RUNNER_ADDRESS2 = 'bhaa_runner_address2';
 	const BHAA_RUNNER_ADDRESS3 = 'bhaa_runner_address3';
+	
+	const BHAA_RUNNER_STATUS = 'bhaa_runner_status';
+	const MEMBER = 'M';
+	const INACTIVE = 'I';
+	const DAY = 'D';
 	
 	function __construct()
 	{
 		// registration actions
 		add_action('register_form',array(&$this,'bhaa_registration_fields')); // day details
-		//add_action('register_post','check_fields',10,3);
 		add_action('user_register',array(&$this,'register_bhaa_fields'));
 
 		// remove the default filter
@@ -65,16 +69,27 @@ class Runner
 	function bhaa_registration_fields()
 	{
 		echo '<p><label>First Name<br />';
-		echo '<input id="user_email" class="input" type="text" tabindex="20" size="20" value="" name="first"/></label></p>';
+		echo '<input id="user_email" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
 		echo '<p><label>Last Name<br />';
-		echo '<input id="user_email" class="input" type="text" tabindex="20" size="20" value="" name="last"/></label></p>';
+		echo '<input id="user_email" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
 		echo '<p><label for="user_login">Date Of Birth<br />';
-		echo '<input type="text" class="input" type="text" tabindex="20" size="20" name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth"/></label></p>';		
+		echo '<input type="text" class="input validate[custom[date]]" type="text" tabindex="20" size="20" name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth"/></label></p>';		
 		
-		echo '<p><label for="user_login">Gender<br />';
-		echo '<input type="text" class="input" type="text" tabindex="20" size="20" name="bhaa_runner_gender" id="bhaa_runner_gender"/></label></p>';
+		echo '<p><label for="bhaa_runner_gender">Gender<br />';
+		echo '<input type="radio" name="gender" id="bhaa_runner_gender_male" class="validate[required]" value="Male">Male<br>';
+		echo '<input type="radio" name="gender" id="bhaa_runner_gender_female" class="validate[required]" value="Female">Female<br></p>';
+
+		echo '<p><label>Company<br/>';
+		echo '<select name="bhaa_runner_company" id="bhaa_runner_company" class="validate[required]">';
+		echo '<option value="Other">Other</option>';
+		echo '</select>';
+		
+		$nonce = wp_create_nonce('bhaa-nonce');
+		echo '<input type="hidden" id="pf_nonce" name="pf_nonce" value="'.$nonce.'">';
+		echo '<input type="hidden" name="_wp_http_referer" value="/profile/register/">';
+		
 	}
 	
 	function register_bhaa_fields($user_id, $password="", $meta=array()) 
@@ -96,25 +111,27 @@ class Runner
 		// update_usermeta($user_id, 'gender','M');
 		update_user_meta( $user_id, 'bhaa_runner_dateofbirth', $_POST['bhaa_runner_dateofbirth']);
 		update_user_meta( $user_id, 'bhaa_runner_gender', $_POST['bhaa_runner_gender']);
+		update_user_meta( $user_id, 'bhaa_runner_company', $_POST['bhaa_runner_company']);
+		update_user_meta( $user_id, BHAA_RUNNER_STATUS, DAY);
 	}
 	
 	
-	function day_runner_form()
-	{
-		echo "display the subset of day runner specific fields";
-		$this->add_bhaa_profile_fields();
-	}
+// 	function day_runner_form()
+// 	{
+// 		echo "display the subset of day runner specific fields";
+// 		$this->add_bhaa_profile_fields();
+// 	}
 	
-	function new_runner_form()
-	{
-		echo "display the full set of new runner specific fields";
-		$this->add_bhaa_profile_fields();
-	}
+// 	function new_runner_form()
+// 	{
+// 		echo "display the full set of new runner specific fields";
+// 		$this->add_bhaa_profile_fields();
+// 	}
 	
 	// http://bavotasan.com/2009/adding-extra-fields-to-the-wordpress-user-profile/
 	function add_bhaa_profile_fields($user) {
-	
-		$bhaa_runner_address1 = get_usermeta($user->ID,Runner::BHAA_RUNNER_ADDRESS1);
+			
+		$bhaa_runner_address1 = get_user_meta($user->ID,Runner::BHAA_RUNNER_ADDRESS1,true);
 		echo '<h3>BHAA Data</h3>';
 		echo '<table class="form-table">
 		<tr>
@@ -129,7 +146,7 @@ class Runner
 		<tr>
 		<th><label for="bhaa_runner_address2">Address 2</label></th>
 		<td>
-		<input type="text" name="bhaa_runner_address2" id="bhaa_runner_address2" value="'.get_usermeta($user->ID,Runner::BHAA_RUNNER_ADDRESS2).'" class="regular-text" /><br />
+		<input type="text" name="bhaa_runner_address2" id="bhaa_runner_address2" value="'.get_user_meta($user->ID,Runner::BHAA_RUNNER_ADDRESS2,true).'" class="regular-text" /><br />
 		<span class="description">Please enter your address.</span>
 		</td>
 		</table>';
@@ -138,7 +155,7 @@ class Runner
 		<tr>
 		<th><label for="bhaa_runner_address2">Address 3</label></th>
 		<td>
-		<input type="text" name="bhaa_runner_address3" id="bhaa_runner_address3" value="'.get_usermeta($user->ID,Runner::BHAA_RUNNER_ADDRESS3).'" class="regular-text" /><br />
+		<input type="text" name="bhaa_runner_address3" id="bhaa_runner_address3" value="'.get_user_meta($user->ID,Runner::BHAA_RUNNER_ADDRESS3,true).'" class="regular-text" /><br />
 		<span class="description">Please enter your address.</span>
 		</td>
 		</table>';
