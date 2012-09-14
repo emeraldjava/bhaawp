@@ -468,11 +468,16 @@ class BhaaImport
 		);
 	}
 	
+	/**
+	 * 
+	 * http://root/wp-admin/admin.php?import=bhaa&action=users&min=1050&max=1099
+	 * wp-admin/admin.php?import=bhaa&action=users&min=4000&max=4999
+	 * 
+	 * @return Ambigous <mixed, NULL, multitype:, multitype:multitype: , multitype:unknown >
+	 */
 	function getUsers()
     {
-    	$db = $this->getBhaaDB();
-    	return $db->get_results($db->prepare(
-   			'SELECT 
+    	$select = 'SELECT 
     			id,
     			firstname,
     			surname,
@@ -493,12 +498,16 @@ class BhaaImport
     			status,
     			insertdate,
     			dateofrenewal
-    		FROM runner where 
-   			id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
-  			7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
-   			//   			status ="M"'));
-    		// status != 'D'"));
-    		// ID IN (%d,%d)",7713,1050));
+    		FROM runner ';
+    	
+    	$db = $this->getBhaaDB();
+    	$sql = $db->prepare($select.'where id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d) order by id',
+  			7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143);
+    	if($this->min!=0||$this->max!=100)
+    		$sql = $db->prepare($select.'where id>=%d and id<=%d order by id',$this->min,$this->max);
+    	echo '<p>'.$sql.'</p>';
+    	error_log($sql);
+    	return $db->get_results($sql);
 	}
 
 	/**
