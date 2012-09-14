@@ -45,11 +45,23 @@ class RaceResult
 		$action = $_REQUEST['action'];
 		if(!isset($action))
 			echo $this->getTable()->renderTable(201218);
-		else
+		elseif($action="edit")
 		{
 			echo 'The action is '.$action;
-			echo $this->getTable()->renderTable(201218);
+			echo $this->raceresult_table_form_page_handler();
 		}
+		elseif($action="new")
+		{
+			echo 'The action is '.$action;
+			echo $this->raceresult_table_form_page_handler();
+		}
+		elseif($action="save")
+		{
+			echo 'The action is '.$action;
+			echo $this->raceresult_table_form_page_handler();
+		}
+		else
+			echo 'The action is '.$action;
 	}
 	
 	/**
@@ -79,7 +91,7 @@ class RaceResult
 		
 		echo '<div class="wrap">';
 		
-		echo '<form id="form" method="POST">
+		echo '<form id="form" action="save" method="POST">
 			<input type="hidden" name="nonce" value="'.wp_create_nonce(basename(__FILE__)).'"/>
         	<input type="hidden" name="race" value="'.$row['race'].'"/>
     	    <input type="hidden" name="runner" value="'.$row['runner'].'"/>

@@ -84,8 +84,8 @@ class RaceResultTable extends WP_List_Table
 
  	function column_race($item){
  		$actions = array(
- 			'edit'      => sprintf('<a href="?page=%s&action=%s&race=%s">Edit</a>',$_REQUEST['page'],'edit',$item['race']),
- 			'delete'    => sprintf('<a href="?page=%s&action=%s&race=%s">Delete</a>',$_REQUEST['page'],'delete',$item['race'])
+ 			'edit'      => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Edit</a>',$_REQUEST['page'],'edit',$item['race'],$item['runner']),
+ 			'delete'    => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Delete</a>',$_REQUEST['page'],'delete',$item['race'],$item['runner'])
  		);
  		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
  	}
