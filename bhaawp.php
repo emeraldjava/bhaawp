@@ -54,7 +54,7 @@ class BhaaLoader
 			$this->addShortCodes();
 		}
 		// init, wp_head, wp_enqueue_scripts
-		add_action('init', array($this,'load_scripts'));
+		add_action('init', array($this,'enqueue_scripts_and_style'));
 	}
 		
 	function bhaa_connection_types() {
@@ -85,23 +85,6 @@ class BhaaLoader
 		));
 	}
 		
-	function initialize()
-	{
-		// Add the script and style files
-		//add_action('wp_head', array(&$this, 'loadScripts') );
-		//add_action('wp_enqueue_scripts',array(&$this,'loadScripts'));
-		//add_action('wp_enqueue_scripts',array($this,'load_scripts'));
-		//wp_enqueue_script('bhaawp', plugins_url('assets/js/bhaawp.jquery.js',__FILE__), 
-		//	array('jquery', 'jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog')); //jQuery will load as dependency
-		
-		//add_action('wp_print_styles', array(&$this, 'loadStyles') );
-	}
-		
-	function registerWidget()
-	{
-		//register_widget('LeagueManagerWidget');
-	}
-	
 	function loadLibraries()
 	{
 		global $bhaaAJAX;
@@ -126,27 +109,21 @@ class BhaaLoader
 	}
 	
 	/**
+	 * Register bhaa wp jquery rules and css style. 
+	 * 
 	 * http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 * http://stackoverflow.com/questions/5790820/using-jquery-ui-dialog-in-wordpress
 	 */
-	function load_scripts()
+	function enqueue_scripts_and_style()
 	{
-		
-		//wp_deregister_script( 'jquery' );
-		//wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
-		//wp_enqueue_script( 'jquery' );
-		error_log('load_scripts '.plugins_url('assets/js/bhaawp.jquery.js',__FILE__),0);
-		
-//		wp_enqueue_script('bhaawp', plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
-	//		array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog')); //jQuery will load as dependency
-		
  		wp_register_script('bhaawp', plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
  			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
  		wp_enqueue_script('bhaawp');
+ 		
+ 		// 
+ 		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
  		error_log('load_scripts',0);
 	}
-	
-	function loadStyle()
-	{}
 	
 	function addShortCodes()
 	{
