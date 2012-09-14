@@ -45,9 +45,69 @@ class RaceResult
 		echo $this->getTable()->renderTable(201218);
 	}
 	
+	/**
+	 * handle the row form
+	 */
 	function raceresult_table_form_page_handler()
 	{
-		echo "the race results form";
+		//echo "the race results form";
+		
+		$default = array(
+				'race' => 0,
+				'runner' => 0,
+				'time' => 0
+		);
+		$row = $default;
+		
+		add_meta_box('raceresult_form_meta_box', 'Race Result Details', array($this,'raceresult_meta_box'), 'raceresult', 'normal', 'default');
+		
+		echo '<div class="wrap">';
+		
+		echo '<form id="form" method="POST">
+		<input type="hidden" name="nonce" value="'.wp_create_nonce(basename(__FILE__)).'"/>
+        <input type="hidden" name="id" value="'.$row['race'].'_'.$row['runner'].'"/>
+	        <div class="metabox-holder" id="poststuff">
+	            <div id="post-body">
+	                <div id="post-body-content">'
+					.do_meta_boxes('raceresult', 'normal', $row).
+					'<input type="submit" value="Save" id="submit" class="button-primary" name="submit">
+	                </div>
+	            </div>
+	        </div>
+	    </form>';
+		echo '</div>';
+	}
+	
+	function raceresult_meta_box($row)
+	{
+		echo '<table cellspacing="2" cellpadding="5" style="width: 100%;" class="form-table">
+		    <tbody>
+		    <tr class="form-field">
+		        <th valign="top" scope="row">
+		            <label for="race">Race</label>
+		        </th>
+		        <td>
+		            <input id="race" name="race" type="text" style="width: 95%" value="'.$row['race'].'" size="10" class="code" placeholder="race"/>
+		        </td>
+		    </tr>
+		    <tr class="form-field">
+		        <th valign="top" scope="row">
+		            <label for="runner">Runner</label>
+		        </th>
+		        <td>
+	            <input id="runner" name="runner" type="text" style="width: 95%" value="'.$row['runner'].'" size="10" class="code" placeholder="runner"/>
+		        </td>
+		    </tr>
+		    <tr class="form-field">
+		        <th valign="top" scope="row">
+		            <label for="time">Time</label>
+		        </th>
+		        <td>
+		            <input id="time" name="time" type="text" style="width: 95%" value="'.$row['time'].'" size="10" class="code" placeholder="hh:mm:ss" required>
+		        </td>
+		    </tr>
+		    </tbody>
+		</table>';
 	}
 	
 	function getTable()
