@@ -42,7 +42,14 @@ class RaceResult
 	
 	function raceresult_table_page_handler()
 	{
-		echo $this->getTable()->renderTable(201218);
+		$action = $_REQUEST['action'];
+		if(!isset($action))
+			echo $this->getTable()->renderTable(201218);
+		else
+		{
+			echo 'The action is '.$action;
+			echo $this->getTable()->renderTable(201218);
+		}
 	}
 	
 	/**
@@ -53,19 +60,30 @@ class RaceResult
 		//echo "the race results form";
 		
 		$default = array(
-				'race' => 0,
-				'runner' => 0,
-				'time' => 0
+				'race' => $_REQUEST['race'],
+				'runner' => $_REQUEST['runner'],
+				'time' => $_REQUEST['time']
 		);
 		$row = $default;
+		
+		if (wp_verify_nonce($_REQUEST['nonce'], basename(__FILE__)))
+		{
+			// insert or update row
+		}
+		else
+		{
+			// read the row details.
+		}
 		
 		add_meta_box('raceresult_form_meta_box', 'Race Result Details', array($this,'raceresult_meta_box'), 'raceresult', 'normal', 'default');
 		
 		echo '<div class="wrap">';
 		
 		echo '<form id="form" method="POST">
-		<input type="hidden" name="nonce" value="'.wp_create_nonce(basename(__FILE__)).'"/>
-        <input type="hidden" name="id" value="'.$row['race'].'_'.$row['runner'].'"/>
+			<input type="hidden" name="nonce" value="'.wp_create_nonce(basename(__FILE__)).'"/>
+        	<input type="hidden" name="race" value="'.$row['race'].'"/>
+    	    <input type="hidden" name="runner" value="'.$row['runner'].'"/>
+	        <input type="hidden" name="time" value="'.$row['time'].'"/>
 	        <div class="metabox-holder" id="poststuff">
 	            <div id="post-body">
 	                <div id="post-body-content">'
