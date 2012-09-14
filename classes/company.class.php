@@ -8,6 +8,9 @@
  * 
  * http://wp.tutsplus.com/tutorials/theme-development/innovative-uses-of-wordpress-post-types-and-taxonomies/
  * 
+ * ajax search widget
+ * http://wordpress.stackexchange.com/questions/62720/ajax-search-on-post-pages-by-custom-post-type
+ * 
  * @author oconnellp
  *
  */
