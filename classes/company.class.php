@@ -11,6 +11,8 @@
  * ajax search widget
  * http://wordpress.stackexchange.com/questions/62720/ajax-search-on-post-pages-by-custom-post-type
  * 
+ * http://wpsnipp.com/index.php/template/create-multiple-search-templates-for-custom-post-types/
+ * http://thomasgriffinmedia.com/blog/2010/11/how-to-include-custom-post-types-in-wordpress-search-results/
  * @author oconnellp
  *
  */
