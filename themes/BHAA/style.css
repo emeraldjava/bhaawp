@@ -1,0 +1,232 @@
+/**
+ * Theme Name: BHAA
+ * Theme URI: 
+ * Description: A serene blogging theme that emphasizes your content with readable typography. It uses post formats; has three nav menu locations; and supports one-, two-, and three-column layouts. Updated to resolve a compatibility issue with my life 0.2
+ * Version: 0.1
+ * Author: 
+ * Author URI: 
+ * Template: twentyeleven
+ * Tags: theme-options, threaded-comments, microformats, translation-ready, rtl-language-support, one-column, two-columns, three-columns, right-sidebar, left-sidebar, fixed-width, sticky-post, custom-background, custom-header, custom-menu, full-width-template, post-formats, featured-images, featured-image-header
+ * License: GNU General Public License v2.0
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ */
+ 
+@import url("../twentyeleven/style.css");
+
+#branding {
+	z-index:0;
+}
+
+#main {
+	min-height: 500px;
+	background:#eeffff;
+	border-bottom:1px solid #1e5a90;
+	border-left:1px solid #1e5a90;
+	border-right:1px solid #1e5a90;
+	border-top:0 solid #1e5a90;
+	color:#666;
+}
+
+#menu-secondary {
+	margin:-70px auto 0!important;
+}
+
+#menu-secondary li {
+	margin-left:0;
+}
+
+#menu-secondary li a {
+	background:#1e5a90;
+	color:#F3F0E0;
+	font:normal normal bold 11px/14px Arial,"Helvetica Neue",Helvetica,sans-serif;
+	padding:10px 20px;
+	text-transform:uppercase;
+}
+
+#menu-secondary li a:hover {
+	background:#083258;
+}
+
+#menu-secondary li li a {
+	background:#1e5a90;
+	margin:0;
+}
+
+#menu-secondary li ul {
+	padding:0 1px 5px 0;
+}
+
+#menu-secondary li.current-menu-item a {
+	background:#083258;
+}
+
+#menu-secondary li.sfHover a {
+	background:#083258;
+}
+
+#respond #submit:hover {
+	background:#08345a;
+}
+
+#site-description {
+	float:none;
+}
+
+.bhaa-logo {
+	float:left;
+	height:200px;
+	margin-left:100px;
+	margin-top:15px;
+	position:absolute;
+	width:194px;
+}
+
+.comments-closed {
+	background:#1e5a8f;
+	border:1px solid #E2E6E2;
+	color:#999;
+	padding:25px;
+}
+
+.frontpage-image {
+	background:#eeffff;
+	height:auto;
+}
+
+.header-image {
+	background:#eeffff;
+	border-bottom:0 solid #1e5a90;
+	border-left:1px solid #1e5a90;
+	border-right:1px solid #1e5a90;
+	border-top:1px solid #1e5a90;
+	margin:0 auto;
+	padding:4px;
+}
+
+.loop-nav .next {
+	background:#1e5a8f;
+	color:#f3f0e0;
+}
+
+.loop-nav .previous {
+	background:#1e5a8f;
+	color:#f3f0e0;
+}
+
+.loop-nav a:hover span {
+	background:#08345a;
+}
+
+.page-links a {
+	background:#1E5A90;
+}
+
+.page-links a:hover {
+	background:#08345a;
+}
+
+.pagination .current {
+	background:#08345a;
+}
+
+.pagination .page-numbers {
+	background:#1E5A90;
+}
+
+.pagination .page-numbers:hover {
+	background:#08345a;
+}
+
+body {
+	background:url(images/bg.png) repeat 0 0;
+	border-bottom:5px solid #1e5a90;
+	border-top:5px solid #1e5a90;
+}
+
+div.news {
+	margin:0 0 0 30px;
+	width:750px;
+}
+
+div.triphoto {
+	float:left;
+	height:350px;
+	overflow:hidden;
+	padding:5px;
+	text-align:center;
+	width:225px;
+}
+
+img.newsletterIMG {
+	height:300px;
+	width:210px;
+}
+
+label {
+	width:30%;
+	float:left;
+	display: inline;
+	clear: left;
+}
+
+table {
+	background:#1e5a8f;
+	border-left:1px solid #F4F2E7;
+	border-right:1px solid #F4F2E7;
+}
+
+tbody th {
+	background:#eeffff;
+	border-bottom:1px solid #1e5a8f;
+	border-top:1px solid #1e5a8f;
+	border-left:1px solid #1e5a8f;
+	border-right:1px solid #1e5a8f;
+	color:#666;
+}
+
+td {
+	background:#eeffff;
+	border-top:1px solid #1e5a8f;
+	border-bottom:1px solid #1e5a8f;
+	border-left:1px solid #1e5a8f;
+	border-right:1px solid #1e5a8f;
+	color:#666;
+}
+
+tfoot th {
+	background:#08345a;
+	color:#eeffff;
+}
+
+tfoot tr:hover th {
+	background:#08345a;
+	color:#eeffff;
+}
+
+thead th {
+	background:#08345a;
+	color:#eeffff;
+}
+
+thead tr:hover th {
+	background: #1e5a8f;
+	color:#eeffff;
+}
+
+tbody tr:hover th {
+	color: #f3f0e0;
+	background: #1e5a8f;
+}
+#frontpageloginandregister{
+	margin-top:-400px;
+	position: absolute;
+	width: 850px;
+}
+.fplarright{
+	float:right;
+	margin-right: 70px;
+}
+.fplarleft{
+	float:left;
+	margin-left: 70px;
+}

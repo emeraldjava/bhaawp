@@ -1,0 +1,3 @@
+<!-- BHAA functions file -->
+<?php
+?>
