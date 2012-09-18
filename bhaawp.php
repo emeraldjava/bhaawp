@@ -3,21 +3,19 @@
 Plugin Name: BHAA wordpress plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.09.12
+Version: 2012.09.18
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.09.12';
+	var $version = '2012.09.18';
 	
 	var $admin;
-	
 	var $company;
 	var $race;
 	var $league;
-	
 	var $raceresult;
 	var $runner;
 	
@@ -55,8 +53,19 @@ class BhaaLoader
 		}
 		// init, wp_head, wp_enqueue_scripts
 		add_action('init', array($this,'enqueue_scripts_and_style'));
+		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
 	}
-		
+
+	/**
+	 * ajax
+	 * http://thomasgriffinmedia.com/blog/2010/11/how-to-include-custom-post-types-in-wordpress-search-results/
+	 */
+	function bhaa_cpt_search( $query ) {
+		if ( $query->is_search )
+			$query->set( 'post_type', array( 'company' ) );
+		return $query;
+	}
+	
 	function bhaa_connection_types() {
 		// Make sure the Posts 2 Posts plugin is active.
 		require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
@@ -83,6 +92,21 @@ class BhaaLoader
 				'to' => 'user',
 				'cardinality' => 'one-to-many'
 		));
+		
+		add_action('p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
+	}
+		
+	/**
+	 * https://github.com/scribu/wp-posts-to-posts/issues/236
+	 * @param unknown_type $p2p_id
+	 */
+	function bhaa_p2p_created_connection($p2p_id)
+	{
+		$connection = p2p_get_connection( $p2p_id );
+// 		if ( 'some-ctype-name' == $connection->p2p_type ) {
+// 			// do things
+// 		}
+		error_log('bhaa_p2p_created_connection() '.$connection->p2p_type);
 	}
 		
 	function loadLibraries()
