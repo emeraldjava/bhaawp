@@ -31,20 +31,20 @@ class Runner
 	function __construct()
 	{
 		// registration actions
-		add_action('register_form',array(&$this,'bhaa_registration_fields')); // day details
-		add_action('user_register',array(&$this,'register_bhaa_fields'));
+// 		add_action('register_form',array(&$this,'bhaa_registration_fields')); // day details
+// 		add_action('user_register',array(&$this,'register_bhaa_fields'));
 
-		// remove the default filter
-		remove_filter('authenticate',array(&$this,'wp_authenticate_username_password'), 20, 3);
-		// add custom filter
-		add_filter('authenticate',array(&$this,'bhaa_authenticate_username_password'), 20, 3);
+// 		// remove the default filter
+// 		remove_filter('authenticate',array(&$this,'wp_authenticate_username_password'), 20, 3);
+// 		// add custom filter
+// 		add_filter('authenticate',array(&$this,'bhaa_authenticate_username_password'), 20, 3);
 		
-		// user profile stuff
-		add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
-		add_action('edit_user_profile',array(&$this,'add_bhaa_profile_fields'));
+// 		// user profile stuff
+// 		add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
+// 		add_action('edit_user_profile',array(&$this,'add_bhaa_profile_fields'));
 		
-		add_action('personal_options_update',array(&$this,'save_bhaa_user_profile_fields'));
-		add_action('edit_user_profile_update',array(&$this,'save_bhaa_user_profile_fields'));
+// 		add_action('personal_options_update',array(&$this,'save_bhaa_user_profile_fields'));
+// 		add_action('edit_user_profile_update',array(&$this,'save_bhaa_user_profile_fields'));
 	}
 	
 	function Runner()
