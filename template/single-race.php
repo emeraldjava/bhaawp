@@ -21,7 +21,7 @@ get_header(); ?>
 <div class="entry-content">
 
 <!--  http://codex.wordpress.org/Function_Reference/the_ID -->
-
+<p>TODO - LINK THE EVENT URL HERE</p>
 <p>WP Race ID : <?php echo get_the_ID();?></p>
 
 <p>Meta information for this post:</p>
