@@ -3,7 +3,8 @@
  * Remember that this file is only used if you have chosen to override event pages with formats in your event settings!
  * You can also override the single event page completely in any case (e.g. at a level where you can control sidebars etc.), as described here - http://codex.wordpress.org/Post_Types#Template_Files
  * Your file would be named single-event.php
- * 
+ */
+/*
  * This page displays a single event, called during the em_content() if this is an event page.
  * You can override the default display settings pages by copying this file to yourthemefolder/plugins/events-manager/templates/ and modifying it however you need.
  * You can display events however you wish, there are a few variables made available to you:
@@ -32,8 +33,13 @@ else
 	if ( $connected->have_posts() ) :
 	
 		echo '<h2>See the Full Race Results</h2><ul>';
-		while ( $connected->have_posts() ) : $connected->the_post();
-			echo '<li><a href="'.the_permalink().'">'.the_title().'</a></li>';
+		while ( $connected->have_posts() ) : 			
+			$connected->the_post();
+			echo '<li><a href="';
+			the_permalink();
+			echo '">';
+			the_title();
+			echo '</a></li>';
 		endwhile;
 		echo '</ul>';
 		
