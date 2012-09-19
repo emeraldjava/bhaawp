@@ -21,14 +21,10 @@ class RaceResultTable extends WP_List_Table
 		global $status, $page;
 		//Set parent defaults
 		parent::__construct( array(
-				'singular'  => 'RaceResult',
-				'plural'    => 'RaceResults'
-				//'ajax'      => false
-		));
-		
+			'singular'  => 'RaceResult',
+			'plural'    => 'RaceResults'));
 		// register a meta box to edit the row
 		//add_meta_box('persons_form_meta_box', 'Person data', 'custom_table_example_persons_form_meta_box_handler', 'person', 'normal', 'default');
-		
 	}
 
 	/**
@@ -82,13 +78,13 @@ class RaceResultTable extends WP_List_Table
 		}
 	}
 
- 	function column_race($item){
- 		$actions = array(
- 			'edit'      => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Edit</a>',$_REQUEST['page'],'edit',$item['race'],$item['runner']),
- 			'delete'    => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Delete</a>',$_REQUEST['page'],'delete',$item['race'],$item['runner'])
- 		);
- 		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
- 	}
+//  	function column_race($item){
+//  		$actions = array(
+//  			'edit'      => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Edit</a>',$_REQUEST['page'],'edit',$item['race'],$item['runner']),
+//  			'delete'    => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Delete</a>',$_REQUEST['page'],'delete',$item['race'],$item['runner'])
+//  		);
+//  		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
+//  	}
 
 // 	function column_cb($item) {
 // 		return sprintf(
@@ -146,6 +142,9 @@ left join wp_usermeta as cid on cid.user_id=wp_users.id and cid.meta_key="bhaa_r
 left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="bhaa_runner_companyname"
 				where race='.$race;
 		
+		//echo '<p>'.$mgs.'</p>';
+		//error_log($mgs);
+		
 		//echo $query;
 		$totalitems = $wpdb->query($query);
 		//echo $totalitems;
@@ -162,7 +161,7 @@ left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="
 // 		if (!empty($message))
 // 			echo '<div id="message" class="updated"><p>'.$message.'</p></div>';
 		    
-		echo '<div class="wrap"><h2>BHAA Race Result Admin Page</h2>';
+		echo '<div class="wrap"><h2>BHAA Race Results Table</h2>';
 		$this->prepare_items($race);
 		$this->display();
 		echo '</div>';
