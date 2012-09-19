@@ -9,6 +9,8 @@ class BhaaImport
 	var $min = 0;
 	var $max = 100;
 	
+	const BHAA_EVENT_TAG = 'bhaa_event_tag';
+	
 	function BhaaImport()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/import.php' );
@@ -131,7 +133,7 @@ class BhaaImport
 				
 			$emEvent = new EM_Event();
 			//$emEvent->event_id = $event->id;
-			$emEvent->event_name = $event->tag;
+			$emEvent->event_name = $event->name.' '.$event->year; // append the year
 			//$emEvent->post_name = $event->tag;
 			$emEvent->event_slug = $event->tag;
 			$emEvent->event_owner = 1;
@@ -142,15 +144,19 @@ class BhaaImport
 			$emEvent->event_end_time = '12:00:00';
 			$emEvent->post_content = $event->name;//.' - '.$event->tag;
 			$emEvent->event_status = 'publish';
+			
 			$emEvent->event_date_created = date('Y-m-d H:i:s');
 			$emEvent->location_id=$emLocation->location_id;
 			$emEvent->save();
+			
+			update_post_meta($emEvent->post_id,BhaaImport::BHAA_EVENT_TAG,$event->tag);
+			
 			//echo '<p>emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id.'</p>';
 			error_log('emEvent '.$emEvent->post_id.' '.$emEvent->event_name.' '.$emLocation->location_name);
 			echo '<p>'.$count.' - '.$event->id.' '.$event->tag.' '.$event->name.'</p>';
 		}
 	}
-	
+		
 	/**
 	 * http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
 	 * @param unknown_type $users
@@ -214,6 +220,8 @@ class BhaaImport
 						array('date' => current_time('mysql')
 				) );
         	}
+        	if(isset($user->gender))
+        		update_user_meta( $id, 'bhaa_runner_gender', $user->gender);
 			if(isset($user->companyname))
 				update_user_meta( $id, 'bhaa_runner_companyname', $user->companyname);			
 			//         	team,
@@ -447,7 +455,7 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT id,name,tag,date,location FROM event order by id desc LIMIT %d',10)
+			'SELECT id,name,tag,date,YEAR(date) as year,location FROM event order by id desc LIMIT %d',20)
 		);
 	}
 	
@@ -466,12 +474,21 @@ class BhaaImport
 		$wpdb->query($wpdb->prepare(
 			"DELETE FROM wp_posts WHERE post_type = %s",'location')
 		);
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_postmeta WHERE meta_key=%s",BhaaImport::BHAA_EVENT_TAG)
+		);
 	}
 	
 	/**
 	 * 
-	 * http://root/wp-admin/admin.php?import=bhaa&action=users&min=1050&max=1099
-	 * wp-admin/admin.php?import=bhaa&action=users&min=4000&max=4999
+	 * admin.php?import=bhaa&action=users&min=1500&max=3000
+	 * admin.php?import=bhaa&action=users&min=3000&max=4000
+	 * admin.php?import=bhaa&action=users&min=4000&max=5000
+	 * admin.php?import=bhaa&action=users&min=5000&max=6000
+	 * admin.php?import=bhaa&action=users&min=6000&max=6000
+	 * admin.php?import=bhaa&action=users&min=7000&max=6000
+	 * admin.php?import=bhaa&action=users&min=8000&max=6000
+	 * admin.php?import=bhaa&action=users&min=9000&max=9999
 	 * 
 	 * @return Ambigous <mixed, NULL, multitype:, multitype:multitype: , multitype:unknown >
 	 */
@@ -501,8 +518,8 @@ class BhaaImport
     		FROM runner ';
     	
     	$db = $this->getBhaaDB();
-    	$sql = $db->prepare($select.'where id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d) order by id',
-  			7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143);
+    	$sql = $db->prepare($select.'where id IN (%d, %d, %d, %d, %d, %d, %d, %d) order by id',
+  			1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143);
     	if($this->min!=0||$this->max!=100)
     		$sql = $db->prepare($select.'where id>=%d and id<=%d order by id',$this->min,$this->max);
     	echo '<p>'.$sql.'</p>';
@@ -568,8 +585,8 @@ class BhaaImport
 		{
 			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
 			$my_post = array(
-				'post_title' => 'race_'.$row->id,
-				'post_content' => 'race_'.$row->id,
+				'post_title' => $row->tag.'_race_'.$row->id,
+				'post_content' => $row->tag.'_race_'.$row->id,
 				'post_status' => 'publish',
 				'post_author' => 1,
 				'comment_status' => 'closed',
@@ -579,16 +596,30 @@ class BhaaImport
 				'post_type' => 'race'
 			);
 			// Insert the post into the database
-			$post_id = wp_insert_post( $my_post );
+			$race_id = wp_insert_post( $my_post );
 	
-			update_post_meta($post_id,'bhaa_race_id',$row->id);
-			update_post_meta($post_id,'bhaa_race_event',$row->event);
-			update_post_meta($post_id,'bhaa_race_distance',$row->distance);
-			update_post_meta($post_id,'bhaa_race_unit',$row->unit);
-			update_post_meta($post_id,'bhaa_race_type',$row->type);
-			update_post_meta($post_id,'bhaa_race_category',$row->category);
+			update_post_meta($race_id,'bhaa_race_tag',$row->tag);
+			update_post_meta($race_id,'bhaa_race_id',$row->id);
+			update_post_meta($race_id,'bhaa_race_event',$row->event);
+			update_post_meta($race_id,'bhaa_race_distance',$row->distance);
+			update_post_meta($race_id,'bhaa_race_unit',$row->unit);
+			update_post_meta($race_id,'bhaa_race_type',$row->type);
+			update_post_meta($race_id,'bhaa_race_category',$row->category);
 			
-			$mgs = 'added post '.$post_id.' for race '.$row->id;
+			$mgs = 'added post '.$race_id.' for race '.$row->id;
+			
+			// use the BHAA_EVENT_TAG meta tag to lookup the correct event id
+			$dbRow = $wpdb->get_row($wpdb->prepare(
+				'SELECT post_id from wp_postmeta where meta_key="'.BhaaImport::BHAA_EVENT_TAG.'" and meta_value="%s"',$row->tag)
+			);
+			echo '<p>event '.$dbRow->post_id.'</p>';
+			
+			p2p_type( 'event_to_race' )->connect(
+					$dbRow->post_id,
+					$race_id,
+					array('date' => current_time('mysql')
+				));
+			
 			echo '<p>'.$mgs.'</p>';
 			error_log($mgs);
 		}
@@ -598,7 +629,7 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT id,event,starttime,distance,unit,category,type FROM race')// LIMIT %d',10)
+			'SELECT race.id,race.event,event.tag,starttime,distance,unit,category,race.type FROM race join event on race.event=event.id order by race.id desc LIMIT 50')// LIMIT %d',10)
 		);
 	}
 	
@@ -662,9 +693,10 @@ class BhaaImport
 				paceKM,
 				class
 				FROM raceresult 
-				JOIN runner on runner.id=raceresult.runner
-		where runner.id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
-		7713, 1500, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
+				JOIN runner on runner.id=raceresult.runner and runner.status!="D"
+				where raceresult.race>=201220'));
+//		where runner.id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
+//		7713, 1500, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
 //				where runner.status="M" order by race desc'));
 //		runner IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
 //		7713, 1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
