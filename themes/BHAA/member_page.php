@@ -6,5 +6,5 @@
 */
 ?>
 <?php get_header(); ?>
-BHAA Runner Page
+BHAA Runner Page <?php echo $_REQUEST['id'];?>
 <?php get_footer(); ?>
