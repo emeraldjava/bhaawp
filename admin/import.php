@@ -10,6 +10,9 @@ class BhaaImport
 	var $max = 100;
 	
 	const BHAA_EVENT_TAG = 'bhaa_event_tag';
+	var $RACE_ID = '201230';
+	var $EVENT_LIMIT = '10';
+	var $RACE_LIMIT = '40';
 	
 	function BhaaImport()
 	{
@@ -455,7 +458,7 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT id,name,tag,date,YEAR(date) as year,location FROM event order by id desc LIMIT %d',20)
+			'SELECT id,name,tag,date,YEAR(date) as year,location FROM event order by id desc LIMIT '.$this->EVENT_LIMIT)
 		);
 	}
 	
@@ -629,7 +632,7 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT race.id,race.event,event.tag,starttime,distance,unit,category,race.type FROM race join event on race.event=event.id order by race.id desc LIMIT 50')// LIMIT %d',10)
+			'SELECT race.id,race.event,event.tag,starttime,distance,unit,category,race.type FROM race join event on race.event=event.id order by race.id desc LIMIT '.$this->RACE_LIMIT)// LIMIT %d',10)
 		);
 	}
 	
@@ -678,6 +681,8 @@ class BhaaImport
 		}
 	}
 	
+	
+	
 	function getRaceResults()
 	{
 		$db = $this->getBhaaDB();
@@ -694,7 +699,7 @@ class BhaaImport
 				class
 				FROM raceresult 
 				JOIN runner on runner.id=raceresult.runner and runner.status!="D"
-				where raceresult.race>=201220'));
+				where raceresult.race>='.$this->RACE_ID));
 //		where runner.id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
 //		7713, 1500, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
 //				where runner.status="M" order by race desc'));
