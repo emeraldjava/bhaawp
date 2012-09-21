@@ -1,19 +1,7 @@
-<!-- 
-Total hack.
-
-We'll add a new BHAATICKET token to the event manager logic which
-allows us to control the email template via a custom php file.
-
-class  : ./events-manager/classes/em-booking.php
-method : function output($format, $target="html") line 564
-
-case '#_BHAATICKETS':
-	ob_start();
-	em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$this));
-	$replace = ob_get_clean();
-	break;
--->
-
+<html>
+<body>
+<img class="bhaa-logo" src="http://wpdemo.bhaa.ie/wp-content/themes/BHAA/images/logo.png" width="150" height="150" alt="BHAA Logo">
+<div>
 <?php foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking): ?>
 BHAA Ticket
 <?php
@@ -47,3 +35,6 @@ Yours faithfully,
 <?php endforeach; ?>
 
 BHAA : Please email info@bhaa.ie with any booking queries.
+</div>
+</body>
+</html>
