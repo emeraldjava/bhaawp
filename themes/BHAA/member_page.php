@@ -7,4 +7,9 @@
 ?>
 <?php get_header(); ?>
 BHAA Runner Page <?php echo $_REQUEST['id'];?>
+
+<?php 
+echo $loader->raceresult->getTable()->renderRunnerTable($_REQUEST['id']);
+?>
+
 <?php get_footer(); ?>
