@@ -21,25 +21,16 @@ get_header(); ?>
 <div class="entry-content">
 
 <!--  http://codex.wordpress.org/Function_Reference/the_ID -->
-
-Race
-ID : <?php echo the_ID();?>
+<p>TODO - LINK THE EVENT URL HERE</p>
+<p>WP Race ID : <?php echo get_the_ID();?></p>
 
 <p>Meta information for this post:</p>
 <?php the_meta(); ?>
-
-<p>The Shortcode ID : <?php echo get_the_ID();?></p>
-<?php //echo do_shortcode('[bhaa type=raceresult id='.get_post_meta(get_the_ID(),'bhaa-race-id',true).']'); ?>
 
 <?php 
 echo $loader->raceresult->getTable()->renderTable(get_post_meta(get_the_ID(),'bhaa_race_id',true));
 ?>
 <hr/>
-<?php
-//global $wpdb;
-//$result = $wpdb->get_results(
-	//$wpdb->prepare('SELECT * FROM '.$wpdb->raceresult.' where race=%d',get_post_meta(get_the_ID(),'bhaa_race_id',true)));
-?>
 
 </div><!-- .entry-content -->
 

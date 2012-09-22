@@ -21,14 +21,10 @@ class RaceResultTable extends WP_List_Table
 		global $status, $page;
 		//Set parent defaults
 		parent::__construct( array(
-				'singular'  => 'RaceResult',
-				'plural'    => 'RaceResults'
-				//'ajax'      => false
-		));
-		
+			'singular'  => 'RaceResult',
+			'plural'    => 'RaceResults'));
 		// register a meta box to edit the row
 		//add_meta_box('persons_form_meta_box', 'Person data', 'custom_table_example_persons_form_meta_box_handler', 'person', 'normal', 'default');
-		
 	}
 
 	/**
@@ -82,13 +78,13 @@ class RaceResultTable extends WP_List_Table
 		}
 	}
 
- 	function column_race($item){
- 		$actions = array(
- 			'edit'      => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Edit</a>',$_REQUEST['page'],'edit',$item['race'],$item['runner']),
- 			'delete'    => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Delete</a>',$_REQUEST['page'],'delete',$item['race'],$item['runner'])
- 		);
- 		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
- 	}
+//  	function column_race($item){
+//  		$actions = array(
+//  			'edit'      => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Edit</a>',$_REQUEST['page'],'edit',$item['race'],$item['runner']),
+//  			'delete'    => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Delete</a>',$_REQUEST['page'],'delete',$item['race'],$item['runner'])
+//  		);
+//  		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
+//  	}
 
 // 	function column_cb($item) {
 // 		return sprintf(
@@ -105,6 +101,12 @@ class RaceResultTable extends WP_List_Table
 	 */
  	function column_cname($item) {
  		return sprintf('<a href="/?post_type=company&p=%d">%s</a>',$item['cid'],$item['cname']);
+ 	}
+ 	
+ 	function column_display_name($item) {
+ 		
+ 		$page = get_page_by_title('member');
+ 		return sprintf('<a href="/?page_id=%d&id=%d">%s</a>',$page->ID,$item['runner'],$item['display_name']);
  	}
 
  	var $message;
@@ -146,6 +148,9 @@ left join wp_usermeta as cid on cid.user_id=wp_users.id and cid.meta_key="bhaa_r
 left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="bhaa_runner_companyname"
 				where race='.$race;
 		
+		//echo '<p>'.$mgs.'</p>';
+		//error_log($mgs);
+		
 		//echo $query;
 		$totalitems = $wpdb->query($query);
 		//echo $totalitems;
@@ -162,10 +167,65 @@ left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="
 // 		if (!empty($message))
 // 			echo '<div id="message" class="updated"><p>'.$message.'</p></div>';
 		    
-		echo '<div class="wrap"><h2>BHAA Race Result Admin Page</h2>';
+		echo '<div class="wrap"><h2>BHAA Race Results Table</h2>';
 		$this->prepare_items($race);
 		$this->display();
 		echo '</div>';
+	}
+	
+	function renderRunnerTable($runner)
+	{
+		echo '<div class="wrap"><h2>BHAA Runner Results Table</h2>';
+		$this->prepareRunnerItems($runner);
+		$this->display();
+		echo '</div>';
+	}
+	
+	function getRunnerColumns(){
+		$columns = array(
+				'race'     => 'Race',
+//				'runner'    => 'Runner',
+	//			'display_name'    => 'Name',
+		//		'cname'    => 'Company',
+				'racetime'  => 'Time',
+				'position'  => 'Position',
+				'racenumber' => 'Number',
+				'category'  => 'Category',
+				'standard'  => 'Std',
+				'paceKM'  => 'Pace',
+				//'class'  => 'Class'
+		);
+		return $columns;
+	}
+	
+	function prepareRunnerItems($runner)
+	{
+		$columns = $this->getRunnerColumns();
+		$hidden = array();
+		$sortable = array();
+		$this->_column_headers = array($columns, $hidden, $sortable);
+	
+		global $wpdb;
+		if(!isset($runner))
+			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
+			.$wpdb->prefix .'bhaa_raceresult
+			join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
+		else
+			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name,
+			cid.meta_value as cid,cname.meta_value as cname FROM '
+			.$wpdb->prefix .'bhaa_raceresult
+			join wp_users on wp_users.id=wp_bhaa_raceresult.runner
+			left join wp_usermeta as cid on cid.user_id=wp_users.id and cid.meta_key="bhaa_runner_company"
+			left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="bhaa_runner_companyname"
+			where runner='.$runner;
+	
+		//echo '<p>'.$mgs.'</p>';
+		//error_log($mgs);
+	
+		//echo $query;
+		$totalitems = $wpdb->query($query);
+		//echo $totalitems;
+		$this->items = $wpdb->get_results($query,ARRAY_A);
 	}
 }
 ?>

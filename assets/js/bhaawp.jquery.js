@@ -11,5 +11,21 @@ jQuery(document).ready( function(){
 			maxDate: '-18y' 
 			});
 	});
+	
+	jQuery.post(
+		    // see tip #1 for how we declare global javascript variables
+		    bhaawp.ajaxurl,
+		    {
+		        // here we declare the parameters to send along with the request
+		        // this means the following action hooks will be fired:
+		        // wp_ajax_nopriv_myajax-submit and wp_ajax_myajax-submit
+		        action : 'bhaawp-submit',
+		 
+		        // other parameters can be added along with "action"
+		        //postID : postID
+		    },
+		    function( response ) {
+		        alert( response );
+		    }
+		);
 });
-
