@@ -311,7 +311,7 @@ class BhaaImport
 			$wpdb->query($wpdb->prepare(
 				"insert into wp_forum_threads(id,parent_id,views,subject,date,status,closed,mngl_id,starter,last_post)
 				VALUES (%d,%d,%d,%s,%s,%s,%d,%d,%d,%s)",
-				$thread->id,1,$thread->views,$thread->subject,$thread->date,'open',0,-1,1,$thread->date));
+				$thread->id,1,$thread->views,$thread->subject,$thread->date,'open',1,-1,$thread->bhaa_runner_id,$thread->date));
 			
 			$wpdb->query($wpdb->prepare(
 				"insert into wp_forum_posts(id,text,parent_id,date,author_id,subject,views)
@@ -332,9 +332,9 @@ class BhaaImport
 		foreach($posts as $post)
 		{
 			$wpdb->query($wpdb->prepare(
-				"insert into wp_forum_posts(id,text,parent_id,date,author_id,subject,views)
-				VALUES (%d,%s,%d,%s,%d,%s,%d)",
-				$post->id,$post->comment,$post->pid,$post->date,$post->bhaa_runner_id,$post->subject,$post->views));
+				"insert into wp_forum_posts(text,parent_id,date,author_id,subject,views)
+				VALUES (%s,%d,%s,%d,%s,%d)",
+				$post->comment,$post->pid,$post->date,$post->bhaa_runner_id,$post->subject,$post->views));
 		}
 		$mgs = 'added posts';
 		echo '<p>'.$mgs.'</p>';
@@ -347,16 +347,16 @@ class BhaaImport
 		return $db->get_results(
 			$db->prepare('select id,pid,uid,FROM_UNIXTIME(date) as date,subject,comment,views,bhaa_runner_id
 				from gl_forum_topic join gluser_bhaarunner on 
-				gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid=0 order by id'));		
+				gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid=0 group by id'));		
 	}
 	
 	function getForumPosts()
 	{
 		$db = $this->getGlfusionDB();
 		return $db->get_results(
-				$db->prepare('select id,pid,uid,FROM_UNIXTIME(date) as date,subject,comment,views,bhaa_runner_id
-						from gl_forum_topic join gluser_bhaarunner on
-						gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid!=0 order by id'));
+			$db->prepare('select id,pid,uid,FROM_UNIXTIME(date) as date,subject,comment,views,bhaa_runner_id
+				from gl_forum_topic left join gluser_bhaarunner on
+				gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid!=0'));
 	}
 	
 	function deleteForum()
