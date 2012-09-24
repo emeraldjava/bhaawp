@@ -21,8 +21,43 @@ get_header(); ?>
 <div class="entry-content">
 
 <!--  http://codex.wordpress.org/Function_Reference/the_ID -->
-<p>TODO - LINK THE EVENT URL HERE</p>
+
 <p>WP Race ID : <?php echo get_the_ID();?></p>
+
+<?php 
+// TODO - LINK THE EVENT URL HERE
+
+//echo 'p2p_from '.$_REQUEST('p2p_from').' p2p_to '.$p2p_to;
+
+//$related = p2p_type( 'event_to_race' )->set_direction( 'to' )->get_connected( get_the_ID() );
+//echo $related->the_post()->ID;
+//$related = p2p_type( 'event_to_race' )->get_related( get_queried_object() );
+//echo $related->the_post()->ID;
+//var_dump($related);
+?>
+
+<?php
+// Find connected posts
+$connected = new WP_Query( array(
+  'connected_type' => 'event_to_race',
+  'connected_items' => get_queried_object(),
+  'nopaging' => true,
+) );
+
+// Display connected posts
+if ( $connected->have_posts() ) :
+?>
+<?php while ( $connected->have_posts() ) : $connected->the_post(); ?>
+	<h3>Event : <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+<?php endwhile; ?>
+
+<?php 
+// Prevent weirdness
+wp_reset_postdata();
+
+endif;
+?>
+
 
 <p>Meta information for this post:</p>
 <?php the_meta(); ?>
