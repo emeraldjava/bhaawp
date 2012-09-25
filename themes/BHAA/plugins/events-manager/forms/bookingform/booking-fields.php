@@ -10,7 +10,6 @@
 	echo do_shortcode('[user-meta type="registration" form="register"');	
 	//echo do_shortcode('[dayrunnerform]');
 	?>
-	//careful if making an add-on, this will only be used if you're not using custom booking forms ?>					
 <?php endif; ?>		
 <!-- <p>
 	<label for='booking_comment'><php _e('Comment', 'dbem') ?></label>
