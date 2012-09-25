@@ -22,11 +22,15 @@ get_header(); ?>
 <!-- 	</form> -->
 	
 	<!-- http://www.studionashvegas.com/development/search-specific-post-type-wordpress/ -->
-	<!-- <form id="searchform" action="<php bloginfo('url'); ?>/" method="get">
+	<form id="searchform" action="<?php bloginfo('url'); ?>" method="get">
 		<input class="inlineSearch" type="text" name="s" value="Enter a company" onblur="if (this.value == '') {this.value = 'Enter a keyword';}" onfocus="if (this.value == 'Enter a company') {this.value = '';}" />
 		<input type="hidden" name="post_type" value="company" />
 		<input class="inlineSubmit" id="searchsubmit" type="submit" alt="Search" value="Search" />
-	</form>-->
+	</form>
+	
+	<div class="ui-widget">
+		<label for="humm">Company: </label><input id="company_search" />
+	</div>
 				
 					<nav id="nav-single">
 						<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h3>
