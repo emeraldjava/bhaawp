@@ -15,19 +15,7 @@ get_header(); ?>
 				<?php while ( have_posts() ) : the_post(); ?>
 
 	<!-- http://wpsnipp.com/index.php/template/create-multiple-search-templates-for-custom-post-types/ -->
-<!-- 	<form id="searchform" action=".bloginfo('home'). method="get"> -->
-<!--         <input id="s" maxlength="150" name="s" size="20" type="text" value="" class="txt" /> -->
-<!--         <input name="post_type" type="hidden" value="company" /> -->
-<!--         <input id="searchsubmit" class="btn" type="submit" value="Search" /> -->
-<!-- 	</form> -->
-	
 	<!-- http://www.studionashvegas.com/development/search-specific-post-type-wordpress/ -->
-	<form id="searchform" action="<?php bloginfo('url'); ?>" method="get">
-		<input class="inlineSearch" type="text" name="s" value="Enter a company" onblur="if (this.value == '') {this.value = 'Enter a keyword';}" onfocus="if (this.value == 'Enter a company') {this.value = '';}" />
-		<input type="hidden" name="post_type" value="company" />
-		<input class="inlineSubmit" id="searchsubmit" type="submit" alt="Search" value="Search" />
-	</form>
-	
 	<div class="ui-widget">
 		<label for="humm">Company: </label><input id="company_search" />
 	</div>
