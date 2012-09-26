@@ -126,6 +126,8 @@ class BhaaLoader
 		require_once (dirname (__FILE__) . '/classes/runner.class.php');
 		$this->runner = new Runner();
 		
+		require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
+		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
 		//require_once (dirname (__FILE__) . '/lib/ajax.php');
