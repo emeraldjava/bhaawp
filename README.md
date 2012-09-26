@@ -4,7 +4,7 @@ bhaawp
 Wordpress Plugin for the Business Houses Athletic Assoication
 
 h2 User Meta Data
-```php
+
 <table>
   <tr>
     <th></th>
@@ -25,6 +25,11 @@ h2 User Meta Data
     <td>Row</td>
   </tr>
 </table>
+
+code 
+
+```php
+echo {}
 ```
  
 ToDo
