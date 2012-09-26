@@ -3,6 +3,10 @@ bhaawp
 
 Wordpress plugin for the Business Houses Athletic Assoication
 
+```php
+echo ();
+```
+ 
 ToDo
 - race day registration
 - race day racetec export
@@ -12,10 +16,15 @@ ToDo
 - standard report
 
 - AJAX
+http://docs.jquery.com/UI/API/1.8/Autocomplete
+http://api.jquery.com/jQuery.ajax/
 http://stackoverflow.com/questions/11166981/how-to-use-jquery-to-retrieve-ajax-search-results-for-wordpress
 http://wp.tutsplus.com/tutorials/theme-development/add-jquery-autocomplete-to-your-sites-search/
 http://wordpress.stackexchange.com/questions/57988/jquery-ui-autocomplete-not-working-in-wordpress
 http://jqueryui.com/demos/autocomplete/#remote
+
+- Widget
+http://wp.tutsplus.com/tutorials/widgets/create-a-tabbed-widget-for-custom-post-types/
 
 -htaccess
 http://stackoverflow.com/questions/163302/how-do-i-ignore-a-directory-in-mod-rewrite
