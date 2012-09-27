@@ -16,6 +16,9 @@
  * 
  * -- show bhaa logo on the login/registration page
  * http://www.paulund.co.uk/change-wordpress-login-logo-without-a-plugin
+ * 
+ * -- admin user columns
+ * http://w4dev.com/wp/add-last-login-time-in-wp-admin-users-column/
  */
 class Runner
 {	
@@ -42,6 +45,24 @@ class Runner
 	
 	function Runner()
 	{
+		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
+		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );		
+	}
+	
+	function bhaa_manage_users_columns( $column ) {
+		$column['status'] = __('Status', 'status');
+		return $column;
+	}
+	
+	function bhaa_manage_users_custom_column( $val, $column_name, $user_id ) {
+		$user = get_userdata( $user_id );
+		switch ($column_name) {
+			case 'status' :
+				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true); //$user->ID;
+				break;
+			default:
+		}
+		return $return;
 	}
 }
 ?>
