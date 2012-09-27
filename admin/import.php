@@ -222,34 +222,33 @@ class BhaaImport
 				echo $id->get_error_message();
         	}
 			update_user_meta( $id, 'rich_editing', 'false');
-
+			if(isset($user->gender))
+				update_user_meta( $id, Runner::BHAA_RUNNER_GENDER, $user->gender);
 			if(isset($user->dateofbirth))
-				update_user_meta( $id, 'bhaa_runner_dateofbirth', $user->dateofbirth);
+				update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $user->dateofbirth);
 			if(isset($user->company))
 			{
-				update_user_meta( $id, 'bhaa_runner_company', $user->company);
+				update_user_meta( $id, Runner::BHAA_RUNNER_COMPANY, $user->company);
 				p2p_type( 'company_to_runner' )->connect( 
 						$user->company, 
 						$user->id, 
 						array('date' => current_time('mysql')
 				) );
         	}
-        	if(isset($user->gender))
-        		update_user_meta( $id, 'bhaa_runner_gender', $user->gender);
-			if(isset($user->companyname))
-				update_user_meta( $id, 'bhaa_runner_companyname', $user->companyname);			
-			//         	team,
+			//if(isset($user->companyname))
+				//update_user_meta( $id, 'bhaa_runner_companyname', $user->companyname);			
+			// 	team,
 			if(isset($user->newsletter))
-				update_user_meta( $id, 'bhaa_runner_newsletter', $user->newsletter);
+				update_user_meta( $id, Runner::BHAA_RUNNER_NEWSLETTER, $user->newsletter);
 			//         	telephone,
-			if(isset($user->telephone))
-				update_user_meta( $id, 'bhaa_runner_telephone', $user->telephone);
-			//         	mobilephone,
+			//if(isset($user->telephone))
+			//	update_user_meta( $id, 'bhaa_runner_telephone', $user->telephone);
+			//	mobilephone,
 			if(isset($user->mobilephone))
-				update_user_meta( $id, 'bhaa_runner_mobilephone', $user->mobilephone);
+				update_user_meta( $id, Runner::BHAA_RUNNER_MOBILEPHONE, $user->mobilephone);
 			//         	textmessage,
 			if(isset($user->textmessage))
-				update_user_meta( $id, 'bhaa_runner_textmessage', $user->textmessage);
+				update_user_meta( $id, Runner::BHAA_RUNNER_TEXTALERT, $user->textmessage);
 			//         	address1,
 			if(isset($user->address1))
 				update_user_meta( $id, Runner::BHAA_RUNNER_ADDRESS1, $user->address1);
@@ -261,13 +260,13 @@ class BhaaImport
 				update_user_meta( $id, Runner::BHAA_RUNNER_ADDRESS3, $user->address3);
 			//         	status,
 			if(isset($user->status))
-				update_user_meta( $id, 'bhaa_runner_status', $user->status);
-			//         	insertdate,
+				update_user_meta( $id, Runner::BHAA_RUNNER_STATUS, $user->status);
+			// insertdate,
 			if(isset($user->insertdate))
-				update_user_meta( $id, 'bhaa_runner_insertdate', $user->insertdate);
+				update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, $user->insertdate);
 			//         	dateofrenewal
 			if(isset($user->dateofrenewal))
-				update_user_meta( $id, 'bhaa_runner_dateofrenewal', $user->dateofrenewal);
+				update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFRENEWAL, $user->dateofrenewal);
 			
 			$msg = $id.' '.$name.' '.$user->companyname;
 			echo '<p>'.$msg.'</p>';
