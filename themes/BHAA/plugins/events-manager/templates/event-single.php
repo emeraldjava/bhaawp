@@ -13,7 +13,7 @@
  */
 global $EM_Event;
 /* @var $EM_Event EM_Event */
-if($EM_Event->start >= time())
+if($EM_Event->end >= time())
 {
 	echo '<h1>A future BHAA event</h1>';
 	echo $EM_Event->output_single();
