@@ -172,24 +172,35 @@ class BhaaImport
 
         $users = $this->getUsers();
 
+        require_once( ABSPATH . 'wp-includes/pluggable.php' );
         require_once( ABSPATH . 'wp-includes/user.php' );
         require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
         foreach($users as $user)
         {
 
         	$count++;
+        	
+        	
+        	$wpuser = get_userdata( $user->id );
+        	error_log($count.' '.$user->id.' '. empty($wpuser->ID));
+        	
         	/**
         	 * http://codex.wordpress.org/Function_Reference/wp_insert_user
         	 * http://codex.wordpress.org/Function_Reference/wp_create_user
         	 */
-        	$name = strtolower($user->firstname.'.'.$user->surname);
-        	$name = str_replace(' ', '', $name);
-        	$name = str_replace("'", '', $name);
-        	$password = wp_hash_password($user->id);
-        	
         	// DB insert user
-        	$this->insertUser($user->id,$name,$password,$user->email);
-
+        	if(empty($wpuser->ID))
+        	{
+        		$name = strtolower($user->firstname.'.'.$user->surname);
+        		$name = str_replace(' ', '', $name);
+        		$name = str_replace("'", '', $name);
+        		$password = wp_hash_password($user->id);
+        		
+        		$this->insertUser($user->id,$name,$password,$user->email);
+        	}
+			else
+				error_log('update meta data only '.$wpuser->ID);
+			
         	// http://codex.wordpress.org/Function_Reference/wp_insert_user
         	$id = wp_insert_user(array(
         	        'ID'            => $user->id,
@@ -538,34 +549,44 @@ class BhaaImport
 	{
 		global $wpdb;
 		$sql;
-		if(isset($email))
-		{
-			$sql = $wpdb->prepare(
-				"INSERT INTO wp_users(
-				ID,
-				user_login,
-				user_pass,
-				user_nicename,
-				user_email,
-				user_status,
-				display_name)
-				VALUES (%d,%s,%s,%s,%s,%d,%s)",
-				$id,$name,$password,$name,$email,0,$name);
-		}	
-		else
-		{
-			$sql = $wpdb->prepare(
-				"INSERT INTO wp_users(
-				ID,
-				user_login,
-				user_pass,
-				user_nicename,
-				user_status,
-				display_name)
-				VALUES (%d,%s,%s,%s,%s,%s)",
-				$id,$name,$password,$name,0,$name);
-		}
-		$wpdb->query($sql);
+		
+		//if(!get_user_by('id',$id))
+		//{
+			if(isset($email))
+			{
+				$sql = $wpdb->prepare(
+					"INSERT INTO wp_users(
+					ID,
+					user_login,
+					user_pass,
+					user_nicename,
+					user_email,
+					user_status,
+					display_name)
+					VALUES (%d,%s,%s,%s,%s,%d,%s)",
+					$id,$name,$password,$name,$email,0,$name);
+			}	
+			else
+			{
+				$sql = $wpdb->prepare(
+					"INSERT INTO wp_users(
+					ID,
+					user_login,
+					user_pass,
+					user_nicename,
+					user_status,
+					display_name)
+					VALUES (%d,%s,%s,%s,%s,%s)",
+					$id,$name,$password,$name,0,$name);
+
+			}
+			//error_log($id.' SQL '.$sql);
+			$wpdb->query($sql);
+// 		}
+// 		else
+// 		{
+// 			error_log($id.' user exists');			
+// 		}
 	}
 	
 	function deleteUsers()
