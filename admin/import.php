@@ -17,6 +17,8 @@ class BhaaImport
 	function BhaaImport()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/import.php' );
+		require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
+		
 		register_importer('bhaa', 'BHAA', __('BHAA Importer'), array (&$this,'import'));
 	}
 	
@@ -51,6 +53,10 @@ class BhaaImport
 			$this->importCompanies();
 		elseif($_GET['action']=='deleteCompanies')
 			$this->deleteCompanies();
+		elseif($_GET['action']=='teams')
+			$this->importTeams();
+		elseif($_GET['action']=='deleteHouses')
+			$this->deleteHouses();
 		elseif($_GET['action']=='races')
 			$this->importRaces();
 		elseif($_GET['action']=='deleteRaces')
@@ -95,13 +101,14 @@ class BhaaImport
 		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a> - <a href="admin.php?import=bhaa&action=deleteEvents">Delete Events</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a> - <a href="admin.php?import=bhaa&action=deleteUsers">Delete Users</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=stories">Import BHAA Stories</a> - <a href="admin.php?import=bhaa&action=deleteStories">Delete Stories</a><br/>';
-		echo '<a href="admin.php?import=bhaa&action=companies">Import BHAA Companies</a> - <a href="admin.php?import=bhaa&action=deleteCompanies">Delete Companies</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=companies">Import Companies to Houses</a> - <a href="admin.php?import=bhaa&action=deleteCompanies">Delete Companies</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=teams">Import Teams to Houses</a> - <a href="admin.php?import=bhaa&action=deleteHouses">Delete Houses</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=races">Import BHAA Races</a> - <a href="admin.php?import=bhaa&action=deleteRaces">Delete Races</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=raceResults">Import BHAA Race Results</a> - <a href="admin.php?import=bhaa&action=deleteRaceResults">Delete Race Results</a><br/>';
-		
 		echo '<a href="admin.php?import=bhaa&action=topics">Import BHAA Topics</a> - 
 			<a href="admin.php?import=bhaa&action=posts">Import BHAA Posts</a> - 
 				<a href="admin.php?import=bhaa&action=deleteForum">Delete Forum</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=raceResults">TO add action to link runners to houses and update</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -174,7 +181,6 @@ class BhaaImport
 
         require_once( ABSPATH . 'wp-includes/pluggable.php' );
         require_once( ABSPATH . 'wp-includes/user.php' );
-        require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
         foreach($users as $user)
         {
 
@@ -407,7 +413,7 @@ class BhaaImport
 					ID,
 					post_type)
 					VALUES (%d,%s)",
-					$company->id,'company'));
+					$company->id,'house'));
 			
 			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
 			$my_post = array(
@@ -421,7 +427,7 @@ class BhaaImport
 					'post_date' => 'NOW()',// getdate(),
 					'post_date_gmt' => 'NOW()',//getdate(),
 					//'tags_input' => array($company->sector),
-					'post_type' => 'company',
+					'post_type' => 'house',
 					'tax_input' => array( 'sector' => array($company->sectorname) )
 					//'post_category' => array(4)
 			);
@@ -430,13 +436,21 @@ class BhaaImport
 			update_post_meta($id,'bhaa_company_id',$company->id);
 			update_post_meta($id,'bhaa_company_website',$company->website);
 			update_post_meta($id,'bhaa_company_image',$company->image);
-			
-			$mgs = 'added post '.$id.' for company '.$company->name;
+			update_post_meta($id,'bhaa_team_type','team');
+			$mgs = 'added post '.$id.' for house '.$company->name;
 			echo '<p>'.$mgs.'</p>';
 			error_log($mgs);
 		}
 	}
 	
+	/**
+	 * import bhaa sector teams as a sector houses with a team
+	 */
+	function importTeams()
+	{
+		echo "TODO - get the sector team details and create houses team";
+	}
+		
 	/**
 	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=50&max=149
 	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=50&max=249
@@ -462,6 +476,19 @@ class BhaaImport
 		$wpdb->query($wpdb->prepare(
 			"DELETE FROM wp_posts WHERE post_author=1 and post_type='company'")
 		);
+		// TODO delete links to users
+	}
+	
+	/**
+	 * delete houses cpt's
+	 */
+	function deleteHouses()
+	{
+		global $wpdb;
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_posts WHERE post_author=1 and post_type='house'")
+		);
+		// TODO delete links to users
 	}
 	
 	function getEvents()
@@ -503,6 +530,7 @@ class BhaaImport
 	 * admin.php?import=bhaa&action=users&min=8000&max=6000
 	 * admin.php?import=bhaa&action=users&min=9000&max=9999
 	 * 
+	 * TODO get the team membership details
 	 * @return Ambigous <mixed, NULL, multitype:, multitype:multitype: , multitype:unknown >
 	 */
 	function getUsers()
