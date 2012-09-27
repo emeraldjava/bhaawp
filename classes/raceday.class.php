@@ -10,5 +10,10 @@ class RaceDay
 {
 	function RaceDay()
 	{}
+	
+	function race_day()
+	{
+		echo "This will be the BHAA race day race number allocation app.";
+	}
 }
 ?>

@@ -14,10 +14,13 @@ class BhaaLoader
 	
 	var $admin;
 	var $company;
+	var $house;
 	var $race;
 	var $league;
 	var $raceresult;
 	var $runner;
+	
+	var $raceday;
 	
 	function BhaaLoader()
 	{
@@ -116,6 +119,8 @@ class BhaaLoader
 		// classes
 		require_once (dirname (__FILE__) . '/classes/company.class.php');
 		$this->company = new Company();
+		require_once (dirname (__FILE__) . '/classes/house.class.php');
+		$this->house = new House();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
 		$this->race = new Race();
 		require_once (dirname (__FILE__) . '/classes/league.class.php');
@@ -125,11 +130,13 @@ class BhaaLoader
 		$this->raceresult = new RaceResult();
 		require_once (dirname (__FILE__) . '/classes/runner.class.php');
 		$this->runner = new Runner();
+
+		require_once (dirname (__FILE__) . '/classes/raceday.class.php');
+		$this->raceday = new RaceDay();
 		
 		require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
 		$this->rrw = new RaceResult_Widget();
 		add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
-		//add_action("widgets_init", "oswc_load_widgets");
 		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
@@ -264,8 +271,9 @@ class BhaaLoader
 		// TODO add short code link for racetec registration form.
 		
 		// register two short codes to have the runner class display the required form fields.
-		add_shortcode( 'newrunnerform', array($this->runner,'new_runner_form'));
-		add_shortcode( 'dayrunnerform', array($this->runner,'day_runner_form'));
+		//add_shortcode( 'newrunnerform', array($this->runner,'new_runner_form'));
+		//add_shortcode( 'dayrunnerform', array($this->runner,'day_runner_form'));
+		add_shortcode( 'bhaaraceday', array($this->raceday,'race_day'));
 	}
 	
 	public function bhaa_shortcode($attributes)
