@@ -127,6 +127,9 @@ class BhaaLoader
 		$this->runner = new Runner();
 		
 		require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
+		$this->rrw = new RaceResult_Widget();
+		add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
+		//add_action("widgets_init", "oswc_load_widgets");
 		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
