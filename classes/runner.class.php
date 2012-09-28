@@ -47,6 +47,29 @@ class Runner
 	{
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );		
+
+		add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
+	}
+	
+	function add_bhaa_profile_fields($user) 
+	{
+		$bhaa_runner_dateofrenewal = get_user_meta($user->ID,Runner::BHAA_RUNNER_DATEOFRENEWAL,true);
+		$bhaa_runner_status = get_user_meta($user->ID,Runner::BHAA_RUNNER_STATUS,true);
+		echo '<h3>BHAA Renewal</h3>';
+		echo '<div>Status '.$bhaa_runner_status.'</div>';
+		echo '<div>Renewal Date '.$bhaa_runner_dateofrenewal.'</div>';
+		if($bhaa_runner_status=="I")
+		{
+			echo '<div>Please renew your inactive membership.</div>';
+		}
+		elseif($bhaa_runner_status=="D")
+		{
+			echo '<div>Please become a BHAA member.</div>';
+		}
+		else
+		{
+			echo '<div>You are a current BHAA member.</div>';
+		}
 	}
 	
 	function bhaa_manage_users_columns( $column ) {
