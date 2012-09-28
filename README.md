@@ -67,6 +67,9 @@ Linking post types
 - http://wordpress.org/extend/plugins/posts-to-posts/
 
 Event Manager
+- http://wp-events-plugin.com/documentation/shortcodes/
+- http://wp-events-plugin.com/documentation/event-search-attributes/
+- http://wp-events-plugin.com/documentation/placeholders/
 
 WP_List_Table
 - http://mac-blog.org.ua/942/ edit/delete links on the WP_Table_List
@@ -81,3 +84,7 @@ PHP Manual
 
 Email Notification
 - http://codex.wordpress.org/Function_Reference/wp_new_user_notification
+
+
+
+http://github.github.com/github-flavored-markdown/
