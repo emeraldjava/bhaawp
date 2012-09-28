@@ -70,7 +70,7 @@ class League
 	        'labels' => $leagueLabels,
 	        'hierarchical' => false,
 	        'description' => 'BHAA League Details',
-	        'supports' => array( 'title', 'author'),
+	        'supports' => array( 'title','author','page-attributes'),
 	        //'taxonomies' => array( 'sector' ),
 	        'public' => true,
 	        'show_ui' => true,

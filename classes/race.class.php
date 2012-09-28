@@ -65,7 +65,7 @@ class Race
 			'labels' => $raceLabels,
 			'hierarchical' => false,
 			'description' => 'bhaa race post',
-			'supports' => array('title','excerpt'),// 'custom-fields', 'page-attributes' ),
+			'supports' => array('title','editor','author','post-formats'),// 'custom-fields', 'page-attributes' ),
 			//'register_meta_box_cb' => 'raceMeta',
 			'public' => true,
 			'show_ui' => true,

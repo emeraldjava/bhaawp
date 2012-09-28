@@ -95,7 +95,7 @@ class House
 	        'labels' => $houseLabels,
 	        'hierarchical' => false,
 	        'description' => 'BHAA House Details',
-	        'supports' => array( 'title', 'editor', 'author', 'custom-fields', 'comments' ),
+	        'supports' => array( 'title', 'editor', 'author', 'custom-fields','page-attributes' ),
 	        'taxonomies' => array( 'sector' ),
 	        'public' => true,
 	        'show_ui' => true,
