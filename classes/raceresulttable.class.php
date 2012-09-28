@@ -229,7 +229,7 @@ left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="
 	 * @see WP_List_Table::get_table_classes()
 	 */
 	function get_table_classes() {
-		return array( 'widefat', 'fixed','table','table-bordered','table-striped',$this->_args['plural'] );
+		return array( 'widefat', 'fixed','table','table-bordered','table-striped','table-condensed',$this->_args['plural'] );
 	}
 }
 ?>
