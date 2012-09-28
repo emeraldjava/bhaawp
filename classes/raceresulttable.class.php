@@ -18,11 +18,6 @@ if(!class_exists('WP_List_Table')){
 class RaceResultTable extends WP_List_Table
 {
 	function __construct(){
-		global $status, $page;
-		//Set parent defaults
-		parent::__construct( array(
-			'singular'  => 'RaceResult',
-			'plural'    => 'RaceResults'));
 		// register a meta box to edit the row
 		//add_meta_box('persons_form_meta_box', 'Person data', 'custom_table_example_persons_form_meta_box_handler', 'person', 'normal', 'default');
 	}
@@ -226,6 +221,15 @@ left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="
 		$totalitems = $wpdb->query($query);
 		//echo $totalitems;
 		$this->items = $wpdb->get_results($query,ARRAY_A);
+	}
+	
+	/**
+	 * Add tw bootstrap styling to the table 
+	 * http://twitter.github.com/bootstrap/base-css.html
+	 * @see WP_List_Table::get_table_classes()
+	 */
+	function get_table_classes() {
+		return array( 'widefat', 'fixed','table','table-bordered','table-striped',$this->_args['plural'] );
 	}
 }
 ?>
