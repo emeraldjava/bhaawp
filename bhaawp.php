@@ -3,21 +3,24 @@
 Plugin Name: BHAA wordpress plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.09.18
+Version: 2012.09.24
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.09.18';
+	var $version = '2012.09.24';
 	
 	var $admin;
 	var $company;
+	var $house;
 	var $race;
 	var $league;
 	var $raceresult;
 	var $runner;
+	
+	var $raceday;
 	
 	function BhaaLoader()
 	{
@@ -116,6 +119,8 @@ class BhaaLoader
 		// classes
 		require_once (dirname (__FILE__) . '/classes/company.class.php');
 		$this->company = new Company();
+		require_once (dirname (__FILE__) . '/classes/house.class.php');
+		$this->house = new House();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
 		$this->race = new Race();
 		require_once (dirname (__FILE__) . '/classes/league.class.php');
@@ -125,6 +130,13 @@ class BhaaLoader
 		$this->raceresult = new RaceResult();
 		require_once (dirname (__FILE__) . '/classes/runner.class.php');
 		$this->runner = new Runner();
+
+		require_once (dirname (__FILE__) . '/classes/raceday.class.php');
+		$this->raceday = new RaceDay();
+		
+		require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
+		$this->rrw = new RaceResult_Widget();
+		add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
 		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
@@ -152,28 +164,106 @@ class BhaaLoader
  		wp_enqueue_script('bhaawp');
  		wp_localize_script('bhaawp','bhaawp',array('ajaxurl'=>admin_url('admin-ajax.php')));
 
- 		//add_action( 'wp_ajax_nopriv_bhaawp-submit',array($this,'bhaawp-submit'));
-		//add_action( 'wp_ajax_bhaawp-submit',array($this,'bhaawp_submit'));
+ 		// register ajax methods 
+ 		add_action('wp_ajax_nopriv_bhaawp_company_search',array($this,'bhaawp_company_search'));
+		add_action('wp_ajax_bhaawp_company_search',array($this,'bhaawp_company_search'));
 			
  		// css style 
  		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
  		error_log('load_scripts',0);
 	}
 	
-	function bhaawp_submit() {
-		// get the submitted parameters
-		$postID = $_POST['postID'];
+	/**
+	 * 
+	 * http://wp.tutsplus.com/tutorials/theme-development/add-jquery-autocomplete-to-your-sites-search/
+	 * 
+	 * http://alex.leonard.ie/2010/10/19/resetting-your-wp_query/
+	 * query args
+	 * http://wpsnipp.com/index.php/template/create-multiple-search-templates-for-custom-post-types/
+	 */
+// 	FUNCTION BHAAWP_COMPANY_SEARCHXX() {
+// 		// GET THE SUBMITTED PARAMETERS
+// 		//$POSTID = $_POST['POSTID'];
 	
-		// generate the response
-		$response = json_encode( array( 'success' => true, 'postID'=>$postID ) );
+// 		$ARGS = ARRAY(
+// 			'POST_TYPE'=> 'COMPANY',
+// 			'NAME'    => $_REQUEST['TERM']);
+// 		ERROR_LOG('BHAAWP_COMPANY_SEARCH '.$_REQUEST['TERM']);
+// //		QUERY_POSTS($ARGS);
+		
+// 		$COMPANYQUERY = NEW WP_QUERY($ARGS);//'PAGENAME=CONTACT' );
+		
+// 		ERROR_LOG('BHAAWP_COMPANY_SEARCH '.PRINTF($COMPANYQUERY->QUERY));
+		
+// 		$SUGGESTIONS=ARRAY();
+// 		WHILE ( $COMPANYQUERY->HAVE_POSTS() ) : 
+// 			$COMPANYQUERY->THE_POST();
+// 			$SUGGESTION = ARRAY();
+// 			$SUGGESTION['LABEL'] = GET_THE_TITLE();
+// 			$SUGGESTION['LINK'] = GET_PERMALINK();
+// 			$SUGGESTIONS[]= $SUGGESTION;
+// 		ENDWHILE;
+		
+// // 		IF ($COMPANYQUERY->HAVE_POSTS()) : 
+// // 			$SUGGESTION = ARRAY();
+// // 			WHILE ($QUERY->HAVE_POSTS()) : 
+// // 				$QUERY->THE_POST();
+// // 				$SUGGESTION['LABEL'] = ESC_HTML($QUERY->THE_POST()->POST_TITLE);
+// // 				$SUGGESTION['LINK'] = GET_PERMALINK();
+// // 				$SUGGESTIONS[]= $SUGGESTION;
+// // 		// DO LOOP STUFF
+// // 			ENDWHILE;
+// // 		ENDIF;
+		
+// 		// INITIALISE SUGGESTIONS ARRAY
+// // 		$SUGGESTIONS=ARRAY();
+// // 		GLOBAL $POST;
+// // 		FOREACH ($QUERY->GET_POSTS() AS $POST): 
+// // 			SETUP_POSTDATA($POST);
+// // 			// INITIALISE SUGGESTION ARRAY
+// // 			$SUGGESTION = ARRAY();
+// // 			$SUGGESTION['LABEL'] = ESC_HTML($POST->POST_TITLE);
+// // 			$SUGGESTION['LINK'] = GET_PERMALINK();
+// // 			// ADD SUGGESTION TO SUGGESTIONS ARRAY
+// // 			$SUGGESTIONS[]= $SUGGESTION;
+// // 		ENDFOREACH;
+		
+// 		// GENERATE THE RESPONSE
+// 		$RESPONSE = JSON_ENCODE( $SUGGESTIONS );//ARRAY( 'SUCCESS' => TRUE, 'POSTID'=>$POSTID ) );
+// 		WP_RESET_POSTDATA();
+		
+// 		ERROR_LOG('BHAAWP_COMPANY_SEARCH '.$RESPONSE);
+// 		// RESPONSE OUTPUT
+// 		HEADER( "CONTENT-TYPE: APPLICATION/JSON" );
+// 		ECHO $RESPONSE;
 	
-		error_log('bhaawp_submit '.$response);
-		// response output
-		header( "Content-Type: application/json" );
+// 		// IMPORTANT: DON'T FORGET TO "EXIT"
+// 		EXIT;
+// 	}
+	
+	function bhaawp_company_search() {
+		error_log('bhaawp_company_search '.$_REQUEST['term']);
+		$posts = get_posts( array(
+			's' => trim( esc_attr( strip_tags( $_REQUEST['term'] ) ) ),
+			'post_type' => 'company'
+		) );
+		$suggestions=array();
+	
+		global $post;
+		foreach ($posts as $post):
+		setup_postdata($post);
+		$suggestion = array();
+		$suggestion['label'] = esc_html($post->post_title);
+		$suggestion['link'] = get_permalink();
+		$suggestions[]= $suggestion;
+		endforeach;
+	
+		$response = json_encode(array('matches'=>$suggestions));
+		//error_log('bhaawp_company_search '.$response);
 		echo $response;
-	
-		// IMPORTANT: don't forget to "exit"
-		exit;
+		wp_reset_postdata();
+		//die();
+ 		exit;
 	}
 	
 	function addShortCodes()
@@ -181,8 +271,9 @@ class BhaaLoader
 		// TODO add short code link for racetec registration form.
 		
 		// register two short codes to have the runner class display the required form fields.
-		add_shortcode( 'newrunnerform', array($this->runner,'new_runner_form'));
-		add_shortcode( 'dayrunnerform', array($this->runner,'day_runner_form'));
+		//add_shortcode( 'newrunnerform', array($this->runner,'new_runner_form'));
+		//add_shortcode( 'dayrunnerform', array($this->runner,'day_runner_form'));
+		add_shortcode( 'bhaaraceday', array($this->raceday,'race_day'));
 	}
 	
 	public function bhaa_shortcode($attributes)

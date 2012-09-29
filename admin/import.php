@@ -17,6 +17,8 @@ class BhaaImport
 	function BhaaImport()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/import.php' );
+		require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
+		
 		register_importer('bhaa', 'BHAA', __('BHAA Importer'), array (&$this,'import'));
 	}
 	
@@ -51,6 +53,10 @@ class BhaaImport
 			$this->importCompanies();
 		elseif($_GET['action']=='deleteCompanies')
 			$this->deleteCompanies();
+		elseif($_GET['action']=='teams')
+			$this->importTeams();
+		elseif($_GET['action']=='deleteHouses')
+			$this->deleteHouses();
 		elseif($_GET['action']=='races')
 			$this->importRaces();
 		elseif($_GET['action']=='deleteRaces')
@@ -95,13 +101,14 @@ class BhaaImport
 		echo '<a href="admin.php?import=bhaa&action=events">Import BHAA Events</a> - <a href="admin.php?import=bhaa&action=deleteEvents">Delete Events</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=users">Import BHAA Users</a> - <a href="admin.php?import=bhaa&action=deleteUsers">Delete Users</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=stories">Import BHAA Stories</a> - <a href="admin.php?import=bhaa&action=deleteStories">Delete Stories</a><br/>';
-		echo '<a href="admin.php?import=bhaa&action=companies">Import BHAA Companies</a> - <a href="admin.php?import=bhaa&action=deleteCompanies">Delete Companies</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=companies">Import Companies to Houses</a> - <a href="admin.php?import=bhaa&action=deleteCompanies">Delete Companies</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=teams">Import Teams to Houses</a> - <a href="admin.php?import=bhaa&action=deleteHouses">Delete Houses</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=races">Import BHAA Races</a> - <a href="admin.php?import=bhaa&action=deleteRaces">Delete Races</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=raceResults">Import BHAA Race Results</a> - <a href="admin.php?import=bhaa&action=deleteRaceResults">Delete Race Results</a><br/>';
-		
 		echo '<a href="admin.php?import=bhaa&action=topics">Import BHAA Topics</a> - 
 			<a href="admin.php?import=bhaa&action=posts">Import BHAA Posts</a> - 
 				<a href="admin.php?import=bhaa&action=deleteForum">Delete Forum</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=raceResults">TO add action to link runners to houses and update</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -172,24 +179,34 @@ class BhaaImport
 
         $users = $this->getUsers();
 
+        require_once( ABSPATH . 'wp-includes/pluggable.php' );
         require_once( ABSPATH . 'wp-includes/user.php' );
-        require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
         foreach($users as $user)
         {
 
         	$count++;
+        	
+        	
+        	$wpuser = get_userdata( $user->id );
+        	error_log($count.' '.$user->id.' '. empty($wpuser->ID));
+        	
         	/**
         	 * http://codex.wordpress.org/Function_Reference/wp_insert_user
         	 * http://codex.wordpress.org/Function_Reference/wp_create_user
         	 */
-        	$name = strtolower($user->firstname.'.'.$user->surname);
-        	$name = str_replace(' ', '', $name);
-        	$name = str_replace("'", '', $name);
-        	$password = wp_hash_password($user->id);
-        	
         	// DB insert user
-        	$this->insertUser($user->id,$name,$password,$user->email);
-
+        	if(empty($wpuser->ID))
+        	{
+        		$name = strtolower($user->firstname.'.'.$user->surname);
+        		$name = str_replace(' ', '', $name);
+        		$name = str_replace("'", '', $name);
+        		$password = wp_hash_password($user->id);
+        		
+        		$this->insertUser($user->id,$name,$password,$user->email);
+        	}
+			else
+				error_log('update meta data only '.$wpuser->ID);
+			
         	// http://codex.wordpress.org/Function_Reference/wp_insert_user
         	$id = wp_insert_user(array(
         	        'ID'            => $user->id,
@@ -211,34 +228,33 @@ class BhaaImport
 				echo $id->get_error_message();
         	}
 			update_user_meta( $id, 'rich_editing', 'false');
-
+			if(isset($user->gender))
+				update_user_meta( $id, Runner::BHAA_RUNNER_GENDER, $user->gender);
 			if(isset($user->dateofbirth))
-				update_user_meta( $id, 'bhaa_runner_dateofbirth', $user->dateofbirth);
+				update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $user->dateofbirth);
 			if(isset($user->company))
 			{
-				update_user_meta( $id, 'bhaa_runner_company', $user->company);
+				update_user_meta( $id, Runner::BHAA_RUNNER_COMPANY, $user->company);
 				p2p_type( 'company_to_runner' )->connect( 
 						$user->company, 
 						$user->id, 
 						array('date' => current_time('mysql')
 				) );
         	}
-        	if(isset($user->gender))
-        		update_user_meta( $id, 'bhaa_runner_gender', $user->gender);
-			if(isset($user->companyname))
-				update_user_meta( $id, 'bhaa_runner_companyname', $user->companyname);			
-			//         	team,
+			//if(isset($user->companyname))
+				//update_user_meta( $id, 'bhaa_runner_companyname', $user->companyname);			
+			// 	team,
 			if(isset($user->newsletter))
-				update_user_meta( $id, 'bhaa_runner_newsletter', $user->newsletter);
+				update_user_meta( $id, Runner::BHAA_RUNNER_NEWSLETTER, $user->newsletter);
 			//         	telephone,
-			if(isset($user->telephone))
-				update_user_meta( $id, 'bhaa_runner_telephone', $user->telephone);
-			//         	mobilephone,
+			//if(isset($user->telephone))
+			//	update_user_meta( $id, 'bhaa_runner_telephone', $user->telephone);
+			//	mobilephone,
 			if(isset($user->mobilephone))
-				update_user_meta( $id, 'bhaa_runner_mobilephone', $user->mobilephone);
+				update_user_meta( $id, Runner::BHAA_RUNNER_MOBILEPHONE, $user->mobilephone);
 			//         	textmessage,
 			if(isset($user->textmessage))
-				update_user_meta( $id, 'bhaa_runner_textmessage', $user->textmessage);
+				update_user_meta( $id, Runner::BHAA_RUNNER_TEXTALERT, $user->textmessage);
 			//         	address1,
 			if(isset($user->address1))
 				update_user_meta( $id, Runner::BHAA_RUNNER_ADDRESS1, $user->address1);
@@ -250,13 +266,13 @@ class BhaaImport
 				update_user_meta( $id, Runner::BHAA_RUNNER_ADDRESS3, $user->address3);
 			//         	status,
 			if(isset($user->status))
-				update_user_meta( $id, 'bhaa_runner_status', $user->status);
-			//         	insertdate,
+				update_user_meta( $id, Runner::BHAA_RUNNER_STATUS, $user->status);
+			// insertdate,
 			if(isset($user->insertdate))
-				update_user_meta( $id, 'bhaa_runner_insertdate', $user->insertdate);
+				update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, $user->insertdate);
 			//         	dateofrenewal
 			if(isset($user->dateofrenewal))
-				update_user_meta( $id, 'bhaa_runner_dateofrenewal', $user->dateofrenewal);
+				update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFRENEWAL, $user->dateofrenewal);
 			
 			$msg = $id.' '.$name.' '.$user->companyname;
 			echo '<p>'.$msg.'</p>';
@@ -311,7 +327,7 @@ class BhaaImport
 			$wpdb->query($wpdb->prepare(
 				"insert into wp_forum_threads(id,parent_id,views,subject,date,status,closed,mngl_id,starter,last_post)
 				VALUES (%d,%d,%d,%s,%s,%s,%d,%d,%d,%s)",
-				$thread->id,1,$thread->views,$thread->subject,$thread->date,'open',0,-1,1,$thread->date));
+				$thread->id,1,$thread->views,$thread->subject,$thread->date,'open',1,-1,$thread->bhaa_runner_id,$thread->date));
 			
 			$wpdb->query($wpdb->prepare(
 				"insert into wp_forum_posts(id,text,parent_id,date,author_id,subject,views)
@@ -332,9 +348,9 @@ class BhaaImport
 		foreach($posts as $post)
 		{
 			$wpdb->query($wpdb->prepare(
-				"insert into wp_forum_posts(id,text,parent_id,date,author_id,subject,views)
-				VALUES (%d,%s,%d,%s,%d,%s,%d)",
-				$post->id,$post->comment,$post->pid,$post->date,$post->bhaa_runner_id,$post->subject,$post->views));
+				"insert into wp_forum_posts(text,parent_id,date,author_id,subject,views)
+				VALUES (%s,%d,%s,%d,%s,%d)",
+				$post->comment,$post->pid,$post->date,$post->bhaa_runner_id,$post->subject,$post->views));
 		}
 		$mgs = 'added posts';
 		echo '<p>'.$mgs.'</p>';
@@ -347,16 +363,16 @@ class BhaaImport
 		return $db->get_results(
 			$db->prepare('select id,pid,uid,FROM_UNIXTIME(date) as date,subject,comment,views,bhaa_runner_id
 				from gl_forum_topic join gluser_bhaarunner on 
-				gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid=0 order by id'));		
+				gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid=0 group by id'));		
 	}
 	
 	function getForumPosts()
 	{
 		$db = $this->getGlfusionDB();
 		return $db->get_results(
-				$db->prepare('select id,pid,uid,FROM_UNIXTIME(date) as date,subject,comment,views,bhaa_runner_id
-						from gl_forum_topic join gluser_bhaarunner on
-						gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid!=0 order by id'));
+			$db->prepare('select id,pid,uid,FROM_UNIXTIME(date) as date,subject,comment,views,bhaa_runner_id
+				from gl_forum_topic left join gluser_bhaarunner on
+				gluser_bhaarunner.gl_users_id=gl_forum_topic.uid where pid!=0'));
 	}
 	
 	function deleteForum()
@@ -397,7 +413,7 @@ class BhaaImport
 					ID,
 					post_type)
 					VALUES (%d,%s)",
-					$company->id,'company'));
+					$company->id,'house'));
 			
 			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
 			$my_post = array(
@@ -411,7 +427,7 @@ class BhaaImport
 					'post_date' => 'NOW()',// getdate(),
 					'post_date_gmt' => 'NOW()',//getdate(),
 					//'tags_input' => array($company->sector),
-					'post_type' => 'company',
+					'post_type' => 'house',
 					'tax_input' => array( 'sector' => array($company->sectorname) )
 					//'post_category' => array(4)
 			);
@@ -420,13 +436,21 @@ class BhaaImport
 			update_post_meta($id,'bhaa_company_id',$company->id);
 			update_post_meta($id,'bhaa_company_website',$company->website);
 			update_post_meta($id,'bhaa_company_image',$company->image);
-			
-			$mgs = 'added post '.$id.' for company '.$company->name;
+			update_post_meta($id,'bhaa_team_type','team');
+			$mgs = 'added post '.$id.' for house '.$company->name;
 			echo '<p>'.$mgs.'</p>';
 			error_log($mgs);
 		}
 	}
 	
+	/**
+	 * import bhaa sector teams as a sector houses with a team
+	 */
+	function importTeams()
+	{
+		echo "TODO - get the sector team details and create houses team";
+	}
+		
 	/**
 	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=50&max=149
 	 * http://localhost/wp-admin/admin.php?import=bhaa&action=companies&min=50&max=249
@@ -452,6 +476,19 @@ class BhaaImport
 		$wpdb->query($wpdb->prepare(
 			"DELETE FROM wp_posts WHERE post_author=1 and post_type='company'")
 		);
+		// TODO delete links to users
+	}
+	
+	/**
+	 * delete houses cpt's
+	 */
+	function deleteHouses()
+	{
+		global $wpdb;
+		$wpdb->query($wpdb->prepare(
+			"DELETE FROM wp_posts WHERE post_author=1 and post_type='house'")
+		);
+		// TODO delete links to users
 	}
 	
 	function getEvents()
@@ -493,6 +530,7 @@ class BhaaImport
 	 * admin.php?import=bhaa&action=users&min=8000&max=6000
 	 * admin.php?import=bhaa&action=users&min=9000&max=9999
 	 * 
+	 * TODO get the team membership details
 	 * @return Ambigous <mixed, NULL, multitype:, multitype:multitype: , multitype:unknown >
 	 */
 	function getUsers()
@@ -538,34 +576,44 @@ class BhaaImport
 	{
 		global $wpdb;
 		$sql;
-		if(isset($email))
-		{
-			$sql = $wpdb->prepare(
-				"INSERT INTO wp_users(
-				ID,
-				user_login,
-				user_pass,
-				user_nicename,
-				user_email,
-				user_status,
-				display_name)
-				VALUES (%d,%s,%s,%s,%s,%d,%s)",
-				$id,$name,$password,$name,$email,0,$name);
-		}	
-		else
-		{
-			$sql = $wpdb->prepare(
-				"INSERT INTO wp_users(
-				ID,
-				user_login,
-				user_pass,
-				user_nicename,
-				user_status,
-				display_name)
-				VALUES (%d,%s,%s,%s,%s,%s)",
-				$id,$name,$password,$name,0,$name);
-		}
-		$wpdb->query($sql);
+		
+		//if(!get_user_by('id',$id))
+		//{
+			if(isset($email))
+			{
+				$sql = $wpdb->prepare(
+					"INSERT INTO wp_users(
+					ID,
+					user_login,
+					user_pass,
+					user_nicename,
+					user_email,
+					user_status,
+					display_name)
+					VALUES (%d,%s,%s,%s,%s,%d,%s)",
+					$id,$name,$password,$name,$email,0,$name);
+			}	
+			else
+			{
+				$sql = $wpdb->prepare(
+					"INSERT INTO wp_users(
+					ID,
+					user_login,
+					user_pass,
+					user_nicename,
+					user_status,
+					display_name)
+					VALUES (%d,%s,%s,%s,%s,%s)",
+					$id,$name,$password,$name,0,$name);
+
+			}
+			//error_log($id.' SQL '.$sql);
+			$wpdb->query($sql);
+// 		}
+// 		else
+// 		{
+// 			error_log($id.' user exists');			
+// 		}
 	}
 	
 	function deleteUsers()
