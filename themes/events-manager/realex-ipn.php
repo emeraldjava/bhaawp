@@ -28,7 +28,7 @@ function record_transaction($EM_Booking, $amount, $currency, $timestamp, $txn_id
 	}
 }
 require_once ("wp-config.php");
-include_once (WP_CONTENT_DIR."/plugins/bhaa_event_email/bhaa_event_email.php");//! includes the email functions
+//include_once (WP_CONTENT_DIR."/plugins/bhaa_event_email/bhaa_event_email.php");//! includes the email functions
 $timestamp = $_POST['TIMESTAMP'];
 $orderid = $_POST['ORDER_ID'];
 $result = $_POST['RESULT'];
@@ -128,27 +128,27 @@ if ($md5hash != $realexmd5) {
 		}
 		
 	//! start email part
-		$EM_Event = new EM_Event($event_id);
-		$membertype = get_user_meta($user_id,"bhaa_runner_status",true);
-		if(trim($membertype)==""){
-			$membertype="D";
-		}
-		$user_data= get_userdata($user_id);
-		$EM_Location = em_get_location($EM_Event->location_id);
-		$event_details = array(
-			"user_id" => $user_id,
-			"user_email" => $user_data->user_email,
-			"user_name" => $user_data->user_firstname." ".$user_data->user_lastname,
-			"amount" => $amount,
-			"event_name" => $EM_Event->event_name,
-			"event_location" => $EM_Location->location_name,
-			"event_time" => $EM_Event->event_start_date.": ".$EM_Event->event_start_time." - ".$EM_Event->event_end_time,
-			"event_date" => $EM_Event->time,
-			"event_id" => $event_id
-		);
-		if(bhaa_event_email($result,$SUB,$membertype,$event_details)){
-			$out.='<p><small>You have been sent an email to the account: '.$event_details["user_email"].' to confirm these details.</small></p>';
-		}
+// 		$EM_Event = new EM_Event($event_id);
+// 		$membertype = get_user_meta($user_id,"bhaa_runner_status",true);
+// 		if(trim($membertype)==""){
+// 			$membertype="D";
+// 		}
+// 		$user_data= get_userdata($user_id);
+// 		$EM_Location = em_get_location($EM_Event->location_id);
+// 		$event_details = array(
+// 			"user_id" => $user_id,
+// 			"user_email" => $user_data->user_email,
+// 			"user_name" => $user_data->user_firstname." ".$user_data->user_lastname,
+// 			"amount" => $amount,
+// 			"event_name" => $EM_Event->event_name,
+// 			"event_location" => $EM_Location->location_name,
+// 			"event_time" => $EM_Event->event_start_date.": ".$EM_Event->event_start_time." - ".$EM_Event->event_end_time,
+// 			"event_date" => $EM_Event->time,
+// 			"event_id" => $event_id
+// 		);
+// 		if(bhaa_event_email($result,$SUB,$membertype,$event_details)){
+// 			$out.='<p><small>You have been sent an email to the account: '.$event_details["user_email"].' to confirm these details.</small></p>';
+// 		}
 	//! end email stuff
 
 	}else {
