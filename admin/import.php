@@ -29,7 +29,7 @@ class BhaaImport
 	public function import()
 	{
 		// set a longer timelimit
-		set_time_limit(2*60);
+		set_time_limit(3*60);
 		
 		$this->header();
 		
@@ -126,28 +126,27 @@ class BhaaImport
 		$events = $this->getEvents();
 		require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-event.php' );
 		require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-location.php' );
+		$count=0;
 		foreach($events as $event)
 		{
 			$count++;
 	
 			// default location 1
-			$emLocation = new EM_Location();
-			$emLocation->location_owner = 1;
-			$emLocation->location_name = $event->location;
-			$emLocation->location_slug = $event->tag;
-			$emLocation->location_address = $event->location;
-			$emLocation->location_status = 'publish';
-			$emLocation->location_town = 'Dublin';
-			$emLocation->location_country = 'IE';
-			$emLocation->post_title = $event->tag.' '.$event->location;
-			$emLocation->post_name = $event->tag;
-			$emLocation->save();
+// 			$emLocation = new EM_Location();
+// 			$emLocation->location_owner = 1;
+// 			$emLocation->location_name = $event->location;
+// 			$emLocation->location_slug = $event->tag;
+// 			$emLocation->location_address = $event->location;
+// 			$emLocation->location_status = 'publish';
+// 			$emLocation->location_town = 'Dublin';
+// 			$emLocation->location_country = 'IE';
+// 			$emLocation->post_title = $event->tag.' '.$event->location;
+// 			$emLocation->post_name = $event->tag;
+// 			$emLocation->save();
 			//echo '<p>emLocation '.$emLocation->post_id.' '.$emLocation->location_id.'</p>';
 				
 			$emEvent = new EM_Event();
-			//$emEvent->event_id = $event->id;
 			$emEvent->event_name = $event->name.' '.$event->year; // append the year
-			//$emEvent->post_name = $event->tag;
 			$emEvent->event_slug = $event->tag;
 			$emEvent->event_owner = 1;
 			$emEvent->event_start_date = $event->date;
@@ -157,15 +156,14 @@ class BhaaImport
 			$emEvent->event_end_time = '12:00:00';
 			$emEvent->post_content = $event->name;//.' - '.$event->tag;
 			$emEvent->event_status = 'publish';
-			
 			$emEvent->event_date_created = date('Y-m-d H:i:s');
-			$emEvent->location_id=$emLocation->location_id;
+			//$emEvent->location_id=$emLocation->location_id;
 			$emEvent->save();
 			
 			update_post_meta($emEvent->post_id,BhaaImport::BHAA_EVENT_TAG,$event->tag);
 			
 			//echo '<p>emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id.'</p>';
-			error_log('emEvent '.$emEvent->post_id.' '.$emEvent->event_name.' '.$emLocation->location_name);
+			error_log('emEvent '.$emEvent->post_id.' '.$emEvent->event_name);//.' '.$emLocation->location_name);
 			echo '<p>'.$count.' - '.$event->id.' '.$event->tag.' '.$event->name.'</p>';
 		}
 	}
@@ -551,7 +549,7 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT id,name,tag,date,YEAR(date) as year,location FROM event order by id desc LIMIT '.$this->EVENT_LIMIT)
+			'SELECT id,name,tag,date,YEAR(date) as year,location FROM event order by id desc')// LIMIT '.$this->EVENT_LIMIT)
 		);
 	}
 	
@@ -736,7 +734,7 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT race.id,race.event,event.tag,starttime,distance,unit,category,race.type FROM race join event on race.event=event.id order by race.id desc LIMIT '.$this->RACE_LIMIT)// LIMIT %d',10)
+			'SELECT race.id,race.event,event.tag,starttime,distance,unit,category,race.type FROM race join event on race.event=event.id order by race.id desc')// LIMIT '.$this->RACE_LIMIT)// LIMIT %d',10)
 		);
 	}
 	
@@ -784,8 +782,6 @@ class BhaaImport
 				error_log($mgs);
 		}
 	}
-	
-	
 	
 	function getRaceResults()
 	{
