@@ -28,6 +28,9 @@ class BhaaImport
 	 */
 	public function import()
 	{
+		// set a longer timelimit
+		set_time_limit(2*60);
+		
 		$this->header();
 		
 		if(!empty($_GET['min']))
@@ -422,8 +425,8 @@ class BhaaImport
 					'post_content' => $company->image,
 					'post_status' => 'publish',
 					'post_author' => 1,
-					//'comment_status' => 'closed',
-					//'ping_status' => 'closed',
+					'comment_status' => 'closed',
+					'ping_status' => 'closed',
 					'post_date' => 'NOW()',// getdate(),
 					'post_date_gmt' => 'NOW()',//getdate(),
 					//'tags_input' => array($company->sector),
@@ -436,7 +439,7 @@ class BhaaImport
 			update_post_meta($id,'bhaa_company_id',$company->id);
 			update_post_meta($id,'bhaa_company_website',$company->website);
 			update_post_meta($id,'bhaa_company_image',$company->image);
-			update_post_meta($id,'bhaa_team_type','team');
+			update_post_meta($id,House::BHAA_HOUSE_TYPE,House::COMPANY);
 			$mgs = 'added post '.$id.' for house '.$company->name;
 			echo '<p>'.$mgs.'</p>';
 			error_log($mgs);
@@ -448,7 +451,47 @@ class BhaaImport
 	 */
 	function importTeams()
 	{
-		echo "TODO - get the sector team details and create houses team";
+		//echo "TODO - get the sector team details and create houses team";
+		global $wpdb;
+		$count = 0;
+		$teams = $this->getTeams();
+		
+		require_once( ABSPATH . 'wp-includes/post.php' );
+		foreach($teams as $team)
+		{
+			$wpdb->query($wpdb->prepare(
+					"INSERT INTO wp_posts(
+					ID,
+					post_type)
+					VALUES (%d,%s)",
+					$team->id,'house'));
+				
+			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
+			$my_post = array(
+					'ID' => $team->id,
+					'post_title' => $team->name,//mysql_real_escape_string($company->name),
+					'post_content' => $team->name,
+					'post_status' => 'private',
+					'post_author' => 1,
+					'comment_status' => 'closed',
+					'ping_status' => 'closed',
+					'post_date' => 'NOW()',// getdate(),
+					'post_date_gmt' => 'NOW()',//getdate(),
+					//'tags_input' => array($company->sector),
+					'post_type' => 'house',
+					'tax_input' => array( 'sector' => array($team->sectorname) )
+					//'post_category' => array(4)
+			);
+			// Insert the post into the database
+			$id = wp_insert_post( $my_post );
+			update_post_meta($id,'bhaa_company_id',$team->id);
+			//update_post_meta($id,'bhaa_company_website',$company->website);
+			//update_post_meta($id,'bhaa_company_image',$company->image);
+			update_post_meta($id,House::BHAA_HOUSE_TYPE,House::SECTORTEAM);
+			$mgs = 'added post '.$id.' for sector team house '.$team->name;
+			echo '<p>'.$mgs.'</p>';
+			error_log($mgs);
+		}
 	}
 		
 	/**
@@ -462,13 +505,26 @@ class BhaaImport
 	function getCompanies()
 	{
 		$db = $this->getBhaaDB();
-		$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id limit 10 order by c.id');
+		$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id order by c.id');
 		if($this->min!=0||$this->max!=100)
 			$sql = $db->prepare('select c.id,c.name,sector,website,image,s.name as sectorname from company c join sector s on c.sector=s.id where c.id>=%d and c.id<=%d order by c.id',$this->min,$this->max);
 		echo '<p>'.$sql.'</p>';
 		error_log($sql);
 		return $db->get_results($sql);
 	}
+	
+	function getTeams()
+	{
+		$db = $this->getBhaaDB();
+		$sql = $db->prepare('
+			select team.id,team.name,sector.name as sectorname from team
+				join sector on sector.id=team.parent
+				where type="S" order by id asc');
+		echo '<p>'.$sql.'</p>';
+		error_log($sql);
+		return $db->get_results($sql);
+	}
+	
 	
 	function deleteCompanies()
 	{
@@ -486,7 +542,7 @@ class BhaaImport
 	{
 		global $wpdb;
 		$wpdb->query($wpdb->prepare(
-			"DELETE FROM wp_posts WHERE post_author=1 and post_type='house'")
+			"DELETE FROM wp_posts WHERE post_type='house'")
 		);
 		// TODO delete links to users
 	}

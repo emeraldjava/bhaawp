@@ -19,6 +19,10 @@
  */
 class House
 {
+	const BHAA_HOUSE_TYPE = 'bhaa_house_type';
+	const COMPANY = 'company';
+	const SECTORTEAM = 'sectorteam';
+	
 	function House()
 	{
 		add_action( 'init', array(&$this,'register_taxonomy_sector'));
