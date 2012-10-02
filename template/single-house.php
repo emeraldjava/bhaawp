@@ -17,7 +17,7 @@ get_header(); ?>
 	<!-- http://wpsnipp.com/index.php/template/create-multiple-search-templates-for-custom-post-types/ -->
 	<!-- http://www.studionashvegas.com/development/search-specific-post-type-wordpress/ -->
 	<div class="ui-widget">
-		<label for="humm">Company: </label><input id="company_search" />
+		<label for="humm">Search:</label><input id="house_search" />
 	</div>
 				
 					<nav id="nav-single">
@@ -34,7 +34,7 @@ get_header(); ?>
 // Find connected posts
 // https://github.com/scribu/wp-posts-to-posts/wiki/Posts-2-Users
 $users = get_users( array(
-		'connected_type' => 'company_to_runner',
+		'connected_type' => 'house_to_runner',
 		'connected_items' => $post
 ) );
 ?>

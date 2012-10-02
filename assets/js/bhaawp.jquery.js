@@ -16,14 +16,14 @@ jQuery(document).ready( function(){
 	// http://stackoverflow.com/questions/7136887/autocomplete-with-json-data-fetched-via-ajax
 	// http://wordpress.stackexchange.com/questions/42891/how-to-create-live-autofill-search
 	// var acs_action = 'bhaawp_company_search';
-	jQuery("#company_search").autocomplete({
+	jQuery("#house_search").autocomplete({
 		source: function(req, response){
 //			jQuery.getJSON(bhaawp.ajaxurl+'?callback=?action='+acs_action, req, response);
 			jQuery.ajax({
 				  url: bhaawp.ajaxurl,
 				  dataType: 'json',
 				  data: {
-					  action:'bhaawp_company_search',
+					  action:'bhaawp_house_search',
 					  term:req.term
 				  },
 				  success: function( request ) {

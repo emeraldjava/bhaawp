@@ -13,7 +13,6 @@ class BhaaLoader
 	var $version = '2012.09.24';
 	
 	var $admin;
-	var $company;
 	var $house;
 	var $race;
 	var $league;
@@ -39,7 +38,6 @@ class BhaaLoader
 		//add_action( 'widgets_init', array(&$this, 'registerWidget') );
 		// Start this plugin once all other plugins are fully loaded
 		//add_action( 'plugins_loaded', array(&$this, 'initialize') );
-		//add_action( 'init', array(&$this,'register_cpt_company'));
 		add_action( 'wp_loaded', array(&$this,'bhaa_connection_types'));
 		
 		if ( is_admin() )
@@ -57,16 +55,6 @@ class BhaaLoader
 		// init, wp_head, wp_enqueue_scripts
 		add_action('init', array($this,'enqueue_scripts_and_style'));
 		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
-	}
-
-	/**
-	 * ajax
-	 * http://thomasgriffinmedia.com/blog/2010/11/how-to-include-custom-post-types-in-wordpress-search-results/
-	 */
-	function bhaa_cpt_search( $query ) {
-		if ( $query->is_search )
-			$query->set( 'post_type', array( 'company' ) );
-		return $query;
 	}
 	
 	function bhaa_connection_types() {
@@ -90,8 +78,8 @@ class BhaaLoader
 		));
 		
 		p2p_register_connection_type( array(
-				'name' => 'company_to_runner',
-				'from' => 'company',
+				'name' => 'house_to_runner',
+				'from' => 'house',
 				'to' => 'user',
 				'cardinality' => 'one-to-many'
 		));
@@ -117,8 +105,6 @@ class BhaaLoader
 		global $bhaaAJAX;
 		
 		// classes
-		require_once (dirname (__FILE__) . '/classes/company.class.php');
-		$this->company = new Company();
 		require_once (dirname (__FILE__) . '/classes/house.class.php');
 		$this->house = new House();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
@@ -136,7 +122,7 @@ class BhaaLoader
 		
 		require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
 		$this->rrw = new RaceResult_Widget();
-		add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
+		//add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
 		
 		// Global libraries
 		//require_once (dirname (__FILE__) . '/lib/core.php');
@@ -165,8 +151,8 @@ class BhaaLoader
  		wp_localize_script('bhaawp','bhaawp',array('ajaxurl'=>admin_url('admin-ajax.php')));
 
  		// register ajax methods 
- 		add_action('wp_ajax_nopriv_bhaawp_company_search',array($this,'bhaawp_company_search'));
-		add_action('wp_ajax_bhaawp_company_search',array($this,'bhaawp_company_search'));
+ 		add_action('wp_ajax_nopriv_bhaawp_house_search',array($this,'bhaawp_house_search'));
+		add_action('wp_ajax_bhaawp_house_search',array($this,'bhaawp_house_search'));
 			
  		// css style 
  		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
@@ -241,11 +227,11 @@ class BhaaLoader
 // 		EXIT;
 // 	}
 	
-	function bhaawp_company_search() {
-		error_log('bhaawp_company_search '.$_REQUEST['term']);
+	function bhaawp_house_search() {
+		error_log('bhaawp_house_search '.$_REQUEST['term']);
 		$posts = get_posts( array(
 			's' => trim( esc_attr( strip_tags( $_REQUEST['term'] ) ) ),
-			'post_type' => 'company'
+			'post_type' => 'house'
 		) );
 		$suggestions=array();
 	
@@ -259,7 +245,7 @@ class BhaaLoader
 		endforeach;
 	
 		$response = json_encode(array('matches'=>$suggestions));
-		//error_log('bhaawp_company_search '.$response);
+		//error_log('bhaawp_house_search '.$response);
 		echo $response;
 		wp_reset_postdata();
 		//die();
