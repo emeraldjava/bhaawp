@@ -4,8 +4,9 @@ class Connection
 	const EVENT_TO_RACE = 'event_to_race';
 	const LEAGUE_TO_EVENT = 'league_to_event';
 	const HOUSE_TO_RUNNER = 'house_to_runner';
+	const SECTORTEAM_TO_RUNNER = 'sectorteam_to_runner';
 	
-	function Company()
+	function Connection()
 	{
 		
 	}
@@ -32,7 +33,13 @@ class Connection
 				'name' => Connection::HOUSE_TO_RUNNER,
 				'from' => 'house',
 				'to' => 'user',
-				'cardinality' => 'one-to-many'
+				'cardinality' => 'many-to-many'
+		));
+		p2p_register_connection_type( array(
+				'name' => Connection::SECTORTEAM_TO_RUNNER,
+				'from' => 'house',
+				'to' => 'user',
+				'cardinality' => 'many-to-many'
 		));
 		add_action('p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
 	}
@@ -43,11 +50,11 @@ class Connection
 	 */
 	function bhaa_p2p_created_connection($p2p_id)
 	{
-		$connection = p2p_get_connection( $p2p_id );
+		//$connection = p2p_get_connection( $p2p_id );
 		// 		if ( 'some-ctype-name' == $connection->p2p_type ) {
 		// 			// do things
 		// 		}
-		error_log('bhaa_p2p_created_connection() '.$connection->p2p_type);
+		//error_log('bhaa_p2p_created_connection() '.$connection->p2p_type);
 	}
 	
 }

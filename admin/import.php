@@ -10,9 +10,9 @@ class BhaaImport
 	var $max = 100;
 	
 	const BHAA_EVENT_TAG = 'bhaa_event_tag';
-	var $RACE_ID = '201230';
-	var $EVENT_LIMIT = '10';
-	var $RACE_LIMIT = '40';
+	var $RACE_ID = '1';
+	//var $EVENT_LIMIT = '10';
+	//var $RACE_LIMIT = '40';
 	
 	function BhaaImport()
 	{
@@ -29,7 +29,7 @@ class BhaaImport
 	public function import()
 	{
 		// set a longer timelimit
-		set_time_limit(3*60);
+		set_time_limit(4*60);
 		
 		$this->header();
 		
@@ -74,6 +74,8 @@ class BhaaImport
 			$this->importPosts();
 		elseif($_GET['action']=='deleteForum')
 			$this->deleteForum();
+		elseif($_GET['action']=='linkRunnersToHouses')
+			$this->linkRunnersToHouses();
 		else
 			$this->greet();
 		$this->footer();
@@ -111,7 +113,7 @@ class BhaaImport
 		echo '<a href="admin.php?import=bhaa&action=topics">Import BHAA Topics</a> - 
 			<a href="admin.php?import=bhaa&action=posts">Import BHAA Posts</a> - 
 				<a href="admin.php?import=bhaa&action=deleteForum">Delete Forum</a><br/>';
-		echo '<a href="admin.php?import=bhaa&action=raceResults">TO add action to link runners to houses and update</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=linkRunnersToHouses">Link runners to houses</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -236,11 +238,11 @@ class BhaaImport
 			if(isset($user->company))
 			{
 				update_user_meta( $id, Runner::BHAA_RUNNER_COMPANY, $user->company);
-				p2p_type( 'company_to_runner' )->connect( 
-						$user->company, 
-						$user->id, 
-						array('date' => current_time('mysql')
-				) );
+// 				p2p_type( Connection::HOUSE_TO_RUNNER )->connect( 
+// 						$user->company, 
+// 						$user->id, 
+// 						array('date' => current_time('mysql')
+// 				) );
         	}
 			//if(isset($user->companyname))
 				//update_user_meta( $id, 'bhaa_runner_companyname', $user->companyname);			
@@ -696,8 +698,8 @@ class BhaaImport
 				'post_author' => 1,
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
-				'post_date' => getdate(),
-				'post_date_gmt' => getdate(),
+				'post_date' => 'NOW()',// getdate(),
+				'post_date_gmt' => 'NOW()',// getdate(),
 				'post_type' => 'race'
 			);
 			// Insert the post into the database
@@ -777,10 +779,80 @@ class BhaaImport
 					$row->standard,
 					$row->paceKM,
 					$row->class));
-				$mgs = 'insert raceresult '.$row->race.' '.$row->runner;
-				echo '<p>'.$mgs.'</p>';
-				error_log($mgs);
+				//$mgs = 'insert raceresult '.$row->race.' '.$row->runner;
+				//echo '<p>'.$mgs.'</p>';
+				//error_log($mgs);
 		}
+		echo '<p>Done</p>';
+	}
+	
+	function linkRunnersToHouses()
+	{
+		global $wpdb;
+		$count = 0;
+		echo '<p>'.__('Linking runners to houses...').'<br /><br /></p>';
+		
+		$users = $this->getRunnerTeamDetails();
+		
+		foreach($users as $user)
+		{
+			$count++;
+			// company team runner
+			if($user->type=="C")// $user->company == $user->team)
+			{
+				
+				p2p_create_connection( Connection::HOUSE_TO_RUNNER, array(
+						'from' => $user->company,
+						'to' => $user->runner,
+						'meta' => array('date' => current_time('mysql'))
+				) );
+// 				p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
+// 					$user->company,
+// 					$user->runner,
+// 					array('date' => current_time('mysql'))
+// 				);
+				error_log('Company '.$user->runner.' '.$user->companyname.' '.$user->teamname);
+			}
+			else
+			{
+				// link the sector team runner to both
+				p2p_create_connection( Connection::HOUSE_TO_RUNNER, array(
+						'from' => $user->company,
+						'to' => $user->runner,
+						'meta' => array('date' => current_time('mysql'))
+				) );
+// 				p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
+// 					$user->company,
+// 					$user->runner,
+// 					array('date' => current_time('mysql'))
+// 				);
+
+				p2p_create_connection( Connection::SECTORTEAM_TO_RUNNER, array(
+						'from' => $user->team,
+						'to' => $user->runner,
+						'meta' => array('date' => current_time('mysql'))
+				) );
+// 				p2p_type(Connection::SECTORTEAM_TO_RUNNER )->connect(
+// 					$user->team,
+// 					$user->runner,
+// 					array('date' => current_time('mysql'))
+// 				);
+				error_log('sector team '.$user->runner.' '.$user->companyname.' '.$user->teamname);
+			}		
+		}
+	}
+	
+	function getRunnerTeamDetails()
+	{
+		$db = $this->getBhaaDB();
+		return $db->get_results(
+			$db->prepare(
+				'select runner.id as runner,runner.company,runner.companyname,team.id as team,team.name as teamname,team.type
+				from runner
+				join teammember on teammember.runner=runner.id
+				join team on team.id=teammember.team
+				where runner.status!="D" and runner.company!=0 order by runner.company')
+		);
 	}
 	
 	function getRaceResults()
@@ -798,8 +870,8 @@ class BhaaImport
 				paceKM,
 				class
 				FROM raceresult 
-				JOIN runner on runner.id=raceresult.runner and runner.status!="D"
-				where raceresult.race>='.$this->RACE_ID));
+				JOIN runner on runner.id=raceresult.runner 
+				where raceresult.race>='.$this->RACE_ID.' order by raceresult.race desc'));
 //		where runner.id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
 //		7713, 1500, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
 //				where runner.status="M" order by race desc'));
