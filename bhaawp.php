@@ -13,6 +13,7 @@ class BhaaLoader
 	var $version = '2012.09.24';
 	
 	var $admin;
+	var $connection;
 	var $house;
 	var $race;
 	var $league;
@@ -38,7 +39,7 @@ class BhaaLoader
 		//add_action( 'widgets_init', array(&$this, 'registerWidget') );
 		// Start this plugin once all other plugins are fully loaded
 		//add_action( 'plugins_loaded', array(&$this, 'initialize') );
-		add_action( 'wp_loaded', array(&$this,'bhaa_connection_types'));
+		add_action( 'wp_loaded', array(&$this->connection,'bhaa_connection_types'));
 		
 		if ( is_admin() )
 		{
@@ -56,55 +57,14 @@ class BhaaLoader
 		add_action('init', array($this,'enqueue_scripts_and_style'));
 		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
 	}
-	
-	function bhaa_connection_types() {
-		// Make sure the Posts 2 Posts plugin is active.
-		require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
-		if ( !function_exists( 'p2p_register_connection_type' ) )
-			return;
-		
-		p2p_register_connection_type( array(
-				'name' => 'event_to_race',
-				'from' => 'event',
-				'to' => 'race',
-				'cardinality' => 'one-to-many'
-		));
-		
-		p2p_register_connection_type( array(
-				'name' => 'league_to_event',
-				'from' => 'league',
-				'to' => 'event',
-				'cardinality' => 'one-to-many'
-		));
-		
-		p2p_register_connection_type( array(
-				'name' => 'house_to_runner',
-				'from' => 'house',
-				'to' => 'user',
-				'cardinality' => 'one-to-many'
-		));
-		
-		add_action('p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
-	}
-		
-	/**
-	 * https://github.com/scribu/wp-posts-to-posts/issues/236
-	 * @param unknown_type $p2p_id
-	 */
-	function bhaa_p2p_created_connection($p2p_id)
-	{
-		$connection = p2p_get_connection( $p2p_id );
-// 		if ( 'some-ctype-name' == $connection->p2p_type ) {
-// 			// do things
-// 		}
-		error_log('bhaa_p2p_created_connection() '.$connection->p2p_type);
-	}
 		
 	function loadLibraries()
 	{
 		global $bhaaAJAX;
 		
 		// classes
+		require_once (dirname (__FILE__) . '/classes/connection.class.php');
+		$this->connection = new Connection();
 		require_once (dirname (__FILE__) . '/classes/house.class.php');
 		$this->house = new House();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
