@@ -851,7 +851,7 @@ class BhaaImport
 				from runner
 				join teammember on teammember.runner=runner.id
 				join team on team.id=teammember.team
-				where runner.status!="D" and runner.company!=0 order by runner.company')
+				where runner.status!="D" and runner.company!=0 order by runner.id')
 		);
 	}
 	

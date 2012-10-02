@@ -3,14 +3,14 @@
 Plugin Name: BHAA wordpress plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.09.24
+Version: 2012.10.02
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.09.24';
+	var $version = '2012.10.02';
 	
 	var $admin;
 	var $connection;
@@ -118,75 +118,7 @@ class BhaaLoader
  		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
  		error_log('load_scripts',0);
 	}
-	
-	/**
-	 * 
-	 * http://wp.tutsplus.com/tutorials/theme-development/add-jquery-autocomplete-to-your-sites-search/
-	 * 
-	 * http://alex.leonard.ie/2010/10/19/resetting-your-wp_query/
-	 * query args
-	 * http://wpsnipp.com/index.php/template/create-multiple-search-templates-for-custom-post-types/
-	 */
-// 	FUNCTION BHAAWP_COMPANY_SEARCHXX() {
-// 		// GET THE SUBMITTED PARAMETERS
-// 		//$POSTID = $_POST['POSTID'];
-	
-// 		$ARGS = ARRAY(
-// 			'POST_TYPE'=> 'COMPANY',
-// 			'NAME'    => $_REQUEST['TERM']);
-// 		ERROR_LOG('BHAAWP_COMPANY_SEARCH '.$_REQUEST['TERM']);
-// //		QUERY_POSTS($ARGS);
 		
-// 		$COMPANYQUERY = NEW WP_QUERY($ARGS);//'PAGENAME=CONTACT' );
-		
-// 		ERROR_LOG('BHAAWP_COMPANY_SEARCH '.PRINTF($COMPANYQUERY->QUERY));
-		
-// 		$SUGGESTIONS=ARRAY();
-// 		WHILE ( $COMPANYQUERY->HAVE_POSTS() ) : 
-// 			$COMPANYQUERY->THE_POST();
-// 			$SUGGESTION = ARRAY();
-// 			$SUGGESTION['LABEL'] = GET_THE_TITLE();
-// 			$SUGGESTION['LINK'] = GET_PERMALINK();
-// 			$SUGGESTIONS[]= $SUGGESTION;
-// 		ENDWHILE;
-		
-// // 		IF ($COMPANYQUERY->HAVE_POSTS()) : 
-// // 			$SUGGESTION = ARRAY();
-// // 			WHILE ($QUERY->HAVE_POSTS()) : 
-// // 				$QUERY->THE_POST();
-// // 				$SUGGESTION['LABEL'] = ESC_HTML($QUERY->THE_POST()->POST_TITLE);
-// // 				$SUGGESTION['LINK'] = GET_PERMALINK();
-// // 				$SUGGESTIONS[]= $SUGGESTION;
-// // 		// DO LOOP STUFF
-// // 			ENDWHILE;
-// // 		ENDIF;
-		
-// 		// INITIALISE SUGGESTIONS ARRAY
-// // 		$SUGGESTIONS=ARRAY();
-// // 		GLOBAL $POST;
-// // 		FOREACH ($QUERY->GET_POSTS() AS $POST): 
-// // 			SETUP_POSTDATA($POST);
-// // 			// INITIALISE SUGGESTION ARRAY
-// // 			$SUGGESTION = ARRAY();
-// // 			$SUGGESTION['LABEL'] = ESC_HTML($POST->POST_TITLE);
-// // 			$SUGGESTION['LINK'] = GET_PERMALINK();
-// // 			// ADD SUGGESTION TO SUGGESTIONS ARRAY
-// // 			$SUGGESTIONS[]= $SUGGESTION;
-// // 		ENDFOREACH;
-		
-// 		// GENERATE THE RESPONSE
-// 		$RESPONSE = JSON_ENCODE( $SUGGESTIONS );//ARRAY( 'SUCCESS' => TRUE, 'POSTID'=>$POSTID ) );
-// 		WP_RESET_POSTDATA();
-		
-// 		ERROR_LOG('BHAAWP_COMPANY_SEARCH '.$RESPONSE);
-// 		// RESPONSE OUTPUT
-// 		HEADER( "CONTENT-TYPE: APPLICATION/JSON" );
-// 		ECHO $RESPONSE;
-	
-// 		// IMPORTANT: DON'T FORGET TO "EXIT"
-// 		EXIT;
-// 	}
-	
 	function bhaawp_house_search() {
 		error_log('bhaawp_house_search '.$_REQUEST['term']);
 		$posts = get_posts( array(
@@ -220,41 +152,6 @@ class BhaaLoader
 		//add_shortcode( 'newrunnerform', array($this->runner,'new_runner_form'));
 		//add_shortcode( 'dayrunnerform', array($this->runner,'day_runner_form'));
 		add_shortcode( 'bhaaraceday', array($this->raceday,'race_day'));
-	}
-	
-	public function bhaa_shortcode($attributes)
-	{
-		// Extract data
-// 		extract(shortcode_atts(
-// 				array(
-// 						'id'      => 1,
-// 						'type'    => 'default'
-// 				),
-// 				$attributes
-// 		));
-// 		$id = (int) $id;
-				
-// 		// event shortcode with id?
-// 		if ($type == 'event') 
-// 		{
-// 			if(isset($id))
-// 				return $this->event->getEvent($id);
-// 		}
-// 		elseif($type == 'races')
-// 		{
-// 			// li
-// 			return $this->race->listRaces($attributes);
-// 		}
-// 		elseif($type == 'raceresult')
-// 		{
-// 			// li
-// 			return $this->raceresult->listRaceResult($attributes);
-// 		}
-// 		else
-// 		{
-// 			// default shortcode action
-// 			return $this->event->listEvents($attributes);
-// 		}		
 	}
 		
 	function defineConstants()
