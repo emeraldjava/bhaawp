@@ -198,13 +198,13 @@ class BhaaImport
         	 * http://codex.wordpress.org/Function_Reference/wp_create_user
         	 */
         	// DB insert user
+        	$name = strtolower($user->firstname.'.'.$user->surname);
+        	$name = str_replace(' ', '', $name);
+        	$name = str_replace("'", '', $name);
+        	
         	if(empty($wpuser->ID))
         	{
-        		$name = strtolower($user->firstname.'.'.$user->surname);
-        		$name = str_replace(' ', '', $name);
-        		$name = str_replace("'", '', $name);
         		$password = wp_hash_password($user->id);
-        		
         		$this->insertUser($user->id,$name,$password,$user->email);
         	}
 			else
@@ -277,7 +277,7 @@ class BhaaImport
 			if(isset($user->dateofrenewal))
 				update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFRENEWAL, $user->dateofrenewal);
 			
-			$msg = $id.' '.$name.' '.$user->companyname;
+			$msg = $id.' '.$name;//.' '.$user->companyname;
 			echo '<p>'.$msg.'</p>';
 			error_log($msg);
 			

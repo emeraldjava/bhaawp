@@ -5,18 +5,13 @@ class Connection
 	const LEAGUE_TO_EVENT = 'league_to_event';
 	const HOUSE_TO_RUNNER = 'house_to_runner';
 	const SECTORTEAM_TO_RUNNER = 'sectorteam_to_runner';
-	
-	function Connection()
-	{
 		
-	}
-	
 	function bhaa_connection_types() {
 		// Make sure the Posts 2 Posts plugin is active.
 		require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
 		if ( !function_exists( 'p2p_register_connection_type' ) )
 			return;
-	
+				
 		p2p_register_connection_type( array(
 				'name' => Connection::EVENT_TO_RACE,
 				'from' => 'event',
@@ -33,13 +28,15 @@ class Connection
 				'name' => Connection::HOUSE_TO_RUNNER,
 				'from' => 'house',
 				'to' => 'user',
-				'cardinality' => 'many-to-many'
+				'cardinality' => 'one-to-many',
+				'title' => array( 'from' => 'Company Runner', 'to' => 'Company' )
 		));
 		p2p_register_connection_type( array(
 				'name' => Connection::SECTORTEAM_TO_RUNNER,
 				'from' => 'house',
 				'to' => 'user',
-				'cardinality' => 'many-to-many'
+				'cardinality' => 'one-to-many',
+				'title' => array( 'from' => 'Sector Team Runner', 'to' => 'Sector Team' )
 		));
 		add_action('p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
 	}
@@ -54,7 +51,7 @@ class Connection
 		// 		if ( 'some-ctype-name' == $connection->p2p_type ) {
 		// 			// do things
 		// 		}
-		//error_log('bhaa_p2p_created_connection() '.$connection->p2p_type);
+		error_log('bhaa_p2p_created_connection() '.$p2p_id);
 	}
 	
 }
