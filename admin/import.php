@@ -800,44 +800,36 @@ class BhaaImport
 			// company team runner
 			if($user->type=="C")// $user->company == $user->team)
 			{
-				
-				p2p_create_connection( Connection::HOUSE_TO_RUNNER, array(
-						'from' => $user->company,
-						'to' => $user->runner,
-						'meta' => array('date' => current_time('mysql'))
-				) );
-// 				p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
-// 					$user->company,
-// 					$user->runner,
-// 					array('date' => current_time('mysql'))
-// 				);
-				error_log('Company '.$user->runner.' '.$user->companyname.' '.$user->teamname);
+				$res = p2p_type(Connection::HOUSE_TO_RUNNER)->connect(
+					$user->company,
+					$user->runner,
+					array('date' => current_time('mysql'))
+				);
+				if ( is_wp_error($res) )
+					error_log($res->get_error_message());
+				else
+					error_log($res.' Company '.$user->runner.' '.$user->companyname.' '.$user->teamname);
 			}
 			else
 			{
 				// link the sector team runner to both
-				p2p_create_connection( Connection::HOUSE_TO_RUNNER, array(
-						'from' => $user->company,
-						'to' => $user->runner,
-						'meta' => array('date' => current_time('mysql'))
-				) );
-// 				p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
-// 					$user->company,
-// 					$user->runner,
-// 					array('date' => current_time('mysql'))
-// 				);
+				$re = p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
+					$user->company,
+					$user->runner,
+					array('date' => current_time('mysql'))
+				);
+				if ( is_wp_error($re) )
+					error_log($re->get_error_message());
 
-				p2p_create_connection( Connection::SECTORTEAM_TO_RUNNER, array(
-						'from' => $user->team,
-						'to' => $user->runner,
-						'meta' => array('date' => current_time('mysql'))
-				) );
-// 				p2p_type(Connection::SECTORTEAM_TO_RUNNER )->connect(
-// 					$user->team,
-// 					$user->runner,
-// 					array('date' => current_time('mysql'))
-// 				);
-				error_log('sector team '.$user->runner.' '.$user->companyname.' '.$user->teamname);
+				$res = p2p_type(Connection::SECTORTEAM_TO_RUNNER)->connect(
+					$user->team,
+					$user->runner,
+					array('date' => current_time('mysql'))
+				);
+				if ( is_wp_error($res) )
+					error_log($res->get_error_message());
+				else
+					error_log('sector team '.$user->runner.' '.$user->companyname.' '.$user->teamname);
 			}		
 		}
 	}
