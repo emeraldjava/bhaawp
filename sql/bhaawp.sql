@@ -71,3 +71,12 @@ desc teamraceresult
 insert into wp_bhaa_teamresult(id,team,league,race,standardtotal,positiontotal,class,leaguepoints,status)
 select id,team,league,race,standardtotal,positiontotal,class,leaguepoints,status
 from teamraceresult
+
+-- race result query
+SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_posts.id,wp_posts.post_title
+FROM wp_bhaa_raceresult 
+join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
+left join wp_posts on wp_posts.post_type='house' and wp_bhaa_raceresult.company=wp_posts.id
+where race=2 order by position
+
+				
