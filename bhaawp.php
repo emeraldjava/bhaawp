@@ -3,14 +3,14 @@
 Plugin Name: BHAA wordpress plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.10.02
+Version: 2012.10.04
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.10.02';
+	var $version = '2012.10.04';
 	
 	var $admin;
 	var $connection;
@@ -39,7 +39,7 @@ class BhaaLoader
 		//add_action( 'widgets_init', array(&$this, 'registerWidget') );
 		// Start this plugin once all other plugins are fully loaded
 		//add_action( 'plugins_loaded', array(&$this, 'initialize') );
-		add_action( 'wp_loaded', array(&$this->connection,'bhaa_connection_types'));
+		add_action( 'p2p_init', array(&$this->connection,'bhaa_connection_types'));
 		
 		if ( is_admin() )
 		{
@@ -170,7 +170,9 @@ class BhaaLoader
 		add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
 
 		// raceresult SQL
-		$raceResultSql = "race int(11) NOT NULL,
+		$raceResultSql = "
+			id int(11) NOT NULL AUTO_INCREMENT,
+			race int(11) NOT NULL,
 			runner int(11) NOT NULL,
 			racetime time,
 			position int(11),
@@ -178,7 +180,9 @@ class BhaaLoader
 			category varchar(5),
 			standard int(11),
 			paceKM time,
-			class varchar(25)";
+			class varchar(10),
+			company int(11),
+			PRIMARY KEY (id)";
 		BhaaLoader::run_install_or_upgrade($wpdb->raceresult,$raceResultSql);
 	}
 	
