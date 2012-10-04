@@ -51,7 +51,18 @@ select * from teammember where runner=1506
 delete from teammember where runner=1506 and team=84
 
 select runner.id as runner,runner.company,runner.companyname,team.id as team,team.name as teamname,team.type
-				from runner
-				join teammember on teammember.runner=runner.id
-				join team on team.id=teammember.team
-				where runner.status!="D" and runner.company!=0 order by runner.id limit 50
+from runner
+join teammember on teammember.runner=runner.id
+join team on team.id=teammember.team
+where runner.status!="D" and runner.company!=0 order by runner.id limit 50
+
+desc wp_bhaa_raceresult
+desc raceresult
+select * from wp_bhaa_raceresult
+delete from wp_bhaa_raceresult
+
+insert into wp_bhaa_raceresult(id,race,runner,racetime,position,racenumber,standard,company)
+select 0,race,runner,racetime,position,racenumber,standard,company
+from raceresult
+where race=36
+order by race,runner
