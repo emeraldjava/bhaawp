@@ -28,13 +28,22 @@ jQuery(document).ready( function(){
 				  },
 				  success: function( request ) {
 					  //alert(request);
-					  response( jQuery.map( request.matches, function( item ) {
-							return {
-								label: item.label,
-								value: item.label,
-								link: item.link
-							}
-						}));
+					  response(	jQuery.each(request.matches, function(item){
+						return {
+									label: item.label, 
+									value: item.label, 
+									link: item.link }
+								}
+							)	  
+					  );
+					  
+//					  response( jQuery.map( request.matches, function( item ) {
+//							return {
+//								label: item.label,
+//								value: item.label,
+//								link: item.link
+//							}
+//						}));
 					},
 //					error:function(xhr,err){
 //					    alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status);
@@ -42,7 +51,7 @@ jQuery(document).ready( function(){
 //					}
 				});
 		},
-		minLength: 3,
+		minChars: 3,
 		select: function(event, ui) {
 			//alert( ui.item );
 			window.location.href=ui.item.link;
