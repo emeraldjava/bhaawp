@@ -38,7 +38,7 @@ class RaceResultTable extends WP_List_Table
 		$columns = array(
 			//'cb'        => '<input type="checkbox" />',
 			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text
-			'race'     => 'Race',
+			//'race'     => 'Race',
 			'runner'    => 'Runner',
 			'display_name'    => 'Name',
 			'cname'    => 'Company',
@@ -99,7 +99,6 @@ class RaceResultTable extends WP_List_Table
  	}
  	
  	function column_display_name($item) {
- 		
  		$page = get_page_by_title('member');
  		return sprintf('<a href="/?page_id=%d&id=%d">%s</a>',$page->ID,$item['runner'],$item['display_name']);
  	}
@@ -135,14 +134,13 @@ class RaceResultTable extends WP_List_Table
 				.$wpdb->prefix .'bhaa_raceresult 
 				join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
 		else
-			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name,
-			cid.meta_value as cid,cname.meta_value as cname FROM '
-				.$wpdb->prefix .'bhaa_raceresult 
-				join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
-left join wp_usermeta as cid on cid.user_id=wp_users.id and cid.meta_key="bhaa_runner_company"
-left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="bhaa_runner_companyname"
-				where race='.$race;
-		
+			$query = '
+		SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_posts.id as cid,wp_posts.post_title as cname
+		FROM '.$wpdb->prefix .'bhaa_raceresult 
+		left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
+		left join wp_posts on wp_posts.post_type="house" and '.$wpdb->prefix .'bhaa_raceresult.company=wp_posts.id
+		where race='.$race.' order by position';
+		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult		
 		//echo '<p>'.$mgs.'</p>';
 		//error_log($mgs);
 		
@@ -202,17 +200,13 @@ left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="
 	
 		global $wpdb;
 		if(!isset($runner))
-			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
-			.$wpdb->prefix .'bhaa_raceresult
-			join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
-		else
-			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name,
-			cid.meta_value as cid,cname.meta_value as cname FROM '
-			.$wpdb->prefix .'bhaa_raceresult
-			join wp_users on wp_users.id=wp_bhaa_raceresult.runner
-			left join wp_usermeta as cid on cid.user_id=wp_users.id and cid.meta_key="bhaa_runner_company"
-			left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="bhaa_runner_companyname"
-			where runner='.$runner;
+			$runner=7713;
+// 			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
+// 			.$wpdb->prefix .'bhaa_raceresult
+// 			join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
+		//else
+		$query = 'SELECT wp_bhaa_raceresult.* FROM '
+			.$wpdb->prefix .'bhaa_raceresult where runner='.$runner.' order by race desc';
 	
 		//echo '<p>'.$mgs.'</p>';
 		//error_log($mgs);

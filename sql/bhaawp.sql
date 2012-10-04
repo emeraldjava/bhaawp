@@ -79,7 +79,15 @@ left join wp_users on wp_users.id=wp_bhaa_raceresult.runner
 left join wp_posts on wp_posts.post_type='house' and wp_bhaa_raceresult.company=wp_posts.id
 where race=2 order by position
 
--- 
+-- runner result query
+SELECT wp_bhaa_raceresult.* FROM 
+wp_bhaa_raceresult
+join wp_users on wp_users.id=wp_bhaa_raceresult.runner
+where runner=7713 order by race desc
+
+left join wp_usermeta as cid on cid.user_id=wp_users.id and cid.meta_key="bhaa_runner_company"
+left join wp_usermeta as cname on cname.user_id=wp_users.id and cname.meta_key="bhaa_runner_companyname"
+-- insert users
 insert into wp_users (ID,user_login,user_pass,display_name)
 select id,(concat(firstname,'.',surname)),id,(concat(firstname,'.',surname)) from runner
 where runner.status="D"
