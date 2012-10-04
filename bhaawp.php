@@ -159,6 +159,7 @@ class BhaaLoader
 		define('BHAAWP_PATH', plugin_dir_path(__FILE__));
 		global $wpdb;
 		$wpdb->raceresult 	= $wpdb->prefix.'bhaa_raceresult';
+		$wpdb->teamresult 	= $wpdb->prefix.'bhaa_teamresult';
 	}
 	
 	public static function activate()
@@ -184,6 +185,19 @@ class BhaaLoader
 			company int(11),
 			PRIMARY KEY (id)";
 		BhaaLoader::run_install_or_upgrade($wpdb->raceresult,$raceResultSql);
+		
+		$teamResultSql = "
+			id int(11) NOT NULL AUTO_INCREMENT,
+			team int(11) NOT NULL,
+			league int(11) NOT NULL,
+			race int(11) NOT NULL,
+			standardtotal int(11),
+			positiontotal int(11),
+			class	enum('A', 'B', 'C', 'D', 'W', 'O', 'OW'),
+			leaguepoints int(11),
+			status enum('ACTIVE','PENDING'),
+			PRIMARY KEY (id)";
+		BhaaLoader::run_install_or_upgrade($wpdb->teamresult,$teamResultSql);
 	}
 	
 	public static function run_install_or_upgrade($table_name, $sql)//, $db_version)
