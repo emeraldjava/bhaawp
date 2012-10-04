@@ -64,5 +64,10 @@ delete from wp_bhaa_raceresult
 insert into wp_bhaa_raceresult(id,race,runner,racetime,position,racenumber,standard,company)
 select 0,race,runner,racetime,position,racenumber,standard,company
 from raceresult
-where race=36
-order by race,runner
+
+-- team result
+desc wp_bhaa_teamresult
+desc teamraceresult
+insert into wp_bhaa_teamresult(id,team,league,race,standardtotal,positiontotal,class,leaguepoints,status)
+select id,team,league,race,standardtotal,positiontotal,class,leaguepoints,status
+from teamraceresult
