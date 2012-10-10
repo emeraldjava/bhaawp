@@ -3,7 +3,13 @@
  * A custom BHAA membership page
  * - will tell non registers to register
  * - for registered users it displays the annual ticket.
+ * 
+ * 
+ * plugins\events-manager\classes\em-events.php
+ * 
  */
+
+
 ?>
 
 <?php get_header(); ?>
@@ -26,7 +32,8 @@ else
 	echo('Your membership status is : <b>' . $status  . '</b></br>');
 	if(isset($status) && $status==("I"))
 	{
-		echo('Please renew.');
+		echo('Please renew - via this shortcode hack.</br>');
+		echo do_shortcode('[bhaaraceday]');
 	}
 	else
 	{
