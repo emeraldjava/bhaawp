@@ -14,6 +14,18 @@ article {
   border-bottom: 1px solid #eee;
 }
 
+a.brand{
+	float: left;
+	margin-top: 30px;
+	padding: 0;
+	background: url(/assets/img/logo.png) no-repeat;
+	width: 296px;
+	height: 64px;
+	text-indent: 0;
+	line-height: 1px;
+	text-indent: -9999px;
+}
+
 .page-header {
   padding: 0;
   margin: 0;

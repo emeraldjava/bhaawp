@@ -1,4 +1,5 @@
 <?php
+require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-event.php' );
 // http://pythoughts.com/how-to-hide-that-you-use-wordpress/
 remove_action('wp_head','wp_generator');
 

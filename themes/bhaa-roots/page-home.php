@@ -9,9 +9,27 @@
 	<!-- events -->
 	<section class="row">
 	
+		<!-- 
+		http://wp-events-plugin.com/documentation/advanced-usage/
+		http://blackhillswebworks.com/2011/06/09/modifying-the-events-manager-for-wordpress-widget-to-filter-events-by-category/
+		-->
 		<div class="span6 columns">
 			<h2>Next Event</h2>
-			<?php echo do_shortcode('[events_list limit="3" orderby="event_start_date" order="ASC"][/events_list]');?>
+			<?php //echo var_dump($EM_Events::get(array('limit',1)));?>
+		</div>
+	
+		<div class="span6 columns">
+			<h2>Last Event</h2>
+			<?php //echo $EM_Events::output( array('limit'=>10,'orderby'=>'name'));?>
+		</div>
+		
+	</section>
+
+<section class="row">
+	
+		<div class="span6 columns">
+			<h2>Next Event</h2>
+			<?php echo do_shortcode('[event post_id="205052"]');?>
 		</div>
 	
 		<div class="span6 columns">
