@@ -1,16 +1,16 @@
 <?php
 /*
-Plugin Name: BHAA wordpress plugin
+Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.10.04
+Version: 2012.10.17
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.10.04';
+	var $version = '2012.10.17';
 	
 	var $admin;
 	var $connection;
