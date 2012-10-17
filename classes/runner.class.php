@@ -63,28 +63,12 @@ class Runner
 		echo '<th><label for="first_name">Status</label></th>';
 		echo '<td><input type="text" name="status" id="status" value="'.$bhaa_runner_dateofrenewal.'" class="regular-text"></td>';
 		echo '</tr>';
-
+		
 		echo '<tr>';
 		echo '<th><label for="first_name">Payment</label></th>';
-		echo '<td>'.$this->display_eventmanager_annualevent_button().'</td>';
+		echo '<td>'.get_permalink(get_page_by_title('membership')->ID).'</td>';
 		echo '</tr>';
 		
-// 		echo '<div>Status '.$bhaa_runner_status.'</div>';
-// 		echo '<div>Renewal Date '.$bhaa_runner_dateofrenewal.'</div>';
-// 		if($bhaa_runner_status=="I")
-// 		{
-// 			echo '<div>Please renew your inactive membership.</div>';
-// 			echo $this->display_realex_button();
-// 		}
-// 		elseif($bhaa_runner_status=="D")
-// 		{
-// 			echo '<div>Please become a BHAA member.</div>';
-// 			echo $this->display_realex_button();
-// 		}
-// 		else
-// 		{
-// 			echo '<div>You are a current BHAA member.</div>';
-// 		}
 		echo '</tbody></table>';
 	}
 
