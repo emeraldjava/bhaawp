@@ -45,6 +45,7 @@ class Runner
 	
 	function Runner()
 	{
+		//require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-events.php' );
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );		
 
@@ -65,7 +66,7 @@ class Runner
 
 		echo '<tr>';
 		echo '<th><label for="first_name">Payment</label></th>';
-		echo '<td>'.$this->display_realex_button().'</td>';
+		echo '<td>'.$this->display_eventmanager_annualevent_button().'</td>';
 		echo '</tr>';
 		
 // 		echo '<div>Status '.$bhaa_runner_status.'</div>';
@@ -86,9 +87,22 @@ class Runner
 // 		}
 		echo '</tbody></table>';
 	}
+
+	/**
+	 * Hack to get the booking button from the event manager
+	 */
+	function display_eventmanager_annualevent_button()
+	{
+		//global $EM_Events;
+		$EM_Event = new EM_Event(205715);
+		//$event = $EM_Events::get(array('post_id'=>205715));
+		var_dump($EM_Event);
+		//$event = $EM_Event->get(205715);
+		echo $EM_Event->output('<div id="annualmembershup">#_BOOKINGBUTTON</div>');
+	}
 	
 	/**
-	 * 		<input type=hidden name="COMMENT1" value="Subscription for '.$days.' days.">
+	 * 	<input type=hidden name="COMMENT1" value="Subscription for '.$days.' days.">
 		<input type=hidden name="drt" value="'.$drt.'">
 		<input type=hidden name="booking_id" value="1:'.$mem.':true">
 	 * @return string
