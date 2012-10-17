@@ -30,14 +30,26 @@ else
 	echo('We will check your membership status to know what to do');
 	echo('Welcome, ' . $current_user->display_name  . '</br>');
 	echo('Your membership status is : <b>' . $status  . '</b></br>');
+	
+	$EM_Event = new EM_Event(array('post_id'=>2052));
+	//var_dump($EM_Event);
+	
+	// half works
+	//echo $EM_Event->output_single();
+	echo $EM_Event->output('<div id="annualmembershup">
+	{has_bookings}
+			#_BOOKINGFORM
+			{/has_bookings}
+			</div>');
+			
 	if(isset($status) && $status==("I"))
 	{
-		echo('Please renew - via this shortcode hack.</br>');
-		echo do_shortcode('[bhaaraceday]');
+		//echo('Please renew - via this shortcode hack.</br>');
+		//echo do_shortcode('[bhaaraceday]');
 	}
 	else
 	{
-		echo('You are a current member of the BHAA.');
+		//echo('You are a current member of the BHAA.');
 	}
 }
 ?>
