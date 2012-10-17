@@ -96,13 +96,14 @@ class Runner
 	function display_realex_button()
 	{
 		global $wpdb;
-		$BHAA_Subscriptions = get_option( 'bhaa_subscription_default_values', "FALSE" );
+		//$BHAA_Subscriptions = get_option( 'bhaa_subscription_default_values', "FALSE" );
 		//get values from DB
-		$merchantid = get_option('em_realex_redirect_merchant_id','A');
-		$secret = get_option('em_realex_redirect_merchant_secret','B');
-		$currency = get_option('dbem_bookings_currency','EUR');
-		$mem = get_option('em_realex_redirect_mem');
+		$merchantid = get_option('em_realex_redirect_merchant_id');
+		$secret = get_option('em_realex_redirect_merchant_secret');
+		$currency = get_option('dbem_bookings_currency');
+		//$mem = get_option('em_realex_redirect_mem');
 		//$button_label = $BHAA_Subscriptions[button_label];
+		
 		//The code below is used to create the timestamp format required by Realex Payments
 		$timestamp = strftime("%Y%m%d%H%M%S");
 		$uid=get_current_user_id();
@@ -112,8 +113,8 @@ class Runner
 		$md5hash = md5($tmp);
 		$tmp = "$md5hash.$secret";
 		$md5hash = md5($tmp);
-		$drt="$days:$role:$type";
-		$ret='<div><form action="https://epage.payandshop.com/epage.cgi" method=post>
+		//$drt="$days:$role:$type";
+		$ret='<div><form action="https://epage.payandshop.com/epage.cgi" method="post">
 		<input type=hidden name="MERCHANT_ID" value="'.$merchantid.'">
 		<input type=hidden name="ORDER_ID" value="'.$orderid.'">
 		<input type=hidden name="CURRENCY" value="'.$currency.'">
