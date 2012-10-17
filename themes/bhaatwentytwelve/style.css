@@ -11,3 +11,12 @@
  * Template: twentytwelve
  */
 @import url('../twentytwelve/style.css'); /* the most important line of the style.css of a child from his parent twentytwelve */
+
+.bhaa-logo {
+	float:left;
+	height:150px;
+	margin-left:10px;
+	margin-top:10px;
+	width:145px;
+	position:relative;
+}
