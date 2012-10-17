@@ -93,12 +93,16 @@ class Runner
 	 */
 	function display_eventmanager_annualevent_button()
 	{
-		//global $EM_Events;
-		$EM_Event = new EM_Event(205715);
-		//$event = $EM_Events::get(array('post_id'=>205715));
+		$EM_Event = new EM_Event(array('post_id'=>205715));
 		var_dump($EM_Event);
-		//$event = $EM_Event->get(205715);
-		echo $EM_Event->output('<div id="annualmembershup">#_BOOKINGBUTTON</div>');
+		
+		// half works
+		//echo $EM_Event->output_single();
+		echo $EM_Event->output('<div id="annualmembershup">
+				{has_bookings}
+				#_BOOKINGFORM
+				{/has_bookings}
+				</div>');
 	}
 	
 	/**
