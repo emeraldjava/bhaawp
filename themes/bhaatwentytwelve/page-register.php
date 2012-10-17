@@ -16,7 +16,8 @@
 <?php 
 if(!is_user_logged_in())
 {
-	echo '<div>BHAA Membership Page - Please use the registration form to create a userr account.</div>';
+	echo '<div>Outline benefits here. Tell them to register and pay via the user profile.</div>';
+	echo '<div>BHAA Membership Page - Please use the registration form to create a user account.</div>';
 }
 else 
 {
