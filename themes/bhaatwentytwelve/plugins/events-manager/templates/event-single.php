@@ -18,12 +18,24 @@
  */
 global $EM_Event;
 /* @var $EM_Event EM_Event */
+
+get_header();
+
+echo '<section id="primary">';
+echo '<div id="eventmenu"><ul>'.
+	'<li><a href="#details">Details</a></li>'.
+	'<li><a href="#register">Register</a></li>'.
+	'<li><a href="#results">Results</a></li>'.
+	'<li><a href="#teams">Teams</a></li>'.
+	'<li><a href="#media">Media</a></li>'.
+	'</ul>';
+
 if($EM_Event->end >= time())
 {
 	echo '<h1>A future BHAA event</h1>';
 		echo $EM_Event->output(
 			//array('format'=>
-			'<div style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
+			'<div id="details" style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
 			'<p>'.
 			'<strong>Date/Time</strong><br/>'.
 			'Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>'.
@@ -37,11 +49,18 @@ if($EM_Event->end >= time())
 			'<br style="clear:both"/>'.
 			'<p>#_EVENTNOTES</p>'.
 			'{has_bookings}'.
-			'<h3>Bookings</h3>'.
+			'<div id="register"><h3>Register</h3></div>'.
 			'#_BOOKINGFORM'.
 			'{/has_bookings}');	
 	//);
-	echo "MY BHAA 2012 theme";
+	echo '<div id="results"><h3>Results</h3></div>';
+	echo '<div id="teams"><h3>Teams</h3></div>';
+	echo '<div id="media"><h3>Media</h3></div></div>';
+	echo '<script>
+	$(document).ready(function() {
+		$("#eventmenu").menu();
+	});
+	</script>';
 }
 else
 {
@@ -57,7 +76,7 @@ else
 	
 	if ( $connected->have_posts() ) :
 	
-		echo '<h2>See the Full Race Results</h2><ul>';
+		echo '<h2 id="results">See the Full Race Results</h2><ul>';
 		while ( $connected->have_posts() ) : 			
 			$connected->the_post();
 			echo '<li><a href="';
@@ -74,4 +93,8 @@ else
 		echo "No races have been linked to this event yet.";
 	endif;
 }
+
+echo '</section>';
+get_sidebar();
+get_footer(); 
 ?>
