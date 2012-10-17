@@ -90,11 +90,14 @@ class Runner
 
 	/**
 	 * Hack to get the booking button from the event manager
+	 * 
+	 * #_BOOKINGBUTTON see 'em_booking_button' filter
+	 * Paid Membership Pro | Talking Manuals – Reviews
 	 */
 	function display_eventmanager_annualevent_button()
 	{
 		$EM_Event = new EM_Event(array('post_id'=>205715));
-		var_dump($EM_Event);
+		//var_dump($EM_Event);
 		
 		// half works
 		//echo $EM_Event->output_single();
