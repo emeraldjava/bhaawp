@@ -21,7 +21,27 @@ global $EM_Event;
 if($EM_Event->end >= time())
 {
 	echo '<h1>A future BHAA event</h1>';
-	echo $EM_Event->output_single();
+		echo $EM_Event->output(
+			//array('format'=>
+			'<div style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
+			'<p>'.
+			'<strong>Date/Time</strong><br/>'.
+			'Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>'.
+			'</p>'.
+			'{has_location}'.
+			'<p>'.
+			'<strong>Location</strong><br/>'.
+			'#_LOCATIONLINK'.
+			'</p>'.
+			'{/has_location}'.
+			'<br style="clear:both"/>'.
+			'<p>#_EVENTNOTES</p>'.
+			'{has_bookings}'.
+			'<h3>Bookings</h3>'.
+			'#_BOOKINGFORM'.
+			'{/has_bookings}');	
+	//);
+	echo "MY BHAA 2012 theme";
 }
 else
 {
