@@ -1,5 +1,5 @@
 <?php
-global $EM_Event, $post;
+global $wpdb, $EM_Event, $post;
 ?>
 <div id="event-rsvp-box">
 	<input id="event-rsvp" name='event_rsvp' value='1' type='checkbox' <?php echo ($EM_Event->event_rsvp) ? 'checked="checked"' : ''; ?> />
@@ -10,11 +10,44 @@ global $EM_Event, $post;
 	<?php do_action('em_events_admin_bookings_header', $EM_Event); ?>
 	<?php
 	//get tickets here and if there are none, create a blank ticket
+	//$EM_Tickets = $EM_Event->get_tickets();
+	//if( count($EM_Tickets->tickets) == 0 ){
+	//	$EM_Tickets->tickets[] = new EM_Ticket();
+	//	$delete_temp_ticket = true;
+	//}
+	$BHAA_Payments = $wpdb->get_var($wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = 'bhaa_payments_default_values'") );
+	$BHAA_Payments=unserialize($BHAA_Payments);
+	//get tickets here and if there are none, create a BHAA default tickets
 	$EM_Tickets = $EM_Event->get_tickets();
-	if( count($EM_Tickets->tickets) == 0 ){
-		$EM_Tickets->tickets[] = new EM_Ticket();
-		$delete_temp_ticket = true;
+	if ( count($EM_Tickets->tickets) == 0 ) 
+	{
+		//! TICKET 1 - BHAA member at an event
+		$BHAA_tickets[0] = new EM_Ticket();
+		$BHAA_tickets[0]->ticket_name = "BHAA Member Ticket";
+		$BHAA_tickets[0]->ticket_price = 10;//$BHAA_Payments[day];
+		$BHAA_tickets[0]->ticket_min = 1;
+		$BHAA_tickets[0]->ticket_max = 1;
+		$BHAA_tickets[0]->ticket_start = $EM_Event->event_start_date;
+		$BHAA_tickets[0]->ticket_end = $EM_Event->event_end_date;
+		$BHAA_tickets[0]->ticket_spaces_limit = 1000;
+
+		//! TICKET 2 - Day member at an event
+		$BHAA_tickets[1] = new EM_Ticket();
+		$BHAA_tickets[1]->ticket_name = "Day Member Ticket";
+		$BHAA_tickets[1]->ticket_price = 15;//$BHAA_Payments[annual];
+		$BHAA_tickets[1]->ticket_min = 1;
+		$BHAA_tickets[1]->ticket_max = 1;
+		$BHAA_tickets[1]->ticket_start = $EM_Event->event_start_date;
+		$BHAA_tickets[1]->ticket_end = $EM_Event->event_end_date;
+		$BHAA_tickets[1]->ticket_spaces_limit = 1000;
+	
+		// Ticket 3 - Annual Memnbership special case
+		$EM_Tickets->tickets=array(
+			0=>$BHAA_tickets[0],
+			1=>$BHAA_tickets[1]
+		);
 	}
+	
 	if( get_option('dbem_bookings_tickets_single') && count($EM_Tickets->tickets) == 1 ){	
 		$EM_Ticket = $EM_Tickets->get_first();							
 		include( em_locate_template('forms/ticket-form.php') );

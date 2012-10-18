@@ -85,6 +85,16 @@ PHP Manual
 Email Notification
 - http://codex.wordpress.org/Function_Reference/wp_new_user_notification
 
+Caching
+- http://scotty-t.com/2012/01/20/wordpress-memcached/
+- http://wp.smashingmagazine.com/2012/06/26/diy-caching-methods-wordpress/
+- http://wordpress.org/extend/plugins/w3-total-cache/
+- http://codex.wordpress.org/Class_Reference/WP_Object_Cache
+- http://ocaoimh.ie/
 
+Archive
+- http://codex.wordpress.org/Creating_an_Archive_Index
+- http://wp.tutsplus.com/tutorials/create-a-wordpress-archives-template-for-your-theme/
+- http://wphacks.com/how-to-create-an-archive-page-for-your-wordpress-blog/
 
 http://github.github.com/github-flavored-markdown/
