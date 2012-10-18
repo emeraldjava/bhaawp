@@ -7,6 +7,8 @@
  * @package WordPress
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
+ 
+ http://wordpress.org/support/topic/adding-login-and-register-links-to-the-header
  */
 ?><!DOCTYPE html>
 <!--[if IE 7 | IE 8]>
