@@ -9,7 +9,7 @@
 <header id="masthead" class="site-header" role="banner">
 <hgroup>
 <?php 
-echo '<img class="bhaa-logo" src="'.get_stylesheet_directory_uri().'/images/logo.png" width="150" height="150" alt="BHAA Logo">';
+echo '<img class="bhaa-logo" src="'.get_stylesheet_directory_uri().'/images/logo.png" width="150" height="150" alt="BHAA Logo"/>';
 ?>
 </hgroup>
 </header>
@@ -18,23 +18,22 @@ echo '<img class="bhaa-logo" src="'.get_stylesheet_directory_uri().'/images/logo
 <div id="main">
 <?php 
 foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking): 
-
-$EM_Ticket_Booking->get_ticket(); 
-
-?>
-BHAA Ticket
-<?php
-/* @var $EM_Ticket_Booking EM_Ticket_Booking */
-//echo $EM_Ticket_Booking->get_ticket()->name; 
-// http://wp-events-plugin.com/documentation/placeholders/
-// http://wordpress.org/support/topic/plugin-events-manager-admin-bookings-booker-real-name-instead-of-email
-// http://wordpress.org/support/topic/plugin-events-manager-booking-placeholders-not-working-in-mail
 if($EM_Ticket_Booking->get_ticket()->name=='Annual Membership')
 {
 ?>
-Thanks #_BOOKINGNAME,
+Hi #_BOOKINGNAME,
 
-Your now a BHAA annual member. ID #_CONTACTID
+You are now a registered member for this year. Membership entitiles you to
+- reduced entry at races
+- run on a company team
+- take part in the leagues
+
+Your Booking references is <b>#_BOOKINGID</b>
+
+Yours faithfully,
+#_CONTACTNAME
+
+Please email #_CONTACTEMAIL with any booking queries.
 <?php 
 }
 else 
