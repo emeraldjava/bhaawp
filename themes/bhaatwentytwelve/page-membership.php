@@ -12,8 +12,17 @@
 
 <?php get_header(); ?>
 
+<div id="template-front-page" class="template-front-page">
+<div>
 <h1>BHAA Membership</h1>
 <p>This is the sales pitch to people.</p>
+<ul>
+<li>Reduced membership to all races</li>
+<li>Run as a member of a team</li>
+<li>Races count towards the leagues</li>
+</ul>
+</div>
+<div id="right-sidebar" class="right-sidebar">
 <?php 
 if(!is_user_logged_in())
 {
@@ -54,5 +63,6 @@ else
 	}
 }
 ?>
-
+</div>
+</div>
 <?php get_footer(); ?>
