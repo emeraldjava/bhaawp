@@ -11,3 +11,5 @@ case '#_BHAATICKETS':
 	em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$this));
 	$replace = ob_get_clean();
 	break;
+	
+http://wp-events-plugin.com/documentation/placeholders/

@@ -1,9 +1,11 @@
 <html>
 <body>
-<!-- todo use wp url for the logo -->
-<img class="bhaa-logo" src="http://wpdemo.bhaa.ie/wp-content/themes/bhaatwentytwelve/images/logo.png" width="150" height="150" alt="BHAA Logo">
+<?php 
+echo '<img class="bhaa-logo" src="'.get_stylesheet_directory_uri().'/images/logo.png" width="150" height="150" alt="BHAA Logo">';
+?>
 <div>
-<?php foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking): ?>
+<?php 
+foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking): ?>
 BHAA Ticket
 <?php
 /* @var $EM_Ticket_Booking EM_Ticket_Booking */
@@ -23,11 +25,30 @@ Hi #_CONTACTNAME,
 
 BHAA event 
 When : #_EVENTDATES @ #_EVENTTIMES
-
 Where : #_LOCATIONNAME - #_LOCATIONFULLLINE
 
-Yours faithfully,
+--------
+#_CONTACTNAME
+Name of the contact person for this event (as shown in the dropdown when adding an event).
+#_CONTACTUSERNAME
+Contact person's username.
+#_CONTACTEMAIL
+E-mail of the contact person for this event.
+#_CONTACTPHONE
+Phone number of the contact person for this event. Can be set in the user profile page.
+#_CONTACTAVATAR
+Contact person's avatar.
+#_CONTACTPROFILELINK
+Contact person's "Profile" link. Only works with BuddyPress enabled.
+#_CONTACTPROFILEURL
+Contact person's profile url. Only works with BuddyPress enabled.
+#_CONTACTID
+Contact person's WordPress user ID.
+#_CONTACTMETA
 
+-----------
+
+Yours faithfully,
 #_CONTACTNAME
 <?php 
 }
