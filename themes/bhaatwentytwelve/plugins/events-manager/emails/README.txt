@@ -12,4 +12,6 @@ case '#_BHAATICKETS':
 	$replace = ob_get_clean();
 	break;
 	
-http://wp-events-plugin.com/documentation/placeholders/
+// http://wp-events-plugin.com/documentation/placeholders/
+// http://wordpress.org/support/topic/plugin-events-manager-admin-bookings-booker-real-name-instead-of-email
+// http://wordpress.org/support/topic/plugin-events-manager-booking-placeholders-not-working-in-mail

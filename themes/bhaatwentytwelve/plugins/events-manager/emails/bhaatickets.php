@@ -1,19 +1,38 @@
 <html>
+<head>
+<link rel='stylesheet' id='twentytwelve-style-css' href='<?php echo get_stylesheet_uri();?>' type='text/css' media='all'/>
+</head>
 <body>
+<div id="page">
+
+<div id="header">
+<header id="masthead" class="site-header" role="banner">
+<hgroup>
 <?php 
 echo '<img class="bhaa-logo" src="'.get_stylesheet_directory_uri().'/images/logo.png" width="150" height="150" alt="BHAA Logo">';
 ?>
-<div>
+</hgroup>
+</header>
+</div>
+
+<div id="main">
 <?php 
-foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking): ?>
+foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking): 
+
+$EM_Ticket_Booking->get_ticket(); 
+
+?>
 BHAA Ticket
 <?php
 /* @var $EM_Ticket_Booking EM_Ticket_Booking */
 //echo $EM_Ticket_Booking->get_ticket()->name; 
+// http://wp-events-plugin.com/documentation/placeholders/
+// http://wordpress.org/support/topic/plugin-events-manager-admin-bookings-booker-real-name-instead-of-email
+// http://wordpress.org/support/topic/plugin-events-manager-booking-placeholders-not-working-in-mail
 if($EM_Ticket_Booking->get_ticket()->name=='Annual Membership')
 {
 ?>
-Thanks #_CONTACTNAME,
+Thanks #_BOOKINGNAME,
 
 Your now a BHAA annual member. ID #_CONTACTID
 <?php 
@@ -21,42 +40,32 @@ Your now a BHAA annual member. ID #_CONTACTID
 else 
 {
 ?>
-Hi #_CONTACTNAME,
+</hr>
+Hi #_BOOKINGNAME,
+
+Thank you for registering for the BHAA #_EVENTLINK event. 
+
+Your Booking references is <b>#_BOOKINGID</b>
 
 BHAA event 
 When : #_EVENTDATES @ #_EVENTTIMES
 Where : #_LOCATIONNAME - #_LOCATIONFULLLINE
 
---------
-#_CONTACTNAME
-Name of the contact person for this event (as shown in the dropdown when adding an event).
-#_CONTACTUSERNAME
-Contact person's username.
-#_CONTACTEMAIL
-E-mail of the contact person for this event.
-#_CONTACTPHONE
-Phone number of the contact person for this event. Can be set in the user profile page.
-#_CONTACTAVATAR
-Contact person's avatar.
-#_CONTACTPROFILELINK
-Contact person's "Profile" link. Only works with BuddyPress enabled.
-#_CONTACTPROFILEURL
-Contact person's profile url. Only works with BuddyPress enabled.
-#_CONTACTID
-Contact person's WordPress user ID.
-#_CONTACTMETA
-
------------
+Please note
+- Turn up one hour before the race at #_24HSTARTTIME.
+- Chip timing and returning race number.
+- BHAA is a vol organisation.
+- No HEADPHONES
 
 Yours faithfully,
 #_CONTACTNAME
+
+Please email #_CONTACTEMAIL with any booking queries.
 <?php 
 }
 ?>
-
 <?php endforeach; ?>
-
-BHAA : Please email info@bhaa.ie with any booking queries.
+</div>
 </div>
 </body>
 </html>

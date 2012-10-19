@@ -233,7 +233,7 @@ class EM_Booking extends EM_Object{
 			$this->get_person();
 			$this->compat_keys();
 		}
-		return apply_filters('em_booking_get_post',$this->validate(),$this);
+		return apply_filters('em_booking_get_post',count($this->errors) == 0,$this);
 	}
 	
 	function validate(){
@@ -450,6 +450,7 @@ class EM_Booking extends EM_Object{
 		if(!$ignore_spaces && $status == 1){
 			if( $this->get_event()->get_bookings()->get_available_spaces() < $this->get_spaces() && !get_option('dbem_bookings_approval_overbooking') ){
 				$this->feedback_message = sprintf(__('Not approved, spaces full.','dbem'), $action_string);
+				$this->add_error($this->feedback_message);
 				return apply_filters('em_booking_set_status', false, $this);
 			}
 		}
@@ -566,6 +567,7 @@ class EM_Booking extends EM_Object{
 					ob_start();
 					em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$this));
 					$replace = ob_get_clean();
+					$replace = $this->output($replace);
 					break;
 				default:
 					$replace = $full_result;
