@@ -39,11 +39,11 @@ class RaceResultTable extends WP_List_Table
 			//'cb'        => '<input type="checkbox" />',
 			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text
 			//'race'     => 'Race',
-			'runner'    => 'Runner',
+			//'runner'    => 'Runner',
+			'position'  => 'Position',
 			'display_name'    => 'Name',
 			'cname'    => 'Company',
 			'racetime'  => 'Time',
-			'position'  => 'Position',
 			'racenumber' => 'Number',
 			'category'  => 'Category',
 			'standard'  => 'Std',
@@ -110,18 +110,18 @@ class RaceResultTable extends WP_List_Table
 	 */
 	function prepare_items($race)
 	{
-		if(isset($_REQUEST['action']))
-		{
-			$action = $_REQUEST['action'];	
-			if($action = 'edit')
-			{
-				$message = "edit something";
-			}
-			elseif($action = 'delete')
-			{
-				$message = "delete something";
-			}
-		}
+// 		if(isset($_REQUEST['action']))
+// 		{
+// 			$action = $_REQUEST['action'];	
+// 			if($action = 'edit')
+// 			{
+// 				$message = "edit something";
+// 			}
+// 			elseif($action = 'delete')
+// 			{
+// 				$message = "delete something";
+// 			}
+// 		}
 			
 		$columns = $this->get_columns();
 		$hidden = array();
@@ -138,10 +138,10 @@ class RaceResultTable extends WP_List_Table
 		SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_posts.id as cid,wp_posts.post_title as cname
 		FROM '.$wpdb->prefix .'bhaa_raceresult 
 		left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
-		left join wp_posts on wp_posts.post_type="house" and '.$wpdb->prefix .'bhaa_raceresult.company=wp_posts.id
-		where race='.$race.' order by position';
+		left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
+		where race='.$race.'  and wp_bhaa_raceresult.class="RAN" order by position';
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult		
-		//echo '<p>'.$mgs.'</p>';
+		//echo '<p>'.$query.'</p>';
 		//error_log($mgs);
 		
 		//echo $query;
