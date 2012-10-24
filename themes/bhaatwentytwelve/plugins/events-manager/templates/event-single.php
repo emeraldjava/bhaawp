@@ -56,7 +56,7 @@ if($EM_Event->end >= time())
 	//);
 	echo '<div id="results"><h3>Results</h3></div>';
 	echo '<div id="teams"><h3>Teams</h3></div>';
-	echo '<div id="media"><h3>Media</h3></div></div>';
+	
 	echo '<script>
 	$(document).ready(function() {
 		$("#eventmenu").menu();
@@ -90,7 +90,7 @@ else
 	//);
 	echo '<div id="results"><h3>Results</h3></div>';
 	echo '<div id="teams"><h3>Teams</h3></div>';
-	echo '<div id="media"><h3>Media</h3></div></div>';
+	
 //	echo '<ul>TODO<li>embed Youtube</li><li>embed flickr</li><li>Show top 3 three and total number of runners</li></ul>';
 	
 	// Find connected pages
@@ -131,6 +131,17 @@ else
 		echo "No races have been linked to this event yet.";
 	endif;
 }
+
+
+$custom = get_post_custom(the_ID());//$post->ID);
+echo '<div id="media"><h3>Media</h3></div></div>';
+$youtube = $custom["youtube"][0];
+if ($youtube != NULL) 
+	echo "<p><iframe title='YouTube video player' width='400' height='275' src='http://www.youtube.com/embed/" . $youtube . "' frameborder='0' allowfullscreen></iframe></p>";
+
+$flickr = $custom["flickr"][0];
+//if ($vimeo != NULL) echo "<p><iframe src='http://player.vimeo.com/video/" . $vimeo . "?portrait=0' width='400' height='275' frameborder='0'></iframe></p>";
+//echo '</div>';
 
 echo '</section>';
 //get_sidebar();
