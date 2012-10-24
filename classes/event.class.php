@@ -30,10 +30,10 @@ class Event
 	{
 		global $post;
 		$custom = get_post_custom($post->ID);
-		$youtube = $custom["flickr"][0];
+		$flickr = $custom["flickr"][0];
 		?>
 		<p>Enter your flickr ID</p>
-		<input name="flickr" value="<?php echo flickr; ?>"  />
+		<input name="flickr" value="<?php echo $flickr; ?>"  />
 		<?php
 	}
 	
