@@ -16,6 +16,7 @@
 <div>
 <h1>BHAA Membership</h1>
 <p>This is the sales pitch to people.</p>
+<p>Currently implemented as a Page Template.</p>
 <ul>
 <li>Reduced membership to all races</li>
 <li>Run as a member of a team</li>
@@ -26,8 +27,8 @@
 <?php 
 if(!is_user_logged_in())
 {
-	echo '<div>Outline benefits here. Tell them to register and pay via the user profile.</div>';
-	echo '<div>BHAA Membership Page - Please use the registration form to create a user account.</div>';
+	echo '<p>Outline benefits here. Tell them to register and pay via the user profile.</p>';
+	echo '<p>BHAA Membership Page - Please use the <a href="./register">registration form</a> to create a user account.</p>';
 }
 else 
 {
