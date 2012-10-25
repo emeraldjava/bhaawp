@@ -22,9 +22,9 @@ class RaceResultTable extends WP_List_Table
 		global $status, $page;
 		//Set parent defaults
 		parent::__construct( array(
-				'singular'  => 'raceresults',     //singular name of the listed records
-				'plural'    => 'raceresult',    //plural name of the listed records
-				'ajax'      => false        //does this table support ajax?
+			'singular'  => 'raceresults',     //singular name of the listed records
+			'plural'    => 'raceresult',    //plural name of the listed records
+			'ajax'      => false        //does this table support ajax?
 		) );
 	}
 
@@ -101,7 +101,7 @@ class RaceResultTable extends WP_List_Table
 	 * @return string
 	 */
  	function column_cname($item) {
- 		return sprintf('<a href="/?post_type=company&p=%d">%s</a>',$item['cid'],$item['cname']);
+ 		return sprintf('<a href="/?post_type=house&p=%d">%s</a>',$item['cid'],$item['cname']);
  	}
  	
  	function column_display_name($item) {
@@ -109,26 +109,11 @@ class RaceResultTable extends WP_List_Table
  		return sprintf('<a href="/?page_id=%d&id=%d">%s</a>',$page->ID,$item['runner'],$item['display_name']);
  	}
 
- 	var $message;
- 	
 	/**
 	 *
 	 */
 	function prepare_items($race)
 	{
-// 		if(isset($_REQUEST['action']))
-// 		{
-// 			$action = $_REQUEST['action'];	
-// 			if($action = 'edit')
-// 			{
-// 				$message = "edit something";
-// 			}
-// 			elseif($action = 'delete')
-// 			{
-// 				$message = "delete something";
-// 			}
-// 		}
-			
 		$columns = $this->get_columns();
 		$hidden = array();
 		$sortable = array();
@@ -152,20 +137,11 @@ class RaceResultTable extends WP_List_Table
 		
 		//echo $query;
 		$totalitems = $wpdb->query($query);
-		//echo $totalitems;
 		$this->items = $wpdb->get_results($query,ARRAY_A);
 	}
 
 	function renderTable($race)
-	{
-		//if ( !current_user_can( 'manage_options' ) )  {
-		//	wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		//}
-// 		if (!empty($notice))
-// 			echo '<div id="notice" class="error"><p>'.$notice.'</p></div>';
-// 		if (!empty($message))
-// 			echo '<div id="message" class="updated"><p>'.$message.'</p></div>';
-		    
+	{   
 		echo '<div class="wrap"><h2>BHAA Race Results Table</h2>';
 		$this->prepare_items($race);
 		$this->display();
