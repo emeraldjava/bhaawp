@@ -45,15 +45,10 @@ class TeamResultTable extends WP_List_Table
 		}
 	}
 	
-	function column_cname($item) {
-		return sprintf('<a href="/?post_type=company&p=%d">%s</a>',$item['cid'],$item['cname']);
+	function column_teamname($item) {
+		return sprintf('<a href="/?post_type=house&p=%d">%s</a>',$item['team'],$item['teamname']);
 	}
-	
-	function column_display_name($item) {
-		$page = get_page_by_title('member');
-		return sprintf('<a href="/?page_id=%d&id=%d">%s</a>',$page->ID,$item['runner'],$item['display_name']);
-	}
-	
+		
 	function prepare_items($race)
 	{
 		$columns = $this->get_columns();
