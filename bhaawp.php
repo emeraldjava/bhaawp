@@ -3,23 +3,25 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.10.24
+Version: 2012.10.25
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.10.24';
+	var $version = '2012.10.25';
 	
 	var $admin;
 	var $connection;
 	
 	var $event;
 	var $race;
+	var $raceresult;
+	var $teamresult;
+			
 	var $house;
 	var $league;
-	var $raceresult;
 	var $runner;
 	
 	var $raceday;
@@ -76,6 +78,11 @@ class BhaaLoader
 		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
 		require_once (dirname (__FILE__) . '/classes/raceresulttable.class.php');
 		$this->raceresult = new RaceResult();
+		// team results
+		require_once (dirname (__FILE__) . '/classes/teamresult.class.php');
+		require_once (dirname (__FILE__) . '/classes/teamresulttable.class.php');
+		$this->teamresult = new TeamResult();
+		
 		require_once (dirname (__FILE__) . '/classes/runner.class.php');
 		$this->runner = new Runner();
 		require_once (dirname (__FILE__) . '/classes/event.class.php');

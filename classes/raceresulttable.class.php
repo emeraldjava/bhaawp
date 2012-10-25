@@ -17,9 +17,15 @@ if(!class_exists('WP_List_Table')){
  */
 class RaceResultTable extends WP_List_Table
 {
-	function __construct(){
-		// register a meta box to edit the row
-		//add_meta_box('persons_form_meta_box', 'Person data', 'custom_table_example_persons_form_meta_box_handler', 'person', 'normal', 'default');
+	function __construct()
+	{
+		global $status, $page;
+		//Set parent defaults
+		parent::__construct( array(
+				'singular'  => 'raceresults',     //singular name of the listed records
+				'plural'    => 'raceresult',    //plural name of the listed records
+				'ajax'      => false        //does this table support ajax?
+		) );
 	}
 
 	/**

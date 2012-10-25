@@ -87,12 +87,7 @@ else
 			'<div id="register"><h3>Register</h3></div>'.
 			'#_BOOKINGFORM'.
 			'{/has_bookings}');
-	//);
-	echo '<div id="results"><h3>Results</h3></div>';
-	echo '<div id="teams"><h3>Teams</h3></div>';
-	
-//	echo '<ul>TODO<li>embed Youtube</li><li>embed flickr</li><li>Show top 3 three and total number of runners</li></ul>';
-	
+		
 	// Find connected pages
 	$connected = new WP_Query( array(
 		'connected_type' => 'event_to_race',
@@ -100,14 +95,14 @@ else
 		'nopaging' => true,
 	));
 	
+	global $loader;
 	if ( $connected->have_posts() ) :
 	
 		echo '<h2 id="results">Full Race Results</h2>';
 		while ( $connected->have_posts() ) : 			
 			$connected->the_post();
 			//echo the_ID();
-	
-		$raceid = get_post_meta(get_the_ID(),'bhaa_race_id',true);
+			$raceid = get_post_meta(get_the_ID(),'bhaa_race_id',true);
 		//echo get_the_content();
 //  			echo '<li><a href="';
 //  			the_permalink();
@@ -119,14 +114,17 @@ else
 //  			echo get_post_meta(get_the_ID(),'bhaa_race_id',true);
 //  			echo '</a></li>';
  			
- 			global $loader;
- 			echo $loader->raceresult->getTable()->renderTable($raceid);
  			
+ 			echo $loader->raceresult->getTable()->renderTable($raceid);
 		endwhile;
 //		echo '</ul>';
 		
 		// Prevent weirdness
 		wp_reset_postdata();
+		
+		echo '<div id="teams"><h3>Teams</h3></div>';
+		echo $loader->teamresult->getTable()->renderTable(get_the_ID());
+		
 	else :
 		echo "No races have been linked to this event yet.";
 	endif;
