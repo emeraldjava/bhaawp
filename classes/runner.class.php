@@ -46,10 +46,12 @@ class Runner
 	function Runner()
 	{
 		//require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-events.php' );
-		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
-		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );		
+		
+		// status column for admin
+ 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
+ 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );		
 
-		add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
+// 		add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
 	}
 	
 	function add_bhaa_profile_fields($user) 
@@ -78,9 +80,18 @@ class Runner
 	 * #_BOOKINGBUTTON see 'em_booking_button' filter
 	 * Paid Membership Pro | Talking Manuals – Reviews
 	 */
-	function display_eventmanager_annualevent_button()
+	function bhaa_annual_membership()
 	{
-		$EM_Event = new EM_Event(array('post_id'=>205715));
+		global $current_user;
+		get_currentuserinfo();
+		$status = get_user_meta(get_current_user_id(),'bhaa_runner_status',true);
+		
+		echo '<div>BHAA Membership Page</div>';
+		echo('We will check your membership status to know what to do');
+		echo('Welcome, ' . $current_user->display_name  . '</br>');
+		echo('Your membership status is : <b>' . $status  . '</b></br>');
+		
+		$EM_Event = new EM_Event(array('post_id'=>205712));// 205712 LH - 205712
 		//var_dump($EM_Event);
 		
 		// half works
