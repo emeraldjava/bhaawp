@@ -41,7 +41,9 @@ global $wpdb, $EM_Event, $post;
 		$BHAA_tickets[1]->ticket_end = $EM_Event->event_end_date;
 		$BHAA_tickets[1]->ticket_spaces_limit = 1000;
 	
-		// Ticket 3 - BHAA Annual Memnbership special case
+		// Ticket 3 - BHAA Annual Membership special case
+		
+		// Add default tickets to the list
 		$EM_Tickets->tickets=array(
 			0=>$BHAA_tickets[0],
 			1=>$BHAA_tickets[1]
