@@ -109,15 +109,15 @@ else
 	
 		$raceid = get_post_meta(get_the_ID(),'bhaa_race_id',true);
 		//echo get_the_content();
- 			echo '<li><a href="';
- 			the_permalink();
- 			echo '">';
- 			the_title();
- 			echo ' id ';
- 			the_ID();
- 			echo ' meta ';
- 			echo get_post_meta(get_the_ID(),'bhaa_race_id',true);
- 			echo '</a></li>';
+//  			echo '<li><a href="';
+//  			the_permalink();
+//  			echo '">';
+//  			the_title();
+//  			echo ' id ';
+//  			the_ID();
+//  			echo ' meta ';
+//  			echo get_post_meta(get_the_ID(),'bhaa_race_id',true);
+//  			echo '</a></li>';
  			
  			global $loader;
  			echo $loader->raceresult->getTable()->renderTable($raceid);
