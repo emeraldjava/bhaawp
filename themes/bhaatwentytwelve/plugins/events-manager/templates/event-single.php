@@ -134,10 +134,12 @@ else
 $custom = get_post_custom(the_ID());//$post->ID);
 echo '<div id="media"><h3>Media</h3></div></div>';
 $youtube = $custom["youtube"][0];
-if ($youtube != NULL) 
+if (isset($youtube)) 
 	echo "<p><iframe title='YouTube video player' width='400' height='275' src='http://www.youtube.com/embed/" . $youtube . "' frameborder='0' allowfullscreen></iframe></p>";
 
 $flickr = $custom["flickr"][0];
+if (isset($flickr))
+	echo "FLICKR";
 //if ($vimeo != NULL) echo "<p><iframe src='http://player.vimeo.com/video/" . $vimeo . "?portrait=0' width='400' height='275' frameborder='0'></iframe></p>";
 //echo '</div>';
 
