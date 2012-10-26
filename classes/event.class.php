@@ -9,6 +9,7 @@ class Event
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
+		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
 	}
 	
 	function bhaa_event_meta(){
@@ -68,6 +69,35 @@ class Event
 				break;
 		}
 		return $replace;
+	}
+	
+	/**
+	 * Determine which tickets to display to which users.
+	 * @param unknown_type $result
+	 * @param unknown_type $EM_Ticket
+	 * @return boolean
+	 */
+	function bhaa_em_ticket_is_available($result, $EM_Ticket) {
+
+		if (current_user_can( strtolower('administrator') )) {
+			return true;
+		}
+
+		if ( $EM_Ticket->ticket_name == 'Day Member Ticket') {// && !current_user_can( strtolower($BHAA_Payments[annualname]) ) ) {
+			//if you are an ANNUAL MEMBER then this ticket will NOT show up
+			if(!is_user_logged_in())
+				return true;
+			else
+				return false;
+		}
+	
+		if ( $EM_Ticket->ticket_name == 'BHAA Member Ticket') {// && current_user_can( strtolower($BHAA_Payments[annualname]) ) ) {
+			//if you are an ANNUAL MEMBER then you can see this ticket
+			if(is_user_logged_in())
+				return true;
+			else
+				return false;
+		}
 	}
 }
 ?>

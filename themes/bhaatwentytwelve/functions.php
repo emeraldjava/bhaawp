@@ -48,37 +48,37 @@ remove_action('wp_head','wp_generator');
  * @param unknown_type $EM_Ticket
  * @return unknown|boolean
  */
-function bhaa_em_ticket_is_available($result, $EM_Ticket) {
-	//error_log('bhaa_em_ticket_is_available : '.$EM_Ticket->ticket_name.' '.$result);
-	//global $wpdb;
-	//$BHAA_Payments = get_option( 'bhaa_payments_default_values', "FALSE" );
-	if (current_user_can( strtolower('administrator') )) {
-		//return true;
-	}
-	//echo $EM_Ticket->ticket_name;
-	if ( $EM_Ticket->ticket_name == 'Day Member Ticket') {// && !current_user_can( strtolower($BHAA_Payments[annualname]) ) ) {
-		//if you are an ANNUAL MEMBER then this ticket will NOT show up
-		if(!is_user_logged_in())
-			return true;
-		else
-			return false;
-	}
+// function bhaa_em_ticket_is_available($result, $EM_Ticket) {
+// 	//error_log('bhaa_em_ticket_is_available : '.$EM_Ticket->ticket_name.' '.$result);
+// 	//global $wpdb;
+// 	//$BHAA_Payments = get_option( 'bhaa_payments_default_values', "FALSE" );
+// 	if (current_user_can( strtolower('administrator') )) {
+// 		//return true;
+// 	}
+// 	//echo $EM_Ticket->ticket_name;
+// 	if ( $EM_Ticket->ticket_name == 'Day Member Ticket') {// && !current_user_can( strtolower($BHAA_Payments[annualname]) ) ) {
+// 		//if you are an ANNUAL MEMBER then this ticket will NOT show up
+// 		if(!is_user_logged_in())
+// 			return true;
+// 		else
+// 			return false;
+// 	}
 	
-	if ( $EM_Ticket->ticket_name == 'BHAA Member Ticket') {// && current_user_can( strtolower($BHAA_Payments[annualname]) ) ) {
-		//if you are an ANNUAL MEMBER then you can see this ticket
-		if(is_user_logged_in())
-			return true;
-		else
-			return false;
-	}
-	//else if ( $EM_Ticket->ticket_name != 'BHAA Member Ticket' && $EM_Ticket->ticket_name != 'Day Member Ticket') {
-	//	// if ticket is NOT Annual OR Day, then everyone can see
-	//	return $result;
-	//}
-	//error_log('bhaa_em_ticket_is_available : '.$EM_Ticket->ticket_name.' '.$result);
+// 	if ( $EM_Ticket->ticket_name == 'BHAA Member Ticket') {// && current_user_can( strtolower($BHAA_Payments[annualname]) ) ) {
+// 		//if you are an ANNUAL MEMBER then you can see this ticket
+// 		if(is_user_logged_in())
+// 			return true;
+// 		else
+// 			return false;
+// 	}
+// 	//else if ( $EM_Ticket->ticket_name != 'BHAA Member Ticket' && $EM_Ticket->ticket_name != 'Day Member Ticket') {
+// 	//	// if ticket is NOT Annual OR Day, then everyone can see
+// 	//	return $result;
+// 	//}
+// 	//error_log('bhaa_em_ticket_is_available : '.$EM_Ticket->ticket_name.' '.$result);
 	
-	//return false;
-}
+// 	//return false;
+// }
 //add_filter('em_ticket_is_available', 'bhaa_em_ticket_is_available', 10, 2);
 
 ?>
