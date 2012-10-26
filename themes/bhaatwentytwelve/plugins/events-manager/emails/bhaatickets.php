@@ -43,7 +43,7 @@ Hi #_BOOKINGNAME,
 
 Thank you for registering for the BHAA #_EVENTLINK event. 
 
-Your Booking references is <b>#_BOOKINGID</b>
+Your Booking references is <b>#_BOOKINGTICKETNAME #_BOOKINGID </b>
 
 BHAA event 
 When : #_EVENTDATES @ #_EVENTTIMES

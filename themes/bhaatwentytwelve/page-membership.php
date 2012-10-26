@@ -66,4 +66,5 @@ else
 ?>
 </div>
 </div>
+<?php get_sidebar('membership'); ?>
 <?php get_footer(); ?>
