@@ -8,6 +8,7 @@ class Event
 	{
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
+		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 	}
 	
 	function bhaa_event_meta(){
@@ -50,6 +51,23 @@ class Event
 		
 		update_post_meta($post->ID, "flickr", $_POST["flickr"]);
 		update_post_meta($post->ID, "youtube", $_POST["youtube"]);
+	}
+	
+	/**
+	 * Add a custom placeholder to handle the BHAA custom email generation.
+	 * http://wp-events-plugin.com/tutorials/create-a-custom-placeholder-for-event-formatting/
+	 */
+	function bhaa_em_booking_output_placeholder($replace, $EM_Booking, $result){
+		global $wp_query, $wp_rewrite;
+		switch( $result ){
+			case '#_BHAATICKETS':
+				ob_start();
+				em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
+				$replace = ob_get_clean();
+				$replace = $EM_Booking->output($replace);
+				break;
+		}
+		return $replace;
 	}
 }
 ?>
