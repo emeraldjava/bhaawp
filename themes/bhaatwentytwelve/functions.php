@@ -40,4 +40,15 @@ remove_action('wp_head','wp_generator');
 // }
 // add_filter('user_contactmethods','edit_contactmethods',10,1);
 
+
+/**
+ * http://wordpress.stackexchange.com/questions/19692/how-to-redirect-a-sucessful-registration-to-a-page-template
+ * @return Ambigous <string, mixed>
+ */
+function bhaa_registration_redirect()
+{
+	return home_url( '/register' );
+}
+add_filter( 'registration_redirect', 'bhaa_registration_redirect' );
+
 ?>
