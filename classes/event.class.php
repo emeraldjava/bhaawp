@@ -73,7 +73,10 @@ class Event
 	
 	/**
 	 * Determine which tickets to display to which users.
-	 * @param unknown_type $result
+	 * 
+	 * http://wordpress.org/support/topic/plugin-events-manager-conditional-tickets
+ 	 * http://wordpress.org/support/topic/plugin-events-manager-different-tickets-based-on-role
+ 	 * @param unknown_type $result
 	 * @param unknown_type $EM_Ticket
 	 * @return boolean
 	 */
