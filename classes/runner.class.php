@@ -14,6 +14,9 @@
  * -- use email as the login (we'll set the username based on first last name
  * http://wordpress.stackexchange.com/questions/51678/how-to-login-with-email-only-no-username
  * 
+ * http://trepmal.com/action_hook/register_form/
+ * http://www.rarescosma.com/2011/04/wordpress-hooks-user_register/
+ * 
  * -- show bhaa logo on the login/registration page
  * http://www.paulund.co.uk/change-wordpress-login-logo-without-a-plugin
  * 
@@ -47,11 +50,18 @@ class Runner
 	{
 		//require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-events.php' );
 		
-		// status column for admin
- 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
+		// extra reg fields
+		add_action('register_form',array($this,'bhaa_register_form'));
+		// register_post		
+		//add_action('user_register',array($this,'bhaa_user_register'));
+
+		//add_filter('wp_nav_menu_items',array($this,'add_loginout_link',10,2));
+ 		
+		// display the membership status
+		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
  		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );		
 
- 		register_sidebars(1, array(
+ 		register_sidebar(array(
 			'name'			=> 'Membership Sidebar',
 			'id'            => 'sidebar-membership',
 			'before_widget' => '<li id="%1$s" class="widget %2$s">',
@@ -59,8 +69,18 @@ class Runner
 			'before_title'  => '<h2 class="widgettitle">',
 			'after_title'   => '</h2>'
  		));
- 		
+
  		//add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
+	}
+	
+	function add_loginout_link( $items, $args ) {
+		if (is_user_logged_in()) {
+			$items .= '<li><a href="'. wp_logout_url() .'">Log Out</a></li>';
+		}
+		else {
+			$items .= '<li><a href="'. site_url('wp-login.php') .'">Log In</a></li>';
+		}
+		return $items;
 	}
 	
 	function add_bhaa_profile_fields($user) 
@@ -116,52 +136,7 @@ class Runner
 				{/has_bookings}
 				</div>');
 	}
-	
-	/**
-	 * 	<input type=hidden name="COMMENT1" value="Subscription for '.$days.' days.">
-		<input type=hidden name="drt" value="'.$drt.'">
-		<input type=hidden name="booking_id" value="1:'.$mem.':true">
-	 * @return string
-	 */
-// 	function display_realex_button()
-// 	{
-// 		global $wpdb;
-// 		//$BHAA_Subscriptions = get_option( 'bhaa_subscription_default_values', "FALSE" );
-// 		//get values from DB
-// 		$merchantid = get_option('em_realex_redirect_merchant_id');
-// 		$secret = get_option('em_realex_redirect_merchant_secret');
-// 		$currency = get_option('dbem_bookings_currency');
-// 		//$mem = get_option('em_realex_redirect_mem');
-// 		//$button_label = $BHAA_Subscriptions[button_label];
 		
-// 		//The code below is used to create the timestamp format required by Realex Payments
-// 		$timestamp = strftime("%Y%m%d%H%M%S");
-// 		$uid=get_current_user_id();
-// 		$orderid = $uid."-".$timestamp;
-// 		$price="15.00";
-// 		$tmp = "$timestamp.$merchantid.$orderid.$price.$currency";
-// 		$md5hash = md5($tmp);
-// 		$tmp = "$md5hash.$secret";
-// 		$md5hash = md5($tmp);
-// 		//$drt="$days:$role:$type";
-// 		$ret='<div><form action="https://epage.payandshop.com/epage.cgi" method="post">
-// 		<input type=hidden name="MERCHANT_ID" value="'.$merchantid.'">
-// 		<input type=hidden name="ORDER_ID" value="'.$orderid.'">
-// 		<input type=hidden name="CURRENCY" value="'.$currency.'">
-// 		<input type=hidden name="AMOUNT" value="'.$price.'">
-// 		<input type=hidden name="TIMESTAMP" value="'.$timestamp.'">
-// 		<input type=hidden name="MD5HASH" value="'.$md5hash.'">
-// 		<input type=hidden name="CUST_NUM" value="'.$uid.'">
-// 		<input type=hidden name="REMOTE_ADDR" value="'.$_SERVER['REMOTE_ADDR'].'">
-// 		<input type=hidden name="uid" value="'.$uid.'">
-// 		<input type=hidden name="AUTO_SETTLE_FLAG" value="1">
-// 		<input type=submit value="'.$button_label.'">
-// 		</form>
-// 		<a href="http://www.realexpayments.com"><img border="0" alt="online payments" title="online payments"
-// 		src="http://www.realexpayments.com/images/logos/sm_gif.png" style="width:161px;heigth:111px;float:left;padding:0px;margin:0px;background:transparent;border:1px solid #D5D3D1;"/></a>';
-// 		return $ret."</div>";
-// 	}
-	
 	function bhaa_manage_users_columns( $column ) {
 		$column['status'] = __('Status', 'status');
 		return $column;
@@ -177,6 +152,58 @@ class Runner
 			default:
 		}
 		return $return;
+	}
+	
+	/**
+	 * http://net.tutsplus.com/tutorials/wordpress/quick-tip-making-a-fancy-wordpress-register-form-from-scratch/
+	 */
+	function bhaa_register_form()
+	{
+		echo '<p><label>First Name<br />';
+		echo '<input id="bhaa_runner_firstname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
+		
+		echo '<p><label>Last Name<br />';
+		echo '<input id="bhaa_runner_lastname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
+		
+		echo '<p><label for="user_login">Date Of Birth<br />';
+		echo '<input type="text" class="input validate[custom[date]]" type="text" tabindex="20" size="20" name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth"/></label></p>';
+		
+		echo '<p><label for="bhaa_runner_gender">Gender<br />';
+		echo '<input type="radio" name="gender" id="bhaa_runner_gender_male" class="validate[required]" value="Male">Male<br>';
+		echo '<input type="radio" name="gender" id="bhaa_runner_gender_female" class="validate[required]" value="Female">Female<br></p>';
+		
+		echo '<p><label>Company<br/>';
+		echo '<select name="bhaa_runner_company" id="bhaa_runner_company" class="validate[required]">';
+		echo '<option value="Other">Other</option>';
+		echo '</select>';
+	}
+	
+	/**
+	 * http://www.rarescosma.com/2011/04/wordpress-hooks-user_register/
+	 */
+	function bhaa_user_register($user_id, $password="", $meta=array()) 
+	{
+		// Gotta put all the info into an array
+		$userdata = array();
+		$userdata['ID'] = $user_id;
+		
+		// First name
+		$userdata['first_name'] = $_POST['bhaa_runner_firstname'];
+		$userdata['last_name'] = $_POST['bhaa_runner_lastname'];
+		$userdata['last_name'] = $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname'];
+		
+		// Enters into DB
+		wp_update_user($userdata);
+		
+		// This is for custom meta data "gender" is the custom key and M is the value
+		// update_usermeta($user_id, 'gender','M');
+		update_user_meta( $user_id, 'bhaa_runner_firstname',$_POST['bhaa_runner_firstname']);
+		update_user_meta( $user_id, 'bhaa_runner_lastname',$_POST['bhaa_runner_lastname']);
+		update_user_meta( $user_id, 'bhaa_runner_dateofbirth',$_POST['bhaa_runner_dateofbirth']);
+		update_user_meta( $user_id, 'bhaa_runner_gender',$_POST['bhaa_runner_gender']);
+		update_user_meta( $user_id, 'bhaa_runner_company',$_POST['bhaa_runner_company']);
+		update_user_meta( $user_id, BHAA_RUNNER_STATUS, DAY);
+		
 	}
 }
 ?>
