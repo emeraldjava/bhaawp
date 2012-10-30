@@ -43,7 +43,7 @@ else
 	echo('Your membership status is : <b>' . $status  . '</b></br>');
 	
 	$EM_Event = new EM_Event(array('post_id'=>205712));// 205712 - 2052
-	//var_dump($EM_Event);
+	var_dump($EM_Event);
 	
 	// half works
 	//echo $EM_Event->output_single();

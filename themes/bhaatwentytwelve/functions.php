@@ -2,18 +2,29 @@
 // http://pythoughts.com/how-to-hide-that-you-use-wordpress/
 remove_action('wp_head','wp_generator');
 
-// // http://www.wprecipes.com/customize-wordpress-login-logo-without-a-plugin
+// http://www.wprecipes.com/customize-wordpress-login-logo-without-a-plugin
 // function bhaa_login_logo() {
 // 	echo '<style type="text/css">
 // 	h1 a { 
 // 	height:350px;
 // 	margin-left:10px;
 // 	margin-top:10px;
-// 	width:145px;
+// 	width:410px;
 // 	background-image:url('.content_url().'/themes/bhaatwentytwelve/images/logo.png) !important; }
 // 	</style>';
 // }
 // add_action('login_head', 'bhaa_login_logo');
+
+// http://www.paulund.co.uk/change-wordpress-login-logo-without-a-plugin
+// function bhaa_login_logo_url() {
+// 	return get_bloginfo( 'url' );
+// }
+// function bhaa_login_logo_url_title() {
+// 	return 'BHAA';
+// }
+
+// add_filter('login_headertitle','bhaa_login_logo_url_title');
+// add_filter('login_headerurl','bhaa_login_logo_url');
 
 // // http://wpmu.org/how-to-simplify-wordpress-profiles-by-removing-personal-options/
 // function hide_personal_options(){
@@ -45,10 +56,10 @@ remove_action('wp_head','wp_generator');
  * http://wordpress.stackexchange.com/questions/19692/how-to-redirect-a-sucessful-registration-to-a-page-template
  * @return Ambigous <string, mixed>
  */
-function bhaa_registration_redirect()
-{
-	return home_url( '/register' );
-}
-add_filter( 'registration_redirect', 'bhaa_registration_redirect' );
+// function bhaa_registration_redirect()
+// {
+// 	return home_url( '/register' );
+// }
+// add_filter( 'registration_redirect', 'bhaa_registration_redirect' );
 
 ?>
