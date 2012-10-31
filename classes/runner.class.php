@@ -173,11 +173,39 @@ class Runner
 		echo '<input type="radio" name="gender" id="bhaa_runner_gender_female" class="validate[required]" value="Female">Female<br></p>';
 		
 		echo '<p><label>Company<br/>';
-		echo bhaa_houses_dropdown( 'house' );
+		//wp_dropdown_categories('taxonomy=house&show_count=1&hierarchical=0');
+		echo $this->bhaa_houses_dropdown( 'house' );
 		echo '</p>';
 //		echo '<select id="bhaa_runner_company">'; // name="bhaa_runner_company" class="validate[required]"
 //		echo '<option value="Other">Other</option>';
 	//	echo '</select>';
+	}
+	
+	/**
+	 * http://codex.wordpress.org/Function_Reference/wp_dropdown_categories
+	 * http://wordpress.stackexchange.com/questions/34320/dropdown-list-of-a-custom-post-type
+	 * http://stackoverflow.com/questions/698817/faster-way-to-populate-select-with-javascript
+	 */
+	function bhaa_houses_dropdown( $post_type )
+	{
+		error_log('bhaa_houses_dropdown');
+		$posts = get_posts(
+				array(
+						'post_type'   => $post_type,
+						'numberposts' => -1,
+						'orderby'     => 'title',
+						'order'       => 'ASC'
+				)
+		);
+		if( ! $posts ) return;
+	
+		$out = '<select id="bhaa_runner_company"><option>Select a Company</option>';
+		foreach( $posts as $p )
+		{
+			$out .= '<option value="' . get_permalink( $p ) . '">' . esc_html( $p->post_title ) . '</option>';
+		}
+		$out .= '</select>';
+		return $out;
 	}
 	
 	/**
