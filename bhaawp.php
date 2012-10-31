@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.10.30
+Version: 2012.10.31
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.10.30';
+	var $version = '2012.10.31';
 	
 	var $admin;
 	var $connection;
@@ -250,6 +250,54 @@ class BhaaLoader
 		return $this->admin;
 	}	
 }
+
+if ( !function_exists('wp_new_user_notification') ) :
+/**
+ * http://codex.wordpress.org/Function_Reference/get_stylesheet_directory_uri
+ * http://plugins.trac.wordpress.org/browser/welcome-email-editor/trunk/sb_welcome_email_editor.php?rev=269474#L57
+ * http://blog.avtex.com/2012/03/14/creating-dynamic-html-e-mail-templates-in-wordpress/
+ */
+function wp_new_user_notification($user_id, $plaintext_pass = '') {
+	$user = new WP_User($user_id);
+
+	$user_login = stripslashes($user->user_login);
+	$user_email = stripslashes($user->user_email);
+
+	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
+	// we want to reverse this for the plain text arena of emails.
+	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+
+	$message  = sprintf(__('New user registration on your site %s:'), $blogname) . "\r\n\r\n";
+	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
+	$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
+
+	@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), $blogname), $message);
+
+	if ( empty($plaintext_pass) )
+		return;
+
+	//Get e-mail template
+	//$message_template = file_get_contents(ABSPATH.'/wp-content/themes/yourthemefolder/email_templates/new_user.html');
+	error_log("path ".get_stylesheet_directory_uri());
+	$message_template = file_get_contents(get_stylesheet_directory_uri().'/new_user.html');
+
+	// get_stylesheet_directory() 
+	//replace placeholders with user-specific content
+	$sw_year = date('Y');
+	$message = str_ireplace('[style]',get_stylesheet(), $message_template);
+	$message = str_ireplace('[template]',get_stylesheet_directory(), $message_template);
+	$message = str_ireplace('[username]',$user_login, $message_template);
+	$message = str_ireplace('[password]',$plaintext_pass, $message);
+	$message = str_ireplace('[year]',$sw_year, $message);
+
+	//Prepare headers for HTML
+	$headers  = 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+	//Send user notification email
+	wp_mail($user_email, 'BHAA Registered User', $message, $headers);
+}
+endif;
 
 // Run the Plugin
 global $loader;
