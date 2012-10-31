@@ -162,20 +162,22 @@ class Runner
 		echo '<p><label>First Name<br />';
 		echo '<input id="bhaa_runner_firstname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
-		echo '<p><label>Last Name<br />';
+		echo '<p><label>Last Name<br/>';
 		echo '<input id="bhaa_runner_lastname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
-		echo '<p><label for="user_login">Date Of Birth<br />';
+		echo '<p><label for="user_login">Date Of Birth<br/>';
 		echo '<input type="text" class="input validate[custom[date]]" type="text" tabindex="20" size="20" name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth"/></label></p>';
 		
-		echo '<p><label for="bhaa_runner_gender">Gender<br />';
+		echo '<p><label for="bhaa_runner_gender">Gender<br/>';
 		echo '<input type="radio" name="gender" id="bhaa_runner_gender_male" class="validate[required]" value="Male">Male<br>';
 		echo '<input type="radio" name="gender" id="bhaa_runner_gender_female" class="validate[required]" value="Female">Female<br></p>';
 		
 		echo '<p><label>Company<br/>';
-		echo '<select name="bhaa_runner_company" id="bhaa_runner_company" class="validate[required]">';
-		echo '<option value="Other">Other</option>';
-		echo '</select>';
+		echo bhaa_houses_dropdown( 'house' );
+		echo '</p>';
+//		echo '<select id="bhaa_runner_company">'; // name="bhaa_runner_company" class="validate[required]"
+//		echo '<option value="Other">Other</option>';
+	//	echo '</select>';
 	}
 	
 	/**
@@ -183,14 +185,15 @@ class Runner
 	 */
 	function bhaa_user_register($user_id, $password="", $meta=array()) 
 	{
+		error_log("bhaa_user_register ".$user_id);
 		// Gotta put all the info into an array
 		$userdata = array();
 		$userdata['ID'] = $user_id;
 		
-		// First name
+		// name
 		$userdata['first_name'] = $_POST['bhaa_runner_firstname'];
 		$userdata['last_name'] = $_POST['bhaa_runner_lastname'];
-		$userdata['last_name'] = $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname'];
+		$userdata['display_name'] = $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname'];
 		
 		// Enters into DB
 		wp_update_user($userdata);
@@ -203,7 +206,6 @@ class Runner
 		update_user_meta( $user_id, 'bhaa_runner_gender',$_POST['bhaa_runner_gender']);
 		update_user_meta( $user_id, 'bhaa_runner_company',$_POST['bhaa_runner_company']);
 		update_user_meta( $user_id, BHAA_RUNNER_STATUS, DAY);
-		
 	}
 }
 ?>

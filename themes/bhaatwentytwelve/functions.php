@@ -2,6 +2,12 @@
 // http://pythoughts.com/how-to-hide-that-you-use-wordpress/
 remove_action('wp_head','wp_generator');
 
+// em_new_user_notification
+
+
+
+
+
 // http://www.wprecipes.com/customize-wordpress-login-logo-without-a-plugin
 // function bhaa_login_logo() {
 // 	echo '<style type="text/css">
@@ -62,4 +68,76 @@ remove_action('wp_head','wp_generator');
 // }
 // add_filter( 'registration_redirect', 'bhaa_registration_redirect' );
 
+/**
+ * favicon
+ */
+function favicon_link() {
+	echo '<link rel="shortcut icon" type="image/x-icon" href="/wpdemo/favicon.ico" />' . "\n";
+}
+add_action('wp_head', 'favicon_link');
+
+/**
+ * http://codex.wordpress.org/Function_Reference/wp_dropdown_categories
+ * http://wordpress.stackexchange.com/questions/34320/dropdown-list-of-a-custom-post-type
+ * @param unknown_type $post_type
+ * @return void|string
+ */
+function bhaa_houses_dropdown( $post_type )
+{
+	error_log('bhaa_houses_dropdown');
+	$posts = get_posts(
+			array(
+					'post_type'  => $post_type,
+					'numberposts' => -1
+			)
+	);
+	if( ! $posts ) return;
+
+	$out = '<select id="bhaa_runner_company"><option>Select a Company</option>';
+	foreach( $posts as $p )
+	{
+		$out .= '<option value="' . get_permalink( $p ) . '">' . esc_html( $p->post_title ) . '</option>';
+	}
+	$out .= '</select>';
+	return $out;
+}
+
+/**
+ * 
+ * http://stackoverflow.com/questions/698817/faster-way-to-populate-select-with-javascript
+ */
+function bhaa_house_drop_down_list() {
+	error_log('bhaa_house_drop_down_list');
+	print '
+		<script>function addOption(selectbox,text,value,selected)
+		{
+		var optn = document.createElement("OPTION");
+		optn.text = text;
+		optn.value = value;
+		if(selected=="1")
+			optn.selected="selected";
+		selectbox.options.add(optn);
+		};</script>
+		';
+	global $wpdb;//$current_user->user_id
+	global $current_user;
+	$c = get_user_meta (get_current_user_id(), 'company', true);
+	//get's the current users row with company info
+	$query = "SELECT post_title FROM ".$wpdb->prefix ."posts WHERE post_status = 'publish' AND post_type = 'house' order by post_title ASC";
+	$items = $wpdb->get_results($query);//get items as assoc array.
+	print '<script>
+ 	if(document.getElementsByName("bhaa_runner_company")[0]){
+	';
+	foreach ($items as $row) {//give individual items
+		print 'addOption( document.getElementsByName("bhaa_runner_company")[0],"'.$row->post_title.'","'.$row->post_title.'"';
+		if ($row->post_title==$c) {
+			print',"1");';
+		}else {
+			print',"0");';
+		}
+	}
+	print '}</script>';
+}
+add_action('wp_footer', 'bhaa_house_drop_down_list');
+add_action('admin_footer', 'bhaa_house_drop_down_list');
 ?>
