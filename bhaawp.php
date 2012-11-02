@@ -300,8 +300,8 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 
 	//Prepare headers for HTML
 	$headers  = 'MIME-Version: 1.0' . "\r\n";
-	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
+	$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+	$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
 	//Send user notification email
 	wp_mail($user_email, 'BHAA Registered User', $message, $headers);
 }
