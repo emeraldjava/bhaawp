@@ -22,6 +22,8 @@
  * 
  * -- admin user columns
  * http://w4dev.com/wp/add-last-login-time-in-wp-admin-users-column/
+ * 
+ * http://stackoverflow.com/questions/9792418/how-do-i-select-user-id-first-and-last-name-directly-from-wordpress-database
  */
 class Runner
 {	
@@ -53,7 +55,7 @@ class Runner
 		// extra reg fields
 		add_action('register_form',array($this,'bhaa_register_form'));
 		// register_post		
-		//add_action('user_register',array($this,'bhaa_user_register'));
+		add_action('user_register',array($this,'bhaa_user_register'));
 
 		//add_filter('wp_nav_menu_items',array($this,'add_loginout_link',10,2));
  		
@@ -160,17 +162,17 @@ class Runner
 	function bhaa_register_form()
 	{
 		echo '<p><label>First Name<br />';
-		echo '<input id="bhaa_runner_firstname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
+		echo '<input name="bhaa_runner_firstname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
 		echo '<p><label>Last Name<br/>';
-		echo '<input id="bhaa_runner_lastname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
+		echo '<input name="bhaa_runner_lastname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
-		echo '<p><label for="user_login">Date Of Birth<br/>';
-		echo '<input type="text" class="input validate[custom[date]]" type="text" tabindex="20" size="20" name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth"/></label></p>';
+		echo '<p><label for="bhaa_runner_dateofbirth">Date Of Birth<br/>';
+		echo '<input name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth" type="text" class="input validate[custom[date]]" type="text" tabindex="20" size="20"/></label></p>';
 		
 		echo '<p><label for="bhaa_runner_gender">Gender<br/>';
-		echo '<input type="radio" name="gender" id="bhaa_runner_gender_male" class="validate[required]" value="Male">Male<br>';
-		echo '<input type="radio" name="gender" id="bhaa_runner_gender_female" class="validate[required]" value="Female">Female<br></p>';
+		echo '<input type="radio" name="bhaa_runner_gender" id="bhaa_runner_gender_male" class="validate[required]" value="Male">Male<br>';
+		echo '<input type="radio" name="bhaa_runner_gender" id="bhaa_runner_gender_female" class="validate[required]" value="Female">Female<br></p>';
 		
 		echo '<p><label>Company<br/>';
 		//wp_dropdown_categories('taxonomy=house&show_count=1&hierarchical=0');
@@ -182,6 +184,7 @@ class Runner
 	}
 	
 	/**
+	 * http://codex.wordpress.org/Function_Reference/get_posts
 	 * http://codex.wordpress.org/Function_Reference/wp_dropdown_categories
 	 * http://wordpress.stackexchange.com/questions/34320/dropdown-list-of-a-custom-post-type
 	 * http://stackoverflow.com/questions/698817/faster-way-to-populate-select-with-javascript
@@ -199,10 +202,10 @@ class Runner
 		);
 		if( ! $posts ) return;
 	
-		$out = '<select id="bhaa_runner_company"><option>Select a Company</option>';
+		$out = '<select name="bhaa_runner_company"><option>Select a Company</option>';
 		foreach( $posts as $p )
 		{
-			$out .= '<option value="' . get_permalink( $p ) . '">' . esc_html( $p->post_title ) . '</option>';
+			$out .= '<option value="' . get_permalink( $p->ID ) . '">' . esc_html( $p->post_title ) . '</option>';
 		}
 		$out .= '</select>';
 		return $out;
@@ -213,27 +216,25 @@ class Runner
 	 */
 	function bhaa_user_register($user_id, $password="", $meta=array()) 
 	{
-		error_log("bhaa_user_register ".$user_id);
+		error_log("bhaa_user_register ".$user_id.' '.$meta);
 		// Gotta put all the info into an array
 		$userdata = array();
 		$userdata['ID'] = $user_id;
 		
-		// name
-		$userdata['first_name'] = $_POST['bhaa_runner_firstname'];
-		$userdata['last_name'] = $_POST['bhaa_runner_lastname'];
+		// http://codex.wordpress.org/Function_Reference/get_userdata
 		$userdata['display_name'] = $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname'];
-		
-		// Enters into DB
+		$userdata['user_nicename'] = $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname'];
 		wp_update_user($userdata);
-		
-		// This is for custom meta data "gender" is the custom key and M is the value
-		// update_usermeta($user_id, 'gender','M');
+
+		update_user_meta( $user_id, 'first_name',$_POST['bhaa_runner_firstname']);
+		update_user_meta( $user_id, 'last_name',$_POST['bhaa_runner_lastname']);
+		update_user_meta( $user_id, 'nickname', $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname']);
 		update_user_meta( $user_id, 'bhaa_runner_firstname',$_POST['bhaa_runner_firstname']);
 		update_user_meta( $user_id, 'bhaa_runner_lastname',$_POST['bhaa_runner_lastname']);
 		update_user_meta( $user_id, 'bhaa_runner_dateofbirth',$_POST['bhaa_runner_dateofbirth']);
 		update_user_meta( $user_id, 'bhaa_runner_gender',$_POST['bhaa_runner_gender']);
 		update_user_meta( $user_id, 'bhaa_runner_company',$_POST['bhaa_runner_company']);
-		update_user_meta( $user_id, BHAA_RUNNER_STATUS, DAY);
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_STATUS, Runner::DAY);
 	}
 }
 ?>
