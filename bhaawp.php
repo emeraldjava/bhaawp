@@ -251,6 +251,13 @@ class BhaaLoader
 	}	
 }
 
+// if ( !function_exists('em_new_user_notification') ) :
+// function em_new_user_notification($user_id, $plaintext_pass = '')
+// {
+// 	wp_new_user_notification($user_id, $plaintext_pass = '');
+// }
+// endif;
+
 if ( !function_exists('wp_new_user_notification') ) :
 /**
  * http://codex.wordpress.org/Function_Reference/get_stylesheet_directory_uri
@@ -278,15 +285,16 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 
 	//Get e-mail template
 	//$message_template = file_get_contents(ABSPATH.'/wp-content/themes/yourthemefolder/email_templates/new_user.html');
-	error_log("path ".get_stylesheet_directory_uri());
+	$path = get_stylesheet_directory_uri();
+	error_log("path ".$path);
 	$message_template = file_get_contents(get_stylesheet_directory_uri().'/new_user.html');
 
 	// get_stylesheet_directory() 
 	//replace placeholders with user-specific content
 	$sw_year = date('Y');
-	$message = str_ireplace('[style]',get_stylesheet(), $message_template);
-	$message = str_ireplace('[template]',get_stylesheet_directory(), $message_template);
-	$message = str_ireplace('[username]',$user_login, $message_template);
+	$message = str_ireplace('[style]',get_stylesheet_directory_uri(), $message_template);
+	$message = str_ireplace('[template]',get_stylesheet_directory_uri(), $message);
+	$message = str_ireplace('[username]',$user_login, $message);
 	$message = str_ireplace('[password]',$plaintext_pass, $message);
 	$message = str_ireplace('[year]',$sw_year, $message);
 
