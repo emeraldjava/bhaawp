@@ -34,8 +34,8 @@ get_header(); ?>
 // Find connected posts
 // https://github.com/scribu/wp-posts-to-posts/wiki/Posts-2-Users
 $users = get_users( array(
-		'connected_type' => 'house_to_runner',
-		'connected_items' => $post
+	'connected_type' => Connection::HOUSE_TO_RUNNER,
+	'connected_items' => $post
 ) );
 ?>
 
