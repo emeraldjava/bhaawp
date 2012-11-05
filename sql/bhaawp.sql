@@ -104,6 +104,7 @@ create table race_mapping
 	wp_race_id int,
 	bhaa_race_id int
 );
+select * from race_mapping where bhaa_race_id=8;
 
 insert into race_mapping (wp_race_id,bhaa_race_id)
 select id,wp_postmeta.meta_value 
@@ -115,9 +116,16 @@ select * from race_mapping;
 update wp_bhaa_raceresult 
 join race_mapping on race_mapping.bhaa_race_id=wp_bhaa_raceresult.race
 set race = race_mapping.wp_race_id;
-				
-SELECT wp_bhaa_raceresult.*,ts.* FROM wp_bhaa_raceresult
-join wp_posts as race on race.post_type="race" and race.id=wp_bhaa_raceresult.race
-where runner=7713 order by race desc
 			
+SELECT wp_bhaa_raceresult.*,race.id,wp_p2p.p2p_id FROM wp_bhaa_raceresult
+join wp_posts as race on race.post_type='race' and race.id=wp_bhaa_raceresult.race
+left join wp_p2p on (wp_p2p.p2p_from=race.id and wp_p2p.p2p_type='event_to_race')
+where runner=7713 order by wp_bhaa_raceresult.race desc
+left join wp_posts as event on (event.post_type='event' and event.id=wp_p2p.p2p_to)
+
+
+
+
+			
+
 			
