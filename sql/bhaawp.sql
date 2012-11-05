@@ -94,4 +94,30 @@ where runner.status="D"
 
 delete from wp_users where ID>10000
 
+-- map the wp race to the bhaa race
+select id,post_name,wp_postmeta.meta_value from wp_posts 
+join wp_postmeta on (wp_postmeta.post_id=wp_posts.id and wp_postmeta.meta_key='bhaa_race_id')
+where wp_posts.post_type='race';
+
+create table race_mapping
+(
+	wp_race_id int,
+	bhaa_race_id int
+);
+
+insert into race_mapping (wp_race_id,bhaa_race_id)
+select id,wp_postmeta.meta_value 
+from wp_posts 
+join wp_postmeta on (wp_postmeta.post_id=wp_posts.id and wp_postmeta.meta_key='bhaa_race_id')
+where wp_posts.post_type='race';
+select * from race_mapping;
+
+update wp_bhaa_raceresult 
+join race_mapping on race_mapping.bhaa_race_id=wp_bhaa_raceresult.race
+set race = race_mapping.wp_race_id;
 				
+SELECT wp_bhaa_raceresult.*,ts.* FROM wp_bhaa_raceresult
+join wp_posts as race on race.post_type="race" and race.id=wp_bhaa_raceresult.race
+where runner=7713 order by race desc
+			
+			
