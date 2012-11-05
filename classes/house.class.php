@@ -27,7 +27,6 @@ class House
 	{
 		add_action( 'init', array(&$this,'register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'register_cpt_house'));
-		add_filter( 'template_include', array(&$this,'house_templates'));
 		
 		// Add custom post navigation columns
 		add_filter('manage_edit-house_columns', array(&$this, "nav_columns"));
@@ -63,20 +62,7 @@ class House
 				break;
 		}
 	}
-	
-	/**
-	 * http://wordpress.stackexchange.com/questions/55763/is-it-possible-to-define-a-template-for-a-custom-post-type-within-a-plugin-indep
-	 * @param unknown_type $template
-	 */
-	function house_templates( $template ) {
-		$post_types = array( 'house' );
-		if ( is_post_type_archive( $post_types ) && ! file_exists( get_stylesheet_directory() . '/archive-house.php' ) )
-			$template = BHAAWP_PATH.'/template/archive-house.php';
-		if ( is_singular( $post_types ) && ! file_exists( get_stylesheet_directory() . '/single-house.php' ) )
-			$template = BHAAWP_PATH.'/template/single-house.php';
-		return $template;
-	}
-	
+		
 	// 
 	function register_cpt_house() {
 	

@@ -15,37 +15,7 @@ class League
 {
 	function League()
 	{
-		//add_action( 'init', array(&$this,'register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'registerLeagueCPT'));
-		//add_action( 'wp_loaded', array(&$this,'leagueConnectionTypes'));
-		add_filter( 'template_include', array(&$this,'league_templates'));
-	}
-	
-// 	function leagueConnectionTypes() {
-// 		// Make sure the Posts 2 Posts plugin is active.
-// 		//require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
-// 		if ( !function_exists( 'p2p_register_connection_type' ) )
-// 			return;
-	
-// 		p2p_register_connection_type( array(
-// 				'name' => 'league_to_events',
-// 				'from' => 'league',
-// 				'to' => 'event',
-// 				'cardinality' => 'one-to-many'
-// 		) );
-// 	}
-	
-	/**
-	 * http://wordpress.stackexchange.com/questions/55763/is-it-possible-to-define-a-template-for-a-custom-post-type-within-a-plugin-indep
-	 * @param unknown_type $template
-	 */
-	function league_templates( $template ) {
-		$post_types = array( 'league' );
-		if ( is_post_type_archive( $post_types ) && ! file_exists( get_stylesheet_directory() . '/archive-league.php' ) )
-			$template = BHAAWP_PATH.'/template/archive-league.php';
-		if ( is_singular( $post_types ) && ! file_exists( get_stylesheet_directory() . '/single-league.php' ) )
-			$template = BHAAWP_PATH.'/template/single-league.php';
-		return $template;
 	}
 	
 	// 

@@ -22,23 +22,11 @@ class Company
 	{
 		add_action( 'init', array(&$this,'register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'register_cpt_company'));
-		add_filter( 'template_include', array(&$this,'company_templates'));
 	}
 	
 	/**
-	 * http://wordpress.stackexchange.com/questions/55763/is-it-possible-to-define-a-template-for-a-custom-post-type-within-a-plugin-indep
-	 * @param unknown_type $template
+	 * 
 	 */
-	function company_templates( $template ) {
-		$post_types = array( 'company' );
-		if ( is_post_type_archive( $post_types ) && ! file_exists( get_stylesheet_directory() . '/archive-company.php' ) )
-			$template = BHAAWP_PATH.'/template/archive-company.php';
-		if ( is_singular( $post_types ) && ! file_exists( get_stylesheet_directory() . '/single-company.php' ) )
-			$template = BHAAWP_PATH.'/template/single-company.php';
-		return $template;
-	}
-	
-	// 
 	function register_cpt_company() {
 	
 	    $companyLabels = array( 
@@ -108,9 +96,6 @@ class Company
 				'query_var' => true
 		);
 		register_taxonomy( 'sector', array('company'), $args );
-// 		wp_insert_term('Media','sector',array('description'=> 'Media'));
-// 		wp_insert_term('Banking','sector',array('description'=> 'Banking'));
-// 		wp_insert_term('IT','sector',array('description'=> 'IT nerds','slug' => 'IT'));
 	}
 }
 ?>
