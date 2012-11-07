@@ -64,8 +64,6 @@ class Runner
 		// registration fields CRUD
 		add_action('register_form',array($this,'bhaa_register_form'));
 		add_action('user_register',array($this,'bhaa_user_register'));
-
-		//add_filter('wp_nav_menu_items',array($this,'add_loginout_link',10,2));
 		
 		// customise login filter
 		remove_filter('authenticate',array(&$this,'wp_authenticate_username_password'), 20, 3);
@@ -76,16 +74,6 @@ class Runner
  		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
 	}
 	
-// 	function add_loginout_link( $items, $args ) {
-// 		if (is_user_logged_in()) {
-// 			$items .= '<li><a href="'. wp_logout_url() .'">Log Out</a></li>';
-// 		}
-// 		else {
-// 			$items .= '<li><a href="'. site_url('wp-login.php') .'">Log In</a></li>';
-// 		}
-// 		return $items;
-// 	}
-
 	/**
 	 * enable username or email login
 	 */
@@ -104,25 +92,55 @@ class Runner
 	
 	function bhaa_profile_fields($user) 
 	{
-		$bhaa_runner_dateofrenewal = get_user_meta($user->ID,Runner::BHAA_RUNNER_DATEOFRENEWAL,true);
-		$bhaa_runner_status = get_user_meta($user->ID,Runner::BHAA_RUNNER_STATUS,true);
-		$bhaa_runner_address1 = get_user_meta($user->ID,Runner::BHAA_RUNNER_ADDRESS1,true);
 		echo '<h3>BHAA Fields</h3>';
 		echo '<table class="form-table"><tbody>';
 		
+		$bhaa_runner_dateofbirth = get_user_meta($user->ID,Runner::BHAA_RUNNER_DATEOFBIRTH,true);
 		echo '<tr>';
-		echo '<th><label for="first_name">Status</label></th>';
-		echo '<td><input type="text" name="status" id="status" value="'.$bhaa_runner_status.'" class="regular-text"></td>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'">Date Of Birth</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'" id="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'" value="'.$bhaa_runner_status.'" class="regular-text"></td>';
 		echo '</tr>';
 		
+		$bhaa_runner_mobilephone = get_user_meta($user->ID,Runner::BHAA_RUNNER_MOBILEPHONE,true);
 		echo '<tr>';
-		echo '<th><label for="first_name">Date of Renewal</label></th>';
-		echo '<td><input type="text" name="status" id="status" value="'.$bhaa_runner_dateofrenewal.'" class="regular-text"></td>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_MOBILEPHONE.'">Mobile Phone</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_MOBILEPHONE.'" id="'.Runner::BHAA_RUNNER_MOBILEPHONE.'" value="'.$bhaa_runner_mobilephone.'" class="regular-text"></td>';
+		echo '</tr>';
+
+		$bhaa_runner_textalert = get_user_meta($user->ID,Runner::BHAA_RUNNER_TEXTALERT,true);
+		echo '<tr>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_TEXTALERT.'">Text Alert</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_TEXTALERT.'" id="'.Runner::BHAA_RUNNER_TEXTALERT.'" value="'.$bhaa_runner_textalert.'" class="regular-text"></td>';
 		echo '</tr>';
 		
+		$bhaa_runner_status = get_user_meta($user->ID,Runner::BHAA_RUNNER_STATUS,true);
 		echo '<tr>';
-		echo '<th><label for="bhaa_runner_address1">Address 1</label></th>';
-		echo '<td><input type="text" name="bhaa_runner_address1" id="bhaa_runner_address1" value="'.$bhaa_runner_address1.'" class="regular-text"></td>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_STATUS.'">Membership Status</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_STATUS.'" id="'.Runner::BHAA_RUNNER_STATUS.'" value="'.$bhaa_runner_status.'" class="regular-text"></td>';
+		echo '</tr>';
+
+		$bhaa_runner_dateofrenewal = get_user_meta($user->ID,Runner::BHAA_RUNNER_DATEOFRENEWAL,true);
+		echo '<tr>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_DATEOFRENEWAL.'">Date of Renewal</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_DATEOFRENEWAL.'" id="'.Runner::BHAA_RUNNER_DATEOFRENEWAL.'" value="'.$bhaa_runner_dateofrenewal.'" class="regular-text"></td>';
+		echo '</tr>';
+		
+		$bhaa_runner_address1 = get_user_meta($user->ID,Runner::BHAA_RUNNER_ADDRESS1,true);
+		echo '<tr>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_ADDRESS1.'">Address 1</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_ADDRESS1.'" id="'.Runner::BHAA_RUNNER_ADDRESS1.'" value="'.$bhaa_runner_address1.'" class="regular-text"></td>';
+		echo '</tr>';
+		
+		$bhaa_runner_address2 = get_user_meta($user->ID,Runner::BHAA_RUNNER_ADDRESS2,true);
+		echo '<tr>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_ADDRESS2.'">Address 2</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_ADDRESS2.'" id="'.Runner::BHAA_RUNNER_ADDRESS2.'" value="'.$bhaa_runner_address2.'" class="regular-text"></td>';
+		echo '</tr>';
+		
+		$bhaa_runner_address3 = get_user_meta($user->ID,Runner::BHAA_RUNNER_ADDRESS3,true);
+		echo '<tr>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_ADDRESS3.'">Address 3</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_ADDRESS3.'" id="'.Runner::BHAA_RUNNER_ADDRESS3.'" value="'.$bhaa_runner_address3.'" class="regular-text"></td>';
 		echo '</tr>';
 						
 		echo '</tbody></table>';
