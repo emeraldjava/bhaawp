@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.11.05
+Version: 2012.11.07
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.11.05';
+	var $version = '2012.11.07';
 	
 	var $admin;
 	var $connection;
@@ -170,6 +170,7 @@ class BhaaLoader
 		global $wpdb;
 		$wpdb->raceresult 	= $wpdb->prefix.'bhaa_raceresult';
 		$wpdb->teamresult 	= $wpdb->prefix.'bhaa_teamresult';
+		$wpdb->importTable = $wpdb->prefix.'bhaa_import';
 	}
 	
 	public static function activate()
@@ -178,7 +179,7 @@ class BhaaLoader
 		
 		$options = array();
 		add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
-		add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
+		//add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
 
 		// raceresult SQL
 		$raceResultSql = "
@@ -208,6 +209,14 @@ class BhaaLoader
 			status enum('ACTIVE','PENDING'),
 			PRIMARY KEY (id)";
 		BhaaLoader::run_install_or_upgrade($wpdb->teamresult,$teamResultSql);
+		
+		$importTableSql = "
+			id int(11) NOT NULL AUTO_INCREMENT,
+			type varchar(15) NOT NULL,
+			new int(11) NOT NULL,
+			old int(11) NOT NULL
+			PRIMARY KEY (id)";
+		BhaaLoader::run_install_or_upgrade($wpdb->importTable,$importTableSql);
 	}
 	
 	public static function run_install_or_upgrade($table_name, $sql)//, $db_version)
@@ -229,9 +238,9 @@ class BhaaLoader
 	{	
 		global $wpdb;
 		
-		// PHPLeague tables
+		// tables
 		$tables = array(
-			$wpdb->raceresult
+			//$wpdb->raceresult
 		);
 		
 		// Delete each table one by one
@@ -249,13 +258,6 @@ class BhaaLoader
 		return $this->admin;
 	}	
 }
-
-// if ( !function_exists('em_new_user_notification') ) :
-// function em_new_user_notification($user_id, $plaintext_pass = '')
-// {
-// 	wp_new_user_notification($user_id, $plaintext_pass = '');
-// }
-// endif;
 
 if ( !function_exists('wp_new_user_notification') ) :
 /**
