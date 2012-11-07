@@ -214,7 +214,7 @@ class BhaaLoader
 			id int(11) NOT NULL AUTO_INCREMENT,
 			type varchar(15) NOT NULL,
 			new int(11) NOT NULL,
-			old int(11) NOT NULL
+			old int(11) NOT NULL,
 			PRIMARY KEY (id)";
 		BhaaLoader::run_install_or_upgrade($wpdb->importTable,$importTableSql);
 	}
