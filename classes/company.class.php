@@ -86,14 +86,14 @@ class Company
 		);
 	
 		$args = array(
-				'labels' => $labels,
-				'public' => true,
-				'show_in_nav_menus' => true,
-				'show_ui' => true,
-				'show_tagcloud' => true,
-				'hierarchical' => false,
-				'rewrite' => true,
-				'query_var' => true
+			'labels' => $labels,
+			'public' => true,
+			'show_in_nav_menus' => true,
+			'show_ui' => true,
+			'show_tagcloud' => true,
+			'hierarchical' => false,
+			'rewrite' => true,
+			'query_var' => true
 		);
 		register_taxonomy( 'sector', array('company'), $args );
 	}

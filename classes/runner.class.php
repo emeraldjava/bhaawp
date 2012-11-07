@@ -107,7 +107,7 @@ class Runner
 		$bhaa_runner_dateofbirth = get_user_meta($user->ID,Runner::BHAA_RUNNER_DATEOFBIRTH,true);
 		echo '<tr>';
 		echo '<th><label for="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'">Date Of Birth</label></th>';
-		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'" id="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'" value="'.$bhaa_runner_status.'" class="regular-text"></td>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'" id="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'" value="'.$bhaa_runner_dateofbirth.'" class="regular-text"></td>';
 		echo '</tr>';
 		
 		$bhaa_runner_mobilephone = get_user_meta($user->ID,Runner::BHAA_RUNNER_MOBILEPHONE,true);
@@ -157,6 +157,10 @@ class Runner
 		echo '<th><label for="'.Runner::BHAA_RUNNER_ADDRESS3.'">Address 3</label></th>';
 		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_ADDRESS3.'" id="'.Runner::BHAA_RUNNER_ADDRESS3.'" value="'.$bhaa_runner_address3.'" class="regular-text"></td>';
 		echo '</tr>';
+		
+		//echo '<tr>';
+		//echo '<th><label>Meta</label></th>';
+		//echo '<td>'.var_dump(get_user_meta(get_current_user_id())).'</td></tr>';
 						
 		echo '</tbody></table>';
 	}
