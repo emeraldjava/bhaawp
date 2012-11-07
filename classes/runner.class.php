@@ -35,6 +35,9 @@ class Runner
 	const BHAA_RUNNER_ADDRESS2 = 'bhaa_runner_address2';
 	const BHAA_RUNNER_ADDRESS3 = 'bhaa_runner_address3';
 	
+	const BHAA_RUNNER_FIRSTNAME = 'bhaa_runner_firstname';
+	const BHAA_RUNNER_LASTNAME = 'bhaa_runner_lastname';
+	
 	const BHAA_RUNNER_DATEOFBIRTH = 'bhaa_runner_dateofbirth';
 	const BHAA_RUNNER_COMPANY = 'bhaa_runner_company';
 	const BHAA_RUNNER_NEWSLETTER = 'bhaa_runner_newsletter';
@@ -94,6 +97,12 @@ class Runner
 	{
 		echo '<h3>BHAA Fields</h3>';
 		echo '<table class="form-table"><tbody>';
+
+		$bhaa_runner_gender = get_user_meta($user->ID,Runner::BHAA_RUNNER_GENDER,true);
+		echo '<tr>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_GENDER.'">Gender</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_GENDER.'" id="'.Runner::BHAA_RUNNER_GENDER.'" value="'.$bhaa_runner_gender.'" class="regular-text"></td>';
+		echo '</tr>';
 		
 		$bhaa_runner_dateofbirth = get_user_meta($user->ID,Runner::BHAA_RUNNER_DATEOFBIRTH,true);
 		echo '<tr>';
@@ -157,6 +166,7 @@ class Runner
 		if ( !current_user_can( 'edit_user', $user_id ) ) {
 			return false;
 		}
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_GENDER, $_POST[Runner::BHAA_RUNNER_GENDER] );
 		update_user_meta( $user_id, Runner::BHAA_RUNNER_DATEOFBIRTH, $_POST[Runner::BHAA_RUNNER_DATEOFBIRTH] );
 		update_user_meta( $user_id, Runner::BHAA_RUNNER_MOBILEPHONE, $_POST[Runner::BHAA_RUNNER_MOBILEPHONE] );
 		update_user_meta( $user_id, Runner::BHAA_RUNNER_TEXTALERT, $_POST[Runner::BHAA_RUNNER_TEXTALERT] );
@@ -193,18 +203,18 @@ class Runner
 	 */
 	function bhaa_register_form()
 	{
-		//echo '<p><label>First Name<br />';
-		//echo '<input name="bhaa_runner_firstname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
+		echo '<p><label id="'.Runner::BHAA_RUNNER_FIRSTNAME.'">First Name<br />';
+		echo '<input name="'.Runner::BHAA_RUNNER_FIRSTNAME.'" id="'.Runner::BHAA_RUNNER_FIRSTNAME.'" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
-		//echo '<p><label>Last Name<br/>';
-		//echo '<input name="bhaa_runner_lastname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
+		echo '<p><label id="'.Runner::BHAA_RUNNER_LASTNAME.'">Last Name<br/>';
+		echo '<input name="'.Runner::BHAA_RUNNER_LASTNAME.'" id="'.Runner::BHAA_RUNNER_LASTNAME.'" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
-		echo '<p><label for="bhaa_runner_dateofbirth">Date Of Birth<br/>';
-		echo '<input name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth" type="text" class="input validate[custom[date]]" type="text" tabindex="20" size="20"/></label></p>';
+		echo '<p><label for="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'">Date Of Birth<br/>';
+		echo '<input name="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'" id="'.Runner::BHAA_RUNNER_DATEOFBIRTH.'" type="text" class="input validate[custom[date]]" type="text" tabindex="20" size="20"/></label></p>';
 		
-		echo '<p><label for="bhaa_runner_gender">Gender<br/>';
-		echo '<input type="radio" name="bhaa_runner_gender" id="bhaa_runner_gender_male" class="validate[required]" value="Male">Male<br>';
-		echo '<input type="radio" name="bhaa_runner_gender" id="bhaa_runner_gender_female" class="validate[required]" value="Female">Female<br></p>';
+		echo '<p><label for="'.Runner::BHAA_RUNNER_GENDER.'">Gender<br/>';
+		echo '<input type="radio" name="'.Runner::BHAA_RUNNER_GENDER.'" id="'.Runner::BHAA_RUNNER_GENDER.'" class="validate[required]" value="Male">Male<br>';
+		echo '<input type="radio" name="'.Runner::BHAA_RUNNER_GENDER.'" id="'.Runner::BHAA_RUNNER_GENDER.'" class="validate[required]" value="Female">Female<br></p>';
 		
 		echo '<p><label>Company<br/>';
 		echo $this->bhaa_houses_dropdown( 'house' );
@@ -253,18 +263,20 @@ class Runner
 		$userdata['ID'] = $user_id;
 		
 		// http://codex.wordpress.org/Function_Reference/get_userdata
-		$userdata['display_name'] = $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname'];
-		$userdata['user_nicename'] = $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname'];
+		$userdata['display_name'] = $_POST[Runner::BHAA_RUNNER_FIRSTNAME].'.'.$_POST[Runner::BHAA_RUNNER_LASTNAME];
+		$userdata['user_nicename'] = $_POST[Runner::BHAA_RUNNER_FIRSTNAME].'.'.$_POST[Runner::BHAA_RUNNER_LASTNAME];
 		wp_update_user($userdata);
 
-		update_user_meta( $user_id, 'first_name',$_POST['bhaa_runner_firstname']);
-		update_user_meta( $user_id, 'last_name',$_POST['bhaa_runner_lastname']);
-		update_user_meta( $user_id, 'nickname', $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname']);
-		//update_user_meta( $user_id, 'bhaa_runner_firstname',$_POST['bhaa_runner_firstname']);
-		//update_user_meta( $user_id, 'bhaa_runner_lastname',$_POST['bhaa_runner_lastname']);
-		update_user_meta( $user_id, 'bhaa_runner_dateofbirth',$_POST['bhaa_runner_dateofbirth']);
-		update_user_meta( $user_id, 'bhaa_runner_gender',$_POST['bhaa_runner_gender']);
-		update_user_meta( $user_id, 'bhaa_runner_company',$_POST['bhaa_runner_company']);
+		//update_user_meta( $user_id, 'first_name',$_POST[Runner::BHAA_RUNNER_FIRSTNAME]);
+		//update_user_meta( $user_id, 'last_name',$_POST[Runner::BHAA_RUNNER_LASTNAME]);
+		//update_user_meta( $user_id, 'nickname', $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname']);
+
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_FIRSTNAME,$_POST[Runner::BHAA_RUNNER_FIRSTNAME]);
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_LASTNAME,$_POST[Runner::BHAA_RUNNER_LASTNAME]);
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_DATEOFBIRTH,$_POST[Runner::BHAA_RUNNER_DATEOFBIRTH]);
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_GENDER,$_POST[Runner::BHAA_RUNNER_GENDER]);
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_COMPANY,$_POST[Runner::BHAA_RUNNER_COMPANY]);
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_TERMS_AND_CONDITIONS,$_POST[Runner::BHAA_RUNNER_TERMS_AND_CONDITIONS]);
 		update_user_meta( $user_id, Runner::BHAA_RUNNER_STATUS, Runner::DAY);
 	}
 }
