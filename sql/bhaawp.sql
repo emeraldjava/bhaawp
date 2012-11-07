@@ -123,8 +123,15 @@ left join wp_p2p on (wp_p2p.p2p_from=race.id and wp_p2p.p2p_type='event_to_race'
 where runner=7713 order by wp_bhaa_raceresult.race desc
 left join wp_posts as event on (event.post_type='event' and event.id=wp_p2p.p2p_to)
 
+-- update the race company details
+update wp_bhaa_raceresult wp
+join bhaaie_members.raceresult rr where rr.runner=wp.runner and rr.race=wp.race
+set company=rr.company;
 
-
+update wp_bhaa_raceresult wp
+join bhaaie_members.raceresult rr on (rr.runner=wp.runner and rr.race=wp.race)
+set wp.company=rr.company
+where tt.race=201219;
 
 			
 
