@@ -113,6 +113,12 @@ class Runner
 		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_TEXTALERT.'" id="'.Runner::BHAA_RUNNER_TEXTALERT.'" value="'.$bhaa_runner_textalert.'" class="regular-text"></td>';
 		echo '</tr>';
 		
+		$bhaa_runner_newsletter = get_user_meta($user->ID,Runner::BHAA_RUNNER_NEWSLETTER,true);
+		echo '<tr>';
+		echo '<th><label for="'.Runner::BHAA_RUNNER_NEWSLETTER.'">News Letter</label></th>';
+		echo '<td><input type="text" name="'.Runner::BHAA_RUNNER_NEWSLETTER.'" id="'.Runner::BHAA_RUNNER_NEWSLETTER.'" value="'.$bhaa_runner_newsletter.'" class="regular-text"></td>';
+		echo '</tr>';
+		
 		$bhaa_runner_status = get_user_meta($user->ID,Runner::BHAA_RUNNER_STATUS,true);
 		echo '<tr>';
 		echo '<th><label for="'.Runner::BHAA_RUNNER_STATUS.'">Membership Status</label></th>';
@@ -151,6 +157,12 @@ class Runner
 		if ( !current_user_can( 'edit_user', $user_id ) ) {
 			return false;
 		}
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_DATEOFBIRTH, $_POST[Runner::BHAA_RUNNER_DATEOFBIRTH] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_MOBILEPHONE, $_POST[Runner::BHAA_RUNNER_MOBILEPHONE] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_TEXTALERT, $_POST[Runner::BHAA_RUNNER_TEXTALERT] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_NEWSLETTER, $_POST[Runner::BHAA_RUNNER_NEWSLETTER] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_STATUS, $_POST[Runner::BHAA_RUNNER_STATUS] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL, $_POST[Runner::BHAA_RUNNER_DATEOFRENEWAL] );
 		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS1, $_POST[Runner::BHAA_RUNNER_ADDRESS1] );
 		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS2, $_POST[Runner::BHAA_RUNNER_ADDRESS2] );
 		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS3, $_POST[Runner::BHAA_RUNNER_ADDRESS3] );
