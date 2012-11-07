@@ -161,7 +161,6 @@ class BhaaLoader
 		// register two short codes to have the runner class display the required form fields.
 		//add_shortcode( 'newrunnerform', array($this->runner,'new_runner_form'));
 		//add_shortcode( 'dayrunnerform', array($this->runner,'day_runner_form'));
-		add_shortcode( 'bhaaAnnualMembership', array($this->runner,'bhaa_annual_membership'));
 		add_shortcode( 'bhaaraceday', array($this->raceday,'race_day'));
 	}
 		

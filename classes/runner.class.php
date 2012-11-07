@@ -24,6 +24,10 @@
  * http://w4dev.com/wp/add-last-login-time-in-wp-admin-users-column/
  * 
  * http://stackoverflow.com/questions/9792418/how-do-i-select-user-id-first-and-last-name-directly-from-wordpress-database
+ 
+ CIMY
+ http://wordpress.org/extend/plugins/cimy-user-extra-fields/developers/
+ http://blog.ftwr.co.uk/archives/2009/07/19/adding-extra-user-meta-fields/
  */
 class Runner
 {	
@@ -36,8 +40,9 @@ class Runner
 	const BHAA_RUNNER_NEWSLETTER = 'bhaa_runner_newsletter';
 	const BHAA_RUNNER_TEXTALERT = 'bhaa_runner_textalert';
 	const BHAA_RUNNER_MOBILEPHONE = 'bhaa_runner_mobilephone';
-	const BHAA_RUNNER_INSERTDATE = 'bhaa_runner_insertdate';
+	//const BHAA_RUNNER_INSERTDATE = 'bhaa_runner_insertdate';
 	const BHAA_RUNNER_DATEOFRENEWAL = 'bhaa_runner_dateofrenewal';
+	const BHAA_RUNNER_TERMS_AND_CONDITIONS = 'bhaa_runner_terms_and_conditions';
 	
 	const BHAA_RUNNER_STATUS = 'bhaa_runner_status';
 	const MEMBER = 'M';
@@ -50,46 +55,59 @@ class Runner
 	
 	function Runner()
 	{
-		//require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-events.php' );
+		// user profile fields CRUD
+		add_action('show_user_profile',array(&$this,'bhaa_profile_fields'));
+		add_action('edit_user_profile',array(&$this,'bhaa_profile_fields'));
+ 		add_action('personal_options_update',array(&$this,'bhaa_save_user_profile_fields'));
+ 		add_action('edit_user_profile_update',array(&$this,'bhaa_save_user_profile_fields'));
 		
-		// extra reg fields
+		// registration fields CRUD
 		add_action('register_form',array($this,'bhaa_register_form'));
-		// register_post		
 		add_action('user_register',array($this,'bhaa_user_register'));
 
 		//add_filter('wp_nav_menu_items',array($this,'add_loginout_link',10,2));
- 		
-		// display the membership status
+		
+		// customise login filter
+		remove_filter('authenticate',array(&$this,'wp_authenticate_username_password'), 20, 3);
+		add_filter('authenticate',array(&$this,'bhaa_authenticate_username_password'), 20, 3);
+		
+		// display the admin status column
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
- 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );		
-
- 		register_sidebar(array(
-			'name'			=> 'Membership Sidebar',
-			'id'            => 'sidebar-membership',
-			'before_widget' => '<li id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</li>',
-			'before_title'  => '<h2 class="widgettitle">',
-			'after_title'   => '</h2>'
- 		));
-
- 		//add_action('show_user_profile',array(&$this,'add_bhaa_profile_fields'));
+ 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
 	}
 	
-	function add_loginout_link( $items, $args ) {
-		if (is_user_logged_in()) {
-			$items .= '<li><a href="'. wp_logout_url() .'">Log Out</a></li>';
-		}
-		else {
-			$items .= '<li><a href="'. site_url('wp-login.php') .'">Log In</a></li>';
-		}
-		return $items;
+// 	function add_loginout_link( $items, $args ) {
+// 		if (is_user_logged_in()) {
+// 			$items .= '<li><a href="'. wp_logout_url() .'">Log Out</a></li>';
+// 		}
+// 		else {
+// 			$items .= '<li><a href="'. site_url('wp-login.php') .'">Log In</a></li>';
+// 		}
+// 		return $items;
+// 	}
+
+	/**
+	 * enable username or email login
+	 */
+	function bhaa_authenticate_username_password( $user, $username, $password ) {
+		// If an email address is entered in the username box,
+		// then look up the matching username and authenticate as per normal, using that.
+		if ( ! empty( $username ) )
+			$user = get_user_by( 'email', $username );
+	
+		if ( isset( $user->user_login, $user ) )
+			$username = $user->user_login;
+	
+		// using the username found when looking up via email
+		return wp_authenticate_username_password( NULL, $username, $password );
 	}
 	
-	function add_bhaa_profile_fields($user) 
+	function bhaa_profile_fields($user) 
 	{
 		$bhaa_runner_dateofrenewal = get_user_meta($user->ID,Runner::BHAA_RUNNER_DATEOFRENEWAL,true);
 		$bhaa_runner_status = get_user_meta($user->ID,Runner::BHAA_RUNNER_STATUS,true);
-		echo '<h3>BHAA Renewal</h3>';
+		$bhaa_runner_address1 = get_user_meta($user->ID,Runner::BHAA_RUNNER_ADDRESS1,true);
+		echo '<h3>BHAA Fields</h3>';
 		echo '<table class="form-table"><tbody>';
 		
 		echo '<tr>';
@@ -102,43 +120,27 @@ class Runner
 		echo '<td><input type="text" name="status" id="status" value="'.$bhaa_runner_dateofrenewal.'" class="regular-text"></td>';
 		echo '</tr>';
 		
-// 		echo '<tr>';
-// 		echo '<th><label for="first_name">Payment</label></th>';
-// 		echo '<td>'.get_permalink(get_page_by_title('membership')->ID).'</td>';
-// 		echo '</tr>';
-		
+		echo '<tr>';
+		echo '<th><label for="bhaa_runner_address1">Address 1</label></th>';
+		echo '<td><input type="text" name="bhaa_runner_address1" id="bhaa_runner_address1" value="'.$bhaa_runner_address1.'" class="regular-text"></td>';
+		echo '</tr>';
+						
 		echo '</tbody></table>';
 	}
-
-	/**
-	 * Hack to get the booking button from the event manager
-	 * 
-	 * #_BOOKINGBUTTON see 'em_booking_button' filter
-	 * Paid Membership Pro | Talking Manuals – Reviews
-	 */
-	function bhaa_annual_membership()
+	
+	function bhaa_save_user_profile_fields( $user_id ) 
 	{
-		global $current_user;
-		get_currentuserinfo();
-		$status = get_user_meta(get_current_user_id(),'bhaa_runner_status',true);
-		
-		echo '<div>BHAA Membership Page</div>';
-		echo('We will check your membership status to know what to do');
-		echo('Welcome, ' . $current_user->display_name  . '</br>');
-		echo('Your membership status is : <b>' . $status  . '</b></br>');
-		
-		$EM_Event = new EM_Event(array('post_id'=>205712));// 205712 LH - 205712
-		//var_dump($EM_Event);
-		
-		// half works
-		//echo $EM_Event->output_single();
-		echo $EM_Event->output('<div id="annualmembershup">
-				{has_bookings}
-				#_BOOKINGFORM
-				{/has_bookings}
-				</div>');
+		if ( !current_user_can( 'edit_user', $user_id ) ) {
+			return false;
+		}
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS1, $_POST[Runner::BHAA_RUNNER_ADDRESS1] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS2, $_POST[Runner::BHAA_RUNNER_ADDRESS2] );
+		update_user_meta( $user_id, Runner::BHAA_RUNNER_ADDRESS3, $_POST[Runner::BHAA_RUNNER_ADDRESS3] );
 	}
-		
+	
+	/**
+	 * handle the custom admin columns
+	 */
 	function bhaa_manage_users_columns( $column ) {
 		$column['status'] = __('Status', 'status');
 		return $column;
@@ -149,7 +151,7 @@ class Runner
 		$user = get_userdata( $user_id );
 		switch ($column_name) {
 			case 'status' :
-				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true); //$user->ID;
+				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true);
 				break;
 			default:
 		}
@@ -161,11 +163,11 @@ class Runner
 	 */
 	function bhaa_register_form()
 	{
-		echo '<p><label>First Name<br />';
-		echo '<input name="bhaa_runner_firstname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
+		//echo '<p><label>First Name<br />';
+		//echo '<input name="bhaa_runner_firstname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
-		echo '<p><label>Last Name<br/>';
-		echo '<input name="bhaa_runner_lastname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
+		//echo '<p><label>Last Name<br/>';
+		//echo '<input name="bhaa_runner_lastname" class="input validate[required]" type="text" tabindex="20" size="20" value=""/></label></p>';
 		
 		echo '<p><label for="bhaa_runner_dateofbirth">Date Of Birth<br/>';
 		echo '<input name="bhaa_runner_dateofbirth" id="bhaa_runner_dateofbirth" type="text" class="input validate[custom[date]]" type="text" tabindex="20" size="20"/></label></p>';
@@ -175,12 +177,11 @@ class Runner
 		echo '<input type="radio" name="bhaa_runner_gender" id="bhaa_runner_gender_female" class="validate[required]" value="Female">Female<br></p>';
 		
 		echo '<p><label>Company<br/>';
-		//wp_dropdown_categories('taxonomy=house&show_count=1&hierarchical=0');
 		echo $this->bhaa_houses_dropdown( 'house' );
 		echo '</p>';
-//		echo '<select id="bhaa_runner_company">'; // name="bhaa_runner_company" class="validate[required]"
-//		echo '<option value="Other">Other</option>';
-	//	echo '</select>';
+		
+		echo '<p><label for="'.Runner::BHAA_RUNNER_TERMS_AND_CONDITIONS.'">Accept BHAA Terms and Conditions<br/>';
+		echo '<input name="'.Runner::BHAA_RUNNER_TERMS_AND_CONDITIONS.'" id="'.Runner::BHAA_RUNNER_TERMS_AND_CONDITIONS.'" type="checkbox" class="input validate[custom[checkbox]]"/></label></p>';
 	}
 	
 	/**
@@ -229,8 +230,8 @@ class Runner
 		update_user_meta( $user_id, 'first_name',$_POST['bhaa_runner_firstname']);
 		update_user_meta( $user_id, 'last_name',$_POST['bhaa_runner_lastname']);
 		update_user_meta( $user_id, 'nickname', $_POST['bhaa_runner_firstname'].'.'.$_POST['bhaa_runner_lastname']);
-		update_user_meta( $user_id, 'bhaa_runner_firstname',$_POST['bhaa_runner_firstname']);
-		update_user_meta( $user_id, 'bhaa_runner_lastname',$_POST['bhaa_runner_lastname']);
+		//update_user_meta( $user_id, 'bhaa_runner_firstname',$_POST['bhaa_runner_firstname']);
+		//update_user_meta( $user_id, 'bhaa_runner_lastname',$_POST['bhaa_runner_lastname']);
 		update_user_meta( $user_id, 'bhaa_runner_dateofbirth',$_POST['bhaa_runner_dateofbirth']);
 		update_user_meta( $user_id, 'bhaa_runner_gender',$_POST['bhaa_runner_gender']);
 		update_user_meta( $user_id, 'bhaa_runner_company',$_POST['bhaa_runner_company']);
