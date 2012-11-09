@@ -167,7 +167,7 @@ class RaceResultTable extends WP_List_Table
 				'racenumber' => 'Number',
 				'category'  => 'Category',
 				'standard'  => 'Std',
-				'paceKM'  => 'Pace',
+				'paceKM'  => 'Pace'
 				//'class'  => 'Class'
 		);
 		return $columns;
@@ -181,14 +181,8 @@ class RaceResultTable extends WP_List_Table
 		$this->_column_headers = array($columns, $hidden, $sortable);
 	
 		global $wpdb;
-		if(!isset($runner))
-			$runner=7713;
-// 			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
-// 			.$wpdb->prefix .'bhaa_raceresult
-// 			join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
-		//else
-		$query = 'SELECT wp_bhaa_raceresult.* FROM '
-			.$wpdb->prefix .'bhaa_raceresult where runner='.$runner.' order by race desc';
+		//if(isset($runner))
+		$query = 'SELECT wp_bhaa_raceresult.* FROM wp_bhaa_raceresult where runner='.$runner.' order by race desc';
 	
 		//echo '<p>'.$mgs.'</p>';
 		//error_log($mgs);
