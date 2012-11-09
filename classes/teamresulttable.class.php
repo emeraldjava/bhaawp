@@ -68,7 +68,7 @@ class TeamResultTable extends WP_List_Table
 			left join wp_posts on wp_posts.post_type="house" and '.$wpdb->prefix .'bhaa_teamresult.team=wp_posts.id
 			where race=201219 order by class, positiontotal';
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult
-		echo '<p>'.$query.'</p>';
+		//echo '<p>'.$query.'</p>';
 		$totalitems = $wpdb->query($query);
 		$this->items = $wpdb->get_results($query,ARRAY_A);
 	}

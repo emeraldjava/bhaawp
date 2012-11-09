@@ -22,8 +22,8 @@ class RaceResultTable extends WP_List_Table
 		global $status, $page;
 		//Set parent defaults
 		parent::__construct( array(
-			'singular'  => 'raceresults',     //singular name of the listed records
-			'plural'    => 'raceresult',    //plural name of the listed records
+			'singular'  => 'raceresult',     //singular name of the listed records
+			'plural'    => 'raceresults',    //plural name of the listed records
 			'ajax'      => false        //does this table support ajax?
 		) );
 	}
