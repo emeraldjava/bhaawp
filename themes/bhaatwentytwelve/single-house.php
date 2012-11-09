@@ -16,9 +16,10 @@ get_header(); ?>
 
 	<!-- http://wpsnipp.com/index.php/template/create-multiple-search-templates-for-custom-post-types/ -->
 	<!-- http://www.studionashvegas.com/development/search-specific-post-type-wordpress/ -->
+	<!-- HIDE AJAX SEARCH
 	<div class="ui-widget">
 		<label for="humm">Search:</label><input id="house_search" />
-	</div>
+	</div>-->
 				
 					<nav id="nav-single">
 						<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h3>
@@ -26,10 +27,10 @@ get_header(); ?>
 						<span class="nav-next"><?php next_post_link( '%link', __( 'Next <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?></span>
 					</nav><!-- #nav-single -->
 					
-					<?php get_template_part( 'content', 'single' ); ?>
-									
+					<?php //get_template_part( 'content', 'single' ); ?>
+										
 					<img src="<?php echo get_post_meta(get_the_ID(),'bhaa_company_image',true); ?>" width="40%" height="100px"/>'
-
+					<br/>
 					<?php
 // Find connected posts
 // https://github.com/scribu/wp-posts-to-posts/wiki/Posts-2-Users
@@ -41,9 +42,13 @@ $users = get_users( array(
 
 <h4><?php echo get_the_term_list( the_ID(), 'sector', 'Sector: ', ', ', ''); ?></h4>
 <h3>Runners :</h3>
+<br/>
 <ul>
 <?php foreach ( $users AS $user ) : ?>
-	<li><?php echo $user->display_name; ?></li>
+	<li><?php 
+	$page = get_page_by_title('member');
+	//echo $user->display_name.'-'.$user->ID;
+	echo sprintf('<a href="/?page_id=%d&id=%d">%s</a>',$page->ID,$user->ID,$user->display_name); ?></li>
 <?php endforeach; ?>
 </ul>
 
