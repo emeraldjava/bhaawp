@@ -31,14 +31,8 @@ class House
 		// Add custom post navigation columns
 		add_filter('manage_edit-house_columns', array(&$this, "nav_columns"));
 		add_action('manage_posts_custom_column', array(&$this, "custom_nav_columns"));
+	}
 		
-		//add_action('admin_init', array(&$this, "admin_init"));
-	}
-	
-	function admin_init(){
-		add_meta_box("link-house-meta", "House Meta", array(&$this, "link_meta_box"), "link", "normal", "high");
-	}
-	
 	function nav_columns($columns) {
 		$columns = array(
 				"cb" => "<input type=\"checkbox\" />",
@@ -85,7 +79,7 @@ class House
 	        'labels' => $houseLabels,
 	        'hierarchical' => false,
 	        'description' => 'BHAA House Details',
-	        'supports' => array( 'title', 'editor', 'author', 'custom-fields','page-attributes' ),
+	        'supports' => array( 'title','editor','excerpt','thumbnail','custom-fields','page-attributes','comments'),
 	        'taxonomies' => array( 'sector' ),
 	        'public' => true,
 	        'show_ui' => true,
