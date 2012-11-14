@@ -10,8 +10,11 @@
  */
 ?>
 
-<?php get_header(); ?>
-
+<?php get_header(); 
+/**
+ * The sales pitch - should be a static page
+ */
+?>
 <div id="template-front-page" class="template-front-page">
 <div>
 <h1>BHAA Membership</h1>
@@ -26,10 +29,12 @@
 </div>
 <div id="right-sidebar" class="right-sidebar">
 <?php 
+/**
+ * check the status of the runner - determine options
+ */
 if(!is_user_logged_in())
 {
-	echo '<p>We first need you to register your details onlines.</p>';
-	echo '<p>BHAA Membership Page - Please use the <a href="./register">registration form</a> to create a user account.</p>';
+	echo '<p>Your not LOGGED in.</p>';
 }
 else 
 {
@@ -43,32 +48,20 @@ else
 	//echo('We will check your membership status to know what to do');
 	echo('Welcome, ' . $current_user->display_name  . '</br>');
 	echo('Your membership status is : <b>' . $status  . '</b>. Your last renewal date was '.$dateofrenewal.'</br>');
-	
-	/**
-	 * 2052 - wpdemo
-	 * 205712 - ae local
-	 */
-	$EM_Event = new EM_Event(array('post_id'=>205712));// 205712 - 2052
-			
-	if(isset($status) && $status==("I"))
-	{
-		//echo('Please renew - via this shortcode hack.</br>');
-		// half works
-		//echo $EM_Event->output_single();
-		echo $EM_Event->output(
-		'<div id="annualmembershup">
-		{has_bookings}
-			#_BOOKINGFORM
-		{/has_bookings}
-		</div>');
-	}
-	else
-	{
-		echo('Membership renewal can be done again next year.');
-	}
 }
+
+/**
+ * display the annual booking ticket and registration form.
+ */
+$bhaa_annual_event_id = get_option( 'bhaa_annual_event_id',0);
+$event = em_get_event($bhaa_annual_event_id,'post_id');
+echo $event->output(
+	'<div id="annualmembership">
+	{has_bookings}
+		#_BOOKINGFORM
+	{/has_bookings}
+	</div>');
 ?>
 </div>
 </div>
-<?php get_sidebar('membership'); ?>
 <?php get_footer(); ?>
