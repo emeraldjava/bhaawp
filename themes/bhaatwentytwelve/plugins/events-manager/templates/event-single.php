@@ -30,30 +30,27 @@ echo '<div id="eventmenu"><ul>'.
 	'<li><a href="#media">Media</a></li>'.
 	'</ul>';
 
-//echo '<h1>BHAA #_EVENTNAME : #_EVENTDATES</h1>';
 if($EM_Event->end >= time())
 {
 	echo '<h1>A future BHAA event</h1>';
 	echo $EM_Event->output(
-			//array('format'=>
-			'<div id="details" style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
-			'<p>'.
-			'<strong>Date/Time</strong><br/>'.
-			'Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>'.
-			'</p>'.
-			'{has_location}'.
-			'<p>'.
-			'<strong>Location</strong><br/>'.
-			'#_LOCATIONLINK'.
-			'</p>'.
-			'{/has_location}'.
-			'<br style="clear:both"/>'.
-			'<p>#_EVENTNOTES</p>'.
-			'{has_bookings}'.
-			'<div id="register"><h3>Register</h3></div>'.
-			'#_BOOKINGFORM'.
-			'{/has_bookings}');	
-	//);
+		'<div id="details" style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
+		'<p>'.
+		'<strong>Date/Time</strong><br/>'.
+		'Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>'.
+		'</p>'.
+		'{has_location}'.
+		'<p>'.
+		'<strong>Location</strong><br/>'.
+		'#_LOCATIONLINK'.
+		'</p>'.
+		'{/has_location}'.
+		'<br style="clear:both"/>'.
+		'<p>#_EVENTNOTES</p>'.
+		'{has_bookings}'.
+		'<div id="register"><h3>Register</h3></div>'.
+		'#_BOOKINGFORM'.
+		'{/has_bookings}');	
 	echo '<div id="results"><h3>Results</h3></div>';
 	echo '<div id="teams"><h3>Teams</h3></div>';
 	
@@ -65,9 +62,7 @@ if($EM_Event->end >= time())
 }
 else
 {
-//	echo '<h1>A past BHAA event</h1>';
 	echo $EM_Event->output(
-			//array('format'=>
 			'<h1>BHAA #_EVENTNAME : #_EVENTDATES</h1>'.
 			'<br style="clear:both"/>'.
 			'<p>#_EVENTNOTES</p>'.
@@ -101,23 +96,9 @@ else
 		echo '<h2 id="results">Full Race Results</h2>';
 		while ( $connected->have_posts() ) : 			
 			$connected->the_post();
-			//echo the_ID();
 			$raceid = get_post_meta(get_the_ID(),'bhaa_race_id',true);
-		//echo get_the_content();
-//  			echo '<li><a href="';
-//  			the_permalink();
-//  			echo '">';
-//  			the_title();
-//  			echo ' id ';
-//  			the_ID();
-//  			echo ' meta ';
-//  			echo get_post_meta(get_the_ID(),'bhaa_race_id',true);
-//  			echo '</a></li>';
- 			
- 			
  			echo $loader->raceresult->getTable()->renderTable($raceid);
 		endwhile;
-//		echo '</ul>';
 		
 		// Prevent weirdness
 		wp_reset_postdata();
