@@ -4,12 +4,17 @@
  */
 class Event
 {
+	const ANNUAL_MEMBERSHIP = 'Annual Membership';
+	const DAY_MEMBER_TICKET = 'Day Member Ticket';
+	const BHAA_MEMBER_TICKET = 'BHAA Member Ticket';
+	
 	function Event()
 	{
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
+		add_filter('em_bookings_is_open',array($this,'bhaa_em_bookings_is_open'),1,3);
 	}
 	
 	function bhaa_event_meta(){
@@ -71,6 +76,10 @@ class Event
 		return $replace;
 	}
 	
+	function bhaa_em_bookings_is_open($result, $EM_Booking)
+	{
+		return true;
+	}
 	/**
 	 * Determine which tickets to display to which users.
 	 * 
@@ -80,26 +89,37 @@ class Event
 	 * @param unknown_type $EM_Ticket
 	 * @return boolean
 	 */
-	function bhaa_em_ticket_is_available($result, $EM_Ticket) {
+	function bhaa_em_ticket_is_available($result, $EM_Ticket) 
+	{
+// 		if (current_user_can( strtolower('administrator') )) {
+// 			return true;
+// 		}
 
-		if (current_user_can( strtolower('administrator') )) {
-			return true;
-		}
-
-		if ( $EM_Ticket->ticket_name == 'Day Member Ticket') {// && !current_user_can( strtolower($BHAA_Payments[annualname]) ) ) {
+		if ( $EM_Ticket->ticket_name == Event::DAY_MEMBER_TICKET)
+		{
 			//if you are an ANNUAL MEMBER then this ticket will NOT show up
 			if(!is_user_logged_in())
 				return true;
-			else
-				return false;
-		}
-	
-		if ( $EM_Ticket->ticket_name == 'BHAA Member Ticket') {// && current_user_can( strtolower($BHAA_Payments[annualname]) ) ) {
-			//if you are an ANNUAL MEMBER then you can see this ticket
-			if(is_user_logged_in())
+			else if(is_user_logged_in() && get_user_meta(get_current_user_id(),'bhaa_runner_status',true)!='M' )
 				return true;
 			else
 				return false;
+		}
+		
+		if ( $EM_Ticket->ticket_name == Event::BHAA_MEMBER_TICKET) 
+		{
+			//if you are an ANNUAL MEMBER then you can see this ticket
+			if(is_user_logged_in() && get_user_meta(get_current_user_id(),'bhaa_runner_status',true)=='M' )
+				return true;
+			else
+				// day member or renewal
+				return false;
+		}
+		
+		if ( $EM_Ticket->ticket_name == Event::ANNUAL_MEMBERSHIP) 
+		{
+			// TODO if they are a
+			return true;
 		}
 	}
 }
