@@ -14,12 +14,17 @@ class BhaaAdmin
 		
 		require_once (dirname (__FILE__) . '/import.php');
 		$this->import = new BhaaImport();
-		
-// 		add_action('admin_print_scripts', array(&$this, 'loadScripts') );
-// 		add_action('admin_print_styles', array(&$this, 'loadStyles') );
+			
+		//add_action('admin_init',array($this->raceAdmin,'init'));
 	
-		add_action('admin_init',array($this->raceAdmin,'init'));
- 		add_action( 'admin_menu', array(&$this, 'bhaa_admin_plugin_menu') );
+
+		add_action( 'admin_menu', array(&$this,'bhaa_admin_plugin_menu') );
+		add_action( 'admin_init', array(&$this,'register_bhaa_options') );
+	}
+	
+	function register_bhaa_options()
+	{
+		register_setting('bhaa','bhaa_annual_event_id');
 	}
 	
 	function bhaa_admin_plugin_menu()
@@ -31,8 +36,21 @@ class BhaaAdmin
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
-		echo '<div class="wrap">';
-		echo '<p>Here is where the form would go if I actually had options.</p>';
-		echo '</div>';
+		?>
+		<div class="wrap">
+		<h2>BHAA Options Page</h2>
+		<form method="post" action="options.php">
+		    <?php settings_fields( 'bhaa' ); ?>
+		    <?php do_settings_sections( 'bhaa' ); ?>
+		    <table class="form-table">
+		        <tr valign="top">
+		        <th scope="row">BHAA Annual Event ID</th>
+		        <td><input type="text" name="bhaa_annual_event_id" value="<?php echo get_option('bhaa_annual_event_id'); ?>" /></td>
+		        </tr>
+		    </table>
+		    <?php submit_button(); ?>
+		</form>
+		</div>
+		<?php 		
 	}
 }
