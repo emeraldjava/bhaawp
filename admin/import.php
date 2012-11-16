@@ -125,6 +125,7 @@ class BhaaImport
 	 */
 	function importEvents()
 	{
+		global $wpdb;
 		$events = $this->getEvents();
 		require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-event.php' );
 		require_once( ABSPATH . 'wp-content/plugins/events-manager/classes/em-location.php' );
@@ -163,6 +164,14 @@ class BhaaImport
 			$emEvent->save();
 			
 			update_post_meta($emEvent->post_id,BhaaImport::BHAA_EVENT_TAG,$event->tag);
+			
+			$wpdb->query(
+				$wpdb->prepare(
+					"insert into wp_bhaa_import(id,type,new,old)
+					VALUES (%d,%s,%d,%d)",
+					0,'event',$emEvent->post_id,$event->id)
+			);
+				
 			
 			//echo '<p>emEvent '.$emEvent->post_id.' '.$emEvent->event_id.' '.$emLocation->location_id.'</p>';
 			error_log('emEvent '.$emEvent->post_id.' '.$emEvent->event_name);//.' '.$emLocation->location_name);
