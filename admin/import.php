@@ -582,6 +582,9 @@ class BhaaImport
 		$wpdb->query($wpdb->prepare(
 			"DELETE FROM wp_postmeta WHERE meta_key=%s",BhaaImport::BHAA_EVENT_TAG)
 		);
+		$wpdb->query($wpdb->prepare(
+			'DELETE FROM wp_bhaa_import WHERE type="event"')
+		);
 	}
 	
 	/**
@@ -730,17 +733,19 @@ class BhaaImport
 			);
 			echo '<p>event '.$dbRow->post_id.'</p>';
 			
+			// link event and race
 			p2p_type( 'event_to_race' )->connect(
 					$dbRow->post_id,
 					$race_id,
 					array('date' => current_time('mysql')
 				));
 			
+			// link old bhaa race id and new race id
 			$wpdb->query(
 				$wpdb->prepare(
 					"insert into wp_bhaa_import(id,type,new,old)
 					VALUES (%d,%s,%d,%d)",
-					0,'race',$dbRow->post_id,$race_id)
+					0,'race',$race_id,$row->id)
 			);
 			
 			echo '<p>'.$mgs.'</p>';
@@ -761,6 +766,9 @@ class BhaaImport
 		global $wpdb;
 		$wpdb->query($wpdb->prepare(
 			'DELETE FROM wp_posts WHERE post_type = %s','race')
+		);
+		$wpdb->query($wpdb->prepare(
+			'DELETE FROM wp_bhaa_import WHERE type="race"')
 		);
 	}
 	
@@ -785,7 +793,7 @@ class BhaaImport
 					standard,
 					paceKM,
 					class)
-					VALUES (%d,%d,%s,%d,%d,%s,%d,%s,%s)',
+					VALUES ((select new from wp_bhaa_import where old=%d and type="race"),%d,%s,%d,%d,%s,%d,%s,%s)',
 					$row->race,
 					$row->runner,
 					$row->racetime,
@@ -879,7 +887,7 @@ class BhaaImport
 				class
 				FROM raceresult 
 				JOIN runner on runner.id=raceresult.runner 
-				where raceresult.race>='.$this->RACE_ID.' order by raceresult.race desc'));
+				where raceresult.race>='.$this->RACE_ID.' and runner.status="M" order by raceresult.race desc'));
 //		where runner.id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
 //		7713, 1500, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
 //				where runner.status="M" order by race desc'));
