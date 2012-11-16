@@ -96,8 +96,8 @@ else
 		echo '<h2 id="results">Full Race Results</h2>';
 		while ( $connected->have_posts() ) : 			
 			$connected->the_post();
-			$raceid = get_post_meta(get_the_ID(),'bhaa_race_id',true);
- 			echo $loader->raceresult->getTable()->renderTable($raceid);
+			//echo 'race id'.get_the_ID();
+ 			echo $loader->raceresult->getTable()->renderTable(get_the_ID());
 		endwhile;
 		
 		// Prevent weirdness
