@@ -431,7 +431,7 @@ class BhaaImport
 			$my_post = array(
 					'ID' => $company->id,
 					'post_title' => $company->name,//mysql_real_escape_string($company->name),
-					'post_content' => $company->image,
+					'post_content' => $company->name,
 					'post_status' => 'publish',
 					'post_author' => 1,
 					'comment_status' => 'closed',
@@ -701,8 +701,8 @@ class BhaaImport
 		{
 			// Create post object http://codex.wordpress.org/Function_Reference/wp_insert_post
 			$my_post = array(
-				'post_title' => $row->tag.'_race_'.$row->id,
-				'post_content' => $row->tag.'_race_'.$row->id,
+				'post_title' => $row->tag.'_'.$row->category.'_'.$row->distance.$row->unit,
+				'post_content' => $row->tag.'_'.$row->category.'_'.$row->distance.$row->unit,
 				'post_status' => 'publish',
 				'post_author' => 1,
 				'comment_status' => 'closed',
@@ -714,9 +714,9 @@ class BhaaImport
 			// Insert the post into the database
 			$race_id = wp_insert_post( $my_post );
 	
-			update_post_meta($race_id,'bhaa_race_tag',$row->tag);
-			update_post_meta($race_id,'bhaa_race_id',$row->id);
-			update_post_meta($race_id,'bhaa_race_event',$row->event);
+			//update_post_meta($race_id,'bhaa_event_tag',$row->tag);
+			//update_post_meta($race_id,'bhaa_race_id',$row->id);
+			//update_post_meta($race_id,'bhaa_race_event',$row->event);
 			update_post_meta($race_id,'bhaa_race_distance',$row->distance);
 			update_post_meta($race_id,'bhaa_race_unit',$row->unit);
 			update_post_meta($race_id,'bhaa_race_type',$row->type);
@@ -735,6 +735,13 @@ class BhaaImport
 					$race_id,
 					array('date' => current_time('mysql')
 				));
+			
+			$wpdb->query(
+				$wpdb->prepare(
+					"insert into wp_bhaa_import(id,type,new,old)
+					VALUES (%d,%s,%d,%d)",
+					0,'race',$dbRow->post_id,$race_id)
+			);
 			
 			echo '<p>'.$mgs.'</p>';
 			error_log($mgs);
