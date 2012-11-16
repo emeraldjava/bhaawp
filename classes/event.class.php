@@ -8,8 +8,7 @@ class Event
 	const DAY_MEMBER_TICKET = 'Day Member Ticket';
 	const BHAA_MEMBER_TICKET = 'BHAA Member Ticket';
 	
-	function Event()
-	{
+	function Event() {
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
@@ -47,7 +46,6 @@ class Event
 	function bhaa_event_meta_save()
 	{
 		global $post;
-		$post_id = $post->ID;
 		// to prevent metadata or custom fields from disappearing...
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
 			return $post_id;
@@ -55,6 +53,7 @@ class Event
 		if ( empty( $_POST ) )
 			return;
 		
+		$post_id = $post->ID;
 		update_post_meta($post->ID, "flickr", $_POST["flickr"]);
 		update_post_meta($post->ID, "youtube", $_POST["youtube"]);
 	}
