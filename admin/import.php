@@ -167,9 +167,9 @@ class BhaaImport
 			
 			$wpdb->query(
 				$wpdb->prepare(
-					"insert into wp_bhaa_import(id,type,new,old)
-					VALUES (%d,%s,%d,%d)",
-					0,'event',$emEvent->post_id,$event->id)
+					"insert into wp_bhaa_import(id,tag,type,new,old)
+					VALUES (%d,%s,%s,%d,%d)",
+					0,$event->tag,'event',$emEvent->post_id,$event->id)
 			);
 				
 			
@@ -710,8 +710,8 @@ class BhaaImport
 				'post_author' => 1,
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
-				'post_date' => 'NOW()',// getdate(),
-				'post_date_gmt' => 'NOW()',// getdate(),
+				'post_date' => $row->category,//'NOW()',// getdate(),
+				'post_date_gmt' => $row->category,//'NOW()',// getdate(),
 				'post_type' => 'race'
 			);
 			// Insert the post into the database
@@ -743,9 +743,9 @@ class BhaaImport
 			// link old bhaa race id and new race id
 			$wpdb->query(
 				$wpdb->prepare(
-					"insert into wp_bhaa_import(id,type,new,old)
-					VALUES (%d,%s,%d,%d)",
-					0,'race',$race_id,$row->id)
+					"insert into wp_bhaa_import(id,tag,type,new,old)
+					VALUES (%d,%s,%s,%d,%d)",
+					0,$row->tag,'race',$race_id,$row->id)
 			);
 			
 			echo '<p>'.$mgs.'</p>';
@@ -757,7 +757,8 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT race.id,race.event,event.tag,starttime,distance,unit,category,race.type FROM race join event on race.event=event.id order by race.id desc')// LIMIT '.$this->RACE_LIMIT)// LIMIT %d',10)
+			'SELECT race.id,race.event,event.tag,starttime,distance,unit,category,race.type,event.date '.
+			'FROM race join event on race.event=event.id order by race.id desc')// LIMIT '.$this->RACE_LIMIT)// LIMIT %d',10)
 		);
 	}
 	
