@@ -132,8 +132,8 @@ class RaceResultTable extends WP_List_Table
 		left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
 		where race='.$race.' and wp_bhaa_raceresult.class="RAN" order by position';
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult		
-		echo '<p>'.$query.'</p>';
-		error_log($mgs);
+		//echo '<p>'.$query.'</p>';
+		error_log($query);
 		
 		//echo $query;
 		$totalitems = $wpdb->query($query);
