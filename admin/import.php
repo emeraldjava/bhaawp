@@ -560,7 +560,7 @@ class BhaaImport
 	{
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
-			'SELECT id,name,tag,date,YEAR(date) as year,location FROM event order by id desc')// LIMIT '.$this->EVENT_LIMIT)
+			'SELECT id,name,tag,date,YEAR(date) as year,location FROM event order by id')// LIMIT '.$this->EVENT_LIMIT)
 		);
 	}
 	
@@ -758,7 +758,7 @@ class BhaaImport
 		$db = $this->getBhaaDB();
 		return $db->get_results($db->prepare(
 			'SELECT race.id,race.event,event.tag,starttime,distance,unit,category,race.type,event.date '.
-			'FROM race join event on race.event=event.id order by race.id desc')// LIMIT '.$this->RACE_LIMIT)// LIMIT %d',10)
+			'FROM race join event on race.event=event.id order by race.id')// LIMIT '.$this->RACE_LIMIT)// LIMIT %d',10)
 		);
 	}
 	
