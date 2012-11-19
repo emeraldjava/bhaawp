@@ -888,7 +888,7 @@ class BhaaImport
 				class
 				FROM raceresult 
 				JOIN runner on runner.id=raceresult.runner 
-				where raceresult.race>='.$this->RACE_ID.' and runner.status="M" order by raceresult.race desc'));
+				where raceresult.race>='.$this->RACE_ID.' and runner.status="M" and class="RAN" order by raceresult.race'));
 //		where runner.id IN (%d, %d, %d, %d, %d, %d, %d, %d, %d)',
 //		7713, 1500, 6349, 5143, 7905, 5738, 7396, 10137, 10143));
 //				where runner.status="M" order by race desc'));
