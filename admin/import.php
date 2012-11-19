@@ -1,5 +1,5 @@
 <?php
-set_time_limit(300);
+set_time_limit(0);
 /**
  * http://core.trac.wordpress.org/attachment/ticket/3398/geeklog.php
  * https://github.com/scribu/wp-posts-to-posts/wiki/Creating-connections-programatically
@@ -10,7 +10,7 @@ class BhaaImport
 	var $max = 100;
 	
 	const BHAA_EVENT_TAG = 'bhaa_event_tag';
-	var $RACE_ID = '1';
+	var $RACE_ID = '0';
 	//var $EVENT_LIMIT = '10';
 	//var $RACE_LIMIT = '40';
 	
@@ -710,8 +710,8 @@ class BhaaImport
 				'post_author' => 1,
 				'comment_status' => 'closed',
 				'ping_status' => 'closed',
-				'post_date' => $row->category,//'NOW()',// getdate(),
-				'post_date_gmt' => $row->category,//'NOW()',// getdate(),
+				'post_date' => $row->date,//'NOW()',// getdate(),
+				'post_date_gmt' => $row->date,//'NOW()',// getdate(),
 				'post_type' => 'race'
 			);
 			// Insert the post into the database
@@ -804,9 +804,9 @@ class BhaaImport
 					$row->standard,
 					$row->paceKM,
 					$row->class));
-				//$mgs = 'insert raceresult '.$row->race.' '.$row->runner;
+				$mgs = 'insert raceresult '.$row->race.' '.$row->runner;
 				//echo '<p>'.$mgs.'</p>';
-				//error_log($mgs);
+				error_log($mgs);
 		}
 		echo '<p>Done</p>';
 	}
