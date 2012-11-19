@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2012.11.07
+Version: 2012.11.19
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2012.11.07';
+	var $version = '2012.11.19';
 	
 	var $admin;
 	var $connection;
@@ -212,6 +212,7 @@ class BhaaLoader
 		
 		$importTableSql = "
 			id int(11) NOT NULL AUTO_INCREMENT,
+			tag varchar(15) NOT NULL,
 			type varchar(15) NOT NULL,
 			new int(11) NOT NULL,
 			old int(11) NOT NULL,
