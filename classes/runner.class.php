@@ -25,6 +25,10 @@
  * 
  * http://stackoverflow.com/questions/9792418/how-do-i-select-user-id-first-and-last-name-directly-from-wordpress-database
  
+ http://mattvarone.com/wordpress/list-users-with-wp_user_query/ 
+ http://codex.wordpress.org/Class_Reference/WP_User_Query
+ http://wp.smashingmagazine.com/2012/06/05/front-end-author-listing-user-search-wordpress/
+ 
  CIMY
  http://wordpress.org/extend/plugins/cimy-user-extra-fields/developers/
  http://blog.ftwr.co.uk/archives/2009/07/19/adding-extra-user-meta-fields/
