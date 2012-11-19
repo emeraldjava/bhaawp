@@ -133,6 +133,36 @@ join bhaaie_members.raceresult rr on (rr.runner=wp.runner and rr.race=wp.race)
 set wp.company=rr.company
 where tt.race=201219;
 
-			
+SELECT id,name,tag,date,YEAR(date) as year,location FROM event order by id; desc
+
+SELECT
+race,
+runner,
+racetime,
+position,
+racenumber,
+category,
+raceresult.standard,
+paceKM,
+class
+FROM raceresult 
+JOIN runner on runner.id=raceresult.runner 
+where raceresult.race>=0 and runner.status="M" and class="RAN" order by raceresult.race
+				
+select * from wp_bhaa_import where type='race'
+select * from wp_bhaa_import where tag='dublinhalf2012'
+select * from wp_bhaa_import where tag='ilp2011'
+
+-- for the event and race id mapping between wp and members
+desc wp_postmeta
+select * from wp_postmeta
+select distinct(meta_key) from wp_postmeta
+
+select post_id,meta_value from wp_postmeta where meta_key='bhaa_race_id'
+select post_id,meta_value from wp_postmeta where meta_key='bhaa_event_tag'
+
+select post_id,meta_value,(select id from event where event.tag=meta_value)
+from wp_postmeta where meta_key='bhaa_event_tag'			
 
 			
+SELECT wp_bhaa_raceresult.* FROM wp_bhaa_raceresult where runner=7713 order by race desc
