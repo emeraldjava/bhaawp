@@ -111,8 +111,7 @@ class RaceResultTable extends WP_List_Table
  	
  	function column_event($item) {
  		$page = get_post($item[event]);
- 		return get_the_title($item[event]);
- 		//return sprintf('<a href="/?page_id=%d">%s</a>',$page->ID,$page->name);
+ 		return '<a href='.get_permalink($item[event]).'>'.get_the_title($item[event]).'</a>';
  	}
 
 	/**
