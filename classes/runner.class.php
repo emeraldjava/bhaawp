@@ -63,18 +63,18 @@ class Runner
 	function Runner()
 	{
 		// user profile fields CRUD
-		add_action('show_user_profile',array(&$this,'bhaa_profile_fields'));
-		add_action('edit_user_profile',array(&$this,'bhaa_profile_fields'));
- 		add_action('personal_options_update',array(&$this,'bhaa_save_user_profile_fields'));
- 		add_action('edit_user_profile_update',array(&$this,'bhaa_save_user_profile_fields'));
+		//add_action('show_user_profile',array(&$this,'bhaa_profile_fields'));
+		//add_action('edit_user_profile',array(&$this,'bhaa_profile_fields'));
+ 		//add_action('personal_options_update',array(&$this,'bhaa_save_user_profile_fields'));
+ 		//add_action('edit_user_profile_update',array(&$this,'bhaa_save_user_profile_fields'));
 		
 		// registration fields CRUD
-		add_action('register_form',array($this,'bhaa_register_form'));
-		add_action('user_register',array($this,'bhaa_user_register'));
+		//add_action('register_form',array($this,'bhaa_register_form'));
+		//add_action('user_register',array($this,'bhaa_user_register'));
 		
 		// customise login filter
-		remove_filter('authenticate',array(&$this,'wp_authenticate_username_password'), 20, 3);
-		add_filter('authenticate',array(&$this,'bhaa_authenticate_username_password'), 20, 3);
+		//remove_filter('authenticate',array(&$this,'wp_authenticate_username_password'), 20, 3);
+		//add_filter('authenticate',array(&$this,'bhaa_authenticate_username_password'), 20, 3);
 		
 		// display the admin status column
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
