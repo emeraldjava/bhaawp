@@ -16,6 +16,8 @@
 		<label for='user_email'><?php _e('E-mail','dbem') ?></label> 
 		<input type="text" name="user_email" id="user_email" class="input" <?php if(!empty($_REQUEST['user_email'])) echo "value='{$_REQUEST['user_email']}'"; ?>  />
 	</p>
-	<?php do_action('register_form'); //careful if making an add-on, this will only be used if you're not using custom booking forms ?>					
+	<?php 
+	echo do_shortcode('[user-meta type="registration" form="register"');
+	//do_action('register_form'); //careful if making an add-on, this will only be used if you're not using custom booking forms ?>					
 <?php endif; ?>		
 <p/>
