@@ -28,6 +28,35 @@ class Race
 		add_action( 'init', array(&$this,'getCPT'));
 		add_action( 'add_meta_boxes', array( &$this, 'raceMeta' ) );
 		add_action( 'save_post', array( &$this, 'saveRaceMeta' ) );
+		
+		// add custom post actions and handlers
+		add_filter('post_row_actions',array( &$this, 'race_post_row_actions'), 10, 2);
+		add_action('init',array(&$this,'race_actions'),11);
+	}
+	
+
+	function set_custom_edit_race_columns($columns) {
+		unset($columns['author']);
+		return $columns
+		+ array('book_author' => __('Author'),
+				'publisher' => __('Publisher'));
+	}
+	
+	function custom_race_column( $column, $post_id ) {
+		switch ( $column ) {
+			case 'book_author':
+				$terms = get_the_term_list( $post_id , 'book_author' , '' , ',' , '' );
+				if ( is_string( $terms ) ) {
+					echo $terms;
+				} else {
+					echo 'Unable to get author(s)';
+				}
+				break;
+	
+			case 'publisher':
+				echo get_post_meta( $post_id , 'publisher' , true );
+				break;
+		}
 	}
 			
 	public function getCPT()
@@ -166,6 +195,33 @@ class Race
 					delete_post_meta($post_id, $key);
 					foreach ($value as $entry) add_post_meta($post_id, $key, $entry);
 				}
+			}
+		}
+	}
+		
+	function race_post_row_actions($actions, $post)
+	{
+		//check for your post type
+		$actions['delete'] = '<a href=\''.admin_url('?action=delete&post='.$post->ID).'\' target=\'blank\'>Clear</a>';
+		$actions['load'] = '<a href=\''.admin_url('?action=load&post='.$post->ID).'\' target=\'blank\'>Load</a>';
+		return $actions;
+	}
+	
+	function race_actions()
+	{
+		if( !empty($_REQUEST['action']) )
+		{
+			if ( $_REQUEST['action'] == 'load' )
+			{
+				error_log('action '.$_REQUEST['action']);
+				wp_redirect( wp_get_referer() );
+				exit();
+			}
+			elseif ($_REQUEST['action'] == 'delete')
+			{
+				error_log('action '.$_REQUEST['action']);
+				wp_redirect( wp_get_referer() );
+				exit();
 			}
 		}
 	}
