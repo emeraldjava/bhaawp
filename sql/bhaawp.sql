@@ -11,6 +11,8 @@ select count(id),min(id),max(id) from wp_posts where post_type="race"
 select * from company where id=574
 select * from company where id=97
 
+
+
 select runner.id,runner.company,runner.companyname,team.id,team.name,team.type
 from runner
 join teammember on teammember.runner=runner.id
@@ -166,3 +168,42 @@ from wp_postmeta where meta_key='bhaa_event_tag'
 
 			
 SELECT wp_bhaa_raceresult.* FROM wp_bhaa_raceresult where runner=7713 order by race desc
+
+
+SELECT wp_bhaa_raceresult.* FROM wp_bhaa_raceresult 
+where runner=7713 order by race desc
+
+select p2p_from from wp_p2p where p2p_to=207164 and wp_p2p.p2p_type="event_to_race"
+
+SELECT wp_p2p.p2p_from as event,wp_bhaa_raceresult.* FROM wp_bhaa_raceresult 
+join wp_p2p on (wp_p2p.p2p_to=wp_bhaa_raceresult.race and wp_p2p.p2p_type="event_to_race") 
+where runner=7713 order by race desc
+
+
+select * from wp_bhaa_teamresult
+select * from wp_bhaa_import
+
+select race,wp_bhaa_import.old,wp_bhaa_import.new
+from wp_bhaa_teamresult
+join wp_bhaa_import on (wp_bhaa_import.type='race' and wp_bhaa_import.old=wp_bhaa_teamresult.race)
+
+update wp_bhaa_teamresult
+join wp_bhaa_import on (wp_bhaa_import.type='race' and wp_bhaa_import.old=wp_bhaa_teamresult.race)
+set race=wp_bhaa_import.new
+
+
+-- event 206862
+select p2p_to from wp_p2p where p2p_from=206862
+
+SELECT wp_bhaa_teamresult.*,wp_posts.post_title as teamname 
+FROM wp_bhaa_teamresult
+join wp_posts on wp_posts.post_type="house" and wp_bhaa_teamresult.team=wp_posts.id
+where race=(select p2p_to from wp_p2p where p2p_from=206862)
+order by class, positiontotal
+
+
+SELECT wp_bhaa_teamresult.*,wp_posts.post_title as teamname
+FROM wp_bhaa_teamresult
+join wp_posts on wp_posts.post_type="house" and wp_bhaa_teamresult.team=wp_posts.id
+where race=201219 order by class, positiontotal
+
