@@ -49,7 +49,7 @@ class TeamResultTable extends WP_List_Table
 		return sprintf('<a href="/?post_type=house&p=%d">%s</a>',$item['team'],$item['teamname']);
 	}
 		
-	function prepare_items($race)
+	function prepare_items($event)
 	{
 		$columns = $this->get_columns();
 		$hidden = array();
@@ -57,17 +57,12 @@ class TeamResultTable extends WP_List_Table
 		$this->_column_headers = array($columns, $hidden, $sortable);
 	
 		global $wpdb;
-// 		if(!isset($race))
-// 			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
-// 			.$wpdb->prefix .'bhaa_raceresult
-// 			join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
-// 		else
-		$query = '
-			SELECT '.$wpdb->prefix .'bhaa_teamresult.*,wp_posts.post_title as teamname
-			FROM '.$wpdb->prefix .'bhaa_teamresult
-			left join wp_posts on wp_posts.post_type="house" and '.$wpdb->prefix .'bhaa_teamresult.team=wp_posts.id
-			where race=201219 order by class, positiontotal';
-		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult
+		$query = $wpdb->prepare('
+			SELECT wp_bhaa_teamresult.*,wp_posts.post_title as teamname 
+			FROM wp_bhaa_teamresult
+			join wp_posts on wp_posts.post_type="house" and wp_bhaa_teamresult.team=wp_posts.id
+			where race=(select p2p_to from wp_p2p where p2p_from=%d)
+			order by class, positiontotal',$event);
 		//echo '<p>'.$query.'</p>';
 		$totalitems = $wpdb->query($query);
 		$this->items = $wpdb->get_results($query,ARRAY_A);
