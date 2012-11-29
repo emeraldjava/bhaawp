@@ -29,27 +29,22 @@ class House
 		add_action( 'init', array(&$this,'register_cpt_house'));
 		
 		// Add custom post navigation columns
-		add_filter('manage_edit-house_columns', array(&$this, "nav_columns"));
-		add_action('manage_posts_custom_column', array(&$this, "custom_nav_columns"));
+		// add_filter('manage_edit-house_columns', array(&$this, "nav_columns"));
+		// add_action('manage_posts_custom_column', array(&$this, "custom_nav_columns"));
 	}
 		
 	function nav_columns($columns) {
 		$columns = array(
 				"cb" => "<input type=\"checkbox\" />",
-				"title" => "Link Title",
-				//"link_description" => "Description",
-				"sector" => "Sector",
+				"title" => "Name"
+				//"sector" => "Sector",
 		);
-	
 		return $columns;
 	}
 	
 	function custom_nav_columns($column) {
 		global $post;
 		switch ($column) {
-// 			case "link_description":
-// 				the_excerpt();
-// 				break;
 			case "link_sector":
 				//$meta = get_taxpost_custom();
 				echo get_taxonomies('sector','names');  //$meta["ch_link_url"][0];
