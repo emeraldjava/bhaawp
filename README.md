@@ -97,4 +97,7 @@ Archive
 - http://wp.tutsplus.com/tutorials/create-a-wordpress-archives-template-for-your-theme/
 - http://wphacks.com/how-to-create-an-archive-page-for-your-wordpress-blog/
 
+Email
+- http://wp.smashingmagazine.com/2011/10/25/create-perfect-emails-wordpress-website/
+
 http://github.github.com/github-flavored-markdown/
