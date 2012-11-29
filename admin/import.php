@@ -445,7 +445,7 @@ class BhaaImport
 			);
 			// Insert the post into the database
 			$id = wp_insert_post( $my_post );
-			update_post_meta($id,'bhaa_company_id',$company->id);
+			//update_post_meta($id,'bhaa_company_id',$company->id);
 			update_post_meta($id,'bhaa_company_website',$company->website);
 			update_post_meta($id,'bhaa_company_image',$company->image);
 			update_post_meta($id,House::BHAA_HOUSE_TYPE,House::COMPANY);
