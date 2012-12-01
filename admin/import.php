@@ -627,8 +627,8 @@ class BhaaImport
     		FROM runner ';
     	
     	$db = $this->getBhaaDB();
-    	$sql = $db->prepare($select.'where id IN (%d, %d, %d, %d, %d, %d, %d, %d) order by id',
-  			1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143);
+    	//$sql = $db->prepare($select.'where id IN (%d, %d, %d, %d, %d, %d, %d, %d) order by id',
+  			//1050, 6349, 5143, 7905, 5738, 7396, 10137, 10143);
     	if($this->min!=0||$this->max!=100)
     		$sql = $db->prepare($select.'where id>=%d and id<=%d order by id',$this->min,$this->max);
     	echo '<p>'.$sql.'</p>';

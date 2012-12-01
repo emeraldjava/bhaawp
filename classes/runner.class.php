@@ -47,7 +47,7 @@ class Runner
 	const BHAA_RUNNER_NEWSLETTER = 'bhaa_runner_newsletter';
 	const BHAA_RUNNER_TEXTALERT = 'bhaa_runner_textalert';
 	const BHAA_RUNNER_MOBILEPHONE = 'bhaa_runner_mobilephone';
-	//const BHAA_RUNNER_INSERTDATE = 'bhaa_runner_insertdate';
+	const BHAA_RUNNER_INSERTDATE = 'bhaa_runner_insertdate';
 	const BHAA_RUNNER_DATEOFRENEWAL = 'bhaa_runner_dateofrenewal';
 	const BHAA_RUNNER_TERMS_AND_CONDITIONS = 'bhaa_runner_terms_and_conditions';
 	
