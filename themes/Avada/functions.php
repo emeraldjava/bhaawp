@@ -12,6 +12,9 @@ add_filter('widget_text', 'do_shortcode');
 register_nav_menu('main_navigation', 'Main Navigation');
 register_nav_menu('404_pages', '404 Useful Pages');
 
+// bhaa custom
+remove_action('wp_head','wp_generator');
+
 // Content Width
 if (!isset( $content_width )) $content_width = 1000;
 
