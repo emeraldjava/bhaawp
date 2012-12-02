@@ -105,7 +105,7 @@ class RaceResultTable extends WP_List_Table
  	}
  	
  	function column_display_name($item) {
- 		$page = get_page_by_title('member');
+ 		$page = get_page_by_title('runner');
  		return sprintf('<a href="/?page_id=%d&id=%d">%s</a>',$page->ID,$item['runner'],$item['display_name']);
  	}
  	
