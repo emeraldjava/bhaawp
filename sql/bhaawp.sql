@@ -130,6 +130,23 @@ update wp_bhaa_raceresult wp
 join bhaaie_members.raceresult rr where rr.runner=wp.runner and rr.race=wp.race
 set company=rr.company;
 
+--sdcc2009 1523
+update wp_bhaa_raceresult wp
+join bhaaie_members.raceresult rr on (rr.runner=wp.runner and rr.race=.race)
+join wp_bhaa_import import on (import.old=rr.race and import.type='race')
+set company=rr.company
+where wp.race=1523
+
+select wp.*,rr.company from wp_bhaa_raceresult wp
+join bhaaie_members.raceresult rr on (rr.runner=wp.runner and rr.race=
+(select old from wp_bhaa_import where type='race' and new=wp.race))
+where wp.race=1523
+
+update wp_bhaa_raceresult wp
+join bhaaie_members.raceresult rr on (rr.runner=wp.runner and rr.race=
+(select old from wp_bhaa_import where type='race' and new=wp.race))
+set company=rr.company
+
 update wp_bhaa_raceresult wp
 join bhaaie_members.raceresult rr on (rr.runner=wp.runner and rr.race=wp.race)
 set wp.company=rr.company
