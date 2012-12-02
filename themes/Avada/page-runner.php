@@ -1,8 +1,6 @@
 <?php 
 /**
- Template Name: BHAA Runner Results
-
- http://www.expand2web.com/blog/custom-page-template-wordpress
+ Template Name: BHAA Runner
 */
 ?>
 <?php get_header(); ?>
