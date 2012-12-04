@@ -28,9 +28,9 @@ global $wpdb, $EM_Event, $post;
 		$BHAA_tickets[0]->ticket_price = 10;//$BHAA_Payments[day];
 		$BHAA_tickets[0]->ticket_min = 1;
 		$BHAA_tickets[0]->ticket_max = 1;
-		//$BHAA_tickets[0]->ticket_start = $EM_Event->event_start_date;
-		//$BHAA_tickets[0]->ticket_end = $EM_Event->event_end_date;
-		$BHAA_tickets[0]->ticket_spaces_limit = 1000;
+		$BHAA_tickets[0]->ticket_start = $EM_Event->event_start_date;
+		$BHAA_tickets[0]->ticket_end = $EM_Event->event_end_date;
+		$BHAA_tickets[0]->ticket_spaces_limit = 100;
 
 		//! TICKET 2 - Day member at an event
 		$BHAA_tickets[1] = new EM_Ticket();
@@ -39,9 +39,9 @@ global $wpdb, $EM_Event, $post;
 		$BHAA_tickets[1]->ticket_price = 15;//$BHAA_Payments[annual];
 		$BHAA_tickets[1]->ticket_min = 1;
 		$BHAA_tickets[1]->ticket_max = 1;
-		//$BHAA_tickets[1]->ticket_start = $EM_Event->event_start_date;
-		//$BHAA_tickets[1]->ticket_end = $EM_Event->event_end_date;
-		$BHAA_tickets[1]->ticket_spaces_limit = 1000;
+		$BHAA_tickets[1]->ticket_start = $EM_Event->event_start_date;
+		$BHAA_tickets[1]->ticket_end = $EM_Event->event_end_date;
+		$BHAA_tickets[1]->ticket_spaces_limit = 100;
 	
 		// Ticket 3 - BHAA Annual Membership special case
 		
