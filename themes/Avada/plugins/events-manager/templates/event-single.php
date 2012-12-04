@@ -21,26 +21,13 @@ global $EM_Event;
 
 get_header();
 
-//echo '<div id="content" class="full-width">';
-
 echo '<section id="primary">';
-//echo '<div id="eventmenu"><ul>'.
-//	'<li><a href="#details">Details</a></li>'.
-//	'<li><a href="#register">Register</a></li>'.
-//	'<li><a href="#results">Results</a></li>'.
-//	'<li><a href="#teams">Teams</a></li>'.
-//	'</ul>';
-
 if($EM_Event->end >= time())
 {
-	//echo '<h1>A future BHAA event</h1>';
 	echo $EM_Event->output(
-		//'<h1>BHAA #_EVENTNAME : #_EVENTDATES</h1>'.
 		'<div id="details" style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
-		'<p>'.
 		'<strong>Date/Time</strong><br/>'.
-		'Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>'.
-		'</p>'.
+		'<div>Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i></div>'.
 		'{has_location}'.
 		'<p>'.
 		'<strong>Location</strong><br/>'.
@@ -53,19 +40,10 @@ if($EM_Event->end >= time())
 		'<div id="register"><h3>Register</h3></div>'.
 		'#_BOOKINGFORM'.
 		'{/has_bookings}');	
-	//echo '<div id="results"><h3>Results</h3></div>';
-	//echo '<div id="teams"><h3>Teams</h3></div>';
-	
-//	echo '<script>
-//	$(document).ready(function() {
-//		$("#eventmenu").menu();
-//	});
-//	</script>';
 }
 else
 {
 	echo $EM_Event->output(
-			//'<h1>BHAA #_EVENTNAME : #_EVENTDATES</h1>'.
 			'<br style="clear:both"/>'.
 			'<p>#_EVENTNOTES</p>'.
 			'<div id="details" style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
@@ -79,10 +57,6 @@ else
 			'#_LOCATIONLINK'.
 			'</p>'.
 			'{/has_location}');
-			//'{has_bookings}'.
-			//'<div id="register"><h3>Register</h3></div>'.
-			//'#_BOOKINGFORM'.
-			//'{/has_bookings}'
 		
 	// Find connected pages
 	$connected = new WP_Query( array(
@@ -111,8 +85,6 @@ else
 		echo "No races have been linked to this event yet.";
 	endif;
 }
-//echo '</div>';
 echo '</section>';
-//echo '</div>';
 get_footer(); 
 ?>
