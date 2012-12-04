@@ -600,15 +600,13 @@ function shortcode_person($atts, $content = null) {
 add_shortcode('recent_posts', 'shortcode_recent_posts');
 function shortcode_recent_posts($atts, $content = null) {
 	global $data;
-
+	
 	if(!$atts['columns']) {
 		$atts['columns'] = 3;
 	}
-
 	if(!$atts['number_excerpts']) {
 		$atts['number_excerpts'] = 15;
 	}
-
 	if(!$atts['number_posts']) {
 		$atts['number_posts'] = 3;
 	}
@@ -618,10 +616,11 @@ function shortcode_recent_posts($atts, $content = null) {
 	$html .= '<section class="columns columns-'.$atts['columns'].'" style="width:100%">';
 	$html .= '<div class="holder">';
 	if($atts['cat_id']){
-		$recent_posts = new WP_Query('showposts='.$atts['number_posts'].'&category_name='.$atts['cat_id']);
+		$recent_posts = new WP_Query('post_type='.$atts['post_type'].'&posts_per_page='.$atts['number_posts'].'&category_name='.$atts['cat_id']);
 	} else {
-		$recent_posts = new WP_Query('showposts='.$atts['number_posts']);
+		$recent_posts = new WP_Query('post_type='.$atts['post_type'].'&posts_per_page='.$atts['number_posts']);
 	}
+	//echo var_dump($recent_posts->request);
 	$count = 1;
 	while($recent_posts->have_posts()): $recent_posts->the_post();
 	$html .= '<article class="col">';
@@ -726,7 +725,7 @@ function shortcode_recent_posts($atts, $content = null) {
 	$html .= '</div>';
 	$html .= '</section>';
 	$html .= '</div>';
-
+	wp_reset_postdata();
 	return $html;
 }
 
