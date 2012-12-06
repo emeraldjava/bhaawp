@@ -22,41 +22,55 @@ global $EM_Event;
 get_header();
 
 echo '<section id="primary">';
-if($EM_Event->end >= time())
+//echo '<div id="eventmenu"><ul>'.
+//	'<li><a href="#details">Details</a></li>'.
+//	'<li><a href="#register">Register</a></li>'.
+//	'<li><a href="#results">Results</a></li>'.
+//	'<li><a href="#teams">Teams</a></li>'.
+//	'</ul>';
+
+if( $EM_Event->end >= time() )
 {
 	echo $EM_Event->output(
 		'<div id="details" style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
-		'<strong>Date/Time</strong><br/>'.
-		'<div>Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i></div>'.
-		'{has_location}'.
 		'<p>'.
-		'<strong>Location</strong><br/>'.
-		'#_LOCATIONLINK'.
+			'<strong>Date/Time</strong><br/>'.
+			'Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>'.
 		'</p>'.
+		'{has_location}'.
+			'<p>'.
+				'<strong>Location</strong><br/>'.
+				'#_LOCATIONLINK'.
+			'</p>'.
 		'{/has_location}'.
 		'<br style="clear:both"/>'.
 		'<p>#_EVENTNOTES</p>'.
 		'{has_bookings}'.
-		'<div id="register"><h3>Register</h3></div>'.
-		'#_BOOKINGFORM'.
+			'<div id="register"><h3>Register</h3></div>'.
+			'#_BOOKINGFORM'.
 		'{/has_bookings}');	
 }
 else
 {
 	echo $EM_Event->output(
+			//'<h1>BHAA #_EVENTNAME : #_EVENTDATES</h1>'.
 			'<br style="clear:both"/>'.
 			'<p>#_EVENTNOTES</p>'.
 			'<div id="details" style="float:right; margin:0px 0px 15px 15px;">#_MAP</div>'.
 			'<p>'.
-			'<strong>Date/Time</strong><br/>'.
-			'Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>'.
+				'<strong>Date/Time</strong><br/>'.
+				'Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>'.
 			'</p>'.
 			'{has_location}'.
-			'<p>'.
-			'<strong>Location</strong><br/>'.
-			'#_LOCATIONLINK'.
-			'</p>'.
+				'<p>'.
+					'<strong>Location</strong><br/>'.
+					'#_LOCATIONLINK'.
+				'</p>'.
 			'{/has_location}');
+			//'{has_bookings}'.
+			//'<div id="register"><h3>Register</h3></div>'.
+			//'#_BOOKINGFORM'.
+			//'{/has_bookings}'
 		
 	// Find connected pages
 	$connected = new WP_Query( array(
@@ -78,13 +92,12 @@ else
 		// Prevent weirdness
 		wp_reset_postdata();
 		
-		//echo '<div id="teams"><h3>Teams</h3></div>';
-		//echo $loader->teamresult->getTable()->renderTable(get_the_ID());
+		echo '<div id="teams"><h3>Teams</h3></div>';
+		echo $loader->teamresult->getTable()->renderTable(get_the_ID());
 		
 	else :
 		echo "No races have been linked to this event yet.";
 	endif;
 }
 echo '</section>';
-get_footer(); 
 ?>
