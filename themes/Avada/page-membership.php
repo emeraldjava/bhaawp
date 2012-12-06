@@ -16,18 +16,16 @@
  */
 ?>
 <div id="template-front-page" class="template-front-page">
-<div>
-<h1>BHAA Membership</h1>
-<div>
-<ol id="reasonstojoin">
-<li>Reduced membership to all races</li>
-<li>Run as a member of a team in prizes</li>
-<li>Be counted in the summer and winter leagues</li>
-<li>Easier registration on the day</li>
-</ol>
+<?php
+// query for the membership page for its content
+$your_query = new WP_Query('pagename=membership');
+while ( $your_query->have_posts() ) : $your_query->the_post();
+echo the_content();
+endwhile;
+wp_reset_postdata();
+?>
 </div>
-</div>
-<div id="right-sidebar" class="right-sidebar">
+
 <?php 
 /**
  * check the status of the runner - determine options
@@ -40,14 +38,15 @@ else
 {
 	global $current_user; 
 	get_currentuserinfo();
+	get_user_meta(get_current_user_id());
 	
 	$status = get_user_meta(get_current_user_id(),'bhaa_runner_status',true);
 	$dateofrenewal = get_user_meta(get_current_user_id(),'bhaa_runner_dateofrenewal',true);
 	
-	echo '<div>BHAA Membership Page</div>';
+	//echo '<div>BHAA Membership Page</div>';
 	//echo('We will check your membership status to know what to do');
-	echo('Welcome, ' . $current_user->display_name  . '</br>');
-	echo('Your membership status is : <b>' . $status  . '</b>. Your last renewal date was '.$dateofrenewal.'</br>');
+	//echo('Welcome, ' . $current_user->display_name  . '</br>');
+	//echo('Your membership status is : <b>' . $status  . '</b>. Your last renewal date was '.$dateofrenewal.'</br>');
 }
 
 /**
@@ -62,6 +61,3 @@ echo $event->output(
 	{/has_bookings}
 	</div>');
 ?>
-</div>
-</div>
-<?php get_footer(); ?>
