@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel='stylesheet' id='twentytwelve-style-css' href='<?php echo get_stylesheet_uri();?>' type='text/css' media='all'/>
+<link rel='stylesheet' href='<?php echo site_url('/wp-content/themes/Avada/style.css');?>' type='text/css' media='all'/>
 </head>
 <body class="page">
 	<div id="page" class="hfeed site">
@@ -21,7 +21,7 @@ if($EM_Ticket_Booking->get_ticket()->name=='Annual Membership')
 ?>
 <p>Hi #_BOOKINGNAME,</p>
 <pre>
-You are now a registered member for this year. Membership entitiles you to
+You are now a registered BHAA member for this year. Membership entitiles you to
 - reduced entry at races
 - run on a company team
 - take part in the leagues
