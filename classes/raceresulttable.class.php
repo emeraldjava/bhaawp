@@ -169,10 +169,10 @@ class RaceResultTable extends WP_List_Table
 	function getRunnerColumns(){
 		$columns = array(
 			'event'     => 'Event',
-			'racetime'  => 'Time',
 			'position'  => 'Position',
-			'racenumber' => 'Number',
-			'category'  => 'Category',
+			'racetime'  => 'Time',		
+			'racenumber' => 'Race Number',
+			//'category'  => 'Category',
 			'standard'  => 'Std',
 			'paceKM'  => 'Pace'
 		);
