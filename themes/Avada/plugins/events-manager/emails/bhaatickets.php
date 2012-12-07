@@ -3,17 +3,17 @@
 <link rel='stylesheet' href='<?php echo site_url('/wp-content/themes/Avada/style.css');?>' type='text/css' media='all'/>
 </head>
 <body class="page">
-	<div id="page" class="hfeed site">
+<div id="page" class="hfeed site">
 
-		<header id="masthead" class="site-header" role="banner">
-		<hgroup>
-		<?php 
-		echo '<img class="bhaa-logo" src="'.get_stylesheet_directory_uri().'/images/logo.png" width="150" height="150" alt="BHAA Logo"/>';
-		?>
-		</hgroup>
-		</header>
+<header id="masthead" class="site-header" role="banner">
+<hgroup>
+<?php 
+echo '<img class="bhaa-logo" src="'.get_stylesheet_directory_uri().'/images/logo.png" width="150" height="150" alt="BHAA Logo"/>';
+?>
+</hgroup>
+</header>
 
-	<div id="main" class="wrapper">
+<div id="main" class="wrapper">
 <?php 
 foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking): 
 if($EM_Ticket_Booking->get_ticket()->name=='Annual Membership')
@@ -50,7 +50,7 @@ When : #_EVENTDATES @ #_EVENTTIMES
 Where : #_LOCATIONNAME - #_LOCATIONFULLLINE
 
 Please note
-- Turn up one hour before the race at #_24HSTARTTIME.
+- Turn up one hour before the race at #_24HSTARTTIME to collect your race number.
 - Chip timing and returning race number.
 - BHAA is a vol organisation.
 - No HEADPHONES
