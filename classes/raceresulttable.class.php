@@ -65,6 +65,7 @@ class RaceResultTable extends WP_List_Table
 			case 'race':
 			case 'runner':
 			case 'display_name':
+			case 'user_nicename';
 			case 'cname':
 			case 'racetime':
 			case 'position':
@@ -106,7 +107,11 @@ class RaceResultTable extends WP_List_Table
  	
  	function column_display_name($item) {
  		$page = get_page_by_title('runner');
- 		return sprintf('<a href="/?page_id=%d&id=%d">%s</a>',$page->ID,$item['runner'],$item['display_name']);
+ 		$permalink = get_permalink( $page );
+ 		return sprintf('<a href="%s">%s</a>',
+			add_query_arg( array ( 'user_nicename'=>$item['user_nicename']),$permalink ),
+ 			$item['display_name']);
+ 		//return sprintf('<a href="/?page_id=%d&name=%s">%s</a>',$page->ID,$item['user_nicename'],$item['display_name']);
  	}
  	
  	function column_event($item) {
@@ -131,7 +136,7 @@ class RaceResultTable extends WP_List_Table
 				join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
 		else
 			$query = '
-		SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_posts.id as cid,wp_posts.post_title as cname
+		SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_users.user_nicename,wp_posts.id as cid,wp_posts.post_title as cname
 		FROM '.$wpdb->prefix .'bhaa_raceresult 
 		left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
 		left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
