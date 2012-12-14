@@ -33,34 +33,35 @@ class Race
 		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
 		
 		// add custom post actions and handlers
-// 		/add_filter('post_row_actions',array( &$this, 'race_post_row_actions'), 10, 2);
-		//add_action('init',array(&$this,'race_actions'),11);
+		add_filter('manage_race_posts_columns',array($this,'bhaa_manage_race_posts_columns'));
+		add_filter('manage_race_posts_custom_column',array($this,'bhaa_manage_race_posts_custom_column'), 10, 3 );
 	}
 	
-
-// 	function set_custom_edit_race_columns($columns) {
-// 		unset($columns['author']);
-// 		return $columns
-// 		+ array('book_author' => __('Author'),
-// 				'publisher' => __('Publisher'));
-// 	}
+	function bhaa_manage_race_posts_columns( $column ) {
+		return array(
+			'cb' => '<input type="checkbox" />',
+			'title' => __('Title'),
+			'distance' => __('Distance'),
+			'type' => __('Type'),
+			'date' => __('Date')
+		);
+		// merge column
+		//return array_merge($column,array('sector' => __('Sector')));
+	}
 	
-// 	function custom_race_column( $column, $post_id ) {
-// 		switch ( $column ) {
-// 			case 'book_author':
-// 				$terms = get_the_term_list( $post_id , 'book_author' , '' , ',' , '' );
-// 				if ( is_string( $terms ) ) {
-// 					echo $terms;
-// 				} else {
-// 					echo 'Unable to get author(s)';
-// 				}
-// 				break;
-	
-// 			case 'publisher':
-// 				echo get_post_meta( $post_id , 'publisher' , true );
-// 				break;
-// 		}
-// 	}
+	function bhaa_manage_race_posts_custom_column( $column, $post_id )
+	{
+		switch ($column) {
+			case 'distance' :
+				echo get_post_meta($post_id,Race::BHAA_RACE_DISTANCE,true).''.get_post_meta($post_id,Race::BHAA_RACE_UNIT,true);
+				break;
+			case 'type' :
+				echo get_post_meta($post_id,Race::BHAA_RACE_TYPE,true);
+				break;
+			default:
+		}
+		return $return;
+	}
 			
 	public function register_race_cpt()
 	{
