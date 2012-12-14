@@ -152,7 +152,7 @@ class RaceResultTable extends WP_List_Table
 
 	function renderTable($race)
 	{   
-		echo '<div class="wrap"><h2>BHAA Race Results Table</h2>';
+		echo '<div class="wrap">';
 		$this->prepare_items($race);
 		$this->display();
 		echo '</div>';
@@ -160,7 +160,7 @@ class RaceResultTable extends WP_List_Table
 	
 	function renderRunnerTable($runner)
 	{
-		echo '<div class="wrap"><h2>BHAA Runner Results Table</h2>';
+		echo '<div class="wrap">';
 		$this->prepareRunnerItems($runner);
 		$this->display();
 		echo '</div>';
@@ -207,7 +207,7 @@ class RaceResultTable extends WP_List_Table
 	 * @see WP_List_Table::get_table_classes()
 	 */
 	function get_table_classes() {
-		return array( 'widefat', 'fixed','table','table-bordered','table-striped','table-condensed',$this->_args['plural'] );
+		return array( 'bhaatables',$this->_args['plural'] );
 	}
 }
 ?>

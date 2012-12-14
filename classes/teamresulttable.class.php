@@ -70,14 +70,14 @@ class TeamResultTable extends WP_List_Table
 	
 	function renderTable($event)
 	{
-		echo '<div class="wrap"><h2>BHAA Team Results Table '.$event.'</h2>';
+		echo '<div class="wrap">';
 		$this->prepare_items($event);
 		$this->display();
 		echo '</div>';
 	}
 	
 	function get_table_classes() {
-		return array( 'widefat', 'fixed','table','table-bordered','table-striped','table-condensed',$this->_args['plural'] );
+		return array( 'bhaatables',$this->_args['plural'] );
 	}
 }
 ?>
