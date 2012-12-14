@@ -28,33 +28,35 @@ class House
 		add_action( 'init', array(&$this,'register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'register_cpt_house'));
 		
-		// Add custom post navigation columns
-		// add_filter('manage_edit-house_columns', array(&$this, "nav_columns"));
-		// add_action('manage_posts_custom_column', array(&$this, "custom_nav_columns"));
+		// display the admin status column
+		add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
+		add_filter('manage_house_posts_custom_column',array($this,'bhaa_manage_house_posts_custom_column'), 10, 3 );
 	}
-		
-	function nav_columns($columns) {
-		$columns = array(
-				"cb" => "<input type=\"checkbox\" />",
-				"title" => "Name"
-				//"sector" => "Sector",
+	
+	function bhaa_manage_house_posts_columns( $column ) {
+		return array(
+			'cb' => '<input type="checkbox" />',
+			'title' => __('Title'),
+			'sector' => __('Sector'),
+			'date' => __('Date')
 		);
-		return $columns;
+		// merge column
+		//return array_merge($column,array('sector' => __('Sector')));
 	}
 	
-	function custom_nav_columns($column) {
-		global $post;
+	function bhaa_manage_house_posts_custom_column( $column, $post_id )
+	{
 		switch ($column) {
-			case "link_sector":
-				//$meta = get_taxpost_custom();
-				echo get_taxonomies('sector','names');  //$meta["ch_link_url"][0];
+			case 'sector' :
+				echo get_the_term_list( $post_id, 'sector','','','');
 				break;
+			default:
 		}
+		return $return;
 	}
-		
-	// 
-	function register_cpt_house() {
-	
+				
+	function register_cpt_house() 
+	{
 	    $houseLabels = array( 
 	        'name' => _x( 'Houses', 'house' ),
 	        'singular_name' => _x( 'House', 'house' ),
@@ -91,8 +93,8 @@ class House
 	    register_post_type( 'house', $houseArgs );
 	}
 		
-	function register_taxonomy_sector() {
-	
+	function register_taxonomy_sector() 
+	{
 		$labels = array(
 			'name' => _x( 'Sectors', 'sector' ),
 			'singular_name' => _x( 'Sector', 'sector' ),
