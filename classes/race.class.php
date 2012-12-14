@@ -13,6 +13,8 @@
  */
 class Race
 {
+	var $raceresult;
+	
 	const BHAA_RACE_DISTANCE = 'bhaa_race_distance';
 	const BHAA_RACE_UNIT = 'bhaa_race_unit';
 	const BHAA_RACE_TYPE = 'bhaa_race_type';
@@ -60,7 +62,7 @@ class Race
 				break;
 			default:
 		}
-		return $return;
+		//return $return;
 	}
 			
 	public function register_race_cpt()
@@ -168,20 +170,23 @@ class Race
 			update_post_meta( $post_id, Race::BHAA_RACE_TYPE, $_POST[Race::BHAA_RACE_TYPE] );
 		}
 		
-		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_RELOAD]))
+		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_RELOAD])&&($_POST[Race::BHAA_RACE_RESULTS_RELOAD]=="Y") )
 		{
-			$this->csv_action(Race::BHAA_RACE_RESULTS_RELOAD,$_POST[Race::BHAA_RACE_RESULTS_RELOAD]);
+			//error_log('get_the_content() '.get_post($post_id)->post_content);
+			$this->raceresult->processRaceResults(get_post($post_id)->post_content);
+			//$this->insert_csv_action(Race::BHAA_RACE_RESULTS_RELOAD,$_POST[Race::BHAA_RACE_RESULTS_RELOAD]);
 		}
 		
 		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_DELETE]))
 		{
-			$this->csv_action(Race::BHAA_RACE_RESULTS_DELETE,$_POST[Race::BHAA_RACE_RESULTS_DELETE]);
+			error_log("delete ".$post_id);
+			$this->raceresult->deleteRaceResults($post_id);
+			//$this->csv_action(Race::BHAA_RACE_RESULTS_DELETE,$_POST[Race::BHAA_RACE_RESULTS_DELETE]);
 		}
-	}
-		
-	function csv_action($action,$value)
-	{
-		error_log('csv_action -> '.$action.' -> '.$_POST[$action].' : '.$value);			
-	}
+	}	
+// 	function csv_action($action,$value)
+// 	{
+// 		error_log('csv_action -> '.$action.' -> '.$_POST[$action].' : '.$value);			
+// 	}
 }
 ?>
