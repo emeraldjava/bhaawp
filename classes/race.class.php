@@ -92,7 +92,7 @@ class Race
 			'publicly_queryable' => false,
 			'exclude_from_search' => true,
 			'has_archive' => true,
-			'query_var' => 'race',
+			'query_var' => true,
 			'can_export' => true,
 			'publicly_queryable' => true,
 			'rewrite' => true, //array('slug' => 'race'),
