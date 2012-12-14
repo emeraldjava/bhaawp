@@ -13,8 +13,11 @@
  */
 class Race
 {
-	const bhaa_race_csv = 'bhaa_race_csv';
-	public $meta_fields = array( 'title', 'description', 'siteurl', 'category', 'post_tags' );
+	const BHAA_RACE_DISTANCE = 'bhaa_race_distance';
+	const BHAA_RACE_UNIT = 'bhaa_race_unit';
+	const BHAA_RACE_TYPE = 'bhaa_race_type';
+	const BHAA_RACE_RESULTS_RELOAD = 'bhaa_race_results_reload';
+	const BHAA_RACE_RESULTS_DELETE = 'bhaa_race_results_delete';
 	
 	/**
 	 * https://github.com/emeraldjava/tmp-bmx/blob/master/controllers/events_controller.php
@@ -25,41 +28,41 @@ class Race
 	 */
 	public function Race()
 	{
-		add_action( 'init', array(&$this,'getCPT'));
-		add_action( 'add_meta_boxes', array( &$this, 'raceMeta' ) );
-		add_action( 'save_post', array( &$this, 'saveRaceMeta' ) );
+		add_action( 'init', array(&$this,'register_race_cpt'));
+		add_action( 'add_meta_boxes', array( &$this, 'bhaa_race_meta_data' ) );
+		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
 		
 		// add custom post actions and handlers
-		add_filter('post_row_actions',array( &$this, 'race_post_row_actions'), 10, 2);
-		add_action('init',array(&$this,'race_actions'),11);
+// 		/add_filter('post_row_actions',array( &$this, 'race_post_row_actions'), 10, 2);
+		//add_action('init',array(&$this,'race_actions'),11);
 	}
 	
 
-	function set_custom_edit_race_columns($columns) {
-		unset($columns['author']);
-		return $columns
-		+ array('book_author' => __('Author'),
-				'publisher' => __('Publisher'));
-	}
+// 	function set_custom_edit_race_columns($columns) {
+// 		unset($columns['author']);
+// 		return $columns
+// 		+ array('book_author' => __('Author'),
+// 				'publisher' => __('Publisher'));
+// 	}
 	
-	function custom_race_column( $column, $post_id ) {
-		switch ( $column ) {
-			case 'book_author':
-				$terms = get_the_term_list( $post_id , 'book_author' , '' , ',' , '' );
-				if ( is_string( $terms ) ) {
-					echo $terms;
-				} else {
-					echo 'Unable to get author(s)';
-				}
-				break;
+// 	function custom_race_column( $column, $post_id ) {
+// 		switch ( $column ) {
+// 			case 'book_author':
+// 				$terms = get_the_term_list( $post_id , 'book_author' , '' , ',' , '' );
+// 				if ( is_string( $terms ) ) {
+// 					echo $terms;
+// 				} else {
+// 					echo 'Unable to get author(s)';
+// 				}
+// 				break;
 	
-			case 'publisher':
-				echo get_post_meta( $post_id , 'publisher' , true );
-				break;
-		}
-	}
+// 			case 'publisher':
+// 				echo get_post_meta( $post_id , 'publisher' , true );
+// 				break;
+// 		}
+// 	}
 			
-	public function getCPT()
+	public function register_race_cpt()
 	{
 		$raceLabels = array(
 			'name' => _x( 'Races', 'race' ),
@@ -80,13 +83,12 @@ class Race
 			'labels' => $raceLabels,
 			'hierarchical' => false,
 			'description' => 'bhaa race post',
-			'supports' => array('title','editor','author','post-formats'),// 'custom-fields', 'page-attributes' ),
-			//'register_meta_box_cb' => 'raceMeta',
+			'supports' => array('title','excerpt','editor','post-formats'),// 'custom-fields', 'page-attributes' ),
 			'public' => false,
 			'show_ui' => true,
 			'show_in_menu' => true,
 			'show_in_nav_menus' => true,
-			'publicly_queryable' => true,
+			'publicly_queryable' => false,
 			'exclude_from_search' => true,
 			'has_archive' => true,
 			'query_var' => 'race',
@@ -101,129 +103,84 @@ class Race
 	/**
 	 * Register the race meta box
 	 */
-	public function raceMeta() {
+	public function bhaa_race_meta_data() {
 		add_meta_box(
 			'bhaa-race-meta',
-			__( 'BHAA Race Details', 'bhaa-race-meta' ),
-			array(&$this, 'raceMetaRender'),
+			__( 'Race Details', 'bhaa-race-meta' ),
+			array(&$this, 'bhaa_race_meta_fields'),
 			'race',
-			'advanced', 
+			'side', 
 			'low'
 		);
 	}
-		
+	
 	/**
 	 * display the meta fields
 	 * http://www.netmagazine.com/tutorials/user-friendly-custom-fields-meta-boxes-wordpress
 	 * @param unknown_type $post
 	 */
-	public function raceMetaRender( $post ) {
-		//wp_nonce_field( plugin_basename( __FILE__ ), 'myplugin_noncename' );
+	public function bhaa_race_meta_fields( $post ) {
+		//wp_nonce_field( plugin_basename( __FILE__ ), 'bhaa_race_meta_data' );
 	
-		$distance = get_post_custom_values('bhaa_race_distance', $post->ID);
-		print '<p>Distance <input type="text" name="bhaa_race_distance" value="'.$distance[0].'" /></p>';
+		$distance = get_post_custom_values(Race::BHAA_RACE_DISTANCE, $post->ID);
+		print '<p>Distance <input type="text" name='.Race::BHAA_RACE_DISTANCE.' value="'.$distance[0].'" /></p>';
 	
-		$unit = get_post_custom_values('bhaa_race_unit', $post->ID);
-		print '<p>Unit <input type="text" name="bhaa_race_unit" value="'.$unit[0].'" /></p>';
+		$unit = get_post_custom_values(Race::BHAA_RACE_UNIT, $post->ID);
+		print '<p>Unit <input type="text" name="'.Race::BHAA_RACE_UNIT.'" value="'.$unit[0].'" /></p>';
 		
-		$raceid = get_post_custom_values('bhaa_race_id', $post->ID);
-		print '<p>ID <input type="text" name="bhaa_race_id" value="'.$raceid[0].'" /></p>';
+		$type = get_post_custom_values(Race::BHAA_RACE_TYPE, $post->ID);
+		print '<p>Type <input type="text" name="'.BHAA_RACE_TYPE.'" value="'.$type[0].'" /></p>';
 		
-		$csv = get_post_custom_values(bhaa_race_csv, $post->ID);
-		print '<p>CSV<textarea cols=10 rows=2 name="bhaa_race_csv">'.$csv.'</textarea></p>';
+		echo '<p>Reload <input type="radio" name="'.Race::BHAA_RACE_RESULTS_RELOAD.'" value="Y">Y</input>'.
+			'<input type="radio" name="'.Race::BHAA_RACE_RESULTS_RELOAD.'" value="N">N</input></p>';
+		
+		echo '<p>Delete <input type="radio" name="'.Race::BHAA_RACE_RESULTS_DELETE.'" value="Y">Y</input>'.
+			'<input type="radio" name="'.Race::BHAA_RACE_RESULTS_DELETE.'" value="N">N</input></p>';
 	}
 	
 	/**
 	 * Save the race meta data
 	 * @param unknown_type $post_id
 	 */
-	public function saveRaceMeta( $post_id ){
+	public function bhaa_save_race_meta( $post_id ){
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			return;
 	
 		if ( empty( $_POST ) )
 			return;
 	
-		if ( !empty($_POST['bhaa_race_distance']))
+		if ( !empty($_POST[Race::BHAA_RACE_DISTANCE]))
 		{
-			error_log($post_id .' -> bhaa_race_distance -> '.$_POST['bhaa_race_distance']);
-			update_post_meta( $post_id, 'bhaa_race_distance', $_POST['bhaa_race_distance'] );
-		}
-			
-		if ( !empty($_POST[bhaa_race_csv]))
-		{
-			error_log($post_id .' -> bhaa_race_csv -> '.$_POST[bhaa_race_csv]);
-			update_post_meta( $post_id, bhaa_race_csv, $_POST[bhaa_race_csv] );
+			update_post_meta( $post_id, Race::BHAA_RACE_DISTANCE, $_POST[Race::BHAA_RACE_DISTANCE] );
+			error_log($post_id .' -> bhaa_race_distance -> '.$_POST[Race::BHAA_RACE_DISTANCE]);
 		}
 		
-		if ( !empty($_POST['bhaa_race_id']))
-			update_post_meta( $post_id, 'bhaa_race_id', $_POST['bhaa_race_id'] );
-		
-		if ( !empty($_POST['bhaa_race_distance']))
+		if ( !empty($_POST[Race::BHAA_RACE_UNIT]))
 		{
-			error_log($post_id .' -> bhaa_race_distance -> '.$_POST['bhaa_race_distance']);
-			update_post_meta( $post_id, 'bhaa_race_distance', $_POST['bhaa_race_distance'] );
+			error_log($post_id .' -> bhaa_race_distance -> '.$_POST[Race::BHAA_RACE_UNIT]);
+			update_post_meta( $post_id, Race::BHAA_RACE_UNIT, $_POST[Race::BHAA_RACE_UNIT] );
+		}
+		
+		if ( !empty($_POST[Race::BHAA_RACE_TYPE]))
+		{
+			error_log($post_id .' -> '.Race::BHAA_RACE_TYPE.' -> '.$_POST[Race::BHAA_RACE_TYPE]);
+			update_post_meta( $post_id, Race::BHAA_RACE_TYPE, $_POST[Race::BHAA_RACE_TYPE] );
+		}
+		
+		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_RELOAD]))
+		{
+			$this->csv_action(Race::BHAA_RACE_RESULTS_RELOAD,$_POST[Race::BHAA_RACE_RESULTS_RELOAD]);
+		}
+		
+		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_DELETE]))
+		{
+			$this->csv_action(Race::BHAA_RACE_RESULTS_DELETE,$_POST[Race::BHAA_RACE_RESULTS_DELETE]);
 		}
 	}
 		
-	/**
-	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series1/
-	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series2/
-	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series3/
-	 */
-	// Template redirect for custom templates
-	public function template_redirect() {
-		global $wp_query;
-	}
-	
-	// For inserting posts
-	public function wp_insert_post($post_id, $post = null) {
-		if ($post->post_type == "race") {
-			error_log("bhaa.race.wp_insert_post");
-			foreach ($this->meta_fields as $key) {
-				$value = @$_POST[$key];
-				if (empty($value)) {
-					delete_post_meta($post_id, $key);
-					continue;
-				}
-				if (!is_array($value)) {
-					if (!update_post_meta($post_id, $key, $value)) {
-						error_log('bhaa wp_insert_post '.$post_id.' '.$key.' '.$value);
-						add_post_meta($post_id, $key, $value);
-					}
-				} else {
-					delete_post_meta($post_id, $key);
-					foreach ($value as $entry) add_post_meta($post_id, $key, $entry);
-				}
-			}
-		}
-	}
-		
-	function race_post_row_actions($actions, $post)
+	function csv_action($action,$value)
 	{
-		//check for your post type
-		$actions['delete'] = '<a href=\''.admin_url('?action=delete&post='.$post->ID).'\' target=\'blank\'>Clear</a>';
-		$actions['load'] = '<a href=\''.admin_url('?action=load&post='.$post->ID).'\' target=\'blank\'>Load</a>';
-		return $actions;
-	}
-	
-	function race_actions()
-	{
-		if( !empty($_REQUEST['action']) )
-		{
-			if ( $_REQUEST['action'] == 'load' )
-			{
-				error_log('action '.$_REQUEST['action']);
-				wp_redirect( wp_get_referer() );
-				exit();
-			}
-			elseif ($_REQUEST['action'] == 'delete')
-			{
-				error_log('action '.$_REQUEST['action']);
-				wp_redirect( wp_get_referer() );
-				exit();
-			}
-		}
+		error_log('csv_action -> '.$action.' -> '.$_POST[$action].' : '.$value);			
 	}
 }
 ?>
