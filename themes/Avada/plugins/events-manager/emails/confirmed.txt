@@ -1,18 +1,16 @@
-Booking Confirmed
+BHAA #_BOOKINGTICKETNAME
 
-Dear #_BOOKINGNAME, 
+Hi #_BOOKINGNAME, 
 
-You have successfully reserved #_BOOKINGSPACES space/spaces for #_EVENTNAME.
+Thank you for registering for the BHAA #_EVENTLINK event. 
 
+Your Booking reference is <b>#_BOOKINGTICKETNAME #_BOOKINGID </b>
+
+BHAA Event 
 When : #_EVENTDATES @ #_EVENTTIMES
-
 Where : #_LOCATIONNAME - #_LOCATIONFULLLINE
 
 Yours faithfully,
-
 #_CONTACTNAME
 
-
--------------------------------
-
-Powered by Events Manager - http://wp-events-plugin.com
+Please email #_CONTACTEMAIL with any booking queries or see http://bhaa.ie
