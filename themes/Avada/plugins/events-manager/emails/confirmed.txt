@@ -1,0 +1,18 @@
+Booking Confirmed
+
+Dear #_BOOKINGNAME, 
+
+You have successfully reserved #_BOOKINGSPACES space/spaces for #_EVENTNAME.
+
+When : #_EVENTDATES @ #_EVENTTIMES
+
+Where : #_LOCATIONNAME - #_LOCATIONFULLLINE
+
+Yours faithfully,
+
+#_CONTACTNAME
+
+
+-------------------------------
+
+Powered by Events Manager - http://wp-events-plugin.com
