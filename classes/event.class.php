@@ -13,7 +13,7 @@ class Event
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
-		add_filter('em_bookings_is_open',array($this,'bhaa_em_bookings_is_open'),1,3);
+		//add_filter('em_bookings_is_open',array($this,'bhaa_em_bookings_is_open'),1,3);
 	}
 	
 	function bhaa_event_meta(){
@@ -75,10 +75,11 @@ class Event
 		return $replace;
 	}
 	
-	function bhaa_em_bookings_is_open($result, $EM_Booking)
-	{
-		return true;
-	}
+//	function bhaa_em_bookings_is_open($result, $EM_Booking)
+//	{
+//		return true;
+//	}
+
 	/**
 	 * Determine which tickets to display to which users.
 	 * 
@@ -90,9 +91,9 @@ class Event
 	 */
 	function bhaa_em_ticket_is_available($result, $EM_Ticket) 
 	{
-// 		if (current_user_can( strtolower('administrator') )) {
-// 			return true;
-// 		}
+ 		if (current_user_can( strtolower('administrator') )) {
+ 			return true;
+ 		}
 
 		if ( $EM_Ticket->ticket_name == Event::DAY_MEMBER_TICKET)
 		{

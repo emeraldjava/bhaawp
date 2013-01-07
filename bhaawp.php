@@ -128,8 +128,7 @@ class BhaaLoader
 		add_action('wp_ajax_bhaawp_house_search',array($this,'bhaawp_house_search'));
 			
  		// css style 
- 		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
- 		error_log('load_scripts',0);
+ 		//wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
 	}
 		
 	function bhaawp_house_search() {
