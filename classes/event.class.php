@@ -6,14 +6,13 @@ class Event
 {
 	const ANNUAL_MEMBERSHIP = 'Annual Membership';
 	const DAY_MEMBER_TICKET = 'Day Member Ticket';
-	const BHAA_MEMBER_TICKET = 'BHAA Member Ticket';
+	const BHAA_MEMBER_TICKET = 'BHAA_Member Ticket';
 	
 	function Event() {
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
-		//add_filter('em_bookings_is_open',array($this,'bhaa_em_bookings_is_open'),1,3);
 	}
 	
 	function bhaa_event_meta(){
@@ -65,20 +64,19 @@ class Event
 	function bhaa_em_booking_output_placeholder($replace, $EM_Booking, $result){
 		global $wp_query, $wp_rewrite;
 		switch( $result ){
+			//case '#_BOOKING_USER_ID':
+			//	$replace = $EM_Booking->get_person()->ID;
+			//	break;
 			case '#_BHAATICKETS':
 				ob_start();
 				em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
 				$replace = ob_get_clean();
 				$replace = $EM_Booking->output($replace);
 				break;
+
 		}
 		return $replace;
 	}
-	
-//	function bhaa_em_bookings_is_open($result, $EM_Booking)
-//	{
-//		return true;
-//	}
 
 	/**
 	 * Determine which tickets to display to which users.
