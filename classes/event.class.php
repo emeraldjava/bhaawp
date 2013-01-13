@@ -6,7 +6,7 @@ class Event
 {
 	const ANNUAL_MEMBERSHIP = 'Annual Membership';
 	const DAY_MEMBER_TICKET = 'Day Member Ticket';
-	const BHAA_MEMBER_TICKET = 'BHAA_Member Ticket';
+	const BHAA_MEMBER_TICKET = 'Member Ticket';
 	
 	function Event() {
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
@@ -63,17 +63,14 @@ class Event
 	 */
 	function bhaa_em_booking_output_placeholder($replace, $EM_Booking, $result){
 		global $wp_query, $wp_rewrite;
-		switch( $result ){
-			//case '#_BOOKING_USER_ID':
-			//	$replace = $EM_Booking->get_person()->ID;
-			//	break;
+		switch( $result )
+		{
 			case '#_BHAATICKETS':
 				ob_start();
 				em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
 				$replace = ob_get_clean();
 				$replace = $EM_Booking->output($replace);
 				break;
-
 		}
 		return $replace;
 	}
