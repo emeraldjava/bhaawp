@@ -65,6 +65,9 @@ class Event
 		global $wp_query, $wp_rewrite;
 		switch( $result )
 		{
+			case '#_BHAAID':
+				$replace = $EM_Booking->get_person()->ID;
+				break;
 			case '#_BHAATICKETS':
 				ob_start();
 				em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
