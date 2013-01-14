@@ -68,6 +68,17 @@ class Event
 			case '#_BHAAID':
 				$replace = $EM_Booking->get_person()->ID;
 				break;
+// 			case '#_BHAACOMPANYNAME':
+// 				$replace = get_user_meta(7713,'bhaa_runner_company',true);
+// // 				error_log('#_BHAACOMPANY_NAME');
+// // 				$companyid = get_user_meta($EM_Booking->get_person()->ID,'bhaa_runner_company',true);
+// // 				error_log('#_BHAA_COMPANY_NAME '.$companyid);
+// // //				$replace = $companyid.'';
+// //  				$args = array('p'=>$companyid, 'post_type'=>'house', 'limit'=> '1');
+// //  				$loop = new WP_Query($args);
+// //  				$loop->the_post();
+// //  				$replace = $companyid.'-'.the_title();			
+// 				break;
 			case '#_BHAATICKETS':
 				ob_start();
 				em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
