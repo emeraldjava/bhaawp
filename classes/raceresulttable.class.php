@@ -44,17 +44,14 @@ class RaceResultTable extends WP_List_Table
 		$columns = array(
 			//'cb'        => '<input type="checkbox" />',
 			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text
-			//'race'     => 'Race',
-			//'runner'    => 'Runner',
-			'position'  => 'Position',
-			'display_name'    => 'Name',
-			'cname'    => 'Company',
+			'position'  => 'Pos',
+			'racenumber' => 'No',
+			'display_name' => 'Name',
 			'racetime'  => 'Time',
-			'racenumber' => 'Number',
 			'category'  => 'Category',
+			'category_pos' => 'C.Pos',
 			'standard'  => 'Std',
-			'paceKM'  => 'Pace',
-			//'class'  => 'Class'
+			'cname'    => 'Company'
 		);
 		return $columns;
 	}
@@ -71,6 +68,7 @@ class RaceResultTable extends WP_List_Table
 			case 'position':
 			case 'racenumber':
 			case 'category':
+			case 'category_pos':
 			case 'standard':
 			case 'paceKM':
 			case 'event':
@@ -130,20 +128,14 @@ class RaceResultTable extends WP_List_Table
 		$this->_column_headers = array($columns, $hidden, $sortable);
 
 		global $wpdb;
-		if(!isset($race))
-			$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name FROM '
-				.$wpdb->prefix .'bhaa_raceresult 
-				join wp_users on wp_users.id=wp_bhaa_raceresult.runner';
-		else
-			$query = '
-		SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_users.user_nicename,wp_posts.id as cid,wp_posts.post_title as cname
-		FROM '.$wpdb->prefix .'bhaa_raceresult 
-		left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
-		left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
-		where race='.$race.' and wp_bhaa_raceresult.class="RAN" order by position';
+		$query = '
+			SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_users.user_nicename,wp_posts.id as cid,wp_posts.post_title as cname
+			FROM '.$wpdb->prefix .'bhaa_raceresult 
+			left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
+			left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
+			where race='.$race.' and wp_bhaa_raceresult.class="RAN" order by position';
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult		
-		//echo '<p>'.$query.'</p>';
-		error_log($query);
+		//error_log($query);
 		
 		//echo $query;
 		$totalitems = $wpdb->query($query);
@@ -172,7 +164,6 @@ class RaceResultTable extends WP_List_Table
 			'position'  => 'Position',
 			'racetime'  => 'Time',		
 			'racenumber' => 'Race Number',
-			//'category'  => 'Category',
 			'standard'  => 'Std',
 			'paceKM'  => 'Pace'
 		);
@@ -187,17 +178,10 @@ class RaceResultTable extends WP_List_Table
 		$this->_column_headers = array($columns, $hidden, $sortable);
 	
 		global $wpdb;
-		
 		$query = 'SELECT wp_p2p.p2p_from as event,wp_bhaa_raceresult.* FROM wp_bhaa_raceresult '.
 			'join wp_p2p on (wp_p2p.p2p_to=wp_bhaa_raceresult.race and wp_p2p.p2p_type="event_to_race") '.
 			'where runner='.$runner.' order by race desc';
 	
-		//echo '<p>'.$mgs.'</p>';
-		error_log($query);
-	
-		//echo $query;
-		//$totalitems = $wpdb->query($query);
-		//echo $totalitems;
 		$this->items = $wpdb->get_results($query,ARRAY_A);
 	}
 	
