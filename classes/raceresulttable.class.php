@@ -106,7 +106,7 @@ class RaceResultTable extends WP_List_Table
  	function column_display_name($item) {
  		$page = get_page_by_title('runner');
  		$permalink = get_permalink( $page );
- 		return sprintf('<a href="%s">%s</a>',
+ 		return sprintf('<a href="%s"><b>%s</b></a>',
 			add_query_arg( array ( 'user_nicename'=>$item['user_nicename']),$permalink ),
  			$item['display_name']);
  		//return sprintf('<a href="/?page_id=%d&name=%s">%s</a>',$page->ID,$item['user_nicename'],$item['display_name']);
