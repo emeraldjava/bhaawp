@@ -17,7 +17,7 @@ class Event
 	
 	function bhaa_event_meta(){
 		add_meta_box("youtube", "YouTube", array(&$this,"youtube"), "event", "side", "low");
-		add_meta_box("flickr", "Flickr", array(&$this,"flickr"), "event", "side", "low");
+		add_meta_box("flickr", "Flickr", array(&$this,"flickr_photoset"), "event", "side", "low");
 	}
 	
 	function youtube()
@@ -31,14 +31,14 @@ class Event
 	<?php
 	}
 	
-	function flickr()
+	function flickr_photoset()
 	{
 		global $post;
 		$custom = get_post_custom($post->ID);
-		$flickr = $custom["flickr"][0];
+		$flickr_photoset = $custom["flickr_photoset"][0];
 		?>
-		<p>Enter your flickr ID</p>
-		<input name="flickr" value="<?php echo $flickr; ?>"  />
+		<p>Enter your flickr photoset ID</p>
+		<input name="flickr_photoset" value="<?php echo $flickr_photoset; ?>"  />
 		<?php
 	}
 	
@@ -53,7 +53,7 @@ class Event
 			return;
 		
 		$post_id = $post->ID;
-		update_post_meta($post->ID, "flickr", $_POST["flickr"]);
+		update_post_meta($post->ID, "flickr_photoset", $_POST["flickr_photoset"]);
 		update_post_meta($post->ID, "youtube", $_POST["youtube"]);
 	}
 	
