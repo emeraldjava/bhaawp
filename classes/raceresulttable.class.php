@@ -100,7 +100,7 @@ class RaceResultTable extends WP_List_Table
 	 * @return string
 	 */
  	function column_cname($item) {
- 		return sprintf('<a href="/?post_type=house&p=%d">%s</a>',$item['cid'],$item['cname']);
+ 		return sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$item['cid'],$item['cname']);
  	}
  	
  	function column_display_name($item) {
@@ -114,7 +114,7 @@ class RaceResultTable extends WP_List_Table
  	
  	function column_event($item) {
  		$page = get_post($item[event]);
- 		return '<a href='.get_permalink($item[event]).'>'.get_the_title($item[event]).'</a>';
+ 		return '<a href='.get_permalink($item[event]).'><b>'.get_the_title($item[event]).'</b></a>';
  	}
 
 	/**
@@ -161,11 +161,11 @@ class RaceResultTable extends WP_List_Table
 	function getRunnerColumns(){
 		$columns = array(
 			'event'     => 'Event',
-			'position'  => 'Position',
+			'position'  => 'Pos',
+			'racenumber' => 'Race No',
 			'racetime'  => 'Time',		
-			'racenumber' => 'Race Number',
-			'standard'  => 'Std',
-			'paceKM'  => 'Pace'
+			'standard'  => 'Std'
+			//'paceKM'  => 'Pace'
 		);
 		return $columns;
 	}
