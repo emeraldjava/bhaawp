@@ -10,6 +10,11 @@
  * http://www.netmagazine.com/tutorials/user-friendly-custom-fields-meta-boxes-wordpress
  * @author oconnellp
  *
+ * 
+ * http://www.foxrunsoftware.net/articles/wordpress/add-custom-bulk-action/
+ * 
+ * http://eduniverse.org/manage-wordpress-posts-using-bulk-edit-and-quick-edit
+ * 
  */
 class Race
 {
@@ -33,6 +38,7 @@ class Race
 		add_action( 'init', array(&$this,'register_race_cpt'));
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_race_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
+		//add_action( 'add_meta_boxes', array( &$this, 'bhaa_race_admin_meta_data' ) );
 		
 		// add custom post actions and handlers
 		add_filter('manage_race_posts_columns',array($this,'bhaa_manage_race_posts_columns'));
@@ -62,7 +68,6 @@ class Race
 				break;
 			default:
 		}
-		//return $return;
 	}
 			
 	public function register_race_cpt()
@@ -133,12 +138,17 @@ class Race
 		
 		$type = get_post_custom_values(Race::BHAA_RACE_TYPE, $post->ID);
 		print '<p>Type <input type="text" name="'.BHAA_RACE_TYPE.'" value="'.$type[0].'" /></p>';
-		
+	//}
+	
+	//public function bhaa_race_admin_meta_data($post) {
+	
 		echo '<p>Reload <input type="radio" name="'.Race::BHAA_RACE_RESULTS_RELOAD.'" value="Y">Y</input>'.
 			'<input type="radio" name="'.Race::BHAA_RACE_RESULTS_RELOAD.'" value="N">N</input></p>';
 		
 		echo '<p>Delete <input type="radio" name="'.Race::BHAA_RACE_RESULTS_DELETE.'" value="Y">Y</input>'.
 			'<input type="radio" name="'.Race::BHAA_RACE_RESULTS_DELETE.'" value="N">N</input></p>';
+	
+		echo '<p>Message:'.$_SESSION['message'].'</p>';
 	}
 	
 	/**
@@ -172,21 +182,20 @@ class Race
 		
 		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_RELOAD])&&($_POST[Race::BHAA_RACE_RESULTS_RELOAD]=="Y") )
 		{
+			$_SESSION['message'] = 'Reload Called';
+			error_log("reload ".$post_id);
 			//error_log('get_the_content() '.get_post($post_id)->post_content);
-			$this->raceresult->processRaceResults(get_post($post_id)->post_content);
+			//$this->raceresult->processRaceResults(get_post($post_id)->post_content);
 			//$this->insert_csv_action(Race::BHAA_RACE_RESULTS_RELOAD,$_POST[Race::BHAA_RACE_RESULTS_RELOAD]);
 		}
 		
 		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_DELETE]))
 		{
+			$_SESSION['message'] = 'Delete Called';
 			error_log("delete ".$post_id);
-			$this->raceresult->deleteRaceResults($post_id);
+			//$this->raceresult->deleteRaceResults($post_id);
 			//$this->csv_action(Race::BHAA_RACE_RESULTS_DELETE,$_POST[Race::BHAA_RACE_RESULTS_DELETE]);
 		}
 	}	
-// 	function csv_action($action,$value)
-// 	{
-// 		error_log('csv_action -> '.$action.' -> '.$_POST[$action].' : '.$value);			
-// 	}
 }
 ?>
