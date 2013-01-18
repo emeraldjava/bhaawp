@@ -9,26 +9,134 @@ A summary of the bhaa tables used
 
 ## RaceResult
 
-
+<table>
+  <tr>
+    <th>Field</th>
+    <th>Intended Use</th>
+  </tr>
+<tr>
+    <td>id</td>
+    <td>raceresult id for specific row editing</td>
+</tr>
+<tr>
+    <td>race</td>
+    <td>race id</td>
+</tr>
+<tr>
+    <td>runner</td>
+    <td>wp user id</td>
+</tr>
+<tr>
+    <td>time</td>
+    <td>race time</td>
+</tr>
+<tr>
+    <td>position</td>
+    <td></td>
+</tr>
+<tr>
+    <td>racenumber</td>
+    <td></td>
+</tr>
+<tr>
+    <td>category</td>
+    <td></td>
+</tr>
+<tr>
+    <td>standard</td>
+    <td></td>
+</tr>
+<tr>
+    <td>class</td>
+    <td>RAN | RACE_ORG</td>
+</tr>
+<tr>
+    <td>company</td>
+    <td>The id of the house from which the company name will be displayed</td>
+</tr>
+<tr>
+    <td>teamresult?</td>
+    <td>The id of the team result table to indicate this runner was member of a scoreing team</td>
+</tr>
+<tr>
+    <td>leaguepoints?</td>
+    <td>The league points this runner earned</td>
+</tr>
+</table>		
 
 ## TeamResult
 
 Single Row Per Team, the ID will be FK linked back to the RaceResult
 
+<table>
+<tr>
+    <td>id</td>
+    <th>The unique id</th>
+</tr>
+<tr>
+    <td>team</td>
+    <td>The id of the company or sector team</td>
+</tr>
+<tr>
+    <td>race</td>
+    <td>the race this result was achieved at</td>
+</tr>
+<tr>
+    <td>league</td>
+    <td>the leagee id</td>
+</tr>
+<tr>
+    <td>standardtotal</td>
+    <td>sum of the three standards</td>
+</tr>
+<tr>
+    <td>positiontotal</td>
+    <td>sum of the three positions</td>
+</tr>
+<tr>
+    <td>leaguepoints</td>
+    <td>league points</td>
+</tr>
+<tr>
+    <td>class</td>
+    <td>The class or division that the result was achieved in A,B,C,D,W,O,OW</td>
+</tr>
+<tr>
+    <td>status</td>
+    <td>ACTIVE or PENDING to allow editing pre publication</td>
+</tr>
+</table>
+						
 ## LeagueSummary
 
 Same as existing but maintain a summary of the runners league results in a json format.
 
-{|
-|Orange
-|Apple
-|-
-|Bread
-|Pie
-|-
-|Butter
-|Ice cream 
-|}
+<table>
+  <tr>
+    <td>id</th>
+    <th>unique id in case we need to edit the row</th>
+  </tr>
+<tr>
+    <td>participant</td>
+    <td>the runner or team id</td>
+</tr>
+<tr>
+    <td>league</td>
+    <td>the league id</td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>individual or team league</td>
+</tr>
+<tr>
+    <td>summary</td>
+    <td>A summary of the participants details, sdcc2013:9.9;eircom2013:8.8;ncf2013:NA</td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+</tr>
+</table>
 
 # User Data
 
