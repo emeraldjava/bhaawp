@@ -3,7 +3,55 @@ bhaawp
 
 Wordpress Plugin for the Business Houses Athletic Assoication
 
-h2 User Meta Data
+# Database Tables
+
+A summary of the bhaa tables used
+
+## RaceResult
+
+
+
+## TeamResult
+
+Single Row Per Team, the ID will be FK linked back to the RaceResult
+
+## LeagueSummary
+
+Same as existing but maintain a summary of the runners league results in a json format.
+
+{|
+|Orange
+|Apple
+|-
+|Bread
+|Pie
+|-
+|Butter
+|Ice cream 
+|}
+
+# User Data
+
+- metadata fields store the name value pairs below
+- p2p is used to link a runner to a house (aka company/sector team).
+
+## User Meta Data Fields
+
+	const BHAA_RUNNER_ADDRESS1 = 'bhaa_runner_address1';
+	const BHAA_RUNNER_ADDRESS2 = 'bhaa_runner_address2';
+	const BHAA_RUNNER_ADDRESS3 = 'bhaa_runner_address3';
+	
+	const BHAA_RUNNER_FIRSTNAME = 'bhaa_runner_firstname'; - wp
+	const BHAA_RUNNER_LASTNAME = 'bhaa_runner_lastname'; - wp
+	
+	const BHAA_RUNNER_DATEOFBIRTH = 'bhaa_runner_dateofbirth';
+	const BHAA_RUNNER_COMPANY = 'bhaa_runner_company'; - hidden
+	const BHAA_RUNNER_NEWSLETTER = 'bhaa_runner_newsletter';
+	const BHAA_RUNNER_TEXTALERT = 'bhaa_runner_textalert';
+	const BHAA_RUNNER_MOBILEPHONE = 'bhaa_runner_mobilephone';
+	const BHAA_RUNNER_INSERTDATE = 'bhaa_runner_insertdate';
+	const BHAA_RUNNER_DATEOFRENEWAL = 'bhaa_runner_dateofrenewal';
+	const BHAA_RUNNER_TERMS_AND_CONDITIONS = 'bhaa_runner_terms_and_conditions';
 
 <table>
   <tr>
