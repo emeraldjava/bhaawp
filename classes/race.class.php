@@ -23,8 +23,11 @@ class Race
 	const BHAA_RACE_DISTANCE = 'bhaa_race_distance';
 	const BHAA_RACE_UNIT = 'bhaa_race_unit';
 	const BHAA_RACE_TYPE = 'bhaa_race_type';
-	const BHAA_RACE_RESULTS_RELOAD = 'bhaa_race_results_reload';
-	const BHAA_RACE_RESULTS_DELETE = 'bhaa_race_results_delete';
+	
+	const BHAA_RACE_ACTION = 'bhaa_race_action';
+	const BHAA_RACE_RELOAD = 'bhaa_race_reload';
+	const BHAA_RACE_DELETE = 'bhaa_race_delete';
+	const BHAA_RACE_CALC = 'bhaa_race_calc';
 	
 	/**
 	 * https://github.com/emeraldjava/tmp-bmx/blob/master/controllers/events_controller.php
@@ -138,17 +141,12 @@ class Race
 		
 		$type = get_post_custom_values(Race::BHAA_RACE_TYPE, $post->ID);
 		print '<p>Type <input type="text" name="'.BHAA_RACE_TYPE.'" value="'.$type[0].'" /></p>';
-	//}
-	
-	//public function bhaa_race_admin_meta_data($post) {
-	
-		echo '<p>Reload <input type="radio" name="'.Race::BHAA_RACE_RESULTS_RELOAD.'" value="Y">Y</input>'.
-			'<input type="radio" name="'.Race::BHAA_RACE_RESULTS_RELOAD.'" value="N">N</input></p>';
-		
-		echo '<p>Delete <input type="radio" name="'.Race::BHAA_RACE_RESULTS_DELETE.'" value="Y">Y</input>'.
-			'<input type="radio" name="'.Race::BHAA_RACE_RESULTS_DELETE.'" value="N">N</input></p>';
-	
-		echo '<p>Message:'.$_SESSION['message'].'</p>';
+
+		print '<p><input type="radio" name="'.Race::BHAA_RACE_ACTION.'" value="'.Race::BHAA_RACE_RELOAD.'">'.Race::BHAA_RACE_RELOAD.'</input><br/>';
+		print '<p><input type="radio" name="'.Race::BHAA_RACE_ACTION.'" value="'.Race::BHAA_RACE_DELETE.'">'.Race::BHAA_RACE_DELETE.'</input><br/>';
+		print '<p><input type="radio" name="'.Race::BHAA_RACE_ACTION.'" value="'.Race::BHAA_RACE_CALC.'">'.Race::BHAA_RACE_CALC.'</input><br/>';
+			
+		print '<p>Last Action : '.$_SESSION['message'].'</p>';
 	}
 	
 	/**
@@ -180,21 +178,14 @@ class Race
 			update_post_meta( $post_id, Race::BHAA_RACE_TYPE, $_POST[Race::BHAA_RACE_TYPE] );
 		}
 		
-		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_RELOAD])&&($_POST[Race::BHAA_RACE_RESULTS_RELOAD]=="Y") )
+		if ( !empty($_POST[Race::BHAA_RACE_ACTION]) )
 		{
-			$_SESSION['message'] = 'Reload Called';
-			error_log("reload ".$post_id);
+			$_SESSION['message'] = $_POST[Race::BHAA_RACE_ACTION].' Called';
+			error_log("race action ".$_POST[Race::BHAA_RACE_ACTION].' -> '.$post_id);
 			//error_log('get_the_content() '.get_post($post_id)->post_content);
 			//$this->raceresult->processRaceResults(get_post($post_id)->post_content);
-			//$this->insert_csv_action(Race::BHAA_RACE_RESULTS_RELOAD,$_POST[Race::BHAA_RACE_RESULTS_RELOAD]);
-		}
-		
-		if ( !empty($_POST[Race::BHAA_RACE_RESULTS_DELETE]))
-		{
-			$_SESSION['message'] = 'Delete Called';
-			error_log("delete ".$post_id);
 			//$this->raceresult->deleteRaceResults($post_id);
-			//$this->csv_action(Race::BHAA_RACE_RESULTS_DELETE,$_POST[Race::BHAA_RACE_RESULTS_DELETE]);
+			//$this->insert_csv_action(Race::BHAA_RACE_RESULTS_RELOAD,$_POST[Race::BHAA_RACE_RESULTS_RELOAD]);
 		}
 	}	
 }
