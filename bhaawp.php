@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.01.15
+Version: 2013.01.22
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2013.01.15';
+	var $version = '2013.01.22';
 	
 	var $admin;
 	var $connection;
@@ -21,7 +21,7 @@ class BhaaLoader
 	var $teamresult;
 			
 	var $house;
-	var $league;
+//	var $league;
 	var $runner;
 	
 	var $raceday;
@@ -61,10 +61,31 @@ class BhaaLoader
 		add_action('init', array($this,'enqueue_scripts_and_style'));
 		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
 	}
-		
+
+	/**
+	 * 
+	 * http://stackoverflow.com/questions/11833034/non-destructive-spl-autoload-register
+	 * 
+	 * add_action ( 'init' , 'class_loader' );
+
+function class_loader () {
+    // register an autoloader function for template classes
+    spl_autoload_register ( 'template_autoloader' );
+}
+
+function template_autoloader ( $class ) {
+if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) ) 
+    include LG_FE_DIR . "/includes/chart_templates/class.{$class}.php";
+
+}
+
+	 */
 	function loadLibraries()
 	{
 		global $bhaaAJAX;
+		
+		require_once (dirname (__FILE__) . '/bootstrap.php');
+		new LeagueCpt();
 		
 		// classes
 		require_once (dirname (__FILE__) . '/classes/connection.class.php');
@@ -73,8 +94,8 @@ class BhaaLoader
 		$this->house = new House();
 		require_once (dirname (__FILE__) . '/classes/race.class.php');
 		$this->race = new Race();
-		require_once (dirname (__FILE__) . '/classes/league.class.php');
-		$this->league = new League();
+		//require_once (dirname (__FILE__) . '/classes/league.class.php');
+		//$this->league = new League();
 		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
 		require_once (dirname (__FILE__) . '/classes/raceresulttable.class.php');
 		$this->raceresult = new RaceResult();
