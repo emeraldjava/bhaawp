@@ -10,8 +10,14 @@ define( 'PLUGIN_ROOT_DIR' , dirname(__FILE__) );//plugin_dir_path( __FILE__ ) );
 // }
 //spl_autoload_register ( 'template_autoloader' );
 
+// admin
+//require_once(PLUGIN_ROOT_DIR.'/admin/admin.php');
+//require_once(PLUGIN_ROOT_DIR.'/admin/RunnerAdmin.php');
+
+// ctps
 require_once(PLUGIN_ROOT_DIR.'/cpt/LeagueCpt.php');
 
+// 
 require_once(PLUGIN_ROOT_DIR.'/classes/Standard.class.php');
 
 ?>

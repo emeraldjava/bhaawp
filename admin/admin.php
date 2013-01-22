@@ -5,7 +5,7 @@ class BhaaAdmin
 	var $import;
 	var $raceAdmin;
 		
-	function BhaaAdmin()
+	function __construct()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
 				
@@ -16,8 +16,6 @@ class BhaaAdmin
 		$this->import = new BhaaImport();
 			
 		//add_action('admin_init',array($this->raceAdmin,'init'));
-	
-
 		add_action( 'admin_menu', array(&$this,'bhaa_admin_plugin_menu') );
 		add_action( 'admin_init', array(&$this,'register_bhaa_options') );
 	}
@@ -54,3 +52,4 @@ class BhaaAdmin
 		<?php 		
 	}
 }
+?>

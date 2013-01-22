@@ -12,7 +12,7 @@ class BhaaLoader
 {
 	var $version = '2013.01.22';
 	
-	var $admin;
+	//var $admin;
 	var $connection;
 	
 	var $event;
@@ -33,8 +33,8 @@ class BhaaLoader
 	
 	function __construct()
 	{
-		global $wpdb;
-		$wpdb->show_errors();
+		//global $wpdb;
+		//$wpdb->show_errors();
 		//$this->loadOptions();
 		$this->defineConstants();
 		//$this->loadTextdomain();
@@ -51,7 +51,9 @@ class BhaaLoader
 			register_uninstall_hook(__FILE__, array('BhaaLoader', 'uninstall'));
 			
 			require_once (dirname (__FILE__) . '/admin/admin.php');
-			$this->admin = new BhaaAdmin();
+			new BhaaAdmin();
+			require_once (dirname (__FILE__) . '/admin/RunnerAdmin.php');
+			new RunnerAdmin();
 		}
 		else 
 		{
@@ -114,8 +116,8 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		require_once (dirname (__FILE__) . '/classes/raceday.class.php');
 		$this->raceday = new RaceDay();
 		
-		require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
-		$this->rrw = new RaceResult_Widget();
+		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
+		//$this->rrw = new RaceResult_Widget();
 		//add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
 		
 		// Global libraries
@@ -276,61 +278,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		delete_option( 'bhaa_widget' );
 		delete_option( 'bhaa' );
 	}
-	
-	function getAdmin()
-	{
-		return $this->admin;
-	}	
 }
-
-if ( !function_exists('wp_new_user_notification') ) :
-/**
- * http://codex.wordpress.org/Function_Reference/get_stylesheet_directory_uri
- * http://plugins.trac.wordpress.org/browser/welcome-email-editor/trunk/sb_welcome_email_editor.php?rev=269474#L57
- * http://blog.avtex.com/2012/03/14/creating-dynamic-html-e-mail-templates-in-wordpress/
- */
-function wp_new_user_notification($user_id, $plaintext_pass = '') {
-	$user = new WP_User($user_id);
-
-	$user_login = stripslashes($user->user_login);
-	$user_email = stripslashes($user->user_email);
-
-	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
-	// we want to reverse this for the plain text arena of emails.
-	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-
-	$message  = sprintf(__('New user registration on your site %s:'), $blogname) . "\r\n\r\n";
-	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
-	$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
-
-	@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), $blogname), $message);
-
-	if ( empty($plaintext_pass) )
-		return;
-
-	//Get e-mail template
-	//$message_template = file_get_contents(ABSPATH.'/wp-content/themes/yourthemefolder/email_templates/new_user.html');
-	$path = get_stylesheet_directory_uri();
-	error_log("path ".$path);
-	$message_template = file_get_contents(get_stylesheet_directory_uri().'/new_user.html');
-
-	// get_stylesheet_directory() 
-	//replace placeholders with user-specific content
-	$sw_year = date('Y');
-	$message = str_ireplace('[style]',get_stylesheet_directory_uri(), $message_template);
-	$message = str_ireplace('[template]',get_stylesheet_directory_uri(), $message);
-	$message = str_ireplace('[username]',$user_login, $message);
-	$message = str_ireplace('[password]',$plaintext_pass, $message);
-	$message = str_ireplace('[year]',$sw_year, $message);
-
-	//Prepare headers for HTML
-	$headers  = 'MIME-Version: 1.0' . "\r\n";
-	$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-	$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
-	//Send user notification email
-	wp_mail($user_email, 'BHAA Registered User', $message, $headers);
-}
-endif;
 
 // Run the Plugin
 global $loader;
