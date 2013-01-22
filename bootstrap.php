@@ -19,5 +19,6 @@ require_once(PLUGIN_ROOT_DIR.'/cpt/LeagueCpt.php');
 
 // 
 require_once(PLUGIN_ROOT_DIR.'/classes/Standard.class.php');
+require_once(PLUGIN_ROOT_DIR.'/classes/StandardCalculator.php');
 
 ?>

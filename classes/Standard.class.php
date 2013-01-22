@@ -2,7 +2,7 @@
 
 class Standard
 {
-	protected $standard;
+	public $standard;
 	protected $slopefactor;
 	protected $oneKmTimeInSecs;
 	protected $oneKmTimeInSecs2010;
