@@ -6,7 +6,7 @@ class Event
 {
 	const ANNUAL_MEMBERSHIP = 'Annual Membership';
 	const DAY_MEMBER_TICKET = 'Day Member Ticket';
-	const BHAA_MEMBER_TICKET = 'Member Ticket';
+	const BHAA_MEMBER_TICKET = 'BHAA Member Ticket';
 	
 	function Event() {
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
