@@ -5,13 +5,11 @@ class Standard
 	public $standard;
 	protected $slopefactor;
 	protected $oneKmTimeInSecs;
-	protected $oneKmTimeInSecs2010;
 
-	function __construct($standard,$slopefactor,$oneKmTimeInSecs,$oneKmTimeInSecs2010) {
+	function __construct($standard,$slopefactor,$oneKmTimeInSecs) {
 		$this->standard = (int) $standard;
 		$this->slopefactor = (float) $slopefactor;
 		$this->oneKmTimeInSecs = (float) $oneKmTimeInSecs;
-		$this->oneKmTimeInSecs2010 = (float) $oneKmTimeInSecs2010;
 	}
 
 	function toString()
