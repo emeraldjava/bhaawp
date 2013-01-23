@@ -76,6 +76,8 @@ class BhaaImport
 			$this->deleteForum();
 		elseif($_GET['action']=='linkRunnersToHouses')
 			$this->linkRunnersToHouses();
+// 		elseif($_GET['action']=='importStandards')
+// 			$this->importStandards();
 		else
 			$this->greet();
 		$this->footer();
@@ -114,6 +116,7 @@ class BhaaImport
 			<a href="admin.php?import=bhaa&action=posts">Import BHAA Posts</a> - 
 				<a href="admin.php?import=bhaa&action=deleteForum">Delete Forum</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=linkRunnersToHouses">Link runners to houses</a><br/>';
+		//echo '<a href="admin.php?import=bhaa&action=importStandards">Import Standards</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -215,24 +218,26 @@ class BhaaImport
         	{
         		$password = wp_hash_password($user->id);
         		$this->insertUser($user->id,$name,$password,$user->email);
+        		
+        		// http://codex.wordpress.org/Function_Reference/wp_insert_user
+        		$id = wp_insert_user(array(
+        				'ID'            => $user->id,
+        				'user_login'    => $name,// strtolower(mysql_real_escape_string($user->firstname.'.'.$user->surname)),// $user->email,
+        				//'user_pass' => wp_hash_password($user->id),
+        				//'user_nicename' => $user->email,
+        				// ''user_url
+        				'user_email'    => $user->email,
+        				'nickname' => $user->firstname.' '.$user->surname,
+        				'display_name'=> $user->firstname.' '.$user->surname,
+        				'first_name' => $user->firstname,
+        				'last_name'=> $user->surname
+        				//	    'user_registered' => 'NOW()'
+        		));
         	}
 			else
 				error_log('update meta data only '.$wpuser->ID);
 			
-        	// http://codex.wordpress.org/Function_Reference/wp_insert_user
-        	$id = wp_insert_user(array(
-        	        'ID'            => $user->id,
-        		    'user_login'    => $name,// strtolower(mysql_real_escape_string($user->firstname.'.'.$user->surname)),// $user->email,
-        			//'user_pass' => wp_hash_password($user->id),
-        		    //'user_nicename' => $user->email,
-        			// ''user_url
-        		    'user_email'    => $user->email,
-        			'nickname' => $user->firstname.' '.$user->surname,
-        			'display_name'=> $user->firstname.' '.$user->surname,
-        			'first_name' => $user->firstname,
-        			'last_name'=> $user->surname
-        	//	    'user_registered' => 'NOW()'
-				));
+
 								
 			if ( is_wp_error($id) )
 			{
@@ -285,13 +290,16 @@ class BhaaImport
 			//         	dateofrenewal
 			if(isset($user->dateofrenewal))
 				update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFRENEWAL, $user->dateofrenewal);
+			// standard
+			if(isset($user->standard))
+				update_user_meta( $id, Runner::BHAA_RUNNER_STANDARD, $user->standard);
 			
-			$msg = $id.' '.$name;//.' '.$user->companyname;
+			$msg = $id.' '.$name.' '.$user->standard;
 			echo '<p>'.$msg.'</p>';
 			error_log($msg);
 			
-			$u = new WP_User( $id );
-			$u->add_role( 'subscriber' );
+			//$u = new WP_User( $id );
+			//$u->add_role( 'subscriber' );
         }
 	}
 
@@ -623,7 +631,8 @@ class BhaaImport
     			address3,
     			status,
     			insertdate,
-    			dateofrenewal
+    			dateofrenewal,
+    			standard
     		FROM runner ';
     	
     	$db = $this->getBhaaDB();
