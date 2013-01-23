@@ -3,7 +3,42 @@ class LeagueCpt
 {
 	function __construct()
 	{
-		add_action( 'init', array(&$this,'registerLeagueCPT'));
+		add_action('init',array(&$this,'registerLeagueCPT'));
+		add_action('init',array(&$this,'league_actions'),11);
+		add_filter('post_row_actions', array(&$this,'post_row_actions'), 0, 2);
+	}
+	
+	/**
+	 * http://wordpress.stackexchange.com/questions/8481/custom-post-row-actions
+	 * http://wordpress.org/support/topic/trying-to-add-custom-post_row_actions-for-custom-post-status
+	 * http://wordpress.stackexchange.com/questions/14973/row-actions-for-custom-post-types
+	 * http://wordpress.org/support/topic/replacement-for-post_row_actions
+	 * http://www.ilovecolors.com.ar/saving-custom-fields-quick-bulk-edit-wordpress/
+	 */
+	
+	function post_row_actions($actions, $post) {
+		$actions = array_merge($actions, array(
+			'update_league' => sprintf('<a href="%s">Update League</a>', 
+				wp_nonce_url(sprintf('edit.php?post_type=league&action=bhaa_update_league_post&post_id=%d', $post->ID),
+				'bhaa'))
+		));
+		return $actions;
+	}
+
+	/**
+	 * Filters for specific cpt actions.
+	 */
+	function league_actions()
+	{
+		if ( $_REQUEST['action'] == 'bhaa_update_league_post')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+		{
+			$id = $_GET['post_id'];
+			$action = $_GET['action'];
+			$my_post = get_post($id);
+			error_log('league_actions : '.$id.' '.$action.' '.print_r($my_post));	
+			wp_redirect(wp_get_referer()); 
+			exit();
+		}
 	}
 	
 	//
