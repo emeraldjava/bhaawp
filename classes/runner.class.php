@@ -59,5 +59,21 @@ class Runner
 	const BHAA_RUNNER_GENDER = 'bhaa_runner_gender';
 	const MAN = 'M';
 	const WOMAN = 'W';
+	
+	const BHAA_RUNNER_STANDARD = 'bhaa_runner_standard';
+	
+// 	function em_user_action_links( $actions, $user ){
+// 		if ( !is_network_admin() && current_user_can( 'manage_others_bookings' ) ){
+// 			if( get_option('dbem_edit_bookings_page') && (!is_admin() || !empty($_REQUEST['is_public'])) ){
+// 				$my_bookings_page = get_permalink(get_option('dbem_edit_bookings_page'));
+// 				$bookings_link = em_add_get_params($my_bookings_page, array('person_id'=>$user->ID), false);
+// 			}else{
+// 				$bookings_link = EM_ADMIN_URL. "&page=events-manager-bookings&person_id=".$user->ID;
+// 			}
+// 			$actions['bookings'] = "<a href='$bookings_link'>" . __( 'Bookings','dbem' ) . "</a>";
+// 		}
+// 		return $actions;
+// 	}
+// 	//add_filter('user_row_actions','em_user_action_links',10,2);
 }
 ?>
