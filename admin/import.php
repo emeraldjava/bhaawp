@@ -76,8 +76,8 @@ class BhaaImport
 			$this->deleteForum();
 		elseif($_GET['action']=='linkRunnersToHouses')
 			$this->linkRunnersToHouses();
-// 		elseif($_GET['action']=='importStandards')
-// 			$this->importStandards();
+ 		elseif($_GET['action']=='importStandards')
+ 			$this->importStandards();
 		else
 			$this->greet();
 		$this->footer();
@@ -116,7 +116,7 @@ class BhaaImport
 			<a href="admin.php?import=bhaa&action=posts">Import BHAA Posts</a> - 
 				<a href="admin.php?import=bhaa&action=deleteForum">Delete Forum</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=linkRunnersToHouses">Link runners to houses</a><br/>';
-		//echo '<a href="admin.php?import=bhaa&action=importStandards">Import Standards</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=importStandards">Import Standards</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -301,6 +301,32 @@ class BhaaImport
 			//$u = new WP_User( $id );
 			//$u->add_role( 'subscriber' );
         }
+	}
+	
+	/**
+	 * http://localhost/wp-admin/admin.php?import=bhaa&action=importStandards&min=5000&max=6000
+	 */
+	function importStandards()
+	{
+		$select = 'SELECT id, status, dateofrenewal, standard FROM runner ';
+		$db = $this->getBhaaDB();
+		if($this->min!=0||$this->max!=100)
+		$sql = $db->prepare($select.'where id>=%d and id<=%d order by id',$this->min,$this->max);
+		echo '<p>'.$sql.'</p>';
+		error_log($sql);
+		require_once( ABSPATH . 'wp-includes/user.php' );
+		$users = $db->get_results($sql);
+		foreach($users as $user)
+		{
+			error_log($user->id.', Std:'.$user->standard.', D:'.$user->dateofrenewal.'. S:'.$user->status);
+			
+			if(isset($user->dateofrenewal))
+				update_user_meta( $user->id, Runner::BHAA_RUNNER_STATUS, $user->status);
+			if(isset($user->dateofrenewal))
+				update_user_meta( $user->id, Runner::BHAA_RUNNER_DATEOFRENEWAL, $user->dateofrenewal);
+			if(isset($user->standard))
+				update_user_meta( $user->id, Runner::BHAA_RUNNER_STANDARD, $user->standard);
+		}
 	}
 
 	function importStories()
