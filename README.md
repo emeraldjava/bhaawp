@@ -70,7 +70,7 @@ A summary of the bhaa tables used
 
 ## TeamResult
 
-Single Row Per Team, the ID will be FK linked back to the RaceResult
+Ideally a single row per team result, the ID will be FK linked back to the RaceResult so three runners link to the same team.
 
 <table>
 <tr>
@@ -113,6 +113,7 @@ Single Row Per Team, the ID will be FK linked back to the RaceResult
 						
 ## LeagueSummary
 
+Should handle individual and team league. Might be difficult with new team league format.
 Same as existing but maintain a summary of the runners league results in a json format.
 
 <table>
