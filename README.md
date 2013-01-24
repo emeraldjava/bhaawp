@@ -44,23 +44,27 @@ A summary of the bhaa tables used
 </tr>
 <tr>
     <td>standard</td>
-    <td></td>
+    <td>standard entering the race - use for team standard</td>
+</tr>
+<tr>
+    <td>postracestandard</td>
+    <td>standard afterwards</td>
 </tr>
 <tr>
     <td>class</td>
-    <td>RAN | RACE_ORG</td>
+    <td>RAN | RACE_ORG | PRE_PAID : The registration app should really insert a row here, this row is updated then with results.</td>
 </tr>
 <tr>
     <td>company</td>
-    <td>The id of the house from which the company name will be displayed</td>
+    <td>The id of the house from which the company name will be displayed.</td>
 </tr>
 <tr>
     <td>teamresult?</td>
-    <td>The id of the team result table to indicate this runner was member of a scoreing team</td>
+    <td>Foreign ket to the id of the team result table to indicate this runner was member of a scoreing team. Bmcl - Should we drop this column and use  teamresult Not sure how </td>
 </tr>
 <tr>
     <td>leaguepoints?</td>
-    <td>The league points this runner earned</td>
+    <td>The league points this runner earned. BMcL : should we move all league data to a seperate table?</td>
 </tr>
 </table>		
 
@@ -71,7 +75,7 @@ Single Row Per Team, the ID will be FK linked back to the RaceResult
 <table>
 <tr>
     <td>id</td>
-    <th>The unique id</th>
+    <th>The unique id, or a foreign key to the raceresult.id?</th>
 </tr>
 <tr>
     <td>team</td>
@@ -79,7 +83,7 @@ Single Row Per Team, the ID will be FK linked back to the RaceResult
 </tr>
 <tr>
     <td>race</td>
-    <td>the race this result was achieved at</td>
+    <td>the race this result was achieved at - duplicate?</td>
 </tr>
 <tr>
     <td>league</td>
