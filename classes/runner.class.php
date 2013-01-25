@@ -64,7 +64,8 @@ class Runner
 	
 	function __construct()
 	{
-		add_filter('user_row_actions',array( &$this,'runner_renew_link'),10,2);
+		add_filter('user_row_actions',array( &$this,'bhaa_runner_renew_link'),10,2);
+		add_action('init',array(&$this,'bhaa_runner_renew_action'),11);
 	}
 	
 	// USER SEARCH
@@ -81,13 +82,28 @@ class Runner
 	 * @param unknown $user
 	 * @return string
 	 */
-	function runner_renew_link( $actions, $user ){
+	function bhaa_runner_renew_link( $actions, $user ){
 		if ( current_user_can('manage_options') ) {
 			//$bookings_link = em_add_get_params($my_bookings_page, array('person_id'=>$user->ID), false);
-			$bookings_link = EM_ADMIN_URL. "&page=renew&id=".$user->ID;
+			$bookings_link = EM_ADMIN_URL. "&action=bhaa_runner_renew&id=".$user->ID;
 			$actions['renew'] = "<a href='$bookings_link'>" . __( 'Renew','bhaa' ) . "</a>";
 		}
 		return $actions;
+	}
+	
+	/**
+	 * Renew action
+	 */
+	function bhaa_runner_renew_action()
+	{
+		if ( $_REQUEST['action'] == 'bhaa_runner_renew')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+		{
+			$id = $_GET['id'];
+			$action = $_GET['action'];
+			error_log('bhaa_runner_renew : '.$id.' '.$action);
+			wp_redirect(wp_get_referer());
+			exit();
+		}
 	}
 }
 ?>
