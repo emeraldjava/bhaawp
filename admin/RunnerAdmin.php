@@ -4,29 +4,29 @@ class RunnerAdmin
 	function __construct()
 	{
 		// display the admin status column
-		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
-		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
+		//add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
+		//add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
 	}
 	
 	/**
 	 * handle the custom admin columns
 	 */
-	function bhaa_manage_users_columns( $column ) {
-		$column['status'] = __('Status', 'status');
-		return $column;
-	}
+// 	function bhaa_manage_users_columns( $column ) {
+// 		$column['status'] = __('Status', 'status');
+// 		return $column;
+// 	}
 	
-	function bhaa_manage_users_custom_column( $val, $column_name, $user_id )
-	{
-		$user = get_userdata( $user_id );
-		switch ($column_name) {
-			case 'status' :
-				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true);
-				break;
-			default:
-		}
-		return $return;
-	}
+// 	function bhaa_manage_users_custom_column( $val, $column_name, $user_id )
+// 	{
+// 		$user = get_userdata( $user_id );
+// 		switch ($column_name) {
+// 			case 'status' :
+// 				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true);
+// 				break;
+// 			default:
+// 		}
+// 		return $return;
+// 	}
 	
 // 	/**
 // 	 * http://codex.wordpress.org/Function_Reference/get_posts

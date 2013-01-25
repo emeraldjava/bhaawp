@@ -32,6 +32,16 @@
  CIMY
  http://wordpress.org/extend/plugins/cimy-user-extra-fields/developers/
  http://blog.ftwr.co.uk/archives/2009/07/19/adding-extra-user-meta-fields/
+ 
+ 	// USER SEARCH
+	
+	// widget - http://plugins.svn.wordpress.org/advanced-search-widget/tags/0.2/advanced-search-widget.php
+	
+	// http://wp.smashingmagazine.com/2012/06/05/front-end-author-listing-user-search-wordpress/
+//	http://maorchasen.com/blog/2012/09/19/using-wp_user_query-to-get-a-user-by-display_name/
+//  http://www.tomauger.com/2012/tips-and-tricks/expanded-user-search-in-wordpress	
+
+
  */
 class Runner
 {	
@@ -64,17 +74,33 @@ class Runner
 	
 	function __construct()
 	{
+		// display the admin status column
+		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
+		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
+		
 		add_filter('user_row_actions',array( &$this,'bhaa_runner_renew_link'),10,2);
 		add_action('init',array(&$this,'bhaa_runner_renew_action'),11);
 	}
+		
+	/**
+	 * handle the custom admin columns
+	 */
+	function bhaa_manage_users_columns( $column ) {
+		$column['status'] = __('Status', 'status');
+		return $column;
+	}
 	
-	// USER SEARCH
-	
-	// widget - http://plugins.svn.wordpress.org/advanced-search-widget/tags/0.2/advanced-search-widget.php
-	
-	// http://wp.smashingmagazine.com/2012/06/05/front-end-author-listing-user-search-wordpress/
-//	http://maorchasen.com/blog/2012/09/19/using-wp_user_query-to-get-a-user-by-display_name/
-//  http://www.tomauger.com/2012/tips-and-tricks/expanded-user-search-in-wordpress	
+	function bhaa_manage_users_custom_column( $val, $column_name, $user_id )
+	{
+		$user = get_userdata( $user_id );
+		switch ($column_name) {
+			case 'status' :
+				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true).' '.get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFRENEWAL,true);
+				break;
+			default:
+		}
+		return $return;
+	}
 	
 	/**
 	 * Add a renew link
@@ -96,7 +122,7 @@ class Runner
 	 */
 	function bhaa_runner_renew_action()
 	{
-		if ( $_REQUEST['action'] == 'bhaa_runner_renew')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+		if ( $_REQUEST['action'] == 'bhaa_runner_renew')
 		{
 			$id = $_GET['id'];
 			$action = $_GET['action'];
