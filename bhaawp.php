@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.01.22
+Version: 2013.01.25
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BhaaLoader
 {
-	var $version = '2013.01.22';
+	var $version = '2013.01.25';
 	
 	//var $admin;
 	var $connection;
@@ -49,11 +49,7 @@ class BhaaLoader
 		{
 			register_activation_hook(__FILE__, array('BhaaLoader', 'activate') );
 			register_uninstall_hook(__FILE__, array('BhaaLoader', 'uninstall'));
-			
-			require_once (dirname (__FILE__) . '/admin/admin.php');
 			new BhaaAdmin();
-			require_once (dirname (__FILE__) . '/admin/RunnerAdmin.php');
-			new RunnerAdmin();
 		}
 		else 
 		{
@@ -109,7 +105,6 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		require_once (dirname (__FILE__) . '/classes/teamresulttable.class.php');
 		$this->teamresult = new TeamResult();
 		
-		require_once (dirname (__FILE__) . '/classes/runner.class.php');
 		$this->runner = new Runner();
 		require_once (dirname (__FILE__) . '/classes/event.class.php');
 		$this->event = new Event();

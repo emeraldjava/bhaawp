@@ -11,13 +11,13 @@ define( 'PLUGIN_ROOT_DIR' , dirname(__FILE__) );//plugin_dir_path( __FILE__ ) );
 //spl_autoload_register ( 'template_autoloader' );
 
 // admin
-//require_once(PLUGIN_ROOT_DIR.'/admin/admin.php');
-//require_once(PLUGIN_ROOT_DIR.'/admin/RunnerAdmin.php');
+require_once(PLUGIN_ROOT_DIR.'/admin/admin.php');
 
 // ctps
 require_once(PLUGIN_ROOT_DIR.'/cpt/LeagueCpt.php');
 
-// 
+// classes
+require_once(PLUGIN_ROOT_DIR.'/classes/Runner.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/Standard.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/StandardCalculator.php');
 
