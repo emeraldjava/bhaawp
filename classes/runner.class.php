@@ -62,18 +62,32 @@ class Runner
 	
 	const BHAA_RUNNER_STANDARD = 'bhaa_runner_standard';
 	
-// 	function em_user_action_links( $actions, $user ){
-// 		if ( !is_network_admin() && current_user_can( 'manage_others_bookings' ) ){
-// 			if( get_option('dbem_edit_bookings_page') && (!is_admin() || !empty($_REQUEST['is_public'])) ){
-// 				$my_bookings_page = get_permalink(get_option('dbem_edit_bookings_page'));
-// 				$bookings_link = em_add_get_params($my_bookings_page, array('person_id'=>$user->ID), false);
-// 			}else{
-// 				$bookings_link = EM_ADMIN_URL. "&page=events-manager-bookings&person_id=".$user->ID;
-// 			}
-// 			$actions['bookings'] = "<a href='$bookings_link'>" . __( 'Bookings','dbem' ) . "</a>";
-// 		}
-// 		return $actions;
-// 	}
-// 	//add_filter('user_row_actions','em_user_action_links',10,2);
+	function __construct()
+	{
+		add_filter('user_row_actions',array( &$this,'runner_renew_link'),10,2);
+	}
+	
+	// USER SEARCH
+	
+	// widget - http://plugins.svn.wordpress.org/advanced-search-widget/tags/0.2/advanced-search-widget.php
+	
+	// http://wp.smashingmagazine.com/2012/06/05/front-end-author-listing-user-search-wordpress/
+//	http://maorchasen.com/blog/2012/09/19/using-wp_user_query-to-get-a-user-by-display_name/
+//  http://www.tomauger.com/2012/tips-and-tricks/expanded-user-search-in-wordpress	
+	
+	/**
+	 * Add a renew link
+	 * @param unknown $actions
+	 * @param unknown $user
+	 * @return string
+	 */
+	function runner_renew_link( $actions, $user ){
+		if ( current_user_can('manage_options') ) {
+			//$bookings_link = em_add_get_params($my_bookings_page, array('person_id'=>$user->ID), false);
+			$bookings_link = EM_ADMIN_URL. "&page=renew&id=".$user->ID;
+			$actions['renew'] = "<a href='$bookings_link'>" . __( 'Renew','bhaa' ) . "</a>";
+		}
+		return $actions;
+	}
 }
 ?>
