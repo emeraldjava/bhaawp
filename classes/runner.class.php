@@ -126,20 +126,21 @@ class Runner
 		{
 			$user_id = $_GET['id'];
 			$action = $_GET['action'];
-			$user = get_user_by('id',$user_id);
+			$user = get_userdata($user_id);
 			
 // 			if($user->user_email!=''||$user->user_email!=null)
 // 			{
 // 				$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-// 				$message  = sprintf(__('New user registration on your site %s:'), $blogname) . "\r\n\r\n";
-// 				$message .= sprintf(__('Username: %s'), stripslashes($user->user_login)) . "\r\n\r\n";
-// 				$message .= sprintf(__('E-mail: %s'), stripslashes($user->user_email)) . "\r\n";
+// 				$message  = sprintf(__('Dear %s:'), $user->user_firstname) . "\n";
+// 				$message  = sprintf(__('Your BHAA Membership has been renewed %s:'), $blogname) . "\n";
+// 				//$message .= sprintf(__('Username: %s'), stripslashes($user->user_login)) . "\r\n\r\n";
+// 				//$message .= sprintf(__('E-mail: %s'), stripslashes($user->user_email)) . "\r\n";
 // 				//Prepare headers for HTML
 // 				$headers  = 'MIME-Version: 1.0' . "\r\n";
 // 				$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 // 				$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
 				
-// 				$res = wp_mail($user->user_email, 'BHAA Registered User', $message, $headers);
+// 				$res = wp_mail($user->user_email, 'BHAA Renewal : '.$user->user_firstname." ".$user->user_lastname , $message, $headers);
 // 				error_log('email sent ? '.$res);
 // 			}
 
