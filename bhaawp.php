@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.01.25
+Version: 2013.01.29
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
-class BhaaLoader
+class BHAA
 {
-	var $version = '2013.01.25';
+	var $version = '2013.01.29';
 	
 	//var $admin;
 	var $connection;
@@ -26,10 +26,6 @@ class BhaaLoader
 	
 	var $raceday;
 	
-	function BhaaLoader()
-	{
-		$this->__construct();
-	}
 	
 	function __construct()
 	{
@@ -84,16 +80,16 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		
 		require_once (dirname (__FILE__) . '/bootstrap.php');
 		new LeagueCpt();
+		new RaceCpt();
 		
 		// classes
 		require_once (dirname (__FILE__) . '/classes/connection.class.php');
 		$this->connection = new Connection();
 		require_once (dirname (__FILE__) . '/classes/house.class.php');
 		$this->house = new House();
-		require_once (dirname (__FILE__) . '/classes/race.class.php');
+
 		$this->race = new Race();
-		//require_once (dirname (__FILE__) . '/classes/league.class.php');
-		//$this->league = new League();
+
 		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
 		require_once (dirname (__FILE__) . '/classes/raceresulttable.class.php');
 		$this->raceresult = new RaceResult();
@@ -276,6 +272,6 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 }
 
 // Run the Plugin
-global $loader;
-$loader = new BhaaLoader();
+global $BHAA;
+$BHAA = new BHAA();
 ?>
