@@ -7,10 +7,10 @@ class RaceCpt
 	const BHAA_RACE_UNIT = 'bhaa_race_unit';
 	const BHAA_RACE_TYPE = 'bhaa_race_type';
 
-	const BHAA_RACE_ACTION = 'bhaa_race_action';
-	const BHAA_RACE_RELOAD = 'bhaa_race_reload';
-	const BHAA_RACE_DELETE = 'bhaa_race_delete';
-	const BHAA_RACE_CALC = 'bhaa_race_calc';
+	//const BHAA_RACE_ACTION = 'bhaa_race_action';
+	//const BHAA_RACE_RELOAD = 'bhaa_race_reload';
+	//const BHAA_RACE_DELETE = 'bhaa_race_delete';
+	//const BHAA_RACE_CALC = 'bhaa_race_calc';
 
 	/**
 	 * https://github.com/emeraldjava/tmp-bmx/blob/master/controllers/events_controller.php
@@ -167,11 +167,11 @@ class RaceCpt
 		$type = get_post_custom_values(RaceCpt::BHAA_RACE_TYPE, $post->ID);
 		print '<p>Type <input type="text" name="'.BHAA_RACE_TYPE.'" value="'.$type[0].'" /></p>';
 
-		print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_RELOAD.'">'.RaceCpt::BHAA_RACE_RELOAD.'</input><br/>';
-		print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_DELETE.'">'.RaceCpt::BHAA_RACE_DELETE.'</input><br/>';
-		print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_CALC.'">'.RaceCpt::BHAA_RACE_CALC.'</input><br/>';
+		//print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_RELOAD.'">'.RaceCpt::BHAA_RACE_RELOAD.'</input><br/>';
+		//print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_DELETE.'">'.RaceCpt::BHAA_RACE_DELETE.'</input><br/>';
+		//print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_CALC.'">'.RaceCpt::BHAA_RACE_CALC.'</input><br/>';
 			
-		print '<p>Last Action : '.$_SESSION['message'].'</p>';
+		//print '<p>Last Action : '.$_SESSION['message'].'</p>';
 	}
 
 	/**
@@ -203,15 +203,15 @@ class RaceCpt
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_TYPE, $_POST[RaceCpt::BHAA_RACE_TYPE] );
 		}
 
-		if ( !empty($_POST[RaceCpt::BHAA_RACE_ACTION]) )
-		{
-			$_SESSION['message'] = $_POST[RaceCpt::BHAA_RACE_ACTION].' Called';
-			error_log("race action ".$_POST[RaceCpt::BHAA_RACE_ACTION].' -> '.$post_id);
+		//if ( !empty($_POST[RaceCpt::BHAA_RACE_ACTION]) )
+		//{
+			//$_SESSION['message'] = $_POST[RaceCpt::BHAA_RACE_ACTION].' Called';
+			//error_log("race action ".$_POST[RaceCpt::BHAA_RACE_ACTION].' -> '.$post_id);
 			//error_log('get_the_content() '.get_post($post_id)->post_content);
 			//$this->raceresult->processRaceResults(get_post($post_id)->post_content);
 			//$this->raceresult->deleteRaceResults($post_id);
 			//$this->insert_csv_action(RaceCpt::BHAA_RACE_RESULTS_RELOAD,$_POST[RaceCpt::BHAA_RACE_RESULTS_RELOAD]);
-		}
+		//}
 	}
 }
 ?>
