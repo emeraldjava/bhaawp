@@ -84,18 +84,16 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		
 		new LeagueCpt();
 		new RaceCpt();
+		new HouseCpt();
 		
 		// classes
-		require_once (dirname (__FILE__) . '/classes/house.class.php');
-		$this->house = new House();
-
-		$this->race = new Race();
+		//$this->race = new Race();
 
 		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
 		require_once (dirname (__FILE__) . '/classes/raceresulttable.class.php');
 		$this->raceresult = new RaceResult();
 		
-		$this->race->raceresult = $this->raceresult;
+		//$this->race->raceresult = $this->raceresult;
 		
 		// team results
 		require_once (dirname (__FILE__) . '/classes/teamresult.class.php');

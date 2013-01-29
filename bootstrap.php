@@ -14,6 +14,7 @@ define( 'PLUGIN_ROOT_DIR' , dirname(__FILE__) );//plugin_dir_path( __FILE__ ) );
 require_once(PLUGIN_ROOT_DIR.'/admin/admin.php');
 
 // ctps
+require_once(PLUGIN_ROOT_DIR.'/cpt/HouseCpt.php');
 require_once(PLUGIN_ROOT_DIR.'/cpt/LeagueCpt.php');
 require_once(PLUGIN_ROOT_DIR.'/cpt/RaceCpt.php');
 
