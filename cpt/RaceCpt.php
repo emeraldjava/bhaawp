@@ -1,7 +1,7 @@
 <?php
 class RaceCpt
 {
-	var $raceresult;
+	private $race;
 
 	const BHAA_RACE_DISTANCE = 'bhaa_race_distance';
 	const BHAA_RACE_UNIT = 'bhaa_race_unit';
@@ -36,13 +36,20 @@ class RaceCpt
 		add_filter('manage_race_posts_custom_column',array($this,'bhaa_manage_race_posts_custom_column'), 10, 3 );
 	}
 	
+	function getRace()
+	{
+		if(!isset($this->race))
+			$this->race = new Race();
+		return $this->race;
+	}
+	
 	function bhaa_race_post_row_actions($actions, $post) {
 		
 		if ($post->post_type =="race")
 		{
 			$actions = array_merge($actions, array(
-				'bhaa_race_delete_results' => sprintf('<a href="%s">Delete Results</a>', wp_nonce_url(sprintf('edit.php?post_type=league&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_load_results' => sprintf('<a href="%s">Delete Results</a>', wp_nonce_url(sprintf('edit.php?post_type=league&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa'))
+				'bhaa_race_delete_results' => sprintf('<a href="%s">Delete Results</a>', wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_race_load_results' => sprintf('<a href="%s">Load Results</a>', wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa'))
 			));
 		}
 		return $actions;
@@ -55,19 +62,19 @@ class RaceCpt
 	{
 		if ( $_REQUEST['action'] == 'bhaa_race_delete_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
 		{
-			$id = $_GET['post_id'];
+			$post_id = $_GET['post_id'];
 			$action = $_GET['action'];
-			$my_post = get_post($id);
-			error_log('bhaa_race_delete_results : '.$id.' '.$action.' '.print_r($my_post));	
+			$this->getRace()->deleteResults($post_id);
+			error_log('bhaa_race_delete_results : '.$post_id.' '.$action);	
 			wp_redirect(wp_get_referer()); 
 			exit();
 		}
 		elseif ( $_REQUEST['action'] == 'bhaa_race_load_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
 		{
-			$id = $_GET['post_id'];
+			$post_id = $_GET['post_id'];
 			$action = $_GET['action'];
-			$my_post = get_post($id);
-			error_log('bhaa_race_load_results : '.$id.' '.$action.' '.print_r($my_post));	
+			$this->getRace()->loadResults($post_id);
+			error_log('bhaa_race_load_results : '.$post_id.' '.$action);	
 			wp_redirect(wp_get_referer()); 
 			exit();
 		}
