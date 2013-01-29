@@ -73,8 +73,9 @@ class RaceCpt
 		{
 			$post_id = $_GET['post_id'];
 			$action = $_GET['action'];
-			$this->getRace()->loadResults($post_id);
-			error_log('bhaa_race_load_results : '.$post_id.' '.$action);	
+			$post = get_post($post_id);
+			$this->getRace()->loadResults($post_id,$post->post_content);
+			error_log('bhaa_race_load_results : '.$post_id.' '.$post->post_content);	
 			wp_redirect(wp_get_referer()); 
 			exit();
 		}

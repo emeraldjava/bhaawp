@@ -13,9 +13,9 @@ class Race
 		error_log('deleteResults - '.$id);
 	}
 	
-	function loadResults($id)
+	function loadResults($id,$content)
 	{
-		error_log('loadResults - '.$id);
+		error_log('loadResults - '.$id.' - '.$content);
 	}
 }
 ?>
