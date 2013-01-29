@@ -39,7 +39,7 @@ class BHAA
 		//add_action( 'widgets_init', array(&$this, 'registerWidget') );
 		// Start this plugin once all other plugins are fully loaded
 		//add_action( 'plugins_loaded', array(&$this, 'initialize') );
-		add_action( 'p2p_init', array(&$this->connection,'bhaa_connection_types'));
+		//add_action( 'p2p_init', array(&$this->connection,'bhaa_connection_types'));
 		
 		if ( is_admin() )
 		{
@@ -79,12 +79,13 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		global $bhaaAJAX;
 		
 		require_once (dirname (__FILE__) . '/bootstrap.php');
+		
+		$this->connection = new Connection();
+		
 		new LeagueCpt();
 		new RaceCpt();
 		
 		// classes
-		require_once (dirname (__FILE__) . '/classes/connection.class.php');
-		$this->connection = new Connection();
 		require_once (dirname (__FILE__) . '/classes/house.class.php');
 		$this->house = new House();
 

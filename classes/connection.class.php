@@ -5,6 +5,11 @@ class Connection
 	const LEAGUE_TO_EVENT = 'league_to_event';
 	const HOUSE_TO_RUNNER = 'house_to_runner';
 	const SECTORTEAM_TO_RUNNER = 'sectorteam_to_runner';
+	
+	function __construct()
+	{
+		add_action( 'p2p_init', array(&$this,'bhaa_connection_types'));
+	}
 		
 	function bhaa_connection_types() {
 		// Make sure the Posts 2 Posts plugin is active.

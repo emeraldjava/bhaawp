@@ -18,6 +18,7 @@ require_once(PLUGIN_ROOT_DIR.'/cpt/LeagueCpt.php');
 require_once(PLUGIN_ROOT_DIR.'/cpt/RaceCpt.php');
 
 // classes
+require_once(PLUGIN_ROOT_DIR.'/classes/connection.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/race.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/Runner.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/Standard.class.php');
