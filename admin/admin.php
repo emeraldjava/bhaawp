@@ -8,11 +8,6 @@ class BhaaAdmin
 	function __construct()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
-				
-		require_once (dirname (__FILE__) . '/race.admin.php');
-		$this->raceAdmin = new RaceAdmin();
-		
-		require_once (dirname (__FILE__) . '/import.php');
 		$this->import = new BhaaImport();
 			
 		//add_action('admin_init',array($this->raceAdmin,'init'));

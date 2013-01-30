@@ -86,15 +86,8 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		new RaceCpt();
 		new HouseCpt();
 		
-		// classes
-		//require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
-		//$this->raceresult = new RaceResult();
+		// table views
 		$this->individualResultTable = new RaceResultTable();
-		//$this->race->raceresult = $this->raceresult;
-		
-		// team results
-		//require_once (dirname (__FILE__) . '/classes/teamresult.class.php');
-		//$this->teamresult = new TeamResult();
 		$this->teamResultTable = new TeamResultTable();
 		
 		$this->runner = new Runner();
@@ -194,7 +187,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$wpdb->importTable = $wpdb->prefix.'bhaa_import';
 	}
 	
-	public static function activate()
+	function activate()
 	{
 		global $wpdb;
 		
@@ -241,7 +234,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		BhaaLoader::run_install_or_upgrade($wpdb->importTable,$importTableSql);
 	}
 	
-	public static function run_install_or_upgrade($table_name, $sql)//, $db_version)
+	function run_install_or_upgrade($table_name, $sql)//, $db_version)
 	{
 		global $wpdb;
 		// Table does not exist, we create it!
@@ -256,7 +249,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		}
 	}
 	
-	public static function uninstall()
+	function uninstall()
 	{	
 		global $wpdb;
 		
