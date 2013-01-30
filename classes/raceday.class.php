@@ -13,7 +13,14 @@ class RaceDay
 	
 	function race_day()
 	{
-		echo "This will be the BHAA race day race number allocation app.";
+		if(is_user_logged_in()||current_user_can('manage_options'))
+		{
+			echo "This will be the BHAA race day race number allocation app.";
+		}
+		else 
+		{
+			echo '<h2>You must be logged in with specific permissions to access this page</h2>';
+		}
 	}
 }
 ?>
