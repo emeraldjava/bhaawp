@@ -43,8 +43,8 @@ class BHAA
 		
 		if ( is_admin() )
 		{
-			register_activation_hook(__FILE__, array('BhaaLoader', 'activate') );
-			register_uninstall_hook(__FILE__, array('BhaaLoader', 'uninstall'));
+			register_activation_hook(__FILE__, array($this, 'bhaa_activate') );
+			register_uninstall_hook(__FILE__, array($this, 'bhaa_uninstall'));
 			new BhaaAdmin();
 		}
 		else 
@@ -187,7 +187,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$wpdb->importTable = $wpdb->prefix.'bhaa_import';
 	}
 	
-	function activate()
+	function bhaa_activate()
 	{
 		global $wpdb;
 		
@@ -209,7 +209,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			class varchar(10),
 			company int(11),
 			PRIMARY KEY (id)";
-		BhaaLoader::run_install_or_upgrade($wpdb->raceresult,$raceResultSql);
+		$this->run_install_or_upgrade($wpdb->raceresult,$raceResultSql);
 		
 		$teamResultSql = "
 			id int(11) NOT NULL AUTO_INCREMENT,
@@ -222,7 +222,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			leaguepoints int(11),
 			status enum('ACTIVE','PENDING'),
 			PRIMARY KEY (id)";
-		BhaaLoader::run_install_or_upgrade($wpdb->teamresult,$teamResultSql);
+		$this->run_install_or_upgrade($wpdb->teamresult,$teamResultSql);
 		
 		$importTableSql = "
 			id int(11) NOT NULL AUTO_INCREMENT,
@@ -231,7 +231,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			new int(11) NOT NULL,
 			old int(11) NOT NULL,
 			PRIMARY KEY (id)";
-		BhaaLoader::run_install_or_upgrade($wpdb->importTable,$importTableSql);
+		$this->run_install_or_upgrade($wpdb->importTable,$importTableSql);
 	}
 	
 	function run_install_or_upgrade($table_name, $sql)//, $db_version)
@@ -249,7 +249,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		}
 	}
 	
-	function uninstall()
+	function bhaa_uninstall()
 	{	
 		global $wpdb;
 		
