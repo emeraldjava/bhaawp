@@ -2,7 +2,7 @@
 
 class StandardCalculator
 {
-	protected $standards;
+	var $standards;
 
 	var $standardTableSql = 'standard int(11) NOT NULL AUTO_INCREMENT,
 		slopefactor double NOT NULL,

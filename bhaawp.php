@@ -235,8 +235,11 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			old int(11) NOT NULL,
 			PRIMARY KEY (id)";
 		$this->run_install_or_upgrade($wpdb->importTable,$importTableSql);
-		
+		// populate the table with the data
 		$this->run_install_or_upgrade($wpdb->standardTable,$this->standardCalculator->standardTableSql);
+		foreach ($this->standardCalculator->standards as $i => $standard) {
+			$wpdb->insert( $wpdb->standardTable, (array)$standard );
+		}
 	}
 	
 	function run_install_or_upgrade($table_name, $sql)//, $db_version)

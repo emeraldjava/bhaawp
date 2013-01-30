@@ -2,9 +2,9 @@
 
 class Standard
 {
-	public $standard;
-	protected $slopefactor;
-	protected $oneKmTimeInSecs;
+	var $standard;
+	var $slopefactor;
+	var $oneKmTimeInSecs;
 
 	function __construct($standard,$slopefactor,$oneKmTimeInSecs) {
 		$this->standard = (int) $standard;
