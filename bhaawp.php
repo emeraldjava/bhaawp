@@ -17,8 +17,8 @@ class BHAA
 	
 	var $event;
 	var $race;
-	var $raceresult;
-	var $teamresult;
+	var $individualResultTable;
+	var $teamResultTable;
 			
 	var $house;
 //	var $league;
@@ -87,18 +87,15 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		new HouseCpt();
 		
 		// classes
-		//$this->race = new Race();
-
-		require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
-		require_once (dirname (__FILE__) . '/classes/raceresulttable.class.php');
-		$this->raceresult = new RaceResult();
-		
+		//require_once (dirname (__FILE__) . '/classes/raceresult.class.php');
+		//$this->raceresult = new RaceResult();
+		$this->individualResultTable = new RaceResultTable();
 		//$this->race->raceresult = $this->raceresult;
 		
 		// team results
-		require_once (dirname (__FILE__) . '/classes/teamresult.class.php');
-		require_once (dirname (__FILE__) . '/classes/teamresulttable.class.php');
-		$this->teamresult = new TeamResult();
+		//require_once (dirname (__FILE__) . '/classes/teamresult.class.php');
+		//$this->teamresult = new TeamResult();
+		$this->teamResultTable = new TeamResultTable();
 		
 		$this->runner = new Runner();
 		$this->event = new Event();
@@ -113,6 +110,16 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		//require_once (dirname (__FILE__) . '/lib/core.php');
 		//require_once (dirname (__FILE__) . '/lib/ajax.php');
  		//$bhaaAjax = new BhaaAjax();		
+	}
+	
+	function getIndividualResultTable()
+	{
+		return $this->individualResultTable;
+	}
+	
+	public function getTeamResultTable()
+	{
+		return $this->teamResultTable;
 	}
 	
 	/**

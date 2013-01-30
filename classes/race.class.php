@@ -5,9 +5,13 @@
  */
 class Race
 {
-	function __construct()
-	{}
+	//var $individualResultTable;
 	
+	function __construct()
+	{
+		//$this->individualResultTable = new RaceResultTable();
+	}
+		
 	function deleteResults($id)
 	{
 		error_log('deleteResults - '.$id);

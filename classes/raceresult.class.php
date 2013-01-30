@@ -13,12 +13,9 @@
  */
 class RaceResult
 {
-	var $table;
-	
 	function RaceResult()
 	{
 		add_action('admin_menu', array(&$this,'race_result_admin_menu'));
-		$this->table = new RaceResultTable();		
 	}
 	
 	function race_result_admin_menu()
@@ -138,11 +135,6 @@ class RaceResult
 		    </tr>
 		    </tbody>
 		</table>';
-	}
-	
-	function getTable()
-	{
-		return $this->table;
 	}
 	
 	const TABLE = 'bhaa_teamresult';
