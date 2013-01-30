@@ -25,7 +25,7 @@ class BHAA
 	var $runner;
 	var $standardCalculator;
 	
-	var $raceday;
+	var $registration;
 	
 	
 	function __construct()
@@ -48,10 +48,7 @@ class BHAA
 			register_uninstall_hook(__FILE__, array($this, 'bhaa_uninstall'));
 			new BhaaAdmin();
 		}
-		else 
-		{
-			$this->addShortCodes();
-		}
+
 		// init, wp_head, wp_enqueue_scripts
 		add_action('init', array($this,'enqueue_scripts_and_style'));
 		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
@@ -77,8 +74,6 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 	 */
 	function loadLibraries()
 	{
-		global $bhaaAJAX;
-		
 		require_once (dirname (__FILE__) . '/bootstrap.php');
 		
 		$this->connection = new Connection();
@@ -93,18 +88,14 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		
 		$this->runner = new Runner();
 		$this->event = new Event();
-		require_once (dirname (__FILE__) . '/classes/raceday.class.php');
-		$this->raceday = new RaceDay();
+		$this->registration = new Registration();
 		
 		$this->standardCalculator = new StandardCalculator();
+		
+		add_shortcode('bhaa_registration', array($this->registration,'registration'));
 		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
 		//$this->rrw = new RaceResult_Widget();
 		//add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
-		
-		// Global libraries
-		//require_once (dirname (__FILE__) . '/lib/core.php');
-		//require_once (dirname (__FILE__) . '/lib/ajax.php');
- 		//$bhaaAjax = new BhaaAjax();		
 	}
 	
 	function getIndividualResultTable()
@@ -169,17 +160,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		//die();
  		exit;
 	}
-	
-	function addShortCodes()
-	{
-		// TODO add short code link for racetec registration form.
-		
-		// register two short codes to have the runner class display the required form fields.
-		//add_shortcode( 'newrunnerform', array($this->runner,'new_runner_form'));
-		//add_shortcode( 'dayrunnerform', array($this->runner,'day_runner_form'));
-		add_shortcode( 'bhaaraceday', array($this->raceday,'race_day'));
-	}
-		
+			
 	function defineConstants()
 	{
 		define('BHAAWP_PATH', plugin_dir_path(__FILE__));

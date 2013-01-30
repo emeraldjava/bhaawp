@@ -27,6 +27,7 @@ require_once(PLUGIN_ROOT_DIR.'/table/raceresulttable.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/connection.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/event.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/race.class.php');
+require_once(PLUGIN_ROOT_DIR.'/classes/Registration.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/runner.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/Standard.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/StandardCalculator.php');

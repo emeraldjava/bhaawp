@@ -6,12 +6,12 @@
  * - http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-improved-user-search-first-name-last-name-email-in-backend/
  * - http://plugins.svn.wordpress.org/improved-user-search-in-backend/tags/1.2.3/improved-user-search-in-backend.php
  */
-class RaceDay
+class Registration
 {
-	function RaceDay()
+	function __construct()
 	{}
 	
-	function race_day()
+	function registration()
 	{
 		if(is_user_logged_in()||current_user_can('manage_options'))
 		{
