@@ -20,6 +20,7 @@ require_once(PLUGIN_ROOT_DIR.'/cpt/RaceCpt.php');
 
 // classes
 require_once(PLUGIN_ROOT_DIR.'/classes/connection.class.php');
+require_once(PLUGIN_ROOT_DIR.'/classes/event.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/race.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/runner.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/Standard.class.php');

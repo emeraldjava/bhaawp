@@ -101,7 +101,6 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$this->teamresult = new TeamResult();
 		
 		$this->runner = new Runner();
-		require_once (dirname (__FILE__) . '/classes/event.class.php');
 		$this->event = new Event();
 		require_once (dirname (__FILE__) . '/classes/raceday.class.php');
 		$this->raceday = new RaceDay();

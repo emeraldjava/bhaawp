@@ -8,7 +8,7 @@ class Event
 	const DAY_MEMBER_TICKET = 'Day Member Ticket';
 	const BHAA_MEMBER_TICKET = 'BHAA Member Ticket';
 	
-	function Event() {
+	function __construct() {
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
