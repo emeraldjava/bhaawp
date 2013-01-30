@@ -21,7 +21,4 @@ license.txt
 /.DS_Store
 /.buildpath
 /.settings
-
-build.xml
-
-build.xml
+/build.properties

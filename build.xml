@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="copy">
+	<property file="build.properties"/>
+	<target name="copy">
+		<echo message="copy"/>
+		<copy todir="todir" overwrite="true" verbose="true">
+			<fileset dir=".">
+				<include name="**/*"/>
+				<exclude name="*.xml"/>
+				<exclude name="\themes\*"/>
+			</fileset>
+		</copy>
+	</target>
+</project>
