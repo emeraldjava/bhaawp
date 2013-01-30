@@ -23,6 +23,7 @@ class BHAA
 	var $house;
 //	var $league;
 	var $runner;
+	var $standardCalculator;
 	
 	var $raceday;
 	
@@ -95,6 +96,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		require_once (dirname (__FILE__) . '/classes/raceday.class.php');
 		$this->raceday = new RaceDay();
 		
+		$this->standardCalculator = new StandardCalculator();
 		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
 		//$this->rrw = new RaceResult_Widget();
 		//add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
@@ -185,6 +187,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$wpdb->raceresult 	= $wpdb->prefix.'bhaa_raceresult';
 		$wpdb->teamresult 	= $wpdb->prefix.'bhaa_teamresult';
 		$wpdb->importTable = $wpdb->prefix.'bhaa_import';
+		$wpdb->standardTable = $wpdb->prefix.'bhaa_standard';
 	}
 	
 	function bhaa_activate()
@@ -232,6 +235,8 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			old int(11) NOT NULL,
 			PRIMARY KEY (id)";
 		$this->run_install_or_upgrade($wpdb->importTable,$importTableSql);
+		
+		$this->run_install_or_upgrade($wpdb->standardTable,$this->standardCalculator->standardTableSql);
 	}
 	
 	function run_install_or_upgrade($table_name, $sql)//, $db_version)
@@ -242,7 +247,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		if ($wpdb->get_var("SHOW TABLES LIKE '".$table_name."'") != $table_name)
 		{
 			$create = "CREATE TABLE ".$table_name." ( ".$sql." ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-	
+			error_log($create);
 			// We use the dbDelta method given by WP!
 			require_once ABSPATH.'wp-admin/includes/upgrade.php';
 			dbDelta($create);

@@ -4,6 +4,11 @@ class StandardCalculator
 {
 	protected $standards;
 
+	var $standardTableSql = 'standard int(11) NOT NULL AUTO_INCREMENT,
+		slopefactor double NOT NULL,
+		oneKmTimeInSecs double NOT NULL,
+		PRIMARY KEY (standard)';
+	
 	function __construct() {
 		$this->standards = array();
 		array_push($this->standards,new Standard(1,0.442101708254709,176.435763853992));
