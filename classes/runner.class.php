@@ -132,8 +132,9 @@ class Runner
  			{
  				$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
  				$message  = sprintf(__('Dear %s:'), $user->user_firstname) . "\n";
- 				$message  = sprintf(__('Your BHAA Membership has been renewed %s:'), $blogname) . "\n";
-				$message  = sprintf(__('You have to option to leave comments and see / manage your own contact details when you login into the website')) . "\n";
+ 				$message  .= sprintf(__('Your BHAA Membership has been renewed by %s:'), $blogname) . "\n";
+ 				$message  .= sprintf(__('Thank you and we look forward to seeing you at the upcoming events.'),'') . "\n";
+				//$message  .= sprintf(__('You have to option to leave comments and see / manage your own contact details when you login into the website')) . "\n";
  				//$message .= sprintf(__('Username: %s'), stripslashes($user->user_login)) . "\r\n\r\n";
  				//$message .= sprintf(__('E-mail: %s'), stripslashes($user->user_email)) . "\r\n";
  				//Prepare headers for HTML
