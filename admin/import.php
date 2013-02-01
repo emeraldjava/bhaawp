@@ -342,8 +342,33 @@ class BhaaImport
 		$teams = $db->get_results($sql);
 		foreach($teams as $team)
 		{
+			
 			$msg = $team->id.', name:'.$team->name.', type:'.$team->type.'. S:'.$team->status.', contact:'.$team->contact;
 			$this->displayAndLog($msg);
+			
+// 			$x = ($team->status=="ACTIVE");
+// 			$this->displayAndLog($x);
+// 			$s = (bool) ($team->type=="S");
+// 			$this->displayAndLog($s);
+				
+			if( ($team->status=="ACTIVE") && ($team->type=="S") )
+			{
+				var_dump($team);
+				
+// 				$term_id = term_exists(HouseCpt::SECTOR_TEAM,HouseCpt::TEAM_TYPE);
+// 				$term_id = intval($term_id);
+				
+// 				$terms = wp_get_object_terms($id, HouseCpt::TEAM_TYPE);
+// 				$terms[] = $term_id;
+				
+				//$term_id = term_exists( HouseCpt::SECTOR_TEAM,HouseCpt::TEAM_TEAM);
+				$res = wp_set_post_terms( $team->id, HouseCpt::SECTOR_TEAM, HouseCpt::TEAM_TYPE,true );
+				var_dump($res);
+			}
+			else
+			{
+				$this->displayAndLog("no match");
+			}
 		}
 	}
 	
