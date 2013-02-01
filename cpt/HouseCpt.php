@@ -141,6 +141,34 @@ class HouseCpt
 				'query_var' => true
 		);
 		register_taxonomy( 'teamtype', array('house'), $args );
+		
+		// register the three types
+		$parent_term = term_exists( 'teamtype', 'house' );
+		$parent_term_id = $parent_term['term_id']; // get numeric term id
+		wp_insert_term(
+			HouseCpt::COMPANY_TEAM, // the term
+			'teamtype', // the taxonomy
+			array(
+				'description'=> 'A company with many runners',
+				'slug' => HouseCpt::COMPANY_TEAM,
+				'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			HouseCpt::SECTOR_TEAM, // the term
+			'teamtype', // the taxonomy
+			array(
+				'description'=> 'Runners from companies in the same sector, limited to 6.',
+				'slug' => HouseCpt::SECTOR_TEAM,
+				'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			HouseCpt::INACTIVE_TEAM, // the term
+			'teamtype', // the taxonomy
+			array(
+				'description'=> 'Holder for houses with inactive teams.',
+				'slug' => HouseCpt::INACTIVE_TEAM,
+				'parent'=> $parent_term_id)
+		);
 	}
 }
 ?>
