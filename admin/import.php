@@ -78,6 +78,8 @@ class BhaaImport
 			$this->linkRunnersToHouses();
  		elseif($_GET['action']=='importStandards')
  			$this->importStandards();
+  		elseif($_GET['action']=='importTeamTypes')
+  			$this->importTeamTypes();
 		else
 			$this->greet();
 		$this->footer();
@@ -117,6 +119,7 @@ class BhaaImport
 				<a href="admin.php?import=bhaa&action=deleteForum">Delete Forum</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=linkRunnersToHouses">Link runners to houses</a><br/>';
 		echo '<a href="admin.php?import=bhaa&action=importStandards">Import Standards</a><br/>';
+		echo '<a href="admin.php?import=bhaa&action=importTeamTypes">Import Team Types</a><br/>';
 		echo '<br/>';
 	}
 	
@@ -328,6 +331,29 @@ class BhaaImport
 				update_user_meta( $user->id, Runner::BHAA_RUNNER_STANDARD, $user->standard);
 		}
 	}
+	
+	function importTeamTypes()
+	{
+		$db = $this->getBhaaDB();
+		$select = 'SELECT id, name, type, contact, status FROM team';
+		$sql = $db->prepare($select);
+		echo '<p>'.$sql.'</p>';
+		error_log($sql);
+		$teams = $db->get_results($sql);
+		foreach($teams as $team)
+		{
+			$msg = $team->id.', name:'.$team->name.', type:'.$team->type.'. S:'.$team->status.', contact:'.$team->contact;
+			$this->displayAndLog($msg);
+		}
+	}
+	
+	function displayAndLog($msg,$display=true,$log=true)
+	{
+		if($display)
+			echo '<p>'.$msg.'</p>';
+		if($log)
+			error_log($msg);
+	}
 
 	function importStories()
 	{
@@ -482,7 +508,7 @@ class BhaaImport
 			//update_post_meta($id,'bhaa_company_id',$company->id);
 			update_post_meta($id,'bhaa_company_website',$company->website);
 			update_post_meta($id,'bhaa_company_image',$company->image);
-			update_post_meta($id,House::BHAA_HOUSE_TYPE,House::COMPANY);
+			//update_post_meta($id,House::BHAA_HOUSE_TYPE,House::COMPANY);
 			$mgs = 'added post '.$id.' for house '.$company->name;
 			echo '<p>'.$mgs.'</p>';
 			error_log($mgs);
@@ -527,10 +553,10 @@ class BhaaImport
 			);
 			// Insert the post into the database
 			$id = wp_insert_post( $my_post );
-			update_post_meta($id,'bhaa_company_id',$team->id);
+			//update_post_meta($id,'bhaa_company_id',$team->id);
 			//update_post_meta($id,'bhaa_company_website',$company->website);
 			//update_post_meta($id,'bhaa_company_image',$company->image);
-			update_post_meta($id,House::BHAA_HOUSE_TYPE,House::SECTORTEAM);
+			//update_post_meta($id,House::BHAA_HOUSE_TYPE,House::SECTORTEAM);
 			$mgs = 'added post '.$id.' for sector team house '.$team->name;
 			echo '<p>'.$mgs.'</p>';
 			error_log($mgs);
