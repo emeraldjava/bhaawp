@@ -153,5 +153,13 @@ class Runner
 			exit();
 		}
 	}
+	
+	/**
+	 * user id - email x_id@bhaa.ie
+	 * $sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";
+	 * select max(id) from wp_users
+	 * 
+		$user_login = str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
+	 */
 }
 ?>

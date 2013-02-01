@@ -342,32 +342,25 @@ class BhaaImport
 		$teams = $db->get_results($sql);
 		foreach($teams as $team)
 		{
-			
 			$msg = $team->id.', name:'.$team->name.', type:'.$team->type.'. S:'.$team->status.', contact:'.$team->contact;
 			$this->displayAndLog($msg);
-			
-// 			$x = ($team->status=="ACTIVE");
-// 			$this->displayAndLog($x);
-// 			$s = (bool) ($team->type=="S");
-// 			$this->displayAndLog($s);
-				
 			if( ($team->status=="ACTIVE") && ($team->type=="S") )
 			{
-				var_dump($team);
-				
-// 				$term_id = term_exists(HouseCpt::SECTOR_TEAM,HouseCpt::TEAM_TYPE);
-// 				$term_id = intval($term_id);
-				
-// 				$terms = wp_get_object_terms($id, HouseCpt::TEAM_TYPE);
-// 				$terms[] = $term_id;
-				
-				//$term_id = term_exists( HouseCpt::SECTOR_TEAM,HouseCpt::TEAM_TEAM);
 				$res = wp_set_post_terms( $team->id, HouseCpt::SECTOR_TEAM, HouseCpt::TEAM_TYPE,true );
-				var_dump($res);
 			}
-			else
+			elseif( ($team->status=="ACTIVE") && ($team->type=="C") )
 			{
-				$this->displayAndLog("no match");
+				$res = wp_set_post_terms( $team->id, HouseCpt::COMPANY_TEAM, HouseCpt::TEAM_TYPE,true );
+			}
+			
+			if($team->contact!='' || $team->contact != NULL)
+			{
+				$res = p2p_type(Connection::TEAM_CONTACT)->connect(
+					$team->id,
+					$team->contact,
+					array('date' => current_time('mysql'))
+				);
+				$this->displayAndLog('Team contact '.$team->id.','.$team->contact);
 			}
 		}
 	}
@@ -905,42 +898,47 @@ class BhaaImport
 		
 		$users = $this->getRunnerTeamDetails();
 		
+		$connection = new Connection();
 		foreach($users as $user)
 		{
 			$count++;
 			// company team runner
 			if($user->type=="C")// $user->company == $user->team)
 			{
-				$res = p2p_type(Connection::HOUSE_TO_RUNNER)->connect(
-					$user->company,
-					$user->runner,
-					array('date' => current_time('mysql'))
-				);
+				$res = $connection->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$user->company,$user->runner);
+// 				$res = p2p_type(Connection::HOUSE_TO_RUNNER)->connect(
+// 					$user->company,
+// 					$user->runner,
+// 					array('date' => current_time('mysql'))
+// 				);
 				if ( is_wp_error($res) )
-					error_log($res->get_error_message());
+					$this->displayAndLog($res->get_error_message());
 				else
-					error_log($res.' Company '.$user->runner.' '.$user->companyname.' '.$user->teamname);
+					$this->displayAndLog($res.' Company '.$user->runner.' '.$user->companyname.' '.$user->teamname);
 			}
 			else
 			{
+				
 				// link the sector team runner to both
-				$re = p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
-					$user->company,
-					$user->runner,
-					array('date' => current_time('mysql'))
-				);
+				$res = $connection->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$user->company,$user->runner);
+// 				$re = p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
+// 					$user->company,
+// 					$user->runner,
+// 					array('date' => current_time('mysql'))
+// 				);
 				if ( is_wp_error($re) )
-					error_log($re->get_error_message());
+					$this->displayAndLog($re->get_error_message());
 
-				$res = p2p_type(Connection::SECTORTEAM_TO_RUNNER)->connect(
-					$user->team,
-					$user->runner,
-					array('date' => current_time('mysql'))
-				);
+				$res = $connection->updateRunnersHouse(Connection::SECTORTEAM_TO_RUNNER,$user->team,$user->runner);
+// 				$res = p2p_type(Connection::SECTORTEAM_TO_RUNNER)->connect(
+// 					$user->team,
+// 					$user->runner,
+// 					array('date' => current_time('mysql'))
+// 				);
 				if ( is_wp_error($res) )
-					error_log($res->get_error_message());
+					$this->displayAndLog($res->get_error_message());
 				else
-					error_log('sector team '.$user->runner.' '.$user->companyname.' '.$user->teamname);
+					$this->displayAndLog('sector team '.$user->runner.' '.$user->companyname.' '.$user->teamname);
 			}		
 		}
 	}
@@ -954,7 +952,8 @@ class BhaaImport
 				from runner
 				join teammember on teammember.runner=runner.id
 				join team on team.id=teammember.team
-				where runner.status!="D" and runner.company!=0 order by runner.id')
+				where team.type="S" and runner.status!="D"')
+//				where runner.status!="D" and runner.company!=0 order by runner.id')
 		);
 	}
 	

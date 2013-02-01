@@ -261,4 +261,9 @@ Archive
 Email
 - http://wp.smashingmagazine.com/2011/10/25/create-perfect-emails-wordpress-website/
 
+Taxonomy
+- http://net.tutsplus.com/tutorials/wordpress/introducing-wordpress-3-custom-taxonomies/
+- http://wp.smashingmagazine.com/2013/01/14/using-wp_query-wordpress/
+
+
 http://github.github.com/github-flavored-markdown/

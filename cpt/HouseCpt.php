@@ -1,7 +1,7 @@
 <?php
 class HouseCpt
 {
-	const BHAA_TEAM_TYPE = 'bhaa_team_type';
+	const TEAM_TYPE = 'teamtype';
 	const COMPANY_TEAM = 'companyteam';
 	const SECTOR_TEAM = 'sectorteam';
 	const INACTIVE_TEAM = 'inactiveteam';
@@ -60,7 +60,7 @@ class HouseCpt
 				'labels' => $houseLabels,
 				'hierarchical' => false,
 				'description' => 'BHAA House Details',
-				'supports' => array( 'title','editor','excerpt','thumbnail','custom-fields','page-attributes','comments'),
+				'supports' => array( 'title','editor','excerpt','thumbnail','comments'),
 				'taxonomies' => array( 'sector' ),
 				'public' => true,
 				'show_ui' => true,
