@@ -1,14 +1,16 @@
 <?php
 class HouseCpt
 {
-	const BHAA_HOUSE_TYPE = 'bhaa_house_type';
-	const COMPANY = 'company';
-	const SECTORTEAM = 'sectorteam';
+	const BHAA_TEAM_TYPE = 'bhaa_team_type';
+	const COMPANY_TEAM = 'companyteam';
+	const SECTOR_TEAM = 'sectorteam';
+	const INACTIVE_TEAM = 'inactiveteam';
 	
 	function __construct()
 	{
-		add_action( 'init', array(&$this,'bhaa_register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'bhaa_register_cpt_house'));
+		add_action( 'init', array(&$this,'bhaa_register_taxonomy_sector'));
+		add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamtype'));
 	
 		// display the admin status column
 		add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
@@ -106,6 +108,39 @@ class HouseCpt
 				'query_var' => true
 		);
 		register_taxonomy( 'sector', array('house'), $args );
+	}
+	
+	function bhaa_register_taxonomy_teamtype()
+	{
+		$labels = array(
+				'name' => _x( 'Team Types', 'teamtype' ),
+				'singular_name' => _x( 'Team Type', 'teamtype' ),
+				'search_items' => _x( 'Search teamtypes', 'teamtype' ),
+				'popular_items' => _x( 'Popular teamtypes', 'teamtype' ),
+				'all_items' => _x( 'All teamtypes', 'teamtype' ),
+				'parent_item' => _x( 'Parent teamtype', 'teamtype' ),
+				'parent_item_colon' => _x( 'Parent teamtype:', 'teamtype' ),
+				'edit_item' => _x( 'Edit teamtype', 'teamtype' ),
+				'update_item' => _x( 'Update teamtype', 'teamtype' ),
+				'add_new_item' => _x( 'Add New teamtype', 'teamtype' ),
+				'new_item_name' => _x( 'New teamtype', 'teamtype' ),
+				'separate_items_with_commas' => _x( 'Separate teamtypes with commas', 'teamtype' ),
+				'add_or_remove_items' => _x( 'Add or remove teamtypes', 'teamtype' ),
+				'choose_from_most_used' => _x( 'Choose from most used teamtypes', 'teamtype' ),
+				'menu_name' => _x( 'Team Types', 'teamtype' ),
+		);
+	
+		$args = array(
+				'labels' => $labels,
+				'public' => true,
+				'show_in_nav_menus' => true,
+				'show_ui' => true,
+				'show_tagcloud' => true,
+				'hierarchical' => false,
+				'rewrite' => true,
+				'query_var' => true
+		);
+		register_taxonomy( 'teamtype', array('house'), $args );
 	}
 }
 ?>
