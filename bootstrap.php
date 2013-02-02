@@ -19,6 +19,10 @@ require_once(PLUGIN_ROOT_DIR.'/cpt/HouseCpt.php');
 require_once(PLUGIN_ROOT_DIR.'/cpt/LeagueCpt.php');
 require_once(PLUGIN_ROOT_DIR.'/cpt/RaceCpt.php');
 
+// model
+require_once(PLUGIN_ROOT_DIR.'/model/BaseModel.php');
+require_once(PLUGIN_ROOT_DIR.'/model/LeagueModel.php');
+
 // tables
 require_once(PLUGIN_ROOT_DIR.'/table/teamresulttable.class.php');
 require_once(PLUGIN_ROOT_DIR.'/table/raceresulttable.class.php');
