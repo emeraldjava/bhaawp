@@ -70,10 +70,11 @@ class TeamResultTable extends WP_List_Table
 	
 	function renderTable($event)
 	{
-		echo '<div class="wrap">';
-		$this->prepare_items($event);
-		$this->display();
-		echo '</div>';
+		$msg = '<div class="wrap">';
+		$msg .= $this->prepare_items($event);
+		$msg .= $this->display();
+		$msg .= '</div>';
+		return $msg;
 	}
 	
 	function get_table_classes() {
