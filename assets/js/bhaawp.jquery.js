@@ -12,6 +12,12 @@ jQuery(document).ready( function(){
 			});
 	});
 
+	jQuery("#runner_search").focus(
+		function() {
+		  alert('Handler for .focus() called.');
+		}
+	);
+	
 	// http://stackoverflow.com/questions/11166981/how-to-use-jquery-to-retrieve-ajax-search-results-for-wordpress
 	// http://stackoverflow.com/questions/7136887/autocomplete-with-json-data-fetched-via-ajax
 	// http://wordpress.stackexchange.com/questions/42891/how-to-create-live-autofill-search

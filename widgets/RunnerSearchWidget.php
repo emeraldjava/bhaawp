@@ -44,11 +44,13 @@ class RunnerSearchWidget extends WP_Widget
 	
 	private function get_user_search_form()
 	{
-		echo '<form class="search" action="<?php echo home_url(); ?>/" method="get">'.
+		echo '<form class="search_form" action="<?php echo home_url(); ?>/" method="get">'.
 		'<fieldset>'.
-		'<span class="text"><input name="s" id="s" type="text" value="User Search"/></span>'.
+		'<span class="text"><input name="query" id="runner_search" type="text" value="User Search"/></span>'.
 		'</fieldset>'.
 		'</form>';
 	}
+	
+	// http://codex.wordpress.org/Class_Reference/WP_User_Query
 }
 ?>
