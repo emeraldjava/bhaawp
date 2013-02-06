@@ -36,4 +36,7 @@ require_once(PLUGIN_ROOT_DIR.'/classes/runner.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/Standard.class.php');
 require_once(PLUGIN_ROOT_DIR.'/classes/StandardCalculator.php');
 
+// widgets
+require_once(PLUGIN_ROOT_DIR.'/widgets/RunnerSearchWidget.php');
+
 ?>

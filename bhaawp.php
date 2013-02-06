@@ -95,7 +95,8 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		add_shortcode('bhaa_registration', array($this->registration,'registration'));
 		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
 		//$this->rrw = new RaceResult_Widget();
-		//add_action( 'widgets_init', array(&$this->rrw,'register_widget'));
+		$runnerSearchWidget = new RunnerSearchWidget();
+		add_action('widgets_init', array($runnerSearchWidget,'register'));		
 	}
 	
 	function getIndividualResultTable()
