@@ -1,5 +1,5 @@
-//var $j = jQuery.noConflict();
-jQuery(document).ready( function(){
+//var $jQuery = jQuery.noConflict();
+jQuery(document).ready( function() {
 	
 	jQuery(function() {
 		jQuery("#bhaa_runner_dateofbirth").datepicker({
@@ -12,9 +12,29 @@ jQuery(document).ready( function(){
 			});
 	});
 
-	jQuery("#xrunner_searchx").focus(
+	// firstname 8
+	// secondname 10
+	
+	// username 14
+	// http://stackoverflow.com/questions/4932746/autofill-input-field-with-value-of-another-input-field
+	jQuery(".um_field_14").focusout(
+		function() 
+		{
+			//alert('user name out : '+jQuery(this).val());
+			if(jQuery(this).text()=="")
+			{
+				jQuery(this).val(jQuery(".um_field_8").val()+'.'+jQuery(".um_field_10").val());
+			}
+			//alert('username defined '+jQuery(this).val());
+			//console.log(jQuery(this).val());
+		}
+	);
+
+	// email 15
+	jQuery(".um_field_15").focusout(
 		function() {
-		  alert('Handler for .focus() called.');
+			//alert('Handler for .focus() called.');
+			jQuery(this).val(jQuery(".um_field_8").val()+'.'+jQuery(".um_field_10").val()+'@x.com');
 		}
 	);
 	

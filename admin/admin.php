@@ -43,6 +43,7 @@ class BhaaAdmin
 		}
 		echo '<div class="wrap">';
 		echo '<p>BHAA Add Runner</p>';
+		echo do_shortcode('[user-meta type="registration" form="new_runner"]');
 		echo '</div>';
 	}
 	
