@@ -154,6 +154,41 @@ class Runner
 		}
 	}
 	
+	function bhaa_runner_search() {
+		error_log('bhaawp_runner_search '.$_REQUEST['term']);
+// 		$posts = get_posts( array(
+// 				's' => trim( esc_attr( strip_tags( $_REQUEST['term'] ) ) ),
+// 				'post_type' => 'house'
+// 		) );
+// 		$suggestions=array();
+	
+// 		global $post;
+// 		foreach ($posts as $post):
+// 		setup_postdata($post);
+// 		$suggestion = array();
+// 		$suggestion['label'] = esc_html($post->post_title);
+// 		$suggestion['link'] = get_permalink();
+// 		$suggestions[]= $suggestion;
+// 		endforeach;
+	
+		$suggestions=array();
+		$suggestion = array();
+		$suggestion['label'] = "POC-7713";
+		$suggestion['link'] = 'http://localhost/runner/?id=7713';
+		
+		$suggestion1 = array();
+		$suggestion1['label'] = "POC-2";
+		$suggestion1['link'] = 'http://localhost/runner/?id=7713';
+		
+		$suggestions[]= $suggestion1;
+		$response = json_encode(array('matches'=>$suggestions));
+		error_log('bhaawp_runner_search '.$response);
+		echo $response;
+		//wp_reset_postdata();
+		//die();
+		//exit;
+	}
+	
 	/**
 	 * user id - email x_id@bhaa.ie
 	 * $sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";

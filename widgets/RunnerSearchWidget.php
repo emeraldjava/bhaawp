@@ -46,7 +46,7 @@ class RunnerSearchWidget extends WP_Widget
 	{
 		echo '<form class="search_form" action="<?php echo home_url(); ?>/" method="get">'.
 		'<fieldset>'.
-		'<span class="text"><input name="query" id="runner_search" type="text" value="User Search"/></span>'.
+		'<span class="text"><input id="runner_search" type="text" value="User Search"/></span>'.
 		'</fieldset>'.
 		'</form>';
 	}
