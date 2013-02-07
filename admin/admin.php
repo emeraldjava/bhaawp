@@ -10,14 +10,16 @@ class BhaaAdmin
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
 		$this->import = new BhaaImport();
 			
-		add_action( 'admin_menu', array(&$this,'bhaa_admin_plugin_menu') );
-		add_action( 'admin_init', array(&$this,'register_bhaa_options') );
+		add_action('admin_menu', array(&$this,'bhaa_admin_plugin_menu') );
+		add_action('admin_init', array(&$this,'register_bhaa_options') );
+		
+		add_action('admin_action_bhaa_add_runner', array(&$this,'admin_action_bhaa_add_runner'));
 	}
 	
 	function bhaa_admin_plugin_menu()
 	{
 		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
-		add_submenu_page('bhaa', 'BHAA', 'Add Runner', 'manage_options', 'bhaa_add_runner', array(&$this, 'bhaa_add_runner'));
+		add_submenu_page('bhaa', 'BHAA', 'Add Runner', 'manage_options', 'bhaa_add_runner', array(&$this, 'bhaa_add_runner_form'));
 		add_submenu_page('bhaa' ,'BHAA','Enter Race','manage_options', 'bhaa_enter_race' , array(&$this, 'bhaa_enter_race'));
 		add_submenu_page('bhaa' ,'BHAA','List Entry','manage_options', 'bhaa_list_entry' , array(&$this, 'bhaa_list_entry'));
 		add_submenu_page('bhaa' ,'BHAA','Export','manage_options', 'bhaa_export_entry' , array(&$this, 'bhaa_export_entry'));
@@ -36,17 +38,31 @@ class BhaaAdmin
 		echo '</div>';
 	}
 	
-	function bhaa_add_runner()
+	// http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
+	function bhaa_add_runner_form()
 	{
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 		echo '<div class="wrap">';
 		echo '<p>BHAA Add Runner</p>';
-		echo do_shortcode('[user-meta type="registration" form="new_runner"]');
+		echo '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+			'<input type="hidden" name="action" value="bhaa_add_runner"/>'.
+			'<input type="text" name="firstname"/>'.
+			'<input type="text" name="second"/>'.
+			'<input type="submit" value="Add Runner"/>'.
+			'</form>';
 		echo '</div>';
 	}
 	
+	function admin_action_bhaa_add_runner()
+	{
+		// Do your stuff here
+		error_log('admin_action_bhaa_add_runner '.$_POST['firstname'].' '.$_POST['second']);
+		wp_redirect( $_SERVER['HTTP_REFERER'] );
+		exit();
+	}
+		
 	function bhaa_enter_race()
 	{
 		if ( !current_user_can( 'manage_options' ) )  {
