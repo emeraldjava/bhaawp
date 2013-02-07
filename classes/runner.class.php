@@ -127,6 +127,10 @@ class Runner
 			$user_id = $_GET['id'];
 			$action = $_GET['action'];
 			$user = get_userdata($user_id);
+
+			update_user_meta($user_id, Runner::BHAA_RUNNER_STATUS, 'M');
+			update_user_meta($user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
+			error_log('bhaa_runner_renew : '.$user_id.' '.$action.','.$user->user_email.','.date('Y-m-d'));
 			
  			if($user->user_email!=''||$user->user_email!=null)
  			{
@@ -143,19 +147,15 @@ class Runner
  				$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
 				
  				$res = wp_mail($user->user_email, 'BHAA Renewal : '.$user->user_firstname." ".$user->user_lastname , $message, $headers);
- 				error_log('email sent ? '.$res);
+ 				//error_log('email sent ? '.$res);
  			}
-
-			update_user_meta($user_id, Runner::BHAA_RUNNER_STATUS, 'M');
-			update_user_meta($user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
-			error_log('bhaa_runner_renew : '.$user_id.' '.$action.','.$user->user_email.','.date('Y-m-d'));
 			wp_redirect(wp_get_referer());
 			exit();
 		}
 	}
 	
 	function bhaa_runner_search() {
-		error_log('bhaawp_runner_search '.$_REQUEST['term']);
+		//error_log('bhaawp_runner_search '.$_REQUEST['term']);
 // 		$posts = get_posts( array(
 // 				's' => trim( esc_attr( strip_tags( $_REQUEST['term'] ) ) ),
 // 				'post_type' => 'house'
@@ -182,7 +182,7 @@ class Runner
 		
 		$suggestions[]= $suggestion1;
 		$response = json_encode(array('matches'=>$suggestions));
-		error_log('bhaawp_runner_search '.$response);
+		//error_log('bhaawp_runner_search '.$response);
 		echo $response;
 		//wp_reset_postdata();
 		//die();
