@@ -30,3 +30,5 @@ leaguepoints,
 status
 from bhaaie_members.teamraceresult where race=201282
 
+select * from posts where
+
