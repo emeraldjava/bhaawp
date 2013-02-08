@@ -82,6 +82,7 @@ class Runner
 	 * http://www.egstudio.biz/7-examples-for-using-wp-user-query/
 	 * http://wordpress.stackexchange.com/questions/30977/list-users-by-last-name-in-wp-user-query
 	 * http://forrst.com/posts/Frontend_user_search_by_first_and_last_name_in_W-re1
+	 * http://codex.wordpress.org/Class_Reference/WP_User_Query
 	 */
 	function bhaa_runner_search() {
 
@@ -105,9 +106,11 @@ class Runner
 			$args = array(
 				'number' => 10,
 				'fields' => 'all',
-				'meta_key' => 'nickname',
-				'meta_compare' => 'like',
-				'meta_value' => $query
+				'meta_query' => array(
+					'relation' => 'AND',
+					array('key' => 'nickname','compare' => 'like', 'value' => $query),
+					array('key' => 'bhaa_runner_status','compare'=>'!=','value'=>'D')
+				)
 			);
 				
 			error_log(print_r($args,true));
