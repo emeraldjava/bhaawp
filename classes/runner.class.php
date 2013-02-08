@@ -76,34 +76,56 @@ class Runner
 	{
 	}
 	
+	/**
+	 * http://mattvarone.com/wordpress/list-users/
+	 * http://wordpress.stackexchange.com/questions/38599/wordpress-wp-user-queryargs-using-where-and-like
+	 * http://www.egstudio.biz/7-examples-for-using-wp-user-query/
+	 * http://wordpress.stackexchange.com/questions/30977/list-users-by-last-name-in-wp-user-query
+	 */
 	function bhaa_runner_search() {
-		error_log('bhaawp_runner_search '.$_REQUEST['term']);
-// 		$posts = get_posts( array(
-// 				's' => trim( esc_attr( strip_tags( $_REQUEST['term'] ) ) ),
-// 				'post_type' => 'house'
-// 		) );
-// 		$suggestions=array();
-	
-// 		global $post;
-// 		foreach ($posts as $post):
-// 		setup_postdata($post);
-// 		$suggestion = array();
-// 		$suggestion['label'] = esc_html($post->post_title);
-// 		$suggestion['link'] = get_permalink();
-// 		$suggestions[]= $suggestion;
-// 		endforeach;
-	
+
+		
+		error_log('bhaawp_runner_search '.$_REQUEST['term']);		
+		$query = strip_tags( $_REQUEST['term'] );
+		
 		$suggestions=array();
-		$suggestion = array();
-		$suggestion['label'] = "POC-7713";
-		$suggestion['link'] = 'http://localhost/runner/?id=7713';
-		$suggestions[]= $suggestion;
+		if(preg_match('/\d{4}|\d{5}/', $query))
+		{
+			// query on id
+			$user = get_userdata($query);
+			error_log($user->first_name . ' ' . $user->last_name);
+			$suggestion = array();
+			$suggestion['label'] = $user->first_name . ' ' . $user->last_name;
+			$suggestion['link'] = $user->ID;
+			$suggestions[]=$suggestion;
+		}
+		else
+		{
+			// query name
+			$args = array(
+					'number' => 10,
+					'fields' => 'all',
+					'search' => $query.'*'
+			);
+			error_log(print_r($args,true));
+			
+			$user_query = new WP_User_Query( $args );
+			
+			$authors = $user_query->get_results();
+			
+			if (!empty($authors))
+			{
+				foreach ($authors as $author)
+				{
+					$author_info = get_userdata($author->ID);
+					$suggestion = array();
+					$suggestion1['label'] = $author_info->display_name;
+					$suggestion1['link'] = $author_info->ID;
+				}
+			}
+			wp_reset_postdata();
+		}
 		
-		$suggestion1 = array();
-		$suggestion1['label'] = "POC-2";
-		$suggestion1['link'] = 'http://localhost/runner/?id=7712';
-		
-		$suggestions[]= $suggestion1;
 		$response = json_encode(array('matches'=>$suggestions));
 		error_log('bhaawp_runner_search '.$response);
 		//wp_reset_postdata();

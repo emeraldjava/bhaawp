@@ -65,7 +65,7 @@ jQuery(document).ready( function() {
 //			}
 		});
 		},
-		minChars: 2,
+		minChars: 4,
 		select: function(event, ui) {
 			//debug(ui.item.id);
 			window.location.href=ui.item.link;
