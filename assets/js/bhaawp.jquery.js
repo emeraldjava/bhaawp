@@ -56,7 +56,7 @@ jQuery(document).ready( function() {
 						//alert(request);
 						response(	
 							jQuery.each(request.matches, function(item){
-								return {label:item.label,id:item.value,link:item.link}
+								return {label:item.label,link:item.link}
 						})	  
 						);
 					}
@@ -67,8 +67,8 @@ jQuery(document).ready( function() {
 		},
 		minChars: 2,
 		select: function(event, ui) {
-			debug(ui.item.id);
-			//window.location.href=ui.item.link;
+			//debug(ui.item.id);
+			window.location.href=ui.item.link;
 		},
 		open: function() {
 			jQuery( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );

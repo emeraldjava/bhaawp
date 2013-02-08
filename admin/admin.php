@@ -88,14 +88,10 @@ class BhaaAdmin
 		echo '<div class="wrap">';
 		echo '<p>BHAA Enter Race</p>';
 		echo '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
-				'<input type="hidden" name="action" value="bhaa_add_runner"/>'.
-				'<input type="text" name="firstname"/><br/>'.
-				'<input type="text" name="second"/><br/>'.
-				'<input type="text" name="email"/><br/>'.
-				'<input type="text" name="dateofbirth"/><br/>'.
-				'<input type="text" name="gender"/><br/>'.
-				'<input type="text" name="company"/><br/>'.
-				'<input type="submit" value="Add Runner"/><br/>'.
+				'<input type="hidden" name="action" value="bhaa_enter_race"/>'.
+				'Runner: <input type="text" id="runner_search"/><br/>'.
+				'Event: <input type="text" id="event"/><br/>'.
+				'<input type="submit" value="Enter Runner"/><br/>'.
 				'</form>';
 		echo '</div>';
 	}
