@@ -4,12 +4,14 @@ class BhaaAdmin
 	var $raceResult;
 	var $import;
 	var $raceAdmin;
+	private $runnerAdmin;
 		
 	function __construct()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
 		$this->import = new BhaaImport();
 			
+		$runnerAdmin = new RunnerAdmin();
 		add_action('admin_menu', array(&$this,'bhaa_admin_plugin_menu') );
 		add_action('admin_init', array(&$this,'register_bhaa_options') );
 		
@@ -50,6 +52,10 @@ class BhaaAdmin
 			'<input type="hidden" name="action" value="bhaa_add_runner"/>'.
 			'<input type="text" name="firstname"/>'.
 			'<input type="text" name="second"/>'.
+			'<input type="text" name="email"/>'.
+			'<input type="text" name="dateofbirth"/>'.
+			'<input type="text" name="gender"/>'.
+			'<input type="text" name="company"/>'.
 			'<input type="submit" value="Add Runner"/>'.
 			'</form>';
 		echo '</div>';
@@ -59,6 +65,11 @@ class BhaaAdmin
 	{
 		// Do your stuff here
 		error_log('admin_action_bhaa_add_runner '.$_POST['firstname'].' '.$_POST['second']);
+		
+		$runner = new Runner();
+		error_log('next id '.$runner->getNextRunnerId());
+		//wp_create_user($username, $password)
+		
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
