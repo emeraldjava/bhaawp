@@ -55,6 +55,20 @@ class RaceResultTable extends WP_List_Table
 		);
 		return $columns;
 	}
+	
+	/**
+	 * http://wpengineer.com/2426/wp_list_table-a-step-by-step-guide/
+	 * @see WP_List_Table::get_sortable_columns()
+	 */
+	function get_sortable_columns() {
+		$sortable_columns = array(
+	    	'position' => array('position',true),
+	    	'category' => array('category',false),
+	    	'standard' => array('standard',false)
+	  	);
+		//return $sortable_columns;
+		return array();
+	}
 
 	function column_default( $item, $column_name ) {
 		switch( $column_name )
@@ -77,20 +91,6 @@ class RaceResultTable extends WP_List_Table
 				return print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
 		}
 	}
-
-//  	function column_race($item){
-//  		$actions = array(
-//  			'edit'      => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Edit</a>',$_REQUEST['page'],'edit',$item['race'],$item['runner']),
-//  			'delete'    => sprintf('<a href="?page=%s&action=%s&race=%d&runner=%d">Delete</a>',$_REQUEST['page'],'delete',$item['race'],$item['runner'])
-//  		);
-//  		return sprintf('%1$s %2$s', $item['race'], $this->row_actions($actions) );
-//  	}
-
-// 	function column_cb($item) {
-// 		return sprintf(
-// 				'<input type="checkbox" name="book[]" value="%s" />', $item['ID']
-// 		);
-// 	}
 
 	/**
 	 * http://localhost/?post_type=company&p=100
@@ -124,8 +124,7 @@ class RaceResultTable extends WP_List_Table
 	{
 		$columns = $this->get_columns();
 		$hidden = array();
-		$sortable = array();
-		$this->_column_headers = array($columns, $hidden, $sortable);
+		$this->_column_headers = array($columns, $hidden, $this->get_sortable_columns());
 
 		global $wpdb;
 		$query = '
@@ -135,11 +134,12 @@ class RaceResultTable extends WP_List_Table
 			left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
 			where race='.$race.' and wp_bhaa_raceresult.class="RAN" order by position';
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult		
-		//error_log($query);
 		
 		//echo $query;
 		$totalitems = $wpdb->query($query);
-		$this->items = $wpdb->get_results($query,ARRAY_A);
+		$querydata = $wpdb->get_results($query,ARRAY_A);
+		//usort( $querydata, array( &$this, 'usort_reorder' ) );
+		$this->items = $querydata;
 	}
 
 	function renderTable($race)
@@ -166,7 +166,6 @@ class RaceResultTable extends WP_List_Table
 			'racenumber' => 'Race No',
 			'racetime'  => 'Time',		
 			'standard'  => 'Std'
-			//'paceKM'  => 'Pace'
 		);
 		return $columns;
 	}
@@ -175,8 +174,7 @@ class RaceResultTable extends WP_List_Table
 	{
 		$columns = $this->getRunnerColumns();
 		$hidden = array();
-		$sortable = array();
-		$this->_column_headers = array($columns, $hidden, $sortable);
+		$this->_column_headers = array($columns, $hidden, $this->get_sortable_columns());
 	
 		global $wpdb;
 		$query = 'SELECT wp_p2p.p2p_from as event,wp_bhaa_raceresult.* FROM wp_bhaa_raceresult '.
@@ -193,6 +191,17 @@ class RaceResultTable extends WP_List_Table
 	 */
 	function get_table_classes() {
 		return array( 'bhaatables',$this->_args['plural'] );
+	}
+	
+	function usort_reorder( $a, $b ) {
+		// If no sort, default to title
+		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'position';
+		// If no order, default to asc
+		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
+		// Determine sort order
+		$result = strcmp( $a[$orderby], $b[$orderby] );
+		// Send final sort direction to usort
+		return ( $order === 'asc' ) ? $result : -$result;
 	}
 }
 ?>
