@@ -81,6 +81,7 @@ class Runner
 	 * http://wordpress.stackexchange.com/questions/38599/wordpress-wp-user-queryargs-using-where-and-like
 	 * http://www.egstudio.biz/7-examples-for-using-wp-user-query/
 	 * http://wordpress.stackexchange.com/questions/30977/list-users-by-last-name-in-wp-user-query
+	 * http://forrst.com/posts/Frontend_user_search_by_first_and_last_name_in_W-re1
 	 */
 	function bhaa_runner_search() {
 
@@ -93,7 +94,6 @@ class Runner
 		{
 			// query on id
 			$user = get_userdata($query);
-			error_log($user->first_name . ' ' . $user->last_name);
 			$suggestion = array();
 			$suggestion['label'] = $user->first_name . ' ' . $user->last_name;
 			$suggestion['link'] = $user->ID;
@@ -103,33 +103,31 @@ class Runner
 		{
 			// query name
 			$args = array(
-					'number' => 10,
-					'fields' => 'all',
-					'search' => $query.'*'
+				'number' => 10,
+				'fields' => 'all',
+				'meta_key' => 'nickname',
+				'meta_compare' => 'like',
+				'meta_value' => $query
 			);
+				
 			error_log(print_r($args,true));
-			
 			$user_query = new WP_User_Query( $args );
-			
-			$authors = $user_query->get_results();
-			
-			if (!empty($authors))
+			$runners = $user_query->get_results();
+			if (!empty($runners))
 			{
-				foreach ($authors as $author)
+				foreach ($runners as $runner)
 				{
-					$author_info = get_userdata($author->ID);
+					$runner_info = get_userdata($runner->ID);
 					$suggestion = array();
-					$suggestion1['label'] = $author_info->display_name;
-					$suggestion1['link'] = $author_info->ID;
+					$suggestion['label'] = $runner_info->display_name;
+					$suggestion['link'] = sprintf('%s/runner/?id=%d',get_site_url(),$runner_info->ID);
+					$suggestions[]=$suggestion;
 				}
 			}
 			wp_reset_postdata();
 		}
-		
 		$response = json_encode(array('matches'=>$suggestions));
-		error_log('bhaawp_runner_search '.$response);
-		//wp_reset_postdata();
-		
+		//error_log('bhaawp_runner_search '.$response);
 		echo $response;
 		die();
 	}
