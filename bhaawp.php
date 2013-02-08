@@ -123,15 +123,21 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		//wp_enqueue_script( 'my-ajax-request', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
 		//wp_localize_script( 'my-ajax-request', 'MyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		
-		
- 		wp_register_script('bhaawp', plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
+		// http://wordpress.stackexchange.com/questions/56343/template-issues-getting-ajax-search-results/56349#56349
+ 		wp_register_script(
+ 			'bhaawp', 
+ 			plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
  			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
  		wp_enqueue_script('bhaawp');
- 		wp_localize_script('bhaawp','bhaawp',array('ajaxurl'=>admin_url('admin-ajax.php')));
+ 		wp_localize_script(
+ 			'bhaawp',
+ 			'bhaaAjax',
+ 			array('ajaxurl'=>admin_url('admin-ajax.php')));
 
  		// register ajax methods 
  		add_action('wp_ajax_nopriv_bhaawp_house_search',array($this,'bhaawp_house_search'));
 		add_action('wp_ajax_bhaawp_house_search',array($this,'bhaawp_house_search'));
+		add_action('wp_ajax_nopriv_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
 		add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
 		
  		// css style 
@@ -155,12 +161,14 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$suggestions[]= $suggestion;
 		endforeach;
 	
+		wp_reset_postdata();
+		
 		$response = json_encode(array('matches'=>$suggestions));
 		//error_log('bhaawp_house_search '.$response);
 		echo $response;
-		wp_reset_postdata();
-		//die();
- 		exit;
+		
+		die();
+ 		//exit;
 	}
 			
 	function defineConstants()

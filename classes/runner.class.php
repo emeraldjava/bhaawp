@@ -77,7 +77,7 @@ class Runner
 	}
 	
 	function bhaa_runner_search() {
-		//error_log('bhaawp_runner_search '.$_REQUEST['term']);
+		error_log('bhaawp_runner_search '.$_REQUEST['term']);
 // 		$posts = get_posts( array(
 // 				's' => trim( esc_attr( strip_tags( $_REQUEST['term'] ) ) ),
 // 				'post_type' => 'house'
@@ -97,6 +97,7 @@ class Runner
 		$suggestion = array();
 		$suggestion['label'] = "POC-7713";
 		$suggestion['link'] = 'http://localhost/runner/?id=7713';
+		$suggestions[]= $suggestion;
 		
 		$suggestion1 = array();
 		$suggestion1['label'] = "POC-2";
@@ -104,11 +105,11 @@ class Runner
 		
 		$suggestions[]= $suggestion1;
 		$response = json_encode(array('matches'=>$suggestions));
-		//error_log('bhaawp_runner_search '.$response);
-		echo $response;
+		error_log('bhaawp_runner_search '.$response);
 		//wp_reset_postdata();
-		//die();
-		//exit;
+		
+		echo $response;
+		die();
 	}
 	
 	/**
