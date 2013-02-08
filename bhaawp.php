@@ -141,7 +141,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
 		
  		// css style 
- 		//wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+ 		wp_enqueue_style('jquery-style','http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
 	}
 		
 	function bhaawp_house_search() {
