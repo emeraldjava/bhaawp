@@ -50,27 +50,33 @@ class BhaaAdmin
 		echo '<p>BHAA Add Runner</p>';
 		echo '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 			'<input type="hidden" name="action" value="bhaa_add_runner"/>'.
-			'<input type="text" name="firstname"/>'.
-			'<input type="text" name="second"/>'.
-			'<input type="text" name="email"/>'.
-			'<input type="text" name="dateofbirth"/>'.
-			'<input type="text" name="gender"/>'.
-			'<input type="text" name="company"/>'.
-			'<input type="submit" value="Add Runner"/>'.
+			'<input type="text" name="firstname"/><br/>'.
+			'<input type="text" name="second"/><br/>'.
+			'<input type="text" name="email"/><br/>'.
+			'<input type="text" name="dateofbirth"/><br/>'.
+			'<input type="text" name="gender"/><br/>'.
+			'<input type="text" name="company"/><br/>'.
+			'<input type="submit" value="Add Runner"/><br/>'.
 			'</form>';
 		echo '</div>';
 	}
 	
 	function admin_action_bhaa_add_runner()
 	{
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
 		// Do your stuff here
 		error_log('admin_action_bhaa_add_runner '.$_POST['firstname'].' '.$_POST['second']);
 		
 		$runner = new Runner();
-		error_log('next id '.$runner->getNextRunnerId());
+		$id = $runner->createNewUser($_POST['firstname'], $_POST['surname'], $_POST['email']);
 		//wp_create_user($username, $password)
 		
-		wp_redirect( $_SERVER['HTTP_REFERER'] );
+		echo '<div class="wrap">';
+		echo '<p>New BHAA Runner Added : '.$id.'</p>';
+		echo '</div>';
+//		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
 		

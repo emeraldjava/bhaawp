@@ -124,5 +124,21 @@ class Runner
 		$sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";
 		return str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
 	}
+	
+	public function createNewUser($firstname,$surname,$email)
+	{
+		require_once( ABSPATH . 'wp-includes/user.php' );
+		$id = $this->getNextRunnerId();
+		error_log('next id '.id);
+		
+		$username = $firstname.'.'.$surname;
+		if($email='')
+			$email = $id.'@bhaa.ie';
+		
+		$password =  wp_hash_password($id);
+		$user = wp_create_user($username, $password);
+		error_log('new user id '.$user);
+		return $user;
+	}
 }
 ?>
