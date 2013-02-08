@@ -66,8 +66,8 @@ class RaceResultTable extends WP_List_Table
 	    	'category' => array('category',false),
 	    	'standard' => array('standard',false)
 	  	);
-		//return $sortable_columns;
-		return array();
+		return $sortable_columns;
+		//return array();
 	}
 
 	function column_default( $item, $column_name ) {
@@ -126,14 +126,20 @@ class RaceResultTable extends WP_List_Table
 		$hidden = array();
 		$this->_column_headers = array($columns, $hidden, $this->get_sortable_columns());
 
+		$orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'position+0'; //If no sort, default to title
+		$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
+		if($orderby!='position+0')
+			$order .= ', position+0';
+		
 		global $wpdb;
 		$query = '
 			SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_users.user_nicename,wp_posts.id as cid,wp_posts.post_title as cname
 			FROM '.$wpdb->prefix .'bhaa_raceresult 
 			left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
 			left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
-			where race='.$race.' and wp_bhaa_raceresult.class="RAN" order by position';
-		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult		
+			where race='.$race.' and wp_bhaa_raceresult.class="RAN" ORDER BY '.$orderby.' '. $order;
+		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
+		//error_log($query);	
 		
 		//echo $query;
 		$totalitems = $wpdb->query($query);
