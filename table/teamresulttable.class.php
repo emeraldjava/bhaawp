@@ -61,7 +61,7 @@ class TeamResultTable extends WP_List_Table
 			SELECT wp_bhaa_teamresult.*,wp_posts.post_title as teamname 
 			FROM wp_bhaa_teamresult
 			join wp_posts on wp_posts.post_type="house" and wp_bhaa_teamresult.team=wp_posts.id
-			where race=(select p2p_to from wp_p2p where p2p_from=%d)
+			where race IN (select p2p_to from wp_p2p where p2p_from=%d)
 			order by class, positiontotal',$event);
 		//echo '<p>'.$query.'</p>';
 		$totalitems = $wpdb->query($query);
