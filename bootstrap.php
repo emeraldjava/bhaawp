@@ -22,7 +22,9 @@ require_once(PLUGIN_ROOT_DIR.'/cpt/RaceCpt.php');
 
 // model
 require_once(PLUGIN_ROOT_DIR.'/model/BaseModel.php');
+require_once(PLUGIN_ROOT_DIR.'/model/Table.php');
 require_once(PLUGIN_ROOT_DIR.'/model/LeagueModel.php');
+require_once(PLUGIN_ROOT_DIR.'/model/LeagueSummary.php');
 
 // tables
 require_once(PLUGIN_ROOT_DIR.'/table/teamresulttable.class.php');
