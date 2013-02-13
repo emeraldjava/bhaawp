@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.02.07
+Version: 2013.02.13
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA
 {
-	var $version = '2013.02.07';
+	var $version = '2013.02.13';
 	
 	//var $admin;
 	var $connection;
@@ -217,6 +217,9 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			status enum('ACTIVE','PENDING'),
 			PRIMARY KEY (id)";
 		$this->run_install_or_upgrade($wpdb->teamresult,$teamResultSql);
+		
+		$leagueSummaryModel = new LeagueSummary();
+		$this->run_install_or_upgrade($leagueSummaryModel->getName(),$leagueSummaryModel->getCreateSQL());
 		
 		$importTableSql = "
 			id int(11) NOT NULL AUTO_INCREMENT,

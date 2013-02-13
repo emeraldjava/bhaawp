@@ -13,7 +13,7 @@ class LeagueSummary implements Table
 	function getCreateSQL()
 	{
 		return "
-			league int(10) unsigned NOT NULL AUTO_INCREMENT,
+			league int(10) unsigned NOT NULL,
 			leaguetype enum('I','T') NOT NULL,
 			leagueparticipant int(10) unsigned NOT NULL,
 			leaguestandard int(10) unsigned NOT NULL,
@@ -21,7 +21,7 @@ class LeagueSummary implements Table
 			leagueposition int(10) unsigned NOT NULL,
 			leaguescorecount int(10) unsigned NOT NULL,
 			leaguepoints double NOT NULL,
-			PRIMARY KEY (leaguetype,leagueid,leagueparticipantid,leaguedivision) USING BTREE";
+			PRIMARY KEY (leaguetype, league, leagueparticipant, leaguedivision) USING BTREE";
 	}
 	
 	function getDivisions()
