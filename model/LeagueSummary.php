@@ -1,8 +1,12 @@
 <?php
 class LeagueSummary implements Table
 {
-	function __construct()
-	{}
+	private $league;
+	
+	function __construct($league)
+	{
+		$this->league=$league;
+	}
 	
 	function getName()
 	{
@@ -29,7 +33,20 @@ class LeagueSummary implements Table
 
 	// return a summary of the top x in each division
 	function getLeageSummary($limit=10)
-	{}
+	{
+		global $wpdb;
+		$query = $wpdb->prepare('
+			SELECT *,wp_users.display_name
+			FROM wp_bhaa_leaguesummary
+			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
+			WHERE leaguetype = "I"
+			AND leagueposition <=10
+			AND league = %d
+			order by league, leaguedivision, leagueposition',$this->league);
+		error_log($query);
+		$this->items = $wpdb->get_results($query);
+		return $this->items;	
+	}
 	
 	// get the specific of a league division
 	function getDivisionSummary($division) // limit - all or 10?
