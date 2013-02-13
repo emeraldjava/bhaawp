@@ -80,6 +80,103 @@ class LeagueCpt
 	        'capability_type' => 'post'
 	        );
 		register_post_type('league', $leagueArgs );
+		
+		$labels = array(
+			'name' => _x( 'Divisions', 'division' ),
+			'singular_name' => _x( 'Division', 'division' ),
+			'search_items' => _x( 'Search divisions', 'division' ),
+			'popular_items' => _x( 'Popular divisions', 'division' ),
+			'all_items' => _x( 'All divisions', 'division' ),
+			'parent_item' => _x( 'Parent division', 'division' ),
+			'parent_item_colon' => _x( 'Parent division:', 'division' ),
+			'edit_item' => _x( 'Edit division', 'division' ),
+			'update_item' => _x( 'Update division', 'division' ),
+			'add_new_item' => _x( 'Add New division', 'division' ),
+			'new_item_name' => _x( 'New division', 'division' ),
+			'separate_items_with_commas' => _x( 'Separate divisions with commas', 'division' ),
+			'add_or_remove_items' => _x( 'Add or remove divisions', 'division' ),
+			'choose_from_most_used' => _x( 'Choose from most used divisions', 'division' ),
+			'menu_name' => _x( 'Divisions', 'division' ),
+		);
+		
+		$args = array(
+			'labels' => $labels,
+			'public' => true,
+			'show_in_nav_menus' => true,
+			'show_ui' => true,
+			'show_tagcloud' => false,
+			'hierarchical' => false,
+			'rewrite' => true,
+			'query_var' => true
+		);
+		register_taxonomy( 'division', array('league'), $args );
+		
+		$parent_term = term_exists( 'division', 'league' );
+		$parent_term_id = $parent_term['term_id']; // get numeric term id
+		wp_insert_term(
+			'A', // the term
+			'division', // the taxonomy
+			array(
+			'description'=> 'Division A : Standards 1-7',
+			'slug' => "A",
+			'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			'B', // the term
+			'division', // the taxonomy
+			array(
+			'description'=> 'Division B : Standards 8-10',
+			'slug' => "B",
+			'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			'C', // the term
+			'division', // the taxonomy
+			array(
+			'description'=> 'Division C : Standards 11-13',
+			'slug' => "C",
+			'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			'D', // the term
+			'division', // the taxonomy
+			array(
+			'description'=> 'Division D : Standards 14-16',
+			'slug' => "D",
+			'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			'E', // the term
+			'division', // the taxonomy
+			array(
+			'description'=> 'Division E : Standards 17-21',
+			'slug' => "E",
+			'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			'F', // the term
+			'division', // the taxonomy
+			array(
+			'description'=> 'Division F : Standards 22-30',
+			'slug' => "F",
+			'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			'L1', // the term
+			'division', // the taxonomy
+			array(
+			'description'=> 'Division L1 : Ladies Standards 1-16',
+			'slug' => "L1",
+			'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			'L2', // the term
+			'division', // the taxonomy
+			array(
+			'description'=> 'Division L2 : Ladies Standards 17-30',
+			'slug' => "L2",
+			'parent'=> $parent_term_id)
+		);
 	}
 }
 ?>
