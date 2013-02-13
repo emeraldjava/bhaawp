@@ -17,3 +17,7 @@ select * from bhaaie_members.racepoints where runner=7713;
 
 select * from bhaaie_members.leaguesummary where leagueid=13;
 
+INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguedivision,leagueposition,leaguescorecount,leaguepoints)
+select
+13,"I",leagueparticipantid,leaguestandard,leaguedivision,leagueposition,leaguescorecount,leaguepoints
+from bhaaie_members.leaguesummary where leagueid=13;
