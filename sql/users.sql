@@ -53,4 +53,137 @@ where status='m'
 and dateofrenewal>="2013-01-01"
 group by MONTHNAME(dateofrenewal)
 order by MONTH(dateofrenewal);
+
+-- non renewed runners
+select count(id) from runner where YEAR(dateofrenewal)=2012 and status="M";
+update runner set status="I" where YEAR(dateofrenewal)=2012 and status="M";
+select count(id) from runner where YEAR(dateofrenewal)=2013 and status="M"
     
+
+select count(user_id) from wp_users
+join wp_usermeta m1 on (
+	m1.user_id=wp_users.id and 
+	m1.meta_key='bhaa_runner_status' and
+	m1.meta_value='M');
+	
+-- select all wordpress users who have renewed
+select wp_users.id,wp_users.user_nicename from wp_users
+join wp_usermeta m1 on (
+	m1.user_id=wp_users.id and 
+	m1.meta_key='bhaa_runner_status' and
+	m1.meta_value='M')
+join wp_usermeta m2 on (
+	m2.user_id=wp_users.id and 
+	m2.meta_key='bhaa_runner_dateofrenewal' and
+	YEAR(m2.meta_value)='2013') order by id;
+
+	-- 	INSERT INTO `runner`(`id`, `surname`, `firstname`, `gender`, `dateofbirth`, `company`, `email`, `mobilephone`,
+	-- `status`, `insertdate`, `dateofrenewal`)
+
+-- select new wordpress users
+select wp_users.id,mfn.meta_value,mln.meta_value,mg.meta_value,mdob.meta_value,
+mc.meta_value,wp_users.user_email,mp.meta_value,ms.meta_value,mdor.meta_value,mdor.meta_value from wp_users
+join wp_usermeta ms on (
+	ms.user_id=wp_users.id and 
+	ms.meta_key='bhaa_runner_status' and
+	ms.meta_value='M')
+join wp_usermeta mfn on (
+	mfn.user_id=wp_users.id and 
+	mfn.meta_key='first_name') 
+join wp_usermeta mln on (
+	mln.user_id=wp_users.id and 
+	mln.meta_key='last_name') 
+join wp_usermeta mg on (
+	mg.user_id=wp_users.id and 
+	mg.meta_key='bhaa_runner_gender') 
+join wp_usermeta mdob on (
+	mdob.user_id=wp_users.id and 
+	mdob.meta_key='bhaa_runner_dateofbirth') 
+join wp_usermeta mc on (
+	mc.user_id=wp_users.id and 
+	mc.meta_key='bhaa_runner_company') 
+join wp_usermeta mp on (
+	mp.user_id=wp_users.id and 
+	mp.meta_key='bhaa_runner_mobilephone') 
+join wp_usermeta mdor on (
+	mdor.user_id=wp_users.id and 
+	mdor.meta_key='bhaa_runner_dateofrenewal') 	
+where id>21000
+order by id;
+
+select * from bhaaie_members.runner where id>21000;
+ 	
+INSERT INTO bhaaie_members.runner(id,firstname,surname,gender,dateofbirth,company,email,
+mobilephone,status,insertdate,dateofrenewal)
+ select wp_users.id,mfn.meta_value,mln.meta_value,mg.meta_value,mdob.meta_value,
+mc.meta_value,wp_users.user_email,mp.meta_value,ms.meta_value,mdor.meta_value,mdor.meta_value from wp_users
+join wp_usermeta ms on (
+	ms.user_id=wp_users.id and 
+	ms.meta_key='bhaa_runner_status' and
+	ms.meta_value='M')
+join wp_usermeta mfn on (
+	mfn.user_id=wp_users.id and 
+	mfn.meta_key='first_name') 
+join wp_usermeta mln on (
+	mln.user_id=wp_users.id and 
+	mln.meta_key='last_name') 
+join wp_usermeta mg on (
+	mg.user_id=wp_users.id and 
+	mg.meta_key='bhaa_runner_gender') 
+join wp_usermeta mdob on (
+	mdob.user_id=wp_users.id and 
+	mdob.meta_key='bhaa_runner_dateofbirth') 
+left join wp_usermeta mc on (
+	mc.user_id=wp_users.id and 
+	mc.meta_key='bhaa_runner_company') 
+join wp_usermeta mp on (
+	mp.user_id=wp_users.id and 
+	mp.meta_key='bhaa_runner_mobilephone') 
+join wp_usermeta mdor on (
+	mdor.user_id=wp_users.id and 
+	mdor.meta_key='bhaa_runner_dateofrenewal') 	
+where id>22234
+order by wp_users.id;
+
+
+UPDATE bhaaie_members.runner
+join wp_users wp_users on (
+	wp_users.id=runner.id)
+join wp_usermeta ms on (
+	ms.user_id=wp_users.id and 
+	ms.meta_key='bhaa_runner_status' and
+	ms.meta_value='M')
+join wp_usermeta mfn on (
+	mfn.user_id=wp_users.id and 
+	mfn.meta_key='first_name') 
+join wp_usermeta mln on (
+	mln.user_id=wp_users.id and 
+	mln.meta_key='last_name') 
+join wp_usermeta mg on (
+	mg.user_id=wp_users.id and 
+	mg.meta_key='bhaa_runner_gender') 
+join wp_usermeta mdob on (
+	mdob.user_id=wp_users.id and 
+	mdob.meta_key='bhaa_runner_dateofbirth') 
+left join wp_usermeta mc on (
+	mc.user_id=wp_users.id and 
+	mc.meta_key='bhaa_runner_company') 
+join wp_usermeta mp on (
+	mp.user_id=wp_users.id and 
+	mp.meta_key='bhaa_runner_mobilephone') 
+join wp_usermeta mdor on (
+	mdor.user_id=wp_users.id and 
+	mdor.meta_key='bhaa_runner_dateofrenewal') 	
+set 
+firstname=mfn.meta_value,
+surname=mln.meta_value,
+gender=mg.meta_value,
+dateofbirth=mdob.meta_value,
+company=mc.meta_value,
+email=wp_users.user_email,
+mobilephone=mp.meta_value,
+status=ms.meta_value,
+insertdate=mdor.meta_value,
+dateofrenewal=mdor.meta_value
+where wp_users.ID>21000;
+
