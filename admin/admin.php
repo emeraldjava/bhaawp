@@ -119,6 +119,10 @@ class BhaaAdmin
 	function register_bhaa_options()
 	{
 		register_setting('bhaa','bhaa_annual_event_id');
+		register_setting( 'flickr_plus', 'flickr_plus_username' );
+		register_setting( 'flickr_plus', 'flickr_plus_user_id' );
+		register_setting( 'flickr_plus', 'flickr_plus_api_key' );
+		register_setting( 'flickr_plus', 'flickr_plus_secret' );
 	}
 			
 	function bhaa_plugin_options() {
@@ -135,6 +139,22 @@ class BhaaAdmin
 		        <tr valign="top">
 		        <th scope="row">BHAA Annual Event ID</th>
 		        <td><input type="text" name="bhaa_annual_event_id" value="<?php echo get_option('bhaa_annual_event_id'); ?>" /></td>
+		        </tr>
+		        <tr valign="top">
+		        <th scope="row">flickr_plus_username</th>
+		        <td><input type="text" name="flickr_plus_username" value="<?php echo get_option('flickr_plus_username'); ?>" /></td>
+		        </tr>
+		        <tr valign="top">
+		        <th scope="row">flickr_plus_user_id</th>
+		        <td><input type="text" name="flickr_plus_user_id" value="<?php echo get_option('flickr_plus_user_id'); ?>" /></td>
+		        </tr>
+		        <tr valign="top">
+		        <th scope="row">flickr_plus_username</th>
+		        <td><input type="text" name="flickr_plus_username" value="<?php echo get_option('flickr_plus_username'); ?>" /></td>
+		        </tr>
+		        <tr valign="top">
+		        <th scope="row">flickr_plus_username</th>
+		        <td><input type="text" name="flickr_plus_username" value="<?php echo get_option('flickr_plus_username'); ?>" /></td>
 		        </tr>
 		    </table>
 		    <?php submit_button(); ?>

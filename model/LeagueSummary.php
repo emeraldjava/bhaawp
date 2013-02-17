@@ -32,7 +32,7 @@ class LeagueSummary implements Table
 	{}
 
 	// return a summary of the top x in each division
-	function getLeageSummary($limit=10)
+	function getLeagueSummary($limit=10)
 	{
 		global $wpdb;
 		$query = $wpdb->prepare('
@@ -40,9 +40,9 @@ class LeagueSummary implements Table
 			FROM wp_bhaa_leaguesummary
 			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
 			WHERE leaguetype = "I"
-			AND leagueposition <=10
+			AND leagueposition <= %d
 			AND league = %d
-			order by league, leaguedivision, leagueposition',$this->league);
+			order by league, leaguedivision, leagueposition',$limit,$this->league);
 		error_log($query);
 		$this->items = $wpdb->get_results($query);
 		return $this->items;	

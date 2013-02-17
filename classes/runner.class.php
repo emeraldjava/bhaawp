@@ -96,8 +96,8 @@ class Runner
 			// query on id
 			$user = get_userdata($query);
 			$suggestion = array();
-			$suggestion['label'] = $user->first_name . ' ' . $user->last_name;
-			$suggestion['link'] = $user->ID;
+			$suggestion['label'] = $user->display_name;
+			$suggestion['link'] = sprintf('%s/runner/?id=%d',get_site_url(),$user->ID);
 			$suggestions[]=$suggestion;
 		}
 		else

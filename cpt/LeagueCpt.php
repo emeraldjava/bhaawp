@@ -66,7 +66,7 @@ class LeagueCpt
 			'labels' => $leagueLabels,
 			'hierarchical' => false,
 			'description' => 'BHAA League Details',
-			'supports' => array( 'title','editor','excerpt','thumbnail'),
+			'supports' => array( 'title','editor','excerpt','thumbnail','comments'),
         	'public' => true,
         	'show_ui' => true,
         	'show_in_menu' => true,

@@ -77,6 +77,9 @@ join wp_usermeta m2 on (
 	m2.meta_key='bhaa_runner_dateofrenewal' and
 	YEAR(m2.meta_value)='2013') order by id;
 
+
+	
+	
 	-- 	INSERT INTO `runner`(`id`, `surname`, `firstname`, `gender`, `dateofbirth`, `company`, `email`, `mobilephone`,
 	-- `status`, `insertdate`, `dateofrenewal`)
 
@@ -187,3 +190,19 @@ insertdate=mdor.meta_value,
 dateofrenewal=mdor.meta_value
 where wp_users.ID>21000;
 
+-- update existing wp to members runners
+UPDATE bhaaie_members.runner
+join wp_users wp_users on (
+	wp_users.id=runner.id)
+join wp_usermeta ms on (
+	ms.user_id=wp_users.id and 
+	ms.meta_key='bhaa_runner_status' and
+	ms.meta_value='M')
+join wp_usermeta mdor on (
+	mdor.user_id=wp_users.id and 
+	mdor.meta_key='bhaa_runner_dateofrenewal' and
+	YEAR(mdor.meta_value)='2013') 
+set 
+runner.status=ms.meta_value,
+runner.dateofrenewal=mdor.meta_value
+where wp_users.id>1500 and wp_users.id<10000;

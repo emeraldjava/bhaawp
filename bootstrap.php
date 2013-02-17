@@ -20,6 +20,12 @@ require_once(PLUGIN_ROOT_DIR.'/cpt/HouseCpt.php');
 require_once(PLUGIN_ROOT_DIR.'/cpt/LeagueCpt.php');
 require_once(PLUGIN_ROOT_DIR.'/cpt/RaceCpt.php');
 
+// flickr
+require_once(PLUGIN_ROOT_DIR.'/flickr/BhaaFlickr.php');
+require_once(PLUGIN_ROOT_DIR.'/flickr/BhaaFlickrAdmin.php');
+require_once(PLUGIN_ROOT_DIR.'/flickr/FlickrConfig.php');
+require_once(PLUGIN_ROOT_DIR.'/flickr/phpFlickr.php');
+
 // model
 require_once(PLUGIN_ROOT_DIR.'/model/BaseModel.php');
 require_once(PLUGIN_ROOT_DIR.'/model/Table.php');
