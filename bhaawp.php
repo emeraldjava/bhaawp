@@ -27,7 +27,6 @@ class BHAA
 	
 	var $registration;
 	
-	
 	function __construct()
 	{
 		//global $wpdb;
@@ -92,6 +91,9 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		
 		$this->standardCalculator = new StandardCalculator();
 		add_shortcode('standardtable', array($this->standardCalculator,'standard_table'));
+		
+		$flickr = new BhaaFlickr();
+		add_shortcode('bhaa_flickr',array($flickr,'bhaa_flickr_shortcode'));	
 		
 		//add_shortcode('bhaa_registration', array($this->registration,'registration'));
 		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');

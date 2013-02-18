@@ -85,6 +85,10 @@ class phpFlickr {
 		$this->php_version = explode("-", phpversion());
 		$this->php_version = explode(".", $this->php_version[0]);
 
+		// http://stackoverflow.com/questions/4483317/failed-opening-required-http-request2-php-include-path-c-php5-pear
+		// http://code.google.com/p/phpflickr/source/browse/#svn%2Ftrunk%2FPEAR
+		// http://wp.tutsplus.com/tutorials/plugins/a-guide-to-the-wordpress-http-api-the-basics/
+		
 		//All calls to the API are done via the POST method using the PEAR::HTTP_Request package.
 		require_once 'HTTP/Request.php';
 		$this->req =& new HTTP_Request();
