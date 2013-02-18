@@ -39,7 +39,7 @@ if (strpos(__FILE__, ':') !== false) {
 // setting doesn't allow you to include files outside of your web root), comment out
 // the line above and uncomment the next line:
 
-// ini_set('include_path', dirname(__FILE__) . '/PEAR' . $path_delimiter . ini_get('include_path'));
+ini_set('include_path', dirname(__FILE__) . '/PEAR' . $path_delimiter . ini_get('include_path'));
 
 class phpFlickr {
 	var $api_key;
