@@ -994,13 +994,19 @@ class BhaaImport
 	function getBhaaDB()
 	{
 		// user, pass, dbname, host
-		return new wpdb('root','','bhaaie_members','localhost');
+		return new wpdb(
+			get_option('bhaa_import_username'),
+			get_option('bhaa_import_password'),
+			'bhaaie_members','localhost');
 	}
 	
 	function getGlfusionDB()
 	{
 		// user, pass, dbname, host
-		return new wpdb('root','','bhaaie_glfusion','localhost');
+		return new wpdb(
+			get_option('bhaa_import_username'),
+			get_option('bhaa_import_password'),
+			'bhaaie_glfusion','localhost');
 	}
 }
 ?>

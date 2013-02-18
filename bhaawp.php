@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.02.13
+Version: 2013.02.18
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA
 {
-	var $version = '2013.02.13';
+	var $version = '2013.02.18';
 	
 	//var $admin;
 	var $connection;
@@ -91,8 +91,9 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$this->registration = new Registration();
 		
 		$this->standardCalculator = new StandardCalculator();
+		add_shortcode('standardtable', array($this->standardCalculator,'standard_table'));
 		
-		add_shortcode('bhaa_registration', array($this->registration,'registration'));
+		//add_shortcode('bhaa_registration', array($this->registration,'registration'));
 		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
 		//$this->rrw = new RaceResult_Widget();
 		$runnerSearchWidget = new RunnerSearchWidget();
