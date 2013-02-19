@@ -10,6 +10,12 @@ define( 'PLUGIN_ROOT_DIR' , dirname(__FILE__) );//plugin_dir_path( __FILE__ ) );
 // }
 //spl_autoload_register ( 'template_autoloader' );
 
+// posts 2 posts
+//echo 'ABSPATH '. ABSPATH.'\n';
+//echo 'WP_INSTALL_DIR '.WP_INSTALL_DIR.'\n';
+//echo 'PLUGIN_ROOT_DIR '. PLUGIN_ROOT_DIR.'\n';
+//require_once( WP_INSTALL_DIR . '/wp-content/plugins/posts-to-posts/core/api.php' );
+
 // admin
 require_once(PLUGIN_ROOT_DIR.'/admin/admin.php');
 require_once(PLUGIN_ROOT_DIR.'/admin/import.php');
@@ -29,6 +35,7 @@ require_once(PLUGIN_ROOT_DIR.'/model/BaseModel.php');
 require_once(PLUGIN_ROOT_DIR.'/model/Table.php');
 require_once(PLUGIN_ROOT_DIR.'/model/LeagueModel.php');
 require_once(PLUGIN_ROOT_DIR.'/model/LeagueSummary.php');
+require_once(PLUGIN_ROOT_DIR.'/model/EventModel.php');
 
 // tables
 require_once(PLUGIN_ROOT_DIR.'/table/teamresulttable.class.php');

@@ -9,8 +9,11 @@ print_r((array)$ONE);
 //echo $ONE->getKmPace(5);
 
 $standardCalc = new StandardCalculator();
-print_r($standardCalc->standardTableSql);
-print_r(array_values((array)$standardCalc->standards));
-//print_r($standards->getTimeTable(5));
+//print_r($standardCalc->standardTableSql);
+//print_r(array_values((array)$standardCalc->standards));
+
+print_r($standardCalc->getTimeTable(3.2));
+
+print_r($standardCalc->standard_table(array('distance'=>3.2)));
 //print_r($standards->getTimeTable(10));
 ?>

@@ -58,9 +58,14 @@ class StandardCalculator
 		return $times;
 	}
 	
+	function standard_table($attr) {
+		$times = $this->getTimeTable($attr['distance']);
+		return $times;// print_r($times,false);
+	}
+	
 	function toString()
 	{
-		print_r($this->standards);
+		return $this->standards;
 	}
 }
 ?>
