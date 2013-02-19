@@ -11,7 +11,17 @@ class EventModel extends BaseModel
 	
 	function getRaces()
 	{
-		return p2p_get_connections(Connection::EVENT_TO_RACE,array('from'=>$this->eventid));
+		$races = p2p_get_connections(Connection::EVENT_TO_RACE,
+			array('direction'=>'from','from'=>$this->eventid,'fields'=>'p2p_to'));
+		//echo 'races'.print_r($races);
+		
+		$res = array();
+		foreach($races as $race) {
+			$raceM = new RaceModel($race);
+			$res[] = $raceM->getDistance();
+		}
+		//echo 'x'.$res;
+		return $res;
 	}
 }
 ?>

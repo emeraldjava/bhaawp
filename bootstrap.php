@@ -1,6 +1,7 @@
 <?php
 
 define( 'PLUGIN_ROOT_DIR' , dirname(__FILE__) );//plugin_dir_path( __FILE__ ) );
+//echo 'boot'.PLUGIN_ROOT_DIR;
 
 // function template_autoloader ( $class ) {
 // 	if ( file_exists ( dirname(__FILE__) ."/classes/.$class.class.php" ) )
@@ -36,6 +37,7 @@ require_once(PLUGIN_ROOT_DIR.'/model/Table.php');
 require_once(PLUGIN_ROOT_DIR.'/model/LeagueModel.php');
 require_once(PLUGIN_ROOT_DIR.'/model/LeagueSummary.php');
 require_once(PLUGIN_ROOT_DIR.'/model/EventModel.php');
+require_once(PLUGIN_ROOT_DIR.'/model/RaceModel.php');
 
 // tables
 require_once(PLUGIN_ROOT_DIR.'/table/teamresulttable.class.php');
