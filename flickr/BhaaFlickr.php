@@ -6,7 +6,7 @@ class BhaaFlickr
 	function __construct()
 	{
 		$this->phpFlickr = new phpFlickr(get_option('bhaa_flickr_api_key'));
-		//$this->phpFlickr->enableCache("db", "mysql://user:password@server/database");
+		$this->phpFlickr->enableCache("db","mysql://root:root@localhost/bhaaie_wp");
 	}
 	
 	function bhaa_flickr_shortcode($attrs)
@@ -15,7 +15,7 @@ class BhaaFlickr
 			'foo' => 'something',
 			'bar' => 'something else',
 			), $atts ) );
-		return 'bhaa_flickr_shortcode';
+		return print_r($this->bhaa_flickr_list_albums());//'bhaa_flickr_shortcode';
 	}
 	
 	function bhaa_flickr_list_albums() {

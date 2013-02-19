@@ -105,8 +105,9 @@ class phpFlickr {
 		// when you include this.  They'll usually work, you'll just want to test them.
 		if ($type == 'db') {
 			require_once 'DB.php';
-			$db =& DB::connect($connection);
+			$db = &DB::connect($connection);
 			if (PEAR::isError($db)) {
+				error_log($db->getMessage());
 				die($db->getMessage());
 			}
 

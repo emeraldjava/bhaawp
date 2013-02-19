@@ -153,12 +153,12 @@ class BhaaAdmin
 		        <td><input type="text" name="bhaa_flickr_user_id" value="<?php echo get_option('bhaa_flickr_user_id'); ?>" /></td>
 		        </tr>
 		        <tr valign="top">
-		        <th scope="row">bhaa_flickr_username</th>
-		        <td><input type="text" name="bhaa_flickr_username" value="<?php echo get_option('bhaa_flickr_username'); ?>" /></td>
+		        <th scope="row">bhaa_flickr_api_key</th>
+		        <td><input type="text" name="bhaa_flickr_api_key" value="<?php echo get_option('bhaa_flickr_api_key'); ?>" /></td>
 		        </tr>
 		        <tr valign="top">
-		        <th scope="row">bhaa_flickr_username</th>
-		        <td><input type="text" name="bhaa_flickr_username" value="<?php echo get_option('bhaa_flickr_username'); ?>" /></td>
+		        <th scope="row">bhaa_flickr_secret</th>
+		        <td><input type="text" name="bhaa_flickr_secret" value="<?php echo get_option('bhaa_flickr_secret'); ?>" /></td>
 		        </tr>
 		        </tr>
 		        <tr valign="top">
