@@ -22,6 +22,11 @@
 <div><i style="font-style: normal">BHAA ID</i></div></td>
 <td style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">%s</td>
 </tr>
+<!-- Email -->
+<tr><td style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<div><i style="font-style: normal">Email</i></div></td>
+<td style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">%s</td>
+</tr>
 <!-- Date Of Birth -->
 <tr>
 <td	style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
@@ -52,6 +57,7 @@ Thank you for renewing your membership.
 <li>You are now entitled to run all BHAA events for an entry of 10e.</li>
 <li>Your race results will be counted towards the BHAA league.</li>
 <li>You can run with your company or sector team.</li>
+<li>You can login into the BHAA website to leave comments and pre-pay for upcoming events.</li>
 </ul>
 </td>
 </tr>

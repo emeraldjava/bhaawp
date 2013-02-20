@@ -67,7 +67,7 @@ class RunnerAdmin
 			update_user_meta($user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
 			error_log('bhaa_runner_renew : '.$user_id.' '.$user->display_name.','.$user->user_email.','.date('Y-m-d'));
 			
-			if(true)//$user->user_email!=''||$user->user_email!=null)
+			if($user->user_email!=''||$user->user_email!=null)
 			{
 				ob_start();
 				require 'renewal.email.php';
@@ -86,6 +86,7 @@ class RunnerAdmin
 				
 				$message = sprintf($content,
 					$user->display_name,
+					$user->user_email,
 					$user_id,
 					get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
 					get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true),
