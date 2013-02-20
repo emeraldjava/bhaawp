@@ -70,7 +70,7 @@ class RunnerAdmin
 			if($user->user_email!=''||$user->user_email!=null)
 			{
 				ob_start();
-				require 'renewal.email.php';
+				require 'renewal.php';
 				$content = ob_get_clean();
 				//error_log($content);
 				
