@@ -20,7 +20,7 @@
 <!-- BHAA ID -->
 <tr><td style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
 <div><i style="font-style: normal">BHAA ID</i></div></td>
-<td style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">%s</td>
+<td style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top"><a href="http://www.bhaa.ie/runner/?id=%s">%s</a></td>
 </tr>
 <!-- Email -->
 <tr><td style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">

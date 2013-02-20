@@ -86,8 +86,9 @@ class RunnerAdmin
 				
 				$message = sprintf($content,
 					$user->display_name,
-					$user->user_email,
 					$user_id,
+					$user_id,
+					$user->user_email,
 					get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
 					get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true),
 					$company);
