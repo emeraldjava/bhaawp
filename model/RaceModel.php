@@ -2,13 +2,13 @@
 class RaceModel extends BaseModel
 {
 	var $post_id;
-	var $post;
-	var $meta;
+	//var $post;
+	//var $meta;
 	
 	function __construct($post_id)
 	{
 		$this->post_id = $post_id;
-		$this->post = WP_Post::get_instance($post_id);
+		//$this->post = WP_Post::get_instance($post_id);
 		//$this->meta = get_post_meta($post_id);
 		//var_dump($this->post->get);
 	}

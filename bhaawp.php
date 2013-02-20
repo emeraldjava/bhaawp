@@ -90,7 +90,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$this->registration = new Registration();
 		
 		$this->standardCalculator = new StandardCalculator();
-		add_shortcode('standardtable', array($this->standardCalculator,'standard_table'));
+		add_shortcode('standardtable', array($this->standardCalculator,'getEventStandardTable'));
 		
 		$flickr = new BhaaFlickr();
 		add_shortcode('bhaa_flickr',array($flickr,'bhaa_flickr_shortcode'));	

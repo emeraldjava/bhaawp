@@ -16,9 +16,9 @@ class EventModel extends BaseModel
 		//echo 'races'.print_r($races);
 		
 		$res = array();
-		foreach($races as $race) {
-			$raceM = new RaceModel($race);
-			$res[] = $raceM->getKmDistance();
+		foreach($races as $raceid) {
+			$race = new RaceModel($raceid);
+			$res[] = $race;
 		}
 		//echo 'x'.$res;
 		return $res;

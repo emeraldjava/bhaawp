@@ -55,12 +55,42 @@ class StandardCalculator
 		{
 			$times[$v->standard] = $v->getKmTime($distance);
 		}
+		echo $times;
 		return $times;
 	}
 	
-	function standard_table($attr) {
-		$times = $this->getTimeTable($attr['distance']);
-		return $times;// print_r($times,false);
+	function getEventStandardTable($attr) 
+	{
+		global $post;
+		error_log('getEventStandardTable '.$post->ID);
+		
+		$eventModel = new EventModel($post->ID);//$attr['id']);
+		$standardTable = '<div>';
+		$standardTable .= '<h3>BHAA Standard Table</h3><table>';
+		$races = $eventModel->getRaces();
+		
+		// headers
+		$standardTable .= '<tr>';
+		$standardTable .= '<th>HEADER</th>';
+		foreach ($races as $race)
+		{
+			$standardTable .= '<th>'.$race->getKmDistance().'</th>';
+		}
+		$standardTable .= '</tr>';
+		
+		// standard row and distance time
+		$standardTable .= '<tr>';
+		foreach ($this->standards as $k => $v)
+		{
+			$standardTable .= '<td>'.$v->standard.'</td>';
+			foreach ($races as $race)
+			{
+				$standardTable .= '<td>'.$v->getKmTime($race->getKmDistance()).'</td>';
+			}
+		}
+		$standardTable .= '</tr>';
+		$standardTable .= '</div>';
+		echo $standardTable;// print_r($times,false);
 	}
 	
 	function toString()
