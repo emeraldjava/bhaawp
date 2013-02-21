@@ -20,6 +20,7 @@ $standardCalc = new StandardCalculator();
 
 print_r($standardCalc->getEventStandardTable(2123));
 
+print_r($standardCalc->getEventStandardTable(2));
 //print_r($standardCalc->standardTableSql);
 //print_r(array_values((array)$standardCalc->standards));
 

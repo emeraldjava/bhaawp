@@ -68,9 +68,14 @@ class StandardCalculator
 	function getEventStandardTable($eventid) 
 	{
 		$eventModel = new EventModel($eventid);
+		$races = $eventModel->getRaces();
+		if(count($races)==0)
+		{
+			return '<div><h3>BHAA Standard Table - No races have been linked yet.</h3><table></div>';
+		}
+			
 		$standardTable = '<div>';
 		$standardTable .= '<h3>BHAA Standard Table</h3><table>';
-		$races = $eventModel->getRaces();
 		
 		// headers
 		$standardTable .= '<tr>';
@@ -84,7 +89,6 @@ class StandardCalculator
 		$standardTable .= '</tr>'.PHP_EOL;
 		
 		// standard row and distance time
-		
 		foreach ($this->standards as $k => $v)
 		{
 			$standardTable .= '<tr>';
@@ -97,7 +101,8 @@ class StandardCalculator
 		}
 		
 		$standardTable .= '</table></div>'.PHP_EOL;
-		echo $standardTable;// print_r($times,false);
+		return $standardTable;
+		
 	}
 	
 	function toString()
