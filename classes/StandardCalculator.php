@@ -75,7 +75,7 @@ class StandardCalculator
 		}
 			
 		$standardTable = '<div>';
-		$standardTable .= '<h3>BHAA Standard Table</h3><table>';
+		$standardTable .= '<table>'.PHP_EOL;
 		
 		// headers
 		$standardTable .= '<tr>';
