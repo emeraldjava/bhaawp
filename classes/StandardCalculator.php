@@ -59,37 +59,44 @@ class StandardCalculator
 		return $times;
 	}
 	
-	function getEventStandardTable($attr) 
+	function eventStandardTable()
 	{
 		global $post;
-		error_log('getEventStandardTable '.$post->ID);
-		
-		$eventModel = new EventModel($post->ID);//$attr['id']);
+		return getEventStandardTable($post->ID);
+	}	
+	
+	function getEventStandardTable($eventid) 
+	{
+		$eventModel = new EventModel($eventid);
 		$standardTable = '<div>';
 		$standardTable .= '<h3>BHAA Standard Table</h3><table>';
 		$races = $eventModel->getRaces();
 		
 		// headers
 		$standardTable .= '<tr>';
-		$standardTable .= '<th>HEADER</th>';
+		$standardTable .= '<th>Standard</th>';
+		$distances = array();
 		foreach ($races as $race)
 		{
-			$standardTable .= '<th>'.$race->getKmDistance().'</th>';
+			$distances[] = $race->getKmDistance();
+			$standardTable .= '<th>'.$race->getDistance().$race->getUnit().'</th>';
 		}
-		$standardTable .= '</tr>';
+		$standardTable .= '</tr>'.PHP_EOL;
 		
 		// standard row and distance time
-		$standardTable .= '<tr>';
+		
 		foreach ($this->standards as $k => $v)
 		{
+			$standardTable .= '<tr>';
 			$standardTable .= '<td>'.$v->standard.'</td>';
-			foreach ($races as $race)
+			foreach ($distances as $distance)
 			{
-				$standardTable .= '<td>'.$v->getKmTime($race->getKmDistance()).'</td>';
+				$standardTable .= '<td>'.$v->getKmTime($distance).'</td>';
 			}
+			$standardTable .= '</tr>'.PHP_EOL;
 		}
-		$standardTable .= '</tr>';
-		$standardTable .= '</div>';
+		
+		$standardTable .= '</table></div>'.PHP_EOL;
 		echo $standardTable;// print_r($times,false);
 	}
 	

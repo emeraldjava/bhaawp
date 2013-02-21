@@ -18,7 +18,8 @@ $ONE = new Standard(1, 0.442101708254709, 176.435763853992, 174.688875102962);
 
 $standardCalc = new StandardCalculator();
 
-print_r($standardCalc->getEventStandardTable(array('id'=>2503)))
+print_r($standardCalc->getEventStandardTable(2123));
+
 //print_r($standardCalc->standardTableSql);
 //print_r(array_values((array)$standardCalc->standards));
 

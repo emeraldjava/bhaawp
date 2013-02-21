@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.02.18
+Version: 2013.02.21
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA
 {
-	var $version = '2013.02.18';
+	var $version = '2013.02.21';
 	
 	//var $admin;
 	var $connection;
@@ -90,7 +90,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$this->registration = new Registration();
 		
 		$this->standardCalculator = new StandardCalculator();
-		add_shortcode('standardtable', array($this->standardCalculator,'getEventStandardTable'));
+		add_shortcode('eventStandardTable', array($this->standardCalculator,'eventStandardTable'));
 		
 		$flickr = new BhaaFlickr();
 		add_shortcode('bhaa_flickr',array($flickr,'bhaa_flickr_shortcode'));	
