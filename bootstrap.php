@@ -39,6 +39,7 @@ require_once(PLUGIN_ROOT_DIR.'/model/LeagueModel.php');
 require_once(PLUGIN_ROOT_DIR.'/model/LeagueSummary.php');
 require_once(PLUGIN_ROOT_DIR.'/model/EventModel.php');
 require_once(PLUGIN_ROOT_DIR.'/model/Race.php');
+require_once(PLUGIN_ROOT_DIR.'/model/RaceResult.php');
 require_once(PLUGIN_ROOT_DIR.'/model/House.php');
 require_once(PLUGIN_ROOT_DIR.'/model/HouseManager.php');
 

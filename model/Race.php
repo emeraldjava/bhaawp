@@ -38,9 +38,32 @@ class Race extends BaseModel
 		error_log('deleteResults - '.$id);
 	}
 	
+	/**
+	 * Process an array which is a race result
+	[0] => 7
+    [1] => 1719
+    [2] => 1683
+    [3] => 00:13:15
+    [4] => McDonnell
+    [5] => Karen
+    [6] => F
+    [7] => 13
+    [8] => 25/03/1976
+    [9] => 35
+    [10] => Gardai
+    [11] => 94
+    [12] => Gardai
+    [13] => 94
+	 * 
+	 * @param unknown $details
+	 */
 	function addResult($details)
 	{
-		error_log(var_dump($details));
+		//error_log(print_r($details,true));	
+		$raceResult = new RaceResult();
+		$res = $raceResult->addResult($this->post_id, $details);
+		error_log($res);
+		
 	}
 }
 ?>
