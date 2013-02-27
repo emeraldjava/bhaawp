@@ -149,23 +149,87 @@ class Runner
 		return str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
 	}
 	
-	public function createNewUser($firstname,$surname,$email)
+	public function createNewUser($firstname,$surname,$email,$gender,$dateofbirth)
 	{
 		require_once( ABSPATH . 'wp-includes/user.php' );
 		$id = $this->getNextRunnerId();
 		error_log('next id '.$id);
 		
-		$username = $id.'.'.$firstname.'.'.$surname;
+		// format the username
+		$username = $firstname.'.'.$surname;
+		$username = str_replace(' ', '', $username);
+		$username = str_replace("'", '', $username);
+		
+		// check for a unique username
+		$user_id = username_exists($username);
+		if(!user_id)
+		{
+			$username = $username.$id;
+		}
+		
 		if($email='')
-			$email = $id.'@bhaa.ie';
+			$email = $username.'@bhaa.ie';
 		
 		$password =  wp_hash_password($id);
-		$user = wp_create_user($username,$password,$email);
-		if(is_wp_error($user))
-			error_log('new user error '.$user->get_error_message());
+
+		// insert the user via SQL
+		$this->insertUser($id,$username,$password,$email);
+		// update the wp_user
+		$res = wp_update_user(array(
+			'ID'            => $id,
+			'user_login'    => $username,
+			'user_email'    => $email,
+			'nickname' => $username,
+			'display_name'=> $username,
+			'first_name' => $firstname,
+			'last_name'=> $surname
+		));
+		if(is_wp_error($res))
+			error_log('new user error '.$res->get_error_message());
 		else
-			//error_log('new user id '.$user);
-		return $user;
+			error_log('new user id '.$res);
+		
+		update_user_meta( $id, Runner::BHAA_RUNNER_GENDER, $gender);
+		update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $dateofbirth);
+		update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, date('Y-m-d'));
+		update_user_meta( $id, Runner::BHAA_RUNNER_STATUS,'D');
+		
+		//$user = wp_create_user($username,$password,$email);
+		return $id;
+	}
+	
+	private function insertUser($id,$name,$password,$email)
+	{
+		global $wpdb;
+		$sql;
+		if(isset($email))
+		{
+			$sql = $wpdb->prepare(
+					"INSERT INTO wp_users(
+					ID,
+					user_login,
+					user_pass,
+					user_nicename,
+					user_email,
+					user_status,
+					display_name)
+					VALUES (%d,%s,%s,%s,%s,%d,%s)",
+					$id,$name,$password,$name,$email,0,$name);
+		}
+		else
+		{
+			$sql = $wpdb->prepare(
+					"INSERT INTO wp_users(
+					ID,
+					user_login,
+					user_pass,
+					user_nicename,
+					user_status,
+					display_name)
+					VALUES (%d,%s,%s,%s,%s,%s)",
+					$id,$name,$password,$name,0,$name);
+		}
+		$wpdb->query($sql);
 	}
 	
 	public function matchRunner($firstname,$surname,$dateofbirth)

@@ -59,7 +59,7 @@ class RaceResult extends BaseModel
 			}
 			else
 			{
-				$runner_id = $runner->createNewUser($details[5], $details[6],'');
+				$runner_id = $runner->createNewUser($details[5], $details[4],'',$details[6],$details[7]);
 				error_log('created new runner '.$runner_id);
 			}
 		}
