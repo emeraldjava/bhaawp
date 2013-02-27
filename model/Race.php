@@ -27,7 +27,7 @@ class Race extends BaseModel
 	
 	function getKmDistance()
 	{
-		if($this->getUnit()=='Mile')
+		if(strpos($this->getUnit(), 'Mile') === 0)
 			return $this->getDistance() * 1.6;
 		else 
 			return $this->getDistance();

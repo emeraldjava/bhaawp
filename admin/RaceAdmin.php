@@ -21,8 +21,12 @@ class RaceAdmin
 		if ($post->post_type =="race")
 		{
 			$actions = array_merge($actions, array(
-					'bhaa_race_delete_results' => sprintf('<a href="%s">Delete Results</a>', wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa')),
-					'bhaa_race_load_results' => sprintf('<a href="%s">Load Results</a>', wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa'))
+				'bhaa_race_delete_results' => sprintf('<a href="%s">Delete Results</a>', 
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_race_load_results' => sprintf('<a href="%s">Load Results</a>', 
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_race_update_pace' => sprintf('<a href="%s">Pace</a>',
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_pace&post_id=%d', $post->ID),'bhaa'))
 			));
 		}
 		return $actions;
@@ -61,6 +65,14 @@ class RaceAdmin
 				$raceResult->addRaceResult($details);
 			}
 			error_log('bhaa_race_load_results : '.$post_id);
+			wp_redirect(wp_get_referer());
+			exit();
+		}
+		elseif ( $_REQUEST['action'] == 'bhaa_race_update_pace')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+		{
+			$post_id = $_GET['post_id'];
+			$race = new RaceResult($post_id);
+			$race->updateRacePace();
 			wp_redirect(wp_get_referer());
 			exit();
 		}

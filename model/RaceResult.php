@@ -97,5 +97,19 @@ class RaceResult extends BaseModel
 		//$this->wpdb->print_error();
 		//$this->wpdb->hide_errors();
 	}
+	
+	private function getRace()
+	{
+		return new Race($this->post_id);
+	}
+	
+	function updateRacePace()
+	{
+		// SEC_TO_TIME(TIME_TO_SEC(_raceTime) / _distance)
+		$SQL = sprintf('update %s set paceKm=SEC_TO_TIME(TIME_TO_SEC(racetime)/%f) where race=%d',
+			$this->getTableName(),$this->getRace()->getKmDistance(),$this->post_id);
+		error_log($SQL);
+		$this->wpdb->query($this->wpdb->prepare($SQL));
+	}
 }
 ?>
