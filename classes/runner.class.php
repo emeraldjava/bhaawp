@@ -185,16 +185,13 @@ class Runner
 			'last_name'=> $surname
 		));
 		if(is_wp_error($res))
-			error_log('new user error '.$res->get_error_message());
-		else
-			error_log('new user id '.$res);
+			error_log('update user error '.$res->get_error_message());
 		
 		update_user_meta( $id, Runner::BHAA_RUNNER_GENDER, $gender);
 		update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $dateofbirth);
 		update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, date('Y-m-d'));
 		update_user_meta( $id, Runner::BHAA_RUNNER_STATUS,'D');
 		
-		//$user = wp_create_user($username,$password,$email);
 		return $id;
 	}
 	
