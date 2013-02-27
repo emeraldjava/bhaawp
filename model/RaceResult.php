@@ -46,6 +46,24 @@ class RaceResult extends BaseModel
 	 */
 	public function addRaceResult($details)
 	{
+		$runner_id = $details[2];
+		if($runner_id=='')
+		{
+			// lookup create runner
+			$runner = new Runner();
+			$match = $runner->matchRunner($details[5], $details[6], $details[8]);
+			if($match!=0)
+			{
+				$runner_id = $match;
+				error_log('matched existing runner '.$runner_id);
+			}
+			else
+			{
+				$runner_id = $runner->createNewUser($details[5], $details[6],'');
+				error_log('created new runner '.$runner_id);
+			}
+		}
+
 		//$this->wpdb->show_errors();
 		//error_log($race.''.print_r($details,true));
 		$res = $this->wpdb->insert(
@@ -54,7 +72,7 @@ class RaceResult extends BaseModel
 				'race' => $this->post_id,
 				'position' => $details[0],
 				'racenumber' => $details[1],
-				'runner' => $details[2],
+				'runner' => $runner_id,
 				'racetime' => $details[3],
 				'category' => $details[9],
 				'standard' => $details[7],

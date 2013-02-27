@@ -153,16 +153,47 @@ class Runner
 	{
 		require_once( ABSPATH . 'wp-includes/user.php' );
 		$id = $this->getNextRunnerId();
-		error_log('next id '.id);
+		error_log('next id '.$id);
 		
-		$username = $firstname.'.'.$surname;
+		$username = $id.'.'.$firstname.'.'.$surname;
 		if($email='')
 			$email = $id.'@bhaa.ie';
 		
 		$password =  wp_hash_password($id);
-		$user = wp_create_user($username, $password);
-		error_log('new user id '.$user);
+		$user = wp_create_user($username,$password,$email);
+		if(is_wp_error($user))
+			error_log('new user error '.$user->get_error_message());
+		else
+			//error_log('new user id '.$user);
 		return $user;
+	}
+	
+	public function matchRunner($firstname,$surname,$dateofbirth)
+	{
+		$args = array(
+			'number' => 1,
+			'fields' => 'all',
+			'meta_query' => array(
+				'relation' => 'AND',
+				array('key'=>'first_name','compare'=>'==','value'=>$firstname),
+				array('key'=>'last_name','compare'=>'==','value'=>$surname),
+				array('key'=>'bhaa_runner_status','compare'=>'==','value'=>'D'),
+				array('key'=>Runner::BHAA_RUNNER_DATEOFBIRTH,'compare'=>'==','value'=>$dateofbirth)
+			)
+		);
+		
+		$user_query = new WP_User_Query( $args );
+		$runner = $user_query->get_results();
+		if(empty($runner))
+		{
+			//error_log('no match');
+			return 0;
+		}
+		else
+		{
+			//error_log('matched runner '.print_r($runner,true));
+			return $runner[0]->ID;
+		}
 	}
 }
 ?>

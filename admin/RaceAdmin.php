@@ -58,7 +58,6 @@ class RaceAdmin
 			foreach($results as $result)
 			{
 				$details = str_getcsv($result,',','','\n');
-				//error_log(print_r($details,true));
 				$raceResult->addRaceResult($details);
 			}
 			error_log('bhaa_race_load_results : '.$post_id);
