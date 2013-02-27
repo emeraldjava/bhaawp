@@ -11,7 +11,8 @@ class HouseCpt
 		add_action( 'init', array(&$this,'bhaa_register_cpt_house'));
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamtype'));
-	
+		add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamstatus'));
+		
 		// display the admin status column
 		add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
 		add_filter('manage_house_posts_custom_column',array($this,'bhaa_manage_house_posts_custom_column'), 10, 3 );
@@ -161,13 +162,58 @@ class HouseCpt
 				'slug' => HouseCpt::SECTOR_TEAM,
 				'parent'=> $parent_term_id)
 		);
+	}
+	
+	function bhaa_register_taxonomy_teamstatus()
+	{
+		$labels = array(
+				'name' => _x( 'TeamStatus', 'teamstatus' ),
+				'singular_name' => _x( 'TeamStatus', 'teamstatus' ),
+				'search_items' => _x( 'Search teamstatuss', 'teamstatus' ),
+				'popular_items' => _x( 'Popular teamstatuss', 'teamstatus' ),
+				'all_items' => _x( 'All teamstatuss', 'teamstatus' ),
+				'parent_item' => _x( 'Parent teamstatus', 'teamstatus' ),
+				'parent_item_colon' => _x( 'Parent teamstatus:', 'teamstatus' ),
+				'edit_item' => _x( 'Edit teamstatus', 'teamstatus' ),
+				'update_item' => _x( 'Update teamstatus', 'teamstatus' ),
+				'add_new_item' => _x( 'Add New teamstatus', 'teamstatus' ),
+				'new_item_name' => _x( 'New teamstatus', 'teamstatus' ),
+				'separate_items_with_commas' => _x( 'Separate teamstatus with commas', 'teamstatus' ),
+				'add_or_remove_items' => _x( 'Add or remove teamstatus', 'teamstatus' ),
+				'choose_from_most_used' => _x( 'Choose from most used teamstatus', 'teamstatus' ),
+				'menu_name' => _x( 'TeamStatus', 'teamstatus' ),
+		);
+	
+		$args = array(
+				'labels' => $labels,
+				'public' => true,
+				'show_in_nav_menus' => true,
+				'show_ui' => true,
+				'show_tagcloud' => true,
+				'hierarchical' => false,
+				'rewrite' => true,
+				'query_var' => true
+		);
+		register_taxonomy( House::TEAM_STATUS, array(House::HOUSE), $args );
+	
+		// register the three types
+		$parent_term = term_exists(House::TEAM_STATUS,House::HOUSE);
+		$parent_term_id = $parent_term['term_id']; // get numeric term id
 		wp_insert_term(
-			HouseCpt::INACTIVE_TEAM, // the term
-			'teamtype', // the taxonomy
+			House::ACTIVE, // the term
+			House::TEAM_STATUS, // the taxonomy
 			array(
-				'description'=> 'Holder for houses with inactive teams.',
-				'slug' => HouseCpt::INACTIVE_TEAM,
-				'parent'=> $parent_term_id)
+			'description'=> 'An active team',
+			'slug' => House::ACTIVE,
+			'parent'=> $parent_term_id)
+		);
+		wp_insert_term(
+			House::PENDING, // the term
+			House::TEAM_STATUS, // the taxonomy
+			array(
+			'description'=> 'Pending Team.',
+			'slug' => House::PENDING,
+			'parent'=> $parent_term_id)
 		);
 	}
 }

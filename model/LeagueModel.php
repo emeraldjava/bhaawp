@@ -12,7 +12,8 @@ class LeagueModel extends BaseModel
 	function getEvents()
 	{
 		$events = p2p_get_connections(Connection::LEAGUE_TO_EVENT,
-			array('direction'=>'from','from'=>$this->leagueid,'fields'=>'p2p_to'));
+			array('direction'=>'from','from'=>$this->leagueid,'fields'=>'p2p_to')
+		);
 		echo 'races'.print_r($events);
 		// 	$res = array();
 		// 	foreach($races as $raceid) {

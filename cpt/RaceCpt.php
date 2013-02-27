@@ -7,11 +7,6 @@ class RaceCpt
 	const BHAA_RACE_UNIT = 'bhaa_race_unit';
 	const BHAA_RACE_TYPE = 'bhaa_race_type';
 
-	//const BHAA_RACE_ACTION = 'bhaa_race_action';
-	//const BHAA_RACE_RELOAD = 'bhaa_race_reload';
-	//const BHAA_RACE_DELETE = 'bhaa_race_delete';
-	//const BHAA_RACE_CALC = 'bhaa_race_calc';
-
 	/**
 	 * https://github.com/emeraldjava/tmp-bmx/blob/master/controllers/events_controller.php
 	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series1/
@@ -22,89 +17,20 @@ class RaceCpt
 	public function __construct()
 	{
 		add_action( 'init', array(&$this,'bhaa_register_race_cpt'));
-		
-		// custom actions
-		add_action( 'init', array(&$this,'bhaa_race_actions'),11);
-		add_filter('post_row_actions', array(&$this,'bhaa_race_post_row_actions'), 0, 2);
-		
+
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_race_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
-
-		// custom admin columns
-		add_filter('manage_race_posts_columns',array($this,'bhaa_manage_race_posts_columns'));
-		add_filter('manage_race_posts_custom_column',array($this,'bhaa_manage_race_posts_custom_column'), 10, 3 );
 	}
 	
-	function getRace()
-	{
-		if(!isset($this->race))
-			$this->race = new Race();
-		return $this->race;
-	}
+// 	function getRace()
+// 	{
+// 		if(!isset($this->race))
+// 			$this->race = new Race();
+// 		return $this->race;
+// 	}
 	
-	function bhaa_race_post_row_actions($actions, $post) {
-		
-		if ($post->post_type =="race")
-		{
-			$actions = array_merge($actions, array(
-				'bhaa_race_delete_results' => sprintf('<a href="%s">Delete Results</a>', wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_load_results' => sprintf('<a href="%s">Load Results</a>', wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa'))
-			));
-		}
-		return $actions;
-	}
 
-	/**
-	 * Filters for specific cpt actions.
-	 */
-	function bhaa_race_actions()
-	{
-		if ( $_REQUEST['action'] == 'bhaa_race_delete_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
-		{
-			$post_id = $_GET['post_id'];
-			$action = $_GET['action'];
-			$this->getRace()->deleteResults($post_id);
-			error_log('bhaa_race_delete_results : '.$post_id.' '.$action);	
-			wp_redirect(wp_get_referer()); 
-			exit();
-		}
-		elseif ( $_REQUEST['action'] == 'bhaa_race_load_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
-		{
-			$post_id = $_GET['post_id'];
-			$action = $_GET['action'];
-			$post = get_post($post_id);
-			$this->getRace()->loadResults($post_id,$post->post_content);
-			error_log('bhaa_race_load_results : '.$post_id.' '.$post->post_content);	
-			wp_redirect(wp_get_referer()); 
-			exit();
-		}
-	}
-
-	function bhaa_manage_race_posts_columns( $column ) {
-		return array(
-				'cb' => '<input type="checkbox" />',
-				'title' => __('Title'),
-				'distance' => __('Distance'),
-				'type' => __('Type'),
-				'date' => __('Date')
-		);
-		// merge column
-		//return array_merge($column,array('sector' => __('Sector')));
-	}
-
-	function bhaa_manage_race_posts_custom_column( $column, $post_id )
-	{
-		switch ($column) {
-			case 'distance' :
-				echo get_post_meta($post_id,RaceCpt::BHAA_RACE_DISTANCE,true).''.get_post_meta($post_id,RaceCpt::BHAA_RACE_UNIT,true);
-				break;
-			case 'type' :
-				echo get_post_meta($post_id,RaceCpt::BHAA_RACE_TYPE,true);
-				break;
-			default:
-		}
-	}
 		
 	public function bhaa_register_race_cpt()
 	{

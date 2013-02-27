@@ -346,12 +346,16 @@ class BhaaImport
 			$this->displayAndLog($msg);
 			if( ($team->status=="ACTIVE") && ($team->type=="S") )
 			{
-				$res = wp_set_post_terms( $team->id, HouseCpt::SECTOR_TEAM, HouseCpt::TEAM_TYPE,true );
+				$res = wp_set_post_terms($team->id, HouseCpt::SECTOR_TEAM, HouseCpt::TEAM_TYPE,false);
+				error_log(print_r($res));
 			}
 			elseif( ($team->status=="ACTIVE") && ($team->type=="C") )
 			{
-				$res = wp_set_post_terms( $team->id, HouseCpt::COMPANY_TEAM, HouseCpt::TEAM_TYPE,true );
+				$res = wp_set_post_terms($team->id, HouseCpt::COMPANY_TEAM, HouseCpt::TEAM_TYPE,false);
+				error_log(print_r($res));
 			}
+			$res = wp_set_post_terms($team->id,House::TEAM_STATUS,$team->status,false);
+			error_log(print_r($res));
 			
 			if($team->contact!='' || $team->contact != NULL)
 			{

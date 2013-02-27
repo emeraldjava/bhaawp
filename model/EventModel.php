@@ -17,7 +17,7 @@ class EventModel extends BaseModel
 		
 		$res = array();
 		foreach($races as $raceid) {
-			$race = new RaceModel($raceid);
+			$race = new Race($raceid);
 			$res[] = $race;
 		}
 		//echo 'x'.$res;

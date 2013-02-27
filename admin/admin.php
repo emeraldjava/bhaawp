@@ -1,17 +1,20 @@
 <?php
 class BhaaAdmin
 {
-	var $raceResult;
-	var $import;
-	var $raceAdmin;
-	private $runnerAdmin;
+	//var $raceResult;
+	//var $import;
+	//private $raceAdmin;
+	//private $runnerAdmin;
 		
 	function __construct()
 	{
 		require_once( ABSPATH . 'wp-admin/includes/template.php' );
-		$this->import = new BhaaImport();
-			
+		$import = new BhaaImport();
+
+		$raceAdmin = new RaceAdmin();
+		
 		$runnerAdmin = new RunnerAdmin();
+		
 		add_action('admin_menu', array(&$this,'bhaa_admin_plugin_menu') );
 		add_action('admin_init', array(&$this,'register_bhaa_options') );
 		
