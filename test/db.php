@@ -16,6 +16,8 @@ $wpdb->show_errors();
 //echo $wpdb->query('call doSP(7713)');
 
 // call function
-echo $wpdb->query('select getUsername(7713);');
+//echo $wpdb->query('select getUsername(7713);');
+
+$wpdb->query('select getStandard("00:30:00",8);');
 
 ?>
