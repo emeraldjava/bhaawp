@@ -232,19 +232,22 @@ class Runner
 	public function matchRunner($firstname,$surname,$dateofbirth)
 	{
 		$args = array(
-			'number' => 1,
+			'number' => 5,
 			'fields' => 'all',
 			'meta_query' => array(
 				'relation' => 'AND',
-				array('key'=>'first_name','compare'=>'==','value'=>$firstname),
-				array('key'=>'last_name','compare'=>'==','value'=>$surname),
-				array('key'=>'bhaa_runner_status','compare'=>'==','value'=>'D'),
-				array('key'=>Runner::BHAA_RUNNER_DATEOFBIRTH,'compare'=>'==','value'=>$dateofbirth)
+				array('key'=>'first_name','compare'=>'=','value'=>$firstname),
+				array('key'=>'last_name','compare'=>'=','value'=>$surname),
+				array('key'=>'bhaa_runner_status','compare'=>'=','value'=>'D'),
+				array('key'=>Runner::BHAA_RUNNER_DATEOFBIRTH,'compare'=>'=','value'=>$dateofbirth)
 			)
 		);
+		error_log(print_r($args,true));
 		
-		$user_query = new WP_User_Query( $args );
+		$user_query = new WP_User_Query($args);
+		
 		$runner = $user_query->get_results();
+		error_log('matches '+sizeof($runner).' '.$user_query->get_total());
 		if(empty($runner))
 		{
 			//error_log('no match');

@@ -47,11 +47,13 @@ class RaceResult extends BaseModel
 	public function addRaceResult($details)
 	{
 		$runner_id = $details[2];
+		$dateofbirth = date("Y-m-d", strtotime($details[8]));
+		
 		if($runner_id=='')
 		{
 			// lookup create runner
 			$runner = new Runner();
-			$match = $runner->matchRunner($details[5], $details[6], $details[8]);
+			$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
 			if($match!=0)
 			{
 				$runner_id = $match;
@@ -59,7 +61,7 @@ class RaceResult extends BaseModel
 			}
 			else
 			{
-				$runner_id = $runner->createNewUser($details[5], $details[4],'',$details[6],date("Y-m-d", strtotime($details[8])));
+				$runner_id = $runner->createNewUser($details[5], $details[4],'',$details[6],$dateofbirth);
 				error_log('created new runner '.$runner_id);
 			}
 		}
