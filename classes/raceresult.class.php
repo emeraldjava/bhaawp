@@ -15,7 +15,7 @@ class RaceResult
 {
 	function RaceResult()
 	{
-		add_action('admin_menu', array(&$this,'race_result_admin_menu'));
+		//add_action('admin_menu', array(&$this,'race_result_admin_menu'));
 	}
 	
 	function race_result_admin_menu()
@@ -135,46 +135,6 @@ class RaceResult
 		    </tr>
 		    </tbody>
 		</table>';
-	}
-	
-	const TABLE = 'bhaa_teamresult';
-	// 	$raceResultSql = "
-	// 	id int(11) NOT NULL AUTO_INCREMENT,
-	// 	race int(11) NOT NULL,
-	// 	runner int(11) NOT NULL,
-	// 	racetime time,
-	// 	position int(11),
-	// 	racenumber int(11),
-	// 	category varchar(5),
-	// 	standard int(11),
-	// 	paceKM time,
-	// 	class varchar(10),
-	// 	company int(11),
-	// 	PRIMARY KEY (id)";
-	
-	function processRaceResults($csv)
-	{
-		error_log('processRaceResults '.$csv);
-		$rows = explode("\n",$csv);
-		foreach($rows as $row)
-		{
-			$result = str_getcsv(
-					$row, # Input line
-					',',   # Delimiter
-					'',   # Enclosure
-					'\n'   # Escape char
-				);
-			//var_dump( $result );
-			error_log("".$result);
-		}
-	}
-	
-	function deleteRaceResults($post_id)
-	{
-		global $wpdb;
-		$wpdb->query(
-			$wpdb->prepare("DELETE FROM '.$wpdb->prefix.'bhaa_teamresult WHERE race=%d",$post_id)
-		);
 	}
 }
 ?>

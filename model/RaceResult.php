@@ -1,14 +1,12 @@
 <?php
 class RaceResult extends BaseModel
 {
-	function __construct()
+	var $post_id;
+	
+	function __construct($post_id)
 	{
 		parent::__construct();
-	}
-	
-	function getTableName()
-	{
-		return $this->wpdb->prefix.'bhaa_raceresult';
+		$this->post_id = $post_id;
 	}
 	
 	/**
@@ -23,9 +21,15 @@ class RaceResult extends BaseModel
 		paceKM time,
 		class varchar(10),
 		company int(11),
-		
-		
-		[0] => 7
+	 * @return string
+	 */
+	function getTableName()
+	{
+		return $this->wpdb->prefix.'bhaa_raceresult';
+	}
+	
+	/**
+	[0] => 7
     [1] => 1719
     [2] => 1683
     [3] => 00:13:15
@@ -40,15 +44,14 @@ class RaceResult extends BaseModel
     [12] => Gardai
     [13] => 94
 	 */
-	public function addResult($race,$details)
+	public function addRaceResult($details)
 	{
-		$this->wpdb->show_errors();
+		//$this->wpdb->show_errors();
 		//error_log($race.''.print_r($details,true));
 		$res = $this->wpdb->insert(
 			$this->getTableName(),
 			array(
-				//'id' => NULL,
-				'race' => $race,
+				'race' => $this->post_id,
 				'position' => $details[0],
 				'racenumber' => $details[1],
 				'runner' => $details[2],
@@ -58,10 +61,21 @@ class RaceResult extends BaseModel
 				'class' => 'RAN',
 				'company' => $details[11])
 		);	
-		$this->wpdb->print_error();
-		$this->wpdb->hide_errors();
-		error_log($res);
+		//$this->wpdb->print_error();
+		//$this->wpdb->hide_errors();
+		//error_log($res);
 		return $res;
+	}
+	
+	function deleteRaceResults()
+	{
+		//$this->wpdb->show_errors();
+		$res = $this->wpdb->delete(
+			$this->getTableName(),
+			array('race' => $this->post_id)
+		);
+		//$this->wpdb->print_error();
+		//$this->wpdb->hide_errors();
 	}
 }
 ?>

@@ -57,13 +57,13 @@ class Race extends BaseModel
 	 * 
 	 * @param unknown $details
 	 */
-	function addResult($details)
-	{
-		//error_log(print_r($details,true));	
-		$raceResult = new RaceResult();
-		$res = $raceResult->addResult($this->post_id, $details);
-		error_log($res);
+// 	function addResult($details)
+// 	{
+// 		//error_log(print_r($details,true));	
+// 		$raceResult = new RaceResult();
+// 		$res = $raceResult->addResult($this->post_id, $details);
+// 		error_log($res);
 		
-	}
+// 	}
 }
 ?>

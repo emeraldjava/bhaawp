@@ -38,8 +38,8 @@ class RaceAdmin
 			$post_id = $_GET['post_id'];
 			$action = $_GET['action'];
 			
-			$race = new Race($post_id);
-			$race->deleteResults();
+			$race = new RaceResult($post_id);
+			$race->deleteRaceResults();
 			//$this->getRace()->deleteResults($post_id);
 			error_log('bhaa_race_delete_results : '.$post_id.' '.$action);
 			wp_redirect(wp_get_referer());
@@ -51,7 +51,7 @@ class RaceAdmin
 			$action = $_GET['action'];
 			$post = get_post($post_id);
 			
-			$race = new Race($post_id);
+			$raceResult = new RaceResult($post_id);
 			$results = explode("\n",$post->post_content);
 			array_shift($results);
 			error_log('Number of rows '.sizeof($results));
@@ -59,7 +59,7 @@ class RaceAdmin
 			{
 				$details = str_getcsv($result,',','','\n');
 				//error_log(print_r($details,true));
-				$race->addResult($details);
+				$raceResult->addRaceResult($details);
 			}
 			error_log('bhaa_race_load_results : '.$post_id);
 			wp_redirect(wp_get_referer());
