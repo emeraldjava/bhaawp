@@ -54,7 +54,7 @@ class RaceCpt
 				'hierarchical' => false,
 				'description' => 'bhaa race post',
 				'supports' => array('title','excerpt','editor','post-formats'),// 'custom-fields', 'page-attributes' ),
-				'public' => false,
+				'public' => true,
 				'show_ui' => true,
 				'show_in_menu' => true,
 				'show_in_nav_menus' => true,
