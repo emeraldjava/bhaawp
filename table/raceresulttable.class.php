@@ -96,6 +96,14 @@ class RaceResultTable extends WP_List_Table
  		return sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$item['cid'],$item['cname']);
  	}
  	
+ 	function column_racetime($item) {
+ 		return sprintf('%s [%d]',$item['racetime'],$item['actualstandard']);
+ 	}
+ 	
+ 	function column_standard($item) {
+ 		return sprintf('%d->%d',$item['standard'],$item['poststandard']);
+ 	}
+ 	
  	function column_display_name($item) {
  		$page = get_page_by_title('runner');
  		$permalink = get_permalink( $page );
