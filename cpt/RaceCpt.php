@@ -93,19 +93,21 @@ class RaceCpt
 		//wp_nonce_field( plugin_basename( __FILE__ ), 'bhaa_race_meta_data' );
 
 		$distance = get_post_custom_values(RaceCpt::BHAA_RACE_DISTANCE, $post->ID);
-		print '<p>Distance <input type="text" name='.RaceCpt::BHAA_RACE_DISTANCE.' value="'.$distance[0].'" /></p>';
+		echo '<p>Distance <input type="text" name='.RaceCpt::BHAA_RACE_DISTANCE.' value="'.$distance[0].'" /></p>';
 
+		// http://stackoverflow.com/questions/3507042/if-block-inside-echo-statement
 		$unit = get_post_custom_values(RaceCpt::BHAA_RACE_UNIT, $post->ID);
-		print '<p>Unit <input type="text" name="'.RaceCpt::BHAA_RACE_UNIT.'" value="'.$unit[0].'" /></p>';
+		echo '<p>Unit <select name='.RaceCpt::BHAA_RACE_UNIT.'>';
+		echo '<option value="Mile" '.(($unit[0]=='Mile')?'selected="selected"':"").'>Mile</option>';
+		echo '<option value="Km" '.(($unit[0]=='Km')?'selected="selected"':"").'>Km</option>';
+		echo '</select></p>';
 
 		$type = get_post_custom_values(RaceCpt::BHAA_RACE_TYPE, $post->ID);
-		print '<p>Type <input type="text" name="'.BHAA_RACE_TYPE.'" value="'.$type[0].'" /></p>';
-
-		//print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_RELOAD.'">'.RaceCpt::BHAA_RACE_RELOAD.'</input><br/>';
-		//print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_DELETE.'">'.RaceCpt::BHAA_RACE_DELETE.'</input><br/>';
-		//print '<p><input type="radio" name="'.RaceCpt::BHAA_RACE_ACTION.'" value="'.RaceCpt::BHAA_RACE_CALC.'">'.RaceCpt::BHAA_RACE_CALC.'</input><br/>';
-			
-		//print '<p>Last Action : '.$_SESSION['message'].'</p>';
+		echo '<p>Type <select name='.RaceCpt::BHAA_RACE_TYPE.'>';
+		echo '<option value="C" '.(($type[0]=='C')?'selected="selected"':"").'>C</option>';
+		echo '<option value="M" '.(($type[0]=='M')?'selected="selected"':"").'>M</option>';
+		echo '<option value="W" '.(($type[0]=='W')?'selected="selected"':"").'>W</option>';
+		echo '</select></p>';
 	}
 
 	/**
@@ -136,16 +138,6 @@ class RaceCpt
 			error_log($post_id .' -> '.RaceCpt::BHAA_RACE_TYPE.' -> '.$_POST[RaceCpt::BHAA_RACE_TYPE]);
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_TYPE, $_POST[RaceCpt::BHAA_RACE_TYPE] );
 		}
-
-		//if ( !empty($_POST[RaceCpt::BHAA_RACE_ACTION]) )
-		//{
-			//$_SESSION['message'] = $_POST[RaceCpt::BHAA_RACE_ACTION].' Called';
-			//error_log("race action ".$_POST[RaceCpt::BHAA_RACE_ACTION].' -> '.$post_id);
-			//error_log('get_the_content() '.get_post($post_id)->post_content);
-			//$this->raceresult->processRaceResults(get_post($post_id)->post_content);
-			//$this->raceresult->deleteRaceResults($post_id);
-			//$this->insert_csv_action(RaceCpt::BHAA_RACE_RESULTS_RELOAD,$_POST[RaceCpt::BHAA_RACE_RESULTS_RELOAD]);
-		//}
 	}
 }
 ?>
