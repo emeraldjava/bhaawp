@@ -215,7 +215,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			race int(11) NOT NULL,
 			standardtotal int(11),
 			positiontotal int(11),
-			class	enum('A', 'B', 'C', 'D', 'W', 'O', 'OW'),
+			class enum('A', 'B', 'C', 'D', 'W', 'O', 'OW'),
 			leaguepoints int(11),
 			status enum('ACTIVE','PENDING'),
 			PRIMARY KEY (id)";
@@ -223,6 +223,9 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		
 		$leagueSummaryModel = new LeagueSummary();
 		$this->run_install_or_upgrade($leagueSummaryModel->getName(),$leagueSummaryModel->getCreateSQL());
+		
+		$ageCategory = new AgeCategory();
+		$this->run_install_or_upgrade($ageCategory->getName(),$ageCategory->getCreateSQL());
 		
 		$importTableSql = "
 			id int(11) NOT NULL AUTO_INCREMENT,
