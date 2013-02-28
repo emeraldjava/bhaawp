@@ -152,6 +152,12 @@ CASE
 END
 WHERE rr_outer.race = t.race AND rr_outer.runner=t.runner;
 -- update meta field
+UPDATE wp_bhaa_raceresult, wp_usermeta
+SET wp_usermeta.meta_value = wp_bhaa_raceresult.poststandard
+WHERE wp_bhaa_raceresult.runner = wp_usermeta.user_id
+AND wp_usermeta.meta_key='bhaa_runner_standard'
+AND wp_bhaa_raceresult.race = _raceId
+AND COALESCE(wp_usermeta.meta_value,0) <> wp_bhaa_raceresult.poststandard;
 END$$
 
 DELIMITER ;
