@@ -71,7 +71,7 @@ class RaceResult extends BaseModel implements Table
 		//$this->wpdb->show_errors();
 		//error_log($race.''.print_r($details,true));
 		$res = $this->wpdb->insert(
-			$this->getTableName(),
+			$this->getName(),
 			array(
 				'race' => $this->post_id,
 				'position' => $details[0],
@@ -93,7 +93,7 @@ class RaceResult extends BaseModel implements Table
 	{
 		//$this->wpdb->show_errors();
 		$res = $this->wpdb->delete(
-			$this->getTableName(),
+			$this->getName(),
 			array('race' => $this->post_id)
 		);
 		//$this->wpdb->print_error();
@@ -109,9 +109,10 @@ class RaceResult extends BaseModel implements Table
 	{
 		// SEC_TO_TIME(TIME_TO_SEC(_raceTime) / _distance)
 		$SQL = sprintf('update %s set pace=SEC_TO_TIME(TIME_TO_SEC(racetime)/%f) where race=%d',
-			$this->getTableName(),$this->getRace()->getKmDistance(),$this->post_id);
+			$this->getName(),$this->getRace()->getKmDistance(),$this->post_id);
 		error_log($SQL);
 		$this->wpdb->query($this->wpdb->prepare($SQL));
+		queue_flash_message("updatedRacePace()");
 	}
 }
 ?>

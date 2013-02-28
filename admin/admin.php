@@ -12,8 +12,8 @@ class BhaaAdmin
 		$import = new BhaaImport();
 
 		$raceAdmin = new RaceAdmin();
-		
 		$runnerAdmin = new RunnerAdmin();
+		new WPFlashMessages();
 		
 		add_action('admin_menu', array(&$this,'bhaa_admin_plugin_menu') );
 		add_action('admin_init', array(&$this,'register_bhaa_options') );

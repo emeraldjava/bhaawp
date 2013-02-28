@@ -21,6 +21,7 @@ define( 'PLUGIN_ROOT_DIR' , dirname(__FILE__) );//plugin_dir_path( __FILE__ ) );
 require_once(PLUGIN_ROOT_DIR.'/admin/import.php');
 require_once(PLUGIN_ROOT_DIR.'/admin/RunnerAdmin.php');
 require_once(PLUGIN_ROOT_DIR.'/admin/RaceAdmin.php');
+require_once(PLUGIN_ROOT_DIR.'/admin/WPFlashMessages.php');
 require_once(PLUGIN_ROOT_DIR.'/admin/admin.php');
 
 // ctps

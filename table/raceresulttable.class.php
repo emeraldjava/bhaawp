@@ -29,16 +29,7 @@ class RaceResultTable extends WP_List_Table
 	}
 
 	/**
-	 * 		$raceResultSql = "race int(11) NOT NULL,
-			runner int(11) NOT NULL,
-			racetime time,
-			position int(11),
-			racenumber int(11),
-			category varchar(5),
-			standard int(11),
-			paceKM time,
-			class varchar(25)";
-	 * @return multitype:string
+	 *  the columns
 	 */
 	function get_columns(){
 		$columns = array(
@@ -49,8 +40,9 @@ class RaceResultTable extends WP_List_Table
 			'display_name' => 'Name',
 			'racetime'  => 'Time',
 			'category'  => 'Category',
-			'category_pos' => 'C.Pos',
+			'posincat' => 'Pos Cat',
 			'standard'  => 'Std',
+			'posinstd' => 'Pos Std',
 			'cname'    => 'Company'
 		);
 		return $columns;
@@ -82,9 +74,10 @@ class RaceResultTable extends WP_List_Table
 			case 'position':
 			case 'racenumber':
 			case 'category':
-			case 'category_pos':
+			case 'posincat':
 			case 'standard':
-			case 'paceKM':
+			case 'posinstd':
+			case 'pace':
 			case 'event':
 				return $item[$column_name];
 			default:
