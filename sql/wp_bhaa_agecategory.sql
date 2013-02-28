@@ -14,3 +14,7 @@ CREATE TABLE IF NOT EXISTS `wp_bhaa_agecategory` (
 select * from wp_bhaa_agecategory;
 
 insert into wp_bhaa_agecategory select category,gender,min,max from bhaaie_members.agecategory;
+
+-- 35 mens
+update wp_bhaa_agecategory set max=34 where category='SM';
+insert into wp_bhaa_agecategory VALUES('M35','M',35,39);
