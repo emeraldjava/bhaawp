@@ -112,7 +112,11 @@ class RaceResult extends BaseModel implements Table
 			$this->getName(),$this->getRace()->getKmDistance(),$this->post_id);
 		error_log($SQL);
 		$this->wpdb->query($this->wpdb->prepare($SQL));
-		//queue_flash_message("updatedRacePace()");
+	}
+	
+	function updatePostRaceStd()
+	{
+		$this->wpdb->query($this->wpdb->prepare('call updatePostRaceStandard(%d)',$this->post_id));
 	}
 	
 	function updateRacePosInCat()
@@ -122,12 +126,7 @@ class RaceResult extends BaseModel implements Table
 	
 	function updateRacePosInStd()
 	{
-		//global $wpdb;
-		//$wpdb->show_errors();
 		$this->wpdb->query($this->wpdb->prepare('call updatePositionInStandard(%d)',$this->post_id));
-//		$wpdb->query($wpdb->prepare('call updatePositionInStandard(%d)',$this->post_id));
-		//$wpdb->print_error();
-		//$wpdb->hide_errors();
 	}
 }
 ?>
