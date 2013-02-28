@@ -38,4 +38,13 @@ ORDER BY S.Standard DESC LIMIT 1
 RETURN COALESCE(_standard, 30);
 END $$
 
+-- getAgeCategory
+DROP FUNCTION IF EXISTS `getAgeCategory`$$
+CREATE DEFINER=`bhaaie`@`localhost` FUNCTION `getAgeCategory`(_birthDate DATE, _currentDate DATE, _gender ENUM('M','W')) RETURNS varchar(4) CHARSET utf8
+BEGIN
+DECLARE _age INT(11);
+SET _age = (YEAR(_currentDate)-YEAR(_birthDate)) - (RIGHT(_currentDate,5)<RIGHT(_birthDate,5));
+RETURN (SELECT category FROM wp_bhaa_agecategory WHERE (_age between min and max) and gender=_gender);
+END$$
+
 DELIMITER ;
