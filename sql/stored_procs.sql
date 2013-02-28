@@ -16,6 +16,7 @@ SET _result  = (SELECT user_nicename FROM wp_users WHERE id = _runner);
 RETURN _result;
 END $$
 
+-- getRaceDistanceKm
 DROP FUNCTION IF EXISTS `getRaceDistanceKm`$$
 CREATE DEFINER=`bhaaie_wp`@`localhost` FUNCTION `getRaceDistanceKm`(_race INT) RETURNS double
 BEGIN
@@ -160,9 +161,9 @@ AND wp_bhaa_raceresult.race = _raceId
 AND COALESCE(wp_usermeta.meta_value,0) <> wp_bhaa_raceresult.poststandard;
 END$$
 
--- addRacePointsDataScoringSets
-DROP PROCEDURE IF EXISTS `addRacePointsDataScoringSets`$$
-CREATE DEFINER=`bhaaie`@`localhost` PROCEDURE `addRacePointsDataScoringSets`(_race INT)
+-- updateRaceScoringSets
+DROP PROCEDURE IF EXISTS `updateRaceScoringSets`$$
+CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updateRaceScoringSets`(_race INT)
 BEGIN
 
 	declare _raceType enum('m','w','c');
@@ -175,15 +176,9 @@ BEGIN
 	declare _scoringsetM int;
 	declare _scoringsetW int;
 	
-	set _scoringthreshold =
-        (   select l.scoringthreshold
-            from league l,leagueevent le,event e,race r
-            where l.id=le.league and le.event=e.id and e.id=r.event
-            and r.id = _race and l.type='I'
-            limit 1
-        );
-
-        set _currentstandard = 30;
+	-- TODO look this up from the league
+	set _scoringthreshold = 4; 
+    set _currentstandard = 30;
 	set _runningtotal = 0;
 	set _runningtotalM = 0;
 	set _runningtotalW = 0;
@@ -191,32 +186,32 @@ BEGIN
 	set _scoringsetM = 1;
 	set _scoringsetW = 1;
 
-    update racepointsdata set standardscoringset = null where race = _race;
+    update wp_bhaa_raceresult set standardscoringset = null where race = _race;
     
     create temporary table if not exists scoringstandardsets(
-                                                                standard int, 
-                                                                gender enum('M','W') null, 
-                                                                standardcount int null, 
-                                                                scoringset int null);
+        standard int, 
+        gender enum('M','W') null, 
+        standardcount int null, 
+        scoringset int null);
 
-    set _raceType = (select type from race where id=_race);
-    
+    set _raceType = (select meta_value from wp_postmeta where post_id=_race and meta_key='bhaa_race_type');
     if (_raceType = 'C') then
 		
-		insert into scoringstandardsets(standard, standardcount,scoringset, gender)
-			select standard,0,0,'W' from standard
+		insert into scoringstandardsets(standard,standardcount,scoringset,gender)
+			select standard,0,0,'W' from wp_bhaa_standard
 		union
-			select standard,0,0,'M' from standard;
+			select standard,0,0,'M' from wp_bhaa_standard;
 		
         update scoringstandardsets ss,
         (
-            select r.preracestandard, r.gender, count(r.preracestandard) as standardcount
-            from racepointsdata r
+            select r.standard, gender.meta_value as gender, count(r.standard) as standardcount
+            from wp_bhaa_raceresult r
+            join wp_usermeta gender on (gender.user_id=r.runner and gender.meta_key='bhaa_runner_gender')
             where r.race = _race
-            group by r.preracestandard, r.gender
+            group by r.standard, gender.meta_value
         ) x
         set ss.standardcount = x.standardcount
-        where ss.standard = x.preracestandard and  ss.gender = x.gender;
+        where ss.standard = x.standard and ss.gender = x.gender;
         
         while (_currentstandard > 0) do
 			
@@ -259,35 +254,39 @@ BEGIN
         end while;
     
 		update scoringstandardsets set scoringset= _scoringsetW where scoringset=0 and gender='W';    
-    update scoringstandardsets set scoringset= _scoringsetM where scoringset=0 and gender='M';    
+	    update scoringstandardsets set scoringset= _scoringsetM where scoringset=0 and gender='M';    
 
-		update racepointsdata, scoringstandardsets
-		set racepointsdata.standardscoringset = scoringstandardsets.scoringset
-		where scoringstandardsets.standard = racepointsdata.preracestandard 
-    and racepointsdata.gender = scoringstandardsets.gender;
+		update wp_bhaa_raceresult, scoringstandardsets
+		join wp_usermeta gender on (gender.user_id=wp_bhaa_raceresult.runner and gender.meta_key='bhaa_runner_gender')
+		set wp_bhaa_raceresult.standardscoringset = scoringstandardsets.scoringset
+		where scoringstandardsets.standard = wp_bhaa_raceresult.standard 
+	    and gender.meta_value = scoringstandardsets.gender;
     
     else
-		insert into scoringstandardsets(standard, standardcount,scoringset)
-			select standard,0,0 from standard order by standard desc;
+		insert into scoringstandardsets(standard,standardcount,scoringset)
+			select standard,0,0 from wp_bhaa_standard order by standard desc;
 		
-        update scoringstandardsets ss,
+		update scoringstandardsets ss,
         (
-            select r.gender, r.preracestandard, count(r.preracestandard) as standardcount
-            from racepointsdata r
+            select r.standard, gender.meta_value as gender, count(r.standard) as standardcount
+            from wp_bhaa_raceresult r
+            join wp_usermeta gender on (gender.user_id=r.runner and gender.meta_key='bhaa_runner_gender')
             where r.race = _race
-            group by r.preracestandard, r.gender
+            group by r.standard, gender.meta_value
         ) x
         set ss.gender=x.gender, ss.standardcount = x.standardcount
-        where ss.standard = x.preracestandard;
+        where ss.standard = x.standard;
         
         while (_currentstandard > 0) do
             set _runningtotal =
             (select sum(standardcount)
             from scoringstandardsets
-            where standard >= _currentstandard and scoringset =0);
+            where standard >= _currentstandard and scoringstandardsets.scoringset =0);
 
             if (_runningtotal >= _scoringthreshold) then
-                update scoringstandardsets set scoringset= _scoringset where standard >= _currentstandard and scoringset=0;
+                update wp_bhaa_raceresult set wp_bhaa_raceresult.standardscoringset=_scoringset 
+                where standard >= _currentstandard and wp_bhaa_raceresult.standardscoringset=0;
+                
                 set _scoringset = _scoringset+1;
                 set _runningtotal = 0;
             end if;
@@ -297,14 +296,13 @@ BEGIN
         
 		update scoringstandardsets set scoringset= _scoringset where scoringset=0;
 
-		update racepointsdata, scoringstandardsets
-		set racepointsdata.standardscoringset = scoringstandardsets.scoringset
-		where scoringstandardsets.standard = racepointsdata.preracestandard;
+		update wp_bhaa_raceresult, scoringstandardsets
+		set wp_bhaa_raceresult.standardscoringset = scoringstandardsets.scoringset
+		where scoringstandardsets.standard = wp_bhaa_raceresult.standard;
 		
     end if;
 
 	drop table scoringstandardsets;
-
 END$$
 
 DELIMITER ;
