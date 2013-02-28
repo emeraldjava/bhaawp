@@ -133,35 +133,25 @@ END$$
 DROP PROCEDURE IF EXISTS `updatePostRaceStandard`$$
 CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updatePostRaceStandard`(_raceId INT)
 BEGIN
-
 UPDATE wp_bhaa_raceresult rr_outer,
 (
-SELECT rr.race,rr.runner,rr.racetime, rr.standard, getStandard(rr.racetime, ra.distancekm) as poststandard
-FROM wp_bhaa_raceresult rr ,runner ru
-JOIN wp_post post on (posts.post_type='race' and post.ID=wp_bhaa_raceresult.race)
-WHERE rr.race = ra.id AND rr.runner=ru.id AND ra.id = _raceId AND rr.class='RAN'
-
+SELECT rr.race,rr.runner,rr.racetime,NULLIF(rr.standard,0) as standard,rr.actualstandard
+FROM wp_bhaa_raceresult rr
+WHERE rr.race = _raceId AND rr.class='RAN'
 ) t
 SET rr_outer.poststandard =
 CASE
   WHEN t.standard IS NULL
-	  THEN t.poststandard
-  WHEN t.standard  < t.poststandard
+	  THEN t.actualstandard
+  WHEN t.standard  < t.actualstandard
 	  THEN t.standard  + 1
-  WHEN t.standard  > t.poststandard
+  WHEN t.standard  > t.actualstandard
 	  THEN t.standard  - 1
-  WHEN t.standard  = t.poststandard
+  WHEN t.standard  = t.actualstandard
     THEN t.standard
 END
 WHERE rr_outer.race = t.race AND rr_outer.runner=t.runner;
-
-
-UPDATE raceresult, runner
-SET runner.standard = raceresult.poststandard
-WHERE raceresult.runner = runner.id
-AND raceresult.race = _raceId
-AND COALESCE(runner.standard,0) <> raceresult.poststandard
-AND runner.status='M';
+-- update meta field
 END$$
 
 DELIMITER ;
