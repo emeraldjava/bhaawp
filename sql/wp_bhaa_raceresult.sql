@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS wp_raceresult (
 	racenumber int(11),
 	category varchar(5),
 	standard int(11),
+	actualstandard int(11),
+	poststandard int(11),
+	standardscoringset int(11),
 	pace time,
 	posincat int(11) DEFAULT NULL,
 	posinstd int(11) DEFAULT NULL,
@@ -23,6 +26,7 @@ ALTER TABLE wp_bhaa_raceresult ADD COLUMN posinstd int(11) DEFAULT NULL AFTER po
 
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN actualstandard int(11) DEFAULT NULL AFTER standard;
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN poststandard int(11) DEFAULT NULL AFTER actualstandard;
+ALTER TABLE wp_bhaa_raceresult ADD COLUMN standardscoringset int(11) DEFAULT NULL AFTER poststandard;
 
 select * from wp_bhaa_raceresult where race=2504;
 update wp_bhaa_raceresult set pace=NULL,posincat=NULL,posinstd=NULL where race=2504;
