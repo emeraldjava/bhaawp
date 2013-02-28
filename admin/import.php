@@ -875,7 +875,7 @@ class BhaaImport
 					racenumber,
 					category,
 					standard,
-					paceKM,
+					pace,
 					class)
 					VALUES ((select new from wp_bhaa_import where old=%d and type="race"),%d,%s,%d,%d,%s,%d,%s,%s)',
 					$row->race,

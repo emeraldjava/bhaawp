@@ -1,5 +1,5 @@
 <?php
-class RaceResult extends BaseModel
+class RaceResult extends BaseModel implements Table
 {
 	var $post_id;
 	
@@ -9,8 +9,14 @@ class RaceResult extends BaseModel
 		$this->post_id = $post_id;
 	}
 	
-	/**
-	 * id int(11) NOT NULL AUTO_INCREMENT,
+	public function getName()
+	{
+		return $this->wpdb->prefix.'bhaa_raceresult';
+	}
+	
+	public function getCreateSQL()
+	{
+		return 'id int(11) NOT NULL AUTO_INCREMENT,
 		race int(11) NOT NULL,
 		runner int(11) NOT NULL,
 		racetime time,
@@ -18,14 +24,10 @@ class RaceResult extends BaseModel
 		racenumber int(11),
 		category varchar(5),
 		standard int(11),
-		paceKM time,
+		pace time,
 		class varchar(10),
 		company int(11),
-	 * @return string
-	 */
-	function getTableName()
-	{
-		return $this->wpdb->prefix.'bhaa_raceresult';
+		PRIMARY KEY (id)';
 	}
 	
 	/**
@@ -106,7 +108,7 @@ class RaceResult extends BaseModel
 	function updateRacePace()
 	{
 		// SEC_TO_TIME(TIME_TO_SEC(_raceTime) / _distance)
-		$SQL = sprintf('update %s set paceKm=SEC_TO_TIME(TIME_TO_SEC(racetime)/%f) where race=%d',
+		$SQL = sprintf('update %s set pace=SEC_TO_TIME(TIME_TO_SEC(racetime)/%f) where race=%d',
 			$this->getTableName(),$this->getRace()->getKmDistance(),$this->post_id);
 		error_log($SQL);
 		$this->wpdb->query($this->wpdb->prepare($SQL));

@@ -193,20 +193,8 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		//add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
 
 		// raceresult SQL
-		$raceResultSql = "
-			id int(11) NOT NULL AUTO_INCREMENT,
-			race int(11) NOT NULL,
-			runner int(11) NOT NULL,
-			racetime time,
-			position int(11),
-			racenumber int(11),
-			category varchar(5),
-			standard int(11),
-			paceKM time,
-			class varchar(10),
-			company int(11),
-			PRIMARY KEY (id)";
-		$this->run_install_or_upgrade($wpdb->raceresult,$raceResultSql);
+		$raceResult = new RaceResult();
+		$this->run_install_or_upgrade($raceResult->getName(),$raceResult->getCreateSQL());
 		
 		$teamResultSql = "
 			id int(11) NOT NULL AUTO_INCREMENT,
