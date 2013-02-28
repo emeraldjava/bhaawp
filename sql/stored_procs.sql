@@ -40,11 +40,53 @@ END $$
 
 -- getAgeCategory
 DROP FUNCTION IF EXISTS `getAgeCategory`$$
-CREATE DEFINER=`bhaaie`@`localhost` FUNCTION `getAgeCategory`(_birthDate DATE, _currentDate DATE, _gender ENUM('M','W')) RETURNS varchar(4) CHARSET utf8
+CREATE DEFINER=`bhaaie_wp`@`localhost` FUNCTION `getAgeCategory`(_birthDate DATE, _currentDate DATE, _gender ENUM('M','W')) RETURNS varchar(4) CHARSET utf8
 BEGIN
 DECLARE _age INT(11);
 SET _age = (YEAR(_currentDate)-YEAR(_birthDate)) - (RIGHT(_currentDate,5)<RIGHT(_birthDate,5));
 RETURN (SELECT category FROM wp_bhaa_agecategory WHERE (_age between min and max) and gender=_gender);
+END$$
+
+-- 
+DROP PROCEDURE IF EXISTS `updatePositionInStandard`$$
+CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updatePositionInStandard`(_raceId INT(11))
+BEGIN
+
+DECLARE _nextstandard INT(11);
+   DECLARE no_more_rows BOOLEAN;
+   DECLARE loop_cntr INT DEFAULT 0;
+   DECLARE num_rows INT DEFAULT 0;
+   DECLARE _standardCursor CURSOR FOR select standard from wp_bhaa_standard;
+   DECLARE CONTINUE HANDLER FOR NOT FOUND SET no_more_rows = TRUE;
+
+   OPEN _standardCursor;
+   SELECT FOUND_ROWS() into num_rows;
+
+    the_loop: LOOP
+
+    FETCH _standardCursor INTO _nextstandard;
+
+    IF no_more_rows THEN
+        CLOSE _standardCursor;
+        LEAVE the_loop;
+    END IF;
+   CREATE TEMPORARY TABLE tmpStandardRaceResult(actualposition INT PRIMARY KEY AUTO_INCREMENT, runner INT);
+    INSERT INTO tmpStandardRaceResult(runner)
+    SELECT runner
+    FROM wp_bhaa_raceresult
+    WHERE race = _raceId AND standard = _nextstandard and class='RAN';
+
+    UPDATE wp_bhaa_raceresult, tmpStandardRaceResult
+    SET wp_bhaa_raceresult.posinstd = tmpStandardRaceResult.actualposition
+    WHERE wp_bhaa_raceresult.runner = tmpStandardRaceResult.runner AND wp_bhaa_raceresult.race = _raceId;
+
+    DELETE FROM tmpStandardRaceResult;
+
+    SET loop_cntr = loop_cntr + 1;
+
+  DROP TEMPORARY TABLE tmpStandardRaceResult;
+
+  END LOOP the_loop;
 END$$
 
 DELIMITER ;
