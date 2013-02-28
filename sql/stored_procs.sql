@@ -97,7 +97,7 @@ DROP PROCEDURE IF EXISTS `updatePositionInAgeCategory`$$
 CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updatePositionInAgeCategory`(_raceId INT(11))
 BEGIN
 
- DECLARE _nextCategory VARCHAR(4);
+ DECLARE _nextCategory VARCHAR(6);
    DECLARE no_more_rows BOOLEAN;
    DECLARE loop_cntr INT DEFAULT 0;
    DECLARE num_rows INT DEFAULT 0;

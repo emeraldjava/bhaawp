@@ -117,16 +117,17 @@ class RaceResult extends BaseModel implements Table
 	
 	function updateRacePosInCat()
 	{
-		$this->wpdb->query($this->wpdb->prepare('call updatePositionInStandard(%d)',$this->post_id));
+		$this->wpdb->query($this->wpdb->prepare('call updatePositionInAgeCategory(%d)',$this->post_id));
 	}
 	
 	function updateRacePosInStd()
 	{
-		global $wpdb;
-		$wpdb->show_errors();
-		$wpdb->query($wpdb->prepare('call updatePositionInStandard(%d)',$this->post_id));
-		$wpdb->print_error();
-		$wpdb->hide_errors();
+		//global $wpdb;
+		//$wpdb->show_errors();
+		$this->wpdb->query($this->wpdb->prepare('call updatePositionInStandard(%d)',$this->post_id));
+//		$wpdb->query($wpdb->prepare('call updatePositionInStandard(%d)',$this->post_id));
+		//$wpdb->print_error();
+		//$wpdb->hide_errors();
 	}
 }
 ?>
