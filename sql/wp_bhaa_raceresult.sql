@@ -24,3 +24,8 @@ ALTER TABLE wp_bhaa_raceresult ADD COLUMN posinstd int(11) DEFAULT NULL AFTER po
 select * from wp_bhaa_raceresult where race=2504;
 update wp_bhaa_raceresult set pace=NULL,posincat=NULL,posinstd=NULL where race=2504;
 call updatePositionInStandard(2504);
+
+select distinct(category) from wp_bhaa_raceresult
+update wp_bhaa_raceresult set category='Senior' where category in ('SM','SW'); 
+update wp_bhaa_raceresult set category=SUBSTRING(category,1,2) where SUBSTRING(category,1,1) in ('M','W');
+update wp_bhaa_raceresult set category='Junior' where category in ('JM','JW'); 
