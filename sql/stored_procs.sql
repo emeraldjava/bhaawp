@@ -1,5 +1,8 @@
 -- bhaa stored proces
 
+-- http://www.coderrants.com/wordpress-and-stored-procedures/
+-- http://wordpress.org/support/topic/how-to-call-stored-procedure-from-plugin
+
 SET GLOBAL log_bin_trust_function_creators = 1;
 
 DELIMITER $$
@@ -86,6 +89,39 @@ DECLARE _nextstandard INT(11);
 
   DROP TEMPORARY TABLE tmpStandardRaceResult;
 
+  END LOOP the_loop;
+END$$
+
+-- updatePositionInAgeCategory
+DROP PROCEDURE IF EXISTS `updatePositionInAgeCategory`$$
+CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updatePositionInAgeCategory`(_raceId INT(11))
+BEGIN
+
+ DECLARE _nextCategory VARCHAR(4);
+   DECLARE no_more_rows BOOLEAN;
+   DECLARE loop_cntr INT DEFAULT 0;
+   DECLARE num_rows INT DEFAULT 0;
+   DECLARE _catCursor CURSOR FOR select category from wp_bhaa_agecategory;
+   DECLARE CONTINUE HANDLER FOR NOT FOUND SET no_more_rows = TRUE;
+   OPEN _catCursor;
+   SELECT FOUND_ROWS() into num_rows;
+    the_loop: LOOP
+    FETCH _catCursor INTO _nextCategory;
+    IF no_more_rows THEN
+        CLOSE _catCursor;
+        LEAVE the_loop;
+    END IF;
+   CREATE TEMPORARY TABLE tmpCategoryRaceResult(actualposition INT PRIMARY KEY AUTO_INCREMENT, runner INT);
+    INSERT INTO tmpCategoryRaceResult(runner)
+    SELECT runner
+    FROM wp_bhaa_raceresult
+    WHERE race = _raceId AND category = _nextCategory AND class='RAN';
+    UPDATE wp_bhaa_raceresult, tmpCategoryRaceResult
+    SET wp_bhaa_raceresult.posincat = tmpCategoryRaceResult.actualposition
+    WHERE wp_bhaa_raceresult.runner = tmpCategoryRaceResult.runner AND wp_bhaa_raceresult.race = _raceId;
+    DELETE FROM tmpCategoryRaceResult;
+    SET loop_cntr = loop_cntr + 1;
+  DROP TEMPORARY TABLE tmpCategoryRaceResult;
   END LOOP the_loop;
 END$$
 

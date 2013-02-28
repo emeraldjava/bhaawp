@@ -26,7 +26,11 @@ class RaceAdmin
 				'bhaa_race_load_results' => sprintf('<a href="%s">Load Results</a>', 
 					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa')),
 				'bhaa_race_update_pace' => sprintf('<a href="%s">Pace</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_pace&post_id=%d', $post->ID),'bhaa'))
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_pace&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_race_posincat' => sprintf('<a href="%s">Pos Cat</a>',
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posincat&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_race_posinstd' => sprintf('<a href="%s">Pos Std</a>',
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posinstd&post_id=%d', $post->ID),'bhaa'))
 			));
 		}
 		return $actions;
@@ -37,45 +41,92 @@ class RaceAdmin
 	 */
 	function bhaa_race_actions()
 	{
-		if ( $_REQUEST['action'] == 'bhaa_race_delete_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
-		{
-			$post_id = $_GET['post_id'];
-			$action = $_GET['action'];
+		$post_id = $_GET['post_id'];
+		$race = new RaceResult($post_id);
+		
+		switch ($_REQUEST['action']) {
+			case "bhaa_race_delete_results":
+				$race->deleteRaceResults();
+				queue_flash_message("bhaa_race_delete_results");
+				wp_redirect(wp_get_referer());
+				exit();
+				break;
+			case "bhaa_race_load_results":
+				$results = explode("\n",$post->post_content);
+				array_shift($results);
+				error_log('Number of rows '.sizeof($results));
+				foreach($results as $result)
+				{
+					$details = str_getcsv($result,',','','\n');
+					$raceResult->addRaceResult($details);
+				}
+				error_log('bhaa_race_load_results : '.$post_id);
+				queue_flash_message("bhaa_race_delete_results");
+				wp_redirect(wp_get_referer());
+				exit();
+				break;
+			case "bhaa_race_update_pace":
+				$race->updateRacePace();
+				queue_flash_message("bhaa_race_update_pace");
+				wp_redirect(wp_get_referer());
+				exit();
+				break;
+			case "bhaa_race_posincat":
+				$race->updateRacePosInCat();
+				queue_flash_message("bhaa_race_posincat");
+				wp_redirect(wp_get_referer());
+				exit();
+				break;
+			case "bhaa_race_posinstd":
+				$race->updateRacePosInStd();
+				queue_flash_message("bhaa_race_posinstd");
+				wp_redirect(wp_get_referer());
+				exit();
+				break;
+		}
+		
+// 		wp_redirect(wp_get_referer());
+// 		exit();
+		
+// 		if ( $_REQUEST['action'] == 'bhaa_race_delete_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+// 		{
+// 			$post_id = $_GET['post_id'];
+// 			$action = $_GET['action'];
 			
-			$race = new RaceResult($post_id);
-			$race->deleteRaceResults();
-			//$this->getRace()->deleteResults($post_id);
-			error_log('bhaa_race_delete_results : '.$post_id.' '.$action);
-			wp_redirect(wp_get_referer());
-			exit();
-		}
-		elseif ( $_REQUEST['action'] == 'bhaa_race_load_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
-		{
-			$post_id = $_GET['post_id'];
-			$action = $_GET['action'];
-			$post = get_post($post_id);
+// 			$race = new RaceResult($post_id);
+// 			$race->deleteRaceResults();
+// 			//$this->getRace()->deleteResults($post_id);
+// 			error_log('bhaa_race_delete_results : '.$post_id.' '.$action);
+// 			wp_redirect(wp_get_referer());
+// 			exit();
+// 		}
+// 		elseif ( $_REQUEST['action'] == 'bhaa_race_load_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+// 		{
+// 			$post_id = $_GET['post_id'];
+// 			$action = $_GET['action'];
+// 			$post = get_post($post_id);
 			
-			$raceResult = new RaceResult($post_id);
-			$results = explode("\n",$post->post_content);
-			array_shift($results);
-			error_log('Number of rows '.sizeof($results));
-			foreach($results as $result)
-			{
-				$details = str_getcsv($result,',','','\n');
-				$raceResult->addRaceResult($details);
-			}
-			error_log('bhaa_race_load_results : '.$post_id);
-			wp_redirect(wp_get_referer());
-			exit();
-		}
-		elseif ( $_REQUEST['action'] == 'bhaa_race_update_pace')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
-		{
-			$post_id = $_GET['post_id'];
-			$race = new RaceResult($post_id);
-			$race->updateRacePace();
-			wp_redirect(wp_get_referer());
-			exit();
-		}
+// 			$raceResult = new RaceResult($post_id);
+// 			$results = explode("\n",$post->post_content);
+// 			array_shift($results);
+// 			error_log('Number of rows '.sizeof($results));
+// 			foreach($results as $result)
+// 			{
+// 				$details = str_getcsv($result,',','','\n');
+// 				$raceResult->addRaceResult($details);
+// 			}
+// 			error_log('bhaa_race_load_results : '.$post_id);
+// 			wp_redirect(wp_get_referer());
+// 			exit();
+// 		}
+// 		elseif ( $_REQUEST['action'] == 'bhaa_race_update_pace')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+// 		{
+// 			$post_id = $_GET['post_id'];
+// 			$race = new RaceResult($post_id);
+// 			$race->updateRacePace();
+// 			wp_redirect(wp_get_referer());
+// 			exit();
+// 		}
 	}
 	
 	function bhaa_manage_race_posts_columns( $column ) {

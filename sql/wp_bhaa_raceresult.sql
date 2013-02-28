@@ -21,5 +21,6 @@ ALTER TABLE wp_bhaa_raceresult CHANGE COLUMN paceKM pace time;
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN posincat int(11) DEFAULT NULL AFTER pace;
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN posinstd int(11) DEFAULT NULL AFTER posincat;
 
-select * from wp_bhaa_raceresult where race=2504
+select * from wp_bhaa_raceresult where race=2504;
+update wp_bhaa_raceresult set pace=NULL,posincat=NULL,posinstd=NULL where race=2504;
 call updatePositionInStandard(2504);
