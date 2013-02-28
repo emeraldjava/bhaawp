@@ -16,11 +16,15 @@ SET _result  = (SELECT user_nicename FROM wp_users WHERE id = _runner);
 RETURN _result;
 END $$
 
-DROP PROCEDURE IF EXISTS `doSP`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `doSP`(_runner INT)
+DROP FUNCTION IF EXISTS `getRaceDistanceKm`$$
+CREATE DEFINER=`bhaaie_wp`@`localhost` FUNCTION `getRaceDistanceKm`(_race INT) RETURNS double
 BEGIN
-DECLARE _result int;
-SELECT user_nicename FROM wp_users WHERE id = _runner;
+DECLARE _unit VARCHAR(5);
+DECLARE _distance DOUBLE;
+SET _unit = (select meta_value from wp_postmeta where post_id=_race and meta_key='bhaa_race_unit');
+SET _distance = (select meta_value from wp_postmeta where post_id=_race and meta_key='bhaa_race_distance');
+SET _distance = IF (_unit = 'Mile', _distance * 1.609344, _distance);
+RETURN _distance;
 END $$
 
 -- getStandard
@@ -123,6 +127,41 @@ BEGIN
     SET loop_cntr = loop_cntr + 1;
   DROP TEMPORARY TABLE tmpCategoryRaceResult;
   END LOOP the_loop;
+END$$
+
+-- updatePostRaceStandard
+DROP PROCEDURE IF EXISTS `updatePostRaceStandard`$$
+CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updatePostRaceStandard`(_raceId INT)
+BEGIN
+
+UPDATE wp_bhaa_raceresult rr_outer,
+(
+SELECT rr.race,rr.runner,rr.racetime, rr.standard, getStandard(rr.racetime, ra.distancekm) as poststandard
+FROM wp_bhaa_raceresult rr ,runner ru
+JOIN wp_post post on (posts.post_type='race' and post.ID=wp_bhaa_raceresult.race)
+WHERE rr.race = ra.id AND rr.runner=ru.id AND ra.id = _raceId AND rr.class='RAN'
+
+) t
+SET rr_outer.poststandard =
+CASE
+  WHEN t.standard IS NULL
+	  THEN t.poststandard
+  WHEN t.standard  < t.poststandard
+	  THEN t.standard  + 1
+  WHEN t.standard  > t.poststandard
+	  THEN t.standard  - 1
+  WHEN t.standard  = t.poststandard
+    THEN t.standard
+END
+WHERE rr_outer.race = t.race AND rr_outer.runner=t.runner;
+
+
+UPDATE raceresult, runner
+SET runner.standard = raceresult.poststandard
+WHERE raceresult.runner = runner.id
+AND raceresult.race = _raceId
+AND COALESCE(runner.standard,0) <> raceresult.poststandard
+AND runner.status='M';
 END$$
 
 DELIMITER ;
