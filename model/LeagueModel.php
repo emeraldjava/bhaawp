@@ -10,6 +10,11 @@ class LeagueModel extends BaseModel
 	}
 	
 	
+	/**
+	 * http://zanematthew.com/blog/wordpress-advanced-meta-query-using-wp_query/
+	 * https://github.com/scribu/wp-posts-to-posts/issues/322
+	 * @return mixed
+	 */
 	function getEvents()
 	{
 		$events = p2p_get_connections(Connection::LEAGUE_TO_EVENT,
@@ -18,16 +23,17 @@ class LeagueModel extends BaseModel
 		//echo 'races'.print_r($events);
 
 		$x = new WP_Query(array(
+				'connected_to'=>'to',
 				'connected_type' => 'league_to_event',
-				//'post_type' => 'league',connected_items
-				'connected_items' => $this->leagueid,//'any',
+				'connected_items' => $this->leagueid,
 				'nopaging' => true,
 			)
 		);
 		echo $x->request;
-		echo $x->get_posts();
+		echo $x->post_count;
 		
-		return print_r($x->get_posts(),true);
+		return 0;
+		//return print_r($x->get_posts(),true);
 		// 	$res = array();
 		// 	foreach($races as $raceid) {
 		// 		$race = new RaceModel($raceid);
