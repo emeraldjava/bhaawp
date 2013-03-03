@@ -4,7 +4,7 @@ select * from bhaaie_members.agecategory;
 
 DROP TABLE IF EXISTS `wp_bhaa_agecategory`;
 CREATE TABLE IF NOT EXISTS `wp_bhaa_agecategory` (
-  `category` varchar(4) DEFAULT NULL,
+  `category` varchar(6) DEFAULT NULL,
   `gender` enum('M','W') DEFAULT 'M',
   `min` int(11) NOT NULL,
   `max` int(11) NOT NULL,
