@@ -23,15 +23,14 @@ class LeagueModel extends BaseModel
 		//echo 'races'.print_r($events);
 
 		$x = new WP_Query(array(
-				'connected_to'=>'any',
+				'connected_to'=>'to',
 				'connected_type' => 'league_to_event',
 				'connected_items' => $this->leagueid,
 				'nopaging' => true,
-//				'fields'=>'ids'
 			)
 		);
 		echo $x->request;
-		var_dump($x);
+		echo $x->post_count;
 		
 		return 0;
 		//return print_r($x->get_posts(),true);

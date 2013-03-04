@@ -302,33 +302,7 @@ BEGIN
 		
     end if;
 
-    
-    update racepointsdata, tmpPosInSet
-    set racepointsdata.positioninscoringset = tmpPosInSet.id
-    where racepointsdata.runner = tmpPosInSet.runner and racepointsdata.race = _race;
-    
 	drop table scoringstandardsets;
-END$$
-
--- addAllRacePoints
-DROP PROCEDURE IF EXISTS `addAllRacePoints`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `addAllRacePoints`(_race int)
-BEGIN
-    delete from racepoints where race = _race;
-    insert into racepoints(race, runner, pointsbystandard, pointsbyscoringset)
-    select 
-    race, 
-    runner, 
-    10.1 - (positioninstandard  * 0.1) as pointsbystandard,
-    10.1 - (positioninscoringset  * 0.1) as pointsbyscoringset
-    from racepointsdata where race = _race;
-    
-    update wp_bhaa_raceresult rr, racepointsdata rpd
-    set 
-        10.1 - (positioninscoringset  * 0.1) as pointsbyscoringset
-    where 
-        rr.race = _race;
-        
 END$$
 
 DELIMITER ;
