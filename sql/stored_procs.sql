@@ -3,13 +3,13 @@
 -- http://www.coderrants.com/wordpress-and-stored-procedures/
 -- http://wordpress.org/support/topic/how-to-call-stored-procedure-from-plugin
 
-SET GLOBAL log_bin_trust_function_creators = 1;
+-- SET GLOBAL log_bin_trust_function_creators = 1;
 
 DELIMITER $$
 
 -- only functions return values
 DROP FUNCTION IF EXISTS `getUsername`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` FUNCTION `getUsername`(_runner INT) RETURNS int(11)
+CREATE FUNCTION `getUsername`(_runner INT) RETURNS int(11)
 BEGIN
 DECLARE _result int;
 SET _result  = (SELECT user_nicename FROM wp_users WHERE id = _runner);
@@ -18,7 +18,7 @@ END $$
 
 -- getRaceDistanceKm
 DROP FUNCTION IF EXISTS `getRaceDistanceKm`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` FUNCTION `getRaceDistanceKm`(_race INT) RETURNS double
+CREATE FUNCTION `getRaceDistanceKm`(_race INT) RETURNS double
 BEGIN
 DECLARE _unit VARCHAR(5);
 DECLARE _distance DOUBLE;
@@ -30,7 +30,7 @@ END $$
 
 -- getStandard
 DROP FUNCTION IF EXISTS `getStandard`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` FUNCTION `getStandard`(_raceTime TIME, _distanceKm DOUBLE) RETURNS int(11)
+CREATE FUNCTION `getStandard`(_raceTime TIME, _distanceKm DOUBLE) RETURNS int(11)
 BEGIN
 DECLARE _standard INT DEFAULT 1;
 SET _standard = (
@@ -48,7 +48,7 @@ END $$
 
 -- getAgeCategory
 DROP FUNCTION IF EXISTS `getAgeCategory`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` FUNCTION `getAgeCategory`(_birthDate DATE, _currentDate DATE, _gender ENUM('M','W')) RETURNS varchar(4) CHARSET utf8
+CREATE FUNCTION `getAgeCategory`(_birthDate DATE, _currentDate DATE, _gender ENUM('M','W')) RETURNS varchar(4) CHARSET utf8
 BEGIN
 DECLARE _age INT(11);
 SET _age = (YEAR(_currentDate)-YEAR(_birthDate)) - (RIGHT(_currentDate,5)<RIGHT(_birthDate,5));
@@ -57,7 +57,7 @@ END$$
 
 -- 
 DROP PROCEDURE IF EXISTS `updatePositionInStandard`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updatePositionInStandard`(_raceId INT(11))
+CREATE PROCEDURE `updatePositionInStandard`(_raceId INT(11))
 BEGIN
 
 DECLARE _nextstandard INT(11);
@@ -99,7 +99,7 @@ END$$
 
 -- updatePositionInAgeCategory
 DROP PROCEDURE IF EXISTS `updatePositionInAgeCategory`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updatePositionInAgeCategory`(_raceId INT(11))
+CREATE PROCEDURE `updatePositionInAgeCategory`(_raceId INT(11))
 BEGIN
 
  DECLARE _nextCategory VARCHAR(6);
@@ -132,7 +132,7 @@ END$$
 
 -- updatePostRaceStandard
 DROP PROCEDURE IF EXISTS `updatePostRaceStandard`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updatePostRaceStandard`(_raceId INT)
+CREATE PROCEDURE `updatePostRaceStandard`(_raceId INT)
 BEGIN
 UPDATE wp_bhaa_raceresult rr_outer,
 (
@@ -163,7 +163,7 @@ END$$
 
 -- updateRaceScoringSets
 DROP PROCEDURE IF EXISTS `updateRaceScoringSets`$$
-CREATE DEFINER=`bhaaie_wp`@`localhost` PROCEDURE `updateRaceScoringSets`(_race INT)
+CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
 BEGIN
 
 	declare _raceType enum('m','w','c');
