@@ -107,10 +107,11 @@ class RaceResult extends BaseModel implements Table
 	
 	function updateRacePace()
 	{
+		// update wp_bhaa_raceresult set actualstandard=getStandard(racetime,getRaceDistanceKm(race)) where race=2504;
 		// SEC_TO_TIME(TIME_TO_SEC(_raceTime) / _distance)
-		$SQL = sprintf('update %s set pace=SEC_TO_TIME(TIME_TO_SEC(racetime)/%f) where race=%d',
+		$SQL = sprintf('update %s set pace=SEC_TO_TIME(TIME_TO_SEC(racetime)/%f),actualstandard=getStandard(racetime,getRaceDistanceKm(race)) where race=%d',
 			$this->getName(),$this->getRace()->getKmDistance(),$this->post_id);
-		error_log($SQL);
+		//error_log($SQL);
 		$this->wpdb->query($this->wpdb->prepare($SQL));
 	}
 	
