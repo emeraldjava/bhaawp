@@ -61,7 +61,7 @@ class RaceAdmin
 				{
 					// http://stackoverflow.com/questions/13430120/str-getcsv-alternative-for-older-php-version-gives-me-an-empty-array-at-the-e
 					$details = explode(',',$result);
-					$raceResult->addRaceResult($details);
+					$race->addRaceResult($details);
 				}
 				error_log('bhaa_race_load_results : '.$post_id);
 				queue_flash_message("bhaa_race_load_results");
