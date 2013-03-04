@@ -54,14 +54,13 @@ class RaceAdmin
 				exit();
 				break;
 			case "bhaa_race_load_results":
+				$post = get_post($post_id);
 				$results = explode("\n",$post->post_content);
-				array_shift($results);
-				error_log('Content '.$results);
 				error_log('Number of rows '.sizeof($results));
 				foreach($results as $result)
 				{
 					// http://stackoverflow.com/questions/13430120/str-getcsv-alternative-for-older-php-version-gives-me-an-empty-array-at-the-e
-					$details = str_getcsv($result,',','','\n');
+					$details = explode(',',$result);
 					$raceResult->addRaceResult($details);
 				}
 				error_log('bhaa_race_load_results : '.$post_id);
