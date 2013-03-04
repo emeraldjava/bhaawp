@@ -208,6 +208,14 @@ http://stackoverflow.com/questions/11166981/how-to-use-jquery-to-retrieve-ajax-s
 http://wp.tutsplus.com/tutorials/theme-development/add-jquery-autocomplete-to-your-sites-search/
 http://wordpress.stackexchange.com/questions/57988/jquery-ui-autocomplete-not-working-in-wordpress
 http://jqueryui.com/demos/autocomplete/#remote
+http://wordpress.org/support/topic/referenceerror-jquery-is-not-defined
+http://wordpress.stackexchange.com/questions/45377/jquery-conflict
+http://wordpress.stackexchange.com/questions/56343/template-issues-getting-ajax-search-results/56349#56349
+
+CDN
+http://www.wpbeginner.com/wp-themes/replace-default-wordpress-jquery-script-with-google-library/
+http://devotepress.com/coding/proper-use-of-jquery-on-wordpress/
+http://wordpress.org/support/topic/wordpress-32-errors-in-admin-jquery-not-defined
 
 - Widget
 http://wp.tutsplus.com/tutorials/widgets/create-a-tabbed-widget-for-custom-post-types/

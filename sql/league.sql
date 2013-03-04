@@ -48,6 +48,12 @@ join event on event.id=race.event
 where race.id > 2010 and race.type IN ('M','C') and event.type != "track";
 where race.id between 201100 and 201199 and race.type IN ('M','C') and event.type != "track";
 
+INSERT INTO wp_p2p(p2p_id,p2p_from,p2p_to,p2p_type) VALUES (NULL,2492,1519,'league_to_event');
+INSERT INTO wp_p2p(p2p_id,p2p_from,p2p_to,p2p_type) VALUES (NULL,2492,1521,'league_to_event');
+INSERT INTO wp_p2p(p2p_id,p2p_from,p2p_to,p2p_type) VALUES (NULL,2492,1522,'league_to_event');
+INSERT INTO wp_p2p(p2p_id,p2p_from,p2p_to,p2p_type) VALUES (NULL,2492,2121,'league_to_event');
+INSERT INTO wp_p2p(p2p_id,p2p_from,p2p_to,p2p_type) VALUES (NULL,2492,2123,'league_to_event');
+INSERT INTO wp_p2p(p2p_id,p2p_from,p2p_to,p2p_type) VALUES (NULL,2492,2127,'league_to_event');
 
 
 

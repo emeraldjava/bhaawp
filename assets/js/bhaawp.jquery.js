@@ -1,8 +1,8 @@
 //var $jQuery = jQuery.noConflict();
-jQuery(document).ready( function() {
+jQuery(document).ready( function($) {
 	
-	jQuery(function() {
-		jQuery("#bhaa_runner_dateofbirth").datepicker({
+	$(function() {
+		$("#bhaa_runner_dateofbirth").datepicker({
 			defaultDate: '-30y', 
 			dateFormat: 'dd/mm/yy',
 			yearRange: '1900:1994',
@@ -17,24 +17,24 @@ jQuery(document).ready( function() {
 	
 	// username 14
 	// http://stackoverflow.com/questions/4932746/autofill-input-field-with-value-of-another-input-field
-	jQuery(".um_field_14").focusout(
+	$(".um_field_14").focusout(
 		function() 
 		{
-			//alert('user name out : '+jQuery(this).val());
-			if(jQuery(this).text()=="")
+			//alert('user name out : '+$(this).val());
+			if($(this).text()=="")
 			{
-				jQuery(this).val(jQuery(".um_field_8").val()+'.'+jQuery(".um_field_10").val());
+				$(this).val($(".um_field_8").val()+'.'+$(".um_field_10").val());
 			}
-			//alert('username defined '+jQuery(this).val());
-			//console.log(jQuery(this).val());
+			//alert('username defined '+$(this).val());
+			//console.log($(this).val());
 		}
 	);
 
 	// email 15
-	jQuery(".um_field_15").focusout(
+	$(".um_field_15").focusout(
 		function() {
 			//alert('Handler for .focus() called.');
-			jQuery(this).val(jQuery(".um_field_8").val()+'.'+jQuery(".um_field_10").val()+'@x.com');
+			$(this).val($(".um_field_8").val()+'.'+$(".um_field_10").val()+'@x.com');
 		}
 	);
 	
@@ -44,10 +44,10 @@ jQuery(document).ready( function() {
 	    }
 	}
 
-	jQuery("#runner_search").autocomplete({
+	$("#runner_search").autocomplete({
 		source: function(req, response){
-//			jQuery.getJSON(bhaawp.ajaxurl+'?callback=?action='+acs_action, req, response);
-			jQuery.ajax({
+//			$.getJSON(bhaawp.ajaxurl+'?callback=?action='+acs_action, req, response);
+			$.ajax({
 				  url: bhaaAjax.ajaxurl,
 				  dataType: 'json',
 				  data: { action:'bhaawp_runner_search', term:req.term },
@@ -55,7 +55,7 @@ jQuery(document).ready( function() {
 					  	//debug('success'+request.matches);
 						//alert(request);
 						response(	
-							jQuery.each(request.matches, function(item){
+							$.each(request.matches, function(item){
 								return {label:item.label,link:item.link}
 						})	  
 						);
@@ -71,10 +71,10 @@ jQuery(document).ready( function() {
 			window.location.href=ui.item.link;
 		},
 		open: function() {
-			jQuery( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
 		},
 		close: function() {
-			jQuery( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 		}
 	});
 	//});
@@ -85,10 +85,10 @@ jQuery(document).ready( function() {
 	// http://wordpress.stackexchange.com/questions/56343/template-issues-getting-ajax-search-results/56349#56349
 	
 	// var acs_action = 'bhaawp_company_search';
-	jQuery("#house_search").autocomplete({
+	$("#house_search").autocomplete({
 		source: function(req, response){
-//			jQuery.getJSON(bhaawp.ajaxurl+'?callback=?action='+acs_action, req, response);
-			jQuery.ajax({
+//			$.getJSON(bhaawp.ajaxurl+'?callback=?action='+acs_action, req, response);
+			$.ajax({
 				  url: bhaaAjax.ajaxurl,
 				  dataType: 'json',
 				  data: {
@@ -98,7 +98,7 @@ jQuery(document).ready( function() {
 				  success: function( request ) {
 					  console.log(request);
 					  alert(request);
-					  response(	jQuery.each(request.matches, function(item){
+					  response(	$.each(request.matches, function(item){
 						return {
 									label: item.label, 
 									value: item.label, 
@@ -107,7 +107,7 @@ jQuery(document).ready( function() {
 							)	  
 					  );
 					  
-//					  response( jQuery.map( request.matches, function( item ) {
+//					  response( $.map( request.matches, function( item ) {
 //							return {
 //								label: item.label,
 //								value: item.label,
@@ -127,11 +127,10 @@ jQuery(document).ready( function() {
 			window.location.href=ui.item.link;
 		},
 		open: function() {
-			jQuery( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
 		},
 		close: function() {
-			jQuery( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 		}	
-	});
-	
+	});	
 });

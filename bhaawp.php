@@ -40,6 +40,10 @@ class BHAA
 		// Start this plugin once all other plugins are fully loaded
 		//add_action( 'plugins_loaded', array(&$this, 'initialize') );
 		//add_action( 'p2p_init', array(&$this->connection,'bhaa_connection_types'));
+
+		// init, wp_head, wp_enqueue_scripts
+		add_action('init', array($this,'enqueue_scripts_and_style'));
+		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
 		
 		if ( is_admin() )
 		{
@@ -48,9 +52,6 @@ class BHAA
 			new BhaaAdmin();
 		}
 
-		// init, wp_head, wp_enqueue_scripts
-		add_action('init', array($this,'enqueue_scripts_and_style'));
-		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
 	}
 
 	/**
@@ -121,16 +122,29 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 	 */
 	function enqueue_scripts_and_style()
 	{
+		//wp_register_script( 'jquery','https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js', false, '1.7.0');
+		
+		//if (!is_admin()) {
+		
+		// http://beneverard.co.uk/blog/wordpress-loading-jquery-correctly-version-2/
+		// deregister the original version of jQuery
+		//wp_deregister_script('jquery');
+		// register it again, this time with no file path
+		//wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js', FALSE, '1.8.3');
+		// add it back into the queue
+		//wp_enqueue_script('jquery');
 		
 		// declare the URL to the file that handles the AJAX request (wp-admin/admin-ajax.php)
 		//wp_enqueue_script( 'my-ajax-request', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
 		//wp_localize_script( 'my-ajax-request', 'MyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		
+		// http://www.kevinleary.net/wordpress-3-5-admin-jquery-is-not-defined/
+		// http://wordpress.org/support/topic/referenceerror-jquery-is-not-defined
 		// http://wordpress.stackexchange.com/questions/56343/template-issues-getting-ajax-search-results/56349#56349
  		wp_register_script(
  			'bhaawp', 
  			plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
- 			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
+			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
  		wp_enqueue_script('bhaawp');
  		wp_localize_script(
  			'bhaawp',
@@ -144,7 +158,10 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
 		
  		// css style 
- 		wp_enqueue_style('jquery-style','http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+ 		wp_enqueue_style(
+ 			'jquery-style',
+ 			'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+		//}
 	}
 		
 	function bhaawp_house_search() {

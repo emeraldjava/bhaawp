@@ -54,8 +54,8 @@ class RaceAdmin
 				exit();
 				break;
 			case "bhaa_race_load_results":
+				$post = get_post($post_id);
 				$results = explode("\n",$post->post_content);
-				array_shift($results);
 				error_log('Number of rows '.sizeof($results));
 				foreach($results as $result)
 				{
@@ -63,7 +63,7 @@ class RaceAdmin
 					$raceResult->addRaceResult($details);
 				}
 				error_log('bhaa_race_load_results : '.$post_id);
-				queue_flash_message("bhaa_race_delete_results");
+				queue_flash_message("bhaa_race_load_results");
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
