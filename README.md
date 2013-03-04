@@ -208,6 +208,8 @@ http://stackoverflow.com/questions/11166981/how-to-use-jquery-to-retrieve-ajax-s
 http://wp.tutsplus.com/tutorials/theme-development/add-jquery-autocomplete-to-your-sites-search/
 http://wordpress.stackexchange.com/questions/57988/jquery-ui-autocomplete-not-working-in-wordpress
 http://jqueryui.com/demos/autocomplete/#remote
+http://wordpress.org/support/topic/troubleshooting-wordpress-35-master-list
+http://codex.wordpress.org/Using_Your_Browser_to_Diagnose_JavaScript_Errors
 
 - Widget
 http://wp.tutsplus.com/tutorials/widgets/create-a-tabbed-widget-for-custom-post-types/
