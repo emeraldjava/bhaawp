@@ -108,6 +108,15 @@ class RaceCpt
 		echo '<option value="M" '.(($type[0]=='M')?'selected="selected"':"").'>M</option>';
 		echo '<option value="W" '.(($type[0]=='W')?'selected="selected"':"").'>W</option>';
 		echo '</select></p>';
+		
+		// admin url links		
+		echo sprintf('<a href="%s">Delete Results</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa'));
+		echo sprintf('<a href="%s">Load Results</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa'));
+		echo sprintf('<a href="%s">Pace</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_pace&post_id=%d', $post->ID),'bhaa'));
+		echo sprintf('<a href="%s">Pos Cat</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posincat&post_id=%d', $post->ID),'bhaa'));
+		echo sprintf('<a href="%s">Pos Std</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posinstd&post_id=%d', $post->ID),'bhaa'));
+		echo sprintf('<a href="%s">Post Race Std</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_postracestd&post_id=%d', $post->ID),'bhaa'));
+		
 	}
 
 	/**
