@@ -3,6 +3,26 @@ INSERT INTO wp_bhaa_import (id, tag, type, new, old) VALUES
 (NULL, 'winter2013', 'league', 2492, 13);
 
 select * from wp_posts where post_type='league';
+select * from wp_posts where post_type='event';
+
+select l.ID,l.post_title,wp_p2p.p2p_to from wp_posts l
+inner join wp_p2p 
+where wp_p2p.p2p_type='league_to_event' 
+and wp_p2p.p2p_from=l.ID
+and l.post_type='league'
+and l.ID=2492;
+
+p2p_from`, `p2p_to`, `p2p_type
+
+SELECT   wp_posts.*, wp_p2p.* FROM wp_posts  
+INNER JOIN wp_p2p WHERE 1=1  AND wp_posts.post_type IN ('league') 
+AND (wp_posts.post_status = 'publish') AND (wp_p2p.p2p_type = 'league_to_event' 
+AND wp_posts.ID = wp_p2p.p2p_from AND wp_p2p.p2p_to 
+IN (SELECT   wp_posts.ID FROM wp_posts  WHERE 1=1  AND wp_posts.ID IN (0) 
+AND wp_posts.post_type IN ('event') AND (wp_posts.post_status = 'publish')  
+ORDER BY wp_posts.post_date DESC ))  ORDER BY wp_posts.post_date DESC
+
+
 
 select * from bhaaie_members.league
 
