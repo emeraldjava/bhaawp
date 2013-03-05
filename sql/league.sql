@@ -5,11 +5,10 @@ INSERT INTO wp_bhaa_import (id, tag, type, new, old) VALUES
 select * from wp_posts where post_type='league';
 select * from wp_posts where post_type='event';
 
-select l.ID,l.post_title,wp_p2p.p2p_to from wp_posts l
-inner join wp_p2p 
-where wp_p2p.p2p_type='league_to_event' 
-and wp_p2p.p2p_from=l.ID
-and l.post_type='league'
+select l.ID,l.post_title,l2e.p2p_to as eid,e.post_title as etitle from wp_posts l
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+inner join wp_posts e on (e.id=l2e.p2p_to)
+where l.post_type='league'
 and l.ID=2492;
 
 p2p_from`, `p2p_to`, `p2p_type
@@ -25,7 +24,6 @@ ORDER BY wp_posts.post_date DESC ))  ORDER BY wp_posts.post_date DESC
 
 
 select * from bhaaie_members.league
-
 
 select * from wp_bhaa_raceresult where runner=7713;
 
