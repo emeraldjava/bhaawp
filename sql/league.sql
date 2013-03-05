@@ -5,15 +5,19 @@ INSERT INTO wp_bhaa_import (id, tag, type, new, old) VALUES
 select * from wp_posts where post_type='league';
 select * from wp_posts where post_type='event';
 
-select l.ID,l.post_title,e.ID as eid,e.post_title as etitle,r.ID as rid,r.post_title as rtitle from wp_posts l
+select l.ID as lid,l.post_title,
+e.ID as eid,e.post_title as etitle,
+r.ID as rid,r.post_title as rtitle,r_type.meta_value as type 
+from wp_posts l
 inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
 inner join wp_posts e on (e.id=l2e.p2p_to)
 inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
 inner join wp_posts r on (r.id=e2r.p2p_to)
+inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 where l.post_type='league'
 and l.ID=2492;
 
-p2p_from`, `p2p_to`, `p2p_type
+--inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 
 SELECT   wp_posts.*, wp_p2p.* FROM wp_posts  
 INNER JOIN wp_p2p WHERE 1=1  AND wp_posts.post_type IN ('league') 
