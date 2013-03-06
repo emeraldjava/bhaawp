@@ -10,5 +10,13 @@ require_once( PLUGIN_ROOT_DIR.'/bootstrap.php');
 
 $houseManager = new HouseManager();
 echo "HouseManager";
-echo print_r($houseManager->getActiveCompanies(),true);
+
+$houses = $houseManager->getInactiveCompanies();
+echo print_r($houses,true);
+
+$names = array_map(function($val){return $val->post_name;}, $houses);
+echo print_r($names,true);
+
+
+//echo print_r($houseManager->getActiveCompanies(),true);
 ?>
