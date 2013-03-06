@@ -20,6 +20,7 @@ class HouseManager extends BaseModel
 	function getInactiveCompanies()
 	{}
 	
+	// http://wordpress.stackexchange.com/questions/43585/sorting-by-custom-posts-with-attachments
 	function queryHousesByTypeAndStatus($teamType,$teamStatus)
 	{
 		$query = new WP_Query();
