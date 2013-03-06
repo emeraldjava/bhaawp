@@ -1,10 +1,11 @@
 <?php
-class LeagueSummary implements Table
+class LeagueSummary extends BaseModel implements Table
 {
 	private $league;
 	
 	function __construct($league)
 	{
+		parent::__construct();
 		$this->league=$league;
 	}
 	
@@ -51,6 +52,10 @@ class LeagueSummary implements Table
 	
 	// get the specific of a league division
 	function getDivisionSummary($division) // limit - all or 10?
-	{}
+	{
+		$SQL = $this->wpdb->prepare('select * from wp_bhaa_leaguesummary where league=%d and leaguedivision=%s',$this->league,$division);
+		error_log($SQL);
+		return $this->wpdb->get_results($SQL);
+	}
 }
 ?>
