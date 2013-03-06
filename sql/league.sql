@@ -19,12 +19,17 @@ and l.ID=2492;
 and r_type.meta_value in ('C','S','*')
 
 --inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
-
 select runner,race,leaguepoints,e.ID as eid,e.post_title as etitle from wp_bhaa_raceresult 
 inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=race)
 inner join wp_posts e on (e.id=e2r.p2p_from)
 where race in (2358,2359,2360,2362)
 and runner=7713;
+
+select e.ID as eid,race,leaguepoints from wp_bhaa_raceresult 
+			inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=race)
+			inner join wp_posts e on (e.id=e2r.p2p_from)
+			where race in (2358,2359,2360,2362)
+			and runner=7713;
 
 
 SELECT   wp_posts.*, wp_p2p.* FROM wp_posts  

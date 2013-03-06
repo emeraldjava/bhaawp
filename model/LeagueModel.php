@@ -25,27 +25,21 @@ class LeagueModel extends BaseModel
 		if($type!='')
 			$SQL .= sprintf("and r_type.meta_value in ('C','%s')",$type);
 		echo $SQL;
-		//$this->wpdb->query($SQL);
-
+		error_log($SQL);
 		// OBJECT, OBJECT_K, ARRAY_A, ARRAY_N
 		return $this->wpdb->get_results($SQL,OBJECT);
-		
-// 		$select = $this->select()
-// 		->setIntegrityCheck(false)
-// 		->from(array('leagueevent'=>'leagueevent'),
-// 				array('(CASE leagueevent.summaryrace WHEN 0 THEN race.id ELSE leagueevent.summaryrace END) as raceid'))
-// 				->join(array('event'=>'event'),'event.id = leagueevent.event',array('tag'))
-// 				->join(array('race'=>'race'),'event.id = race.event',array())
-// 				->where('leagueevent.league = ?',$league)
-// 				->where("race.type in ('C','S',?)",$gender)
-// 				->group('raceid')
-// 				->order('event.date ASC');
-// 		return $this->fetchAll($select);
 	}
 	
-	function getRunnerLeagueSummary($runner)
+	function getRunnerLeagueSummary($races,$runner)
 	{
-		return $runner;
+		// $this->wpdb->prepare
+		$SQL = sprintf("select e.ID as eid,race,leaguepoints from wp_bhaa_raceresult 
+			inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=race)
+			inner join wp_posts e on (e.id=e2r.p2p_from)
+			where race in ( %s )
+			and runner=%d;",$races,$runner);
+		//echo $SQL;
+		return $this->wpdb->get_results($SQL,OBJECT);
 	}
 	
 	/**
