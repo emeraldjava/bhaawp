@@ -23,7 +23,7 @@ class LeagueModel extends BaseModel
 			where l.post_type='league'
 			and l.ID=%d", $this->leagueid);
 		if($type!='')
-			$SQL .= sprintf("and r_type.meta_value in ('C','%s')",$type);
+			$SQL .= sprintf(" and r_type.meta_value in ('C','%s')",$type);
 		echo $SQL;
 		error_log($SQL);
 		// OBJECT, OBJECT_K, ARRAY_A, ARRAY_N
