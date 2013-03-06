@@ -53,7 +53,9 @@ class LeagueSummary extends BaseModel implements Table
 	// get the specific of a league division
 	function getDivisionSummary($division) // limit - all or 10?
 	{
-		$SQL = $this->wpdb->prepare('select * from wp_bhaa_leaguesummary where league=%d and leaguedivision=%s',$this->league,$division);
+		$SQL = $this->wpdb->prepare('select * from wp_bhaa_leaguesummary
+			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
+			where league=%d and leaguedivision=%s',$this->league,$division);
 		error_log($SQL);
 		return $this->wpdb->get_results($SQL);
 	}
