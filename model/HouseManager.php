@@ -12,10 +12,14 @@ class HouseManager extends BaseModel
 	}
 	
 	function getActiveCompanies()
-	{}
+	{
+		return $this->queryHousesByTypeAndStatus(House::COMPANY_TEAM,House::ACTIVE);
+	}
 	
 	function getActiveSectors()
-	{}
+	{
+		return $this->queryHousesByTypeAndStatus(House::SECTOR_TEAM,House::ACTIVE);
+	}
 	
 	function getInactiveCompanies()
 	{}
@@ -23,7 +27,7 @@ class HouseManager extends BaseModel
 	// http://wordpress.stackexchange.com/questions/43585/sorting-by-custom-posts-with-attachments
 	function queryHousesByTypeAndStatus($teamType,$teamStatus)
 	{
-		$query = new WP_Query();
+		//$query = new WP_Query();
 		$companyList = new WP_Query(
 			array(
 			'post_type' => House::HOUSE,
@@ -44,7 +48,8 @@ class HouseManager extends BaseModel
 				)
 			)
 		);
-		return $query->get_posts();
+		echo $companyList->request;
+		return $companyList->get_posts();
 	}
 }
 ?>
