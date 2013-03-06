@@ -14,7 +14,7 @@ $league = new LeagueModel(2492);
 //echo var_dump($event);
 
 //$races = $league->getEvents();
-$races = $league->getLeagueRaces();
+$races = $league->getLeagueRaces('M');
 
 //var_dump($races);
 

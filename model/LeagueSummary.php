@@ -25,6 +25,7 @@ class LeagueSummary implements Table
 			leagueposition int(10) unsigned NOT NULL,
 			leaguescorecount int(10) unsigned NOT NULL,
 			leaguepoints double NOT NULL,
+			leaguesummary varchar(500),
 			PRIMARY KEY (leaguetype, league, leagueparticipant, leaguedivision) USING BTREE";
 	}
 	

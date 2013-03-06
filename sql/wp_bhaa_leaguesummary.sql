@@ -1,4 +1,20 @@
 
+DROP TABLE IF EXISTS wp_bhaa_leaguesummary;
+CREATE TABLE IF NOT EXISTS wp_bhaa_leaguesummary (
+	league int(10) unsigned NOT NULL,
+	leaguetype enum('I','T') NOT NULL,
+	leagueparticipant int(10) unsigned NOT NULL,
+	leaguestandard int(10) unsigned NOT NULL,
+	leaguedivision varchar(5) NOT NULL,
+	leagueposition int(10) unsigned NOT NULL,
+	leaguescorecount int(10) unsigned NOT NULL,
+	leaguepoints double NOT NULL,
+	leaguesummary varchar(500),
+	PRIMARY KEY (leaguetype, league, leagueparticipant, leaguedivision) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+ALTER TABLE wp_bhaa_leaguesummary ADD COLUMN leaguesummary varchar(500) DEFAULT NULL AFTER leaguepoints;
+
 INSERT INTO wp_bhaa_import (id, tag, type, new, old) VALUES
 (NULL, 'winter2013', 'league', 2492, 13);
 
@@ -25,12 +41,7 @@ inner join wp_posts e on (e.id=e2r.p2p_from)
 where race in (2358,2359,2360,2362)
 and runner=7713;
 
-select e.ID as eid,race,leaguepoints from wp_bhaa_raceresult 
-			inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=race)
-			inner join wp_posts e on (e.id=e2r.p2p_from)
-			where race in (2358,2359,2360,2362)
-			and runner=7713;
-
+update wp_bhaa_raceresult set leaguepoints=10;
 
 SELECT   wp_posts.*, wp_p2p.* FROM wp_posts  
 INNER JOIN wp_p2p WHERE 1=1  AND wp_posts.post_type IN ('league') 
