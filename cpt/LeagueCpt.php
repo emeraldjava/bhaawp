@@ -110,7 +110,7 @@ class LeagueCpt
 			'query_var' => true
 		);
 		register_taxonomy( 'division', array('league'), $args );
-		
+				
 		$parent_term = term_exists( 'division', 'league' );
 		$parent_term_id = $parent_term['term_id']; // get numeric term id
 		wp_insert_term(
