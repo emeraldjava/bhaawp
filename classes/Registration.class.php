@@ -52,26 +52,11 @@ class Registration
 			'<input type="submit" name="bhaa_reg_add_runner_submit" value="Do it!" />'.
 			'</form>'.
 			'<div id="bhaa_reg_add_runner_response"/>';
-// 		'<script type="text/javascript">'.
-// 	    'var frm = $("#bhaa_reg_add_runner");'.
-// 	    'frm.submit(function () {'.
-// 	    '    $.ajax({'.
-// 	    '        type: frm.attr("method"),'.
-// 	    '        url: frm.attr("action"),'.
-// 	    '        data: frm.serialize(),'.
-// 	    '        success: function (data) {'.
-// 	    '            alert("ok");'.
-// 	    '        }'.
-// 	    '    });'.
-// 	    '    return false;'.
-// 	    '});'.
-// 		'</script>';
 	}
 	
 	function admin_action_101()
 	{
-		echo 'admin_action_101';	
-		
+		echo 'admin_action_101';
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
