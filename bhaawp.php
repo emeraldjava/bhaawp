@@ -95,7 +95,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$flickr = new BhaaFlickr();
 		add_shortcode('bhaa_flickr',array($flickr,'bhaa_flickr_shortcode'));	
 		
-		//add_shortcode('bhaa_registration', array($this->registration,'registration'));
+		add_shortcode('bhaa_registration', array($this->registration,'registration'));
 		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
 		//$this->rrw = new RaceResult_Widget();
 		$runnerSearchWidget = new RunnerSearchWidget();
