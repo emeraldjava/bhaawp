@@ -13,7 +13,8 @@ class Registration
 		add_action( 'admin_action_101', array($this,'admin_action_101') );
 		
 		// ajax action
-		add_action('wp_ajax_bhaa_reg_add_runner',array($this,'bhaa_reg_add_runner'));
+		add_action('wp_ajax_nopriv_bhaa_reg_add_runner', array($this,'bhaa_reg_add_runner'));
+		add_action('wp_ajax_bhaa_reg_add_runner', array($this,'bhaa_reg_add_runner'));
 	}
 	
 	function registration()
@@ -79,8 +80,26 @@ class Registration
 	function bhaa_reg_add_runner()
 	{
 		error_log('bhaa_reg_add_runner'); 
-		// add user details
-		return 100;
+		switch($_REQUEST['fn']){
+			case 'get_latest_posts':
+				$output = $_REQUEST['count'];//ajax_get_latest_posts($_REQUEST['count']);
+				break;
+			default:
+				$output = 'No function specified, check your jQuery.ajax() call';
+				break;
+		}
+		
+		// json the output		
+		$output=json_encode($output);
+		if(is_array($output))
+		{
+			print_r($output);
+		}
+		else
+		{
+			echo $output;
+		}
+		die;
 	}
 	
 	// jquery form validate

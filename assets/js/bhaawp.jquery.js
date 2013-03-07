@@ -140,12 +140,14 @@ jQuery(document).ready( function() {
 		jQuery.ajax({
 	          url: bhaaAjax.ajaxurl,
 	          data:{
-	               'action':'do_ajax',
+	               'action':'bhaa_reg_add_runner',
 	               'fn':'get_latest_posts',
-	               'count':10
+	               'count':100
 	               },
 	          dataType:'json',
 	          success:function(data){
+	        	  alert('success '.data);
+	        	  console.log(data);
 	                 // our handler function will go here
 	                 // this part is very important!
 	                 // it's what happens with the JSON data 
