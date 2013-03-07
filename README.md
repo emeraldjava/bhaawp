@@ -267,5 +267,10 @@ Taxonomy
 - http://net.tutsplus.com/tutorials/wordpress/introducing-wordpress-3-custom-taxonomies/
 - http://wp.smashingmagazine.com/2013/01/14/using-wp_query-wordpress/
 
+- PDF Attachement
+http://wordpress.stackexchange.com/questions/18520/how-can-i-display-a-link-to-a-posts-word-doc-or-pdf-attachment
+https://github.com/mozilla/pdf.js
+http://www.wpbeginner.com/wp-themes/how-to-create-a-custom-single-attachments-template-in-wordpress/
+filter the pdf url and add wrapping code
 
 http://github.github.com/github-flavored-markdown/
