@@ -26,7 +26,7 @@ $rid_array = array_map(function($val) {
 echo print_r($rid_array,true);
 echo json_encode($rid_array);
 echo implode(",", $rid_array);
-echo json_encode($league->getRunnerLeagueSummary(implode(",", $rid_array),7713));
+echo json_encode($league->getRunnerLeagueSummary(implode(",", $rid_array),7713),JSON_FORCE_OBJECT);
 
 // return array_values(array_filter($races, function($arrayValue) use($ID) { return $arrayValue['rd'] == $ID; } ));
 

@@ -1,12 +1,12 @@
 <?php
 class LeagueSummary extends BaseModel implements Table
 {
-	private $league;
+	private $leagueid;
 	
-	function __construct($league)
+	function __construct($leagueid)
 	{
 		parent::__construct();
-		$this->league=$league;
+		$this->leagueid=$leagueid;
 	}
 	
 	function getName()
@@ -45,7 +45,7 @@ class LeagueSummary extends BaseModel implements Table
 			inner join wp_posts r on (r.id=e2r.p2p_to)
 			inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 			where l.post_type='league'
-			and l.ID=%d", $this->league);
+			and l.ID=%d", $this->leagueid);
 		if($type!='')
 			$SQL .= sprintf(" and r_type.meta_value in ('C','%s')",$type);
 		//echo $SQL;
@@ -65,7 +65,7 @@ class LeagueSummary extends BaseModel implements Table
 			WHERE leaguetype = "I"
 			AND leagueposition <= %d
 			AND league = %d
-			order by league, leaguedivision, leagueposition',$limit,$this->league);
+			order by league, leaguedivision, leagueposition',$limit,$this->leagueid);
 		error_log($query);
 		$this->items = $wpdb->get_results($query);
 		return $this->items;	
@@ -76,7 +76,7 @@ class LeagueSummary extends BaseModel implements Table
 	{
 		$SQL = $this->wpdb->prepare('select *,wp_users.display_name from wp_bhaa_leaguesummary
 			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
-			where league=%d and leaguedivision=%s order by leagueposition',$this->league,$division);
+			where league=%d and leaguedivision=%s order by leagueposition',$this->leagueid,$division);
 		error_log($SQL);
 		return $this->wpdb->get_results($SQL);
 	}
