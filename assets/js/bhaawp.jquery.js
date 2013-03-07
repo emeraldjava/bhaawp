@@ -134,4 +134,17 @@ jQuery(document).ready( function() {
 		}	
 	});
 	
+	jQuery("#bhaa_reg_add_runner_submit").click(function () {
+		alert('bhaa_reg_add_runner_submit');
+//		jQuery.ajax({
+//	            type: "POST",
+//	            url: bhaaAjax.ajaxurl,
+//	            action:'bhaa_reg_add_runner',
+//	            data: 'this is a message',
+//	            success: function (data) {
+//	                alert("ok");
+//	            }
+//	        });
+//	        return false;
+	});	
 });
