@@ -78,7 +78,7 @@ class LeagueSummary extends BaseModel implements Table
 			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
 			left join wp_posts on wp_posts.post_type="house" and wp_posts.id=
 				(select meta_value from wp_usermeta where user_id=wp_bhaa_leaguesummary.leagueparticipant and meta_key="bhaa_runner_company")
-			where league=%d and leaguedivision=%s order by leagueposition',$this->leagueid,$division);
+			where league=%d and leaguedivision=%s and leaguescorecount>=2 order by leagueposition',$this->leagueid,$division);
 		error_log($SQL);
 		return $this->wpdb->get_results($SQL);
 	}
