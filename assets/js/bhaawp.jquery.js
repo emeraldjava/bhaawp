@@ -134,8 +134,9 @@ jQuery(document).ready( function() {
 		}	
 	});
 	
-	jQuery("#bhaa_reg_add_runner_submit").click(function () {
+	jQuery("#bhaa_reg_add_runner").click(function () {
 		alert('bhaa_reg_add_runner_submit');
+		return false;
 //		jQuery.ajax({
 //	            type: "POST",
 //	            url: bhaaAjax.ajaxurl,
