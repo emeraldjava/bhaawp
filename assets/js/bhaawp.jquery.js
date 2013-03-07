@@ -136,6 +136,28 @@ jQuery(document).ready( function() {
 	
 	jQuery("#bhaa_reg_add_runner").click(function () {
 		alert('bhaa_reg_add_runner_submit');
+		
+		jQuery.ajax({
+	          url: bhaaAjax.ajaxurl,
+	          data:{
+	               'action':'do_ajax',
+	               'fn':'get_latest_posts',
+	               'count':10
+	               },
+	          dataType:'json',
+	          success:function(data){
+	                 // our handler function will go here
+	                 // this part is very important!
+	                 // it's what happens with the JSON data 
+	                 // after it is fetched via AJAX!
+	              },
+	          error: function(errorThrown){
+	               alert('error');
+	               console.log(errorThrown);
+	          }
+	           
+	 
+	     });
 		return false;
 //		jQuery.ajax({
 //	            type: "POST",
