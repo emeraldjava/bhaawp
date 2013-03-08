@@ -115,12 +115,18 @@ where race in (2358,2359,2360,2362)
 and runner=7713
 
 -- select the matching league points
-select rr.race,rr.leaguepoints from wp_bhaa_raceresult rr
+select rr.race,rr.leaguepoints,mrr.points from wp_bhaa_raceresult rr
 join wp_bhaa_import i on (i.type='race' and i.new=rr.race)
 join bhaaie_members.raceresult mrr on (mrr.race=i.old and mrr.runner=rr.runner)
 and rr.race>=1783 
 and rr.runner=7713;
 
+update wp_bhaa_raceresult rr
+join wp_bhaa_import i on (i.type='race' and i.new=rr.race)
+join bhaaie_members.raceresult mrr on (mrr.race=i.old and mrr.runner=rr.runner)
+set rr.leaguepoints=mrr.points
+where rr.race>=1783 
+and rr.runner=7713;
 
 select 
 id,
