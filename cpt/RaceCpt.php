@@ -116,7 +116,7 @@ class RaceCpt
 		echo sprintf('<a href="%s">Pos Cat</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posincat&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Pos Std</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posinstd&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Post Race Std</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_postracestd&post_id=%d', $post->ID),'bhaa'));
-		
+		echo sprintf('<a href="%s">BHAA ALL</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa'));		
 	}
 
 	/**
