@@ -119,7 +119,7 @@ class LeagueSummary extends BaseModel implements Table
 				$this->wpdb->prepare(
 					'update wp_bhaa_leaguesummary set leaguesummary=%s where leagueparticipant=%d',
 					$runner_summary,
-					$this->id)
+					$id)
 			);
 		}			
 	}
