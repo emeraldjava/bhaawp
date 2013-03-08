@@ -121,12 +121,12 @@ class LeagueSummary extends BaseModel implements Table
 // 			},
 // 			$races);
 		$rid_array = array(1784);
-		$mens_races = implode(",", $rid_array);
+		$mens_races = '1784';//implode(",", $rid_array);
 		
 		$wraces = $this->getLeagueRaces('W');
 		//$wrid_array = array_map(function($val) {  return $val->rid;}, $wraces);
 		$wrid_array = array(1783);
-		$womens_races = implode(",", $wrid_array);
+		$womens_races = '1783';//implode(",", $wrid_array);
 		//$mens_races = implode(",", $race_set );// array_map( function($val) { return $val->rid; } , $this->getLeagueRaces('M') ) );
 		//$womens_races = implode(",", array_map( function($val) { return $val->rid; } , $this->getLeagueRaces('W')));
 >>>>>>> teacher race ids
