@@ -11,8 +11,7 @@ class LeagueSummary extends BaseModel implements Table
 	
 	function getName()
 	{
-		global $wpdb;
-		return $wpdb->prefix.'bhaa_leaguesummary';
+		return $this->wpdb->prefix.'bhaa_leaguesummary';
 	}
 	
 	function getCreateSQL()
@@ -81,6 +80,45 @@ class LeagueSummary extends BaseModel implements Table
 			where league=%d and leaguedivision=%s and leaguescorecount>=2 order by leagueposition',$this->leagueid,$division);
 		//error_log($SQL);
 		return $this->wpdb->get_results($SQL);
+	}
+	
+	function getRunnerLeagueSummary($races,$runner)
+	{
+		// $this->wpdb->prepare
+		$SQL = sprintf("select e.ID as eid,race,leaguepoints from wp_bhaa_raceresult
+			inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=race)
+			inner join wp_posts e on (e.id=e2r.p2p_from)
+			where race in ( %s )
+			and runner=%d;",$races,$runner);
+		error_log($SQL);
+		return $this->wpdb->get_results($SQL);
+	}
+		
+	function updateLeague()
+	{
+		// get all league races
+		//$league = new LeagueModel($this->leagueid);
+		$races = $this->getLeagueRaces();//'M');
+		$rid_array = array_map(function($val) {	return $val->rid;}, $races);
+		$race_set = implode(",", $rid_array);
+	
+		// for each of the runners - update the league details
+		$runners = $this->wpdb->get_results(
+			$this->wpdb->prepare('select leagueparticipant from wp_bhaa_leaguesummary where league=%d',$this->leagueid)
+		);
+		//error_log(print_r($runners,true));
+		foreach($runners as $runner)
+		{
+			$id = $runner->leagueparticipant;
+			$runner_summary = json_encode($this->getRunnerLeagueSummary($race_set,$id),JSON_FORCE_OBJECT);
+			error_log($id.' '.$runner_summary);
+			$runners = $this->wpdb->query(
+				$this->wpdb->prepare(
+					'update wp_bhaa_leaguesummary set leaguesummary=%s where leagueparticipant=%d',
+					$runner_summary,
+					$this->id)
+			);
+		}			
 	}
 }
 ?>

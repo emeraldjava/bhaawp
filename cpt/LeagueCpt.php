@@ -37,8 +37,9 @@ class LeagueCpt
 		{
 			$id = $_GET['post_id'];
 			$action = $_GET['action'];
-			$my_post = get_post($id);
-			error_log('league_actions : '.$id.' '.$action.' '.print_r($my_post));	
+			error_log('league_actions : '.$id.' '.$action);
+			$leagueSummary = new LeagueSummary($id);
+			$leagueSummary->updateLeague();
 			wp_redirect(wp_get_referer()); 
 			exit();
 		}
