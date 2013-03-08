@@ -97,20 +97,23 @@ class LeagueSummary extends BaseModel implements Table
 	function updateLeague()
 	{
 		// get all league races
-		//$league = new LeagueModel($this->leagueid);
-		$races = $this->getLeagueRaces();//'M');
-		$rid_array = array_map(function($val) {	return $val->rid;}, $races);
-		$race_set = implode(",", $rid_array);
-	
+		$mens_races = implode(",", array_map(function($val) {	return $val->rid;}, $this->getLeagueRaces('M')));
+		$womens_races = implode(",", array_map(function($val) {	return $val->rid;}, $this->getLeagueRaces('W')));
+		
 		// for each of the runners - update the league details
 		$runners = $this->wpdb->get_results(
-			$this->wpdb->prepare('select leagueparticipant from wp_bhaa_leaguesummary where league=%d',$this->leagueid)
+			$this->wpdb->prepare('select leagueparticipant,gender.meta_value as gender from wp_bhaa_leaguesummary
+				join wp_usermeta gender on (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant and gender.meta_key="bhaa_runner_gender")
+				where league=%d',$this->leagueid)
 		);
 		//error_log(print_r($runners,true));
 		foreach($runners as $runner)
 		{
 			$id = $runner->leagueparticipant;
-			$runner_summary = json_encode($this->getRunnerLeagueSummary($race_set,$id),JSON_FORCE_OBJECT);
+			if($runner->gender=='W')
+				$runner_summary = json_encode($this->getRunnerLeagueSummary($womens_races,$id),JSON_FORCE_OBJECT);
+			else
+				$runner_summary = json_encode($this->getRunnerLeagueSummary($mens_races,$id),JSON_FORCE_OBJECT);
 			error_log($id.' '.$runner_summary);
 			$runners = $this->wpdb->query(
 				$this->wpdb->prepare(
