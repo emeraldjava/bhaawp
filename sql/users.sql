@@ -145,7 +145,7 @@ join wp_usermeta mp on (
 join wp_usermeta mdor on (
 	mdor.user_id=wp_users.id and 
 	mdor.meta_key='bhaa_runner_dateofrenewal') 	
-where id>22234
+where id=22964
 order by wp_users.id;
 
 
