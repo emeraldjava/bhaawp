@@ -32,7 +32,9 @@ class RaceAdmin
 				'bhaa_race_posinstd' => sprintf('<a href="%s">Pos Std</a>',
 					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posinstd&post_id=%d', $post->ID),'bhaa')),
 				'bhaa_race_postracestd' => sprintf('<a href="%s">Post Race Std</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_postracestd&post_id=%d', $post->ID),'bhaa'))
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_postracestd&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_race_all' => sprintf('<a href="%s">BHAA ALL</a>',
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa'))
 			));
 		}
 		return $actions;
@@ -92,50 +94,13 @@ class RaceAdmin
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
+			case "bhaa_race_all":
+				$race->updateAll();
+				queue_flash_message("bhaa_race_postracestd");
+				wp_redirect(wp_get_referer());
+				exit();
+				break;
 		}
-		
-// 		wp_redirect(wp_get_referer());
-// 		exit();
-		
-// 		if ( $_REQUEST['action'] == 'bhaa_race_delete_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
-// 		{
-// 			$post_id = $_GET['post_id'];
-// 			$action = $_GET['action'];
-			
-// 			$race = new RaceResult($post_id);
-// 			$race->deleteRaceResults();
-// 			//$this->getRace()->deleteResults($post_id);
-// 			error_log('bhaa_race_delete_results : '.$post_id.' '.$action);
-// 			wp_redirect(wp_get_referer());
-// 			exit();
-// 		}
-// 		elseif ( $_REQUEST['action'] == 'bhaa_race_load_results')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
-// 		{
-// 			$post_id = $_GET['post_id'];
-// 			$action = $_GET['action'];
-// 			$post = get_post($post_id);
-			
-// 			$raceResult = new RaceResult($post_id);
-// 			$results = explode("\n",$post->post_content);
-// 			array_shift($results);
-// 			error_log('Number of rows '.sizeof($results));
-// 			foreach($results as $result)
-// 			{
-// 				$details = str_getcsv($result,',','','\n');
-// 				$raceResult->addRaceResult($details);
-// 			}
-// 			error_log('bhaa_race_load_results : '.$post_id);
-// 			wp_redirect(wp_get_referer());
-// 			exit();
-// 		}
-// 		elseif ( $_REQUEST['action'] == 'bhaa_race_update_pace')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
-// 		{
-// 			$post_id = $_GET['post_id'];
-// 			$race = new RaceResult($post_id);
-// 			$race->updateRacePace();
-// 			wp_redirect(wp_get_referer());
-// 			exit();
-// 		}
 	}
 	
 	function bhaa_manage_race_posts_columns( $column ) {

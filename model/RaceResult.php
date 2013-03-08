@@ -105,6 +105,14 @@ class RaceResult extends BaseModel implements Table
 		return new Race($this->post_id);
 	}
 	
+	function updateAll()
+	{
+		$this->updateRacePace();
+		$this->updatePostRaceStd();
+		$this->updateRacePosInCat();
+		$this->updateRacePosInStd();
+	}
+	
 	function updateRacePace()
 	{
 		// update wp_bhaa_raceresult set actualstandard=getStandard(racetime,getRaceDistanceKm(race)) where race=2504;
