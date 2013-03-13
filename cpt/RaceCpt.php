@@ -22,15 +22,6 @@ class RaceCpt
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_race_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
 	}
-	
-// 	function getRace()
-// 	{
-// 		if(!isset($this->race))
-// 			$this->race = new Race();
-// 		return $this->race;
-// 	}
-	
-
 		
 	public function bhaa_register_race_cpt()
 	{
@@ -116,7 +107,8 @@ class RaceCpt
 		echo sprintf('<a href="%s">Pos Cat</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posincat&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Pos Std</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posinstd&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Post Race Std</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_postracestd&post_id=%d', $post->ID),'bhaa'));
-		echo sprintf('<a href="%s">BHAA ALL</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa'));		
+		echo sprintf('<a href="%s">League</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_league&post_id=%d', $post->ID),'bhaa'));		
+		echo sprintf('<a href="%s">BHAA ALL</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa'));
 	}
 
 	/**

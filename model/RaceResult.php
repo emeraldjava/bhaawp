@@ -137,5 +137,11 @@ class RaceResult extends BaseModel implements Table
 	{
 		$this->wpdb->query($this->wpdb->prepare('call updatePositionInStandard(%d)',$this->post_id));
 	}
+	
+	function updateLeague()
+	{
+		$this->wpdb->query($this->wpdb->prepare('call updateRaceScoringSets(%d)',$this->post_id));
+		$this->wpdb->query($this->wpdb->prepare('call updateRaceLeaguePoints(%d)',$this->post_id));
+	}
 }
 ?>
