@@ -3,7 +3,7 @@
 -- http://www.coderrants.com/wordpress-and-stored-procedures/
 -- http://wordpress.org/support/topic/how-to-call-stored-procedure-from-plugin
 
--- SET GLOBAL log_bin_trust_function_creators = 1;
+SET GLOBAL log_bin_trust_function_creators = 1;
 
 DELIMITER $$
 
@@ -323,19 +323,17 @@ END$$
 
 -- updateRacePoints
 DROP PROCEDURE IF EXISTS `updateRacePoints`$$
-CREATE DEFINER=`bhaaie`@`localhost` PROCEDURE `updateRacePoints`(_raceId INT, _gender ENUM('M','W'))
+CREATE PROCEDURE `updateRacePoints`(_raceId INT, _gender ENUM('M','W'))
 BEGIN
-
     DECLARE _standard INT DEFAULT 30;
-
   	WHILE _standard > 0 DO
-      UPDATE raceresult rr,
+      UPDATE wp_bhaa_raceresult rr,
       (
         SELECT
         r_outer.race,
         r_outer.runner,
         r_outer.standardposition,
-        10.1 -  (r_outer.standardposition/10.0) as standardpoints
+        10.1 - (r_outer.standardposition/10.0) as standardpoints
         FROM
           (
           SELECT
@@ -343,18 +341,22 @@ BEGIN
           r1.runner,
           @rownum:=@rownum+1 AS standardposition
           FROM
-          raceresult r1, runner ru, (SELECT @rownum:=0) r2
+          wp_bhaa_raceresult r1, wp_users ru, (SELECT @rownum:=0) r2
           WHERE
           r1.runner=ru.id
-          AND ru.gender= COALESCE(_gender, ru.gender)
+          AND (select meta_value from wp_usermeta gender where gender.user_id = ru.id AND gender.meta_key = 'bhaa_runner_gender') = 
+          	COALESCE(_gender, 
+          		(select meta_value from wp_usermeta gender where gender.user_id = ru.id AND gender.meta_key = 'bhaa_runner_gender'))
           AND r1.race = _raceId AND r1.standard=_standard order by r1.position asc
           ) r_outer
         ) r_outer_outer
-      SET rr.points = r_outer_outer.standardpoints
+      SET rr.leaguepoints = r_outer_outer.standardpoints
       WHERE rr.runner = r_outer_outer.runner AND rr.race = r_outer_outer.race;
-
       SET _standard = _standard - 1;
    END WHILE;
 END$$
 
+-- SELECT user_nicename FROM wp_users WHERE id = _runner
+-- select meta_value from wp_usermeta gender where gender.user_id = r.runner AND gender.meta_key = 'bhaa_runner_gender'
+                       
 DELIMITER ;
