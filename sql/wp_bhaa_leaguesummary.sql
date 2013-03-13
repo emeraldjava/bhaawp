@@ -57,6 +57,23 @@ ORDER BY wp_posts.post_date DESC ))  ORDER BY wp_posts.post_date DESC
 
 
 
+SELECT rr.runner, rr.race, rr.leaguepoints,
+mrr.runner, mrr.race, mrr.points
+FROM wp_bhaa_raceresult rr
+LEFT JOIN wp_bhaa_import i ON ( i.type = 'race' AND i.new = rr.race ) 
+JOIN bhaaie_members.raceresult mrr ON ( mrr.race = i.old AND mrr.runner = rr.runner ) 
+AND rr.race >=1783
+AND rr.runner=7713
+
+update wp_bhaa_raceresult rr
+left join wp_bhaa_import i on (i.type='race' and i.new=rr.race)
+left join bhaaie_members.raceresult mrr on (mrr.race=i.old and mrr.runner=rr.runner)
+set leaguepoints=points
+where rr.race>=1783 and rr.runner=7713;
+
+call procedure updateRaceScoringSets(2499);
+
+
 select * from bhaaie_members.league
 
 select * from wp_bhaa_raceresult where runner=7713;

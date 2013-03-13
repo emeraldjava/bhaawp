@@ -11,11 +11,12 @@ CREATE TABLE IF NOT EXISTS wp_raceresult (
 	standard int(11),
 	actualstandard int(11),
 	poststandard int(11),
-	standardscoringset int(11),
-	pace time,
+	pace time DEFAULT NULL,
 	posincat int(11) DEFAULT NULL,
 	posinstd int(11) DEFAULT NULL,
-	leaguepoints int(11) DEFAULT NULL,
+	standardscoringset int(11) DEFAULT NULL,
+	posinsss int(11) DEFAULT NULL,
+	leaguepoints double DEFAULT NULL,
 	class varchar(10),
 	company int(11),
 	PRIMARY KEY (id)
@@ -28,6 +29,15 @@ ALTER TABLE wp_bhaa_raceresult ADD COLUMN actualstandard int(11) DEFAULT NULL AF
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN poststandard int(11) DEFAULT NULL AFTER actualstandard;
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN standardscoringset int(11) DEFAULT NULL AFTER poststandard;
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN leaguepoints int(11) DEFAULT NULL AFTER posinstd;
+
+-- group the league scoring set, position and points columns
+ALTER TABLE wp_bhaa_raceresult MODIFY COLUMN standardscoringset int(11) DEFAULT NULL AFTER posinstd;
+ALTER TABLE wp_bhaa_raceresult ADD COLUMN posinsss int(11) DEFAULT NULL AFTER standardscoringset;
+ALTER TABLE wp_bhaa_raceresult MODIFY COLUMN leaguepoints double;
+
+update wp_bhaa_raceresult set leaguepoints=null where race >=1783 AND runner =7713
+select id,race,runner,standard,standardscoringset,posinsss,leaguepoints from wp_bhaa_raceresult where race=2499 and standard IS NOT NULL
+call updateRaceLeaguePoints(2499);
 
 select * from wp_bhaa_raceresult where race=2504;
 update wp_bhaa_raceresult set pace=NULL,posincat=NULL,posinstd=NULL where race=2504;
