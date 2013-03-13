@@ -311,7 +311,7 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
       SET    scoringset = _scoringset
       WHERE  scoringset = 0;
 
-      SELECT * FROM scoringstandardsets;
+      -- SELECT * FROM scoringstandardsets;
 
       UPDATE wp_bhaa_raceresult, scoringstandardsets
       SET    wp_bhaa_raceresult.standardscoringset = scoringstandardsets.scoringset
