@@ -165,7 +165,6 @@ END$$
 DROP PROCEDURE IF EXISTS `updateRaceScoringSets`$$
 CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
   BEGIN
-  
  DECLARE _raceType ENUM('m','w','c');
  DECLARE _scoringthreshold int;
  DECLARE _currentstandard int;
@@ -199,7 +198,9 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
     SET _raceType         = (SELECT meta_value
                              FROM   wp_postmeta
                              WHERE  post_id = _race AND meta_key = 'bhaa_race_type');
-
+                          
+    /* Process Gender Race. In this case Gender is relevant as all runners
+       are grouped together based on their standard and gender. */
     IF (_raceType = 'C')
     THEN
       INSERT INTO scoringstandardsets(standard, standardcount, scoringset, gender)
@@ -213,10 +214,10 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
                        JOIN
                          wp_usermeta gender
                        ON (gender.user_id = r.runner AND gender.meta_key = 'bhaa_runner_gender')
-              WHERE    r.race = _race
+              WHERE    r.race = _race AND COALESCE(r.standard, 0) > 0
               GROUP BY r.standard, gender.meta_value) x
-      SET    ss.standardcount = x.standardcount
-      WHERE  ss.standard = x.standard AND ss.gender = x.gender;
+      SET    ss.standardcount = x.standardcount 
+      WHERE  ss.standard = x.standard AND ss.gender = x.gender ;
 
       WHILE (_currentstandard > 0)
       DO
