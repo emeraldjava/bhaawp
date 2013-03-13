@@ -322,6 +322,41 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
 END$$
 
 -- updateRacePoints
+DROP PROCEDURE IF EXISTS `updatePostionInSSSandPoints`$$
+CREATE PROCEDURE `updatePostionInSSSandPoints`(_raceId INT, _gender ENUM('M','W'))
+BEGIN
+	create temporary table if not exists  tmpPosInSet (
+        id int auto_increment,
+        scoringset int,
+        --gender enum('M','W','N'),
+        runner int,
+        primary key(scoringset,gender,id)
+      )ENGINE=MyISAM;
+      
+    insert into tmpPosInSet(runner,scoringset,gender)  
+        select rd.runner,rd.standardscoringset, 'W' 
+        from wp_bhaa_raceresult rd
+        join raceresult rr on rd.runner=rr.runner and rd.race=rr.race
+        where rd.race = _race and rd.gender='W'
+        order by rr.position asc;
+
+	insert into tmpPosInSet(runner,scoringset,gender)  
+        select rd.runner,rd.standardscoringset, 'M' 
+        from racepointsdata rd
+        join raceresult rr on rd.runner=rr.runner and rd.race=rr.race
+        where rd.race = _race and rd.gender='M'
+        order by rr.position asc;
+ 
+    update racepointsdata, tmpPosInSet
+    set racepointsdata.positioninscoringset = tmpPosInSet.id
+    where racepointsdata.runner = tmpPosInSet.runner and racepointsdata.race = _race;
+
+    10.1 - (positioninscoringset  * 0.1) as pointsbyscoringset
+    
+    drop table tmpPosInSet;
+END$$
+ 
+-- updateRacePoints
 DROP PROCEDURE IF EXISTS `updateRacePoints`$$
 CREATE PROCEDURE `updateRacePoints`(_raceId INT, _gender ENUM('M','W'))
 BEGIN
