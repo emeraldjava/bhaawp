@@ -367,10 +367,10 @@ BEGIN
   inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
   inner JOIN wp_posts le ON l2e.p2p_from = le.id
   inner JOIN wp_users ru ON rr.runner = ru.id
-  JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_raceresult.runner AND gender.meta_key = 'bhaa_runner_gender')
-  JOIN wp_usermeta standard ON (standard.user_id=wp_bhaa_raceresult.runner AND standard.meta_key = 'bhaa_runner_standard')
+  JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key = 'bhaa_runner_status')
+  JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
   WHERE le.id=_leagueId AND class='RAN' AND standard.meta_value IS NOT NULL AND status.meta_value='M'
-  GROUP BY le.league,rr.runner
+  GROUP BY le.id,rr.runner
   HAVING COALESCE(pointsTotal, 0) > 0;
 
 END$$
