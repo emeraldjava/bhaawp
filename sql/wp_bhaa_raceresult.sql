@@ -48,38 +48,48 @@ where race=1786
 where race=2499 and standard IS NOT NULL
 
 --1786,1787,1785,1783,1784,2358,2359,2360,2362,2505,2504
+--il
 call updateRaceScoringSets(1786);
 call updateRaceLeaguePoints(1786);
-
+--vf
 call updateRaceScoringSets(1787);
 call updateRaceLeaguePoints(1787);
-
+--boi
 call updateRaceScoringSets(1785);
 call updateRaceLeaguePoints(1785);
-
+--teachers
 call updateRaceScoringSets(1783);
 call updateRaceLeaguePoints(1783);
-
 call updateRaceScoringSets(1784);
 call updateRaceLeaguePoints(1784);
-
+--sdcc
 call updateRaceScoringSets(2358);
 call updateRaceLeaguePoints(2358);
-
 call updateRaceScoringSets(2359);
 call updateRaceLeaguePoints(2359);
-
+-- eircom
 call updateRaceScoringSets(2360);
 call updateRaceLeaguePoints(2360);
-
 call updateRaceScoringSets(2362);
 call updateRaceLeaguePoints(2362);
-
+-- garda
+call updateRaceScoringSets(2499);
+call updateRaceLeaguePoints(2499);
+call updateRaceScoringSets(2500);
+call updateRaceLeaguePoints(2500);
+--airport
 call updateRaceScoringSets(2505);
 call updateRaceLeaguePoints(2505);
-
 call updateRaceScoringSets(2504);
 call updateRaceLeaguePoints(2504);
+--aib
+call updateRaceScoringSets(2532);
+call updateRaceLeaguePoints(2532);
+call updateRaceScoringSets(2531);
+call updateRaceLeaguePoints(2531);
+--ncf
+call updateRaceScoringSets(2549);
+call updateRaceLeaguePoints(2549);
 
 select * from wp_bhaa_raceresult where race=2504;
 update wp_bhaa_raceresult set pace=NULL,posincat=NULL,posinstd=NULL where race=2504;

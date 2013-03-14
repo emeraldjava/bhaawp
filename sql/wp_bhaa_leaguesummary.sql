@@ -117,8 +117,6 @@ join event on event.id=race.event
 where race.id > 2010 and race.type IN ('M','C') and event.type != "track";
 where race.id between 201100 and 201199 and race.type IN ('M','C') and event.type != "track";
 
-
-<<<<<<< HEAD
 DROP TABLE IF EXISTS `leaguerunnerdata`;
 CREATE TABLE IF NOT EXISTS `leaguerunnerdata` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -151,7 +149,3 @@ set
 wp_bhaa_leaguesummary.leaguestandard=leaguerunnerdata.standard,
 wp_bhaa_leaguesummary.leaguescorecount=leaguerunnerdata.racesComplete,
 wp_bhaa_leaguesummary.leaguepoints=leaguerunnerdata.pointsTotal;
-	  
-=======
-
->>>>>>> match the league points
