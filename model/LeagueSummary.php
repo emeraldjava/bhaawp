@@ -44,7 +44,7 @@ class LeagueSummary extends BaseModel implements Table
 			inner join wp_posts r on (r.id=e2r.p2p_to)
 			inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 			where l.post_type='league'
-			and l.ID=%d", $this->leagueid);
+			and l.ID=%d order by e.post_date", $this->leagueid);
 		if($type!='')
 			$SQL .= sprintf(" and r_type.meta_value in ('C','%s')",$type);
 		//echo $SQL;
