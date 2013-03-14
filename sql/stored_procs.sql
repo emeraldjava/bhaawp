@@ -343,5 +343,67 @@ BEGIN
 
     drop table tmpPosInSet;
 END$$
-                       
+
+-- updateLeagueData
+DROP PROCEDURE IF EXISTS `updateLeagueData`$$
+CREATE PROCEDURE `updateLeagueData`(_leagueId INT(11))
+BEGIN
+
+  DELETE FROM leaguerunnerdata WHERE league=_leagueId;
+
+  INSERT INTO leaguerunnerdata(league,runner,racesComplete, pointsTotal,avgOverallPosition, standard)
+  SELECT
+  le.league,
+  rr.runner,
+  COUNT(rr.race) as racesComplete,
+  getLeaguePointsTotal(le.league, rr.runner) as pointsTotal,
+  AVG(rr.position) as averageOverallPosition,
+  ROUND(AVG(rr.standard),0) as standard
+
+  FROM wp_bhaa_raceresult rr
+  JOIN race ra ON rr.race = ra.id
+  JOIN runner ru ON rr.runner = ru.id
+  JOIN event e ON ra.event = e.id
+  JOIN leagueevent le ON e.id = le.event
+  WHERE le.league=_leagueId AND class='RAN' AND ru.standard IS NOT NULL AND ru.status='M'
+  GROUP BY le.league,rr.runner
+  HAVING COALESCE(pointsTotal, 0) > 0;
+
+END$$
+
+-- getLeaguePointsTotal                       
+DROP FUNCTION IF EXISTS `getLeaguePointsTotal`$$
+CREATE FUNCTION `getLeaguePointsTotal`(_leagueId INT(11), _runnerId INT(11)) RETURNS double
+BEGIN
+
+DECLARE _pointsTotal DOUBLE;
+DECLARE _racesToCount INT;
+
+SET _racesToCount = 8; -- (select racestoscore from league where id=_leagueId);
+
+SET _pointsTotal =
+(
+        SELECT SUM(points) FROM
+(
+      SELECT points ,@rownum:=@rownum+1 AS bestxpoints
+      FROM
+      (
+      SELECT
+      DISTINCT e.id,
+      CASE rr.leaguepoints WHEN 11 THEN 10 ELSE rr.leaguepoints END AS points
+      FROM wp_bhaa_raceresult rr
+      inner join wp_posts r ON rr.race = r.id
+      inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
+      inner join wp_posts e ON e2r.p2p_from = e.id
+      inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
+      inner JOIN wp_posts le ON l2e.p2p_from = le.id
+	  WHERE runner=_runnerId AND le.id=_leagueId 
+	  and rr.class in ('RAN', 'RACE_ORG', 'RACE_POINTS') order by rr.leaguepoints desc) r1, (SELECT @rownum:=0) r2
+) t where t.bestxpoints <= _racesToCount 
+);
+
+RETURN _pointsTotal;
+
+END$$
+
 DELIMITER ;
