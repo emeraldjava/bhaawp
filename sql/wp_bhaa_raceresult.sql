@@ -35,9 +35,51 @@ ALTER TABLE wp_bhaa_raceresult MODIFY COLUMN standardscoringset int(11) DEFAULT 
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN posinsss int(11) DEFAULT NULL AFTER standardscoringset;
 ALTER TABLE wp_bhaa_raceresult MODIFY COLUMN leaguepoints double;
 
-update wp_bhaa_raceresult set leaguepoints=null where race >=1783 AND runner =7713
-select id,race,runner,standard,standardscoringset,posinsss,leaguepoints from wp_bhaa_raceresult where race=2499 and standard IS NOT NULL
-call updateRaceLeaguePoints(2499);
+update wp_bhaa_raceresult set standard=NULL WHERE standard=0
+update wp_bhaa_raceresult set posinsss=null,leaguepoints=null,standardscoringset=null
+where race >=1783 AND runner =7713
+
+select id,race,runner,standard,standardscoringset,gender.meta_value,posinsss,leaguepoints from wp_bhaa_raceresult 
+join wp_usermeta gender ON (gender.user_id=wp_bhaa_raceresult.runner AND gender.meta_key = 'bhaa_runner_gender')
+
+and standard IS NOT NULL
+where runner=7713
+where race=1786
+where race=2499 and standard IS NOT NULL
+
+--1786,1787,1785,1783,1784,2358,2359,2360,2362,2505,2504
+call updateRaceScoringSets(1786);
+call updateRaceLeaguePoints(1786);
+
+call updateRaceScoringSets(1787);
+call updateRaceLeaguePoints(1787);
+
+call updateRaceScoringSets(1785);
+call updateRaceLeaguePoints(1785);
+
+call updateRaceScoringSets(1783);
+call updateRaceLeaguePoints(1783);
+
+call updateRaceScoringSets(1784);
+call updateRaceLeaguePoints(1784);
+
+call updateRaceScoringSets(2358);
+call updateRaceLeaguePoints(2358);
+
+call updateRaceScoringSets(2359);
+call updateRaceLeaguePoints(2359);
+
+call updateRaceScoringSets(2360);
+call updateRaceLeaguePoints(2360);
+
+call updateRaceScoringSets(2362);
+call updateRaceLeaguePoints(2362);
+
+call updateRaceScoringSets(2505);
+call updateRaceLeaguePoints(2505);
+
+call updateRaceScoringSets(2504);
+call updateRaceLeaguePoints(2504);
 
 select * from wp_bhaa_raceresult where race=2504;
 update wp_bhaa_raceresult set pace=NULL,posincat=NULL,posinstd=NULL where race=2504;

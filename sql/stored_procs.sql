@@ -193,7 +193,7 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
         standard int,
         gender ENUM('M','W') NULL,
         standardcount int NULL,
-        scoringset int NULL)    ;
+        scoringset int NULL);
 
     SET _raceType         = (SELECT meta_value
                              FROM   wp_postmeta
@@ -211,13 +211,11 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
       UPDATE scoringstandardsets ss,
              (SELECT   r.standard, gender.meta_value AS gender, count(r.standard) AS standardcount
               FROM       wp_bhaa_raceresult r
-                       JOIN
-                         wp_usermeta gender
-                       ON (gender.user_id = r.runner AND gender.meta_key = 'bhaa_runner_gender')
+              JOIN wp_usermeta gender ON (gender.user_id = r.runner AND gender.meta_key = 'bhaa_runner_gender')
               WHERE    r.race = _race AND COALESCE(r.standard, 0) > 0
               GROUP BY r.standard, gender.meta_value) x
       SET    ss.standardcount = x.standardcount 
-      WHERE  ss.standard = x.standard AND ss.gender = x.gender ;
+      WHERE  ss.standard = x.standard AND ss.gender = x.gender;
 
       WHILE (_currentstandard > 0)
       DO
@@ -260,13 +258,12 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
       SET    scoringset = _scoringsetM
       WHERE  scoringset = 0 AND gender = 'M';
 
-      UPDATE wp_bhaa_raceresult,
-               scoringstandardsets
-             JOIN
-               wp_usermeta gender
-             ON (gender.user_id = wp_bhaa_raceresult.runner AND gender.meta_key = 'bhaa_runner_gender')
-      SET    wp_bhaa_raceresult.standardscoringset = scoringstandardsets.scoringset
-      WHERE  scoringstandardsets.standard = wp_bhaa_raceresult.standard AND gender.meta_value = scoringstandardsets.gender;
+      UPDATE wp_bhaa_raceresult
+      JOIN scoringstandardsets ON scoringstandardsets.standard=wp_bhaa_raceresult.standard
+      JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_raceresult.runner AND gender.meta_key = 'bhaa_runner_gender')
+      SET wp_bhaa_raceresult.standardscoringset = scoringstandardsets.scoringset
+      WHERE gender.meta_value = scoringstandardsets.gender AND wp_bhaa_raceresult.race = _race;
+      
     ELSE
       /* Process Gender Race. In this case Gender is irrelevant as all runners
          are grouped together based on their standards only. */
@@ -318,10 +315,10 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
       WHERE  scoringstandardsets.standard = wp_bhaa_raceresult.standard and wp_bhaa_raceresult.race = _race;
     END IF;
 
-    DROP TABLE scoringstandardsets;
+    -- DROP TABLE scoringstandardsets;
 END$$
 
--- updateRacePoints
+-- updateRaceLeaguePoints
 DROP PROCEDURE IF EXISTS `updateRaceLeaguePoints`$$
 CREATE PROCEDURE `updateRaceLeaguePoints`(_race INT )
 BEGIN
@@ -335,7 +332,7 @@ BEGIN
     insert into tmpPosInSet(runner,scoringset)  
         select runner,standardscoringset
         from wp_bhaa_raceresult
-        where race = _race
+        where race = _race and wp_bhaa_raceresult.standard IS NOT NULL
         order by position asc;
  
     update wp_bhaa_raceresult, tmpPosInSet
