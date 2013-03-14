@@ -110,26 +110,24 @@ class LeagueSummary extends BaseModel implements Table
 	function updateLeague($division='L1')
 	{
 		// get all league races
-<<<<<<< HEAD
 		$mens_races = $this->getRaceIdSetString($this->getLeagueRaces('M'));
 		$womens_races = $this->getRaceIdSetString($this->getLeagueRaces('W'));
-=======
-		$races = $this->getLeagueRaces('M');
+
+//		$races = $this->getLeagueRaces('M');
 // 		$rid_array = array_map(
 // 			function($val) {
 // 				return $val->rid;
 // 			},
 // 			$races);
-		$rid_array = array(1784);
-		$mens_races = '1784';//implode(",", $rid_array);
+//		$rid_array = array(1784);
+//		$mens_races = '1784';//implode(",", $rid_array);
 		
-		$wraces = $this->getLeagueRaces('W');
+	//	$wraces = $this->getLeagueRaces('W');
 		//$wrid_array = array_map(function($val) {  return $val->rid;}, $wraces);
-		$wrid_array = array(1783);
-		$womens_races = '1783';//implode(",", $wrid_array);
+	//	$wrid_array = array(1783);
+	//	$womens_races = '1783';//implode(",", $wrid_array);
 		//$mens_races = implode(",", $race_set );// array_map( function($val) { return $val->rid; } , $this->getLeagueRaces('M') ) );
 		//$womens_races = implode(",", array_map( function($val) { return $val->rid; } , $this->getLeagueRaces('W')));
->>>>>>> teacher race ids
 		
 		// for each of the runners - update the league details
 		$runners = $this->wpdb->get_results(
@@ -142,9 +140,9 @@ class LeagueSummary extends BaseModel implements Table
 		{
 			$id = $runner->leagueparticipant;
 			if($runner->gender=='W')
-				$runner_summary = json_encode($this->getRunnerLeagueSummary($womens_races,$id),JSON_FORCE_OBJECT);
+				$runner_summary = json_encode($this->getRunnerLeagueSummary($womens_races,$id));//,JSON_FORCE_OBJECT);
 			else
-				$runner_summary = json_encode($this->getRunnerLeagueSummary($mens_races,$id),JSON_FORCE_OBJECT);
+				$runner_summary = json_encode($this->getRunnerLeagueSummary($mens_races,$id));//,JSON_FORCE_OBJECT);
 			error_log($id.' '.$runner_summary);
 			$runners = $this->wpdb->query(
 				$this->wpdb->prepare(
