@@ -47,19 +47,18 @@ class LeagueSummary extends BaseModel implements Table
 			and l.ID=%d", $this->leagueid);
 		if($type!='')
 			$SQL .= sprintf(" and r_type.meta_value in ('C','%s')",$type);
-		$SQL .= 'order by e.post_date';
+		$SQL .= ' order by e.post_date';
 		//echo $SQL;
 		//error_log($SQL);
 		// OBJECT, OBJECT_K, ARRAY_A, ARRAY_N
 		return $this->wpdb->get_results($SQL,OBJECT);
 	}
 
-	function getRaceIds($races)
+	function getRaceIdSetString($races)
 	{
 		// $rid_array = array_map(function($val) { return $val->rid; } ,$races);
-		$rid_array = array_map(array($this,'rid_mapper'), $races);
-		echo print_r($rid_array,true).PHP_EOL;
-		return $rid_array;
+		return implode(',',array_map(array($this,'rid_mapper'), $races) );
+		//echo print_r($rid_array,true).PHP_EOL;
 	}
 	
 	private function rid_mapper($val) {
