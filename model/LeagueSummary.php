@@ -77,7 +77,7 @@ class LeagueSummary extends BaseModel implements Table
 			WHERE leaguetype = "I"
 			AND leagueposition <= %d
 			AND league = %d
-			order by league, leaguedivision, leagueposition',$limit,$this->leagueid);
+			order by league, leaguedivision, leaguepoints',$limit,$this->leagueid);
 		//error_log($query);
 		$this->items = $wpdb->get_results($query);
 		return $this->items;	
