@@ -107,17 +107,17 @@ class LeagueSummary extends BaseModel implements Table
 		return $this->wpdb->get_results($SQL);
 	}
 		
-	function updateLeague()
+	function updateLeague($division='L1')
 	{
 		// get all league races
-		$mens_races = implode(",", array_map(function($val) {	return $val->rid;}, $this->getLeagueRaces('M')));
-		$womens_races = implode(",", array_map(function($val) {	return $val->rid;}, $this->getLeagueRaces('W')));
+		$mens_races = $this->getRaceIdSetString($this->getLeagueRaces('M'));
+		$womens_races = $this->getRaceIdSetString($this->getLeagueRaces('W'));
 		
 		// for each of the runners - update the league details
 		$runners = $this->wpdb->get_results(
 			$this->wpdb->prepare('select leagueparticipant,gender.meta_value as gender from wp_bhaa_leaguesummary
 				join wp_usermeta gender on (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant and gender.meta_key="bhaa_runner_gender")
-				where league=%d',$this->leagueid)
+				where league=%d and leaguedivision=%s',$this->leagueid,$division)
 		);
 		//error_log(print_r($runners,true));
 		foreach($runners as $runner)
