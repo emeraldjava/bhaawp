@@ -44,13 +44,26 @@ class LeagueSummary extends BaseModel implements Table
 			inner join wp_posts r on (r.id=e2r.p2p_to)
 			inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 			where l.post_type='league'
-			and l.ID=%d order by e.post_date", $this->leagueid);
+			and l.ID=%d", $this->leagueid);
 		if($type!='')
 			$SQL .= sprintf(" and r_type.meta_value in ('C','%s')",$type);
+		$SQL .= 'order by e.post_date';
 		//echo $SQL;
 		//error_log($SQL);
 		// OBJECT, OBJECT_K, ARRAY_A, ARRAY_N
 		return $this->wpdb->get_results($SQL,OBJECT);
+	}
+
+	function getRaceIds($races)
+	{
+		// $rid_array = array_map(function($val) { return $val->rid; } ,$races);
+		$rid_array = array_map(array($this,'rid_mapper'), $races);
+		echo print_r($rid_array,true).PHP_EOL;
+		return $rid_array;
+	}
+	
+	private function rid_mapper($val) {
+		return $val->rid;
 	}
 	
 	// return a summary of the top x in each division
