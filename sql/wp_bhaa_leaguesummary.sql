@@ -118,5 +118,16 @@ where race.id > 2010 and race.type IN ('M','C') and event.type != "track";
 where race.id between 201100 and 201199 and race.type IN ('M','C') and event.type != "track";
 
 
+DROP TABLE IF EXISTS `leaguerunnerdata`;
+CREATE TABLE IF NOT EXISTS `leaguerunnerdata` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `league` int(11) unsigned NOT NULL,
+  `runner` int(11) unsigned NOT NULL,
+  `racesComplete` int(11) unsigned NOT NULL,
+  `pointsTotal` double DEFAULT NULL,
+  `avgOverallPosition` double NOT NULL,
+  `standard` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT;
 
 
