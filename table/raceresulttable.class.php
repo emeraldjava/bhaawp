@@ -151,11 +151,12 @@ class RaceResultTable extends WP_List_Table
 
 	function renderTable($race)
 	{   
-		$msg = '<div class="wrap">';
-		$msg .= $this->prepare_items($race);
-		$msg .= $this->display();
-		$msg .= '</div>';
-		return $msg;
+		ob_start();
+		$this->prepare_items($race);
+		echo '<div class="wrap">';
+		$this->display();
+		echo '</div>';
+		return ob_get_clean();
 	}
 	
 	function renderRunnerTable($runner)
