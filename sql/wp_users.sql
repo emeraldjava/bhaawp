@@ -25,3 +25,9 @@ update wp_usermeta set meta_value='M' where meta_key = 'bhaa_runner_gender' and 
 select distinct(dor.meta_value) from wp_users u
 join wp_usermeta dor on (dor.user_id=u.id AND dor.meta_key = 'bhaa_runner_dateofrenewal')
 where YEAR(dor.meta_value)=2013 order by dor.meta_value desc;
+
+-- select wp renewed but not upated in members
+select wp_users.id,status.meta_value,runner.id,runner.status from wp_users
+join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
+join bhaaie_members.runner runner on runner.id=wp_users.id
+where runner.status!='M';
