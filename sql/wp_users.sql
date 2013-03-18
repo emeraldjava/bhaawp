@@ -20,3 +20,8 @@ update wp_usermeta set meta_value='W' where meta_key = 'bhaa_runner_gender' and 
 update wp_usermeta set meta_value='M' where meta_key = 'bhaa_runner_gender' and meta_value='';
 update wp_usermeta set meta_value='M' where meta_key = 'bhaa_runner_gender' and meta_value='a:1:{i:0;s:1:"M";}';
 update wp_usermeta set meta_value='M' where meta_key = 'bhaa_runner_gender' and meta_value='a:2:{i:0;s:1:"M";i:1;s:1:"M";}';
+
+-- dor dates 2013
+select distinct(dor.meta_value) from wp_users u
+join wp_usermeta dor on (dor.user_id=u.id AND dor.meta_key = 'bhaa_runner_dateofrenewal')
+where YEAR(dor.meta_value)=2013 order by dor.meta_value desc;
