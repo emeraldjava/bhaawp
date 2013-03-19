@@ -315,7 +315,7 @@ CREATE PROCEDURE `updateRaceScoringSets`(_race INT)
       WHERE  scoringstandardsets.standard = wp_bhaa_raceresult.standard and wp_bhaa_raceresult.race = _race;
     END IF;
 
-    -- DROP TABLE scoringstandardsets;
+    DROP TABLE scoringstandardsets;
 END$$
 
 -- updateRaceLeaguePoints
