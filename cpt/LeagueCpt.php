@@ -1,13 +1,63 @@
 <?php
 class LeagueCpt
 {
+	const BHAA_LEAGUE_RACES_TO_SCORE = 'races_to_score';
+	const BHAA_LEAGUE_TYPE = 'bhaa_league_type';
+	
 	function __construct()
 	{
 		add_action('init',array(&$this,'registerLeagueCPT'));
 		add_action('init',array(&$this,'bhaa_league_actions'),11);
 		add_filter('post_row_actions', array(&$this,'bhaa_league_post_row_actions'), 0, 2);
+		
+		// custom meta
+		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
+		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
 	}
 	
+	public function bhaa_league_meta_data() {
+		add_meta_box(
+		'bhaa_league_meta',
+		__( 'League Details', 'bhaa_league_meta' ),
+		array(&$this, 'bhaa_league_meta_data_fields'),
+		'league',
+		'side',
+		'low'
+		);
+	}
+	
+	function bhaa_league_meta_data_fields( $post ) {
+		//wp_nonce_field( plugin_basename( __FILE__ ), 'bhaa_race_meta_data' );
+	
+		$races_to_score = get_post_custom_values(LeagueCpt::BHAA_LEAGUE_RACES_TO_SCORE, $post->ID);
+		echo '<p>Races To Score <input type="text" name='.LeagueCpt::BHAA_LEAGUE_RACES_TO_SCORE.' value="'.$races_to_score[0].'" /></p>';
+	
+		// http://stackoverflow.com/questions/3507042/if-block-inside-echo-statement
+		$type = get_post_custom_values(LeagueCpt::BHAA_LEAGUE_TYPE, $post->ID);
+		echo '<p>Type <select name='.LeagueCpt::BHAA_LEAGUE_TYPE.'>';
+		echo '<option value="I" '.(($type[0]=='Mile')?'selected="selected"':"").'>I</option>';
+		echo '<option value="T" '.(($type[0]=='Km')?'selected="selected"':"").'>T</option>';
+		echo '</select></p>';
+	}
+	
+	public function bhaa_league_save_meta_data( $post )
+	{
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+			return;
+	
+		if ( empty( $_POST ) )
+			return;
+	
+		if ( !empty($_POST[LeagueCpt::BHAA_LEAGUE_RACES_TO_SCORE]))
+		{
+			update_post_meta( $post, LeagueCpt::BHAA_LEAGUE_RACES_TO_SCORE, $_POST[LeagueCpt::BHAA_LEAGUE_RACES_TO_SCORE] );
+		}
+	
+		if ( !empty($_POST[LeagueCpt::BHAA_LEAGUE_TYPE]))
+		{
+			update_post_meta( $post, LeagueCpt::BHAA_LEAGUE_TYPE, $_POST[LeagueCpt::BHAA_LEAGUE_TYPE]);
+		}
+	}
 	/**
 	 * http://wordpress.stackexchange.com/questions/8481/custom-post-row-actions
 	 * http://wordpress.org/support/topic/trying-to-add-custom-post_row_actions-for-custom-post-status
