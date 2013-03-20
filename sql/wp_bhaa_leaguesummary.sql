@@ -141,7 +141,8 @@ SELECT DISTINCT e.id,
   inner JOIN wp_posts le ON l2e.p2p_from = le.id
   WHERE runner=7713 AND le.id=2492
   and rr.class in ('RAN', 'RACE_ORG', 'RACE_POINTS') order by rr.leaguepoints desc
-  
+    
+call updateLeagueData(2492);
 
 update wp_bhaa_leaguesummary
 join leaguerunnerdata on (leaguerunnerdata.league=wp_bhaa_leaguesummary.league and leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
@@ -149,3 +150,4 @@ set
 wp_bhaa_leaguesummary.leaguestandard=leaguerunnerdata.standard,
 wp_bhaa_leaguesummary.leaguescorecount=leaguerunnerdata.racesComplete,
 wp_bhaa_leaguesummary.leaguepoints=leaguerunnerdata.pointsTotal;
+
