@@ -349,9 +349,10 @@ DROP PROCEDURE IF EXISTS `updateLeagueData`$$
 CREATE PROCEDURE `updateLeagueData`(_leagueId INT(11))
 BEGIN
 
-  DELETE FROM leaguerunnerdata WHERE league=_leagueId;
+	-- should/can we use a temp table here?
+	DELETE FROM wp_bhaa_leaguerunnerdata WHERE league=_leagueId;
 
-  INSERT INTO leaguerunnerdata(league,runner,racesComplete, pointsTotal,avgOverallPosition, standard)
+  INSERT INTO wp_bhaa_leaguerunnerdata(league,runner,racesComplete, pointsTotal,avgOverallPosition, standard)
   SELECT
   le.id,
   rr.runner,
@@ -359,7 +360,6 @@ BEGIN
   getLeaguePointsTotal(le.id, rr.runner) as pointsTotal,
   AVG(rr.position) as averageOverallPosition,
   ROUND(AVG(rr.standard),0) as standard
-
   FROM wp_bhaa_raceresult rr
   inner join wp_posts r ON rr.race = r.id
   inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
@@ -372,6 +372,16 @@ BEGIN
   WHERE le.id=_leagueId AND class='RAN' AND standard.meta_value IS NOT NULL AND status.meta_value='M'
   GROUP BY le.id,rr.runner
   HAVING COALESCE(pointsTotal, 0) > 0;
+  
+-- update wp_bhaa_leaguesummary
+-- 	join wp_bhaa_leaguerunnerdata on 
+-- 		(wp_bhaa_leaguerunnerdata.league=wp_bhaa_leaguesummary.league 
+-- 		and wp_bhaa_leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
+-- 	set 
+-- 	wp_bhaa_leaguesummary.leaguestandard=wp_bhaa_leaguerunnerdata.standard,
+-- 	wp_bhaa_leaguesummary.leaguescorecount=wp_bhaa_leaguerunnerdata.racesComplete,
+-- 	wp_bhaa_leaguesummary.leaguepoints=ROUND(wp_bhaa_leaguerunnerdata.pointsTotal,1);
+-- drop table bhaa_wp_leaguerunnerdata_tmp;
 
 END$$
 

@@ -117,17 +117,17 @@ join event on event.id=race.event
 where race.id > 2010 and race.type IN ('M','C') and event.type != "track";
 where race.id between 201100 and 201199 and race.type IN ('M','C') and event.type != "track";
 
-DROP TABLE IF EXISTS `leaguerunnerdata`;
-CREATE TABLE IF NOT EXISTS `leaguerunnerdata` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `league` int(11) unsigned NOT NULL,
-  `runner` int(11) unsigned NOT NULL,
-  `racesComplete` int(11) unsigned NOT NULL,
-  `pointsTotal` double DEFAULT NULL,
-  `avgOverallPosition` double NOT NULL,
-  `standard` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT;
+DROP TABLE IF EXISTS wp_bhaa_leaguerunnerdata;
+CREATE TABLE IF NOT EXISTS wp_bhaa_leaguerunnerdata (
+  id int(11) unsigned NOT NULL AUTO_INCREMENT,
+  league int(11) unsigned NOT NULL,
+  runner int(11) unsigned NOT NULL,
+  racesComplete int(11) unsigned NOT NULL,
+  pointsTotal double DEFAULT NULL,
+  avgOverallPosition double NOT NULL,
+  standard int(11) DEFAULT NULL,
+  PRIMARY KEY (id)
+); ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT;
 
 call procedure getLeaguePointsTotal(2492,7713);
 
@@ -144,10 +144,17 @@ SELECT DISTINCT e.id,
     
 call updateLeagueData(2492);
 
+delete from wp_bhaa_leaguesummary
+
+INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
+select
+2492,"I",runner,standard,racesComplete,pointsTotal,'NA',1
+from wp_bhaa_leaguerunnerdata
+
 update wp_bhaa_leaguesummary
-join leaguerunnerdata on (leaguerunnerdata.league=wp_bhaa_leaguesummary.league and leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
+join wp_bhaa_leaguerunnerdata on (wp_bhaa_leaguerunnerdata.league=wp_bhaa_leaguesummary.league and wp_bhaa_leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
 set 
-wp_bhaa_leaguesummary.leaguestandard=leaguerunnerdata.standard,
-wp_bhaa_leaguesummary.leaguescorecount=leaguerunnerdata.racesComplete,
-wp_bhaa_leaguesummary.leaguepoints=leaguerunnerdata.pointsTotal;
+wp_bhaa_leaguesummary.leaguestandard=wp_bhaa_leaguerunnerdata.standard,
+wp_bhaa_leaguesummary.leaguescorecount=wp_bhaa_leaguerunnerdata.racesComplete,
+wp_bhaa_leaguesummary.leaguepoints=ROUND(wp_bhaa_leaguerunnerdata.pointsTotal,1);
 
