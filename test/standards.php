@@ -18,9 +18,45 @@ $ONE = new Standard(1, 0.442101708254709, 176.435763853992, 174.688875102962);
 
 $standardCalc = new StandardCalculator();
 
-print_r($standardCalc->getEventStandardTable(2123));
+//print_r($standardCalc->getEventStandardTable(2123));
 
-print_r($standardCalc->getEventStandardTable(2));
+//print_r($standardCalc->getEventStandardTable(2));
+
+
+$distances = array();
+
+$distance = array();
+$distance['km'] = 1;
+$distance['title'] = '1km';
+$distances[0]= $distance;
+
+$distance = array();
+$distance['km'] = 1.6;
+$distance['title'] = '1M';
+$distances[1]= $distance;
+
+$distance = array();
+$distance['km'] = 5;
+$distance['title'] = '5km';
+$distances[2]= $distance;
+
+$distance = array();
+$distance['km'] = 10;
+$distance['title'] = '10km';
+$distances[3]= $distance;
+
+$distance = array();
+$distance['km'] = 21.1;
+$distance['title'] = 'Half';
+$distances[4]= $distance;
+
+$distance = array();
+$distance['km'] = 42.2;
+$distance['title'] = 'Marathon';
+$distances[5]= $distance;
+
+print_r($standardCalc->generateTableForDistances($distances));
+
 //print_r($standardCalc->standardTableSql);
 //print_r(array_values((array)$standardCalc->standards));
 

@@ -88,7 +88,7 @@ class StandardCalculator
 	function generateTableForDistances($distances)
 	{
 		$standardTable = '<div>';
-		$standardTable .= '<table>'.PHP_EOL;
+		$standardTable .= '<table border="1" cellpadding="4">'.PHP_EOL;
 		
 		// headers
 		$standardTable .= '<tr>';
