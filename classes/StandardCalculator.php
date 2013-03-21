@@ -71,20 +71,31 @@ class StandardCalculator
 		$races = $eventModel->getRaces();
 		if(count($races)==0)
 		{
-			return '<div><h3>BHAA Standard Table - No races have been linked yet.</h3><table></div>';
+			return '<div><h3>BHAA Standard Table - No races have been linked yet.</h3></div>';
 		}
 			
+		$distances = array();
+		foreach ($races as $race)
+		{
+			$distance = array();
+			$distance['km'] = $race->getKmDistance();
+			$distance['title'] = $race->getDistance().$race->getUnit();
+			$distances[]= $distance;
+		}
+		return $this->generateTableForDistances($distances);
+	}
+	
+	function generateTableForDistances($distances)
+	{
 		$standardTable = '<div>';
 		$standardTable .= '<table>'.PHP_EOL;
 		
 		// headers
 		$standardTable .= '<tr>';
 		$standardTable .= '<th>Standard</th>';
-		$distances = array();
-		foreach ($races as $race)
+		foreach ($distances as $distance)
 		{
-			$distances[] = $race->getKmDistance();
-			$standardTable .= '<th>'.$race->getDistance().$race->getUnit().'</th>';
+			$standardTable .= '<th>'.$distance['title'].'</th>';
 		}
 		$standardTable .= '</tr>'.PHP_EOL;
 		
@@ -95,14 +106,13 @@ class StandardCalculator
 			$standardTable .= '<td>'.$v->standard.'</td>';
 			foreach ($distances as $distance)
 			{
-				$standardTable .= '<td>'.$v->getKmTime($distance).'</td>';
+				$standardTable .= '<td>'.$v->getKmTime($distance['km']).'</td>';
 			}
 			$standardTable .= '</tr>'.PHP_EOL;
 		}
 		
 		$standardTable .= '</table></div>'.PHP_EOL;
 		return $standardTable;
-		
 	}
 	
 	function toString()
