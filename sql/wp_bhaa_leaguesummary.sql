@@ -148,8 +148,23 @@ delete from wp_bhaa_leaguesummary
 
 INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
 select
-2492,"I",runner,standard,racesComplete,pointsTotal,'NA',1
+2492,"I",runner,standard,racesComplete,ROUND(pointsTotal,1),'NA',1
 from wp_bhaa_leaguerunnerdata
+
+-- update division
+update wp_bhaa_leaguesummary 
+JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant AND gender.meta_key = 'bhaa_runner_gender')
+JOIN wp_bhaa_division d ON ((wp_bhaa_leaguesummary.leaguestandard BETWEEN d.min AND d.max) AND d.type='I' and d.gender=gender.meta_value)
+set wp_bhaa_leaguesummary.leaguedivision=d.code;
+ 
+select d.code,wp_bhaa_leaguesummary.* from wp_bhaa_leaguesummary
+JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant AND gender.meta_key = 'bhaa_runner_gender')
+JOIN wp_bhaa_division d ON ((wp_bhaa_leaguesummary.leaguestandard BETWEEN d.min AND d.max) AND d.type='I' and d.gender=gender.meta_value)
+
+-- update position in division
+select * from wp_bhaa_leaguesummary
+where wp_bhaa_leaguesummary.leaguedivision="B"
+order by leaguepoints desc
 
 update wp_bhaa_leaguesummary
 join wp_bhaa_leaguerunnerdata on (wp_bhaa_leaguerunnerdata.league=wp_bhaa_leaguesummary.league and wp_bhaa_leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
