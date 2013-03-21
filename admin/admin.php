@@ -19,11 +19,8 @@ class BhaaAdmin
 	function bhaa_admin_plugin_menu()
 	{
 		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
-		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options', 'bhaa_add_runner', array(&$this, 'bhaa_admin_teams'));
-		add_submenu_page('bhaa' ,'BHAA','Standards','manage_options', 'bhaa_enter_race' , array(&$this, 'bhaa_admin_standards'));
-		//add_submenu_page('bhaa' ,'BHAA','List Entry','manage_options', 'bhaa_list_entry' , array(&$this, 'bhaa_list_entry'));
-		//add_submenu_page('bhaa' ,'BHAA','Export','manage_options', 'bhaa_export_entry' , array(&$this, 'bhaa_export_entry'));
-		
+		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options', 'bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
+		add_submenu_page('bhaa' ,'BHAA','Standards','manage_options', 'bhaa_admin_standards' , array(&$this, 'bhaa_admin_standards'));
 		// options panel
 		add_options_page( 'BHAA Plugin Options', 'BHAA', 'manage_options', 'bhaa-options', array(&$this,'bhaa_plugin_options'));
 	}
@@ -47,26 +44,7 @@ class BhaaAdmin
 		echo '<div class="wrap">';
 		echo '<p>TODO List the runners not linked to teams';
 	}
-	
-// 	function admin_action_bhaa_add_runner()
-// 	{
-// 		if ( !current_user_can( 'manage_options' ) )  {
-// 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-// 		}
-// 		// Do your stuff here
-// 		error_log('admin_action_bhaa_add_runner '.$_POST['firstname'].' '.$_POST['second']);
 		
-// 		$runner = new Runner();
-// 		$id = $runner->createNewUser($_POST['firstname'], $_POST['surname'], $_POST['email']);
-// 		//wp_create_user($username, $password)
-		
-// 		echo '<div class="wrap">';
-// 		echo '<p>New BHAA Runner Added : '.$id.'</p>';
-// 		echo '</div>';
-// //		wp_redirect( $_SERVER['HTTP_REFERER'] );
-// 		exit();
-// 	}
-	
 	function bhaa_admin_standards()
 	{
 		if ( !current_user_can( 'manage_options' ) )  {

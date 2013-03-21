@@ -10,11 +10,12 @@ class Registration
 {
 	function __construct()
 	{
-		add_action( 'admin_action_101', array($this,'admin_action_101') );
 		
 		// ajax action
-		add_action('wp_ajax_nopriv_bhaa_reg_add_runner', array($this,'bhaa_reg_add_runner'));
+		//add_action('wp_ajax_nopriv_bhaa_reg_add_runner', array($this,'bhaa_reg_add_runner'));
 		add_action('wp_ajax_bhaa_reg_add_runner', array($this,'bhaa_reg_add_runner'));
+		
+		add_action( 'admin_action_bhaa_register_runner', array($this,'admin_action_bhaa_register_runner') );
 	}
 	
 	function registration()
@@ -24,7 +25,7 @@ class Registration
 			//echo var_dump($_REQUEST);
 			return '
 				[tabs tabmember="Details" tabnewday="NewMember" tablist="List" tabexport="Export"]
-					[tab id=member]Register Member[/tab]
+					[tab id=member]Register Member'.$this->bhaa_register_runner_ajax_form().'[/tab]
 					[tab id=newday]Day/New Member[/tab]
 					[tab id=list]List Runners[/tab]
 					[tab id=export]Export Racetec file[/tab]
@@ -49,20 +50,23 @@ class Registration
 	// http://www.andrewmpeters.com/blog/how-to-make-jquery-ajax-json-requests-in-wordpress/
 	// http://pippinsplugins.com/post-data-with-ajax-in-wordpress-pugins/
 	// http://stackoverflow.com/questions/1960240/jquery-ajax-submit-form
-	function form_ajax()
+	function bhaa_register_runner_ajax_form()
 	{
 		// url: bhaaAjax.ajaxurl
-		echo '<form id="bhaa_reg_add_runner" method="POST" action="">'.
-			'Name: <input type="text" name="name" />'.
-			'<input type="hidden" name="action_param" value="101" />'.
-			'<input type="submit" name="bhaa_reg_add_runner_submit" value="Do it!" />'.
-			'</form>'.
-			'<div id="bhaa_reg_add_runner_response"/>';
+		return '<h2>Register Runner</h2><br/>
+			<form id="bhaa_reg_add_runner" method="POST"><br/>
+			Runner ID : <input type="text" name="runner"/><br/>
+			Race Number : <input type="text" name="racenumber"/><br/>
+			<input type="hidden" name="action" value="bhaa_register_runner" /><br/>
+			<input type="submit" name="bhaa_reg_add_runner" value="Register" /><br/>
+			</form><br/>
+			<div id="bhaa_reg_add_runner_response"/>';
 	}
 	
-	function admin_action_101()
+	function admin_action_bhaa_register_runner()
 	{
-		echo 'admin_action_101';
+		error_log('admin_action_bhaa_register_runner');
+		echo 'admin_action_bhaa_register_runner';
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
