@@ -51,6 +51,14 @@ class BHAA
 		// init, wp_head, wp_enqueue_scripts
 		add_action('init', array($this,'enqueue_scripts_and_style'));
 		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
+		
+		// hook add_query_vars function into query_vars
+		add_filter('query_vars', array($this,'add_query_vars'));
+	}
+	
+	function add_query_vars($aVars) {
+		$aVars[] = "division"; // represents the name of the product category as shown in the URL
+		return $aVars;
 	}
 
 	/**
