@@ -180,16 +180,28 @@ where wp_bhaa_leaguesummary.leaguedivision="A"
 ORDER BY leaguepoints DESC;
 
 SET @r=0;
-UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1))
-where wp_bhaa_leaguesummary.leaguedivision="A"
-ORDER BY leaguepoints DESC;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1)) where wp_bhaa_leaguesummary.leaguedivision="A" ORDER BY leaguepoints DESC;
+SET @r=0;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1)) where wp_bhaa_leaguesummary.leaguedivision="B" ORDER BY leaguepoints DESC;
+SET @r=0;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1)) where wp_bhaa_leaguesummary.leaguedivision="C" ORDER BY leaguepoints DESC;
+SET @r=0;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1)) where wp_bhaa_leaguesummary.leaguedivision="D" ORDER BY leaguepoints DESC;
+SET @r=0;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1)) where wp_bhaa_leaguesummary.leaguedivision="E" ORDER BY leaguepoints DESC;
+SET @r=0;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1)) where wp_bhaa_leaguesummary.leaguedivision="F" ORDER BY leaguepoints DESC;
+SET @r=0;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1)) where wp_bhaa_leaguesummary.leaguedivision="L1" ORDER BY leaguepoints DESC;
+SET @r=0;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1)) where wp_bhaa_leaguesummary.leaguedivision="L2" ORDER BY leaguepoints DESC;
 
-
+-- top ten per division
 SELECT *,wp_users.display_name
-			FROM wp_bhaa_leaguesummary
-			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
-			WHERE leaguetype = "I"
-			AND leagueposition <= 10 
-			AND league = 2492
-			order by league, leaguedivision desc, leaguepoints desc
+FROM wp_bhaa_leaguesummary
+left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
+WHERE leaguetype = "I"
+AND leagueposition <= 10 
+AND league = 2492
+order by league, leaguedivision desc, leaguepoints desc
 			
