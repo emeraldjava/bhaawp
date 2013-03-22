@@ -82,10 +82,8 @@ class LeagueSummary extends BaseModel implements Table
 			AND leagueposition <= %d
 			AND leaguedivision != "NA"
 			AND league = %d
-			order by league, leaguedivision, leaguepoints',$limit,$this->leagueid);
-		//error_log($query);
-		$this->items = $wpdb->get_results($query);
-		return $this->items;	
+			order by league, leaguedivision, leagueposition',$limit,$this->leagueid);
+		return $wpdb->get_results($query);
 	}
 	
 	// get the specific of a league division
