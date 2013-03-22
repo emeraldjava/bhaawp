@@ -112,6 +112,7 @@ class Registration
 		echo '</div>';
 	}
 	
+	// http://www.catswhocode.com/blog/how-to-create-a-built-in-contact-form-for-your-wordpress-theme
 	function bhaa_export_entry()
 	{
 		if ( !current_user_can( 'manage_options' ) )  {
@@ -119,6 +120,9 @@ class Registration
 		}
 		echo '<div class="wrap">';
 		echo '<p>BHAA Export Entry</p>';
+		echo '<form id="bhaa_register_export" method="POST" action="">
+		<input type="submit" name="bhaa_reg_add_runner" value="Register" /><br/>
+		</form>';
 		echo '</div>';
 	}
 }
