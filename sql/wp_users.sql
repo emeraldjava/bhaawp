@@ -78,3 +78,18 @@ join wp_usermeta mdor on (
 where id>=22965
 order by wp_users.id;
 
+-- match runners with missing standards runner/raceresult
+select * from wp_users
+join wp_bhaa_raceresult on (wp_bhaa_raceresult.runner=wp_users.id and wp_bhaa_raceresult.class="RAN")
+inner join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
+inner join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key='bhaa_runner_standard')
+where standard.meta_value=0 or standard.meta_value IS NULL
+
+select * from wp_users
+inner join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='D')
+WHERE NOT EXISTS (
+	SELECT * FROM wp_usermeta standard WHERE standard.user_id=wp_users.id and standard.meta_key='bhaa_runner_standard'
+)
+
+
+
