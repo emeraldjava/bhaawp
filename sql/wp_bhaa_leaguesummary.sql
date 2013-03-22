@@ -151,6 +151,13 @@ select
 2492,"I",runner,standard,racesComplete,ROUND(pointsTotal,1),'NA',1
 from wp_bhaa_leaguerunnerdata
 
+update wp_bhaa_leaguesummary
+join wp_bhaa_leaguerunnerdata on (wp_bhaa_leaguerunnerdata.league=wp_bhaa_leaguesummary.league and wp_bhaa_leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
+set 
+wp_bhaa_leaguesummary.leaguestandard=wp_bhaa_leaguerunnerdata.standard,
+wp_bhaa_leaguesummary.leaguescorecount=wp_bhaa_leaguerunnerdata.racesComplete,
+wp_bhaa_leaguesummary.leaguepoints=ROUND(wp_bhaa_leaguerunnerdata.pointsTotal,1);
+
 -- update division
 update wp_bhaa_leaguesummary 
 JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant AND gender.meta_key = 'bhaa_runner_gender')
@@ -163,13 +170,26 @@ JOIN wp_bhaa_division d ON ((wp_bhaa_leaguesummary.leaguestandard BETWEEN d.min 
 
 -- update position in division
 select * from wp_bhaa_leaguesummary
-where wp_bhaa_leaguesummary.leaguedivision="B"
+where wp_bhaa_leaguesummary.leaguedivision="A"
 order by leaguepoints desc
 
-update wp_bhaa_leaguesummary
-join wp_bhaa_leaguerunnerdata on (wp_bhaa_leaguerunnerdata.league=wp_bhaa_leaguesummary.league and wp_bhaa_leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
-set 
-wp_bhaa_leaguesummary.leaguestandard=wp_bhaa_leaguerunnerdata.standard,
-wp_bhaa_leaguesummary.leaguescorecount=wp_bhaa_leaguerunnerdata.racesComplete,
-wp_bhaa_leaguesummary.leaguepoints=ROUND(wp_bhaa_leaguerunnerdata.pointsTotal,1);
+-- http://stackoverflow.com/questions/3196971/mysql-update-statement-to-store-ranking-positions
+SET @r=0;
+SELECT *, @r:= (@r+1) as Ranking FROM wp_bhaa_leaguesummary
+where wp_bhaa_leaguesummary.leaguedivision="A"
+ORDER BY leaguepoints DESC;
 
+SET @r=0;
+UPDATE wp_bhaa_leaguesummary SET leagueposition=(@r:= (@r+1))
+where wp_bhaa_leaguesummary.leaguedivision="A"
+ORDER BY leaguepoints DESC;
+
+
+SELECT *,wp_users.display_name
+			FROM wp_bhaa_leaguesummary
+			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
+			WHERE leaguetype = "I"
+			AND leagueposition <= 10 
+			AND league = 2492
+			order by league, leaguedivision desc, leaguepoints desc
+			
