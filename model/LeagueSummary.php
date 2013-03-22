@@ -29,8 +29,12 @@ class LeagueSummary extends BaseModel implements Table
 			PRIMARY KEY (leaguetype, league, leagueparticipant, leaguedivision) USING BTREE";
 	}
 	
-	function getDivisions()
-	{}
+	function getDivisions($type='I')
+	{
+		$SQL = $this->wpdb->prepare("select * from wp_bhaa_division where type=%s",$type);
+		error_log($SQL);
+		return $this->wpdb->get_results($SQL,OBJECT);
+	}
 
 	function getLeagueRaces($type='')
 	{
@@ -67,7 +71,7 @@ class LeagueSummary extends BaseModel implements Table
 	}
 	
 	// return a summary of the top x in each division
-	function getLeagueSummary($limit=10)
+	function getLeagueSummaryByDivision($limit=10)
 	{
 		global $wpdb;
 		$query = $wpdb->prepare('
@@ -76,6 +80,7 @@ class LeagueSummary extends BaseModel implements Table
 			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
 			WHERE leaguetype = "I"
 			AND leagueposition <= %d
+			AND leaguedivision != "NA"
 			AND league = %d
 			order by league, leaguedivision, leaguepoints',$limit,$this->leagueid);
 		//error_log($query);
