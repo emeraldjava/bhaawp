@@ -148,7 +148,7 @@ delete from wp_bhaa_leaguesummary
 
 INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
 select
-2492,"I",runner,standard,racesComplete,ROUND(pointsTotal,1),'NA',1
+2492,"I",runner,standard,racesComplete,ROUND(pointsTotal,1),'A',1
 from wp_bhaa_leaguerunnerdata
 
 update wp_bhaa_leaguesummary
