@@ -91,5 +91,18 @@ WHERE NOT EXISTS (
 	SELECT * FROM wp_usermeta standard WHERE standard.user_id=wp_users.id and standard.meta_key='bhaa_runner_standard'
 )
 
+-- validate the wp_users status and dor
+select u.id,u.user_nicename,dor.meta_value,status.meta_value from wp_users u
+left join wp_usermeta dor on (dor.user_id=u.id AND dor.meta_key = 'bhaa_runner_dateofrenewal')
+left join wp_usermeta status on (status.user_id=u.id AND status.meta_key = 'bhaa_runner_status')
+where YEAR(dor.meta_value)!=2013 and status.meta_value='I' and u.id=5143;
+
+-- 5143
+update wp_usermeta
+join wp_users on wp_users.id=wp_usermeta.user_id
+join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
+join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
+set status.meta_value='I'
+where YEAR(dor.meta_value)!=2013;
 
 
