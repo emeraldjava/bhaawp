@@ -10,6 +10,8 @@ class Connection
 	function __construct()
 	{
 		add_action( 'p2p_init', array(&$this,'bhaa_connection_types'));
+		add_action( 'p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
+		add_action( 'p2p_delete_connections',array($this,'bhaa_p2p_delete_connections'));	
 	}
 		
 	function bhaa_connection_types() {
@@ -51,7 +53,6 @@ class Connection
 			'cardinality' => 'one-to-one',
 			'title' => array( 'from' => 'Team Contact', 'to' => 'Team Contact' )
 		));
-		add_action('p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
 	}
 	
 	/**
@@ -60,11 +61,20 @@ class Connection
 	 */
 	function bhaa_p2p_created_connection($p2p_id)
 	{
-		//$connection = p2p_get_connection( $p2p_id );
-		// 		if ( 'some-ctype-name' == $connection->p2p_type ) {
-		// 			// do things
-		// 		}
-		error_log('bhaa_p2p_created_connection() '.$p2p_id);
+		$connection = p2p_get_connection( $p2p_id );
+		if( $connection->p2p_type == Connection::HOUSE_TO_RUNNER ) {
+			update_user_meta( $connection->p2p_to, Runner::BHAA_RUNNER_COMPANY, $connection->p2p_from);
+			error_log('bhaa_p2p_created_connection() '.$connection->p2p_from.' -> '.$connection->p2p_to);
+		}
+	}
+	
+	function bhaa_p2p_delete_connections($p2p_id)
+	{
+		$connection = p2p_get_connection( $p2p_id );
+		if( $connection->p2p_type == Connection::HOUSE_TO_RUNNER ) {
+			delete_user_meta( $connection->p2p_to, Runner::BHAA_RUNNER_COMPANY, $connection->p2p_from);
+			error_log('bhaa_p2p_delete_connections() '.$connection->p2p_from.' -> '.$connection->p2p_to);
+		}
 	}
 	
 	function updateRunnersHouse($p2p_type,$from,$to)
