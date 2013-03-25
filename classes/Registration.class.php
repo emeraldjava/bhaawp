@@ -125,5 +125,18 @@ class Registration
 		</form>';
 		echo '</div>';
 	}
+	
+	// 2600 esb
+	function registerRunner($runner,$number)
+	{
+		$raceResult = new RaceResult(2600);
+		$raceResult->registerRunner($runner,$number);
+	}
+	
+	function listRegsiteredRunners()
+	{
+		$raceResult = new RaceResult(2600);
+		return $raceResult->listRegisteredRunners();
+	}
 }
 ?>

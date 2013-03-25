@@ -30,6 +30,48 @@ class RaceResult extends BaseModel implements Table
 		PRIMARY KEY (id)';
 	}
 	
+	public function registerRunner($runner,$racenumber)
+	{
+		//$runner_id = $details[2];
+		//$dateofbirth = date("Y-m-d", strtotime($details[8]));
+	
+// 		if($runner_id=='')
+// 		{
+// 			// lookup create runner
+// 			$runner = new Runner();
+// 			$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
+// 			if($match!=0)
+// 			{
+// 				$runner_id = $match;
+// 				error_log('matched existing runner '.$runner_id);
+// 			}
+// 			else
+// 			{
+// 				$runner_id = $runner->createNewUser($details[5], $details[4],'',$details[6],$dateofbirth);
+// 				error_log('created new runner '.$runner_id);
+// 			}
+// 		}
+		$this->wpdb->show_errors();
+		error_log($race.''.print_r($details,true));
+		$res = $this->wpdb->insert(
+				$this->getName(),
+				array(
+						'race' => $this->post_id,
+						'racenumber' => $racenumber,
+						'runner' => $runner,
+						'class' => 'RACE_REG')
+		);
+		$this->wpdb->print_error();
+		$this->wpdb->hide_errors();
+		error_log($res);
+		return $res;
+	}
+	
+	public function listRegisteredRunners()
+	{
+		return $this->wpdb->get_results('select * from wp_bhaa_raceresult where class="RACE_REG" and race=2600');
+	}
+	
 	/**
 	[0] => 7
     [1] => 1719
