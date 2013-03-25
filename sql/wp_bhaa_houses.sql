@@ -16,10 +16,18 @@ WHERE NOT EXISTS (
 )
 
 -- runner id, company and if they are linked
-select wp_users.id,company.meta_value,r2c.p2p_from from wp_users
+select wp_users.id,company.meta_value,house.post_title,r2c.p2p_from from wp_users
 left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
+join wp_posts house on (house.id=company.meta_value and house.post_type='house')
 left join wp_p2p r2c ON (r2c.p2p_to=wp_users.id AND r2c.p2p_type = 'house_to_runner')
-where wp_users.id=11046
+left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
+where company.meta_value IS NOT NULL and r2c.p2p_from IS NULL and status.meta_value='M'
+
+-- where the two values are set but not the same
+-- company.meta_value!=r2c.p2p_from
+
+-- a specific runner
+-- where wp_users.id=11046
 
 -- list the runners not linked to teams
 -- select non-active company teams with
