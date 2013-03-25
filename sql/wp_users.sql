@@ -33,6 +33,13 @@ join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_d
 join bhaaie_members.runner runner on runner.id=wp_users.id
 where runner.status!='M' and YEAR(dor.meta_value)=2013;
 
+-- select wp users who are behind the members db
+select wp_users.user_nicename,wp_users.id,status.meta_value,dor.meta_value,runner.id,runner.status,runner.dateofrenewal from wp_users
+join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
+join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
+join bhaaie_members.runner runner on runner.id=wp_users.id
+where runner.status='M' and status.meta_value='I';
+
 update wp_users
 join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
 join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
@@ -104,5 +111,17 @@ join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa
 join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
 set status.meta_value='I'
 where YEAR(dor.meta_value)!=2013;
+
+-- fix the usernames 22935,22821,22966 - 85 mismatched names
+select id,display_name,first_name.meta_value,last_name.meta_value from wp_users 
+left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key='first_name')
+left join wp_usermeta last_name on (last_name.user_id=wp_users.id and last_name.meta_key='last_name')
+where YEAR(user_registered)=2013 and id>1 and display_name!=CONCAT(first_name.meta_value,' ',last_name.meta_value);
+
+update wp_users
+left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key='first_name')
+left join wp_usermeta last_name on (last_name.user_id=wp_users.id and last_name.meta_key='last_name')
+set display_name=CONCAT(first_name.meta_value,' ',last_name.meta_value)
+where YEAR(user_registered)=2013 and id>1 and display_name!=CONCAT(first_name.meta_value,' ',last_name.meta_value);
 
 
