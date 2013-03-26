@@ -4,9 +4,18 @@ class EventModel extends BaseModel
 {
 	var $eventid;
 	
-	function __construct($eventid)
+	function __construct($eventid=0)
 	{
+		parent::__construct();
 		$this->eventid=$eventid;	
+	}
+	
+	function getNextEvent()
+	{
+		return $this->wpdb->get_results(
+			$this->wpdb->prepare('select event_id,post_id,event_slug from wp_em_events 
+            	where event_start_date >= NOW()
+				order by event_start_date ASC limit 1'));
 	}
 	
 	function getRaces()

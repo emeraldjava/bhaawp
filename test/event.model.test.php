@@ -11,8 +11,8 @@ require_once( PLUGIN_ROOT_DIR.'/bootstrap.php');
 
 echo 'event model test';
 $event = new EventModel(2123);
-//echo var_dump($event);
+echo var_dump($event->getNextEvent());
 
-$races = $event->getRaces();
-echo var_dump($races);
+//$races = $event->getRaces();
+//echo var_dump($races);
 ?>
