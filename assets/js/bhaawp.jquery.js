@@ -133,43 +133,4 @@ jQuery(document).ready( function() {
 			jQuery( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 		}	
 	});
-	
-	jQuery("#bhaa_reg_add_runner").click(function () {
-		alert('bhaa_reg_add_runner_submit');
-		
-		jQuery.ajax({
-	          url: bhaaAjax.ajaxurl,
-	          data:{
-	               'action':'bhaa_reg_add_runner',
-	               'fn':'get_latest_posts',
-	               'count':100
-	               },
-	          dataType:'json',
-	          success:function(data){
-	        	  alert('success '.data);
-	        	  console.log(data);
-	                 // our handler function will go here
-	                 // this part is very important!
-	                 // it's what happens with the JSON data 
-	                 // after it is fetched via AJAX!
-	              },
-	          error: function(errorThrown){
-	               alert('error');
-	               console.log(errorThrown);
-	          }
-	           
-	 
-	     });
-		return false;
-//		jQuery.ajax({
-//	            type: "POST",
-//	            url: bhaaAjax.ajaxurl,
-//	            action:'bhaa_reg_add_runner',
-//	            data: 'this is a message',
-//	            success: function (data) {
-//	                alert("ok");
-//	            }
-//	        });
-//	        return false;
-	});	
 });
