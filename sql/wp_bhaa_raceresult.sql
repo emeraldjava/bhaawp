@@ -166,5 +166,9 @@ left join wp_bhaa_raceresult rr on (rr.race=r.id and rr.runner=7713)
 where l.post_type='league'
 and l.ID=2492;
 
+-- select all race results linked to an event
+select wp_bhaa_raceresult.* from wp_p2p e2r
+left join wp_bhaa_raceresult on wp_bhaa_raceresult.race=e2r.p2p_from
+where e2r.p2p_type='event_to_race' and e2r.p2p_from=2278
 
 

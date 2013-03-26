@@ -23,6 +23,11 @@ left join wp_postmeta on (wp_postmeta.post_id=wp_em_events.post_id and wp_postme
 where event_start_date <= NOW()
 order by event_start_date DESC limit 1;
 
+select * from wp_bhaa_raceresult 
+join wp_posts r on (r.id=wp_bhaa_raceresult.race) 
+join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.id)
+where class="RACE_REG" and e2r.p2p_from=2278
+
 -- tidy up 
 update wp_em_events
 set event_start_date = '2013-01-01'
