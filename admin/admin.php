@@ -32,17 +32,28 @@ class BhaaAdmin
 		}
 		echo '<div class="wrap">';
 		echo '<p>BHAA Admin Page</p>';
+		
+		$file = ABSPATH.'wp-content/bhaa_runners.json.txt';
 		if(isset($_POST['command']))
 		{
 			echo 'command '.$_POST['command'];
 		
+			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
+			$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
 			
+			error_log('file '.$file);
+			if(file_exists($file)){
+				file_put_contents($file, $content );
+			}
 		}
 		
 		echo '<p><form action="'.get_permalink().'" method="post">
 				<input type="hidden" name="command" value="refresh"/>
 				<input type="Submit" value="Refresh Runners"/>
 			</form> BHAA Admin Page</p>';
+		
+		echo '<hr/>Content';
+		echo file_get_contents($file);
 		
 		echo '</div>';
 	}
