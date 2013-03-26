@@ -126,6 +126,18 @@ class Registration
 		echo '</div>';
 	}
 	
+	function getEvent()
+	{
+		$event = new EventModel();
+		return $event->getNextEvent();
+	}
+	
+	function getNextRaces()
+	{
+		$event = new EventModel();
+		return $event->getNextRaces();
+	}
+	
 	// 2600 esb
 	function registerRunner($runner,$number)
 	{

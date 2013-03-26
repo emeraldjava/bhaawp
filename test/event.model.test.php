@@ -10,8 +10,9 @@ require_once( WP_INSTALL_DIR . '/wp-content/plugins/posts-to-posts/core/api.php'
 require_once( PLUGIN_ROOT_DIR.'/bootstrap.php');
 
 echo 'event model test';
-$event = new EventModel(2123);
+$event = new EventModel(2278);
 echo var_dump($event->getNextEvent());
+echo var_dump($event->getNextRaces());
 
 //$races = $event->getRaces();
 //echo var_dump($races);
