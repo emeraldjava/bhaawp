@@ -15,7 +15,7 @@ inner join wp_postmeta r_dist on (r_dist.post_id=r.id and r_dist.meta_key='bhaa_
 inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 inner join wp_postmeta r_unit on (r_unit.post_id=r.id and r_unit.meta_key='bhaa_race_unit')
 where event_start_date >= NOW()
-order by event_start_date ASC limit 2;
+order by event_start_date ASC, dist DESC limit 2;
 
 -- get last event
 select *,wp_postmeta.meta_value as tag from wp_em_events 
