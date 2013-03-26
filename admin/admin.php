@@ -32,6 +32,18 @@ class BhaaAdmin
 		}
 		echo '<div class="wrap">';
 		echo '<p>BHAA Admin Page</p>';
+		if(isset($_POST['command']))
+		{
+			echo 'command '.$_POST['command'];
+		
+			
+		}
+		
+		echo '<p><form action="'.get_permalink().'" method="post">
+				<input type="hidden" name="command" value="refresh"/>
+				<input type="Submit" value="Refresh Runners"/>
+			</form> BHAA Admin Page</p>';
+		
 		echo '</div>';
 	}
 	
