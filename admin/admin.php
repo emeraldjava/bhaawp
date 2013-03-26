@@ -37,13 +37,14 @@ class BhaaAdmin
 		if(isset($_POST['command']))
 		{
 			echo 'command '.$_POST['command'];
-		
+			$model = new BaseModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
-			$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
+			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
+			$content = json_encode($model->getRegistrationRunnerDetails());
 			
 			error_log('file '.$file);
 			if(file_exists($file)){
-				file_put_contents($file, $content );
+				file_put_contents($file, $content);
 			}
 		}
 		
