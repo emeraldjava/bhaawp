@@ -33,6 +33,14 @@ class EventModel extends BaseModel
 				order by event_start_date ASC, dist DESC limit 2"));
 	}
 	
+	function listRegisteredRunners()
+	{
+		return $this->wpdb->get_results(
+			$this->wpdb->prepare('select wp_bhaa_raceresult.* from wp_p2p e2r
+				left join wp_bhaa_raceresult on (wp_bhaa_raceresult.race=e2r.p2p_from and wp_bhaa_raceresult.class="RACE_REG")
+				where e2r.p2p_type="event_to_race" and e2r.p2p_from=%d'),$this->eventid);
+	}
+	
 	function getRaces()
 	{
 		$races = p2p_get_connections(Connection::EVENT_TO_RACE,

@@ -139,16 +139,16 @@ class Registration
 	}
 	
 	// 2600 esb
-	function registerRunner($runner,$number)
+	function registerRunner($race,$runner,$racenumber)
 	{
-		$raceResult = new RaceResult(2600);
-		$raceResult->registerRunner($runner,$number);
+		$raceResult = new RaceResult($race);
+		$raceResult->registerRunner($runner,$racenumber);
 	}
 	
-	function listRegsiteredRunners()
+	function listRegisteredRunners($event)
 	{
-		$raceResult = new RaceResult(2600);
-		return $raceResult->listRegisteredRunners();
+		$event = new EventModel($event);
+		return $event->listRegisteredRunners();
 	}
 }
 ?>

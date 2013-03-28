@@ -52,7 +52,7 @@ class RaceResult extends BaseModel implements Table
 // 			}
 // 		}
 		$this->wpdb->show_errors();
-		error_log($race.''.print_r($details,true));
+		//error_log($race.''.print_r($details,true));
 		$res = $this->wpdb->insert(
 				$this->getName(),
 				array(
@@ -65,11 +65,6 @@ class RaceResult extends BaseModel implements Table
 		$this->wpdb->hide_errors();
 		error_log($res);
 		return $res;
-	}
-	
-	public function listRegisteredRunners()
-	{
-		return $this->wpdb->get_results('select * from wp_bhaa_raceresult where class="RACE_REG" and race=2600');
 	}
 	
 	/**

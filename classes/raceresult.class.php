@@ -69,8 +69,8 @@ class RaceResult
 		//echo "the race results form";
 		
 		$default = array(
-				'race' => $_REQUEST['race'],
-				'runner' => $_REQUEST['runner'],
+			//	'race' => $_REQUEST['race'],
+				//'runner' => $_REQUEST['runner'],
 				'time' => $_REQUEST['time']
 		);
 		$row = $default;
