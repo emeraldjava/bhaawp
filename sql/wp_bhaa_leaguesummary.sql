@@ -141,10 +141,10 @@ SELECT DISTINCT e.id,
   inner JOIN wp_posts le ON l2e.p2p_from = le.id
   WHERE runner=7713 AND le.id=2492
   and rr.class in ('RAN', 'RACE_ORG', 'RACE_POINTS') order by rr.leaguepoints desc
-    
-call updateLeagueData(2492);
 
 delete from wp_bhaa_leaguesummary
+  
+call updateLeagueData(2492);
 
 INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
 select
