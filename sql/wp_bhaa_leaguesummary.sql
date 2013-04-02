@@ -150,6 +150,8 @@ INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestan
 select
 2492,"I",runner,standard,racesComplete,ROUND(pointsTotal,1),'A',1
 from wp_bhaa_leaguerunnerdata
+where runner=7649
+
 
 update wp_bhaa_leaguesummary
 join wp_bhaa_leaguerunnerdata on (wp_bhaa_leaguerunnerdata.league=wp_bhaa_leaguesummary.league and wp_bhaa_leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)

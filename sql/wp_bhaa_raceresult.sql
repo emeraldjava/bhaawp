@@ -179,4 +179,12 @@ where wp_bhaa_raceresult.class =  "RACE_REG"
 AND e2r.p2p_from =2278
 
 
+-- actual standard and pace
 
+select runner,position,racetime,
+SEC_TO_TIME(TIME_TO_SEC(racetime)/5.2) as pace,
+getStandard(racetime,getRaceDistanceKm(race)) as actualstandard
+from wp_bhaa_raceresult
+where race=2549
+
+update wp_bhaa_raceresult set pace=SEC_TO_TIME(TIME_TO_SEC(racetime)/5.2),actualstandard=getStandard(racetime,getRaceDistanceKm(race)) where race=2549

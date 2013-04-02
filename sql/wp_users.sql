@@ -144,3 +144,29 @@ left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_k
 left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key='bhaa_runner_standard')
 where status.meta_value in ('M','I') order by id
 
+select wp_users.user_nicename,wp_users.id,status.meta_value as s,dor.meta_value as dor,runner.id,runner.status,runner.dateofrenewal from wp_users
+left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
+left join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
+join bhaaie_members.runner runner on runner.id=wp_users.id
+where runner.status='M' and YEAR(dateofrenewal)=2013 
+and status.meta_value = ''
+and runner.id=8991
+
+-- insert status meta data
+insert into wp_usermeta (user_id, meta_key, meta_value) 
+SELECT wp_users.id,'bhaa_runner_status',runner.status from wp_users
+left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
+left join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
+join bhaaie_members.runner runner on runner.id=wp_users.id
+where runner.status='M' and YEAR(dateofrenewal)=2013 
+and status.meta_value = ''
+
+insert into wp_usermeta (user_id, meta_key, meta_value) 
+SELECT wp_users.id,'bhaa_runner_dateofrenewal',runner.dateofrenewal from wp_users
+left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
+left join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
+join bhaaie_members.runner runner on runner.id=wp_users.id
+where runner.status='M' and YEAR(dateofrenewal)=2013 
+and dor.meta_value = ''
+
+-- fix runners with status M and year 2012!
