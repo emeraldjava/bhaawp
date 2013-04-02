@@ -39,9 +39,22 @@ class Registration
 		$raceResult->registerRunner($runner,$racenumber);
 	}
 	
-	function addNewMember()
+	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='')
 	{
-		
+		// lookup create runner
+		$runner = new Runner();
+		$match = $runner->matchRunner($firstname,$lastname,$dateofbirth);
+		if($match!=0)
+		{
+			$runner_id = $match;
+			error_log('matched existing runner '.$runner_id);
+		}
+		else
+		{
+			$runner_id = $runner->createNewUser($firstname,$lastname,$email,$gender,$dateofbirth);
+			error_log('created new runner '.$runner_id);
+		}
+		return $runner_id;
 	}
 
 	/**
@@ -101,15 +114,13 @@ class Registration
 			}
 			$output = $output."\n";
 		}
-
 		
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-Length: ".strlen($output));
 		header("Content-type: text/x-csv");
 		header("Content-Disposition: attachment; filename=".$this->event->event_slug.".csv");
 		echo $output;
-		exit;
-		
+		exit;		
 	}
 }
 ?>

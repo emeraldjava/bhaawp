@@ -33,10 +33,13 @@ class EventModel extends BaseModel
 				order by event_start_date ASC, dist DESC limit 2"));
 	}
 	
+	/**
+	 * Return the details of all registered runner for the website and racetec export
+	 */
 	function listRegisteredRunners()
 	{
 		return $this->wpdb->get_results(
-			$this->wpdb->prepare('SELECT * from wp_bhaa_raceresult
+			$this->wpdb->prepare('SELECT wp_bhaa_raceresult.* from wp_bhaa_raceresult
 				JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type="event_to_race")
 				where wp_bhaa_raceresult.class="RACE_REG" 
 				AND e2r.p2p_from=%d',$this->eventid));
