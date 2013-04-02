@@ -150,5 +150,13 @@ class Registration
 		$event = new EventModel($event);
 		return $event->listRegisteredRunners();
 	}
+	
+	/**
+	 * Export the csv file for racetec
+	 */
+	function export()
+	{
+		
+	}
 }
 ?>
