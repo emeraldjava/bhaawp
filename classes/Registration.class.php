@@ -68,6 +68,39 @@ class Registration
 			$output = stripslashes($output.$column.",");
 		}
 		$output = $output."\n";
+		
+		foreach ($runners as $rowArray) {
+			foreach ($rowArray as $column => $value)
+			{
+				// string any comma's or the csv file is screwed.
+				$value = str_replace(",","",$value);
+				$value = html_entity_decode($value);
+				 
+				switch ($column) {
+					case "runner":
+						if($value=="DAY")
+							$output =  stripslashes($output.",");
+						else
+							$output =  stripslashes($output.$value.",");
+						break;
+					case "teamid":
+						if($value=="0")
+							$output =  stripslashes($output.",");
+						else
+							$output =  stripslashes($output.$value.",");
+						break;
+					case "companyid":
+						if($value=="0")
+							$output =  stripslashes($output.",");
+						else
+							$output =  stripslashes($output.$value.",");
+						break;
+					default:
+						$output =  stripslashes($output.$value.",");
+				}
+			}
+			$output = $output."\n";
+		}
 
 		
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
