@@ -51,7 +51,7 @@ class RaceResult extends BaseModel implements Table
 // 				error_log('created new runner '.$runner_id);
 // 			}
 // 		}
-		$this->wpdb->show_errors();
+		//$this->wpdb->show_errors();
 		//error_log($race.''.print_r($details,true));
 		$res = $this->wpdb->insert(
 				$this->getName(),
@@ -61,9 +61,9 @@ class RaceResult extends BaseModel implements Table
 						'runner' => $runner,
 						'class' => 'RACE_REG')
 		);
-		$this->wpdb->print_error();
-		$this->wpdb->hide_errors();
-		error_log($res);
+		//$this->wpdb->print_error();
+		//$this->wpdb->hide_errors();
+		//error_log($res);
 		return $res;
 	}
 	

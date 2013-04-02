@@ -18,7 +18,8 @@ class Registration
 	function __construct()
 	{
 		$eventModel = new EventModel();
-		$event = $eventModel->getNextEvent();
+		$this->event = $eventModel->getNextEvent();
+		var_dump($this->event);
 	}
 	
 	function getEvent()
@@ -43,10 +44,13 @@ class Registration
 	{
 		
 	}
-	
+
+	/**
+	 * Return the list of registered runners
+	 */
 	function listRegisteredRunners()
 	{
-		$event = new EventModel($event->id);
+		$event = new EventModel($this->event->post_id);
 		return $event->listRegisteredRunners();
 	}
 	

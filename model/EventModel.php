@@ -12,7 +12,7 @@ class EventModel extends BaseModel
 	
 	function getNextEvent()
 	{
-		return $this->wpdb->get_results(
+		return $this->wpdb->get_row(
 			$this->wpdb->prepare('select event_id,post_id,event_slug from wp_em_events 
             	where event_start_date >= NOW()
 				order by event_start_date ASC limit 1'));
@@ -36,9 +36,10 @@ class EventModel extends BaseModel
 	function listRegisteredRunners()
 	{
 		return $this->wpdb->get_results(
-			$this->wpdb->prepare('select wp_bhaa_raceresult.* from wp_p2p e2r
-				left join wp_bhaa_raceresult on (wp_bhaa_raceresult.race=e2r.p2p_from and wp_bhaa_raceresult.class="RACE_REG")
-				where e2r.p2p_type="event_to_race" and e2r.p2p_from=%d'),$this->eventid);
+			$this->wpdb->prepare('SELECT * from wp_bhaa_raceresult
+				JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type="event_to_race")
+				where wp_bhaa_raceresult.class="RACE_REG" 
+				AND e2r.p2p_from=%d',$this->eventid));
 	}
 	
 	function getRaces()
