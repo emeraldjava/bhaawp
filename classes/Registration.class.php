@@ -19,7 +19,6 @@ class Registration
 	{
 		$eventModel = new EventModel();
 		$this->event = $eventModel->getNextEvent();
-		var_dump($this->event);
 	}
 	
 	function getEvent()
@@ -50,6 +49,7 @@ class Registration
 	 */
 	function listRegisteredRunners()
 	{
+		error_log($this->event);
 		$event = new EventModel($this->event->post_id);
 		return $event->listRegisteredRunners();
 	}
@@ -59,6 +59,23 @@ class Registration
 	 */
 	function export()
 	{
+		$event = new EventModel($this->event->post_id);
+		$runners = $event->listRegisteredRunners();
+
+		$output = "";
+		$columns = $runners[0];
+		foreach ($columns as $column => $value) {
+			$output = stripslashes($output.$column.",");
+		}
+		$output = $output."\n";
+
+		
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Content-Length: ".strlen($output));
+		header("Content-type: text/x-csv");
+		header("Content-Disposition: attachment; filename=".$this->event->event_slug.".csv");
+		echo $output;
+		exit;
 		
 	}
 }
