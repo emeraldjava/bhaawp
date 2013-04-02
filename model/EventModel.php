@@ -38,12 +38,14 @@ class EventModel extends BaseModel
 	 */
 	function listRegisteredRunners()
 	{
+		// order by id,
 		return $this->wpdb->get_results(
-			$this->wpdb->prepare('SELECT wp_bhaa_raceresult.id,race,runner,standard,category,racenumber,wp_users.display_name from wp_bhaa_raceresult
+			$this->wpdb->prepare('SELECT race,runner,standard,category,racenumber,
+				wp_users.display_name from wp_bhaa_raceresult
 				JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type="event_to_race")
 				JOIN wp_users on (wp_users.id=wp_bhaa_raceresult.runner) 
 				where wp_bhaa_raceresult.class="RACE_REG" 
-				AND e2r.p2p_from=%d',$this->eventid));
+				AND e2r.p2p_from=%d order by wp_bhaa_raceresult.id desc',$this->eventid));
 	}
 	
 	function getRaces()
