@@ -17,8 +17,14 @@ class Registration
 	
 	function __construct()
 	{
+		//add_action('init',array($this,'add_query_args'));
 		$eventModel = new EventModel();
 		$this->event = $eventModel->getNextEvent();
+	}
+	
+	function add_query_args()
+	{
+		//add_query_arg( 'var1', 'val1' );
 	}
 	
 	function getEvent()
@@ -36,7 +42,7 @@ class Registration
 	function registerRunner($race,$runner,$racenumber)
 	{
 		$raceResult = new RaceResult($race);
-		$raceResult->registerRunner($runner,$racenumber);
+		return $raceResult->registerRunner($runner,$racenumber);
 	}
 	
 	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='')
@@ -62,7 +68,6 @@ class Registration
 	 */
 	function listRegisteredRunners()
 	{
-		error_log($this->event);
 		$event = new EventModel($this->event->post_id);
 		return $event->listRegisteredRunners();
 	}
