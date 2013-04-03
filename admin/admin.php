@@ -19,6 +19,8 @@ class BhaaAdmin
 	function bhaa_admin_plugin_menu()
 	{
 		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
+		add_submenu_page('bhaa', 'BHAA', 'Members JSON', 'manage_options', 'bhaa_admin_members_json', array(&$this, 'bhaa_admin_members_json'));
+		add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
 		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options', 'bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
 		add_submenu_page('bhaa' ,'BHAA','Standards','manage_options', 'bhaa_admin_standards' , array(&$this, 'bhaa_admin_standards'));
 		// options panel
@@ -32,6 +34,15 @@ class BhaaAdmin
 		}
 		echo '<div class="wrap">';
 		echo '<p>BHAA Admin Page</p>';
+	}
+
+	function bhaa_admin_members_json()
+	{
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+		echo '<div class="wrap">';
+		echo '<p>BHAA Members JSON</p>';
 		
 		$file = ABSPATH.'wp-content/bhaa_runners.json.txt';
 		if(isset($_POST['command']))
@@ -57,6 +68,15 @@ class BhaaAdmin
 		echo file_get_contents($file);
 		
 		echo '</div>';
+	}
+	
+	function bhaa_admin_day_json()
+	{
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+		echo '<div class="wrap">';
+		echo '<p>BHAA Day Members JSON</p>';
 	}
 	
 	// http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
