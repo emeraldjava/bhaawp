@@ -83,8 +83,7 @@ class BhaaAdmin
 			$model = new BaseModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
-			$content = 'day';// json_encode($model->getRegistrationRunnerDetails());
-				
+			$content = json_encode($model->getDayMembersRegistrationDetails());
 			error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
