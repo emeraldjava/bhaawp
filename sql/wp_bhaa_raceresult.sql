@@ -1,6 +1,6 @@
 
 DROP TABLE IF EXISTS wp_bhaa_raceresult;
-CREATE TABLE IF NOT EXISTS wp_raceresult (
+CREATE TABLE IF NOT EXISTS wp_bhaa_raceresult (
 	id int(11) NOT NULL AUTO_INCREMENT,
 	race int(11) NOT NULL,
 	runner int(11) NOT NULL,
@@ -21,6 +21,14 @@ CREATE TABLE IF NOT EXISTS wp_raceresult (
 	company int(11),
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+alter table wp_bhaa_raceresult add unique index(race, racenumber, class);
+alter table wp_bhaa_raceresult add unique index(race, runner, class);
+delete from wp_bhaa_raceresult where race=2596;
+select * from wp_bhaa_raceresult where race=2596;
+
+select COUNT(*) from wp_bhaa_raceresult where race=2596 and runner=7713
+select COUNT(*) from wp_bhaa_raceresult where race=2596 and racenumber=7713
 
 ALTER TABLE wp_bhaa_raceresult CHANGE COLUMN paceKM pace time;
 ALTER TABLE wp_bhaa_raceresult ADD COLUMN posincat int(11) DEFAULT NULL AFTER pace;
@@ -210,3 +218,8 @@ from wp_bhaa_raceresult
 where race=2549
 
 update wp_bhaa_raceresult set pace=SEC_TO_TIME(TIME_TO_SEC(racetime)/5.2),actualstandard=getStandard(racetime,getRaceDistanceKm(race)) where race=2549
+
+
+
+
+
