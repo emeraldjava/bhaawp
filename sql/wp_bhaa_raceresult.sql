@@ -175,7 +175,8 @@ select * from wp_p2p where p2p_type='event_to_race' and p2p_from=2278
 
 -- select racetec RACE_REG details
 SELECT race,runner,standard,racenumber,
-firstname.meta_value,lastname.meta_value,gender.meta_value,dateofbirth.meta_value,status.meta_value,
+firstname.meta_value as firstname,lastname.meta_value as lastname,
+gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,status.meta_value as status,
 house.id as company, house.post_title as companyname, 
 CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
 CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname
