@@ -173,11 +173,25 @@ where e2r.p2p_from=2278
 
 select * from wp_p2p where p2p_type='event_to_race' and p2p_from=2278
 
-SELECT * from wp_bhaa_raceresult
-JOIN  wp_p2p e2r ON ( wp_bhaa_raceresult.race = e2r.p2p_to AND e2r.p2p_type =  "event_to_race")
-where wp_bhaa_raceresult.class =  "RACE_REG" 
-AND e2r.p2p_from =2278
+-- select racetec RACE_REG details
+SELECT race,runner,standard,racenumber,wp_users.display_name,
+house.id as company, house.post_title as companyname, 
+sector.id as sector, sector.post_title as sectorname
+from wp_bhaa_raceresult
+JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type="event_to_race")
+JOIN wp_users on (wp_users.id=wp_bhaa_raceresult.runner) 
+left join wp_p2p r2c ON (r2c.p2p_to=wp_users.id AND r2c.p2p_type = 'house_to_runner')
+left join wp_posts house on (house.id=r2c.p2p_from and house.post_type='house')
+left join wp_p2p r2s ON (r2s.p2p_to=wp_users.id AND r2s.p2p_type = 'sectorteam_to_runner')
+left join wp_posts sector on (sector.id=r2s.p2p_from and house.post_type='house')
+where wp_bhaa_raceresult.class="RACE_REG" 
+AND e2r.p2p_from=2278 order by wp_bhaa_raceresult.id desc
 
+--left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
+
+left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
+join wp_posts house on (house.id=company.meta_value and house.post_type='house')
+left join wp_p2p r2c ON (r2c.p2p_to=wp_users.id AND r2c.p2p_type = 'house_to_runner')
 
 -- actual standard and pace
 
