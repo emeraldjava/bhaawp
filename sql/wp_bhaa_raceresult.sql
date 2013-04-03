@@ -176,7 +176,8 @@ select * from wp_p2p where p2p_type='event_to_race' and p2p_from=2278
 -- select racetec RACE_REG details
 SELECT race,runner,standard,racenumber,wp_users.display_name,
 house.id as company, house.post_title as companyname, 
-sector.id as sector, sector.post_title as sectorname
+CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
+CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname
 from wp_bhaa_raceresult
 JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type="event_to_race")
 JOIN wp_users on (wp_users.id=wp_bhaa_raceresult.runner) 
