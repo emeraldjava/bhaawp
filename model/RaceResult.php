@@ -34,7 +34,7 @@ class RaceResult extends BaseModel implements Table
 		PRIMARY KEY (id)';
 	}
 	
-	public function registerRunner($runner,$racenumber)
+	public function registerRunner($runner,$racenumber,$standard=NULL)
 	{
 		// add age category 
 		$res = $this->wpdb->insert(
@@ -43,6 +43,7 @@ class RaceResult extends BaseModel implements Table
 						'race' => $this->post_id,
 						'racenumber' => $racenumber,
 						'runner' => $runner,
+						'standard' => $standard,
 						'class' => $this::RACE_REG)
 		);
 		return $res;

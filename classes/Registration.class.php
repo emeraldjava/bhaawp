@@ -39,10 +39,10 @@ class Registration
 		return $event->getNextRaces();
 	}
 	
-	function registerRunner($race,$runner,$racenumber)
+	function registerRunner($race,$runner,$racenumber,$standard)
 	{
 		$raceResult = new RaceResult($race);
-		return $raceResult->registerRunner($runner,$racenumber);
+		return $raceResult->registerRunner($runner,$racenumber,$standard);
 	}
 	
 	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='')
