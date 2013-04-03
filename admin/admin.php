@@ -45,7 +45,7 @@ class BhaaAdmin
 		echo '<p>BHAA Members JSON</p>';
 		
 		$file = ABSPATH.'wp-content/bhaa_runners.json.txt';
-		if(isset($_POST['command']))
+		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json')
 		{
 			echo 'command '.$_POST['command'];
 			$model = new BaseModel();
@@ -59,14 +59,12 @@ class BhaaAdmin
 			}
 		}
 		
-		echo '<p><form action="'.get_permalink().'" method="post">
-				<input type="hidden" name="command" value="refresh"/>
-				<input type="Submit" value="Refresh Runners"/>
-			</form> BHAA Admin Page</p>';
-		
-		echo '<hr/>Content';
+		echo '<p><form action="'.get_permalink().'" id="bhaa_admin_members_json" method="post">
+				<input type="hidden" name="command" value="bhaa_admin_members_json"/>
+				<input type="Submit" value="Refresh Members"/>
+			</form></p>';
+		echo '<hr/>';
 		echo file_get_contents($file);
-		
 		echo '</div>';
 	}
 	
@@ -77,6 +75,29 @@ class BhaaAdmin
 		}
 		echo '<div class="wrap">';
 		echo '<p>BHAA Day Members JSON</p>';
+		
+		$file = ABSPATH.'wp-content/bhaa_day_runners.json.txt';
+		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_day_json')
+		{
+			echo 'command '.$_POST['command'];
+			$model = new BaseModel();
+			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
+			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
+			$content = 'day';// json_encode($model->getRegistrationRunnerDetails());
+				
+			error_log('file '.$file);
+			if(file_exists($file)){
+				file_put_contents($file, $content);
+			}
+		}
+		
+		echo '<p><form action="'.get_permalink().'" id="bhaa_admin_day_json" method="post">
+				<input type="hidden" name="command" value="bhaa_admin_day_json"/>
+				<input type="Submit" value="Refresh Day Runners"/>
+			</form></p>';
+		echo '<hr/>';
+		echo file_get_contents($file);
+		echo '</div>';
 	}
 	
 	// http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
