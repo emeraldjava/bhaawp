@@ -3,6 +3,10 @@ class RaceResult extends BaseModel implements Table
 {
 	var $post_id;
 	
+	const RAN = 'RAN';
+	const RACE_REG = 'RACE_REG';
+	const RACE_ORG = 'RACE_ORG';
+	
 	function __construct($post_id)
 	{
 		parent::__construct();
@@ -39,9 +43,36 @@ class RaceResult extends BaseModel implements Table
 						'race' => $this->post_id,
 						'racenumber' => $racenumber,
 						'runner' => $runner,
-						'class' => 'RACE_REG')
+						'class' => $this::RACE_REG)
 		);
 		return $res;
+	}
+	
+	
+	/**
+	 * Add 10 league points to a user for a race
+	 */
+	public function addRaceOrganiser($runner)
+	{
+		return $this->wpdb->insert(
+				$this->getName(),
+				array('race' => $this->post_id,
+					'runner' => $runner,
+					'leaguepoints' => 10,
+					'class' => $this::RACE_ORG));
+	}
+
+	/**
+	 * Delete assigned league points
+	 */
+	public function deleteRaceOrganiser($runner)
+	{
+		return $this->wpdb->delete(
+				$this->getName(),
+				array('race' => $this->post_id,
+						'runner' => $runner,
+						'leaguepoints' => 10,
+						'class' => $this::RACE_ORG));
 	}
 	
 	/**
@@ -94,7 +125,7 @@ class RaceResult extends BaseModel implements Table
 				'racetime' => $details[3],
 				'category' => $details[9],
 				'standard' => $details[7],
-				'class' => 'RAN',
+				'class' => $this::RAN,
 				'company' => $details[11])
 		);	
 		//$this->wpdb->print_error();

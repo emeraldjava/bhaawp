@@ -6,6 +6,8 @@ class Connection
 	const HOUSE_TO_RUNNER = 'house_to_runner';
 	const SECTORTEAM_TO_RUNNER = 'sectorteam_to_runner';
 	const TEAM_CONTACT = 'team_contact';
+	// a runner who get's 10 league points for organsing a race
+	const RACE_ORGANISER = 'race_organiser';
 	
 	function __construct()
 	{
@@ -53,6 +55,13 @@ class Connection
 			'cardinality' => 'one-to-one',
 			'title' => array( 'from' => 'Team Contact', 'to' => 'Team Contact' )
 		));
+		p2p_register_connection_type( array(
+			'name' => Connection::RACE_ORGANISER,
+			'from' => 'race',
+			'to' => 'user',
+			'cardinality' => 'one-to-one',
+			'title' => array( 'from' => 'Race Organiser', 'to' => 'Race Organiser')
+		));
 	}
 	
 	/**
@@ -64,8 +73,12 @@ class Connection
 		$connection = p2p_get_connection( $p2p_id );
 		if( $connection->p2p_type == Connection::HOUSE_TO_RUNNER ) {
 			update_user_meta( $connection->p2p_to, Runner::BHAA_RUNNER_COMPANY, $connection->p2p_from);
-			error_log('bhaa_p2p_created_connection() '.$connection->p2p_from.' -> '.$connection->p2p_to);
 		}
+		elseif($connection->p2p_type == Connection::RACE_ORGANISER) {
+			$raceResult = new RaceResult($connection->p2p_from);
+			$raceResult->addRaceOrganiser($connection->p2p_to);
+		}
+		error_log('bhaa_p2p_created_connection() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to);
 	}
 	
 	function bhaa_p2p_delete_connections($p2p_id)
@@ -73,8 +86,12 @@ class Connection
 		$connection = p2p_get_connection( $p2p_id );
 		if( $connection->p2p_type == Connection::HOUSE_TO_RUNNER ) {
 			delete_user_meta( $connection->p2p_to, Runner::BHAA_RUNNER_COMPANY, $connection->p2p_from);
-			error_log('bhaa_p2p_delete_connections() '.$connection->p2p_from.' -> '.$connection->p2p_to);
 		}
+		elseif($connection->p2p_type == Connection::RACE_ORGANISER) {
+			$raceResult = new RaceResult($connection->p2p_from);
+			$raceResult->deleteRaceOrganiser($connection->p2p_to);
+		}
+		error_log('bhaa_p2p_delete_connections() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to);
 	}
 	
 	function updateRunnersHouse($p2p_type,$from,$to)
