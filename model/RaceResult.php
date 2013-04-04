@@ -56,8 +56,8 @@ class RaceResult extends BaseModel implements Table
 						'racenumber' => $racenumber,
 						'runner' => $runner,
 						'standard' => $standard,
-						'class' => $this::RACE_REG)
-		);
+						'class' => RaceResult::RACE_REG
+				));
 		return $res;
 	}
 	
@@ -67,7 +67,8 @@ class RaceResult extends BaseModel implements Table
 				$this->getName(),
 				array('race' => $this->post_id,
 						'runner' => $runner,
-						'class' => $this::RACE_REG));
+						'class' => RaceResult::RACE_REG
+						));
 	}
 	
 	
@@ -81,7 +82,7 @@ class RaceResult extends BaseModel implements Table
 				array('race' => $this->post_id,
 					'runner' => $runner,
 					'leaguepoints' => 10,
-					'class' => $this::RACE_ORG));
+					'class' => RaceResult::RACE_ORG));
 	}
 
 	/**
@@ -94,7 +95,7 @@ class RaceResult extends BaseModel implements Table
 				array('race' => $this->post_id,
 						'runner' => $runner,
 						'leaguepoints' => 10,
-						'class' => $this::RACE_ORG));
+						'class' => RaceResult::RACE_ORG));
 	}
 	
 	/**
@@ -147,7 +148,7 @@ class RaceResult extends BaseModel implements Table
 				'racetime' => $details[3],
 				'category' => $details[9],
 				'standard' => $details[7],
-				'class' => $this::RAN,
+				'class' => RaceResult::RAN,
 				'company' => $details[11])
 		);	
 		//$this->wpdb->print_error();
