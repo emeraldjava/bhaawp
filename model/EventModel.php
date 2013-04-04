@@ -36,11 +36,10 @@ class EventModel extends BaseModel
 	/**
 	 * Return the details of all registered runner for the website and racetec export
 	 */
-	function listRegisteredRunners()
+	function listRegisteredRunners($limit=0)
 	{
 		// order by id,
-		return $this->wpdb->get_results(
-			$this->wpdb->prepare("SELECT race,runner,standard,racenumber,
+		$SQL = $this->wpdb->prepare("SELECT position,race,runner,standard,racenumber,
 firstname.meta_value as firstname,lastname.meta_value as lastname,
 gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,status.meta_value as status,
 house.id as company, house.post_title as companyname, 
@@ -59,7 +58,11 @@ left join wp_usermeta gender ON (gender.user_id=wp_users.id AND gender.meta_key 
 left join wp_usermeta dateofbirth ON (dateofbirth.user_id=wp_users.id AND dateofbirth.meta_key = 'bhaa_runner_dateofbirth')
 left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
 where wp_bhaa_raceresult.class='RACE_REG' 
-AND e2r.p2p_from=%d order by wp_bhaa_raceresult.id desc",$this->eventid));
+AND e2r.p2p_from=%d order by wp_bhaa_raceresult.id desc",$this->eventid);
+		
+		if($limit!=0)
+			$SQL .= " limit ".$limit;
+		return $this->wpdb->get_results($SQL);
 	}
 	
 	function getRaces()
