@@ -66,10 +66,10 @@ class Registration
 	/**
 	 * Return the list of registered runners
 	 */
-	function listRegisteredRunners()
+	function listRegisteredRunners($limit=0)
 	{
 		$event = new EventModel($this->event->post_id);
-		return $event->listRegisteredRunners();
+		return $event->listRegisteredRunners($limit);
 	}
 	
 	/**
