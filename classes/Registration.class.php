@@ -72,6 +72,12 @@ class Registration
 		return $event->listRegisteredRunners($limit);
 	}
 	
+	function deleteRunner($runner,$race)
+	{
+		$raceResult = new RaceResult($race);
+		return $raceResult->deleteRunner($runner);
+	}
+	
 	/**
 	 * Export the csv file for racetec
 	 */

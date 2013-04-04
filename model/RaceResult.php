@@ -61,6 +61,15 @@ class RaceResult extends BaseModel implements Table
 		return $res;
 	}
 	
+	public function deleteRunner($runner)
+	{
+		return $this->wpdb->delete(
+				$this->getName(),
+				array('race' => $this->post_id,
+						'runner' => $runner,
+						'class' => $this::RACE_REG));
+	}
+	
 	
 	/**
 	 * Add 10 league points to a user for a race
