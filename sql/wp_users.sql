@@ -210,5 +210,7 @@ left join wp_usermeta dob ON (dob.user_id=wp_users.id AND dob.meta_key = 'bhaa_r
 where status.meta_value='M' and dob.meta_value='01/12/1982'
 -- fix 2013-11-13,01/12/1982,07/12/1982,2023-07-13
 --  5143,6241,22226
-
-
+update wp_usermeta set meta_value='1982-12-01' where meta_value='01/12/1982';
+update wp_usermeta set meta_value='1982-12-07' where meta_value='07/12/1982';
+update wp_usermeta set meta_value='1993-11-13' where meta_value='2013-11-13';
+update wp_usermeta set meta_value='1993-07-13' where meta_value='2023-07-13';
