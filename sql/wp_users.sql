@@ -170,6 +170,18 @@ where runner.status='M' and YEAR(dateofrenewal)=2013
 and dor.meta_value = ''
 
 -- fix runners with status M and year 2012!
+select wp_users.id,wp_users.display_name,status.meta_value,dor.meta_value from wp_users
+left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
+left join wp_usermeta dor ON (dor.user_id=wp_users.id AND dor.meta_key = 'bhaa_runner_dateofrenewal')
+where status.meta_value='M' and dor.meta_value<='2012-09-30';
+
+-- disable 853 rows
+update wp_usermeta
+join wp_users on wp_users.id=wp_usermeta.user_id
+join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
+join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
+set status.meta_value='I'
+where dor.meta_value<='2012-09-30';
 
 -- select distinct day members 3970
 select wp_users.id as id,wp_users.id as value,
