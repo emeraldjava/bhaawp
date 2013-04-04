@@ -182,7 +182,7 @@ where e2r.p2p_from=2278
 select * from wp_p2p where p2p_type='event_to_race' and p2p_from=2278
 
 -- select racetec RACE_REG details
-SELECT race,runner,standard,racenumber,
+SELECT position,race,runner,standard,racenumber,
 firstname.meta_value as firstname,lastname.meta_value as lastname,
 gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,status.meta_value as status,
 house.id as company, house.post_title as companyname, 
@@ -201,7 +201,7 @@ left join wp_usermeta gender ON (gender.user_id=wp_users.id AND gender.meta_key 
 left join wp_usermeta dateofbirth ON (dateofbirth.user_id=wp_users.id AND dateofbirth.meta_key = 'bhaa_runner_dateofbirth')
 left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
 where wp_bhaa_raceresult.class="RACE_REG" 
-AND e2r.p2p_from=2278 order by wp_bhaa_raceresult.id desc
+AND e2r.p2p_from=2278 order by wp_bhaa_raceresult.id desc limit 3
 
 --left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
 
