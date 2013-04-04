@@ -202,3 +202,13 @@ left join wp_usermeta dob on (dob.user_id=wp_users.id and dob.meta_key='bhaa_run
 left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key='bhaa_runner_company')
 left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key='bhaa_runner_standard')
 where status.meta_value in ('D') order by id;
+
+-- validate date of births -- wp_users.id,wp_users.display_name,status.meta_value,dor.meta_value
+select distinct(dob.meta_value) from wp_users
+left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
+left join wp_usermeta dob ON (dob.user_id=wp_users.id AND dob.meta_key = 'bhaa_runner_dateofbirth')
+where status.meta_value='M' and dob.meta_value='01/12/1982'
+-- fix 2013-11-13,01/12/1982,07/12/1982,2023-07-13
+--  5143,6241,22226
+
+
