@@ -21,8 +21,8 @@ class TeamResult extends BaseModel
 	 */
 	public function addResult($row)
 	{
-		error_log(var_dump($res));
-		$this->wpdb->show_errors();
+		//error_log(var_dump($res));
+		//$this->wpdb->show_errors();
 		$res = $this->wpdb->insert(
 				$this->getName(),
 				array(
@@ -34,15 +34,15 @@ class TeamResult extends BaseModel
 					'totalpos'=>$row[8],
 					'totalstd'=>$row[10],
 					'runner'=>$row[11],
-					'pos'=>$row[13],
-					'std'=>$row[16],
-					'racetime'=>$row[15],
-					'company'=>0,
+					'pos'=>$row[15],
+					'std'=>$row[17],
+					'racetime'=>$row[16],
+					'company'=>$row[19],
 					'companyname'=>$row[14])
 		);
-		$this->wpdb->print_error();
-		$this->wpdb->hide_errors();
-		error_log($res);
+		//$this->wpdb->print_error();
+		//$this->wpdb->hide_errors();
+		//error_log($res);
 	}
 	
 	public function deleteResults()
