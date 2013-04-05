@@ -4,8 +4,6 @@
 --1,BHAA NCF 5km Night XC 2013,5.2km,BHAA,1,1,26,2,17,Swords Labs,21,1782,Chris Muldoon,Male,Swords Labs,2,00:18:35,6,A,204,204,47,1
 --4,BHAA NCF 5km Night XC 2013,5.2km,BHAA,8,1,1,2,160,RTE,39,1809,Terry Clarke,Male,Rte,33,00:22:07,11,B,121,121,47,1
 
-TeamType,Team Pos,TeamTypeId,TeamId,TempTeamId,Team Total,Team Name,Team Std,RaceNo,Name,Gender,Company,Overall Pos,Finish Time,Std,Class,Team No,Company No,RaceId,EventId
-
 DROP TABLE IF EXISTS wp_bhaa_teamresult;
 CREATE TABLE IF NOT EXISTS wp_bhaa_teamresult (
 	id int(11) NOT NULL AUTO_INCREMENT,
