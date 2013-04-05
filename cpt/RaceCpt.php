@@ -119,6 +119,9 @@ class RaceCpt
 		echo sprintf('<a href="%s">Post Race Std</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_postracestd&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">League</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_league&post_id=%d', $post->ID),'bhaa'));		
 		echo sprintf('<a href="%s">BHAA ALL</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa'));
+		echo sprintf('<a href="%s">Delete Team Results</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_delete&post_id=%d', $post->ID),'bhaa'));
+		echo sprintf('<a href="%s">Load Team Results</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_load&post_id=%d', $post->ID),'bhaa'));
+		
 	}
 
 	public function bhaa_race_team_result_textarea( $post ) {

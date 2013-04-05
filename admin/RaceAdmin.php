@@ -36,7 +36,11 @@ class RaceAdmin
 				'bhaa_race_league' => sprintf('<a href="%s">League</a>',
 					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_league&post_id=%d', $post->ID),'bhaa')),
 				'bhaa_race_all' => sprintf('<a href="%s">BHAA ALL</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa'))
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_team_results_delete' => sprintf('<a href="%s">Delete Team Results</a>',
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_delete&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_team_results_load' => sprintf('<a href="%s">Team Results</a>',
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_load&post_id=%d', $post->ID),'bhaa'))
 			));
 		}
 		return $actions;
@@ -108,6 +112,12 @@ class RaceAdmin
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
+			case "bhaa_team_results_delete":
+				exit();
+				break;
+			case "bhaa_team_results_load":
+				exit();
+				break;
 		}
 	}
 	
@@ -119,8 +129,6 @@ class RaceAdmin
 				'type' => __('Type'),
 				'date' => __('Date')
 		);
-		// merge column
-		//return array_merge($column,array('sector' => __('Sector')));
 	}
 	
 	function bhaa_manage_race_posts_custom_column( $column, $post_id )
