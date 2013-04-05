@@ -6,6 +6,7 @@ class RaceCpt
 	const BHAA_RACE_DISTANCE = 'bhaa_race_distance';
 	const BHAA_RACE_UNIT = 'bhaa_race_unit';
 	const BHAA_RACE_TYPE = 'bhaa_race_type';
+	const BHAA_RACE_TEAM_RESULTS = 'bhaa_race_team_results';
 
 	/**
 	 * https://github.com/emeraldjava/tmp-bmx/blob/master/controllers/events_controller.php
@@ -73,6 +74,15 @@ class RaceCpt
 		'side',
 		'low'
 		);
+		
+		add_meta_box(
+			'bhaa-race-team-meta',
+			__( 'Team Results', 'bhaa-race-team-meta' ),
+			array(&$this, 'bhaa_race_team_result_textarea'),
+			'race',
+			'normal',
+			'high'
+		);
 	}
 
 	/**
@@ -111,6 +121,11 @@ class RaceCpt
 		echo sprintf('<a href="%s">BHAA ALL</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa'));
 	}
 
+	public function bhaa_race_team_result_textarea( $post ) {
+		$teamresults = get_post_meta($post->ID, RaceCpt::BHAA_RACE_TEAM_RESULTS);
+		echo '<textarea rows="20" cols="80" name='.RaceCpt::BHAA_RACE_TEAM_RESULTS.' value="'.$teamresults.'" />';
+	}
+	
 	/**
 	 * Save the race meta data
 	 * @param unknown_type $post_id
@@ -138,6 +153,12 @@ class RaceCpt
 		{
 			error_log($post_id .' -> '.RaceCpt::BHAA_RACE_TYPE.' -> '.$_POST[RaceCpt::BHAA_RACE_TYPE]);
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_TYPE, $_POST[RaceCpt::BHAA_RACE_TYPE] );
+		}
+		
+		if ( !empty($_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS]))
+		{
+			error_log($post_id .' -> '.RaceCpt::BHAA_RACE_TEAM_RESULTS.' -> '.$_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS]);
+			update_post_meta( $post_id, RaceCpt::BHAA_RACE_TEAM_RESULTS, $_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS] );
 		}
 	}
 }
