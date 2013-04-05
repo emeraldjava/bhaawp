@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.03.25
+Version: 2013.04.05
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA
 {
-	var $version = '2013.03.25';
+	var $version = '2013.04.05';
 	
 	//var $admin;
 	var $connection;
@@ -18,7 +18,7 @@ class BHAA
 	var $event;
 	var $race;
 	var $individualResultTable;
-	var $teamResultTable;
+	//var $teamResultTable;
 			
 	var $house;
 //	var $league;
@@ -91,7 +91,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		
 		// table views
 		$this->individualResultTable = new RaceResultTable();
-		$this->teamResultTable = new TeamResultTable();
+		//$this->teamResultTable = new TeamResultTable();
 		
 		$this->runner = new Runner();
 		$this->event = new Event();
@@ -103,7 +103,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$flickr = new BhaaFlickr();
 		add_shortcode('bhaa_flickr',array($flickr,'bhaa_flickr_shortcode'));	
 		
-		add_shortcode('bhaa_registration', array($this->registration,'registration'));
+		//add_shortcode('bhaa_registration', array($this->registration,'registration'));
 		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
 		//$this->rrw = new RaceResult_Widget();
 		$runnerSearchWidget = new RunnerSearchWidget();
@@ -115,9 +115,11 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		return $this->individualResultTable;
 	}
 	
-	public function getTeamResultTable()
+	public function getTeamResultTable($race)
 	{
-		return $this->teamResultTable;
+		$teamResult = new TeamResult($race);
+		$results = $teamResult->getTeamResults();
+		return 'Team Race Results '.$race.'<br/>';
 	}
 	
 	/**
