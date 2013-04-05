@@ -182,9 +182,10 @@ where e2r.p2p_from=2278
 select * from wp_p2p where p2p_type='event_to_race' and p2p_from=2278
 
 -- select racetec RACE_REG details
-SELECT race,runner,standard,racenumber,
+SELECT wp_bhaa_raceresult.id,runner,racenumber,race,
 firstname.meta_value as firstname,lastname.meta_value as lastname,
-gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,status.meta_value as status,
+gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,
+status.meta_value as status,standard,
 house.id as company, 
 CASE WHEN house.post_title IS NULL THEN companyname.meta_value ELSE house.post_title END as companyname,
 CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
