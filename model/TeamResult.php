@@ -52,5 +52,12 @@ class TeamResult extends BaseModel
 			array('race' => $this->race
 		));
 	}
+	
+	public function getTeamResults()
+	{
+		return $this->wpdb->get_results(
+			$this->wpdb->prepare('select * from %s where race=%d order by id desc',$this->getName(),$this->race)
+		);
+	}
 }
 ?>
