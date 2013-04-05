@@ -93,7 +93,7 @@ inner join wp_usermeta standard on (standard.user_id=wp_users.id and standard.me
 where standard.meta_value=0 or standard.meta_value IS NULL
 
 select * from wp_users
-inner join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='D')
+inner join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
 WHERE NOT EXISTS (
 	SELECT * FROM wp_usermeta standard WHERE standard.user_id=wp_users.id and standard.meta_key='bhaa_runner_standard'
 )
