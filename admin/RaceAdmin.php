@@ -113,6 +113,8 @@ class RaceAdmin
 				exit();
 				break;
 			case "bhaa_team_results_delete":
+				$teamResult = new TeamResult($post_id);
+				$teamResult->deleteResults();
 				exit();
 				break;
 			case "bhaa_team_results_load":
