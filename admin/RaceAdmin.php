@@ -113,11 +113,28 @@ class RaceAdmin
 				exit();
 				break;
 			case "bhaa_team_results_delete":
+				error_log('bhaa_team_results_delete');
 				$teamResult = new TeamResult($post_id);
 				$teamResult->deleteResults();
+				queue_flash_message("bhaa_team_results_delete");
+				wp_redirect(wp_get_referer());
 				exit();
 				break;
 			case "bhaa_team_results_load":
+				$teamResult = new TeamResult($post_id);
+				
+				$teamResultBlob = get_post_meta($post_id,RaceCpt::BHAA_RACE_TEAM_RESULTS,true);
+				//error_log('BLOB '.$teamResultBlob);
+				
+				$teamResults = explode("\n",$teamResultBlob);
+				error_log('Number of team results '.sizeof($teamResults));
+				foreach($teamResults as $result)
+				{
+					$details = explode(',',$result);
+					$teamResult->addResult($details);
+				}
+				queue_flash_message("bhaa_team_results_load");
+				wp_redirect(wp_get_referer());
 				exit();
 				break;
 		}
