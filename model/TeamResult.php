@@ -63,7 +63,7 @@ class TeamResult extends BaseModel
 	public function getTeamResults()
 	{
 		return $this->wpdb->get_results(
-			$this->wpdb->prepare('select * from %s where race=%d order by id desc',$this->getName(),$this->race)
+			$this->wpdb->prepare('select * from wp_bhaa_teamresult where race=%d order by id',$this->race)
 		);
 	}
 	
@@ -74,9 +74,73 @@ class TeamResult extends BaseModel
 	public function getTeamTable()
 	{
 		$results = $this->getTeamResults();
+		//var_dump($results);
 		$table = '<h2>Team Results '.$this->race.'</h2>';
+		$table .= '<table>';
+		
+		
+		// ["id"]=> string(2) "64" ["race"]=> string(4) "2595" ["class"]=> string(1) "W" ["position"]=> string(1) "1" 
+		// ["team"]=> string(2) "21" ["teamname"]=> string(20) "Accountants Ladies A" ["totalpos"]=> string(2) "48" 
+		// ["totalstd"]=> string(2) "45" ["runner"]=> string(4) "7048" ["pos"]=> string(2) "11" ["std"]=> string(2) "15" 
+		// ["racetime"]=> string(8) "00:13:32" ["company"]=> string(3) "549" ["companyname"]=> string(18) "McInerney Saunders" 
+		// ["leaguepoints"]=> string(1) "0" } 
+		$class='';
+		$position=0;
+		$count=1;
+		foreach($results as $row)
+		{
+			//var_dump($row);
+			if($row->class!=$class)
+			{
+				$class = $row->class;
+				$position = $row->postion;
+				$table .= '<h3>Class '.$class.'</h3>';
+			}
+			
+			//first row of a new team
+			if($position==0 && $count==1)
+			{
+				$position = $row->position;
+				// start table
+				$table .= '<h4>Table '.$class.'</h4>';
+			
+				// add first row
+				$table .= sprintf('<h5>Team %d %s</h5>',$row->position,$row->teamname);
+			}
+		
+			if($count==1)
+			{
+				$table .= sprintf('<h6>1 Runner %d %s</h6>',$count++,$row->runner);
+			}
+			else if($count==2)
+			{
+				$table .= sprintf('<h6>2 Runner %d %s</h6>',$count++,$row->runner);
+			}
+			else if($count==3)
+			{
+				// add second/third row
+				$table .= sprintf('<h6>3 Runner %d %s</h6>',$count++,$row->runner);
+				$count = 1;
+				$position = 0;
+			}	
+			
+			// check if new 
+		}
+		$table .= '</table>';
 		return $table;
 		
+	}
+	
+	public function generateRow($name='',$raceno='',$time='',$company='',$position='',$standard='')
+	{
+		return sprintf('<tr>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			</tr>',$name,$raceno,$time,$company,$position,$standard);
 	}
 }
 ?>
