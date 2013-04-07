@@ -124,7 +124,7 @@ class RaceAdmin
 				$teamResult = new TeamResult($post_id);
 				
 				$teamResultBlob = get_post_meta($post_id,RaceCpt::BHAA_RACE_TEAM_RESULTS,true);
-				//error_log('BLOB '.$teamResultBlob);
+				error_log('BLOB '.$teamResultBlob);
 				
 				$teamResults = explode("\n",$teamResultBlob);
 				error_log('Number of team results '.sizeof($teamResults));

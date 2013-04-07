@@ -17,14 +17,8 @@ class Registration
 	
 	function __construct()
 	{
-		//add_action('init',array($this,'add_query_args'));
 		$eventModel = new EventModel();
 		$this->event = $eventModel->getNextEvent();
-	}
-	
-	function add_query_args()
-	{
-		//add_query_arg( 'var1', 'val1' );
 	}
 	
 	function getEvent()
