@@ -86,41 +86,33 @@ class TeamResult extends BaseModel
 		// ["leaguepoints"]=> string(1) "0" } 
 		$class='';
 		$position=0;
-		$count=1;
+		$count=0;
 		foreach($results as $row)
 		{
 			//var_dump($row);
 			if($row->class!=$class)
 			{
 				$class = $row->class;
-				$position = $row->postion;
-				$table .= '<h3>Class '.$class.'</h3>';
+				$position = $row->position;
+				$table .= $this->generateRow('Class '.$row->class,'','','','','');
 			}
 			
 			//first row of a new team
-			if($position==0 && $count==1)
+			if($count==0)
 			{
 				$position = $row->position;
 				// start table
-				$table .= '<h4>Table '.$class.'</h4>';
-			
+				$table .= $this->generateRow($row->position.' '.$row->teamname,'','','','Position','Standard');
 				// add first row
-				$table .= sprintf('<h5>Team %d %s</h5>',$row->position,$row->teamname);
+				$table .= $this->generateRow($count.' Runner','','Race Time','Company',$row->totalpos,$row->totalstd);
 			}
-		
-			if($count==1)
-			{
-				$table .= sprintf('<h6>1 Runner %d %s</h6>',$count++,$row->runner);
-			}
-			else if($count==2)
-			{
-				$table .= sprintf('<h6>2 Runner %d %s</h6>',$count++,$row->runner);
-			}
-			else if($count==3)
+			
+			$table .= $this->generateRow($count.' '.$row->runner,'',$row->racetime,$row->companyname,$row->pos,$row->std);
+			$count++;
+			if($count==3)
 			{
 				// add second/third row
-				$table .= sprintf('<h6>3 Runner %d %s</h6>',$count++,$row->runner);
-				$count = 1;
+				$count = 0;
 				$position = 0;
 			}	
 			
