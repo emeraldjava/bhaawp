@@ -59,7 +59,7 @@ class Connection
 			'name' => Connection::RACE_ORGANISER,
 			'from' => 'race',
 			'to' => 'user',
-			'cardinality' => 'one-to-one',
+			'cardinality' => 'one-to-many',
 			'title' => array( 'from' => 'Race Organiser', 'to' => 'Race Organiser')
 		));
 	}
