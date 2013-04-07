@@ -63,7 +63,9 @@ class TeamResult extends BaseModel
 	public function getTeamResults()
 	{
 		return $this->wpdb->get_results(
-			$this->wpdb->prepare('select * from wp_bhaa_teamresult where race=%d order by id',$this->race)
+			$this->wpdb->prepare('select wp_bhaa_teamresult.*,wp_users.display_name from wp_bhaa_teamresult
+				join wp_users on wp_users.id=wp_bhaa_teamresult.runner
+				where race=%d order by id',$this->race)
 		);
 	}
 	
@@ -75,7 +77,7 @@ class TeamResult extends BaseModel
 	{
 		$results = $this->getTeamResults();
 		//var_dump($results);
-		$table = '<h2>Team Results '.$this->race.'</h2>';
+		$table = '<h3>Team Results</h3>';
 		$table .= '<table>';
 		
 		
@@ -94,7 +96,7 @@ class TeamResult extends BaseModel
 			{
 				$class = $row->class;
 				$position = $row->position;
-				$table .= $this->generateRow('Class '.$row->class,'','','','','');
+				$table .= $this->generateRow('<h2>Class '.$row->class.'</h2>','','','','','');
 			}
 			
 			//first row of a new team
@@ -102,12 +104,12 @@ class TeamResult extends BaseModel
 			{
 				$position = $row->position;
 				// start table
-				$table .= $this->generateRow($row->position.' '.$row->teamname,'','','','Position','Standard');
+				$table .= $this->generateRow('<h4>'.$row->position.' '.$row->teamname.'</h4>','','','','<b>Position</b>','<b>Standard</b>');
 				// add first row
-				$table .= $this->generateRow($count.' Runner','','Race Time','Company',$row->totalpos,$row->totalstd);
+				$table .= $this->generateRow('<i>Runner</i>','','<i>Race Time</i>','<i>Company</i>',$row->totalpos,$row->totalstd);
 			}
 			
-			$table .= $this->generateRow($count.' '.$row->runner,'',$row->racetime,$row->companyname,$row->pos,$row->std);
+			$table .= $this->generateRow($row->display_name,'',$row->racetime,$row->companyname,$row->pos,$row->std);
 			$count++;
 			if($count==3)
 			{
