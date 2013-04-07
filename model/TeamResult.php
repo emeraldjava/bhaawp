@@ -28,8 +28,8 @@ class TeamResult extends BaseModel
 	 */
 	public function addResult($row)
 	{
-		error_log(var_dump($row));
-		$this->wpdb->show_errors();
+		//error_log(var_dump($row));
+		//$this->wpdb->show_errors();
 		$res = $this->wpdb->insert(
 				$this->getName(),
 				array(
@@ -47,9 +47,9 @@ class TeamResult extends BaseModel
 					'company'=>$row[20],
 					'companyname'=>$row[14])
 		);
-		$this->wpdb->print_error();
-		$this->wpdb->hide_errors();
-		error_log($res);
+		//$this->wpdb->print_error();
+		//$this->wpdb->hide_errors();
+		//error_log($res);
 	}
 	
 	public function deleteResults()
@@ -65,6 +65,18 @@ class TeamResult extends BaseModel
 		return $this->wpdb->get_results(
 			$this->wpdb->prepare('select * from %s where race=%d order by id desc',$this->getName(),$this->race)
 		);
+	}
+	
+	/**
+	 * We'll do the html table generation here for the moment.
+	 */
+	
+	public function getTeamTable()
+	{
+		$results = $this->getTeamResults();
+		$table = '<h2>Team Results '.$this->race.'</h2>';
+		return $table;
+		
 	}
 }
 ?>

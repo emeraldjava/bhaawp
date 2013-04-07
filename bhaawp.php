@@ -118,8 +118,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 	public function getTeamResultTable($race)
 	{
 		$teamResult = new TeamResult($race);
-		$results = $teamResult->getTeamResults();
-		return 'Team Race Results '.$race.'<br/>';
+		return $teamResult->getTeamTable();
 	}
 	
 	/**
