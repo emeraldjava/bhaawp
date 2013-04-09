@@ -89,6 +89,8 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		new RaceCpt();
 		new HouseCpt();
 		
+		new BHAAEventManager();
+		
 		// table views
 		$this->individualResultTable = new RaceResultTable();
 		//$this->teamResultTable = new TeamResultTable();
