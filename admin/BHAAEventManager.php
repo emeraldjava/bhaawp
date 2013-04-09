@@ -14,6 +14,7 @@ class BHAAEventManager {
 		// em_booking_form_before_user_details
 		// em_booking_form_after_user_details
 		// em_booking_form_footer
+		add_action('em_booking_form_before_tickets',array($this,'bhaa_em_booking_form_before_tickets'),9,2);
 		add_action('em_booking_form_after_user_details',array($this,'bhaa_em_booking_form_after_user_details'),9,2);
 		add_action('em_booking_form_footer',array($this,'bhaa_em_booking_form_footer'),9,2);
 	}
@@ -70,8 +71,13 @@ class BHAAEventManager {
 		'. wp_dropdown_pages($args).'</p>';
 	}
 	
-	function bhaa_em_booking_form_footer($EM_Event){
-		echo '<p>Please hit the "Pay with Realex Button" below and you will be redirected and asked to enter your credit card details on the secure server</p>';
+	function bhaa_em_booking_form_footer($EM_Event) {
+		echo '<p>Once you have filled in the form please hit the "Realex Payment" image below and you will be redirected to a secure website where your credit card details will be taken.</p>';
+	}
+	
+	function bhaa_em_booking_form_before_tickets() {
+		echo '<p>Existing BHAA members should login first to ensure they can access the discounted rates and their renewal is linked to the correct BHAA ID.
+				New runner should just fill out the form below and a new account will be created for you.</p>';
 	}
 	
 	/**
