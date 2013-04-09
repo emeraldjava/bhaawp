@@ -13,6 +13,7 @@ class Event
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
+		add_action('em_booking_form_footer',array($this,'bhaa_em_booking_form_footer'),9,2);
 	}
 	
 	function bhaa_event_meta(){
@@ -89,6 +90,22 @@ class Event
 		return $replace;
 	}
 
+	// em_booking_form_custom
+	function bhaa_em_booking_form_footer($EM_Event){
+		error_log('bhaa_em_booking_form_footer');
+		//if( $EM_Event->can_manage('manage_bookings','manage_others_bookings') )
+		//{
+			$args = array (
+					'echo' => 0,
+					'selected' => 1119,
+					'post_type' => 'house'
+			);
+			error_log('bhaa_em_booking_form_footer');
+			echo wp_dropdown_pages($args);
+		//}
+		return;
+	}
+	
 	/**
 	 * Determine which tickets to display to which users.
 	 * 
