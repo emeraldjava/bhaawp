@@ -8,6 +8,13 @@ class BHAAEventManager {
 	function __construct() {
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
+		
+		// em_booking_form_before_tickets
+		// em_booking_form_after_tickets
+		// em_booking_form_before_user_details
+		// em_booking_form_after_user_details
+		// em_booking_form_footer
+		add_action('em_booking_form_after_user_details',array($this,'bhaa_em_booking_form_after_user_details'),9,2);
 		add_action('em_booking_form_footer',array($this,'bhaa_em_booking_form_footer'),9,2);
 	}
 	
@@ -44,19 +51,27 @@ class BHAAEventManager {
 	}
 	
 	// em_booking_form_custom
-	function bhaa_em_booking_form_footer($EM_Event){
-		error_log('bhaa_em_booking_form_footer');
+	function bhaa_em_booking_form_after_user_details($EM_Event){
 		//if( $EM_Event->can_manage('manage_bookings','manage_others_bookings') )
 		//{
 		$args = array (
+				'id' => 'bhaa_runner_house',
+				'name' => 'bhaa_runner_house',
 				'echo' => 0,
 				'selected' => 1119,
 				'post_type' => 'house'
 		);
-		error_log('bhaa_em_booking_form_footer');
-		echo wp_dropdown_pages($args);
-		//}
-		return;
+		//error_log('bhaa_em_booking_form_after_user_details');
+		echo '<p class="input-bhaa_runner_house input-user-field">
+		<label for="bhaa_runner_house">
+		<span class="form-tip" oldtitle="Use the search box to find the company you work for, if the name is not there email us and we can add it." title="">
+		Company  <span class="em-form-required">*</span></span>
+		</label>
+		'. wp_dropdown_pages($args).'</p>';
+	}
+	
+	function bhaa_em_booking_form_footer($EM_Event){
+		echo '<p>Please hit the "Pay with Realex Button" below and you will be redirected and asked to enter your credit card details on the secure server</p>';
 	}
 	
 	/**
