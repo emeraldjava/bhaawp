@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS wp_bhaa_teamresult (
 	racetime time,
 	company int(11),
 	companyname varchar(20),
+	leaguepoints int(11) NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
