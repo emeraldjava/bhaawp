@@ -66,9 +66,8 @@ class BHAAEventManager {
 		echo '<p class="input-bhaa_runner_house input-user-field">
 		<label for="bhaa_runner_house">
 		<span class="form-tip" oldtitle="Use the search box to find the company you work for, if the name is not there email us and we can add it." title="">
-		Company  <span class="em-form-required">*</span></span>
-		</label>
-		'. wp_dropdown_pages($args).'</p>';
+		Company <span class="em-form-required">*</span></span>
+		</label>'. wp_dropdown_pages($args).'</p>';
 	}
 	
 	function bhaa_em_booking_form_footer($EM_Event) {
