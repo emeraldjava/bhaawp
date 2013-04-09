@@ -11,9 +11,6 @@ class Event
 	function __construct() {
 		add_action("admin_init",array(&$this,"bhaa_event_meta"));
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
-		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
-		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
-		add_action('em_booking_form_footer',array($this,'bhaa_em_booking_form_footer'),9,2);
 	}
 	
 	function bhaa_event_meta(){
@@ -56,97 +53,6 @@ class Event
 		$post_id = $post->ID;
 		update_post_meta($post->ID, "flickr_photoset", $_POST["flickr_photoset"]);
 		update_post_meta($post->ID, "youtube", $_POST["youtube"]);
-	}
-	
-	/**
-	 * Add a custom placeholder to handle the BHAA custom email generation.
-	 * http://wp-events-plugin.com/tutorials/create-a-custom-placeholder-for-event-formatting/
-	 */
-	function bhaa_em_booking_output_placeholder($replace, $EM_Booking, $result){
-		global $wp_query, $wp_rewrite;
-		switch( $result )
-		{
-			case '#_BHAAID':
-				$replace = $EM_Booking->get_person()->ID;
-				break;
-// 			case '#_BHAACOMPANYNAME':
-// 				$replace = get_user_meta(7713,'bhaa_runner_company',true);
-// // 				error_log('#_BHAACOMPANY_NAME');
-// // 				$companyid = get_user_meta($EM_Booking->get_person()->ID,'bhaa_runner_company',true);
-// // 				error_log('#_BHAA_COMPANY_NAME '.$companyid);
-// // //				$replace = $companyid.'';
-// //  				$args = array('p'=>$companyid, 'post_type'=>'house', 'limit'=> '1');
-// //  				$loop = new WP_Query($args);
-// //  				$loop->the_post();
-// //  				$replace = $companyid.'-'.the_title();			
-// 				break;
-			case '#_BHAATICKETS':
-				ob_start();
-				em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
-				$replace = ob_get_clean();
-				$replace = $EM_Booking->output($replace);
-				break;
-		}
-		return $replace;
-	}
-
-	// em_booking_form_custom
-	function bhaa_em_booking_form_footer($EM_Event){
-		error_log('bhaa_em_booking_form_footer');
-		//if( $EM_Event->can_manage('manage_bookings','manage_others_bookings') )
-		//{
-			$args = array (
-					'echo' => 0,
-					'selected' => 1119,
-					'post_type' => 'house'
-			);
-			error_log('bhaa_em_booking_form_footer');
-			echo wp_dropdown_pages($args);
-		//}
-		return;
-	}
-	
-	/**
-	 * Determine which tickets to display to which users.
-	 * 
-	 * http://wordpress.org/support/topic/plugin-events-manager-conditional-tickets
- 	 * http://wordpress.org/support/topic/plugin-events-manager-different-tickets-based-on-role
- 	 * @param unknown_type $result
-	 * @param unknown_type $EM_Ticket
-	 * @return boolean
-	 */
-	function bhaa_em_ticket_is_available($result, $EM_Ticket) 
-	{
- 		if (current_user_can( strtolower('administrator') )) {
- 			return true;
- 		}
-
-		if ( $EM_Ticket->ticket_name == Event::DAY_MEMBER_TICKET)
-		{
-			//if you are an ANNUAL MEMBER then this ticket will NOT show up
-			if(!is_user_logged_in())
-				return true;
-			else if(is_user_logged_in() && get_user_meta(get_current_user_id(),'bhaa_runner_status',true)!='M' )
-				return true;
-			else
-				return false;
-		}
-		
-		if ( $EM_Ticket->ticket_name == Event::BHAA_MEMBER_TICKET) 
-		{
-			//if you are an ANNUAL MEMBER then you can see this ticket
-			if(is_user_logged_in() && get_user_meta(get_current_user_id(),'bhaa_runner_status',true)=='M' )
-				return true;
-			else
-				// day member or renewal
-				return false;
-		}
-		
-		if ( $EM_Ticket->ticket_name == Event::ANNUAL_MEMBERSHIP) 
-		{
-			// TODO if they are a
-			return true;
-		}
 	}
 }
 ?>

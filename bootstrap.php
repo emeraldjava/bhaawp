@@ -23,6 +23,7 @@ require_once(PLUGIN_ROOT_DIR.'/admin/RunnerAdmin.php');
 require_once(PLUGIN_ROOT_DIR.'/admin/RaceAdmin.php');
 require_once(PLUGIN_ROOT_DIR.'/admin/WPFlashMessages.php');
 require_once(PLUGIN_ROOT_DIR.'/admin/admin.php');
+require_once(PLUGIN_ROOT_DIR.'/admin/BHAAEventManager.php');
 
 // ctps
 require_once(PLUGIN_ROOT_DIR.'/cpt/HouseCpt.php');
