@@ -12,6 +12,23 @@ jQuery(document).ready( function() {
 			});
 	});
 
+	// http://jqueryui.com/autocomplete/#combobox
+	jQuery("#bhaa_runner_house").autocomplete({
+		source: availableTags,
+	 	minLength: 2,
+		focus: function(event, ui) {
+			jQuery("#bhaa_runner_house").val(ui.item.label);
+        	return false;
+    	},
+		select: function(event, ui) {
+			alert(ui.item.value);
+			console.debug(ui);
+			//jQuery("#bhaa_runner_company_name").val(ui.item.label);
+			//jQuery("#bhaa_runner_company").val(ui.item.value);
+			return false;
+		}
+	});
+	
 	// firstname 8
 	// secondname 10
 	
