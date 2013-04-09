@@ -59,9 +59,9 @@ class HouseCpt
 	
 		$houseArgs = array(
 				'labels' => $houseLabels,
-				'hierarchical' => false,
+				'hierarchical' => true,
 				'description' => 'BHAA House Details',
-				'supports' => array( 'title','editor','excerpt','thumbnail','comments'),
+				'supports' => array( 'title','editor','excerpt','thumbnail','comments'),// add 'page-attributes' for parent hierarchy
 				'taxonomies' => array( 'sector' ),
 				'public' => true,
 				'show_ui' => true,
