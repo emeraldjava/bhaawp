@@ -13,31 +13,31 @@ class HouseCpt
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamstatus'));
 		
 		// display the admin status column
-		add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
-		add_filter('manage_house_posts_custom_column',array($this,'bhaa_manage_house_posts_custom_column'), 10, 3 );
+		//add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
+		//add_filter('manage_house_posts_custom_column',array($this,'bhaa_manage_house_posts_custom_column'), 10, 3 );
 	}
 	
-	function bhaa_manage_house_posts_columns( $column ) {
-		return array(
-				'cb' => '<input type="checkbox" />',
-				'title' => __('Title'),
-				'sector' => __('Sector'),
-				'date' => __('Date')
-		);
-		// merge column
-		//return array_merge($column,array('sector' => __('Sector')));
-	}
+// 	function bhaa_manage_house_posts_columns( $column ) {
+// 		return array(
+// 				'cb' => '<input type="checkbox" />',
+// 				'title' => __('Title'),
+// 				'sector' => __('Sector'),
+// 				'date' => __('Date')
+// 		);
+// 		// merge column
+// 		//return array_merge($column,array('sector' => __('Sector')));
+// 	}
 	
-	function bhaa_manage_house_posts_custom_column( $column, $post_id )
-	{
-		switch ($column) {
-			case 'sector' :
-				echo get_the_term_list( $post_id, 'sector','','','');
-				break;
-			default:
-		}
-		return $return;
-	}
+// 	function bhaa_manage_house_posts_custom_column( $column, $post_id )
+// 	{
+// 		switch ($column) {
+// 			case 'sector' :
+// 				echo get_the_term_list( $post_id, 'sector','','','');
+// 				break;
+// 			default:
+// 		}
+// 		return $return;
+// 	}
 	
 	function bhaa_register_cpt_house()
 	{
