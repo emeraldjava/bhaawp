@@ -9,14 +9,12 @@ class House extends BaseModel
 	const SECTOR = 'sector';
 	
 	const TEAM_TYPE = 'teamtype';
-	const COMPANY_TEAM = 'companyteam';
-	const SECTOR_TEAM = 'sectorteam';
-	//const INACTIVE_TEAM = 'inactiveteam';
+	const COMPANY_TEAM = 'company';
+	const SECTOR_TEAM = 'sector';
 	
 	const TEAM_STATUS = 'teamstatus';
 	const ACTIVE = 'ACTIVE';
 	const PENDING = 'PENDING';
-	//const ACTIVE = 'ACTIVE';
 	
 	var $houseid;
 	

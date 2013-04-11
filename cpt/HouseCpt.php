@@ -2,9 +2,8 @@
 class HouseCpt
 {
 	const TEAM_TYPE = 'teamtype';
-	const COMPANY_TEAM = 'companyteam';
-	const SECTOR_TEAM = 'sectorteam';
-	const INACTIVE_TEAM = 'inactiveteam';
+	const COMPANY_TEAM = 'company';
+	const SECTOR_TEAM = 'sector';
 	
 	function __construct()
 	{

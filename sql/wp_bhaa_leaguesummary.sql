@@ -18,7 +18,6 @@ ALTER TABLE wp_bhaa_leaguesummary ADD COLUMN leaguesummary varchar(500) DEFAULT 
 update wp_bhaa_leaguesummary set leaguesummary='{"0":{"eid":"2121","race":"2359","leaguepoints":"10"},"1":{"eid":"2123","race":"2362","leaguepoints":"10"}}';
 update wp_bhaa_leaguesummary set leaguesummary=NULL;
 
-
 select * from wp_bhaa_leaguesummary where league=11 and leaguedivision=
 
 INSERT INTO wp_bhaa_import (id, tag, type, new, old) VALUES
