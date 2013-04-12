@@ -35,19 +35,20 @@ where runner.status!='M' and YEAR(dor.meta_value)=2013;
 
 -- select wp users who are behind the members db
 select wp_users.user_nicename,wp_users.id,status.meta_value,dor.meta_value,runner.id,runner.status,runner.dateofrenewal from wp_users
-left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
+left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
 left join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
-join bhaaie_members.runner runner on runner.id=wp_users.id and runner.id=6028
+join bhaaie_members.runner runner on runner.id=wp_users.id 
 where runner.status='M' and status.meta_value='I';
+and runner.id=6028
 
 update wp_users
-join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
+join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
 join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
 join bhaaie_members.runner runner on runner.id=wp_users.id
 set
-runner.status=status.meta_value,
-runner.dateofrenewal=dor.meta_value
-where runner.status!='M' and YEAR(dor.meta_value)=2013;
+status.meta_value=runner.status,
+dor.meta_value=runner.dateofrenewal
+where runner.status='M' and YEAR(runner.dateofrenewal)=2013;
 
 -- handle new wp user not in the members db
 select user_nicename,id,user_registered from wp_users where YEAR(user_registered)=2013;
