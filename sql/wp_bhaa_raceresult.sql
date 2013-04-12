@@ -223,6 +223,30 @@ where race=2549
 update wp_bhaa_raceresult set pace=SEC_TO_TIME(TIME_TO_SEC(racetime)/5.2),actualstandard=getStandard(racetime,getRaceDistanceKm(race)) where race=2549
 
 
+-- list all race results for a specific league
+SELECT e.id,
+  CASE rr.leaguepoints WHEN 11 THEN 10 ELSE rr.leaguepoints END AS points
+  FROM wp_bhaa_raceresult rr
+  join wp_posts r ON rr.race = r.id
+  right join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
+  join wp_posts e ON e2r.p2p_from = e.id
+  right join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
+  JOIN wp_posts le ON l2e.p2p_from = le.id
+  WHERE runner=7713 AND le.id=2492
 
-
-
+-- select a points results for all events regardless of a raceresult
+select
+e.ID as eid,e.post_title as etitle,eme.event_start_date as edate,
+r.ID as rid,r.post_title as rtitle,r_type.meta_value as rtype,
+CASE rr.leaguepoints WHEN 11 THEN 10 ELSE rr.leaguepoints END AS points
+from wp_posts l
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+inner join wp_posts e on (e.id=l2e.p2p_to)
+inner join wp_em_events eme on (eme.post_id=e.id)
+inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+inner join wp_posts r on (r.id=e2r.p2p_to)
+inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+left join wp_bhaa_raceresult rr on (rr.race=r.id and rr.runner=7713)
+where l.post_type='league'
+and l.ID=2492
+and r_type.meta_value in ('C','M')
