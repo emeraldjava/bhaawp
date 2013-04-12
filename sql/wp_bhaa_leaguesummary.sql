@@ -36,8 +36,8 @@ inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
 inner join wp_posts r on (r.id=e2r.p2p_to)
 inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 where l.post_type='league'
-and l.ID=2492;
-and r_type.meta_value in ('C','S','*')
+and l.ID=2492
+and r_type.meta_value in ('C','M')
 
 --inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 select runner,race,leaguepoints,e.ID as eid,e.post_title as etitle from wp_bhaa_raceresult 
@@ -163,7 +163,7 @@ wp_bhaa_leaguesummary.leaguepoints=ROUND(wp_bhaa_leaguerunnerdata.pointsTotal,1)
 update wp_bhaa_leaguesummary 
 JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant AND gender.meta_key = 'bhaa_runner_gender')
 JOIN wp_bhaa_division d ON ((wp_bhaa_leaguesummary.leaguestandard BETWEEN d.min AND d.max) AND d.type='I' and d.gender=gender.meta_value)
-set wp_bhaa_leaguesummary.leaguedivision=d.code;
+set wp_bhaa_leaguesummary.leaguedivision=d.code and league=2492;
  
 select d.code,wp_bhaa_leaguesummary.* from wp_bhaa_leaguesummary
 JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant AND gender.meta_key = 'bhaa_runner_gender')
@@ -205,4 +205,32 @@ WHERE leaguetype = "I"
 AND leagueposition <= 10 
 AND league = 2492
 order by league, leaguedivision desc, leaguepoints desc
-			
+
+--brian maher ran 4miles in 19.06, i was checking the sp since the table sats std 30
+-- i check the stanard against 6.4km and it's 1
+select getStandard('00:19:06',6.4);
+-- the lm race distance is 6.437376
+select getRaceDistanceKm(2596);
+-- put this value the sp and it gives 30
+select getStandard('00:19:06',6.411);
+-- something to do with rounding?
+
+
+SELECT
+  le.id,
+  rr.runner,
+  COUNT(rr.race) as racesComplete,
+  getLeaguePointsTotal(le.id, rr.runner) as pointsTotal,
+  AVG(rr.position) as averageOverallPosition,
+  ROUND(AVG(rr.standard),0) as standard
+  FROM wp_bhaa_raceresult rr
+  inner join wp_posts r ON rr.race = r.id
+  inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
+  inner join wp_posts e ON e2r.p2p_from = e.id
+  inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
+  inner JOIN wp_posts le ON l2e.p2p_from = le.id
+  inner JOIN wp_users ru ON rr.runner = ru.id
+  JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key = 'bhaa_runner_status')
+  JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
+  WHERE le.id=2492 AND class='RAN' AND standard.meta_value IS NOT NULL AND status.meta_value='M' and rr.runner=7713
+  

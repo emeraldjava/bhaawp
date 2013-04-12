@@ -238,7 +238,8 @@ SELECT e.id,
 select
 e.ID as eid,e.post_title as etitle,eme.event_start_date as edate,
 r.ID as rid,r.post_title as rtitle,r_type.meta_value as rtype,
-CASE rr.leaguepoints WHEN 11 THEN 10 ELSE rr.leaguepoints END AS points
+CASE rr.leaguepoints WHEN 11 THEN 10 ELSE rr.leaguepoints END AS points,
+rr.class,rr.standard
 from wp_posts l
 inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
 inner join wp_posts e on (e.id=l2e.p2p_to)

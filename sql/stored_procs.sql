@@ -350,16 +350,18 @@ CREATE PROCEDURE `updateLeagueData`(_leagueId INT(11))
 BEGIN
 
 	-- should/can we use a temp table here?
-	DELETE FROM wp_bhaa_leaguerunnerdata WHERE league=_leagueId;
+	DELETE FROM wp_bhaa_leaguesummary WHERE league=_leagueId;
 
-  INSERT INTO wp_bhaa_leaguerunnerdata(league,runner,racesComplete, pointsTotal,avgOverallPosition, standard)
+	INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
   SELECT
   le.id,
+  'I',
   rr.runner,
-  COUNT(rr.race) as racesComplete,
-  getLeaguePointsTotal(le.id, rr.runner) as pointsTotal,
-  AVG(rr.position) as averageOverallPosition,
-  ROUND(AVG(rr.standard),0) as standard
+  ROUND(AVG(rr.standard),0),
+  COUNT(rr.race),
+  ROUND(getLeaguePointsTotal(le.id,rr.runner),1) as leaguepoints,
+  'A',
+  1
   FROM wp_bhaa_raceresult rr
   inner join wp_posts r ON rr.race = r.id
   inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
@@ -371,17 +373,30 @@ BEGIN
   JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
   WHERE le.id=_leagueId AND class='RAN' AND standard.meta_value IS NOT NULL AND status.meta_value='M'
   GROUP BY le.id,rr.runner
-  HAVING COALESCE(pointsTotal, 0) > 0;
+  HAVING COALESCE(leaguepoints, 0) > 0;
   
--- update wp_bhaa_leaguesummary
--- 	join wp_bhaa_leaguerunnerdata on 
--- 		(wp_bhaa_leaguerunnerdata.league=wp_bhaa_leaguesummary.league 
--- 		and wp_bhaa_leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
--- 	set 
--- 	wp_bhaa_leaguesummary.leaguestandard=wp_bhaa_leaguerunnerdata.standard,
--- 	wp_bhaa_leaguesummary.leaguescorecount=wp_bhaa_leaguerunnerdata.racesComplete,
--- 	wp_bhaa_leaguesummary.leaguepoints=ROUND(wp_bhaa_leaguerunnerdata.pointsTotal,1);
--- drop table bhaa_wp_leaguerunnerdata_tmp;
+	update wp_bhaa_leaguesummary 
+	JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant AND gender.meta_key = 'bhaa_runner_gender')
+	JOIN wp_bhaa_division d ON ((wp_bhaa_leaguesummary.leaguestandard BETWEEN d.min AND d.max) AND d.type='I' and d.gender=gender.meta_value)
+	set wp_bhaa_leaguesummary.leaguedivision=d.code
+	where league=_leagueId;
+
+	SET @a=0;
+	UPDATE wp_bhaa_leaguesummary SET leagueposition=(@a:= (@a+1)) where leaguedivision="A" and league=_leagueId ORDER BY leaguepoints DESC;
+	SET @b=0;
+	UPDATE wp_bhaa_leaguesummary SET leagueposition=(@b:= (@b+1)) where leaguedivision="B" and league=_leagueId ORDER BY leaguepoints DESC;
+	SET @c=0;
+	UPDATE wp_bhaa_leaguesummary SET leagueposition=(@c:= (@c+1)) where leaguedivision="C" and league=_leagueId ORDER BY leaguepoints DESC;
+	SET @d=0;
+	UPDATE wp_bhaa_leaguesummary SET leagueposition=(@d:= (@d+1)) where leaguedivision="D" and league=_leagueId ORDER BY leaguepoints DESC;
+	SET @e=0;
+	UPDATE wp_bhaa_leaguesummary SET leagueposition=(@e:= (@e+1)) where leaguedivision="E" and league=_leagueId ORDER BY leaguepoints DESC;
+	SET @f=0;
+	UPDATE wp_bhaa_leaguesummary SET leagueposition=(@f:= (@f+1)) where leaguedivision="F" and league=_leagueId ORDER BY leaguepoints DESC;
+	SET @g=0;
+	UPDATE wp_bhaa_leaguesummary SET leagueposition=(@g:= (@g+1)) where leaguedivision="L1" and league=_leagueId ORDER BY leaguepoints DESC;
+	SET @h=0;
+	UPDATE wp_bhaa_leaguesummary SET leagueposition=(@h:= (@h+1)) where leaguedivision="L2" and league=_leagueId ORDER BY leaguepoints DESC;
 
 END$$
 
