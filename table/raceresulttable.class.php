@@ -101,7 +101,10 @@ class RaceResultTable extends WP_List_Table
  	}
  	
  	function column_standard($item) {
- 		return sprintf('%d->%d',$item['standard'],$item['poststandard']);
+ 		if($item['standard']!='0')
+	 		return sprintf('%d->%d',$item['standard'],$item['poststandard']);
+ 		else 
+ 			return sprintf('%d',$item['poststandard']);
  	}
  	
  	function column_display_name($item) {
