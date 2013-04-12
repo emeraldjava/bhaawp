@@ -77,8 +77,8 @@ class TeamResult extends BaseModel
 	{
 		$results = $this->getTeamResults();
 		//var_dump($results);
-		$table = '<h3>Team Results</h3>';
-		$table .= '<table>';
+		$table = '<h2>Team Results</h2>';
+		$table .= '<table width="90%">';
 		
 		
 		// ["id"]=> string(2) "64" ["race"]=> string(4) "2595" ["class"]=> string(1) "W" ["position"]=> string(1) "1" 
@@ -96,7 +96,7 @@ class TeamResult extends BaseModel
 			{
 				$class = $row->class;
 				$position = $row->position;
-				$table .= $this->generateRow('<h2>Class '.$row->class.'</h2>','','','','','');
+				$table .= $this->generateRow('<h4>Class '.$row->class.'</h4>','','','','');
 			}
 			
 			//first row of a new team
@@ -104,12 +104,12 @@ class TeamResult extends BaseModel
 			{
 				$position = $row->position;
 				// start table
-				$table .= $this->generateRow('<h4>'.$row->position.' '.$row->teamname.'</h4>','','','','<b>Position</b>','<b>Standard</b>');
+				$table .= $this->generateRow('<b>'.$row->position.' '.$row->teamname.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
 				// add first row
-				$table .= $this->generateRow('<i>Runner</i>','','<i>Race Time</i>','<i>Company</i>',$row->totalpos,$row->totalstd);
+				$table .= $this->generateRow('<i>Runner</i>','<i>Race Time</i>','<i>Company</i>',$row->totalpos,$row->totalstd);
 			}
 			
-			$table .= $this->generateRow($row->display_name,'',$row->racetime,$row->companyname,$row->pos,$row->std);
+			$table .= $this->generateRow($row->display_name,$row->racetime,$row->companyname,$row->pos,$row->std);
 			$count++;
 			if($count==3)
 			{
@@ -125,16 +125,15 @@ class TeamResult extends BaseModel
 		
 	}
 	
-	public function generateRow($name='',$raceno='',$time='',$company='',$position='',$standard='')
+	public function generateRow($name='',$time='',$company='',$position='',$standard='',$style='')
 	{
-		return sprintf('<tr>
+		return sprintf('<tr class="%s">
 			<td>%s</td>
 			<td>%s</td>
 			<td>%s</td>
 			<td>%s</td>
 			<td>%s</td>
-			<td>%s</td>
-			</tr>',$name,$raceno,$time,$company,$position,$standard);
+			</tr>',$style,$name,$raceno,$time,$company,$position,$standard);
 	}
 }
 ?>
