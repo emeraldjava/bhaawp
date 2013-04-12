@@ -35,9 +35,9 @@ where runner.status!='M' and YEAR(dor.meta_value)=2013;
 
 -- select wp users who are behind the members db
 select wp_users.user_nicename,wp_users.id,status.meta_value,dor.meta_value,runner.id,runner.status,runner.dateofrenewal from wp_users
-join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
-join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
-join bhaaie_members.runner runner on runner.id=wp_users.id
+left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status' and status.meta_value='M')
+left join wp_usermeta dor on (dor.user_id=wp_users.id and dor.meta_key='bhaa_runner_dateofrenewal')
+join bhaaie_members.runner runner on runner.id=wp_users.id and runner.id=6028
 where runner.status='M' and status.meta_value='I';
 
 update wp_users
@@ -214,3 +214,12 @@ update wp_usermeta set meta_value='1982-12-01' where meta_value='01/12/1982';
 update wp_usermeta set meta_value='1982-12-07' where meta_value='07/12/1982';
 update wp_usermeta set meta_value='1993-11-13' where meta_value='2013-11-13';
 update wp_usermeta set meta_value='1993-07-13' where meta_value='2023-07-13';
+
+select count(ID) from wp_users;
+
+-- match missing bhaa_runner_status meta
+select wp_users.id,runner.id,runner.status,
+CASE WHEN runner.status IS NULL THEN 'D' ELSE runner.status END as X from wp_users 
+left join bhaaie_members.runner runner on runner.id=wp_users.id
+where NOT EXISTS (select meta_value from wp_usermeta where meta_key='bhaa_runner_standard' and user_id=wp_users.id)
+
