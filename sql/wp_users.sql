@@ -218,8 +218,24 @@ update wp_usermeta set meta_value='1993-07-13' where meta_value='2023-07-13';
 select count(ID) from wp_users;
 
 -- match missing bhaa_runner_status meta
-select wp_users.id,runner.id,runner.status,
-CASE WHEN runner.status IS NULL THEN 'D' ELSE runner.status END as X from wp_users 
+select wp_users.id,runner.id,
+CASE WHEN runner.status IS NULL THEN 'D' ELSE runner.status END as status,
+CASE WHEN dor.meta_value IS NULL THEN '1990-01-01' ELSE dor.meta_value END as dor
+from wp_users 
 left join bhaaie_members.runner runner on runner.id=wp_users.id
+left join wp_usermeta dor on (dor.meta_key='bhaa_runner_dateofrenewal' and dor.user_id=wp_users.id) 
+where NOT EXISTS (select meta_value from wp_usermeta where meta_key='bhaa_runner_standard' and user_id=wp_users.id)
+--left join wp_usermeta dob on (dob.meta_key='bhaa_runner_dateofbirth' and dob.user_id=wp_users.id) 
+
+insert into wp_usermeta(user_id, meta_key, meta_value) 
+SELECT wp_users.id,'bhaa_runner_dateofrenewal',
+CASE WHEN dor.meta_value IS NULL THEN '1990-01-01' ELSE dor.meta_value END from wp_users
+left join bhaaie_members.runner runner on runner.id=wp_users.id
+left join wp_usermeta dor on (dor.meta_key='bhaa_runner_dateofrenewal' and dor.user_id=wp_users.id) 
 where NOT EXISTS (select meta_value from wp_usermeta where meta_key='bhaa_runner_standard' and user_id=wp_users.id)
 
+insert into wp_usermeta(user_id, meta_key, meta_value) 
+SELECT wp_users.id,'bhaa_runner_status',
+CASE WHEN runner.status IS NULL THEN 'D' ELSE runner.status END from wp_users
+left join bhaaie_members.runner runner on runner.id=wp_users.id
+where NOT EXISTS (select meta_value from wp_usermeta where meta_key='bhaa_runner_standard' and user_id=wp_users.id)
