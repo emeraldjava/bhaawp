@@ -12,10 +12,10 @@ require_once( PLUGIN_ROOT_DIR.'/bootstrap.php');
 
 echo 'eventmanager test';
 
-$EM_Booking = new EM_Booking(302);
+$EM_Booking = new EM_Booking(401);
 //$EM_Booking->get_post(true);
 //$EM_Booking->get_tickets();
-//var_dump($EM_Booking->tickets);
+var_dump($EM_Booking->get_);
 
 foreach($EM_Booking->get_tickets()->tickets as $EM_Ticket)
 	var_dump($EM_Ticket->ticket_name);

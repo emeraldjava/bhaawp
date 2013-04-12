@@ -3,7 +3,7 @@ class Email
 {
 	function send($name)
 	{
-// 		echo "hi ".$name;
+ 		
 		
 // 		$line = "a,b,c,
 // 		d,e,f,";
@@ -19,9 +19,13 @@ class Email
 // 		var_dump( time() );
  		$headers = 'MIME-Version: 1.0' . "\r\n";
  		$headers .= 'Content-type: text/html; charset=iso-8859-1'."\r\n";
- 		$headers .= 'From: paul.oconnell@aegon.ie' . "\r\n";
- 		mail("paul.oconnell@aegon.ie","test subject 3","test body 3",$headers);
-
+ 		$headers .= 'From: oconnellp@aegon.ie' . "\r\n";
+ 		
+ 		$email = "oconnellp@aegon.ie";
+ 		echo "hi ".$headers;
+ 		$res = mail($email,"test subject 3 ".$email,"test body 3 ".$email,$headers);
+		echo $res;
+		
 // 		$args = array(
 // 				'post_type'=> 'company',
 // 				'name'    => $_REQUEST['term']);
