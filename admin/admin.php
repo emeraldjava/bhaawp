@@ -44,15 +44,16 @@ class BhaaAdmin
 		echo '<div class="wrap">';
 		echo '<p>BHAA Members JSON</p>';
 		
-		$file = ABSPATH.'wp-content/bhaa_runners.json.txt';
+		$file = ABSPATH.'wp-content/bhaa_members.js';
+		$content = 'var bhaa_members = ';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json')
 		{
 			echo 'command '.$_POST['command'];
 			$model = new BaseModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
-			$content = json_encode($model->getRegistrationRunnerDetails());
-			
+			// var bhaa_day_runners = 
+			$content .= json_encode($model->getRegistrationRunnerDetails());
 			error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
@@ -76,14 +77,15 @@ class BhaaAdmin
 		echo '<div class="wrap">';
 		echo '<p>BHAA Day Members JSON</p>';
 		
-		$file = ABSPATH.'wp-content/bhaa_day_runners.json.txt';
+		$file = ABSPATH.'wp-content/bhaa_day_members.js';
+		$content = 'var bhaa_day_members = ';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_day_json')
 		{
-			echo 'command '.$_POST['command'];
+			//echo 'command '.$_POST['command'];
 			$model = new BaseModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
-			$content = json_encode($model->getDayMembersRegistrationDetails());
+			$content .= json_encode($model->getDayMembersRegistrationDetails());
 			error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
