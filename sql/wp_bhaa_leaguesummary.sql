@@ -206,6 +206,16 @@ AND leagueposition <= 10
 AND league = 2492
 order by league, leaguedivision desc, leaguepoints desc
 
+SELECT leaguedivision, leagueposition,wp_users.display_name,wp_users.user_email,company.meta_value
+FROM wp_bhaa_leaguesummary
+left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
+left JOIN wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
+WHERE leaguetype = "I"
+AND leagueposition <= 10 
+AND league = 2492
+order by league, leaguedivision asc, leaguepoints desc
+
+
 --brian maher ran 4miles in 19.06, i was checking the sp since the table sats std 30
 -- i check the stanard against 6.4km and it's 1
 select getStandard('00:19:06',6.4);
