@@ -30,7 +30,7 @@ class EventModel extends BaseModel
 				inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 				inner join wp_postmeta r_unit on (r_unit.post_id=r.id and r_unit.meta_key='bhaa_race_unit')
 				where event_start_date >= NOW()
-				order by event_start_date ASC, dist DESC limit 2"));
+				order by event_start_date ASC, dist DESC limit 1"));
 	}
 	
 	/**
