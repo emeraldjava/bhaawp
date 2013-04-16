@@ -66,6 +66,15 @@ class Registration
 		return $event->listRegisteredRunners($limit);
 	}
 	
+	/**
+	 * Return the list of all pre-registered runners
+	 */
+	function listPreRegisteredRunners()
+	{
+		$event = new EventModel($this->event->post_id);
+		return $event->listRegisteredRunners(0,'PRE_REG');
+	}
+	
 	function deleteRunner($runner,$race)
 	{
 		$raceResult = new RaceResult($race);
