@@ -6,6 +6,7 @@ class RaceResult extends BaseModel implements Table
 	const RAN = 'RAN';
 	const RACE_REG = 'RACE_REG';
 	const RACE_ORG = 'RACE_ORG';
+	const PRE_REG = 'PRE_REG';
 	
 	function __construct($post_id)
 	{
@@ -58,6 +59,34 @@ class RaceResult extends BaseModel implements Table
 						'standard' => $standard,
 						'class' => RaceResult::RACE_REG
 				));
+		return $res;
+	}
+	
+	function preRegisterRunner($runner,$racenumber)
+	{
+// 		$runnerCount = $this->wpdb->get_var(
+// 				$this->wpdb->prepare(
+// 						'select COUNT(*) from wp_bhaa_raceresult where race=%d and runner=%d',$this->post_id,$runner));
+// 		if($runnerCount!=0)
+// 			return 'Runner with id '.$runner.' is already registered!';
+		
+		$numberCount = $this->wpdb->get_var(
+				$this->wpdb->prepare(
+						'select COUNT(*) from wp_bhaa_raceresult where race=%d and racenumber=%d',$this->post_id,$racenumber));
+		if($numberCount!=0)
+			return 'Race number '.$racenumber.' has already been assigned!';
+		
+		// update existing row
+		$res = $this->wpdb->update(
+				$this->getName(),
+				array(
+					'racenumber' => $racenumber,
+					'class' => RaceResult::RACE_REG),
+				array(
+					'race' => $this->post_id,
+					'runner' => $runner,
+					'class' => RaceResult::PRE_REG)
+				);
 		return $res;
 	}
 	

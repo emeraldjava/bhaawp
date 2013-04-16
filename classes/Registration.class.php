@@ -39,6 +39,12 @@ class Registration
 		return $raceResult->registerRunner($runner,$racenumber,$standard);
 	}
 	
+	function preRegisterRunner($race,$runner,$racenumber)
+	{
+		$raceResult = new RaceResult($race);
+		return $raceResult->preRegisterRunner($runner,$racenumber);
+	}
+	
 	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='')
 	{
 		// lookup create runner
@@ -72,7 +78,7 @@ class Registration
 	function listPreRegisteredRunners()
 	{
 		$event = new EventModel($this->event->post_id);
-		return $event->listRegisteredRunners(0,'PRE_REG');
+		return $event->listRegisteredRunners(0,RaceResult::PRE_REG);
 	}
 	
 	function deleteRunner($runner,$race)
