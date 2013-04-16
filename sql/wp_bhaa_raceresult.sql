@@ -251,3 +251,13 @@ left join wp_bhaa_raceresult rr on (rr.race=r.id and rr.runner=7713)
 where l.post_type='league'
 and l.ID=2492
 and r_type.meta_value in ('C','M')
+
+-- insert pre-register runners into the race
+select * from wp_em_bookings where event_id=112
+
+insert into wp_bhaa_raceresult(race,runner,class)
+select 2597,person_id,'PRE_REG'
+from wp_em_bookings where event_id=112
+
+select * from wp_bhaa_raceresult where class="PRE_REG"
+delete from wp_bhaa_raceresult where class="PRE_REG"
