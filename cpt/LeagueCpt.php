@@ -70,15 +70,15 @@ class LeagueCpt
 		if ($post->post_type =="league")
 		{
 			$actions = array_merge($actions, array(
-				'update_league' => sprintf('<a href="%s">Update League</a>',wp_nonce_url(sprintf('edit.php?post_type=league&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
-				'A' => sprintf('<a href="%s">A</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=A&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
-				'B' => sprintf('<a href="%s">B</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=B&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
-				'C' => sprintf('<a href="%s">C</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=C&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
-				'D' => sprintf('<a href="%s">D</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=D&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
-				'E' => sprintf('<a href="%s">E</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=E&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
-				'F' => sprintf('<a href="%s">F</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=F&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
-				'L1' => sprintf('<a href="%s">L1</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=L1&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
-				'L2' => sprintf('<a href="%s">L2</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=L2&action=bhaa_update_league_post&post_id=%d', $post->ID),'bhaa')),
+				'update_league' => sprintf('<a href="%s">Update League</a>',wp_nonce_url(sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa')),
+				'A' => sprintf('<a href="%s">A</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=A&action=bhaa_update_league_division&post_id=%d', $post->ID),'bhaa')),
+				'B' => sprintf('<a href="%s">B</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=B&action=bhaa_update_league_division&post_id=%d', $post->ID),'bhaa')),
+				'C' => sprintf('<a href="%s">C</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=C&action=bhaa_update_league_division&post_id=%d', $post->ID),'bhaa')),
+				'D' => sprintf('<a href="%s">D</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=D&action=bhaa_update_league_division&post_id=%d', $post->ID),'bhaa')),
+				'E' => sprintf('<a href="%s">E</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=E&action=bhaa_update_league_division&post_id=%d', $post->ID),'bhaa')),
+				'F' => sprintf('<a href="%s">F</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=F&action=bhaa_update_league_division&post_id=%d', $post->ID),'bhaa')),
+				'L1' => sprintf('<a href="%s">L1</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=L1&action=bhaa_update_league_division&post_id=%d', $post->ID),'bhaa')),
+				'L2' => sprintf('<a href="%s">L2</a>',wp_nonce_url(sprintf('edit.php?post_type=league&division=L2&action=bhaa_update_league_division&post_id=%d', $post->ID),'bhaa')),
 			));
 		}
 		return $actions;
@@ -89,14 +89,24 @@ class LeagueCpt
 	 */
 	function bhaa_league_actions()
 	{
-		if ( $_REQUEST['action'] == 'bhaa_update_league_post')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+		if ( $_REQUEST['action'] == 'bhaa_update_league_division')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
 		{
 			$id = $_GET['post_id'];
 			$action = $_GET['action'];
 			$division = $_GET['division'];
-			error_log('league_actions : '.$id.' '.$action.' '.$division);
+			error_log('bhaa_update_league_division : '.$id.' '.$action.' '.$division);
 			$leagueSummary = new LeagueSummary($id);
-			$leagueSummary->updateLeague($division);
+			$leagueSummary->updateLeagueSummaryByDivision($division);
+			wp_redirect(wp_get_referer()); 
+			exit();
+		}
+		else if ( $_REQUEST['action'] == 'bhaa_update_league_data')// && wp_verify_nonce($_REQUEST['_wpnonce'],'event_duplicate_'.$EM_Event->event_id) ) {
+		{
+			$id = $_GET['post_id'];
+			$action = $_GET['action'];
+			error_log('bhaa_update_league_data : '.$id.' '.$action);
+			$leagueSummary = new LeagueSummary($id);
+			$leagueSummary->updateLeagueData();
 			wp_redirect(wp_get_referer()); 
 			exit();
 		}

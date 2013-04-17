@@ -83,6 +83,7 @@ class LeagueSummary extends BaseModel implements Table
 			AND leaguedivision != "NA"
 			AND league = %d
 			order by league, leaguedivision, leagueposition',$limit,$this->leagueid);
+		error_log($query);
 		return $wpdb->get_results($query);
 	}
 	
@@ -93,7 +94,7 @@ class LeagueSummary extends BaseModel implements Table
 			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
 			left join wp_posts on wp_posts.post_type="house" and wp_posts.id=
 				(select meta_value from wp_usermeta where user_id=wp_bhaa_leaguesummary.leagueparticipant and meta_key="bhaa_runner_company")
-			where league=%d and leaguedivision=%s and leaguescorecount>=2 order by leaguepoints desc',$this->leagueid,$division);
+			where league=%d and leaguedivision=%s and leaguescorecount>=1 order by leaguepoints desc',$this->leagueid,$division);
 		//error_log($SQL);
 		return $this->wpdb->get_results($SQL);
 	}
@@ -109,8 +110,13 @@ class LeagueSummary extends BaseModel implements Table
 		error_log($SQL);
 		return $this->wpdb->get_results($SQL);
 	}
+	
+	function updateLeagueData()
+	{
+		$this->wpdb->query($this->wpdb->prepare('call updateLeagueData(%d)',$this->post_id));
+	}
 		
-	function updateLeague($division='L1')
+	function updateLeagueSummaryByDivision($division='L1')
 	{
 		// get all league races
 		$mens_races = $this->getRaceIdSetString($this->getLeagueRaces('M'));

@@ -145,6 +145,8 @@ delete from wp_bhaa_leaguesummary
   
 call updateLeagueData(2492);
 
+call updateLeagueData(2659);
+
 INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
 select
 2492,"I",runner,standard,racesComplete,ROUND(pointsTotal,1),'A',1

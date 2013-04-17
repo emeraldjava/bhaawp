@@ -203,8 +203,8 @@ left join wp_usermeta gender ON (gender.user_id=wp_users.id AND gender.meta_key 
 left join wp_usermeta dateofbirth ON (dateofbirth.user_id=wp_users.id AND dateofbirth.meta_key = 'bhaa_runner_dateofbirth')
 left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
 left join wp_usermeta companyname ON (companyname.user_id=wp_users.id AND companyname.meta_key = 'bhaa_runner_companyname')
-where wp_bhaa_raceresult.class="RACE_REG" 
-AND e2r.p2p_from=2278 order by wp_bhaa_raceresult.id desc limit 3
+where wp_bhaa_raceresult.class="PRE_REG" 
+AND e2r.p2p_from=2280 order by wp_bhaa_raceresult.id desc limit 3
 
 --left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
 
