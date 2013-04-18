@@ -267,5 +267,5 @@ from wp_em_bookings
 join wp_users on wp_users.id=wp_em_bookings.person_id
 where event_id=112
 order by display_name asc
-select * from wp_bhaa_raceresult where class="PRE_REG"
-delete from wp_bhaa_raceresult where class="PRE_REG"
+select * from wp_bhaa_raceresult where class="PRE_REG" and race=2597
+delete from wp_bhaa_raceresult where class="PRE_REG" and race=2597
