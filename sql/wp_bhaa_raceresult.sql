@@ -257,7 +257,15 @@ select * from wp_em_bookings where event_id=112
 
 insert into wp_bhaa_raceresult(race,runner,class)
 select 2597,person_id,'PRE_REG'
-from wp_em_bookings where event_id=112
+from wp_em_bookings 
+join wp_users on wp_users.id=wp_em_bookings.person_id
+where event_id=112
+order by display_name asc
 
+select 2597,person_id,display_name,'PRE_REG'
+from wp_em_bookings
+join wp_users on wp_users.id=wp_em_bookings.person_id
+where event_id=112
+order by display_name asc
 select * from wp_bhaa_raceresult where class="PRE_REG"
 delete from wp_bhaa_raceresult where class="PRE_REG"
