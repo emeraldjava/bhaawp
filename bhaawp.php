@@ -149,13 +149,22 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
  			array('ajaxurl'=>admin_url('admin-ajax.php')));
 
  		// register ajax methods 
- 		add_action('wp_ajax_nopriv_bhaawp_house_search',array($this,'bhaawp_house_search'));
-		add_action('wp_ajax_bhaawp_house_search',array($this,'bhaawp_house_search'));
-		add_action('wp_ajax_nopriv_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
-		add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
+ 		//add_action('wp_ajax_nopriv_bhaawp_house_search',array($this,'bhaawp_house_search'));
+		//add_action('wp_ajax_bhaawp_house_search',array($this,'bhaawp_house_search'));
+		//add_action('wp_ajax_nopriv_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
+		//add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
 		
+		// http://stackoverflow.com/questions/8849684/wordpress-jquery-ui-css-files
  		// css style 
- 		wp_enqueue_style('jquery-style','http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+ 		//wp_enqueue_style(
+ 			//'jquery-bhaa-style',
+ 			//'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+ 		wp_enqueue_style(
+ 			'jquery-bhaa-style',
+ 			plugins_url() . '/asset/css/ui-lightness/jquery-ui-1.9.2.custom.min.css',
+ 			false);
+ 			//PLUGIN_VERSION,
+ 			//false);
 	}
 		
 	function bhaawp_house_search() {
