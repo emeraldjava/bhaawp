@@ -161,7 +161,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
  			//'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
  		wp_enqueue_style(
  			'jquery-bhaa-style',
- 			plugins_url() . '/asset/css/ui-lightness/jquery-ui-1.9.2.custom.min.css',
+ 			plugins_url() . '/bhaawp-master/assets/css/ui-lightness/jquery-ui-1.9.2.custom.min.css',
  			false);
  			//PLUGIN_VERSION,
  			//false);
