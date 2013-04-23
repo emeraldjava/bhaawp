@@ -21,6 +21,8 @@ class RaceCpt
 
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_race_meta_data' ) );
+		add_action( 'add_meta_boxes', array( &$this, 'bhaa_team_meta_data' ) );
+		
 		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
 	}
 		
@@ -73,8 +75,10 @@ class RaceCpt
 		'race',
 		'side',
 		'low'
-		);
-		
+		);	
+	}
+	
+	public function bhaa_team_meta_data() {
 		add_meta_box(
 			'bhaa-race-team-meta',
 			__( 'Team Results', 'bhaa-race-team-meta' ),
@@ -125,8 +129,10 @@ class RaceCpt
 	}
 
 	public function bhaa_race_team_result_textarea( $post ) {
-		$teamresults = get_post_meta($post->ID, RaceCpt::BHAA_RACE_TEAM_RESULTS);
-		echo '<textarea rows="20" cols="80" name='.RaceCpt::BHAA_RACE_TEAM_RESULTS.' value="'.$teamresults.'" />';
+		$teamresults = get_post_meta($post->ID, RaceCpt::BHAA_RACE_TEAM_RESULTS,true);
+		echo '<textarea name='.RaceCpt::BHAA_RACE_TEAM_RESULTS.' id='.RaceCpt::BHAA_RACE_TEAM_RESULTS.'
+			 rows="20" cols="80" style="width:99%">'.$teamresults.'</textarea>';
+		//echo '<textarea rows="20" cols="80" name='.RaceCpt::BHAA_RACE_TEAM_RESULTS.' value="'.$teamresults.'" />';
 	}
 	
 	/**
