@@ -52,11 +52,11 @@ class RaceAdmin
 	function bhaa_race_actions()
 	{
 		$post_id = $_GET['post_id'];
-		$race = new RaceResult($post_id);
+		$raceResult = new RaceResult($post_id);
 		
 		switch ($_REQUEST['action']) {
 			case "bhaa_race_delete_results":
-				$race->deleteRaceResults();
+				$raceResult->deleteRaceResults();
 				queue_flash_message("bhaa_race_delete_results");
 				wp_redirect(wp_get_referer());
 				exit();
@@ -65,11 +65,15 @@ class RaceAdmin
 				$post = get_post($post_id);
 				$results = explode("\n",$post->post_content);
 				error_log('Number of rows '.sizeof($results));
+				$n=0;
 				foreach($results as $result)
 				{
 					// http://stackoverflow.com/questions/13430120/str-getcsv-alternative-for-older-php-version-gives-me-an-empty-array-at-the-e
 					$details = explode(',',$result);
-					$race->addRaceResult($details);
+					$raceResult->addRaceResult($details);
+					$n++;
+					//if($n>=5)
+						//break;
 				}
 				error_log('bhaa_race_load_results : '.$post_id);
 				queue_flash_message("bhaa_race_load_results");
@@ -77,37 +81,37 @@ class RaceAdmin
 				exit();
 				break;
 			case "bhaa_race_update_pace":
-				$race->updateRacePace();
+				$raceResult->updateRacePace();
 				queue_flash_message("bhaa_race_update_pace");
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
 			case "bhaa_race_posincat":
-				$race->updateRacePosInCat();
+				$raceResult->updateRacePosInCat();
 				queue_flash_message("bhaa_race_posincat");
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
 			case "bhaa_race_posinstd":
-				$race->updateRacePosInStd();
+				$raceResult->updateRacePosInStd();
 				queue_flash_message("bhaa_race_posinstd");
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
 			case "bhaa_race_postracestd":
-				$race->updatePostRaceStd();
+				$raceResult->updatePostRaceStd();
 				queue_flash_message("bhaa_race_postracestd");
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
 			case "bhaa_race_league":
-				$race->updateLeague();
+				$raceResult->updateLeague();
 				queue_flash_message("bhaa_race_league");
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
 			case "bhaa_race_all":
-				$race->updateAll();
+				$raceResult->updateAll();
 				queue_flash_message("bhaa_race_postracestd");
 				wp_redirect(wp_get_referer());
 				exit();

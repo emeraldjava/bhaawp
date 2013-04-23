@@ -232,7 +232,7 @@ class Runner
 	public function matchRunner($firstname,$surname,$dateofbirth)
 	{
 		$args = array(
-			'number' => 5,
+			'number' => 1,
 			'fields' => 'all',
 			'meta_query' => array(
 				'relation' => 'AND',
@@ -242,12 +242,12 @@ class Runner
 				array('key'=>Runner::BHAA_RUNNER_DATEOFBIRTH,'compare'=>'=','value'=>$dateofbirth)
 			)
 		);
-		error_log(print_r($args,true));
+		//error_log(print_r($args,true));
 		
 		$user_query = new WP_User_Query($args);
 		
 		$runner = $user_query->get_results();
-		error_log('matches '+sizeof($runner).' '.$user_query->get_total());
+		error_log($firstname.' '.$surname.' matches '+sizeof($runner).' '.$user_query->get_total());
 		if(empty($runner))
 		{
 			//error_log('no match');
