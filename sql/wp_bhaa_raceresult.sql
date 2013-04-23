@@ -269,3 +269,16 @@ where event_id=112
 order by display_name asc
 select * from wp_bhaa_raceresult where class="PRE_REG" and race=2597
 delete from wp_bhaa_raceresult where class="PRE_REG" and race=2597
+
+explain
+select count(id) from wp_bhaa_raceresult where race=2598 and runner=7713
+explain
+select count(id) from wp_bhaa_raceresult where race=2598 and runner=7713 and class="RACE_REG"
+explain
+select exists(select * from wp_bhaa_raceresult where race=2598 and runner=7713);
+
+-- indexes and class alter
+ALTER TABLE wp_bhaa_raceresult ADD INDEX race_runner (race,runner);
+ALTER TABLE wp_bhaa_raceresult ADD INDEX race_number (race,racenumber);
+ALTER TABLE wp_bhaa_raceresult CHANGE class class VARCHAR(10) NOT NULL;
+
