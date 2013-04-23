@@ -152,19 +152,45 @@ class RaceResult extends BaseModel implements Table
 		{
 			// lookup create runner
 			$runner = new Runner();
-			$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
-			if($match!=0)
+			
+			$SQL = $this->wpdb->prepare("select wp_em_bookings.person_id as id from wp_em_bookings
+join wp_users on wp_users.id=wp_em_bookings.person_id
+join wp_usermeta fn on (wp_em_bookings.person_id=fn.user_id and fn.meta_key='first_name')
+join wp_usermeta ln on (wp_em_bookings.person_id=ln.user_id and ln.meta_key='last_name')
+where wp_em_bookings.event_id=112 
+and fn.meta_value=%s and ln.meta_value=%s",$details[5],$details[4]);
+			//error_log($SQL);
+			
+			$id = $this->wpdb->get_var($SQL);
+			if(isset($id))
 			{
-				$runner_id = $match;
-				error_log('matched existing runner '.$runner_id);
+				error_log("matched kclub pre-reg runner ".$runner_id);
+				$runner_id=$id;
 			}
-			else
+			else if($runner_id != null)
 			{
-				$runner_id = $runner->createNewUser($details[5], $details[4],'',$details[6],$dateofbirth);
-				error_log('created new runner '.$runner_id);
+				$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
+				if($match!=0)
+				{
+					$runner_id = $match;
+					error_log('matched existing runner '.$runner_id);
+				}
+				else
+				{
+					$runner_id = $runner->createNewUser($details[5], $details[4],'',$details[6],$dateofbirth);
+					if($details[11]=='')
+						update_user_meta( $runner_id, "bhaa_runner_company",1);
+					error_log('created new runner '.$runner_id);
+				}
 			}
 		}
+		else 
+		{
+			error_log("existing member ".$runner_id.' '.$details[5].' '.$details[4]);
+		}
 
+		
+			
 		//$this->wpdb->show_errors();
 		//error_log($race.''.print_r($details,true));
 		$res = $this->wpdb->insert(
@@ -176,9 +202,9 @@ class RaceResult extends BaseModel implements Table
 				'runner' => $runner_id,
 				'racetime' => $details[3],
 				'category' => $details[9],
-				'standard' => $details[7],
-				'class' => RaceResult::RAN,
-				'company' => $details[11])
+				'standard' => ($details[7]== '') ? null : $details[7],
+				'class' => RaceResult::RAN)
+				//'company' => ($company== '') ? 1 : $details[7])
 		);	
 		//$this->wpdb->print_error();
 		//$this->wpdb->hide_errors();

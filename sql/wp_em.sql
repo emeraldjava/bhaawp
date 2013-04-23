@@ -47,6 +47,12 @@ insert into wp_usermeta (user_id, meta_key, meta_value)
 select wp_em_bookings.person_id,'bhaa_runner_status','D' from wp_em_bookings
 where wp_em_bookings.event_id=112 and wp_em_bookings.booking_price=15.00;
 
+select wp_em_bookings.person_id from wp_em_bookings
+join wp_users on wp_users.id=wp_em_bookings.person_id
+join wp_usermeta fn on (wp_em_bookings.person_id=fn.user_id and fn.meta_key='first_name')
+join wp_usermeta ln on (wp_em_bookings.person_id=ln.user_id and ln.meta_key='last_name')
+where wp_em_bookings.event_id=112 
+and fn.meta_value="Peter" and ln.meta_value="xMooney"; 
 
 update wp_usermeta
 join wp_em_bookings on (wp_em_bookings.person_id=wp_usermeta.user_id and wp_em_bookings.booking_status=1)
