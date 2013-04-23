@@ -40,6 +40,7 @@ class RaceResultTable extends WP_List_Table
 			'display_name' => 'Name',
 			'racetime'  => 'Time',
 			'category'  => 'Category',
+			'gender' => 'Gender', 
 			'posincat' => 'Pos Cat',
 			'standard'  => 'Std',
 			'posinstd' => 'Pos Std',
@@ -69,6 +70,7 @@ class RaceResultTable extends WP_List_Table
 			case 'runner':
 			case 'display_name':
 			case 'user_nicename';
+			case 'gender';
 			case 'cname':
 			case 'racetime':
 			case 'position':
@@ -104,7 +106,7 @@ class RaceResultTable extends WP_List_Table
  		if($item['standard']!='0')
 	 		return sprintf('%d->%d',$item['standard'],$item['poststandard']);
  		else 
- 			return sprintf('%d',$item['poststandard']);
+ 			return '';// sprintf('%d',$item['poststandard']);
  	}
  	
  	function column_display_name($item) {
@@ -137,9 +139,10 @@ class RaceResultTable extends WP_List_Table
 		
 		global $wpdb;
 		$query = '
-			SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_users.user_nicename,wp_posts.id as cid,wp_posts.post_title as cname
+			SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_users.user_nicename,gender.meta_value as gender,wp_posts.id as cid,wp_posts.post_title as cname
 			FROM '.$wpdb->prefix .'bhaa_raceresult 
 			left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
+			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
 			left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
 			where race='.$race.' and wp_bhaa_raceresult.class="RAN" ORDER BY '.$orderby.' '. $order;
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
