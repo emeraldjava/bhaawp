@@ -139,11 +139,13 @@ class RaceResultTable extends WP_List_Table
 		
 		global $wpdb;
 		$query = '
-			SELECT wp_bhaa_raceresult.*,wp_users.display_name,wp_users.user_nicename,gender.meta_value as gender,wp_posts.id as cid,wp_posts.post_title as cname
+			SELECT wp_bhaa_raceresult.*,wp_users.display_name,
+			wp_users.user_nicename,gender.meta_value as gender,wp_posts.id as cid,wp_posts.post_title as cname
 			FROM '.$wpdb->prefix .'bhaa_raceresult 
 			left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
 			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
-			left join wp_posts on wp_posts.post_type="house" and wp_bhaa_raceresult.company=wp_posts.id
+			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
+			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
 			where race='.$race.' and wp_bhaa_raceresult.class="RAN" ORDER BY '.$orderby.' '. $order;
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
 		//error_log($query);	
