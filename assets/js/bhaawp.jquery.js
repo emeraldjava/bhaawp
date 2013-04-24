@@ -10,7 +10,15 @@ jQuery(document).ready( function() {
 			changeMonth: 'true',
 			maxDate: '-18y' 
 			});
+		
+		//http://stackoverflow.com/questions/2771137/jquery-date-picker-where-text-input-is-read-only
+		jQuery("#bhaa_runner_dateofbirth").keypress(function (e)
+		{
+			e.preventDefault();
+		});		
 	});
+	
+	
 
 	
 	
