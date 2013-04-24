@@ -14,8 +14,8 @@ class EventModel extends BaseModel
 	{
 		return $this->wpdb->get_row(
 			$this->wpdb->prepare('select event_id,post_id,event_slug from wp_em_events 
-            	where event_start_date >= NOW()
-				order by event_start_date ASC limit 1'));
+            	where event_start_date >= DATE(NOW())
+				order by event_start_date ASC limit 5'));
 	}
 	
 	function getNextRaces()
@@ -29,7 +29,7 @@ class EventModel extends BaseModel
 				inner join wp_postmeta r_dist on (r_dist.post_id=r.id and r_dist.meta_key='bhaa_race_distance')
 				inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 				inner join wp_postmeta r_unit on (r_unit.post_id=r.id and r_unit.meta_key='bhaa_race_unit')
-				where event_start_date >= NOW()
+				where event_start_date >= DATE(NOW())
 				order by event_start_date ASC, dist DESC limit 1"));
 	}
 	
