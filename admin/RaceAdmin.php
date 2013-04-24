@@ -72,7 +72,7 @@ class RaceAdmin
 					$details = explode(',',$result);
 					$raceResult->addRaceResult($details);
 					$n++;
-					//if($n>=5)
+					//if($n>=12)
 						//break;
 				}
 				error_log('bhaa_race_load_results : '.$post_id);
@@ -132,10 +132,14 @@ class RaceAdmin
 				
 				$teamResults = explode("\n",$teamResultBlob);
 				error_log('Number of team results '.sizeof($teamResults));
+				$n=0;
 				foreach($teamResults as $result)
 				{
 					$details = explode(',',$result);
 					$teamResult->addResult($details);
+					//$n++;
+					//if($n==10)
+						//break;
 				}
 				queue_flash_message("bhaa_team_results_load");
 				wp_redirect(wp_get_referer());

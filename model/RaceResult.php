@@ -145,8 +145,10 @@ class RaceResult extends BaseModel implements Table
 	 */
 	public function addRaceResult($details)
 	{
-		$runner_id = $details[2];
+		
+		$runner_id = trim($details[2]);
 		$dateofbirth = date("Y-m-d", strtotime($details[8]));
+		error_log('addRaceResult position '.$details[0].' number '.$details[1].' dob '.$dateofbirth);
 		
 		if($runner_id=='')
 		{
@@ -164,19 +166,20 @@ and fn.meta_value=%s and ln.meta_value=%s",$details[5],$details[4]);
 			$id = $this->wpdb->get_var($SQL);
 			if(isset($id))
 			{
-				error_log("matched kclub pre-reg runner ".$runner_id);
+				error_log("matched kclub pre-reg runner ".' '.$details[5].' '.$details[4].' '.$runner_id);
 				$runner_id=$id;
 			}
-			else if($runner_id != null)
+			else if($runner_id == '')
 			{
 				$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
 				if($match!=0)
 				{
 					$runner_id = $match;
-					error_log('matched existing runner '.$runner_id);
+					error_log('matched existing runner '.' '.$details[5].' '.$details[4].' '.$runner_id);
 				}
 				else
 				{
+					error_log("create new user ".' '.$details[5].' '.$details[4]);
 					$runner_id = $runner->createNewUser($details[5], $details[4],'',$details[6],$dateofbirth);
 					if($details[11]=='')
 						update_user_meta( $runner_id, "bhaa_runner_company",1);
@@ -186,10 +189,8 @@ and fn.meta_value=%s and ln.meta_value=%s",$details[5],$details[4]);
 		}
 		else 
 		{
-			error_log("existing member ".$runner_id.' '.$details[5].' '.$details[4]);
+			error_log("existing member ".' '.$details[5].' '.$details[4].' '.$runner_id);
 		}
-
-		
 			
 		//$this->wpdb->show_errors();
 		//error_log($race.''.print_r($details,true));

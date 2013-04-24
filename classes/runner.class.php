@@ -153,7 +153,7 @@ class Runner
 	{
 		require_once( ABSPATH . 'wp-includes/user.php' );
 		$id = $this->getNextRunnerId();
-		error_log('next id '.$id);
+		error_log('createNewUser next id '.$id);
 		
 		// format the username
 		$username = $firstname.'.'.$surname;
