@@ -268,8 +268,16 @@ join wp_users on wp_users.id=wp_em_bookings.person_id
 where event_id=113
 order by display_name asc
 
+select * from wp_bhaa_raceresult where class="RACE_REG" and race=2598
 select * from wp_bhaa_raceresult where class="PRE_REG" and race=2598
 delete from wp_bhaa_raceresult where class="PRE_REG" and race=2598
+
+-- race entry stat's
+select count(runner) as total,
+(select count(runner) from wp_bhaa_raceresult where gender="M") as male,
+(select count(runner) from wp_bhaa_raceresult where gender="W") as female
+from wp_bhaa_raceresult
+where race=2598
 
 explain
 select count(id) from wp_bhaa_raceresult where race=2598 and runner=7713
