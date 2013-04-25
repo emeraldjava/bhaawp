@@ -163,22 +163,23 @@ class RaceResult extends BaseModel implements Table
 			// lookup create runner
 			$runner = new Runner();
 			
-			$SQL = $this->wpdb->prepare("select wp_em_bookings.person_id as id from wp_em_bookings
-join wp_users on wp_users.id=wp_em_bookings.person_id
-join wp_usermeta fn on (wp_em_bookings.person_id=fn.user_id and fn.meta_key='first_name')
-join wp_usermeta ln on (wp_em_bookings.person_id=ln.user_id and ln.meta_key='last_name')
-where wp_em_bookings.event_id=112 
-and fn.meta_value=%s and ln.meta_value=%s",$details[5],$details[4]);
-			//error_log($SQL);
+// 			$SQL = $this->wpdb->prepare("select wp_em_bookings.person_id as id from wp_em_bookings
+// join wp_users on wp_users.id=wp_em_bookings.person_id
+// join wp_usermeta fn on (wp_em_bookings.person_id=fn.user_id and fn.meta_key='first_name')
+// join wp_usermeta ln on (wp_em_bookings.person_id=ln.user_id and ln.meta_key='last_name')
+// where wp_em_bookings.event_id=112 
+// and fn.meta_value=%s and ln.meta_value=%s",$details[5],$details[4]);
+// 			//error_log($SQL);
 			
-			$id = $this->wpdb->get_var($SQL);
-			if(isset($id))
-			{
-				error_log("matched kclub pre-reg runner ".' '.$details[5].' '.$details[4].' '.$runner_id);
-				$runner_id=$id;
-			}
-			else if($runner_id == '')
-			{
+// 			$id = $this->wpdb->get_var($SQL);
+// 			if(isset($id))
+// 			{
+// 				error_log("matched kclub pre-reg runner ".' '.$details[5].' '.$details[4].' '.$runner_id);
+// 				$runner_id=$id;
+// 			}
+// 			else 
+			//if($runner_id == '')
+			//{
 				$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
 				if($match!=0)
 				{
@@ -193,7 +194,7 @@ and fn.meta_value=%s and ln.meta_value=%s",$details[5],$details[4]);
 						update_user_meta( $runner_id, "bhaa_runner_company",1);
 					error_log('created new runner '.$runner_id);
 				}
-			}
+			//}
 		}
 		else 
 		{
