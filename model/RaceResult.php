@@ -64,15 +64,15 @@ class RaceResult extends BaseModel implements Table
 	
 	function preRegisterRunner($runner,$racenumber)
 	{
-// 		$runnerCount = $this->wpdb->get_var(
-// 				$this->wpdb->prepare(
-// 						'select COUNT(*) from wp_bhaa_raceresult where race=%d and runner=%d',$this->post_id,$runner));
-// 		if($runnerCount!=0)
-// 			return 'Runner with id '.$runner.' is already registered!';
+		$runnerCount = $this->wpdb->get_var(
+			$this->wpdb->prepare(
+				'select COUNT(*) from wp_bhaa_raceresult where race=%d and runner=%d and class="RACE_REG"',$this->post_id,$runner));
+		if($runnerCount!=0)
+			return 'Runner with id '.$runner.' is already registered!';
 		
 		$numberCount = $this->wpdb->get_var(
-				$this->wpdb->prepare(
-						'select COUNT(*) from wp_bhaa_raceresult where race=%d and racenumber=%d',$this->post_id,$racenumber));
+			$this->wpdb->prepare(
+				'select COUNT(*) from wp_bhaa_raceresult where race=%d and racenumber=%d',$this->post_id,$racenumber));
 		if($numberCount!=0)
 			return 'Race number '.$racenumber.' has already been assigned!';
 		
