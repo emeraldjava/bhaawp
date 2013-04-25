@@ -240,3 +240,10 @@ SELECT wp_users.id,'bhaa_runner_status',
 CASE WHEN runner.status IS NULL THEN 'D' ELSE runner.status END from wp_users
 left join bhaaie_members.runner runner on runner.id=wp_users.id
 where NOT EXISTS (select meta_value from wp_usermeta where meta_key='bhaa_runner_standard' and user_id=wp_users.id)
+
+-- mail chimp email
+select fn.meta_value,ln.meta_value,user_email from wp_users
+join wp_usermeta fn ON (fn.user_id=wp_users.id AND fn.meta_key = 'first_name')
+join wp_usermeta ln ON (ln.user_id=wp_users.id AND ln.meta_key = 'last_name')
+join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
+where wp_users.id>=10000 and status.meta_value="M" and user_email IS NOT NULL and user_email != ''
