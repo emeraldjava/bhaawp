@@ -187,7 +187,7 @@ firstname.meta_value as firstname,lastname.meta_value as lastname,
 gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,
 status.meta_value as status,standard,
 house.id as company, 
-CASE WHEN house.post_title IS NULL THEN companyname.meta_value ELSE house.post_title END as companyname,
+CASE WHEN house.post_title IS NULL THEN companyname.post_title ELSE house.post_title END as companyname,
 CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
 CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname
 from wp_bhaa_raceresult
@@ -202,9 +202,10 @@ left join wp_usermeta lastname ON (lastname.user_id=wp_users.id AND lastname.met
 left join wp_usermeta gender ON (gender.user_id=wp_users.id AND gender.meta_key = 'bhaa_runner_gender')
 left join wp_usermeta dateofbirth ON (dateofbirth.user_id=wp_users.id AND dateofbirth.meta_key = 'bhaa_runner_dateofbirth')
 left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
-left join wp_usermeta companyname ON (companyname.user_id=wp_users.id AND companyname.meta_key = 'bhaa_runner_companyname')
+left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
+left join wp_posts companyname on (companyname.id=company.meta_value and companyname.post_type='house')
 where wp_bhaa_raceresult.class="PRE_REG" 
-AND e2r.p2p_from=2280 order by wp_bhaa_raceresult.id desc limit 3
+AND e2r.p2p_from=2282 order by wp_bhaa_raceresult.id desc limit 3
 
 --left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
 
@@ -260,13 +261,14 @@ select 2598,person_id,'PRE_REG'
 from wp_em_bookings 
 join wp_users on wp_users.id=wp_em_bookings.person_id
 where event_id=113
+and booking_status=1
 order by display_name desc
 
 select 2598,person_id,display_name,'PRE_REG'
 from wp_em_bookings
 join wp_users on wp_users.id=wp_em_bookings.person_id
 where event_id=113
-order by display_name asc
+order by display_name desc
 
 select * from wp_bhaa_raceresult where class="RACE_REG" and race=2598
 select * from wp_bhaa_raceresult where class="PRE_REG" and race=2598

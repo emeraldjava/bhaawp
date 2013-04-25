@@ -44,7 +44,7 @@ firstname.meta_value as firstname,lastname.meta_value as lastname,
 gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,
 standard,status.meta_value as status,
 house.id as company, 
-CASE WHEN house.post_title IS NULL THEN companyname.meta_value ELSE house.post_title END as companyname,
+CASE WHEN house.post_title IS NULL THEN companyname.post_title ELSE house.post_title END as companyname,
 CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
 CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname
 from wp_bhaa_raceresult
@@ -59,7 +59,8 @@ left join wp_usermeta lastname ON (lastname.user_id=wp_users.id AND lastname.met
 left join wp_usermeta gender ON (gender.user_id=wp_users.id AND gender.meta_key = 'bhaa_runner_gender')
 left join wp_usermeta dateofbirth ON (dateofbirth.user_id=wp_users.id AND dateofbirth.meta_key = 'bhaa_runner_dateofbirth')
 left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
-left join wp_usermeta companyname ON (companyname.user_id=wp_users.id AND companyname.meta_key = 'bhaa_runner_companyname')
+left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
+left join wp_posts companyname on (companyname.id=company.meta_value and companyname.post_type='house')
 where wp_bhaa_raceresult.class=%s 
 AND e2r.p2p_from=%d order by wp_bhaa_raceresult.id desc",$class,$this->eventid);
 		
