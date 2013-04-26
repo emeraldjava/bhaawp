@@ -112,7 +112,7 @@ class RaceResultTable extends WP_List_Table
  	}
  	
  	function column_display_name($item) {
- 		//error_log('column_display_name '.$item.' '.memory_get_usage());
+ 		
  		$page = get_page_by_title('runner');
  		$permalink = get_permalink( $page );
  		return sprintf('<a href="%s"><b>%s</b></a>',
@@ -149,7 +149,7 @@ class RaceResultTable extends WP_List_Table
 			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
-			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY '.$orderby.' '. $order;
+			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=370 ORDER BY '.$orderby.' '. $order;
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
 		//error_log($query);	
 		
@@ -170,6 +170,7 @@ class RaceResultTable extends WP_List_Table
 		ob_start();
 		$this->display();
 		//$res = ob_get_contents();
+		//flush();
 		return ob_get_clean();
 		//ob_end_clean();
 		//return $res;
@@ -177,10 +178,17 @@ class RaceResultTable extends WP_List_Table
 		//return ob_get_clean();
 	}
 	
-	function display_rows() {
-		parent::display_rows();
-		ob_flush();
-	}
+// 	function display_rows() {
+// 		parent::display_rows();
+// 		//error_log('column_display_name '.$item.' '.memory_get_usage(true));
+// 		//ob_flush();
+// 	}
+
+// 	function single_row( $item ) {
+// 		parent::single_row($item);
+// 		//error_log('single_row '.$item.' '.memory_get_usage(true));
+// 		//ob_flush();
+// 	}
 	
 	function renderRunnerTable($runner)
 	{
