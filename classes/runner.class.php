@@ -187,6 +187,7 @@ class Runner
 		if(is_wp_error($res))
 			error_log('update user error '.$res->get_error_message());
 		
+		update_user_meta( $id, Runner::BHAA_RUNNER_COMPANY, 1);
 		update_user_meta( $id, Runner::BHAA_RUNNER_GENDER, $gender);
 		update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $dateofbirth);
 		update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, date('Y-m-d'));
