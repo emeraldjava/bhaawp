@@ -1,26 +1,22 @@
 //var $jQuery = jQuery.noConflict();
 jQuery(document).ready( function() {
 	
-	jQuery(function() {
-		jQuery("#dateofbirth").datepicker({
-			defaultDate: '-30y', 
-			dateFormat: 'dd/mm/yy',
-			yearRange: '1900:1994',
-			changeYear: true,
-			changeMonth: true
-			//maxDate: '-18y' 
-			});
-		
-//		//http://stackoverflow.com/questions/2771137/jquery-date-picker-where-text-input-is-read-only
-//		jQuery("#dateofbirth").keypress(function (e)
-//		{
-//			e.preventDefault();
-//		});		
-	});
-	
-	
-
-	
+//	jQuery(function() {
+//		jQuery("#dateofbirth").datepicker({
+//			defaultDate: '-30y', 
+//			dateFormat: 'dd/mm/yy',
+//			yearRange: '1900:1994',
+//			changeYear: true,
+//			changeMonth: true
+//			//maxDate: '-18y' 
+//			});
+//		
+////		//http://stackoverflow.com/questions/2771137/jquery-date-picker-where-text-input-is-read-only
+////		jQuery("#dateofbirth").keypress(function (e)
+////		{
+////			e.preventDefault();
+////		});		
+//	});
 	
 //	jQuery.widget( "ui.combobox", {
 //	      _create: function() {
