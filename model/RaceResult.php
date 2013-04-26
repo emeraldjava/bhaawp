@@ -60,6 +60,7 @@ class RaceResult extends BaseModel implements Table
 						'race' => $this->post_id,
 						'racenumber' => $racenumber,
 						'runner' => $runner,
+						'racetime' => date('H:i:s'),
 						'standard' => $standard,
 						'class' => RaceResult::RACE_REG
 				));
@@ -89,6 +90,7 @@ class RaceResult extends BaseModel implements Table
 				$this->getName(),
 				array(
 					'racenumber' => $racenumber,
+					'racetime' => date('H:i:s'),
 					'class' => RaceResult::RACE_REG),
 				array(
 					'race' => $this->post_id,
