@@ -104,9 +104,9 @@ class TeamResult extends BaseModel
 			{
 				$position = $row->position;
 				// start table
-				$table .= $this->generateRow('<b>'.$row->position.' '.$row->teamname.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
+				$table .= $this->generateRow('<b>'.$row->class.'-'.$row->position.' '.$row->teamname.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
 				// add first row
-				$table .= $this->generateRow('<i>Athlete</i>','<i>Race Time</i>','<i>Company</i>',$row->totalpos,$row->totalstd);
+				$table .= $this->generateRow('<b>Athlete</b>','<b>Race Time</b>','<b>Company</b>','<b>'.$row->totalpos.'<b>','<b>'.$row->totalstd.'<b>');
 			}
 			
 			$table .= $this->generateRow($row->display_name,$row->racetime,$row->companyname,$row->pos,$row->std);
@@ -133,8 +133,7 @@ class TeamResult extends BaseModel
 			<td>%s</td>
 			<td>%s</td>
 			<td>%s</td>
-			<td>%s</td>
-			</tr>',$style,$name,$raceno,$time,$company,$position,$standard);
+			</tr>',$style,$name,$time,$company,$position,$standard);
 	}
 }
 ?>
