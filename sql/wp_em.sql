@@ -17,12 +17,13 @@ set meta_value="M"
 where wp_usermeta.meta_key='bhaa_runner_status';
 
 -- find all event books
-select * from wp_em_bookings where event_id=112
+select * from wp_em_bookings where event_id=113
+and person_id=23269
 
 select booking_id,person_id,display_name,status.meta_value from wp_em_bookings
 join wp_users on wp_users.id=person_id
 left join wp_usermeta status on (wp_em_bookings.person_id=status.user_id and status.meta_key='bhaa_runner_status')
-where event_id=112 
+where event_id=113 
 and (status.meta_value IS NULL or status.meta_value = '')
 
 insert into wp_usermeta (user_id, meta_key, meta_value) VALUE (23019,'bhaa_runner_status','D');
@@ -45,13 +46,13 @@ and booking_price=15.00
 --wp_em_bookings.booking_status=1 and
 insert into wp_usermeta (user_id, meta_key, meta_value)
 select wp_em_bookings.person_id,'bhaa_runner_status','D' from wp_em_bookings
-where wp_em_bookings.event_id=112 and wp_em_bookings.booking_price=15.00;
+where wp_em_bookings.event_id=113 and wp_em_bookings.booking_price=15.00;
 
 select wp_em_bookings.person_id from wp_em_bookings
 join wp_users on wp_users.id=wp_em_bookings.person_id
 join wp_usermeta fn on (wp_em_bookings.person_id=fn.user_id and fn.meta_key='first_name')
 join wp_usermeta ln on (wp_em_bookings.person_id=ln.user_id and ln.meta_key='last_name')
-where wp_em_bookings.event_id=112 
+where wp_em_bookings.event_id=113
 and fn.meta_value="Peter" and ln.meta_value="xMooney"; 
 
 update wp_usermeta
@@ -63,4 +64,5 @@ and booking_price=10.00
 and event_id=112;
 
 UPDATE wp_usermeta SET meta_value="D" where meta_key="bhaa_runner_status" and user_id>=23051 and user_id<=23199;
+
 

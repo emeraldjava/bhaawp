@@ -287,7 +287,7 @@ explain
 select count(id) from wp_bhaa_raceresult where race=2598 and runner=7713 and class="RACE_REG"
 explain
 select exists(select * from wp_bhaa_raceresult where race=2598 and runner=7713);
-select exists(select * from wp_bhaa_raceresult use index (race_runner) where race=2598 and runner=7713);
+select exists(select * from wp_bhaa_raceresult where race=2598 and runner=7713);
 
 -- indexes and class alter
 ALTER TABLE wp_bhaa_raceresult ADD INDEX index_race_runner (race,runner);

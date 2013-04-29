@@ -247,3 +247,12 @@ join wp_usermeta fn ON (fn.user_id=wp_users.id AND fn.meta_key = 'first_name')
 join wp_usermeta ln ON (ln.user_id=wp_users.id AND ln.meta_key = 'last_name')
 join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
 where wp_users.id>=10000 and status.meta_value="M" and user_email IS NOT NULL and user_email != ''
+
+select * FROM wp_usermeta
+    WHERE umeta_id NOT IN (
+        SELECT MIN(umeta_id)
+        FROM wp_usermeta where wp_usermeta.meta_key='bhaa_runner_status'
+        GROUP BY user_id, meta_key, meta_value
+    )
+
+SELECT * FROM wp_usermeta where wp_usermeta.meta_key='bhaa_runner_status' and wp_usermeta.user_id=23265

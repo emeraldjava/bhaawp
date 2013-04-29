@@ -149,10 +149,41 @@ call updateLeagueData(2659);
 
 INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
 select
-2492,"I",runner,standard,racesComplete,ROUND(pointsTotal,1),'A',1
+2659,"I",runner,standard,racesComplete,ROUND(pointsTotal,1),'A',1
 from wp_bhaa_leaguerunnerdata
 where runner=7649
 
+DELETE FROM wp_bhaa_leaguesummary WHERE league=2659;
+SELECT * FROM wp_bhaa_leaguesummary WHERE league=2659;
+
+INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
+  SELECT
+  le.id,
+  'I',
+  rr.runner,
+  ROUND(AVG(rr.standard),0),
+  COUNT(rr.race),
+  ROUND(getLeaguePointsTotal(le.id,rr.runner),1) as leaguepoints,
+  'A',
+  1
+  FROM wp_bhaa_raceresult rr
+  inner join wp_posts r ON rr.race = r.id
+  inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
+  inner join wp_posts e ON e2r.p2p_from = e.id
+  inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
+  inner JOIN wp_posts le ON l2e.p2p_from = le.id
+  inner JOIN wp_users ru ON rr.runner = ru.id
+  JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key = 'bhaa_runner_status')
+  JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
+  WHERE le.id=2659 AND class='RAN' AND standard.meta_value IS NOT NULL AND status.meta_value='M'
+  GROUP BY le.id,rr.runner
+  HAVING COALESCE(leaguepoints, 0) > 0;
+  
+update wp_bhaa_leaguesummary 
+	JOIN wp_usermeta gender ON (gender.user_id=wp_bhaa_leaguesummary.leagueparticipant AND gender.meta_key = 'bhaa_runner_gender')
+	JOIN wp_bhaa_division d ON ((wp_bhaa_leaguesummary.leaguestandard BETWEEN d.min AND d.max) AND d.type='I' and d.gender=gender.meta_value)
+	set wp_bhaa_leaguesummary.leaguedivision=d.code
+	where league=2659;
 
 update wp_bhaa_leaguesummary
 join wp_bhaa_leaguerunnerdata on (wp_bhaa_leaguerunnerdata.league=wp_bhaa_leaguesummary.league and wp_bhaa_leaguerunnerdata.runner=wp_bhaa_leaguesummary.leagueparticipant)
@@ -205,7 +236,7 @@ FROM wp_bhaa_leaguesummary
 left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
 WHERE leaguetype = "I"
 AND leagueposition <= 10 
-AND league = 2492
+AND league = 2659
 order by league, leaguedivision desc, leaguepoints desc
 
 SELECT leaguedivision, leagueposition,wp_users.display_name,wp_users.user_email,
@@ -217,7 +248,7 @@ left JOIN wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_k
 left JOIN wp_usermeta mobile ON (mobile.user_id=wp_users.id AND mobile.meta_key = 'bhaa_runner_mobilephone')
 WHERE leaguetype = "I"
 AND leagueposition <= 10 
-AND league = 2492
+AND league = 2659
 order by league, leaguedivision asc, leaguepoints desc
 
 --brian maher ran 4miles in 19.06, i was checking the sp since the table sats std 30
