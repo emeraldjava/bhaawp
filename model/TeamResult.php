@@ -106,7 +106,7 @@ class TeamResult extends BaseModel
 				// start table
 				$table .= $this->generateRow('<b>'.$row->position.' '.$row->teamname.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
 				// add first row
-				$table .= $this->generateRow('<i>Runner</i>','<i>Race Time</i>','<i>Company</i>',$row->totalpos,$row->totalstd);
+				$table .= $this->generateRow('<i>Athlete</i>','<i>Race Time</i>','<i>Company</i>',$row->totalpos,$row->totalstd);
 			}
 			
 			$table .= $this->generateRow($row->display_name,$row->racetime,$row->companyname,$row->pos,$row->std);
@@ -128,6 +128,7 @@ class TeamResult extends BaseModel
 	public function generateRow($name='',$time='',$company='',$position='',$standard='',$style='')
 	{
 		return sprintf('<tr class="%s">
+			<td>%s</td>
 			<td>%s</td>
 			<td>%s</td>
 			<td>%s</td>
