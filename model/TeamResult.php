@@ -104,12 +104,14 @@ class TeamResult extends BaseModel
 			{
 				$position = $row->position;
 				// start table
-				$table .= $this->generateRow('<b>'.$row->class.'-'.$row->position.' '.$row->teamname.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
+				$house_url = sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$row->team,$row->teamname);
+				$table .= $this->generateRow('<b>'.$row->class.'-'.$row->position.' '.$house_url.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
 				// add first row
 				$table .= $this->generateRow('<b>Athlete</b>','<b>Race Time</b>','<b>Company</b>','<b>'.$row->totalpos.'<b>','<b>'.$row->totalstd.'<b>');
 			}
 			
-			$table .= $this->generateRow($row->display_name,$row->racetime,$row->companyname,$row->pos,$row->std);
+			$runner_url = sprintf('<a href="/runner/?id=%s"><b>%s</b></a>',$row->runner,$row->display_name);
+			$table .= $this->generateRow($runner_url,$row->racetime,$row->companyname,$row->pos,$row->std);
 			$count++;
 			if($count==3)
 			{
