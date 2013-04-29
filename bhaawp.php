@@ -151,8 +151,8 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
  		// register ajax methods 
  		//add_action('wp_ajax_nopriv_bhaawp_house_search',array($this,'bhaawp_house_search'));
 		//add_action('wp_ajax_bhaawp_house_search',array($this,'bhaawp_house_search'));
-		//add_action('wp_ajax_nopriv_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
-		//add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
+		add_action('wp_ajax_nopriv_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
+		add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
 		
 		// http://stackoverflow.com/questions/8849684/wordpress-jquery-ui-css-files
  		// css style 
