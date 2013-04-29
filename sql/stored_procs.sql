@@ -39,6 +39,8 @@ FROM
 (
 SELECT Standard, SEC_TO_TIME((((wp_bhaa_standard.slopefactor)*(_distanceKm-1)) + wp_bhaa_standard.oneKmTimeInSecs) * _distanceKm) as Expected
 FROM wp_bhaa_standard
+WHERE Standard <> 1
+UNION ALL SELECT 1 AS Standard , SEC_TO_TIME(1) AS Expected
 ) S
 WHERE S.Expected <= _raceTime
 ORDER BY S.Standard DESC LIMIT 1
