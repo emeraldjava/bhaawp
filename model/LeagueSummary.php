@@ -113,7 +113,8 @@ class LeagueSummary extends BaseModel implements Table
 	
 	function updateLeagueData()
 	{
-		$this->wpdb->query($this->wpdb->prepare('call updateLeagueData(%d)',$this->post_id));
+		$res = $this->wpdb->query($this->wpdb->prepare('call updateLeagueData(%d)',$this->leagueid));
+		error_log("updateLeagueData(".$this->leagueid.')-->'.$res);
 	}
 		
 	function updateLeagueSummaryByDivision($division='L1')
