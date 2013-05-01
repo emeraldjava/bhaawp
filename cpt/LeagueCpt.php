@@ -145,6 +145,7 @@ class LeagueCpt
 	        'query_var' => true,
 	        'can_export' => true,
 	        'rewrite' => true,
+			'has_archive' => true,
 	        'capability_type' => 'post'
 	        );
 		register_post_type('league', $leagueArgs );
