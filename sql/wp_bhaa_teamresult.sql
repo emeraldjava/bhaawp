@@ -20,7 +20,16 @@ CREATE TABLE IF NOT EXISTS wp_bhaa_teamresult (
 	racetime time,
 	company int(11),
 	companyname varchar(20),
-	leaguepoints int(11) NOT NULL,
+	leaguepoints double(11) NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+ALTER TABLE wp_bhaa_teamresult MODIFY COLUMN leaguepoints double;
+
+select * from wp_bhaa_teamresult 
+select class, position, team, leaguepoints, (6.5-(position*.5)) from wp_bhaa_teamresult 
+where race=2598
+and class="A" order by position asc
+
+update wp_bhaa_teamresult
+set leaguepoints=(6.5-(position*.5))
