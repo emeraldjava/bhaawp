@@ -28,7 +28,7 @@ class TeamResult extends BaseModel
 	 */
 	public function addResult($row)
 	{
-		//error_log(var_dump($row));
+		//error_log($row[0].'->'.( 6.5-(((int)$row[0])*.5) ) );
 		//$this->wpdb->show_errors();
 		$res = $this->wpdb->insert(
 				$this->getName(),
@@ -45,7 +45,9 @@ class TeamResult extends BaseModel
 					'std'=>$row[17],
 					'racetime'=>$row[16],
 					'company'=>$row[20],
-					'companyname'=>$row[14])
+					'companyname'=>$row[14],
+					'leaguepoints'=> (6.5-( ((int)$row[0]) *.5))
+				)
 		);
 		//$this->wpdb->print_error();
 		//$this->wpdb->hide_errors();
