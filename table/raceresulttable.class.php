@@ -115,9 +115,11 @@ class RaceResultTable extends WP_List_Table
  		
  		$page = get_page_by_title('runner');
  		$permalink = get_permalink( $page );
- 		return sprintf('<a href="%s"><b>%s</b></a>',
+ 		return sprintf('<a r="%d" href="%s"><b>%s</b></a>',
+			$item['runner'],
 			add_query_arg( array ( 'user_nicename'=>$item['user_nicename']),$permalink ),
- 			$item['display_name']);
+ 			$item['display_name']
+ 			);
  		//return sprintf('<a href="/?page_id=%d&name=%s">%s</a>',$page->ID,$item['user_nicename'],$item['display_name']);
  	}
  	
@@ -149,7 +151,7 @@ class RaceResultTable extends WP_List_Table
 			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
-			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=370 ORDER BY '.$orderby.' '. $order;
+			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=470 ORDER BY '.$orderby.' '. $order;
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
 		//error_log($query);	
 		
