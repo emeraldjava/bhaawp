@@ -27,9 +27,74 @@ CREATE TABLE IF NOT EXISTS wp_bhaa_teamresult (
 ALTER TABLE wp_bhaa_teamresult MODIFY COLUMN leaguepoints double;
 
 select * from wp_bhaa_teamresult 
-select class, position, team, leaguepoints, (6.5-(position*.5)) from wp_bhaa_teamresult 
 where race=2598
 and class="A" order by position asc
 
 update wp_bhaa_teamresult
 set leaguepoints=(6.5-(position*.5))
+
+-- 2806
+SELECT
+t1.league,
+t1.leaguetype,
+t1.leagueparticipant,
+t1.leaguestandard as leaguestandard,
+'W' AS leaguedivision,
+@rownum:=@rownum+1 AS leagueposition,
+t1.previousleagueposition,
+t1.leaguescorecount,
+t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='OW') as leaguepoints
+FROM
+(
+SELECT
+2806 AS league,
+'T' AS leaguetype,
+l.team AS leagueparticipant,
+0 AS leaguestandard,
+0 AS leaguedivision,
+0 AS previousleagueposition,
+SUM(l.leaguescorecount) AS leaguescorecount,
+SUM(l.leaguepoints) AS leaguepoints
+FROM
+(
+SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS
+leaguepoints
+FROM wp_bhaa_teamresult trr
+WHERE class  in ('W','OW')
+GROUP BY team,race
+) l
+GROUP BY l.team
+ORDER BY leaguepoints DESC
+)t1, (SELECT @rownum:=0) t2;
+
+-- mens team league
+SELECT
+t1.league,
+t1.leaguetype,
+t1.leagueparticipant,
+t1.leaguestandard as leaguestandard,
+'M' AS leaguedivision,
+@rownum:=@rownum+1 AS leagueposition,
+t1.leaguescorecount,
+t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='O') as leaguepoints
+FROM
+(
+SELECT
+2806 AS league,
+'T' AS leaguetype,
+l.team AS leagueparticipant,
+0 AS leaguestandard,
+0 AS leaguedivision,
+SUM(l.leaguescorecount) AS leaguescorecount,
+SUM(l.leaguepoints) AS leaguepoints
+FROM
+(
+SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS
+leaguepoints
+FROM wp_bhaa_teamresult trr
+WHERE class <> 'W' and class <> 'OW'
+GROUP BY team,race
+) l
+GROUP BY l.team
+ORDER BY leaguepoints DESC
+)t1, (SELECT @rownum:=0) t2;
