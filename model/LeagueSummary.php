@@ -11,6 +11,11 @@ class LeagueSummary extends BaseModel implements Table
 		$this->type = get_post_meta($this->leagueid,LeagueCpt::BHAA_LEAGUE_TYPE,true);
 	}
 	
+	function getType()
+	{
+		return $this->type;
+	}
+	
 	function getName()
 	{
 		return $this->wpdb->prefix.'bhaa_leaguesummary';
