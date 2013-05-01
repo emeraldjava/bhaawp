@@ -32,7 +32,7 @@ class Connection
 				'name' => Connection::LEAGUE_TO_EVENT,
 				'from' => 'league',
 				'to' => 'event',
-				'cardinality' => 'one-to-many'
+				'cardinality' => 'many-to-many'
 		));
 		p2p_register_connection_type( array(
 				'name' => Connection::HOUSE_TO_RUNNER,
