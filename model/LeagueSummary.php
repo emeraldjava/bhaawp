@@ -2,11 +2,13 @@
 class LeagueSummary extends BaseModel implements Table
 {
 	private $leagueid;
+	private $type;
 	
 	function __construct($leagueid)
 	{
 		parent::__construct();
 		$this->leagueid=$leagueid;
+		$this->type = get_post_meta($this->leagueid,LeagueCpt::BHAA_LEAGUE_TYPE,true);
 	}
 	
 	function getName()
@@ -29,11 +31,23 @@ class LeagueSummary extends BaseModel implements Table
 			PRIMARY KEY (leaguetype, league, leagueparticipant, leaguedivision) USING BTREE";
 	}
 	
-	function getDivisions($type='I')
+	function getDivisions()
 	{
-		$SQL = $this->wpdb->prepare("select * from wp_bhaa_division where type=%s",$type);
-		error_log($SQL);
-		return $this->wpdb->get_results($SQL,OBJECT);
+		//$type = get_post_meta($this->leagueid,LeagueCpt::BHAA_LEAGUE_TYPE,true);
+		//error_log('getDivisions() '.$type);
+		if($this->type == 'I')
+		{
+			$SQL = $this->wpdb->prepare("select * from wp_bhaa_division where type=%s",$this->type);
+ 			//error_log($SQL);
+			return $this->wpdb->get_results($SQL,OBJECT);
+		}
+		else
+		{
+			$SQL = $this->wpdb->prepare("select * from wp_bhaa_division where ID in (9,13)");
+			//error_log($SQL);
+			return $this->wpdb->get_results($SQL,OBJECT);
+			//return array('M','W');
+		}
 	}
 
 	function getLeagueRaces($type='')
@@ -74,16 +88,27 @@ class LeagueSummary extends BaseModel implements Table
 	function getLeagueSummaryByDivision($limit=10)
 	{
 		global $wpdb;
-		$query = $wpdb->prepare('
-			SELECT *,wp_users.display_name
-			FROM wp_bhaa_leaguesummary
-			left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
-			WHERE leaguetype = "I"
-			AND leagueposition <= %d
-			AND leaguedivision != "NA"
-			AND league = %d
-			order by league, leaguedivision, leagueposition',$limit,$this->leagueid);
-		error_log($query);
+		if($this->type=='I')
+		{
+			$query = $wpdb->prepare('SELECT *,wp_users.display_name as display_name
+				FROM wp_bhaa_leaguesummary
+				join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
+				WHERE league = %d
+				AND leagueposition <= %d
+				AND leaguetype = %s
+				order by league, leaguedivision, leagueposition',$this->leagueid,$limit,$this->type);
+		}
+		else
+		{
+			$query = $wpdb->prepare('SELECT *,wp_posts.post_title as display_name
+				FROM wp_bhaa_leaguesummary
+				left join wp_posts on (wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant and wp_posts.post_type="house")
+				WHERE league = %d
+				AND leagueposition <= %d
+				AND leaguetype = %s
+				order by league, leaguedivision, leagueposition',$this->leagueid,$limit,$this->type);
+		}
+		//error_log($query);
 		return $wpdb->get_results($query);
 	}
 	
