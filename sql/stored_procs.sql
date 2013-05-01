@@ -484,6 +484,46 @@ GROUP BY l.team
 ORDER BY leaguepoints DESC
 )t1, (SELECT @rownum:=0) t2;
 
+INSERT INTO wp_bhaa_leaguesummary(
+	league,
+	leaguetype,
+	leagueparticipant,
+	leaguestandard,
+	leaguedivision,
+	leagueposition,
+	leaguescorecount,
+	leaguepoints)
+SELECT
+t1.league,
+t1.leaguetype,
+t1.leagueparticipant,
+t1.leaguestandard as leaguestandard,
+'M' AS leaguedivision,
+@rownum:=@rownum+1 AS leagueposition,
+t1.leaguescorecount,
+t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='O') as leaguepoints
+FROM
+(
+SELECT
+_leagueId AS league,
+'T' AS leaguetype,
+l.team AS leagueparticipant,
+0 AS leaguestandard,
+0 AS leaguedivision,
+SUM(l.leaguescorecount) AS leaguescorecount,
+SUM(l.leaguepoints) AS leaguepoints
+FROM
+(
+SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS
+leaguepoints
+FROM wp_bhaa_teamresult trr
+WHERE class <> 'W' and class <> 'OW'
+GROUP BY team,race
+) l
+GROUP BY l.team
+ORDER BY leaguepoints DESC
+)t1, (SELECT @rownum:=0) t2;
+
 END$$
 
 DELIMITER ;
