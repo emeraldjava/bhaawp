@@ -116,6 +116,12 @@ class Registration
 						else
 							$output =  stripslashes($output.$value.",");
 						break;
+					case "gender":
+						if($value=="W")
+							$output =  stripslashes($output."F,");
+						else
+							$output =  stripslashes($output.$value.",");
+						break;
 					case "teamid":
 						if($value=="0")
 							$output =  stripslashes($output.",");
