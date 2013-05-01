@@ -30,8 +30,12 @@ select * from wp_bhaa_teamresult
 where race=2598
 and class="A" order by position asc
 
-update wp_bhaa_teamresult
-set leaguepoints=(6.5-(position*.5))
+select * from wp_bhaa_teamresult where team=0;
+delete from wp_bhaa_teamresult where team=0;
+
+-- update the team league points
+update wp_bhaa_teamresult set leaguepoints=(7-(position))
+update wp_bhaa_teamresult set leaguepoints=1 where leaguepoints<=0
 
 -- 2806
 SELECT

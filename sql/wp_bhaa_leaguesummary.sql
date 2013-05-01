@@ -279,3 +279,23 @@ SELECT
   JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
   WHERE le.id=2492 AND class='RAN' AND standard.meta_value IS NOT NULL AND status.meta_value='M' and rr.runner=7713
   
+select * from wp_bhaa_leaguesummary 
+where league = 2806
+and class="A" order by position asc
+  
+delete from wp_bhaa_leaguesummary where leagueparticipant=0;
+
+SELECT *,wp_posts.post_title as display_name
+FROM wp_bhaa_leaguesummary
+left join wp_posts wp_posts on (wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant and wp_posts.post_type="house")
+WHERE league = 2806
+AND leagueposition <= 10
+AND leaguetype = 'T'
+order by league, leaguedivision, leagueposition 
+
+SELECT * FROM wp_bhaa_leaguesummary
+left join wp_posts on (wp_bhaa_leaguesummary.leagueparticipant=wp_posts.ID and wp_posts.post_type="house")
+WHERE league = 2806
+AND leagueposition <= 3
+AND leaguetype = 'T'
+order by league, leaguedivision, leagueposition

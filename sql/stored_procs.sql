@@ -442,6 +442,9 @@ DROP PROCEDURE IF EXISTS `updateTeamLeagueSummary`$$
 CREATE PROCEDURE `updateTeamLeagueSummary`(_leagueId  INT)
 BEGIN
 
+update wp_bhaa_teamresult set leaguepoints=(7-(position));
+update wp_bhaa_teamresult set leaguepoints=1 where leaguepoints<=0;
+
 DELETE FROM wp_bhaa_leaguesummary WHERE leagueType='T' and league = _leagueId;
 
 INSERT INTO wp_bhaa_leaguesummary(
