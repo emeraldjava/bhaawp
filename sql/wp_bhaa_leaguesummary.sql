@@ -267,9 +267,7 @@ SELECT
   COUNT(rr.race) as racesComplete,
   getLeaguePointsTotal(le.id, rr.runner) as pointsTotal,
   AVG(rr.position) as averageOverallPosition,
-  GROUP_CONCAT( rr.leaguepoints ) as sum,
-  GROUP_CONCAT( e.post_title) as sum2,
-  GROUP_CONCAT( cast( concat(e.ID, ':', rr.leaguepoints ) AS char ) SEPARATOR ',') AS ranks,
+  GROUP_CONCAT( cast( concat('[e=',e.ID,':p=',rr.leaguepoints,']') AS char ) SEPARATOR ',') AS ranks,
   ROUND(AVG(rr.standard),0) as standard
   FROM wp_bhaa_raceresult rr
   inner join wp_posts r ON rr.race = r.id
