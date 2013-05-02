@@ -262,23 +262,23 @@ select getStandard('00:19:06',6.411);
 
 
 SELECT
-  le.id,
-  rr.runner,
-  COUNT(rr.race) as racesComplete,
-  getLeaguePointsTotal(le.id, rr.runner) as pointsTotal,
-  AVG(rr.position) as averageOverallPosition,
-  GROUP_CONCAT( cast( concat('[e=',e.ID,':p=',rr.leaguepoints,']') AS char ) SEPARATOR ',') AS ranks,
-  ROUND(AVG(rr.standard),0) as standard
-  FROM wp_bhaa_raceresult rr
-  inner join wp_posts r ON rr.race = r.id
-  inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
-  inner join wp_posts e ON e2r.p2p_from = e.id
-  inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
-  inner JOIN wp_posts le ON l2e.p2p_from = le.id
-  inner JOIN wp_users ru ON rr.runner = ru.id
-  JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key = 'bhaa_runner_status')
-  JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
-  WHERE le.id=2492 AND class='RAN' AND standard.meta_value IS NOT NULL AND status.meta_value='M' and rr.runner=7713
+le.id,
+rr.runner,
+COUNT(rr.race) as racesComplete,
+getLeaguePointsTotal(le.id, rr.runner) as pointsTotal,
+AVG(rr.position) as averageOverallPosition,
+GROUP_CONCAT( cast( concat('[e=',e.ID,':p=',rr.leaguepoints,']') AS char ) SEPARATOR ',') AS summary,
+ROUND(AVG(rr.standard),0) as standard
+FROM wp_bhaa_raceresult rr
+inner join wp_posts r ON rr.race = r.id
+inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
+inner join wp_posts e ON e2r.p2p_from = e.id
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
+inner JOIN wp_posts le ON l2e.p2p_from = le.id
+inner JOIN wp_users ru ON rr.runner = ru.id
+JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key = 'bhaa_runner_status')
+JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
+WHERE le.id=2492 AND class='RAN' AND standard.meta_value IS NOT NULL AND status.meta_value='M' and rr.runner=7713;
   
 select * from wp_bhaa_leaguesummary 
 where league = 2806

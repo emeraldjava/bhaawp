@@ -37,7 +37,7 @@ delete from wp_bhaa_teamresult where team=0;
 update wp_bhaa_teamresult set leaguepoints=(7-(position))
 update wp_bhaa_teamresult set leaguepoints=1 where leaguepoints<=0
 
--- 2806
+-- 2811
 SELECT
 t1.league,
 t1.leaguetype,
@@ -52,7 +52,7 @@ t1.leaguesummary AS leaguesummary
 FROM
 (
 SELECT
-2806 AS league,
+2811 AS league,
 'T' AS leaguetype,
 l.team AS leagueparticipant,
 0 AS leaguestandard,
@@ -87,7 +87,7 @@ t1.leaguesummary AS leaguesummary
 FROM
 (
 SELECT
-2806 AS league,
+2811 AS league,
 'T' AS leaguetype,
 l.team AS leagueparticipant,
 0 AS leaguestandard,

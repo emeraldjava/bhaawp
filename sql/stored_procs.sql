@@ -354,7 +354,8 @@ BEGIN
 	-- should/can we use a temp table here?
 	DELETE FROM wp_bhaa_leaguesummary WHERE league=_leagueId;
 
-	INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,leaguedivision,leagueposition)
+INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,
+leaguedivision,leagueposition,leaguesummary)
   SELECT
   le.id,
   'I',
@@ -363,7 +364,8 @@ BEGIN
   COUNT(rr.race),
   ROUND(getLeaguePointsTotal(le.id,rr.runner),1) as leaguepoints,
   'A',
-  1
+  1,
+  GROUP_CONCAT( cast( concat(e.ID,':',rr.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
   FROM wp_bhaa_raceresult rr
   inner join wp_posts r ON rr.race = r.id
   inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
@@ -455,7 +457,8 @@ INSERT INTO wp_bhaa_leaguesummary(
 	leaguedivision,
 	leagueposition,
 	leaguescorecount,
-	leaguepoints)
+	leaguepoints,
+	leaguesummary)
 SELECT
 t1.league,
 t1.leaguetype,
@@ -464,7 +467,8 @@ t1.leaguestandard as leaguestandard,
 'W' AS leaguedivision,
 @rownum:=@rownum+1 AS leagueposition,
 t1.leaguescorecount,
-t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='OW') as leaguepoints
+t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='OW') as leaguepoints,
+t1.leaguesummary AS leaguesummary
 FROM
 (
 SELECT
@@ -474,12 +478,13 @@ l.team AS leagueparticipant,
 0 AS leaguestandard,
 0 AS leaguedivision,
 SUM(l.leaguescorecount) AS leaguescorecount,
-SUM(l.leaguepoints) AS leaguepoints
+SUM(l.leaguepoints) AS leaguepoints,
+GROUP_CONCAT( cast( concat(l.event,':',l.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
 FROM
 (
-SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS
-leaguepoints
+SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
 FROM wp_bhaa_teamresult trr
+join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
 WHERE class  in ('W','OW')
 GROUP BY team,race
 ) l
@@ -495,7 +500,8 @@ INSERT INTO wp_bhaa_leaguesummary(
 	leaguedivision,
 	leagueposition,
 	leaguescorecount,
-	leaguepoints)
+	leaguepoints,
+	leaguesummary)
 SELECT
 t1.league,
 t1.leaguetype,
@@ -504,7 +510,8 @@ t1.leaguestandard as leaguestandard,
 'M' AS leaguedivision,
 @rownum:=@rownum+1 AS leagueposition,
 t1.leaguescorecount,
-t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='O') as leaguepoints
+t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='O') as leaguepoints,
+t1.leaguesummary AS leaguesummary
 FROM
 (
 SELECT
@@ -514,12 +521,13 @@ l.team AS leagueparticipant,
 0 AS leaguestandard,
 0 AS leaguedivision,
 SUM(l.leaguescorecount) AS leaguescorecount,
-SUM(l.leaguepoints) AS leaguepoints
+SUM(l.leaguepoints) AS leaguepoints,
+GROUP_CONCAT( cast( concat(l.event,':',l.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
 FROM
 (
-SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS
-leaguepoints
+SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
 FROM wp_bhaa_teamresult trr
+join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
 WHERE class <> 'W' and class <> 'OW'
 GROUP BY team,race
 ) l
