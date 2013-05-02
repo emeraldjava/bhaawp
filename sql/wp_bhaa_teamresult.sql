@@ -47,7 +47,8 @@ t1.leaguestandard as leaguestandard,
 @rownum:=@rownum+1 AS leagueposition,
 t1.previousleagueposition,
 t1.leaguescorecount,
-t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='OW') as leaguepoints
+t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='OW') as leaguepoints,
+t1.leaguesummary AS leaguesummary
 FROM
 (
 SELECT
@@ -58,12 +59,13 @@ l.team AS leagueparticipant,
 0 AS leaguedivision,
 0 AS previousleagueposition,
 SUM(l.leaguescorecount) AS leaguescorecount,
-SUM(l.leaguepoints) AS leaguepoints
+SUM(l.leaguepoints) AS leaguepoints,
+GROUP_CONCAT( cast( concat(l.event,':',l.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
 FROM
 (
-SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS
-leaguepoints
+SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
 FROM wp_bhaa_teamresult trr
+join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
 WHERE class  in ('W','OW')
 GROUP BY team,race
 ) l
@@ -80,7 +82,8 @@ t1.leaguestandard as leaguestandard,
 'M' AS leaguedivision,
 @rownum:=@rownum+1 AS leagueposition,
 t1.leaguescorecount,
-t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='O') as leaguepoints
+t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='O') as leaguepoints,
+t1.leaguesummary AS leaguesummary
 FROM
 (
 SELECT
@@ -90,12 +93,13 @@ l.team AS leagueparticipant,
 0 AS leaguestandard,
 0 AS leaguedivision,
 SUM(l.leaguescorecount) AS leaguescorecount,
-SUM(l.leaguepoints) AS leaguepoints
+SUM(l.leaguepoints) AS leaguepoints,
+GROUP_CONCAT( cast( concat(l.event,':',l.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
 FROM
 (
-SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS
-leaguepoints
+SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
 FROM wp_bhaa_teamresult trr
+join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=race)
 WHERE class <> 'W' and class <> 'OW'
 GROUP BY team,race
 ) l
