@@ -149,11 +149,28 @@ class Runner
 		return str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
 	}
 	
-	public function createNewUser($firstname,$surname,$email,$gender,$dateofbirth)
+	/**
+	 * Does runner exist
+	 * @param unknown $id
+	 * @return Ambigous <mixed, NULL, multitype:>
+	 */
+	public function runnerExists($id)
+	{
+		global $wpdb;
+		return $wpdb->get_var($wpdb->prepare('select count(id) as isrunner from wp_users where id=%d',$id));
+	}
+	
+	public function createNewUser($firstname,$surname,$email,$gender,$dateofbirth,$runner_id=NULL)
 	{
 		require_once( ABSPATH . 'wp-includes/user.php' );
-		$id = $this->getNextRunnerId();
-		error_log('createNewUser next id '.$id);
+		
+		if($runner_id == '' || $runner_id == NULL) {
+			$id = $this->getNextRunnerId();
+			error_log('create new user with next id '.$id);
+		} else {
+			$id=$runner_id;
+			error_log('import user '.$runner_id.' with id '.$id);
+		}
 		
 		// format the username
 		$username = $firstname.'.'.$surname;
@@ -162,13 +179,15 @@ class Runner
 		
 		// check for a unique username
 		$user_id = username_exists($username);
-		if(!user_id)
-		{
+		if(!user_id) {
 			$username = $username.$id;
 		}
 		
-		if($email='')
-			$email = $username.'@bhaa.ie';
+		if($email=='')
+			$email = 'x'.$username.'@bhaa.ie';
+		
+		if($gender!='M')
+			$gender='W';
 		
 		$password =  wp_hash_password($id);
 
@@ -192,7 +211,7 @@ class Runner
 		update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $dateofbirth);
 		update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, date('Y-m-d'));
 		update_user_meta( $id, Runner::BHAA_RUNNER_STATUS,'D');
-		
+		update_user_meta( $id, Runner::BHAA_RUNNER_MOBILEPHONE,'0123456789');
 		return $id;
 	}
 	
@@ -210,8 +229,9 @@ class Runner
 					user_nicename,
 					user_email,
 					user_status,
-					display_name)
-					VALUES (%d,%s,%s,%s,%s,%d,%s)",
+					display_name,
+					user_registered)
+					VALUES (%d,%s,%s,%s,%s,%d,%s,NOW())",
 					$id,$name,$password,$name,$email,0,$name);
 		}
 		else
@@ -223,8 +243,9 @@ class Runner
 					user_pass,
 					user_nicename,
 					user_status,
-					display_name)
-					VALUES (%d,%s,%s,%s,%s,%s)",
+					display_name,
+					user_registered)
+					VALUES (%d,%s,%s,%s,%s,%s,NOW())",
 					$id,$name,$password,$name,0,$name);
 		}
 		$wpdb->query($sql);

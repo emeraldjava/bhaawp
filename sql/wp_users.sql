@@ -256,3 +256,12 @@ select * FROM wp_usermeta
     )
 
 SELECT * FROM wp_usermeta where wp_usermeta.meta_key='bhaa_runner_status' and wp_usermeta.user_id=23265
+
+SELECT count(umeta_id) FROM wp_usermeta where wp_usermeta.meta_key='bhaa_runner_status';
+SELECT count(umeta_id), count(distinct(user_id)) FROM wp_usermeta where wp_usermeta.meta_key='bhaa_runner_status';
+
+delete from wp_users where id=23534
+select * from wp_users where id=23534
+select count(id) as isrunner from wp_users where id=23527
+select count(id) from wp_users where id=7713
+select count(id) from wp_users where id=''

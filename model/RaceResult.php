@@ -155,47 +155,29 @@ class RaceResult extends BaseModel implements Table
 	 */
 	public function addRaceResult($details)
 	{
-		
 		$runner_id = trim($details[2]);
-		$dateofbirth = date("Y-m-d", strtotime($details[8]));
-		error_log('addRaceResult position '.$details[0].' number '.$details[1].' dob '.$dateofbirth);
+		$dateofbirth = date("Y-m-d", strtotime(str_replace('/','-',$details[8])));
 		
-		if($runner_id=='')
+		// create runner
+		$runner = new Runner();
+		$exists = $runner->runnerExists($runner_id);
+		error_log('addRaceResult position '.$details[0].' number '.$details[1].', dob '.$dateofbirth.', runner '.$runner_id.', exists '.$exists.'.');
+		
+		if(!$exists)
 		{
-			// lookup create runner
-			$runner = new Runner();
-			
-// 			$SQL = $this->wpdb->prepare("select wp_em_bookings.person_id as id from wp_em_bookings
-// join wp_users on wp_users.id=wp_em_bookings.person_id
-// join wp_usermeta fn on (wp_em_bookings.person_id=fn.user_id and fn.meta_key='first_name')
-// join wp_usermeta ln on (wp_em_bookings.person_id=ln.user_id and ln.meta_key='last_name')
-// where wp_em_bookings.event_id=112 
-// and fn.meta_value=%s and ln.meta_value=%s",$details[5],$details[4]);
-// 			//error_log($SQL);
-			
-// 			$id = $this->wpdb->get_var($SQL);
-// 			if(isset($id))
-// 			{
-// 				error_log("matched kclub pre-reg runner ".' '.$details[5].' '.$details[4].' '.$runner_id);
-// 				$runner_id=$id;
-// 			}
-// 			else 
-			//if($runner_id == '')
+			//$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
+			//if($match!=0)
 			//{
-				$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
-				if($match!=0)
-				{
-					$runner_id = $match;
-					error_log('matched existing runner '.' '.$details[5].' '.$details[4].' '.$runner_id);
-				}
-				else
-				{
-					error_log("create new user ".' '.$details[5].' '.$details[4]);
-					$runner_id = $runner->createNewUser($details[5], $details[4],'',$details[6],$dateofbirth);
-					if($details[11]=='')
-						update_user_meta( $runner_id, "bhaa_runner_company",1);
-					error_log('created new runner '.$runner_id);
-				}
+			//	$runner_id = $match;
+			//	error_log('matched existing runner '.' '.$details[5].' '.$details[4].' '.$runner_id);
+			//}
+			//else
+			//{
+				error_log('create new user with id "'.$runner_id.'" '.$details[5].' '.$details[4]);
+				$runner_id = $runner->createNewUser($details[5],$details[4],'',$details[6],$dateofbirth,$runner_id);
+				if($details[11]=='')
+					update_user_meta( $runner_id, "bhaa_runner_company",1);
+				error_log('created new runner '.$runner_id);
 			//}
 		}
 		else 
