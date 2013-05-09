@@ -9,12 +9,11 @@ delete from wp_bhaa_raceresult where position IS NULL
 update wp_bhaa_raceresult set runner=5253 where position=8 and race=2597;
 -- 21 position?
 
-2597
-
-SELECT wp_bhaa_raceresult.position,runner,racenumber,wp_bhaa_raceresult.id,wp_bhaa_raceresult.racetime,
+SELECT wp_bhaa_raceresult.position,racenumber,wp_bhaa_raceresult.runner,wp_bhaa_raceresult.racetime,
 firstname.meta_value as firstname,lastname.meta_value as lastname,
-gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,
-status.meta_value as status,standard,
+CASE WHEN gender.meta_value='W' THEN 'F' ELSE 'M' END as gender,dateofbirth.meta_value as dateofbirth,
+standard,
+'age' as age,
 house.id as company, 
 CASE WHEN house.post_title IS NULL THEN companyname.post_title ELSE house.post_title END as companyname,
 CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
