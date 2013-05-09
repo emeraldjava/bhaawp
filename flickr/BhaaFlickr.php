@@ -5,6 +5,7 @@ class BhaaFlickr
 	
 	function __construct()
 	{
+		error_log('bhaa_flickr_api_key '.get_option('bhaa_flickr_api_key'));
 		$this->phpFlickr = new phpFlickr(get_option('bhaa_flickr_api_key'));
 		//$this->phpFlickr->enableCache("db","mysql://root:root@localhost/bhaaie_wp");
 	}
@@ -38,8 +39,8 @@ class BhaaFlickr
 		// bhaa 34896940@N06/sets/72157631769511635/ teachers2012
 		// 72157632557211817 - eircom2013
 				
-		//$person = $this->phpFlickr->people_findByUsername('34896940@N06');
-		 $person = $this->phpFlickr->people_findByUsername('bhaa');//eoinfegan');//get_option('bhaa_flickr_username'));
+		$person = $this->phpFlickr->people_findByUsername('34896940@N06');
+		//$person = $this->phpFlickr->people_findByUsername('bhaa');//eoinfegan');//get_option('bhaa_flickr_username'));
 		// $person = $this->phpFlickr->people_findByUsername('tomhealy');//eoinfegan');//get_option('bhaa_flickr_username'));
 		var_dump($person);
 
@@ -56,7 +57,7 @@ class BhaaFlickr
  ["isprimary"]=> string(1) "0" } [4]=> array(6) { ["id"]=> string(10) "8395707994" ["secret"]=> string(10) "d34e1e05d5" ["server"]=> string(4) "8214"
   ["farm"]=> float(9) ["title"]=> string(8) "_MG_3512" ["isprimary"]=> 
 		 */
-		$photos = $this->phpFlickr->photosets_getPhotos('72157632557211817');
+		//$photos = $this->phpFlickr->photosets_getPhotos('72157632557211817');
 		//var_dump($photos);
 		//var_dump( $this->phpFlickr->getErrorCode());
 		//var_dump( $this->phpFlickr->getErrorMsg());
@@ -66,7 +67,11 @@ class BhaaFlickr
 		//$photos_url = $this->phpFlickr->urls_getUserPhotos('50904170@N08');//$person['id']);
 		
 		// Get the user's first 36 public photos
-		// $photos = $this->phpFlickr->people_getPublicPhotos($person['id'], NULL, NULL, 136);
+		$photos = $this->phpFlickr->people_getPublicPhotos($person['id'], NULL, NULL, 136);
+		var_dump($photos);
+		var_dump( $this->phpFlickr->getErrorCode());
+		var_dump( $this->phpFlickr->getErrorMsg());
+		
 		
 		// http://www.flickr.com/photos/34896940@N06/8542579566/
 		// http://farm9.staticflickr.com/8520/8542579566_8849d72778_b_d.jpg
