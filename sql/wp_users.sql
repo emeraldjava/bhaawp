@@ -264,4 +264,18 @@ delete from wp_users where id=23534
 select * from wp_users where id=23534
 select count(id) as isrunner from wp_users where id=23527
 select count(id) from wp_users where id=7713
-select count(id) from wp_users where id=''
+select count(id) from wp_users where id=0
+
+-- orphaned runners
+select count(r.id)
+select r.id,r.display_name
+from wp_users r
+left join wp_bhaa_raceresult rr on r.id=rr.runner
+join wp_usermeta status ON (status.user_id=r.id AND status.meta_key = 'bhaa_runner_status')
+where status.meta_value='d' and rr.runner is null;
+
+delete r
+from wp_users r
+left join wp_bhaa_raceresult rr on r.id=rr.runner
+join wp_usermeta status ON (status.user_id=r.id AND status.meta_key = 'bhaa_runner_status')
+where status.meta_value='d' and rr.runner is null;
