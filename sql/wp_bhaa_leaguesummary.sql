@@ -300,3 +300,23 @@ WHERE league = 2806
 AND leagueposition <= 3
 AND leaguetype = 'T'
 order by league, leaguedivision, leagueposition
+
+-- summer league 2013
+update wp_bhaa_raceresult set standardscoringset=NULL,posinsss=NULL,leaguepoints=NULL 
+where race in (2595,2596,2597,2598,2600);
+
+call updateRaceScoringSets(2595);
+call updateRaceLeaguePoints(2595);
+call updateRaceScoringSets(2596);
+call updateRaceLeaguePoints(2596);
+
+call updateRaceScoringSets(2597);
+call updateRaceLeaguePoints(2597);
+
+call updateRaceScoringSets(2598);
+call updateRaceLeaguePoints(2598);
+
+call updateRaceScoringSets(2600);
+call updateRaceLeaguePoints(2600);
+
+call updateLeagueData(2659);

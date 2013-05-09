@@ -10,8 +10,10 @@ update wp_bhaa_raceresult set runner=5253 where position=8 and race=2597;
 -- 21 position?
 
 SELECT wp_bhaa_raceresult.position,racenumber,wp_bhaa_raceresult.runner,wp_bhaa_raceresult.racetime,
-firstname.meta_value as firstname,lastname.meta_value as lastname,
-CASE WHEN gender.meta_value='W' THEN 'F' ELSE 'M' END as gender,dateofbirth.meta_value as dateofbirth,
+lastname.meta_value as lastname,
+firstname.meta_value as firstname,
+CASE WHEN gender.meta_value='W' THEN 'F' ELSE 'M' END as gender,
+dateofbirth.meta_value as dateofbirth,
 standard,
 'age' as age,
 house.id as company, 
@@ -29,8 +31,17 @@ left join wp_usermeta firstname ON (firstname.user_id=wp_users.id AND firstname.
 left join wp_usermeta lastname ON (lastname.user_id=wp_users.id AND lastname.meta_key = 'last_name')
 left join wp_usermeta gender ON (gender.user_id=wp_users.id AND gender.meta_key = 'bhaa_runner_gender')
 left join wp_usermeta dateofbirth ON (dateofbirth.user_id=wp_users.id AND dateofbirth.meta_key = 'bhaa_runner_dateofbirth')
-left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key='bhaa_runner_status')
 left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
 left join wp_posts companyname on (companyname.id=company.meta_value and companyname.post_type='house')
 where wp_bhaa_raceresult.class="RAN" 
 AND wp_bhaa_raceresult.race=2597 order by wp_bhaa_raceresult.position
+
+update wp_bhaa_raceresult set standardscoringset=NULL,posinsss=NULL,leaguepoints=NULL where race=2597;
+select * from wp_bhaa_raceresult where race=2597
+order by standardscoringset desc,position asc;
+
+call updateRaceScoringSets(2597);
+call updateRaceLeaguePoints(2597);
+
+
+

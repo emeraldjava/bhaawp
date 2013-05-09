@@ -334,7 +334,7 @@ BEGIN
     insert into tmpPosInSet(runner,scoringset)  
         select runner,standardscoringset
         from wp_bhaa_raceresult
-        where race = _race and wp_bhaa_raceresult.standard IS NOT NULL
+        where race = _race and wp_bhaa_raceresult.standardscoringset IS NOT NULL
         order by position asc;
  
     update wp_bhaa_raceresult, tmpPosInSet
