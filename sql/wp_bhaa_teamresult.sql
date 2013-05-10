@@ -110,7 +110,7 @@ ORDER BY leaguepoints DESC
 
 -- migrate old team results
 select * from wp_bhaa_teamresult where race=2596
-select * from teamresult where race=1646
+select * from teamraceresult where race=201073
 
 select 
 race,
@@ -123,8 +123,7 @@ positiontotal as totalpos,
 standardtotal as totalstd,
 1 as runner,
 leaguepoints
-from teamresult where race=1646
-and team=161
+from teamraceresult where race=201073
 order by class, leaguepoints desc
 
 select the appropriate columns and then each runner in 3 unioned queries
