@@ -279,3 +279,48 @@ from wp_users r
 left join wp_bhaa_raceresult rr on r.id=rr.runner
 join wp_usermeta status ON (status.user_id=r.id AND status.meta_key = 'bhaa_runner_status')
 where status.meta_value='d' and rr.runner is null;
+
+-- fix duplicate status details
+SELECT user_id, count(umeta_id) as Total
+FROM wp_usermeta 
+WHERE wp_usermeta.meta_key='bhaa_runner_status'
+GROUP BY user_id
+HAVING count(umeta_id) > 1 limit 100;
+
+SELECT user_id, 
+MIN(umeta_id),
+MAX(umeta_id)
+FROM wp_usermeta 
+WHERE wp_usermeta.meta_key='bhaa_runner_status'
+GROUP BY user_id
+HAVING count(umeta_id) > 1 limit 10;
+
+CREATE TABLE IF NOT EXISTS tmp_status(
+        user_id int,
+        umeta_min int,
+        umeta_max int,
+        umeta_min_val VARCHAR(1),
+        umeta_max_val VARCHAR(1)
+);
+
+select * from flickr_cache;
+INSERT INTO tmp_status
+SELECT user_id, MIN(umeta_id), MAX(umeta_id),NULL,NULL
+FROM wp_usermeta 
+WHERE wp_usermeta.meta_key='bhaa_runner_status'
+GROUP BY user_id
+HAVING count(umeta_id) > 1;
+
+select * from tmp_status;
+-- update the values
+update tmp_status set umeta_min_val=(select meta_value from wp_usermeta where umeta_id=umeta_min);
+update tmp_status set umeta_max_val=(select meta_value from wp_usermeta where umeta_id=umeta_max);
+
+-- check for equal and delete the max
+select * from tmp_status where umeta_min_val=umeta_max_val;
+delete from wp_usermeta where umeta_id in (select umeta_max from tmp_status where umeta_min_val=umeta_max_val);
+
+select * from tmp_status where umeta_min_val!=umeta_max_val;
+delete from wp_usermeta where umeta_id in (select umeta_max from tmp_status where umeta_min_val=umeta_max_val);
+
+DROP TABLE tmp_status;
