@@ -106,3 +106,35 @@ GROUP BY team,race
 GROUP BY l.team
 ORDER BY leaguepoints DESC
 )t1, (SELECT @rownum:=0) t2;
+
+
+-- migrate old team results
+select * from wp_bhaa_teamresult where race=2596
+select * from teamresult where race=1646
+
+select 
+race,
+class,
+team,
+leaguepoints as position,
+team,
+"teamname" as teamname,
+positiontotal as totalpos,
+standardtotal as totalstd,
+1 as runner,
+leaguepoints
+from teamresult where race=1646
+and team=161
+order by class, leaguepoints desc
+
+select the appropriate columns and then each runner in 3 unioned queries
+
+select x,y, runner first as runner
+
+union
+
+select x,y, runnersecond as runner
+
+union
+
+select x,y, runnerthird as runner

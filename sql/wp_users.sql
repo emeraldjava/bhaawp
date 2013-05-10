@@ -303,7 +303,6 @@ CREATE TABLE IF NOT EXISTS tmp_status(
         umeta_max_val VARCHAR(1)
 );
 
-select * from flickr_cache;
 INSERT INTO tmp_status
 SELECT user_id, MIN(umeta_id), MAX(umeta_id),NULL,NULL
 FROM wp_usermeta 
