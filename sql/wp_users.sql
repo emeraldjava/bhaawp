@@ -320,6 +320,6 @@ select * from tmp_status where umeta_min_val=umeta_max_val;
 delete from wp_usermeta where umeta_id in (select umeta_max from tmp_status where umeta_min_val=umeta_max_val);
 
 select * from tmp_status where umeta_min_val!=umeta_max_val;
-delete from wp_usermeta where umeta_id in (select umeta_max from tmp_status where umeta_min_val=umeta_max_val);
+delete from wp_usermeta where umeta_id in (select umeta_max from tmp_status where umeta_min_val!=umeta_max_val);
 
 DROP TABLE tmp_status;
