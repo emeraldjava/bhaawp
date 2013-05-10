@@ -112,28 +112,51 @@ ORDER BY leaguepoints DESC
 select * from wp_bhaa_teamresult where race=2596
 select * from teamraceresult where race=201073
 
-select 
+-- http://stackoverflow.com/questions/13944417/mysql-convert-column-to-row-pivot-table
+select
+1 as id,
 race,
 class,
-team,
 leaguepoints as position,
 team,
 "teamname" as teamname,
 positiontotal as totalpos,
 standardtotal as totalstd,
-1 as runner,
+runnerfirst as runner,
 leaguepoints
 from teamraceresult where race=201073
-order by class, leaguepoints desc
+UNION
+select 
+2 as id,
+race,
+class,
+leaguepoints as position,
+team,
+"teamname" as teamname,
+positiontotal as totalpos,
+standardtotal as totalstd,
+runnersecond as runner,
+leaguepoints
+from teamraceresult where race=201073
+UNION
+select 
+3 as id,
+race,
+class,
+leaguepoints as position,
+team,
+"teamname" as teamname,
+positiontotal as totalpos,
+standardtotal as totalstd,
+runnerthird as runner,
+leaguepoints
+from teamraceresult
+where race=201073
+order by class, leaguepoints desc, id
 
 select the appropriate columns and then each runner in 3 unioned queries
-
 select x,y, runner first as runner
-
 union
-
 select x,y, runnersecond as runner
-
 union
-
 select x,y, runnerthird as runner
