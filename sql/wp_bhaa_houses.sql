@@ -44,5 +44,8 @@ where company.meta_value IS NOT NULL and r2c.p2p_from IS NULL and status.meta_va
 -- list companies and number of active runner
 
 -- select sector teams with more than 6 runners
+select p2p_from from wp_p2p 
+where p2p_type='sectorteam_to_runner' group by p2p_from;
+
 
 -- select active teams without contacts
