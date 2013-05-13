@@ -43,14 +43,18 @@ where company.meta_value IS NOT NULL and r2c.p2p_from IS NULL and status.meta_va
 
 -- list companies and number of active runner
 
--- select sector teams with more than 6 runners
-select p2p_from,house.post_title,count(p2p_id) as total from wp_p2p 
+-- select sector teams with more than 6  runners
+select p2p_from,house.post_title,count(p2p_id) as total,
+(select p2p_to from wp_p2p contact where contact.p2p_from=wp_p2p.p2p_from and contact.p2p_type='team_contact') as contact
+from wp_p2p 
 join wp_posts house on (house.id=wp_p2p.p2p_from and house.post_type='house')
 where p2p_type='sectorteam_to_runner' 
 group by p2p_from
 order by total desc;
 
-select p2p_from,house.post_title,count(p2p_id) as total from wp_p2p 
+select p2p_from,house.post_title,count(p2p_id) as total,
+(select p2p_to from wp_p2p contact where contact.p2p_from=wp_p2p.p2p_from and contact.p2p_type='team_contact') as contact
+from wp_p2p 
 join wp_posts house on (house.id=wp_p2p.p2p_from and house.post_type='house')
 where p2p_type='house_to_runner' 
 group by p2p_from
