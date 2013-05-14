@@ -112,6 +112,11 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		add_action('widgets_init', array($runnerSearchWidget,'register'));		
 	}
 	
+	function getRunner()
+	{
+		return $this->runner;
+	}
+	
 	function getIndividualResultTable()
 	{
 		return $this->individualResultTable;
