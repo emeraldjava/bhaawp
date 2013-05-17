@@ -60,4 +60,23 @@ where p2p_type='house_to_runner'
 group by p2p_from
 order by total desc;
 
+-- select runners on two teams
+SELECT p2p_to, 
+MIN(p2p_id),
+MAX(p2p_id),
+p2p_type
+FROM wp_p2p 
+WHERE p2p_type='house_to_runner' 
+GROUP BY p2p_to
+HAVING count(p2p_id) > 1 limit 10;
+
+SELECT p2p_to, 
+MIN(p2p_id),
+MAX(p2p_id),
+p2p_type
+FROM wp_p2p 
+WHERE p2p_type='sectorteam_to_runner' 
+GROUP BY p2p_to
+HAVING count(p2p_id) > 1
+
 -- select active teams without contacts
