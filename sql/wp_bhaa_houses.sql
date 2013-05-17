@@ -61,7 +61,8 @@ group by p2p_from
 order by total desc;
 
 -- select runners on two teams
-SELECT p2p_to, 
+SELECT p2p_to,
+(select display_name from wp_users where id=p2p_to) as name,
 MIN(p2p_id),
 MAX(p2p_id),
 p2p_type
