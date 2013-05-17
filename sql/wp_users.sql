@@ -317,9 +317,28 @@ update tmp_status set umeta_max_val=(select meta_value from wp_usermeta where um
 
 -- check for equal and delete the max
 select * from tmp_status where umeta_min_val=umeta_max_val;
-delete from wp_usermeta where umeta_id in (select umeta_max from tmp_status where umeta_min_val=umeta_max_val);
-
 select * from tmp_status where umeta_min_val!=umeta_max_val;
-delete from wp_usermeta where umeta_id in (select umeta_max from tmp_status where umeta_min_val!=umeta_max_val);
+
+delete wp_usermeta from wp_usermeta
+join tmp_status on tmp_status.umeta_max=umeta_id;
+order by umeta_max desc;
+delete from tmp_status 
+order by umeta_max desc;
+select * from tmp_status;
 
 DROP TABLE tmp_status;
+
+-- match duplicate runners
+-- http://wordpress.stackexchange.com/questions/27846/list-all-authors-by-matching-custom-meta-data-on-a-category-page
+select * from wp_users where ID IN (12364,8450);
+
+select * from wp_users WHERE 1=1 AND ( (wp_usermeta.meta_key = 'last_name' 
+AND CAST(wp_usermeta.meta_value AS CHAR) = 'Paul') 
+AND (mt1.meta_key = 'first_name' 
+AND CAST(mt1.meta_value AS CHAR) = 'Paul') 
+AND (mt2.meta_key = 'id' AND CAST(mt2.meta_value AS CHAR) != '1') )
+
+select * from wp_users where SOUNDEX(display_name) LIKE SOUNDEX('%dave carroll%');
+
+?id=12364
+http://bhaa.ie/runner/?id=8450
