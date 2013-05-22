@@ -353,8 +353,8 @@ left outer join (
 	FROM wp_bhaa_raceresult
 	GROUP BY runner) rr on (wp_users.ID = rr.runner)
 WHERE ( (wp_usermeta.meta_key = 'bhaa_runner_status' AND CAST(wp_usermeta.meta_value AS CHAR) = 'M')
-AND  mt1.user_id IS NULL ) 
-ORDER BY ID ASC;
+AND  mt1.user_id IS NULL ) AND races>=1
+ORDER BY races DESC, ID ASC;
 
 
 
