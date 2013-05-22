@@ -57,7 +57,14 @@ SET _age = (YEAR(_currentDate)-YEAR(_birthDate)) - (RIGHT(_currentDate,5)<RIGHT(
 RETURN (SELECT category FROM wp_bhaa_agecategory WHERE (_age between min and max) and gender=_gender);
 END$$
 
--- 
+-- updatePositions by time
+DROP PROCEDURE IF EXISTS `updatePositions`$$
+CREATE PROCEDURE `updatePositions`(_raceId INT(11))
+BEGIN
+	
+END$$
+
+-- updatePositionInStandard
 DROP PROCEDURE IF EXISTS `updatePositionInStandard`$$
 CREATE PROCEDURE `updatePositionInStandard`(_raceId INT(11))
 BEGIN
