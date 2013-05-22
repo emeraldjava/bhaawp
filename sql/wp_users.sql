@@ -344,9 +344,19 @@ select * from wp_users where SOUNDEX(display_name) LIKE SOUNDEX('%dave carroll%'
 http://bhaa.ie/runner/?id=8450
 
 -- find runner who ran with missing standard
-
-SELECT SQL_CALC_FOUND_ROWS wp_users.* FROM wp_users 
+ 
+SELECT SQL_CALC_FOUND_ROWS rr.races,wp_users.* FROM wp_users 
 INNER JOIN wp_usermeta ON (wp_users.ID = wp_usermeta.user_id)
 LEFT JOIN wp_usermeta AS mt1 ON (wp_users.ID = mt1.user_id AND mt1.meta_key = 'bhaa_runner_standard') 
-WHERE 1=1 AND ( (wp_usermeta.meta_key = 'bhaa_runner_status' AND CAST(wp_usermeta.meta_value AS CHAR) = 'M')
-AND  mt1.user_id IS NULL ) AND races > 0  ORDER BY ID ASC  
+left outer join (
+	SELECT runner, COUNT(race) as races
+	FROM wp_bhaa_raceresult
+	GROUP BY runner) rr on (wp_users.ID = rr.runner)
+WHERE ( (wp_usermeta.meta_key = 'bhaa_runner_status' AND CAST(wp_usermeta.meta_value AS CHAR) = 'M')
+AND  mt1.user_id IS NULL ) 
+ORDER BY ID ASC;
+
+
+
+
+
