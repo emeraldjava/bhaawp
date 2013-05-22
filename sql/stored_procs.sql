@@ -59,9 +59,29 @@ END$$
 
 -- updatePositions by time
 DROP PROCEDURE IF EXISTS `updatePositions`$$
-CREATE PROCEDURE `updatePositions`(_raceId INT(11))
+CREATE PROCEDURE `updatePositions`(_race INT(11))
 BEGIN
 	
+	create temporary table if not exists tmp_raceresult(
+    	race int,
+        runner int,
+        position int
+    ) ENGINE=MyISAM;
+      
+    insert into tmp_raceresult
+		select race, runner, @row:=@row+1
+	    from wp_bhaa_raceresult, (SELECT @row:=0) r
+	    where race=_race order by racetime;
+	    
+	alter table tmp_raceresult add index (race,runner);
+	
+	update wp_bhaa_raceresult, tmp_raceresult
+    	set wp_bhaa_raceresult.position=tmp_raceresult.position
+    	where wp_bhaa_raceresult.runner=tmp_raceresult.runner 
+    	and wp_bhaa_raceresult.race=tmp_raceresult.race;
+
+    drop table tmp_raceresult;
+
 END$$
 
 -- updatePositionInStandard
