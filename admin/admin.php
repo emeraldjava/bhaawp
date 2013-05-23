@@ -10,8 +10,10 @@ class BhaaAdmin
 		$runnerAdmin = new RunnerAdmin();
 		new WPFlashMessages();
 		
-		add_action('admin_menu', array(&$this,'bhaa_admin_plugin_menu') );
-		add_action('admin_init', array(&$this,'register_bhaa_options') );
+		add_action('admin_menu',array(&$this,'bhaa_admin_plugin_menu'));
+		add_action('admin_init',array(&$this,'register_bhaa_options'));
+		
+		add_action('pre_user_query', array(&$this,'match_runners_who_have_raced'));
 		
 		add_action('admin_action_bhaa_add_runner', array(&$this,'admin_action_bhaa_add_runner'));
 	}
@@ -117,7 +119,58 @@ class BhaaAdmin
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 		echo '<div class="wrap">';
-		echo '<p>TODO List the runners with out a standard';
+		
+		echo '<p>hi</p>';
+		
+		$members = array(
+				'meta_key' => 'bhaa_runner_status',
+				'meta_value' => 'M',
+				'meta_compare' => '='
+		);
+		
+		// http://wordpress.stackexchange.com/questions/76622/wp-user-query-to-exclude-users-with-no-posts
+		$missingStandard = array(
+				'meta_query' => array(
+						'relation' => 'AND',
+						array(
+								'key' => 'bhaa_runner_status',
+								'value' => 'M',
+								'compare' => '='
+						),
+						array(
+								'key' => 'bhaa_runner_standard',
+								'compare' => 'NOT EXISTS'
+						)
+				),
+				'orderby'=>'ID',
+				'fields'=>'all',
+				'query_id'=>'match_runners_who_have_raced'
+		);
+		
+		$user_query = new WP_User_Query( $missingStandard );
+		echo 'members :'.$user_query->get_total();
+		
+		if ( ! empty( $user_query->results ) ) {
+			foreach ( $user_query->results as $user ) {
+				//echo '<p>' .$user->ID.' - '.$user->display_name . '</p>';
+				echo sprintf('<div>%d <a href="%s" target="new">%s</a></div>',
+						$user->ID,
+						add_query_arg(array('id'=>$user->ID),'/runner'),$user->display_name);
+			}
+		}
+		
+		wp_reset_query();
+	}
+	
+	function match_runners_who_have_raced( $query ) {
+		if ( isset( $query->query_vars['query_id'] ) && 'match_runners_who_have_raced' == $query->query_vars['query_id'] ) {
+			$query->query_from = $query->query_from . ' LEFT OUTER JOIN (
+                SELECT runner, COUNT(race) as races
+                FROM wp_bhaa_raceresult
+				GROUP BY runner
+            ) rr ON (wp_users.ID = rr.runner)';
+			$query->query_where = $query->query_where . ' AND rr.races > 0 ';
+		}
 	}
 	
 	function register_bhaa_options()
