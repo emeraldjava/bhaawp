@@ -281,7 +281,7 @@ class Runner
 		}
 	}
 
-	public function mergeRunner($runner,$merge)
+	public function mergeRunner($runner,$deleteRunner)
 	{
 		error_log('merging runner '.$merge.' to '.$runner);
 		global $wpdb;
@@ -289,15 +289,15 @@ class Runner
 		error_log('moved raceresults '.$wpdb->update(
 			'wp_bhaa_raceresult',
 			array('runner' => $runner),
-			array('runner' => $merge)
+			array('runner' => $deleteRunner)
 		));
 		error_log('deleted metadata '.$wpdb->delete(
 			'wp_usermeta',
-			array('user_id' => $merge)
+			array('user_id' => $deleteRunner)
 		));
 		error_log('deleted user '.$wpdb->delete(
 			'wp_users',
-			array('ID' => $merge)
+			array('ID' => $deleteRunner)
 		));
 		//require_once( ABSPATH . 'wp-admin/wp-includes/user.php' );
 		//wp_delete_user($merge, $runner);
