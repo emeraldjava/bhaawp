@@ -265,7 +265,6 @@ class Runner
 			)
 		);
 		//error_log(print_r($args,true));
-		
 		$user_query = new WP_User_Query($args);
 		
 		$runner = $user_query->get_results();
@@ -280,6 +279,28 @@ class Runner
 			//error_log('matched runner '.print_r($runner,true));
 			return $runner[0]->ID;
 		}
+	}
+
+	public function mergeRunner($runner,$merge)
+	{
+		error_log('merging runner '.$merge.' to '.$runner);
+		global $wpdb;
+		// update existing race results
+		error_log('moved raceresults '.$wpdb->update(
+			'wp_bhaa_raceresult',
+			array('runner' => $runner),
+			array('runner' => $merge)
+		));
+		error_log('deleted metadata '.$wpdb->delete(
+			'wp_usermeta',
+			array('user_id' => $merge)
+		));
+		error_log('deleted user '.$wpdb->delete(
+			'wp_users',
+			array('ID' => $merge)
+		));
+		//require_once( ABSPATH . 'wp-admin/wp-includes/user.php' );
+		//wp_delete_user($merge, $runner);
 	}
 }
 ?>
