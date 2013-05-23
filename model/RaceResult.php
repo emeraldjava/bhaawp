@@ -35,7 +35,7 @@ class RaceResult extends BaseModel implements Table
 		PRIMARY KEY (id)';
 	}
 	
-	public function registerRunner($runner,$racenumber,$standard=NULL)
+	public function registerRunner($runner,$racenumber,$standard=NULL,$money)
 	{
 		$runnerCount = $this->wpdb->get_var(
 			$this->wpdb->prepare(
@@ -62,12 +62,13 @@ class RaceResult extends BaseModel implements Table
 						'runner' => $runner,
 						'racetime' => date('H:i:s'),
 						'standard' => $standard,
+						'standardscoringset' => $money,
 						'class' => RaceResult::RACE_REG
 				));
 		return $res;
 	}
 	
-	function preRegisterRunner($runner,$racenumber)
+	function preRegisterRunner($runner,$racenumber,$money)
 	{
 		$runnerCount = $this->wpdb->get_var(
 			$this->wpdb->prepare(
@@ -91,7 +92,8 @@ class RaceResult extends BaseModel implements Table
 				array(
 					'racenumber' => $racenumber,
 					'racetime' => date('H:i:s'),
-					'class' => RaceResult::RACE_REG),
+					'class' => RaceResult::RACE_REG,
+					'standardscoringset' => $money),
 				array(
 					'race' => $this->post_id,
 					'runner' => $runner,

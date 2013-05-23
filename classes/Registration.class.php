@@ -33,16 +33,16 @@ class Registration
 		return $event->getNextRaces();
 	}
 	
-	function registerRunner($race,$runner,$racenumber,$standard)
+	function registerRunner($race,$runner,$racenumber,$standard,$money)
 	{
 		$raceResult = new RaceResult($race);
-		return $raceResult->registerRunner($runner,$racenumber,$standard);
+		return $raceResult->registerRunner($runner,$racenumber,$standard,$money);
 	}
 	
-	function preRegisterRunner($race,$runner,$racenumber)
+	function preRegisterRunner($race,$runner,$racenumber,$money)
 	{
 		$raceResult = new RaceResult($race);
-		return $raceResult->preRegisterRunner($runner,$racenumber);
+		return $raceResult->preRegisterRunner($runner,$racenumber,$money);
 	}
 	
 	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='')
