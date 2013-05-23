@@ -55,7 +55,7 @@ class BhaaAdmin
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
 			// var bhaa_day_runners = 
-			$content .= json_encode($model->getRegistrationRunnerDetails());
+			$content .= json_encode($model->getRegistrationRunnerDetails(array('M','I')));
 			error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
@@ -87,7 +87,7 @@ class BhaaAdmin
 			$model = new BaseModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
-			$content .= json_encode($model->getDayMembersRegistrationDetails());
+			$content .= json_encode($model->getRegistrationRunnerDetails(array('D')));
 			error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
