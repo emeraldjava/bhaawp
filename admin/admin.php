@@ -23,6 +23,7 @@ class BhaaAdmin
 		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
 		add_submenu_page('bhaa', 'BHAA', 'Members JSON', 'manage_options', 'bhaa_admin_members_json', array(&$this, 'bhaa_admin_members_json'));
 		add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
+		add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
 		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options', 'bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
 		add_submenu_page('bhaa' ,'BHAA','Standards','manage_options', 'bhaa_admin_standards' , array(&$this, 'bhaa_admin_standards'));
 		// options panel
@@ -97,6 +98,38 @@ class BhaaAdmin
 		echo '<p><form action="'.get_permalink().'" id="bhaa_admin_day_json" method="post">
 				<input type="hidden" name="command" value="bhaa_admin_day_json"/>
 				<input type="Submit" value="Refresh Day Runners"/>
+			</form></p>';
+		echo '<hr/>';
+		echo file_get_contents($file);
+		echo '</div>';
+	}
+	
+	function bhaa_admin_all_html() {
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+		echo '<div class="wrap">';
+		echo '<p>BHAA ALL Members HTML</p>';
+		
+		$file = ABSPATH.'wp-content/bhaa_all_members.html';
+		$content = '<div><ul>';
+		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_all_html'){
+			$model = new BaseModel();
+			$runners = $model->getRegistrationRunnerDetails(array('M','I','D'));
+			foreach($runners as $runner){
+				$content .= sprintf("<li>%s %s ,ID:%d ,Status:%s, DOB:%s</li>",
+					$runner->lastname,$runner->firstname,$runner->id,$runner->status,$runner->dob);
+			}
+			$content .= '</ul></div>';
+			error_log('file '.$file);
+			if(file_exists($file)){
+				file_put_contents($file, $content);
+			}
+		}
+		
+		echo '<p><form action="'.get_permalink().'" id="bhaa_admin_all_html" method="post">
+				<input type="hidden" name="command" value="bhaa_admin_all_html"/>
+				<input type="Submit" value="Refresh All Runners Html"/>
 			</form></p>';
 		echo '<hr/>';
 		echo file_get_contents($file);
