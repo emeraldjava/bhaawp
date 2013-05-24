@@ -308,5 +308,8 @@ GROUP BY user_id
 HAVING count(wp_usermeta.umeta_id) = 0;
 
 -- give break down of registered runners
-select * from wp_bhaa_raceresult where race=2849
-and class="RACE_REG";
+select standardscoringset as type, count(*) as count
+from wp_bhaa_raceresult 
+where race=2849
+and class="RACE_REG"
+group by standardscoringset;
