@@ -295,3 +295,18 @@ ALTER TABLE wp_bhaa_raceresult ADD INDEX index_race_number (race,racenumber);
 ALTER TABLE wp_bhaa_raceresult ADD INDEX index_race_number_class (race,racenumber,class);
 ALTER TABLE wp_bhaa_raceresult CHANGE class class VARCHAR(10) NOT NULL;
 
+-- find runners who no result
+select * from wp_bhaa_raceresult
+left join wp_users on wp_users.id=runner
+where wp_users.id is null
+
+-- find runners who ran with no standard
+select * from wp_bhaa_raceresult
+left join wp_users on wp_users.id=runner
+left join wp_usermeta on (wp_users.id=wp_usermeta.user_id and wp_usermeta.meta_key='bhaa_runner_standard')
+GROUP BY user_id
+HAVING count(wp_usermeta.umeta_id) = 0;
+
+-- give break down of registered runners
+select * from wp_bhaa_raceresult where race=2849
+and class="RACE_REG";
