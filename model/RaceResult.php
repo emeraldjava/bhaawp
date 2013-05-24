@@ -112,6 +112,23 @@ class RaceResult extends BaseModel implements Table
 						));
 	}
 	
+	/**
+	 * select standardscoringset as type, count(*) as count
+from wp_bhaa_raceresult 
+where race=2849
+and class="RACE_REG"
+group by standardscoringset;
+	 */
+	public function getRegistrationTypes()
+	{
+		return $this->wpdb->query(
+			$this->wpdb->prepare('select standardscoringset as type, count(*) as count
+				from wp_bhaa_raceresult 
+				where race=%d
+				and class="RACE_REG"
+				group by standardscoringset',$this->post_id)
+		);
+	}
 	
 	/**
 	 * Add 10 league points to a user for a race

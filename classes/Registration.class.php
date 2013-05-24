@@ -87,6 +87,11 @@ class Registration
 		return $raceResult->deleteRunner($runner);
 	}
 	
+	function getRegistrationTypes($race) {
+		$raceResult = new RaceResult($race);
+		return $raceResult->getRegistrationTypes($runner);
+	}
+	
 	/**
 	 * Export the csv file for racetec
 	 */
