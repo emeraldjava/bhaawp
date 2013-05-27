@@ -63,9 +63,11 @@ order by total desc;
 -- select runners on two teams
 SELECT p2p_to,
 (select display_name from wp_users where id=p2p_to) as name,
-MIN(p2p_id) as min,
+MIN(p2p_id),
+MIN(p2p_from),
 (select post_title from wp_posts where post_type='House' and id=MIN(p2p_from)) as c1,
 MAX(p2p_id),
+MAX(p2p_from),
 (select post_title from wp_posts where post_type='House' and id=MAX(p2p_from)) as c2,
 p2p_type
 FROM wp_p2p 
@@ -74,8 +76,13 @@ GROUP BY p2p_to
 HAVING count(p2p_id) > 1 limit 10;
 
 SELECT p2p_to, 
+(select display_name from wp_users where id=p2p_to) as name,
 MIN(p2p_id),
+MIN(p2p_from),
+(select post_title from wp_posts where post_type='House' and id=MIN(p2p_from)) as c1,
 MAX(p2p_id),
+MAX(p2p_from),
+(select post_title from wp_posts where post_type='House' and id=MAX(p2p_from)) as c2,
 p2p_type
 FROM wp_p2p 
 WHERE p2p_type='sectorteam_to_runner' 
