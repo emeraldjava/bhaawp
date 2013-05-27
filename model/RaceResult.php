@@ -121,7 +121,7 @@ group by standardscoringset;
 	 */
 	public function getRegistrationTypes()
 	{
-		return $this->wpdb->query(
+		return $this->wpdb->get_results(
 			$this->wpdb->prepare('select standardscoringset as type, count(*) as count
 				from wp_bhaa_raceresult 
 				where race=%d
