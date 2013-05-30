@@ -102,7 +102,7 @@ class RaceResultTable extends WP_List_Table
  	
  	function column_racetime($item) {
  		$actions = array(
- 			'edit' => sprintf('<a href="?page=%1$s&action=%2$s&book=%3$d">Edit %3$d</a>',$_REQUEST['page'],'edit',$item['id'])
+ 			'edit' => sprintf('<a href="?page=%1$s&action=%2$s&id=%3$d">Edit %3$d</a>',$_REQUEST['page'],'editracetime',$item['id'])
  		);
  		return sprintf('%1$s [%3$d] %2$s', $item['racetime'], $this->row_actions($actions), $item['actualstandard'] );
  		//return sprintf('%s [%d]',$item['racetime'],$item['actualstandard']);
