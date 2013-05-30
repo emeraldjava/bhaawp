@@ -10,7 +10,7 @@ Author URI: https://github.com/emeraldjava/bhaawp
 
 class BHAA
 {
-	var $version = '2013.05.24';
+	var $version = '2013.05.30';
 	
 	//var $admin;
 	var $connection;
@@ -112,9 +112,12 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		add_action('widgets_init', array($runnerSearchWidget,'register'));		
 	}
 	
-	function getRunner()
-	{
+	function getRunner() {
 		return $this->runner;
+	}
+	
+	function getRaceResult() {
+		return new RaceResult();
 	}
 	
 	function getIndividualResultTable()
