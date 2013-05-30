@@ -101,7 +101,11 @@ class RaceResultTable extends WP_List_Table
  	}
  	
  	function column_racetime($item) {
- 		return sprintf('%s [%d]',$item['racetime'],$item['actualstandard']);
+ 		$actions = array(
+ 			'edit' => sprintf('<a href="?page=%1$s&action=%2$s&book=%3$d">Edit %3$d</a>',$_REQUEST['page'],'edit',$item['id'])
+ 		);
+ 		return sprintf('%1$s [%3$d] %2$s', $item['racetime'], $this->row_actions($actions), $item['actualstandard'] );
+ 		//return sprintf('%s [%d]',$item['racetime'],$item['actualstandard']);
  	}
  	
  	function column_standard($item) {
@@ -151,7 +155,7 @@ class RaceResultTable extends WP_List_Table
 			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
-			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY '.$orderby.' '. $order;
+			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=300 ORDER BY '.$orderby.' '. $order;
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
 		//error_log($query);	
 		
@@ -174,7 +178,7 @@ class RaceResultTable extends WP_List_Table
 		//$res = ob_get_contents();
 		//flush();
 		return ob_get_clean();
-		//ob_end_clean();
+		//return ob_end_flush();
 		//return $res;
 		//echo '</div>';
 		//return ob_get_clean();
