@@ -101,11 +101,16 @@ class RaceResultTable extends WP_List_Table
  	}
  	
  	function column_racetime($item) {
- 		$actions = array(
- 			'edit' => sprintf('<a href="?page=%1$s&action=%2$s&id=%3$d">Edit %3$d</a>',$_REQUEST['page'],'editracetime',$item['id'])
- 		);
- 		return sprintf('%1$s [%3$d] %2$s', $item['racetime'], $this->row_actions($actions), $item['actualstandard'] );
- 		//return sprintf('%s [%d]',$item['racetime'],$item['actualstandard']);
+		$edit = current_user_can('manage_options');
+		if($edit){
+	 		$form = sprintf('[%3$d]<form method="POST" action="">
+	 			<input type="text" name="racetime" value="%s" size="8"/><input type="submit" name="submit" value="Edit"/>
+	 			<input type="hidden" name="id" value="%d"/>
+	 			</form>',$item['racetime'],$item['id'],$item['actualstandard']);
+	 		return $form;
+		} else {
+	 		return sprintf('%1$s [%3$d] %2$s', $item['racetime'], $this->row_actions($actions), $item['actualstandard'] );
+		}
  	}
  	
  	function column_standard($item) {
