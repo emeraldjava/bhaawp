@@ -104,8 +104,8 @@ class RaceResultTable extends WP_List_Table
 		$edit = current_user_can('manage_options');
 		if($edit){
 	 		$form = sprintf('[%3$d]<form method="POST" action="">
-	 			<input type="text" name="racetime" value="%s" size="8"/><input type="submit" name="submit" value="Edit"/>
-	 			<input type="hidden" name="id" value="%d"/>
+	 			<input type="text" name="racetime" value="%1$s" size="8"/><input type="submit" name="submit" value="Edit"/>
+	 			<input type="hidden" name="id" value="%2$d"/><input type="hidden" name="editracetime" value="true"/>
 	 			</form>',$item['racetime'],$item['id'],$item['actualstandard']);
 	 		return $form;
 		} else {
@@ -160,7 +160,7 @@ class RaceResultTable extends WP_List_Table
 			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
-			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=300 ORDER BY '.$orderby.' '. $order;
+			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position>=500 ORDER BY '.$orderby.' '. $order;
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
 		//error_log($query);	
 		
