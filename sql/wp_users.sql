@@ -143,7 +143,33 @@ left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key=
 left join wp_usermeta dob on (dob.user_id=wp_users.id and dob.meta_key='bhaa_runner_dateofbirth')
 left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key='bhaa_runner_company')
 left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key='bhaa_runner_standard')
-where status.meta_value in ('M','I') order by id
+where status.meta_value in ('M') order by id
+
+-- list members with company and team details
+select wp_users.id as id,
+first_name.meta_value as firstname,
+last_name.meta_value as lastname,
+gender.meta_value as gender,
+standard.meta_value as standard,
+dob.meta_value as dob,
+company.meta_value as company,
+CASE WHEN house.post_title IS NULL THEN companyname.post_title ELSE house.post_title END as companyname,
+CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
+CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname
+from wp_users
+left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key='first_name')
+left join wp_usermeta last_name on (last_name.user_id=wp_users.id and last_name.meta_key='last_name')
+left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
+left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key='bhaa_runner_gender')
+left join wp_usermeta dob on (dob.user_id=wp_users.id and dob.meta_key='bhaa_runner_dateofbirth')
+left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key='bhaa_runner_company')
+left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key='bhaa_runner_standard')
+left join wp_p2p r2c ON (r2c.p2p_to=wp_users.id AND r2c.p2p_type = 'house_to_runner')
+left join wp_posts house on (house.id=r2c.p2p_from and house.post_type='house')
+left join wp_p2p r2s ON (r2s.p2p_to=wp_users.id AND r2s.p2p_type = 'sectorteam_to_runner')
+left join wp_posts sector on (sector.id=r2s.p2p_from and house.post_type='house')
+left join wp_posts companyname on (companyname.id=company.meta_value and companyname.post_type='house')
+where status.meta_value in ('M') order by id
 
 select wp_users.user_nicename,wp_users.id,status.meta_value as s,dor.meta_value as dor,runner.id,runner.status,runner.dateofrenewal from wp_users
 left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
@@ -246,7 +272,8 @@ select fn.meta_value,ln.meta_value,user_email from wp_users
 join wp_usermeta fn ON (fn.user_id=wp_users.id AND fn.meta_key = 'first_name')
 join wp_usermeta ln ON (ln.user_id=wp_users.id AND ln.meta_key = 'last_name')
 join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
-where wp_users.id>=10000 and status.meta_value="M" and user_email IS NOT NULL and user_email != ''
+where wp_users.id>=10000 and status.meta_value!="M" and user_email IS NOT NULL and user_email != ''
+order by id desc limit 600
 
 select * FROM wp_usermeta
     WHERE umeta_id NOT IN (
