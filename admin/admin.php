@@ -243,7 +243,7 @@ class BhaaAdmin
 		        </tr>
 		        <tr valign="top">
 		        <th scope="row">bhaa_flickr_api_key</th>
-		        <td><input type="text" name="bhaa_flickr_api_key" value="<?php echo get_option('bhaa_flickr_api_key'); ?>" /></td>
+		        <td><input type="text" name="bhaa_flickr_api_key" size=40 value="<?php echo get_option('bhaa_flickr_api_key'); ?>" /></td>
 		        </tr>
 		        <tr valign="top">
 		        <th scope="row">bhaa_flickr_secret</th>
