@@ -209,10 +209,6 @@ class BhaaAdmin
 	function register_bhaa_options()
 	{
 		register_setting( 'bhaa', 'bhaa_annual_event_id');
-		register_setting( 'bhaa', 'bhaa_flickr_username' );
-		register_setting( 'bhaa', 'bhaa_flickr_user_id' );
-		register_setting( 'bhaa', 'bhaa_flickr_api_key' );
-		register_setting( 'bhaa', 'bhaa_flickr_secret' );
 		register_setting( 'bhaa', 'bhaa_import_username' );
 		register_setting( 'bhaa', 'bhaa_import_password' );
 		register_setting( 'bhaa', 'bhaa_enable_booking');
@@ -232,22 +228,6 @@ class BhaaAdmin
 		        <tr valign="top">
 		        <th scope="row">bhaa_annual_event_id</th>
 		        <td><input type="text" name="bhaa_annual_event_id" value="<?php echo get_option('bhaa_annual_event_id'); ?>" /></td>
-		        </tr>
-		        <tr valign="top">
-		        <th scope="row">bhaa_flickr_username</th>
-		        <td><input type="text" name="bhaa_flickr_username" value="<?php echo get_option('bhaa_flickr_username'); ?>" /></td>
-		        </tr>
-		        <tr valign="top">
-		        <th scope="row">bhaa_flickr_user_id</th>
-		        <td><input type="text" name="bhaa_flickr_user_id" value="<?php echo get_option('bhaa_flickr_user_id'); ?>" /></td>
-		        </tr>
-		        <tr valign="top">
-		        <th scope="row">bhaa_flickr_api_key</th>
-		        <td><input type="text" name="bhaa_flickr_api_key" size=40 value="<?php echo get_option('bhaa_flickr_api_key'); ?>" /></td>
-		        </tr>
-		        <tr valign="top">
-		        <th scope="row">bhaa_flickr_secret</th>
-		        <td><input type="text" name="bhaa_flickr_secret" value="<?php echo get_option('bhaa_flickr_secret'); ?>" /></td>
 		        </tr>
 		        <tr valign="top">
 		        <th scope="row">bhaa_import_username</th>

@@ -72,7 +72,7 @@ class RaceAdmin
 					$details = explode(',',$result);
 					$raceResult->addRaceResult($details);
 					$n++;
-					//if($n>=12)
+					//if($n>=30)
 						//break;
 				}
 				error_log('bhaa_race_load_results : '.$post_id);
