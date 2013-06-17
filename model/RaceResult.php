@@ -268,7 +268,26 @@ group by standardscoringset;
 	
 	function updatePostRaceStd()
 	{
-		$this->wpdb->query($this->wpdb->prepare('call updatePostRaceStandard(%d)',$this->post_id));
+		$runners = $this->wpdb->get_results(
+			$this->wpdb->prepare('select position, runner, standard, actualstandard from wp_bhaa_raceresult where race=%d order by position desc',$this->post_id)
+		);
+		foreach($runners as $runner) {
+			if($runner->standard != 0) {
+				if($runner->standard  < $runner->actualstandard) {
+					update_user_meta( $runner->runner,'bhaa_runner_standard',$runner->standard+1,$runner->standard);
+					//error_log($runner->position.' up standard '.$runner->runner.'->'.($runner->standard+1));
+				} elseif ($runner->standard > $runner->actualstandard) {
+					update_user_meta( $runner->runner,'bhaa_runner_standard',$runner->standard-1,$runner->standard);
+					//error_log($runner->position.' down standard '.$runner->runner.'->'.($runner->standard-1));
+				} elseif($runner->standard == $runner->actualstandard){
+					//error_log($runner->position.' same standard '.$runner->runner.'->'.$runner->standard);
+				}
+			} else {
+				update_user_meta( $runner->runner,'bhaa_runner_standard',$runner->actualstandard );
+				//error_log($runner->position.' new standard '.$runner->runner.'->'.$runner->actualstandard);
+			}
+		}
+		//$this->wpdb->query($this->wpdb->prepare('call updatePostRaceStandard(%d)',$this->post_id));
 	}
 	
 	function updateRacePosInCat()
