@@ -3,25 +3,22 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.04.09
+Version: 2013.06.17
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA
 {
-	var $version = '2013.05.30';
+	var $version = '2013.06.17';
 	
-	//var $admin;
 	var $connection;
 	
 	var $event;
 	var $race;
 	var $individualResultTable;
-	//var $teamResultTable;
 			
 	var $house;
-//	var $league;
 	var $runner;
 	var $standardCalculator;
 	
@@ -102,12 +99,6 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$this->standardCalculator = new StandardCalculator();
 		add_shortcode('eventStandardTable', array($this->standardCalculator,'eventStandardTable'));
 		
-		$flickr = new BhaaFlickr();
-		add_shortcode('bhaa_flickr',array($flickr,'bhaa_flickr_shortcode'));	
-		
-		//add_shortcode('bhaa_registration', array($this->registration,'registration'));
-		//require_once (dirname (__FILE__) . '/widgets/RaceResult_Widget.php');
-		//$this->rrw = new RaceResult_Widget();
 		$runnerSearchWidget = new RunnerSearchWidget();
 		add_action('widgets_init', array($runnerSearchWidget,'register'));		
 	}
