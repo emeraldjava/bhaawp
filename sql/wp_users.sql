@@ -117,13 +117,15 @@ where YEAR(dor.meta_value)!=2013;
 select id,display_name,first_name.meta_value,last_name.meta_value from wp_users 
 left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key='first_name')
 left join wp_usermeta last_name on (last_name.user_id=wp_users.id and last_name.meta_key='last_name')
-where YEAR(user_registered)=2013 and id>1 and display_name!=CONCAT(first_name.meta_value,' ',last_name.meta_value);
+where id>1 and display_name!=CONCAT(first_name.meta_value,' ',last_name.meta_value);
+YEAR(user_registered)=2013 and
 
 update wp_users
 left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key='first_name')
 left join wp_usermeta last_name on (last_name.user_id=wp_users.id and last_name.meta_key='last_name')
 set display_name=CONCAT(first_name.meta_value,' ',last_name.meta_value)
-where YEAR(user_registered)=2013 and id>1 and display_name!=CONCAT(first_name.meta_value,' ',last_name.meta_value);
+where id>1 and display_name!=CONCAT(first_name.meta_value,' ',last_name.meta_value);
+--YEAR(user_registered)=2013 and
 
 -- registration autocomplete query
 select wp_users.id as id,wp_users.id as value,
@@ -152,10 +154,7 @@ last_name.meta_value as lastname,
 gender.meta_value as gender,
 standard.meta_value as standard,
 dob.meta_value as dob,
-company.meta_value as company,
-CASE WHEN house.post_title IS NULL THEN companyname.post_title ELSE house.post_title END as companyname,
-CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
-CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname
+CASE WHEN house.post_title IS NULL THEN companyname.post_title ELSE house.post_title END as companyname
 from wp_users
 left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key='first_name')
 left join wp_usermeta last_name on (last_name.user_id=wp_users.id and last_name.meta_key='last_name')
