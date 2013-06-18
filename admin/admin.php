@@ -155,9 +155,12 @@ class BhaaAdmin
 			where company.meta_value IS NOT NULL and r2c.p2p_from IS NULL and status.meta_value="M" and company.meta_value!=1';
 		global $wpdb;
 		$results = $wpdb->get_results($SQL,OBJECT);
-		//echo sizeof($results);
 		foreach($results as $row){
-			echo $row->id.' '.$row->display_name.'</br>';
+			$runner_url = sprintf('<a target=new r="%d" href="/runner/?id=%d"><b>%d</b></a>',
+				$row->id,$row->id,$row->id
+			);
+			$company_url = sprintf('<a target=new href="/?post_type=house&p=%d"><b>%s</b></a>',$row->company,$row->house);
+			echo $runner_url.' '.$row->display_name.' '.$company_url.'</br>';
 		};
 	}
 		
