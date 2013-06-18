@@ -143,7 +143,22 @@ class BhaaAdmin
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 		echo '<div class="wrap">';
-		echo '<p>TODO List the runners not linked to teams';
+		echo '<h2>Lists the runner with a company but no correctly linked</h2>';
+				
+		$SQL = 'select wp_users.id as id, wp_users.display_name as display_name, status.meta_value as status, dor.meta_value as dor,
+			company.meta_value as company, house.post_title as house, r2c.p2p_from from wp_users
+			left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = "bhaa_runner_company")
+			join wp_posts house on (house.id=company.meta_value and house.post_type="house")
+			left join wp_p2p r2c ON (r2c.p2p_to=wp_users.id AND r2c.p2p_type = "house_to_runner")
+			left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = "bhaa_runner_status")
+			left join wp_usermeta dor ON (dor.user_id=wp_users.id AND dor.meta_key = "bhaa_runner_dateofrenewal")
+			where company.meta_value IS NOT NULL and r2c.p2p_from IS NULL and status.meta_value="M" and company.meta_value!=1';
+		global $wpdb;
+		$results = $wpdb->get_results($SQL,OBJECT);
+		//echo sizeof($results);
+		foreach($results as $row){
+			echo $row->id.' '.$row->display_name.'</br>';
+		};
 	}
 		
 	function bhaa_admin_standards()
