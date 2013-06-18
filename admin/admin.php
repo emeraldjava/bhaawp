@@ -142,8 +142,15 @@ class BhaaAdmin
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
+		
 		echo '<div class="wrap">';
 		echo '<h2>Lists the runner with a company but no correctly linked</h2>';
+		
+		if(isset($_POST['command']) && $_POST['command']=='link_runner') {
+			//$connection = new Connection();
+			//$connection->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$_POST['house'],$_POST['runner']);
+			//echo 'Linked '.$_POST['runner'].' to '.$_POST['house'].' company</br>';
+		}
 				
 		$SQL = 'select wp_users.id as id, wp_users.display_name as display_name, status.meta_value as status, dor.meta_value as dor,
 			company.meta_value as company, house.post_title as house, r2c.p2p_from from wp_users
@@ -160,8 +167,12 @@ class BhaaAdmin
 				$row->id,$row->id,$row->id
 			);
 			$company_url = sprintf('<a target=new href="/?post_type=house&p=%d"><b>%s</b></a>',$row->company,$row->house);
-			echo $runner_url.' '.$row->display_name.' '.$company_url.'</br>';
+			
+			$form = sprintf('<form action="'.get_permalink().'" id="link_runner" method="post"><input type="hidden" name="command" value="link_runner"/><input type="hidden" name="runner" value="%d"/><input type="hidden" name="house" value="%d"/><input type="Submit" value="Link %d to %s"/></form>',$row->id,$row->company,$row->id,$row->house);
+			
+			echo $runner_url.' '.$row->display_name.' '.$company_url.' :: '.$form.'</br>';
 		};
+		echo '</div>';
 	}
 		
 	function bhaa_admin_standards()
