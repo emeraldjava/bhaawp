@@ -93,8 +93,8 @@ class LeagueSummary extends BaseModel implements Table
 	function getLeagueSummaryByDivision($limit=10)
 	{
 		global $wpdb;
-		if($this->type=='I')
-		{
+		//error_log('getLeagueSummaryByDivision '.$this->type.' '.$this->leagueid);
+		if($this->type=='I') {
 			$query = $wpdb->prepare('SELECT *,wp_users.display_name as display_name
 				FROM wp_bhaa_leaguesummary
 				join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
@@ -102,9 +102,7 @@ class LeagueSummary extends BaseModel implements Table
 				AND leagueposition <= %d
 				AND leaguetype = %s
 				order by league, leaguedivision, leagueposition',$this->leagueid,$limit,$this->type);
-		}
-		else
-		{
+		} else {
 			$query = $wpdb->prepare('SELECT *,wp_posts.post_title as display_name
 				FROM wp_bhaa_leaguesummary
 				left join wp_posts on (wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant and wp_posts.post_type="house")
@@ -113,7 +111,7 @@ class LeagueSummary extends BaseModel implements Table
 				AND leaguetype = %s
 				order by league, leaguedivision, leagueposition',$this->leagueid,$limit,$this->type);
 		}
-		//error_log($query);
+		error_log($this->type.' '.$this->leagueid.' '.$query);
 		return $wpdb->get_results($query);
 	}
 	
@@ -146,14 +144,19 @@ class LeagueSummary extends BaseModel implements Table
 			inner join wp_posts e on (e.id=e2r.p2p_from)
 			where race in ( %s )
 			and runner=%d;",$races,$runner);
-		error_log($SQL);
+		//error_log($SQL);
 		return $this->wpdb->get_results($SQL);
 	}
 	
 	function updateLeagueData()
 	{
-		$res = $this->wpdb->query($this->wpdb->prepare('call updateLeagueData(%d)',$this->leagueid));
-		error_log("updateLeagueData(".$this->leagueid.')-->'.$res);
+		if($this->type=='I') {
+			$res = $this->wpdb->query($this->wpdb->prepare('call updateLeagueData(%d)',$this->leagueid));
+			error_log("updateLeagueData(".$this->leagueid.')-->'.$res);
+		} else {
+			$res = $this->wpdb->query($this->wpdb->prepare('call updateTeamLeagueSummary(%d)',$this->leagueid));			
+			error_log("updateTeamLeagueSummary(".$this->leagueid.')-->'.$res);
+		} 
 	}
 		
 	function updateLeagueSummaryByDivision($division='L1')
