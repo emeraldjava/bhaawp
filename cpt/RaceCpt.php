@@ -112,6 +112,7 @@ class RaceCpt
 		echo '<option value="C" '.(($type[0]=='C')?'selected="selected"':"").'>C</option>';
 		echo '<option value="M" '.(($type[0]=='M')?'selected="selected"':"").'>M</option>';
 		echo '<option value="W" '.(($type[0]=='W')?'selected="selected"':"").'>W</option>';
+		echo '<option value="S" '.(($type[0]=='S')?'selected="selected"':"").'>S</option>';
 		echo '</select></p>';
 		
 		// admin url links		
@@ -146,26 +147,22 @@ class RaceCpt
 		if ( empty( $_POST ) )
 			return;
 
-		if ( !empty($_POST[RaceCpt::BHAA_RACE_DISTANCE]))
-		{
+		if ( !empty($_POST[RaceCpt::BHAA_RACE_DISTANCE])) {
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_DISTANCE, $_POST[RaceCpt::BHAA_RACE_DISTANCE] );
 			error_log($post_id .' -> bhaa_race_distance -> '.$_POST[RaceCpt::BHAA_RACE_DISTANCE]);
 		}
 
-		if ( !empty($_POST[RaceCpt::BHAA_RACE_UNIT]))
-		{
+		if ( !empty($_POST[RaceCpt::BHAA_RACE_UNIT])) {
 			error_log($post_id .' -> bhaa_race_distance -> '.$_POST[RaceCpt::BHAA_RACE_UNIT]);
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_UNIT, $_POST[RaceCpt::BHAA_RACE_UNIT] );
 		}
 
-		if ( !empty($_POST[RaceCpt::BHAA_RACE_TYPE]))
-		{
+		if ( !empty($_POST[RaceCpt::BHAA_RACE_TYPE])) {
 			error_log($post_id .' -> '.RaceCpt::BHAA_RACE_TYPE.' -> '.$_POST[RaceCpt::BHAA_RACE_TYPE]);
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_TYPE, $_POST[RaceCpt::BHAA_RACE_TYPE] );
 		}
 		
-		if ( !empty($_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS]))
-		{
+		if ( !empty($_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS])) {
 			error_log($post_id .' -> '.RaceCpt::BHAA_RACE_TEAM_RESULTS.' -> '.$_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS]);
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_TEAM_RESULTS, $_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS] );
 		}
