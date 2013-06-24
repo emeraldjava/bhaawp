@@ -4,22 +4,21 @@ class EventModel extends BaseModel
 {
 	var $eventid;
 	
-	function __construct($eventid=0)
-	{
+	function __construct($eventid=0) {
 		parent::__construct();
 		$this->eventid=$eventid;	
 	}
 	
-	function getNextEvent()
-	{
+	function getNextEvent()	{
 		return $this->wpdb->get_row(
-			$this->wpdb->prepare('select event_id,post_id,event_slug from wp_em_events 
+			$this->wpdb->prepare('select event_id,post_id,event_slug,
+				(select MAX(p2p_to) from wp_p2p where p2p_from=post_id) as race 
+				from wp_em_events 
             	where event_start_date >= DATE(NOW())
-				order by event_start_date ASC limit 5'));
+				order by event_start_date ASC limit 1'));
 	}
 	
-	function getNextRaces()
-	{
+	function getNextRaces() {
 		return $this->wpdb->get_results(
 			$this->wpdb->prepare("select e.event_id,e.post_id,e.event_slug,r.id,
 				r_dist.meta_value as dist,r_type.meta_value as type,r_unit.meta_value as unit 
@@ -36,8 +35,7 @@ class EventModel extends BaseModel
 	/**
 	 * Return the details of all registered runner for the website and racetec export
 	 */
-	function listRegisteredRunners($limit=0,$class='RACE_REG')
-	{
+	function listRegisteredRunners($limit=0,$class='RACE_REG') {
 		// order by id,
 		$SQL = $this->wpdb->prepare("SELECT wp_bhaa_raceresult.id,runner,racenumber,race,
 firstname.meta_value as firstname,lastname.meta_value as lastname,
@@ -70,8 +68,7 @@ AND e2r.p2p_from=%d order by wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresul
 		return $this->wpdb->get_results($SQL);
 	}
 	
-	function getRaces()
-	{
+	function getRaces() {
 		$races = p2p_get_connections(Connection::EVENT_TO_RACE,
 			array('direction'=>'from','from'=>$this->eventid,'fields'=>'p2p_to'));
 		//echo 'races'.print_r($races);
