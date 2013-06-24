@@ -23,9 +23,13 @@ left join wp_postmeta on (wp_postmeta.post_id=wp_em_events.post_id and wp_postme
 where event_start_date <= NOW()
 order by event_start_date DESC limit 1;
 
-select event_id,post_id,event_slug from wp_em_events
+select event_id,post_id,event_slug,
+(select MAX(p2p_to) from wp_p2p where p2p_from=post_id) as race 
+from wp_em_events
 where event_start_date >= DATE(NOW())
 order by event_start_date ASC limit 1;
+
+select * from wp_p2p where p2p_from=2663
 				
 select * from wp_bhaa_raceresult 
 join wp_posts r on (r.id=wp_bhaa_raceresult.race) 
