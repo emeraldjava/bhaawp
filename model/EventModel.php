@@ -35,7 +35,7 @@ class EventModel extends BaseModel
 	/**
 	 * Return the details of all registered runner for the website and racetec export
 	 */
-	function listRegisteredRunners($limit=0,$class='RACE_REG') {
+	function listRegisteredRunners($limit=0,$class='RACE_REG',$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
 		// order by id,
 		$SQL = $this->wpdb->prepare("SELECT wp_bhaa_raceresult.id,runner,racenumber,race,
 firstname.meta_value as firstname,lastname.meta_value as lastname,
@@ -44,7 +44,8 @@ standard.meta_value as standard,status.meta_value as status,
 house.id as company, 
 CASE WHEN house.post_title IS NULL THEN companyname.post_title ELSE house.post_title END as companyname,
 CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
-CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname
+CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname,
+standardscoringset
 from wp_bhaa_raceresult
 JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type='event_to_race')
 JOIN wp_users on (wp_users.id=wp_bhaa_raceresult.runner) 
@@ -61,10 +62,11 @@ left join wp_usermeta standard ON (standard.user_id=wp_users.id AND standard.met
 left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
 left join wp_posts companyname on (companyname.id=company.meta_value and companyname.post_type='house')
 where wp_bhaa_raceresult.class=%s 
-AND e2r.p2p_from=%d order by wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc",$class,$this->eventid);
+AND e2r.p2p_from=%d order by ".$order,$class,$this->eventid);
 		
 		if($limit!=0)
 			$SQL .= " limit ".$limit;
+		//echo $SQL;
 		return $this->wpdb->get_results($SQL);
 	}
 	

@@ -15,20 +15,16 @@ class Registration
 {
 	private $event;
 	
-	function __construct()
-	{
+	function __construct() {
 		$eventModel = new EventModel();
 		$this->event = $eventModel->getNextEvent();
 	}
 	
-	function getEvent()
-	{
-		$event = new EventModel();
-		return $event->getNextEvent();
+	function getEvent() {
+		return $this->event;
 	}
 	
-	function getNextRaces()
-	{
+	function getNextRaces()	{
 		$event = new EventModel();
 		return $event->getNextRaces();
 	}
@@ -66,17 +62,15 @@ class Registration
 	/**
 	 * Return the list of registered runners
 	 */
-	function listRegisteredRunners($limit=0)
-	{
+	function listRegisteredRunners($limit=0,$class='RACE_REG',$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
 		$event = new EventModel($this->event->post_id);
-		return $event->listRegisteredRunners($limit);
+		return $event->listRegisteredRunners($limit,$class,$order);
 	}
 	
 	/**
 	 * Return the list of all pre-registered runners
 	 */
-	function listPreRegisteredRunners()
-	{
+	function listPreRegisteredRunners() {
 		$event = new EventModel($this->event->post_id);
 		return $event->listRegisteredRunners(0,RaceResult::PRE_REG);
 	}
