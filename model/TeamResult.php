@@ -139,5 +139,29 @@ class TeamResult extends BaseModel
 			<td>%s</td>
 			</tr>',$style,$name,$time,$company,$position,$standard);
 	}
+	
+	/**
+	 * Add 6 league points to the team
+	 */
+	public function addTeamOrganiserPoints($team) {
+		return $this->wpdb->insert(
+			$this->getName(),
+			array('race' => $this->post_id,
+				'team' => $runner,
+				'leaguepoints' => 6,
+				'class' => 'RO'));
+	}
+	
+	/**
+	 * Delete assigned league points
+	 */
+	public function deleteRaceOrganiser($runner) {
+		return $this->wpdb->delete(
+			$this->getName(),
+			array('race' => $this->post_id,
+				'runner' => $runner,
+				'leaguepoints' => 6,
+				'class' => 'RO'));
+	}
 }
 ?>
