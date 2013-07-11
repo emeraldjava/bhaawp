@@ -1,12 +1,7 @@
 <?php
 // Make sure the Posts 2 Posts plugin is active.
-require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
-//if ( !function_exists( 'p2p_register_connection_type' ) )
-	//return;
-
-
-class Connection
-{
+class Connection {
+	
 	const EVENT_TO_RACE = 'event_to_race';
 	const LEAGUE_TO_EVENT = 'league_to_event';
 	const HOUSE_TO_RUNNER = 'house_to_runner';
@@ -88,9 +83,9 @@ class Connection
 			$raceResult->addRaceOrganiser($connection->p2p_to);
 		} elseif($connection->p2p_type == Connection::TEAM_POINTS) {
 			$teamResult = new TeamResult($connection->p2p_from);
-			$teamResult->addTeamOrganiserPoints($connection->p2p_to);
+			$res = $teamResult->addTeamOrganiserPoints($connection->p2p_to);
 		}
-		error_log('bhaa_p2p_created_connection() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to);
+		error_log('bhaa_p2p_created_connection() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to.'. '.$res);
 	}
 	
 	function bhaa_p2p_delete_connections($p2p_id) {
@@ -102,9 +97,9 @@ class Connection
 			$raceResult->deleteRaceOrganiser($connection->p2p_to);
 		} elseif($connection->p2p_type == Connection::TEAM_POINTS) {
 			$teamResult = new TeamResult($connection->p2p_from);
-			$teamResult->addTeamOrganiserPoints($connection->p2p_to);
+			$res = $teamResult->deleteTeamOrganiserPoints($connection->p2p_to);
 		}
-		error_log('bhaa_p2p_delete_connections() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to);
+		error_log('bhaa_p2p_delete_connections() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to.'. '.$res);
 	}
 	
 	function updateRunnersHouse($p2p_type,$from,$to)

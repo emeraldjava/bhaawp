@@ -146,22 +146,22 @@ class TeamResult extends BaseModel
 	public function addTeamOrganiserPoints($team) {
 		return $this->wpdb->insert(
 			$this->getName(),
-			array('race' => $this->post_id,
-				'team' => $runner,
+			array('race' => $this->race,
+				'team' => $team,
 				'leaguepoints' => 6,
-				'class' => 'RO'));
+				'class' => 'R'));
 	}
 	
 	/**
 	 * Delete assigned league points
 	 */
-	public function deleteRaceOrganiser($runner) {
+	public function deleteTeamOrganiserPoints($team) {
 		return $this->wpdb->delete(
 			$this->getName(),
-			array('race' => $this->post_id,
-				'runner' => $runner,
+			array('race' => $this->race,
+				'team' => $team,
 				'leaguepoints' => 6,
-				'class' => 'RO'));
+				'class' => 'R'));
 	}
 }
 ?>
