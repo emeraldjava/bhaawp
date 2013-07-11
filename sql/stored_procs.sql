@@ -470,8 +470,8 @@ DROP PROCEDURE IF EXISTS `updateTeamLeagueSummary`$$
 CREATE PROCEDURE `updateTeamLeagueSummary`(_leagueId  INT)
 BEGIN
 
-update wp_bhaa_teamresult set leaguepoints=(7-(position));
-update wp_bhaa_teamresult set leaguepoints=1 where leaguepoints<=0;
+update wp_bhaa_teamresult set leaguepoints=(7-(position)) where class!='R';
+update wp_bhaa_teamresult set leaguepoints=1 where leaguepoints<=0 and class!='R';
 
 DELETE FROM wp_bhaa_leaguesummary WHERE leagueType='T' and league = _leagueId;
 
@@ -493,7 +493,7 @@ t1.leaguestandard as leaguestandard,
 'W' AS leaguedivision,
 @rownum:=@rownum+1 AS leagueposition,
 t1.leaguescorecount,
-t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='OW') as leaguepoints,
+t1.leaguepoints as leaguepoints,
 t1.leaguesummary AS leaguesummary
 FROM
 (
@@ -511,13 +511,14 @@ FROM
 SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
 FROM wp_bhaa_teamresult trr
 join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
-WHERE class  in ('W','OW')
+WHERE class in ('W','R')
 GROUP BY team,race
 ) l
 GROUP BY l.team
 ORDER BY leaguepoints DESC
 )t1, (SELECT @rownum:=0) t2;
 
+-- t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='R') as leaguepoints,
 INSERT INTO wp_bhaa_leaguesummary(
 	league,
 	leaguetype,
@@ -536,7 +537,7 @@ t1.leaguestandard as leaguestandard,
 'M' AS leaguedivision,
 @rownum:=@rownum+1 AS leagueposition,
 t1.leaguescorecount,
-t1.leaguepoints - (SELECT count(1) FROM wp_bhaa_teamresult where team = t1.leagueparticipant and class='O') as leaguepoints,
+t1.leaguepoints as leaguepoints,
 t1.leaguesummary AS leaguesummary
 FROM
 (
@@ -554,7 +555,7 @@ FROM
 SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
 FROM wp_bhaa_teamresult trr
 join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
-WHERE class <> 'W' and class <> 'OW'
+WHERE class <> 'W'
 GROUP BY team,race
 ) l
 GROUP BY l.team
