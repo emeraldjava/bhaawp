@@ -505,10 +505,10 @@ l.team AS leagueparticipant,
 0 AS leaguedivision,
 SUM(l.leaguescorecount) AS leaguescorecount,
 SUM(l.leaguepoints) AS leaguepoints,
-GROUP_CONCAT( cast( concat(l.event,':',l.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
+GROUP_CONCAT( cast( concat_ws(':',l.event,l.leaguepoints,IF(l.class='R','RO',NULL)) AS char ) SEPARATOR ',') AS leaguesummary
 FROM
 (
-SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
+SELECT 1 AS leaguescorecount, team, race, class, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
 FROM wp_bhaa_teamresult trr
 join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
 WHERE class in ('W','R')
@@ -549,10 +549,10 @@ l.team AS leagueparticipant,
 0 AS leaguedivision,
 SUM(l.leaguescorecount) AS leaguescorecount,
 SUM(l.leaguepoints) AS leaguepoints,
-GROUP_CONCAT( cast( concat(l.event,':',l.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
+GROUP_CONCAT( cast( concat_ws(':',l.event,l.leaguepoints,IF(l.class='R','RO',NULL)) AS char ) SEPARATOR ',') AS leaguesummary
 FROM
 (
-SELECT 1 AS leaguescorecount, team, race, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
+SELECT 1 AS leaguescorecount, team, race, class, MAX(leaguepoints),class AS leaguepoints, e2r.p2p_from as event
 FROM wp_bhaa_teamresult trr
 join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
 WHERE class <> 'W'
