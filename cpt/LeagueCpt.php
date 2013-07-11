@@ -68,7 +68,7 @@ class LeagueCpt
 			$actions = array_merge($actions, array(
 				'update_league' => sprintf('<a href="%s">Update League</a>',
 					wp_nonce_url(
-						sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa_update_league_data'))
+						sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa_update_league_data'.$post->ID))
 			));
 		}
 		return $actions;
@@ -81,7 +81,7 @@ class LeagueCpt
 	{
 		if(isset($_GET['action'])) {
 			if($_GET['action'] == 'bhaa_update_league_data' 
-				&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_update_league_data') ) {
+				&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_update_league_data'.$_GET['post_id']) ) {
 				$id = $_GET['post_id'];
 				error_log('bhaa_update_league_data : '.$id.' '.$action);
 				$leagueSummary = new LeagueSummary($id);
