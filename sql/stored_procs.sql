@@ -391,7 +391,7 @@ COUNT(rr.race),
 ROUND(getLeaguePointsTotal(le.id,rr.runner),1) as leaguepoints,
 'A',
 1,
-GROUP_CONCAT( cast( concat(e.ID,':',rr.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
+GROUP_CONCAT( cast( concat_ws(':',e.ID,rr.leaguepoints,IF(class='RACE_ORG','RO',NULL)) AS char ) SEPARATOR ',') AS leaguesummary
 FROM wp_bhaa_raceresult rr
 inner join wp_posts r ON rr.race = r.id
 inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
