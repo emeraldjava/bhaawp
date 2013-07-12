@@ -57,4 +57,7 @@ require_once(PLUGIN_ROOT_DIR.'/classes/StandardCalculator.php');
 // widgets
 require_once(PLUGIN_ROOT_DIR.'/widgets/RunnerSearchWidget.php');
 
+// 3rd party dependencies
+require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
+
 ?>
