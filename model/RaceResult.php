@@ -8,19 +8,16 @@ class RaceResult extends BaseModel implements Table
 	const RACE_ORG = 'RACE_ORG';
 	const PRE_REG = 'PRE_REG';
 	
-	function __construct($post_id)
-	{
+	function __construct($post_id) {
 		parent::__construct();
 		$this->post_id = $post_id;
 	}
 	
-	public function getName()
-	{
+	public function getName() {
 		return $this->wpdb->prefix.'bhaa_raceresult';
 	}
 	
-	public function getCreateSQL()
-	{
+	public function getCreateSQL() {
 		return 'id int(11) NOT NULL AUTO_INCREMENT,
 		race int(11) NOT NULL,
 		runner int(11) NOT NULL,
@@ -35,8 +32,7 @@ class RaceResult extends BaseModel implements Table
 		PRIMARY KEY (id)';
 	}
 	
-	public function registerRunner($runner,$racenumber,$standard=NULL,$money)
-	{
+	public function registerRunner($runner,$racenumber,$standard=NULL,$money) {
 		$runnerCount = $this->wpdb->get_var(
 			$this->wpdb->prepare(
 				'select exists(select * from wp_bhaa_raceresult where race=%d and runner=%d)',$this->post_id,$runner)
@@ -126,8 +122,7 @@ where race=2849
 and class="RACE_REG"
 group by standardscoringset;
 	 */
-	public function getRegistrationTypes()
-	{
+	public function getRegistrationTypes() {
 		return $this->wpdb->get_results(
 			$this->wpdb->prepare('select standardscoringset as type, count(*) as count
 				from wp_bhaa_raceresult 
@@ -140,8 +135,7 @@ group by standardscoringset;
 	/**
 	 * Add 10 league points to a user for a race
 	 */
-	public function addRaceOrganiser($runner)
-	{
+	public function addRaceOrganiser($runner) {
 		return $this->wpdb->insert(
 				$this->getName(),
 				array('race' => $this->post_id,
@@ -153,8 +147,7 @@ group by standardscoringset;
 	/**
 	 * Delete assigned league points
 	 */
-	public function deleteRaceOrganiser($runner)
-	{
+	public function deleteRaceOrganiser($runner) {
 		return $this->wpdb->delete(
 				$this->getName(),
 				array('race' => $this->post_id,
@@ -232,32 +225,26 @@ group by standardscoringset;
 		return $res;
 	}
 	
-	function deleteRaceResults()
-	{
-		//$this->wpdb->show_errors();
+	function deleteRaceResults() {
 		$res = $this->wpdb->delete(
 			$this->getName(),
 			array('race' => $this->post_id)
 		);
-		//$this->wpdb->print_error();
-		//$this->wpdb->hide_errors();
 	}
 	
-	private function getRace()
-	{
+	private function getRace() {
 		return new Race($this->post_id);
 	}
 	
-	function updateAll()
-	{
+	function updateAll() {
 		$this->updateRacePace();
-		$this->updatePostRaceStd();
 		$this->updateRacePosInCat();
 		$this->updateRacePosInStd();
+		$this->updatePostRaceStd();
+		$this->updateLeague();
 	}
 	
-	function updateRacePace()
-	{
+	function updateRacePace() {
 		// update wp_bhaa_raceresult set actualstandard=getStandard(racetime,getRaceDistanceKm(race)) where race=2504;
 		// SEC_TO_TIME(TIME_TO_SEC(_raceTime) / _distance)
 		$SQL = sprintf('update %s set pace=SEC_TO_TIME(TIME_TO_SEC(racetime)/%f),actualstandard=getStandard(racetime,getRaceDistanceKm(race)) where race=%d',
@@ -266,8 +253,10 @@ group by standardscoringset;
 		$this->wpdb->query($this->wpdb->prepare($SQL));
 	}
 	
-	function updatePostRaceStd()
-	{
+	/**
+	 * Update the runners post race standard.
+	 */
+	function updatePostRaceStd() {
 		$runners = $this->wpdb->get_results(
 			$this->wpdb->prepare('select position, runner, standard, actualstandard from wp_bhaa_raceresult where race=%d order by position desc',$this->post_id)
 		);
@@ -290,18 +279,15 @@ group by standardscoringset;
 		//$this->wpdb->query($this->wpdb->prepare('call updatePostRaceStandard(%d)',$this->post_id));
 	}
 	
-	function updateRacePosInCat()
-	{
+	function updateRacePosInCat() {
 		$this->wpdb->query($this->wpdb->prepare('call updatePositionInAgeCategory(%d)',$this->post_id));
 	}
 	
-	function updateRacePosInStd()
-	{
+	function updateRacePosInStd() {
 		$this->wpdb->query($this->wpdb->prepare('call updatePositionInStandard(%d)',$this->post_id));
 	}
 	
-	function updateLeague()
-	{
+	function updateLeague() {
 		$this->wpdb->query($this->wpdb->prepare('call updateRaceScoringSets(%d)',$this->post_id));
 		$this->wpdb->query($this->wpdb->prepare('call updateRaceLeaguePoints(%d)',$this->post_id));
 	}
