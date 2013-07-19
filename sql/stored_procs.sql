@@ -373,6 +373,16 @@ BEGIN
     drop table tmpPosInSet;
 END$$
 
+-- updateRace
+DROP PROCEDURE IF EXISTS `updateRace`$$
+CREATE PROCEDURE `updateRace`(_race INT )
+BEGIN
+	CALL updatePositionInAgeCategory(_race);
+	CALL updatePositionInStandard(_race);
+	CALL updateRaceScoringSets(_race);
+	CALL updateRaceLeaguePoints(_race);
+END$$
+
 -- updateLeagueData
 DROP PROCEDURE IF EXISTS `updateLeagueData`$$
 CREATE PROCEDURE `updateLeagueData`(_leagueId INT(11))
