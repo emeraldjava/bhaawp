@@ -49,9 +49,16 @@ class BHAA
 		add_action('init', array($this,'enqueue_scripts_and_style'));
 		
 		//add_filter('the_content', array($this,'bhaa_content'));
+		//add_action('init',array($this,'bhaa_form_actions'));
 		
 		// hook add_query_vars function into query_vars
 		add_filter('query_vars', array($this,'add_query_vars'));
+	}
+	
+	function bhaa_form_actions() {
+		if( $_REQUEST['action'] == 'asv' ) {
+			error_log("action form asv ".$_REQUEST['message']);
+		}
 	}
 	
 	/**
@@ -62,11 +69,11 @@ class BHAA
 		if( empty($post) ) 
 			return $page_content; 
 		
-		if( in_array($post->ID, array(2025,2937)) ) {
+		if( in_array($post->ID, array(2025,2937,2940)) ) {
 			error_log("bhaa_content ".$post->ID);
 			
 			ob_start();
-			if( $post->ID == 2025) {
+			if( $post->ID == 2940) {//2025) {
 				// runner
 				$this->bhaa_locate_template('runner.php', true);// array('args'=>$args));
 			} else if( $post->ID == 2937) {
