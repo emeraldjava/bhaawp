@@ -147,9 +147,10 @@ class BhaaAdmin
 		echo '<h2>Lists the runner with a company but no correctly linked</h2>';
 		
 		if(isset($_POST['command']) && $_POST['command']=='link_runner') {
-			//$connection = new Connection();
-			//$connection->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$_POST['house'],$_POST['runner']);
-			//echo 'Linked '.$_POST['runner'].' to '.$_POST['house'].' company</br>';
+			//require_once( ABSPATH . 'wp-content/plugins/posts-to-posts/core/api.php' );
+			$connection = new Connection();
+			$connection->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$_POST['house'],$_POST['runner']);
+			echo 'Linked '.$_POST['runner'].' to '.$_POST['house'].' company</br>';
 		}
 				
 		$SQL = 'select wp_users.id as id, wp_users.display_name as display_name, status.meta_value as status, dor.meta_value as dor,
