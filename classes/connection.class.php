@@ -57,14 +57,14 @@ class Connection {
 			'name' => Connection::RACE_ORGANISER,
 			'from' => 'race',
 			'to' => 'user',
-			'cardinality' => 'one-to-many',
+			'cardinality' => 'many-to-many',
 			'title' => array( 'from' => 'Race Organiser', 'to' => 'Race Organiser')
 		));
 		p2p_register_connection_type( array(
 			'name' => Connection::TEAM_POINTS,
 			'from' => 'race',
 			'to' => 'house',
-			'cardinality' => 'one-to-many',
+			'cardinality' => 'many-to-many',
 			'title' => array( 'from' => 'Team Points', 'to' => 'Team Points')
 		));
 	}
