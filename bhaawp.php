@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.06.17
+Version: 2013.07.19
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA
 {
-	var $version = '2013.06.17';
+	var $version = '2013.07.19';
 	
 	var $connection;
 	
@@ -47,10 +47,53 @@ class BHAA
 
 		// init, wp_head, wp_enqueue_scripts
 		add_action('init', array($this,'enqueue_scripts_and_style'));
-		//add_filter('pre_get_posts', array($this,'tgm_cpt_search'));
+		
+		//add_filter('the_content', array($this,'bhaa_content'));
 		
 		// hook add_query_vars function into query_vars
 		add_filter('query_vars', array($this,'add_query_vars'));
+	}
+	
+	/**
+	 * The runner and raceday pages will be server from the plugin templates directory.
+	 */
+	function bhaa_content($page_content) {
+		global $post, $wpdb, $wp_query;
+		if( empty($post) ) 
+			return $page_content; 
+		
+		if( in_array($post->ID, array(2025,2937)) ) {
+			error_log("bhaa_content ".$post->ID);
+			
+			ob_start();
+			if( $post->ID == 2025) {
+				// runner
+				$this->bhaa_locate_template('runner.php', true);// array('args'=>$args));
+			} else if( $post->ID == 2937) {
+				// raceday
+				$this->bhaa_locate_template('raceday.php', true);//, array('args'=>$args));
+			}
+			$page_content = ob_get_clean();
+		}
+		return $page_content;
+		
+	}
+		
+	function bhaa_locate_template( $template_name, $load=false, $args = array() ) {
+		//First we check if there are overriding tempates in the child or parent theme
+		$located = locate_template(array('plugins/bhaawp-master/'.$template_name));
+		if( !$located ) {
+			if ( file_exists(BHAA_PLUGIN_DIR.'/templates/'.$template_name) ) {
+				$located = BHAA_PLUGIN_DIR.'/templates/'.$template_name;
+			}
+		}
+		$located = apply_filters('bhaa_locate_template', $located, $template_name, $load, $args);
+		if( $located && $load ) {
+			//if( is_array($args) ) 
+				//extract($args);
+			include($located);
+		}
+		return $located;
 	}
 	
 	function add_query_vars($aVars) {
