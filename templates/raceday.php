@@ -26,6 +26,11 @@ global $BHAA;
 
 	<h2>Raceday</h2>
 	
+	<?php 
+	echo 'wp-form';
+	echo wp_get_form('my-unique-form-id');
+	?>
+	<hr/>
 	<form name="<?php echo Raceday::BHAA_RACEDAY_FORM_REGISTER; ?>" method="post">
 		<input type="text" name="name" />
 		<input type="hidden" name="action" value="<?php echo Raceday::BHAA_RACEDAY_FORM_REGISTER; ?>" />
