@@ -1,7 +1,11 @@
 <?php
 //get_header();
 
-echo '<h1>RUNNER</h1>';
+echo '<h1>POC RUNNER</h1>';
+
+echo "<pre>GET "; print_r($_GET); echo "</pre>";
+echo "<pre>POST "; print_r($_POST); echo "</pre>";
+//echo var_dump($_REQUEST);
 
 if(isset($_REQUEST['user_nicename']))
 	$user = get_user_by('slug', $_REQUEST['user_nicename']);

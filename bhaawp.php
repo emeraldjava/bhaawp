@@ -48,8 +48,8 @@ class BHAA
 		// init, wp_head, wp_enqueue_scripts
 		add_action('init', array($this,'enqueue_scripts_and_style'));
 		
-		//add_filter('the_content', array($this,'bhaa_content'));
-		//add_action('init',array($this,'bhaa_form_actions'));
+		add_filter('the_content', array($this,'bhaa_content'));
+		add_action('init',array($this,'bhaa_form_actions'));
 		
 		// hook add_query_vars function into query_vars
 		add_filter('query_vars', array($this,'add_query_vars'));
@@ -96,8 +96,8 @@ class BHAA
 		}
 		$located = apply_filters('bhaa_locate_template', $located, $template_name, $load, $args);
 		if( $located && $load ) {
-			//if( is_array($args) ) 
-				//extract($args);
+			if( is_array($args) ) 
+				extract($args);
 			include($located);
 		}
 		return $located;
