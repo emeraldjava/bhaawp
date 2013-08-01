@@ -29,11 +29,23 @@ class Raceday
 				WP_Form_Element::create('text')
 				->set_name('first_name')
 				->set_label('First Name')
-		)->add_element(
+			)->add_element(
 				WP_form_Element::create('text')
 				->set_name('last_name')
 				->set_label('Last Name')
-		);
+			)->add_element(
+				WP_Form_Element::create('submit')
+				->set_name('submit')
+				->set_label('WP-FORM')
+			);		
+		$form->add_validator( array($this,'my_validation_callback'), 10 );	
+	}
+	
+	function my_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
+		error_log('my_validation_callback');
+		if ( $submission->get_value('first_name') != 'Jonathan' ) {
+			$submission->add_error('first_name', 'Your name should be Jonathan');
+		}
 	}
 	
 	function getEvent() {
