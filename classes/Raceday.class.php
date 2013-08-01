@@ -37,15 +37,24 @@ class Raceday
 				WP_Form_Element::create('submit')
 				->set_name('submit')
 				->set_label('WP-FORM')
-			);		
+			);//->set_redirect('');		
 		$form->add_validator( array($this,'my_validation_callback'), 10 );	
+		$form->add_processor( array($this,'my_processing_callback'), 10 );
+	}
+	
+	function my_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
+		$first_name = $submission->get_value('first_name');
+		// do something with $first_name
+		error_log('firstname '.$first_name);
+		// redirect the user after the form is submitted successfully
+		$submission->set_redirect('');//home_url('aPage'));
 	}
 	
 	function my_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
 		error_log('my_validation_callback');
-		if ( $submission->get_value('first_name') != 'Jonathan' ) {
-			$submission->add_error('first_name', 'Your name should be Jonathan');
-		}
+		//if ( $submission->get_value('first_name') != 'Jonathan' ) {
+		//	$submission->add_error('first_name', 'Your name should be Jonathan');
+		//}
 	}
 	
 	function getEvent() {
