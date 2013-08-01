@@ -42,6 +42,7 @@ require_once(BHAA_PLUGIN_DIR.'/table/raceresulttable.class.php');
 // classes
 require_once(BHAA_PLUGIN_DIR.'/classes/connection.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/event.class.php');
+require_once(BHAA_PLUGIN_DIR.'/classes/Raceday.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Registration.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/runner.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Standard.class.php');

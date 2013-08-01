@@ -23,6 +23,7 @@ class BHAA
 	var $standardCalculator;
 	
 	var $registration;
+	var $raceday;
 	
 	function __construct()
 	{
@@ -56,8 +57,11 @@ class BHAA
 	}
 	
 	function bhaa_form_actions() {
-		if( $_REQUEST['action'] == 'asv' ) {
-			error_log("action form asv ".$_REQUEST['message']);
+		//error_log('GET '.print_r($_GET));
+		//error_log('POST '.print_r($_POST));
+		if( $_REQUEST['action'] == Raceday::BHAA_RACEDAY_FORM_REGISTER ) {
+			error_log("action ".$_REQUEST['action']);
+			error_log("name   ".$_REQUEST['name']);
 		}
 	}
 	
@@ -145,12 +149,17 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		$this->runner = new Runner();
 		$this->event = new Event();
 		$this->registration = new Registration();
+		$this->raceday = new Raceday();
 		
 		$this->standardCalculator = new StandardCalculator();
 		add_shortcode('eventStandardTable', array($this->standardCalculator,'eventStandardTable'));
 		
 		$runnerSearchWidget = new RunnerSearchWidget();
 		add_action('widgets_init', array($runnerSearchWidget,'register'));		
+	}
+	
+	function getRaceday(){
+		return $this->raceday;
 	}
 	
 	function getRunner() {

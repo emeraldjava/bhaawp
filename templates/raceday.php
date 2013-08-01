@@ -13,36 +13,38 @@
 // http://wordpress.stackexchange.com/questions/21237/plugin-form-submission-best-practice
 // http://www.zunisoft.com/2013/02/wordpress-plugin-form-submissions.html
 // http://wordpress.stackexchange.com/questions/3902/best-practices-for-creating-and-handling-forms-with-plugins
+
+global $BHAA;
+//$raceday = $BHAA->getRaceday();
+
+//echo "<pre>GET "; print_r($_GET); echo "</pre>";
+//echo "<pre>POST "; print_r($_POST); echo "</pre>";
 ?>
 
 <!-- Create a header in the default WordPress 'wrap' container -->
-	<div class="wrap">
+<div class="wrap">
+
+	<h2>Raceday</h2>
 	
-		<div id="icon-themes" class="icon32"></div>
-		<h2>Raceday</h2>
-		<?php settings_errors(); ?>
-		
-		<h2 class="nav-tab-wrapper">
-			<a href="#" class="nav-tab">Display Options</a>
-			<a href="#" class="nav-tab">Social Options</a>
-		</h2>
-		
-		<form method="post" action="options.php">
-
-			<?php settings_fields( 'sandbox_theme_display_options' ); ?>
-			<?php do_settings_sections( 'sandbox_theme_display_options' ); ?>	
-			
-			<?php settings_fields( 'sandbox_theme_social_options' ); ?>
-			<?php do_settings_sections( 'sandbox_theme_social_options' ); ?>	
-		
-			<?php submit_button(); ?>
-			
-		</form>
-		
-	</div>
+	<form name="<?php echo Raceday::BHAA_RACEDAY_FORM_REGISTER; ?>" method="post">
+		<input type="text" name="name" />
+		<input type="hidden" name="action" value="<?php echo Raceday::BHAA_RACEDAY_FORM_REGISTER; ?>" />
+		<input type="submit" name="<?php echo Raceday::BHAA_RACEDAY_FORM_REGISTER; ?>" value="<?php echo Raceday::BHAA_RACEDAY_FORM_REGISTER; ?>" />
+	</form>
+	<hr/>
+	<form name="<?php echo Raceday::BHAA_RACEDAY_FORM_NEWMEMBER; ?>" method="post">
+		<input type="text" name="name" />
+		<input type="hidden" name="action" value="<?php echo Raceday::BHAA_RACEDAY_FORM_NEWMEMBER; ?>" />
+		<input type="submit" name="<?php echo Raceday::BHAA_RACEDAY_FORM_NEWMEMBER; ?>" value="<?php echo Raceday::BHAA_RACEDAY_FORM_NEWMEMBER; ?>" />
+	</form>
+	<hr/>
+	<form name="<?php echo Raceday::BHAA_RACEDAY_FORM_PREREG; ?>" method="post">
+		<input type="text" name="name" />
+		<input type="hidden" name="action" value="<?php echo Raceday::BHAA_RACEDAY_FORM_PREREG; ?>" />
+		<input type="submit" name="<?php echo Raceday::BHAA_RACEDAY_FORM_PREREG; ?>" value="<?php echo Raceday::BHAA_RACEDAY_FORM_PREREG; ?>" />
+	</form>
 	
-
-
+</div>
 <?php 
 //get_footer();
 ?>
