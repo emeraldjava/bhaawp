@@ -15,31 +15,58 @@ class Raceday
 		$eventModel = new EventModel();
 		$this->event = $eventModel->getNextEvent();
 		// https://github.com/jbrinley/wp-forms
-		add_action( 'wp_forms_register',array($this,'register_my_form'), 10, 0 );
+		add_action('wp_forms_register',array($this,'register_my_form'), 10, 0 );
+		
+		// filters
+		//add_filter('wp_form_default_decorators',array($this,'filter_button_decorators'), 10, 2 );
+		//  filter wp_form_htmltag_default
 	}
 	
 	function register_my_form() {
 		error_log('register_my_form');
 		wp_register_form( 'my-unique-form-id', array($this,'my_form_building_callback') );
 	}
-	
+		
+	/**
+	 * 
+	 * http://jsfiddle.net/kY5LL/12/
+	 * @param unknown $form
+	 */
 	function my_form_building_callback( $form ) {
 		error_log('my_form_building_callback');
-		$form->add_element(
-				WP_Form_Element::create('text')
-				->set_name('first_name')
-				->set_label('First Name')
-			)->add_element(
-				WP_form_Element::create('text')
-				->set_name('last_name')
-				->set_label('Last Name')
-			)->add_element(
-				WP_Form_Element::create('submit')
-				->set_name('submit')
-				->set_label('WP-FORM')
-			);//->set_redirect('');		
+		
+		$firstname = WP_Form_Element::create('text')->set_name('first-name')->set_label('First Name');
+		$firstname->set_view(new WP_Form_View_Input());
+		$firstname->add_decorator('WP_Form_Decorator_Label', array());// array('position' => WP_Form_Decorator::POSITION_SURROUND));
+		$firstname->add_decorator('WP_Form_Decorator_Description', array());
+		$firstname->add_decorator('WP_Form_Decorator_HtmlTag', array('tag' => 'div', 'attributes' => array( 'class' => 'control-group' )));	
+		
+		$lastname = WP_Form_Element::create('text')->set_name('last-name')->set_label('Last Name');
+		$lastname->set_view(new WP_Form_View_Input());
+		$lastname->add_decorator('WP_Form_Decorator_Label', array('position' => WP_Form_Decorator::POSITION_BEFORE));
+		$lastname->add_decorator('WP_Form_Decorator_Description', array());
+		$lastname->add_decorator('WP_Form_Decorator_HtmlTag', array('tag' => 'div', 'attributes' => array( 'class' => 'control-group' )));
+		
+		$submit = WP_Form_Element::create('submit')
+			->set_name('submit')
+			->set_label('WP-FORM');
+
+		$form->add_element($firstname);
+		$form->add_element($lastname);
+		$form->add_element($submit);
+		
 		$form->add_validator( array($this,'my_validation_callback'), 10 );	
 		$form->add_processor( array($this,'my_processing_callback'), 10 );
+	}
+	
+	function filter_button_views( $decorators, $element ) {
+		if ( $element->type == 'text' ) {
+			$decorators = array(
+				'WP_Form_Decorator_HtmlTag' => array('tag' => 'div',
+						'attributes' => array( 'class' => 'control-group' )),
+			);
+		}
+		return $decorators;
 	}
 	
 	function my_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
