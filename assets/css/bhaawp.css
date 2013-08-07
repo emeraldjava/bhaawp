@@ -1,0 +1,39 @@
+/*!
+ * Allow the form layout to be controlled via css 
+ * http://jsfiddle.net/kY5LL/12/
+ *
+ */
+
+@CHARSET "ISO-8859-1";
+
+.form-example {
+    max-width: 400px;        
+    margin: 0 auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+.form-example input[type="text"],
+.form-example input[type="email"],
+.form-example input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    padding: 7px 9px;
+}
+.form-footer a {
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.first-name,
+.last-name {
+    width: 48%;
+    display: inline-block;
+    float: left;
+}
+.last-name {
+    float: right;
+}

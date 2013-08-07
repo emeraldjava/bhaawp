@@ -54,6 +54,7 @@ class Raceday
 		$form->add_element($firstname);
 		$form->add_element($lastname);
 		$form->add_element($submit);
+		$form->add_class('form-example');
 		
 		$form->add_validator( array($this,'my_validation_callback'), 10 );	
 		$form->add_processor( array($this,'my_processing_callback'), 10 );

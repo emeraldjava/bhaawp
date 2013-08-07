@@ -51,17 +51,16 @@ class BHAA
 		
 		add_filter('the_content', array($this,'bhaa_content'));
 		add_action('init',array($this,'bhaa_form_actions'));
-		
+				
 		// hook add_query_vars function into query_vars
 		add_filter('query_vars', array($this,'add_query_vars'));
 	}
 	
 	function bhaa_form_actions() {
-		//error_log('GET '.print_r($_GET));
-		//error_log('POST '.print_r($_POST));
-		if( $_REQUEST['action'] == Raceday::BHAA_RACEDAY_FORM_REGISTER ) {
+		if( !empty($_REQUEST['action']) && substr($_REQUEST['action'],0,17) == Raceday::BHAA_RACEDAY_FORM ) {
 			error_log("action ".$_REQUEST['action']);
 			error_log("name   ".$_REQUEST['name']);
+			echo '<div class="thanks">THANKS</div>';
 		}
 	}
 	
@@ -201,6 +200,11 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
  			plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
  			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
  		wp_enqueue_script('bhaawp');
+ 		wp_register_script(
+	 		'bootstrap-js',
+	 		plugins_url('assets/js/bootstrap.min.js',__FILE__),
+	 		array());
+ 		wp_enqueue_script('bootstrap-js');
  		wp_localize_script(
  			'bhaawp',
  			'bhaaAjax',
@@ -217,10 +221,18 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
  		//wp_enqueue_style(
  			//'jquery-bhaa-style',
  			//'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+		wp_enqueue_style(
+			'bhaawp',
+			plugins_url() . '/bhaawp-master/assets/css/bhaawp.css',
+			false);
  		wp_enqueue_style(
  			'jquery-bhaa-style',
  			plugins_url() . '/bhaawp-master/assets/css/ui-lightness/jquery-ui-1.9.2.custom.min.css',
  			false);
+ 		wp_enqueue_style(
+	 		'bootstrap-css',
+	 		plugins_url() . '/bhaawp-master/assets/css/bootstrap.min.css',
+	 		false);
  			//PLUGIN_VERSION,
  			//false);
 	}
