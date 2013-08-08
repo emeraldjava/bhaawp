@@ -26,9 +26,22 @@ global $BHAA;
 
 	<h2>Raceday</h2>
 	
+	<div id="tabbable">
+	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+	  <li><a href="#a" data-toggle="tab">Home</a></li>
+	  <li><a href="#b" data-toggle="tab">Profile</a></li>
+	  <li><a href="#c" data-toggle="tab">Messages</a></li>
+	</ul>
+	<div id="my-tab-content" class="tab-content">
+		<div id="a" class="tab-pane">a <?php echo wp_get_form('my-unique-form-id')?></div>
+		<div id="b" class="tab-pane">b <?php echo wp_get_form('my-unique-form-id')?></div>
+		<div id="c" class="tab-pane">c <?php echo wp_get_form('my-unique-form-id')?></div>
+	</div>
+	</div>
+	
 	<?php 
 	echo 'wp-form';
-	echo wp_get_form('my-unique-form-id');
+	//echo wp_get_form('my-unique-form-id');
 	?>
 	<hr/>
 	<form name="<?php echo Raceday::BHAA_RACEDAY_FORM_REGISTER; ?>" method="post">

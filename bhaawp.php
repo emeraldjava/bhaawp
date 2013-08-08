@@ -203,7 +203,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
  		wp_register_script(
 	 		'bootstrap-js',
 	 		plugins_url('assets/js/bootstrap.min.js',__FILE__),
-	 		array());
+	 		array('jquery'));
  		wp_enqueue_script('bootstrap-js');
  		wp_localize_script(
  			'bhaawp',
