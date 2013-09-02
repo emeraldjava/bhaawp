@@ -113,6 +113,7 @@ class RaceCpt
 		echo '<option value="M" '.(($type[0]=='M')?'selected="selected"':"").'>M</option>';
 		echo '<option value="W" '.(($type[0]=='W')?'selected="selected"':"").'>W</option>';
 		echo '<option value="S" '.(($type[0]=='S')?'selected="selected"':"").'>S</option>';
+		echo '<option value="T" '.(($type[0]=='T')?'selected="selected"':"").'>T</option>';
 		echo '</select></p>';
 		
 		// admin url links		
