@@ -147,6 +147,15 @@ jQuery(document).ready( function() {
 //
 //	jQuery("#bhaa_runner_company").combobox();
 	
+	// http://tatiyants.com/how-to-use-json-objects-with-twitter-bootstrap-typeahead/
+//	jQuery('.memberfilter').typeahead({
+//	    source: function (query, process) {
+//	        return $.get('/typeahead', { query: query }, function (data) {
+//	            return process(data.options);
+//	        });
+//	    }
+//	});
+	
 	// firstname 8
 	// secondname 10
 	

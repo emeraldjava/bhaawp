@@ -33,7 +33,12 @@ global $BHAA;
 	  <li><a href="#c" data-toggle="tab">Messages</a></li>
 	</ul>
 	<div id="my-tab-content" class="tab-content">
-		<div id="a" class="tab-pane">a <?php echo wp_get_form('my-unique-form-id')?></div>
+		<div id="a" class="tab-pane">
+		<div class="navbar-search pull-left" align="left">
+			<input size="35" type="text" placeholder="Search BHAA Member by Name OR ID" id="memberfilter"/>
+		</div>
+		
+		<?php echo wp_get_form('my-unique-form-id')?></div>
 		<div id="b" class="tab-pane">b <?php echo wp_get_form('my-unique-form-id')?></div>
 		<div id="c" class="tab-pane">c <?php echo wp_get_form('my-unique-form-id')?></div>
 	</div>

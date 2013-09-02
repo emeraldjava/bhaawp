@@ -200,10 +200,10 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
  			plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
  			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
  		wp_enqueue_script('bhaawp');
- 		wp_register_script(
-	 		'bootstrap-js',
-	 		plugins_url('assets/js/bootstrap.min.js',__FILE__),
-	 		array('jquery'));
+// 		wp_register_script(
+	// 		'bootstrap-js',
+	 //		plugins_url('assets/js/bootstrap.min.js',__FILE__),
+	 	//	array('jquery'));
  		wp_enqueue_script('bootstrap-js');
  		wp_localize_script(
  			'bhaawp',
@@ -225,16 +225,14 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			'bhaawp',
 			plugins_url() . '/bhaawp-master/assets/css/bhaawp.css',
 			false);
- 		wp_enqueue_style(
+/*  		wp_enqueue_style(
  			'jquery-bhaa-style',
  			plugins_url() . '/bhaawp-master/assets/css/ui-lightness/jquery-ui-1.9.2.custom.min.css',
  			false);
  		wp_enqueue_style(
 	 		'bootstrap-css',
 	 		plugins_url() . '/bhaawp-master/assets/css/bootstrap.min.css',
-	 		false);
- 			//PLUGIN_VERSION,
- 			//false);
+	 		false); */
 	}
 		
 	function bhaawp_house_search() {

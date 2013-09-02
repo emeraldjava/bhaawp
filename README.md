@@ -88,4 +88,10 @@ https://github.com/mozilla/pdf.js
 http://www.wpbeginner.com/wp-themes/how-to-create-a-custom-single-attachments-template-in-wordpress/
 filter the pdf url and add wrapping code
 
+-- to have custom templates in the plugin rather than template
+http://wordpress.stackexchange.com/questions/3396/create-custom-page-templates-with-plugins
+http://wordpress.stackexchange.com/questions/15790/custom-form-shortcode-and-submit-handler
+
 http://github.github.com/github-flavored-markdown/
+
+http://wordpress.stackexchange.com/questions/17385/custom-post-type-templates-from-plugin-folder
