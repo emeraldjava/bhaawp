@@ -404,6 +404,7 @@ ROUND(getLeaguePointsTotal(le.id,rr.runner),1) as leaguepoints,
 GROUP_CONCAT( cast( concat_ws(':',e.ID,rr.leaguepoints,IF(class='RACE_ORG','RO',NULL)) AS char ) SEPARATOR ',') AS leaguesummary
 FROM wp_bhaa_raceresult rr
 inner join wp_posts r ON rr.race = r.id
+inner join wp_postmeta rt on (rt.post_id=r.id and rt.meta_key = 'bhaa_race_type')
 inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
 inner join wp_posts e ON e2r.p2p_from = e.id
 inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
@@ -411,7 +412,9 @@ inner JOIN wp_posts le ON l2e.p2p_from = le.id
 inner JOIN wp_users ru ON rr.runner = ru.id
 JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key = 'bhaa_runner_status')
 JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
-WHERE le.id=_leagueId AND class in ('RAN','RACE_ORG') AND standard.meta_value IS NOT NULL AND status.meta_value='M'
+WHERE le.id=_leagueId AND class in ('RAN','RACE_ORG') 
+AND standard.meta_value IS NOT NULL AND status.meta_value='M'
+AND rt.meta_value!='TRACK' -- exclude TRACK events
 GROUP BY le.id,rr.runner
 HAVING COALESCE(leaguepoints, 0) > 0;
   
