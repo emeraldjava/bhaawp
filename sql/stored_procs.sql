@@ -466,12 +466,15 @@ SET _pointsTotal =
       CASE rr.leaguepoints WHEN 11 THEN 10 ELSE rr.leaguepoints END AS points
       FROM wp_bhaa_raceresult rr
       inner join wp_posts r ON rr.race = r.id
+      inner join wp_postmeta rt on (rt.post_id=r.id and rt.meta_key = 'bhaa_race_type')
       inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=r.ID)
       inner join wp_posts e ON e2r.p2p_from = e.id
       inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_to=e.ID)
       inner JOIN wp_posts le ON l2e.p2p_from = le.id
 	  WHERE runner=_runnerId AND le.id=_leagueId 
-	  and rr.class in ('RAN', 'RACE_ORG', 'RACE_POINTS') order by rr.leaguepoints desc) r1, (SELECT @rownum:=0) r2
+	  AND rr.class in ('RAN', 'RACE_ORG', 'RACE_POINTS') 
+	  AND rt.meta_value!='TRACK' 
+	  order by rr.leaguepoints desc) r1, (SELECT @rownum:=0) r2
 ) t where t.bestxpoints <= _racesToCount 
 );
 
