@@ -70,7 +70,7 @@ class LeagueSummary extends BaseModel implements Table
 			where l.post_type='league'
 			and l.ID=%d", $this->leagueid);
 		if($type!='')
-			$SQL .= sprintf(" and r_type.meta_value in ('C','%s')",$type);
+			$SQL .= sprintf(" and r_type.meta_value in ('C','S','%s')",$type);
 		$SQL .= ' order by eme.event_start_date ASC';
 		//echo $SQL;
 		//error_log($SQL);
