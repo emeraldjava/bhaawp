@@ -58,6 +58,17 @@ RETURN (SELECT category FROM wp_bhaa_agecategory WHERE (_age between min and max
 END$$
 
 -- updatePositions by time
+DROP PROCEDURE IF EXISTS `updateRace`$$
+CREATE PROCEDURE `updateRace`(_race INT(11))
+BEGIN
+	CALL updatePositions(_race);
+	CALL updatePositionInAgeCategory(_race);
+	CALL updatePositionInStandard(_race);
+	CALL updateRaceScoringSets(_race);
+	CALL updateRaceLeaguePoints(_race);
+END$$
+
+-- updatePositions by time
 DROP PROCEDURE IF EXISTS `updatePositions`$$
 CREATE PROCEDURE `updatePositions`(_race INT(11))
 BEGIN
