@@ -76,7 +76,7 @@ class BHAA
 			error_log("bhaa_content ".$post->ID);
 			
 			ob_start();
-			if( $post->ID == 2940) {//2025) {
+			if( $post->ID == 2025) {//2025) {
 				// runner
 				$this->bhaa_locate_template('runner.php', true);// array('args'=>$args));
 			} else if( $post->ID == 2937) {
@@ -85,6 +85,7 @@ class BHAA
 			}
 			$page_content = ob_get_clean();
 		}
+		error_log("bhaa_content ".$page_content);
 		return $page_content;
 		
 	}
@@ -106,6 +107,40 @@ class BHAA
 		return $located;
 	}
 	
+	/**
+	 * http://codex.wordpress.org/Function_Reference/load_template
+	 * http://keithdevon.com/passing-variables-to-get_template_part-in-wordpress/
+	 * https://github.com/stephenharris/Event-Organiser/blob/1.7.3/includes/event-organiser-templates.php#L193
+	 */
+/* 	function bhaa_locate_template($template_names, $load = false, $require_once = true ) {
+		$located = '';
+	
+		$template_dir = get_stylesheet_directory(); //child theme
+		$parent_template_dir = get_template_directory(); //parent theme
+	
+		$stack = array( $template_dir, $parent_template_dir, BHAA_PLUGIN_DIR . 'templates' );
+	
+		foreach ( (array) $template_names as $template_name ) {
+			if ( !$template_name )
+				continue;
+			foreach ( $stack as $template_stack ){
+				if ( file_exists( trailingslashit( $template_stack ) . $template_name ) ) {
+					$located = trailingslashit( $template_stack ) . $template_name;
+					break;
+				}
+			}
+		}
+		if ( $load && '' != $located )
+			load_template( $located, $require_once );
+		return $located;
+	} */
+	
+	
+	/**
+	 * http://wordpress.stackexchange.com/questions/46/what-are-all-the-available-parameters-for-query-posts
+	 * @param unknown $aVars
+	 * @return string
+	 */
 	function add_query_vars($aVars) {
 		$aVars[] = "division"; // represents the name of the product category as shown in the URL
 		return $aVars;
@@ -261,7 +296,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 		die();
  		//exit;
 	}
-			
+				
 	function defineConstants()
 	{
 		define('BHAAWP_PATH', plugin_dir_path(__FILE__));

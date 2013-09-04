@@ -10,7 +10,7 @@ echo "<pre>POST "; print_r($_POST); echo "</pre>";
 if(isset($_REQUEST['user_nicename']))
 	$user = get_user_by('slug', $_REQUEST['user_nicename']);
 else
-	$user = get_user_by('id', $_REQUEST['id']);
+	$user = get_user_by('id', 7713);// $_REQUEST['id']);
 
 $metadata = get_user_meta($user->ID);
 $status = $metadata['bhaa_runner_status'][0];
