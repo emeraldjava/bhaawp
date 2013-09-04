@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.07.19
+Version: 2013.09.04
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA
 {
-	var $version = '2013.07.19';
+	var $version = '2013.09.04';
 	
 	var $connection;
 	
@@ -225,11 +225,11 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			'bhaawp',
 			plugins_url() . '/bhaawp-master/assets/css/bhaawp.css',
 			false);
-/*  		wp_enqueue_style(
+		wp_enqueue_style(
  			'jquery-bhaa-style',
  			plugins_url() . '/bhaawp-master/assets/css/ui-lightness/jquery-ui-1.9.2.custom.min.css',
  			false);
- 		wp_enqueue_style(
+ 		/*wp_enqueue_style(
 	 		'bootstrap-css',
 	 		plugins_url() . '/bhaawp-master/assets/css/bootstrap.min.css',
 	 		false); */
