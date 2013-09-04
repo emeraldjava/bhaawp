@@ -227,7 +227,7 @@ if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) 
 			false);
 		wp_enqueue_style(
  			'jquery-bhaa-style',
- 			plugins_url() . '/bhaawp-master/assets/css/ui-lightness/jquery-ui-1.9.2.custom.min.css',
+ 			plugins_url() . '/bhaawp-master/assets/css/jqueryui/jquery-ui-1.10.3.custom.min.css',
  			false);
  		/*wp_enqueue_style(
 	 		'bootstrap-css',
