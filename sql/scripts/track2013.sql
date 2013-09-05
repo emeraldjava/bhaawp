@@ -11,7 +11,7 @@ join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=2662)
 where race= e2r.p2p_to
 group by runner;
 
-delete from wp_bhaa_raceresult where race=2928
+delete from wp_bhaa_raceresult where race=2928;
 insert into wp_bhaa_raceresult (race,runner,position,racenumber,category,standard,actualstandard,poststandard,leaguepoints,class)
 select 2928,runner,position,racenumber,category,standard,actualstandard,poststandard,MAX(leaguepoints) as leaguepoints,class 
 from wp_bhaa_raceresult
@@ -97,6 +97,13 @@ VALUES (
 NULL ,  '2659',  '2665',  'league_to_event'
 );
 
+update wp_bhaa_raceresult,wp_usermeta
+set wp_bhaa_raceresult.standard=wp_usermeta.meta_value
+where wp_usermeta.user_id=wp_bhaa_raceresult.runner
+and wp_bhaa_raceresult.race in (2853,2964,2965,2966,2967,2968,2969,2971,2972)
+and wp_usermeta.meta_key='bhaa_runner_standard'
+and wp_usermeta.meta_value!='';
+
 call updateRace(2853);
 call updateRace(2964);
 call updateRace(2965);
@@ -116,12 +123,7 @@ join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=2665)
 where race= e2r.p2p_to
 group by runner;
 
-update wp_bhaa_raceresult,wp_usermeta
-set wp_bhaa_raceresult.standard=wp_usermeta.meta_value
-where wp_usermeta.user_id=wp_bhaa_raceresult.runner
-and wp_bhaa_raceresult.race in (2853,2964,2965,2966,2967,2968,2969,2971,2972)
-and wp_usermeta.meta_key='bhaa_runner_standard'
-and wp_usermeta.meta_value!='';
+
 
 --  in (2853,2964,2965,2966,2967,2968,2969,2971,2972)
 select * from wp_bhaa_raceresult where race=2972 order by position desc
