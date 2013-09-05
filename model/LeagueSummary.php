@@ -48,7 +48,7 @@ class LeagueSummary extends BaseModel implements Table
 		}
 		else
 		{
-			$SQL = $this->wpdb->prepare("select * from wp_bhaa_division where ID in (9,13)");
+			$SQL = $this->wpdb->prepare("select * from wp_bhaa_division where ID in (%s)","9,13");
 			//error_log($SQL);
 			return $this->wpdb->get_results($SQL,OBJECT);
 			//return array('M','W');
