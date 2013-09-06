@@ -119,6 +119,7 @@ class RaceCpt
 		// admin url links		
 		echo sprintf('<a href="%s">Delete Results</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Load Results</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa'));
+		echo sprintf('<a href="%s">Positions</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_positions&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Pace</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_pace&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Pos Cat</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posincat&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Pos Std</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posinstd&post_id=%d', $post->ID),'bhaa'));

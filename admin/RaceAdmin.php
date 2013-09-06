@@ -25,6 +25,8 @@ class RaceAdmin
 					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa')),
 				'bhaa_race_load_results' => sprintf('<a href="%s">Load Results</a>', 
 					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_race_update_positions' => sprintf('<a href="%s">Positions</a>', 
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_positions&post_id=%d', $post->ID),'bhaa')),
 				'bhaa_race_update_pace' => sprintf('<a href="%s">Pace</a>',
 					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_pace&post_id=%d', $post->ID),'bhaa')),
 				'bhaa_race_posincat' => sprintf('<a href="%s">Pos Cat</a>',
@@ -77,6 +79,12 @@ class RaceAdmin
 				}
 				error_log('bhaa_race_load_results : '.$post_id);
 				queue_flash_message("bhaa_race_load_results");
+				wp_redirect(wp_get_referer());
+				exit();
+				break;
+			case "bhaa_race_update_positions":
+				$raceResult->updatePositions();
+				queue_flash_message("bhaa_race_update_positions");
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
