@@ -237,6 +237,7 @@ group by standardscoringset;
 	}
 	
 	function updateAll() {
+		$this->updatePositions();
 		$this->updateRacePace();
 		$this->updateRacePosInCat();
 		$this->updateRacePosInStd();
@@ -277,6 +278,10 @@ group by standardscoringset;
 			}
 		}
 		//$this->wpdb->query($this->wpdb->prepare('call updatePostRaceStandard(%d)',$this->post_id));
+	}
+	
+	function updatePositions() {
+		$this->wpdb->query($this->wpdb->prepare('call updatePositions(%d)',$this->post_id));
 	}
 	
 	function updateRacePosInCat() {
