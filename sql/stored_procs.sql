@@ -452,7 +452,7 @@ BEGIN
 DECLARE _pointsTotal DOUBLE;
 DECLARE _racesToCount INT;
 
-SET _racesToCount = 8; -- (select racestoscore from league where id=_leagueId);
+SET _racesToCount = (select meta_value from wp_postmeta where meta_key='races_to_score' and post_id=_leagueId);
 
 SET _pointsTotal =
 (
