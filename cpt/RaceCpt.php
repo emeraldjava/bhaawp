@@ -69,12 +69,12 @@ class RaceCpt
 	 */
 	public function bhaa_race_meta_data() {
 		add_meta_box(
-		'bhaa-race-meta',
-		__( 'Race Details', 'bhaa-race-meta' ),
-		array(&$this, 'bhaa_race_meta_fields'),
-		'race',
-		'side',
-		'low'
+			'bhaa-race-meta',
+			__( 'Race Details', 'bhaa-race-meta' ),
+			array(&$this, 'bhaa_race_meta_fields'),
+			'race',
+			'side',
+			'low'
 		);	
 	}
 	

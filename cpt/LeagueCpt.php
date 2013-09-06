@@ -17,12 +17,12 @@ class LeagueCpt
 	
 	public function bhaa_league_meta_data() {
 		add_meta_box(
-		'bhaa_league_meta',
-		__( 'League Details', 'bhaa_league_meta' ),
-		array(&$this, 'bhaa_league_meta_data_fields'),
-		'league',
-		'side',
-		'low'
+			'bhaa_league_meta',
+			__( 'League Details', 'bhaa_league_meta' ),
+			array(&$this, 'bhaa_league_meta_data_fields'),
+			'league',
+			'side',
+			'low'
 		);
 	}
 	
@@ -35,8 +35,8 @@ class LeagueCpt
 		// http://stackoverflow.com/questions/3507042/if-block-inside-echo-statement
 		$type = get_post_custom_values(LeagueCpt::BHAA_LEAGUE_TYPE, $post->ID);
 		echo '<p>Type <select name='.LeagueCpt::BHAA_LEAGUE_TYPE.'>';
-		echo '<option value="I" '.(($type[0]=='Mile')?'selected="selected"':"").'>I</option>';
-		echo '<option value="T" '.(($type[0]=='Km')?'selected="selected"':"").'>T</option>';
+		echo '<option value="I" '.(($type[0]=='I')?'selected="selected"':"").'>I</option>';
+		echo '<option value="T" '.(($type[0]=='T')?'selected="selected"':"").'>T</option>';
 		echo '</select></p>';
 	}
 	
@@ -77,24 +77,21 @@ class LeagueCpt
 	/**
 	 * Filters for specific cpt actions.
 	 */
-	function bhaa_league_actions()
-	{
-		if(isset($_GET['action'])) {
-			if($_GET['action'] == 'bhaa_update_league_data' 
-				&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_update_league_data'.$_GET['post_id']) ) {
+	function bhaa_league_actions() {
+		if(isset($_GET['action']) 
+			&& ($_GET['action'] == 'bhaa_update_league_data') 
+			&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_update_league_data'.$_GET['post_id']) ) {
 				$id = $_GET['post_id'];
 				error_log('bhaa_update_league_data : '.$id.' '.$action);
 				$leagueSummary = new LeagueSummary($id);
 				$leagueSummary->updateLeagueData();
 				wp_redirect(wp_get_referer()); 
 				exit();
-			}	
 		}
 	}
 	
 	//
-	function registerLeagueCPT()
-	{
+	function registerLeagueCPT() {
 		$leagueLabels = array(
 			'name' => _x( 'Leagues', 'league' ),
 			'singular_name' => _x( 'League', 'league' ),
