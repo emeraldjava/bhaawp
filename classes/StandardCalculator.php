@@ -91,18 +91,19 @@ class StandardCalculator
 	
 	function generateTableForDistances($distances) {
 		$standardTable = '<div>';
-		$standardTable .= '<table border="1" cellpadding="4">'.PHP_EOL;
+		$standardTable .= '<table class="table-1">'.PHP_EOL;
 		
 		// headers
-		$standardTable .= '<tr>';
+		$standardTable .= '<thead><tr>';
 		$standardTable .= '<th>Standard</th>';
 		foreach ($distances as $distance)
 		{
 			$standardTable .= '<th>'.$distance['title'].'</th>';
 		}
-		$standardTable .= '</tr>'.PHP_EOL;
+		$standardTable .= '</tr></thead>'.PHP_EOL;
 		
 		// standard row and distance time
+		$standardTable .= '<tbody>';
 		foreach ($this->standards as $k => $v)
 		{
 			$standardTable .= '<tr>';
@@ -113,6 +114,7 @@ class StandardCalculator
 			}
 			$standardTable .= '</tr>'.PHP_EOL;
 		}
+		$standardTable .= '</tbody>';
 		
 		$standardTable .= '</table></div>'.PHP_EOL;
 		return $standardTable;
