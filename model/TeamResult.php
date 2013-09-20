@@ -80,7 +80,7 @@ class TeamResult extends BaseModel
 		$results = $this->getTeamResults();
 		//var_dump($results);
 		$table = '<h2>Team Results</h2>';
-		$table .= '<table width="90%">';
+		$table .= '<table class="table-1" width="90%">';
 		
 		
 		// ["id"]=> string(2) "64" ["race"]=> string(4) "2595" ["class"]=> string(1) "W" ["position"]=> string(1) "1" 

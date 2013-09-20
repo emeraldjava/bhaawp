@@ -78,7 +78,7 @@ class TeamResultTable extends WP_List_Table
 	}
 	
 	function get_table_classes() {
-		return array( 'bhaatables',$this->_args['plural'] );
+		return array( 'table-1',$this->_args['plural'] );
 	}
 }
 ?>
