@@ -65,8 +65,12 @@ class StandardCalculator
 		return getEventStandardTable($post->ID);
 	}	
 	
-	function getEventStandardTable($eventid) 
-	{
+	/**
+	 * Display the standard table for an events races.
+	 * @param unknown $eventid
+	 * @return string
+	 */
+	function getEventStandardTable($eventid) {
 		$eventModel = new EventModel($eventid);
 		$races = $eventModel->getRaces();
 		if(count($races)==0)
@@ -75,18 +79,17 @@ class StandardCalculator
 		}
 			
 		$distances = array();
-		foreach ($races as $race)
-		{
-			$distance = array();
-			$distance['km'] = $race->getKmDistance();
-			$distance['title'] = $race->getDistance().$race->getUnit();
-			$distances[]= $distance;
+		foreach ($races as $race) {
+			$distance = array('km'=>$race->getKmDistance(),'title'=> $race->getTitle());
+			// filter the distinct race distances.
+			if(!in_array($distance,$distances)) {
+				array_push($distances,$distance);
+			}
 		}
 		return $this->generateTableForDistances($distances);
 	}
 	
-	function generateTableForDistances($distances)
-	{
+	function generateTableForDistances($distances) {
 		$standardTable = '<div>';
 		$standardTable .= '<table border="1" cellpadding="4">'.PHP_EOL;
 		
@@ -115,8 +118,7 @@ class StandardCalculator
 		return $standardTable;
 	}
 	
-	function toString()
-	{
+	function toString() {
 		return $this->standards;
 	}
 }
