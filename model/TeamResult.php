@@ -122,7 +122,7 @@ class TeamResult extends BaseModel
 					$position = $row->position;
 					// start table
 					$house_url = sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$row->team,$row->teamname);
-					$table .= $this->generateRow('<b>'.$row->class.'-'.$row->position.' '.$house_url.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
+					$table .= $this->generateRow('<b>'.$row->class.'-'.$row->position.' '.$house_url.'</b>','','','<b>Position</b>','<b>Standard</b>','');
 					// add first row
 					$table .= $this->generateRow('<b>Athlete</b>','<b>Race Time</b>','<b>Company</b>','<b>'.$row->totalpos.'<b>','<b>'.$row->totalstd.'<b>');
 				}
