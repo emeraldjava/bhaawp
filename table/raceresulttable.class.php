@@ -240,7 +240,7 @@ class RaceResultTable extends WP_List_Table
 	 * @see WP_List_Table::get_table_classes()
 	 */
 	function get_table_classes() {
-		return array( 'bhaatables',$this->_args['plural'] );
+		return array( 'table-1',$this->_args['plural'] );
 	}
 	
 	function usort_reorder( $a, $b ) {
