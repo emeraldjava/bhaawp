@@ -77,12 +77,23 @@ class TeamResult extends BaseModel
 	public function getTeamTable() {
 		$results = $this->getTeamResults();
 		$table = '<h2>Team Results</h2>';
+		//$table .= $this->teamSummary();
 		$table .= $this->displayClassTable($results,'A');
 		$table .= $this->displayClassTable($results,'B');
 		$table .= $this->displayClassTable($results,'C');
 		$table .= $this->displayClassTable($results,'D');
 		$table .= $this->displayClassTable($results,'W');
 		return $table;
+	}
+	
+	private function teamSummary(){
+		return '[counters_box]
+			[counter_box value="5"]A[/counter_box]
+			[counter_box value="5"]B[/counter_box]
+			[counter_box value="6"]C[/counter_box]
+			[counter_box value="8"]D[/counter_box]
+			[counter_box value="2"]W[/counter_box]
+			[/counters_box]';
 	}
 	
 	private function displayClassTable($results,$class) {
