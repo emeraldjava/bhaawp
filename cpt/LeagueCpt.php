@@ -8,6 +8,7 @@ class LeagueCpt
 	{
 		add_action('init',array(&$this,'registerLeagueCPT'));
 		add_action('init',array(&$this,'bhaa_league_actions'),11);
+		//register_taxonomy_for_object_type('category', 'league');
 		add_filter('post_row_actions', array(&$this,'bhaa_league_post_row_actions'), 0, 2);
 		
 		// custom meta
@@ -112,6 +113,7 @@ class LeagueCpt
 			'hierarchical' => false,
 			'description' => 'BHAA League Details',
 			'supports' => array( 'title','editor','excerpt','thumbnail','comments'),
+			'taxonomies' => array('category'),// post_tag
         	'public' => true,
         	'show_ui' => true,
         	'show_in_menu' => true,

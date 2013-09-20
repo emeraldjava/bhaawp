@@ -60,8 +60,8 @@ class HouseCpt
 				'labels' => $houseLabels,
 				'hierarchical' => true,
 				'description' => 'BHAA House Details',
-				'supports' => array( 'title','editor','excerpt','thumbnail','comments'),// add 'page-attributes' for parent hierarchy
-				'taxonomies' => array( 'sector' ),
+				'supports' => array('title','editor','excerpt','thumbnail','comments'),// add 'page-attributes' for parent hierarchy
+				'taxonomies' => array('sector','category'),
 				'public' => true,
 				'show_ui' => true,
 				'show_in_menu' => true,
