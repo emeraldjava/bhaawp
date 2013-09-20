@@ -62,8 +62,7 @@ class TeamResult extends BaseModel
 		));
 	}
 	
-	public function getTeamResults()
-	{
+	public function getTeamResults() {
 		return $this->wpdb->get_results(
 			$this->wpdb->prepare('select wp_bhaa_teamresult.*,wp_users.display_name from wp_bhaa_teamresult
 				join wp_users on wp_users.id=wp_bhaa_teamresult.runner
@@ -75,58 +74,60 @@ class TeamResult extends BaseModel
 	 * We'll do the html table generation here for the moment.
 	 */
 	
-	public function getTeamTable()
-	{
+	public function getTeamTable() {
 		$results = $this->getTeamResults();
-		//var_dump($results);
 		$table = '<h2>Team Results</h2>';
-		$table .= '<table class="table-1" width="90%">';
-		
+		$table .= $this->displayClassTable($results,'A');
+		$table .= $this->displayClassTable($results,'B');
+		$table .= $this->displayClassTable($results,'C');
+		$table .= $this->displayClassTable($results,'D');
+		$table .= $this->displayClassTable($results,'W');
+		return $table;
+	}
+	
+	private function displayClassTable($results,$class) {
 		
 		// ["id"]=> string(2) "64" ["race"]=> string(4) "2595" ["class"]=> string(1) "W" ["position"]=> string(1) "1" 
 		// ["team"]=> string(2) "21" ["teamname"]=> string(20) "Accountants Ladies A" ["totalpos"]=> string(2) "48" 
 		// ["totalstd"]=> string(2) "45" ["runner"]=> string(4) "7048" ["pos"]=> string(2) "11" ["std"]=> string(2) "15" 
 		// ["racetime"]=> string(8) "00:13:32" ["company"]=> string(3) "549" ["companyname"]=> string(18) "McInerney Saunders" 
 		// ["leaguepoints"]=> string(1) "0" } 
-		$class='';
+		$table .= '<table class="table-1" width="90%">';
+		$header='';
 		$position=0;
 		$count=0;
 		foreach($results as $row)
 		{
-			//var_dump($row);
-			if($row->class!=$class)
-			{
-				$class = $row->class;
-				$position = $row->position;
-				$table .= $this->generateRow('<h4>Class '.$row->class.'</h4>','','','','');
+			if($row->class==$class) {
+				//var_dump($row);
+				if($row->class!=$header) {
+					$header = $row->class;
+					$position = $row->position;
+					$table .= $this->generateRow('<h4><b>Class '.$row->class.'</b></h4>','','','','');				
+				}
+				
+				//first row of a new team
+				if($count==0) {
+					$position = $row->position;
+					// start table
+					$house_url = sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$row->team,$row->teamname);
+					$table .= $this->generateRow('<b>'.$row->class.'-'.$row->position.' '.$house_url.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
+					// add first row
+					$table .= $this->generateRow('<b>Athlete</b>','<b>Race Time</b>','<b>Company</b>','<b>'.$row->totalpos.'<b>','<b>'.$row->totalstd.'<b>');
+				}
+				
+				$runner_url = sprintf('<a href="/runner/?id=%s"><b>%s</b></a>',$row->runner,$row->display_name);
+				$table .= $this->generateRow($runner_url,$row->racetime,$row->companyname,$row->pos,$row->std);
+				$count++;
+				if($count==3) {
+					// add second/third row
+					$count = 0;
+					$position = 0;
+				}	
 			}
-			
-			//first row of a new team
-			if($count==0)
-			{
-				$position = $row->position;
-				// start table
-				$house_url = sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$row->team,$row->teamname);
-				$table .= $this->generateRow('<b>'.$row->class.'-'.$row->position.' '.$house_url.'</b>','','','<b>Position</b>','<b>Standard</b>','rowhighlight');
-				// add first row
-				$table .= $this->generateRow('<b>Athlete</b>','<b>Race Time</b>','<b>Company</b>','<b>'.$row->totalpos.'<b>','<b>'.$row->totalstd.'<b>');
-			}
-			
-			$runner_url = sprintf('<a href="/runner/?id=%s"><b>%s</b></a>',$row->runner,$row->display_name);
-			$table .= $this->generateRow($runner_url,$row->racetime,$row->companyname,$row->pos,$row->std);
-			$count++;
-			if($count==3)
-			{
-				// add second/third row
-				$count = 0;
-				$position = 0;
-			}	
-			
-			// check if new 
 		}
 		$table .= '</table>';
-		return $table;
-		
+		return $table;		
 	}
 	
 	public function generateRow($name='',$time='',$company='',$position='',$standard='',$style='')
