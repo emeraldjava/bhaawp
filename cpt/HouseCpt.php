@@ -18,11 +18,6 @@ class HouseCpt
 	}
 	
  	function bhaa_manage_house_posts_columns( $columns ) {
- 		error_log(print_r($columns,true));
- //		unset($columns['comments']);
-	//	$columns['status'] = __('BHAA', 'BHAA');
-		//return $columns;
-	
  		return array(
  				'cb' => '<input type="checkbox" />',
  				'title' => __('Title'),
@@ -38,7 +33,11 @@ class HouseCpt
  				echo get_the_term_list( $post_id, 'sector','','','');
  				break;
 			case 'runners' :
-				echo "runners"; //get_the_term_list( $post_id, 'sector','','','');
+				global $wpdb;
+				$user_count = $wpdb->get_var(
+					 $wpdb->prepare(
+					 	"select count(p2p_to) from wp_p2p where p2p_from=%d and p2p_type='house_to_runner'",$post_id));
+				echo $user_count;
 				break;
  			default:
  		}
