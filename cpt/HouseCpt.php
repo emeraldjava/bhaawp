@@ -22,22 +22,31 @@ class HouseCpt
  				'cb' => '<input type="checkbox" />',
  				'title' => __('Title'),
  				'sector' => __('Sector'),
- 				'runners' => __('Runner Count'),
+ 				'active' => __('Active Runners'),
+ 				'total' => __('Total Runners'),
  				'date' => __('Date')
  		);
  	}
 	
  	function bhaa_manage_house_posts_custom_column( $column, $post_id ) {
+ 		global $wpdb;
  		switch ($column) {
  			case 'sector' :
  				echo get_the_term_list( $post_id, 'sector','','','');
  				break;
-			case 'runners' :
-				global $wpdb;
-				$user_count = $wpdb->get_var(
+			case 'total' :
+				$total = $wpdb->get_var(
 					 $wpdb->prepare(
 					 	"select count(p2p_to) from wp_p2p where p2p_from=%d and p2p_type='house_to_runner'",$post_id));
-				echo $user_count;
+				echo $total;
+				break;
+			case 'active' :
+				$active = $wpdb->get_var(
+					$wpdb->prepare(
+						"select count(p2p_to) from wp_p2p
+				join wp_usermeta status ON (status.user_id=wp_p2p.p2p_to AND status.meta_key = 'bhaa_runner_status' and status.meta_value='M')
+				where p2p_from=%d and p2p_type='house_to_runner'",$post_id));
+				echo $active;
 				break;
  			default:
  		}
