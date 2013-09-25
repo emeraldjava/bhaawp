@@ -7,7 +7,7 @@ Plugin URI: https://github.com/emeraldjava/bhaawp
 
 Description: Plugin to handle bhaa results
 
-Version: 2013.09.04
+Version: 2013.09.25
 
 Author: paul.t.oconnell@gmail.com
 
@@ -17,7 +17,7 @@ Author URI: https://github.com/emeraldjava/bhaawp
 
 class BHAA
 {
-	var $version = '2013.09.04';
+	var $version = '2013.09.25';
 
 	
 	var $connection;
@@ -96,15 +96,14 @@ class BHAA
 		if( empty($post) ) 
 			return $page_content; 
 		
-		if( in_array($post->ID, array(2025,2937,2940)) ) {
+		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
 			error_log("bhaa_content ".$post->ID);
-			
 			ob_start();
-			if( $post->ID == 2025) {//2025) {
-				// runner
+			if( $post->ID == 3091) {//2025) {		// runner
+				$this->bhaa_locate_template('leaguetable.php', true);// array('args'=>$args));
+			} else if( $post->ID == 2025) {//2025) {		// runner
 				$this->bhaa_locate_template('runner.php', true);// array('args'=>$args));
-			} else if( $post->ID == 2937) {
-				// raceday
+			} else if( $post->ID == 2937) {	// raceday
 				$this->bhaa_locate_template('raceday.php', true);//, array('args'=>$args));
 			}
 			$page_content = ob_get_clean();
@@ -129,7 +128,7 @@ class BHAA
 
 		if( $located && $load ) {
 
-			if( is_array($args) ) 
+			if( is_array($args) )
 				extract($args);
 
 			include($located);
@@ -139,7 +138,7 @@ class BHAA
 		return $located;
 
 	}
-	
+
 	/**
 	 * http://codex.wordpress.org/Function_Reference/load_template
 

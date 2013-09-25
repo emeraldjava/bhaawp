@@ -10,10 +10,22 @@ class LeagueCpt
 		add_action('init',array(&$this,'bhaa_league_actions'),11);
 		//register_taxonomy_for_object_type('category', 'league');
 		add_filter('post_row_actions', array(&$this,'bhaa_league_post_row_actions'), 0, 2);
+		/* Filter the single_template with our custom function*/
+		add_filter('single_template', array(&$this,'bhaa_single_league_template'));
 		
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
+	}
+	
+	function bhaa_single_league_template($single) {
+		global $wp_query, $post;
+		/* Checks for single template by post type */
+		if ($post->post_type == "league") {
+			if(file_exists(BHAA_PLUGIN_DIR.'/templates/single-league.php'))
+				return BHAA_PLUGIN_DIR.'/templates/single-league.php';
+		}
+		return $single;
 	}
 	
 	public function bhaa_league_meta_data() {
