@@ -1,1 +1,19 @@
 <h2>League '{{id}}' '{{division}}' '{{top}}'</h2>
+
+<table width="100%" class=" table-1">
+
+<thead>
+<tr>
+<th>Position</th>
+<th>Name</th>
+<th>Points</th>
+<th>Races</th>
+</tr>
+</thead>
+
+<tbody>
+{{# summary }}
+<tr>{{> summary_row }}</tr>
+{{/ summary }}
+</tbody>
+</table>

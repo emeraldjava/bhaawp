@@ -4,7 +4,7 @@ class LeagueCpt
 	const BHAA_LEAGUE_RACES_TO_SCORE = 'races_to_score';
 	const BHAA_LEAGUE_TYPE = 'bhaa_league_type';
 	var $mustache;
-	
+		
 	function __construct()
 	{
 		add_action('init',array(&$this,'registerLeagueCPT'));
@@ -57,15 +57,21 @@ class LeagueCpt
 		), $atts ) );
 	
 		$id = get_the_ID();
-		$p = get_post( $id );
+		$post = get_post( $id );
 	
-		error_log('bhaa_league_shortcode '.$p->ID.' '.$atts['division'].' '.$atts['top']);
+		error_log('bhaa_league_shortcode '.$id.' '.$atts['division'].' '.$atts['top']);
+		
+		
+		$leagueSummary = new LeagueSummary($id);
+		$summary = $leagueSummary->getDivisionSummary($atts['division']);
+		
 		$template = $this->mustache->loadTemplate('division');
 		return $template->render(
 			array(
 				'division' => $atts['division'],
 				'id'=>$id,
-				'top'=> $atts['top']
+				'top'=> $atts['top'],
+				'summary' => $summary
 		));
 	}
 	

@@ -132,7 +132,7 @@ class LeagueSummary extends BaseModel implements Table
 				left join wp_posts on (wp_posts.post_type="house" and wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant)
 				where league=%d and leaguedivision=%s and leaguescorecount>=1 order by leaguepoints desc',$this->leagueid,$division);
 		}
-		//error_log($division.' '.$SQL);
+		error_log($division.' '.$SQL);
 		return $this->wpdb->get_results($SQL);
 	}
 	
