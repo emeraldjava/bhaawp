@@ -56,18 +56,16 @@ class LeagueCpt
 			'division' => 'A',
 		), $atts ) );
 	
-
-	
 		$id = get_the_ID();
 		$p = get_post( $id );
 	
-		error_log('bhaa_league_shortcode '.$p->ID);
-		$template = $this->mustache->loadTemplate('league');
+		error_log('bhaa_league_shortcode '.$p->ID.' '.$atts['division'].' '.$atts['top']);
+		$template = $this->mustache->loadTemplate('division');
 		return $template->render(
 			array(
 				'division' => $atts['division'],
 				'id'=>$id,
-				'post'=>$p
+				'top'=> $atts['top']
 		));
 	}
 	

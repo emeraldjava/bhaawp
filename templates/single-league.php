@@ -21,7 +21,7 @@ if(!isset($wp_query->query_vars['division']))
 	$divisions = $leagueSummary->getDivisions();
 	//var_dump($divisions);
 	
-	//echo '<p>After a long delay the league tables are nearly back. There might be an odd sum or two incorrect and we still have to update the Race Organiser points. Hopefully St Patrick will rub a bit of polish onto proceeding over the weekend.</p>';
+	//echo '<p>After a long delay the league tables arhttp://wordpress.stackexchange.com/questions/17385/custom-post-type-templates-from-plugin-foldere nearly back. There might be an odd sum or two incorrect and we still have to update the Race Organiser points. Hopefully St Patrick will rub a bit of polish onto proceeding over the weekend.</p>';
 	//echo '<h2>'.$leagueSummary->getName().''.get_the_ID().'</h2>';
 	
 	$rows_in_summary=10;
