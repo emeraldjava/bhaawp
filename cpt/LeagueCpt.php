@@ -18,6 +18,9 @@ class LeagueCpt
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
 	}
 	
+	/**
+	 * http://wordpress.stackexchange.com/questions/17385/custom-post-type-templates-from-plugin-folder
+	 */
 	function bhaa_single_league_template($single) {
 		global $wp_query, $post;
 		/* Checks for single template by post type */
