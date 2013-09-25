@@ -72,6 +72,7 @@ class LeagueCpt
 				'division' => $atts['division'],
 				'id'=>$id,
 				'top'=> $atts['top'],
+				'url'=> get_permalink( $id ),
 				'summary' => $summary
 		));
 	}

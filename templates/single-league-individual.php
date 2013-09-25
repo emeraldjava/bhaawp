@@ -2,9 +2,8 @@
 get_header();
 
 echo '<section id="primary">';
-echo '<h1>bhaa wp individual league template</h1>';
+echo the_title('<h1>','</h1>');
 
-echo '<h2>League Summary</h2>';
 echo do_shortcode('[one_third last="no"][bhaa_league division=A top=10][/one_third]');
 echo do_shortcode('[one_third last="no"][bhaa_league division=B top=10][/one_third]');
 echo do_shortcode('[one_third last="yes"][bhaa_league division=L1 top=10][/one_third]');
