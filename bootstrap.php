@@ -51,4 +51,8 @@ require_once(BHAA_PLUGIN_DIR.'/classes/StandardCalculator.php');
 // widgets
 require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');
 
+// Register Mustache
+require_once( plugin_dir_path( __FILE__ ) . 'Mustache/Autoloader.php');
+Mustache_Autoloader::register();
+
 ?>
