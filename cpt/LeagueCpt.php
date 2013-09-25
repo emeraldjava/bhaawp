@@ -3,6 +3,7 @@ class LeagueCpt
 {
 	const BHAA_LEAGUE_RACES_TO_SCORE = 'races_to_score';
 	const BHAA_LEAGUE_TYPE = 'bhaa_league_type';
+	var $mustache;
 	
 	function __construct()
 	{
@@ -12,10 +13,19 @@ class LeagueCpt
 		add_filter('post_row_actions', array(&$this,'bhaa_league_post_row_actions'), 0, 2);
 		/* Filter the single_template with our custom function*/
 		add_filter('single_template', array(&$this,'bhaa_single_league_template'));
+		add_shortcode('bhaa_league', array($this,'bhaa_league_shortcode'));
 		
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
+		
+		$options =  array('extension' => '.html');
+		$this->mustache = new Mustache_Engine(
+			array(
+				'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/../templates',$options),
+				'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/../templates/partials',$options)
+			)
+		);
 	}
 	
 	/**
@@ -25,10 +35,40 @@ class LeagueCpt
 		global $wp_query, $post;
 		/* Checks for single template by post type */
 		if ($post->post_type == "league") {
-			if(file_exists(BHAA_PLUGIN_DIR.'/templates/single-league.php'))
-				return BHAA_PLUGIN_DIR.'/templates/single-league.php';
+			
+			// check the type and redirect to a template
+			$type = get_post_meta($post->ID,'bhaa_league_type',true);
+			
+			//return $template = $mustache->loadTemplate('league');
+			//if(file_exists(BHAA_PLUGIN_DIR.'/templates/single-league.php'))
+			if($type=='T')
+				return BHAA_PLUGIN_DIR.'/templates/single-league-team.php';
+			else 
+				return BHAA_PLUGIN_DIR.'/templates/single-league-individual.php';
 		}
 		return $single;
+	}
+	
+	public function bhaa_league_shortcode($atts) {
+	
+		extract( shortcode_atts(
+		array(
+			'division' => 'A',
+		), $atts ) );
+	
+
+	
+		$id = get_the_ID();
+		$p = get_post( $id );
+	
+		error_log('bhaa_league_shortcode '.$p->ID);
+		$template = $this->mustache->loadTemplate('league');
+		return $template->render(
+			array(
+				'division' => $atts['division'],
+				'id'=>$id,
+				'post'=>$p
+		));
 	}
 	
 	public function bhaa_league_meta_data() {
