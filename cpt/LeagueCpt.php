@@ -54,6 +54,7 @@ class LeagueCpt
 		extract( shortcode_atts(
 		array(
 			'division' => 'A',
+			'top' => '100'
 		), $atts ) );
 	
 		$id = get_the_ID();
@@ -63,7 +64,7 @@ class LeagueCpt
 		
 		
 		$leagueSummary = new LeagueSummary($id);
-		$summary = $leagueSummary->getDivisionSummary($atts['division']);
+		$summary = $leagueSummary->getDivisionSummary($atts['division'],$atts['top']);
 		
 		$template = $this->mustache->loadTemplate('division');
 		return $template->render(

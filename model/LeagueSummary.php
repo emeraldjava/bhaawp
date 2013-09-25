@@ -115,24 +115,20 @@ class LeagueSummary extends BaseModel implements Table
 		return $wpdb->get_results($query);
 	}
 	
-	// get the specific of a league division
-	function getDivisionSummary($division) // limit - all or 10?
-	{
-		if($this->type=='I')
-		{
+	// get the specific of a league division and limit
+	function getDivisionSummary($division,$limit=100) {
+		if($this->type=='I') {
 			$SQL = $this->wpdb->prepare('select wp_bhaa_leaguesummary.*,wp_users.display_name,wp_posts.ID,wp_posts.post_title from wp_bhaa_leaguesummary
 				left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
 				left join wp_posts on wp_posts.post_type="house" and wp_posts.id=
 					(select meta_value from wp_usermeta where user_id=wp_bhaa_leaguesummary.leagueparticipant and meta_key="bhaa_runner_company")
-				where league=%d and leaguedivision=%s and leaguescorecount>=1 order by leaguepoints desc',$this->leagueid,$division);
-		}
-		else 
-		{
+				where league=%d and leaguedivision=%s and leagueposition<=%d and leaguescorecount>=1 order by leaguepoints desc',$this->leagueid,$division,$limit);
+		} else {
 			$SQL = $this->wpdb->prepare('select wp_bhaa_leaguesummary.*,wp_posts.post_title as display_name,wp_posts.ID,wp_posts.post_title from wp_bhaa_leaguesummary
 				left join wp_posts on (wp_posts.post_type="house" and wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant)
-				where league=%d and leaguedivision=%s and leaguescorecount>=1 order by leaguepoints desc',$this->leagueid,$division);
+				where league=%d and leaguedivision=%s and leagueposition<=%d and leaguescorecount>=1 order by leaguepoints desc limit %d',$this->leagueid,$division,$limit);
 		}
-		error_log($division.' '.$SQL);
+		//error_log($division.' '.$SQL);
 		return $this->wpdb->get_results($SQL);
 	}
 	
