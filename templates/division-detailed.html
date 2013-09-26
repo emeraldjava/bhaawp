@@ -1,15 +1,16 @@
 <h2><a href="{{url}}?division={{division}}"/>League:{{division}}</a></h2>
 
-<table width="100%" class=" table-1">
+<table class="table-1">
 
 <thead>
 <tr>
 <th>Position</th>
 <th>Name</th>
-{{# events }}
-<td>{{ etitle }}</td>
-{{/ events }}
 <th>Points</th>
+{{# events }}
+<td>{{etitle}} {{eid}} {{rid}}</td>
+{{/ events }}
+<th>Total</th>
 </tr>
 </thead>
 
