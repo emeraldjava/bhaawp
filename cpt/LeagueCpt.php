@@ -72,15 +72,38 @@ class LeagueCpt
 		$leagueSummary = new LeagueSummary($id);
 		$summary = $leagueSummary->getDivisionSummary($atts['division'],$atts['top']);
 		
-		$template = $this->mustache->loadTemplate('division');
-		return $template->render(
-			array(
-				'division' => $atts['division'],
-				'id'=>$id,
-				'top'=> $atts['top'],
-				'url'=> get_permalink( $id ),
-				'summary' => $summary
-		));
+		// division summary 
+		if($atts['top']!=1000) {
+			$template = $this->mustache->loadTemplate('division-summary');
+			return $template->render(
+				array(
+					'division' => $atts['division'],
+					'id'=>$id,
+					'top'=> $atts['top'],
+					'url'=> get_permalink( $id ),
+					'summary' => $summary
+			));
+		} else {
+			
+			error_log('bhaa_league_shortcode detailed');
+			if(strpos($atts['division'],'L'))
+				$events = $leagueSummary->getLeagueRaces('W');
+			else
+				$events = $leagueSummary->getLeagueRaces('M');
+			
+			//var_dump($events);
+			
+			$template = $this->mustache->loadTemplate('division-detailed');
+			return $template->render(
+				array(
+					'division' => $atts['division'],
+					'id'=>$id,
+					'top'=> $atts['top'],
+					'url'=> get_permalink( $id ),
+					'summary' => $summary,
+					'events' => $events
+			));
+		}
 	}
 	
 	public function bhaa_league_meta_data() {
