@@ -73,7 +73,7 @@ class LeagueSummary extends BaseModel implements Table
 			$SQL .= sprintf(" and r_type.meta_value in ('C','S','%s')",$type);
 		$SQL .= ' order by eme.event_start_date ASC';
 		//echo $SQL;
-		error_log($SQL);
+		//error_log($SQL);
 		// OBJECT, OBJECT_K, ARRAY_A, ARRAY_N
 		return $this->wpdb->get_results($SQL,OBJECT);
 	}

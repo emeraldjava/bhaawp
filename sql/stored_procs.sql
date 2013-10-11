@@ -442,6 +442,11 @@ UPDATE wp_bhaa_leaguesummary SET leagueposition=(@g:= (@g+1)) where leaguedivisi
 SET @h=0;
 UPDATE wp_bhaa_leaguesummary SET leagueposition=(@h:= (@h+1)) where leaguedivision="L2" and league=_leagueId ORDER BY leaguepoints DESC;
 
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(leagueparticipant,_leagueId,'M') where 
+league=_leagueId and leaguedivision in ('A','B','C','D','E','F');
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(leagueparticipant,_leagueId,'W') where 
+league=_leagueId and leaguedivision in ('L1','L2');
+
 END$$
 
 /**
