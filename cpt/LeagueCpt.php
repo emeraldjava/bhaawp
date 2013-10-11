@@ -101,7 +101,16 @@ class LeagueCpt
 					'top'=> $atts['top'],
 					'url'=> get_permalink( $id ),
 					'summary' => $summary,
-					'events' => $events
+					'events' => $events,
+					'matchEventResult' => function($text, Mustache_LambdaHelper $helper) {
+							$results = explode(',',$helper->render($text));
+							//error_log($helper->render($text).' '.$results);
+							$row = '';
+							foreach($results as $result) {
+								 $row .= '<td>'.$result.'</td>';
+							}
+							return $row;				
+						}
 			));
 		}
 	}

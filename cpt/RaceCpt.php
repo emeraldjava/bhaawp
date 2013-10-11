@@ -15,8 +15,7 @@ class RaceCpt
 	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series3/
 	 *
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		add_action( 'init', array(&$this,'bhaa_register_race_cpt'));
 
 		// custom meta
