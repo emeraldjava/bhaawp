@@ -457,9 +457,11 @@ CREATE FUNCTION `getRunnerLeagueSummary`(_runner INT,_leagueId INT,_gender varch
 BEGIN
 DECLARE _result varchar(200);
 SET _result = (
-	select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) SEPARATOR ',')
+	select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
 	from wp_posts p
 	left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=_runner)
+	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
+	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
 	where p.ID IN (
 	select r.ID from wp_posts l
 	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
@@ -472,7 +474,6 @@ SET _result = (
 	and l.ID=_leagueId and r_type.meta_value in ('C','S',_gender) AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC)
 	order by p.id
 );
-
 RETURN _result;
 END $$
 
