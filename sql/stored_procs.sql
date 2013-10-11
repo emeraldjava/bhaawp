@@ -444,12 +444,15 @@ UPDATE wp_bhaa_leaguesummary SET leagueposition=(@h:= (@h+1)) where leaguedivisi
 
 END$$
 
+/**
+ * [r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']
+ */
 DROP FUNCTION IF EXISTS `getRunnerLeagueSummary`$$
 CREATE FUNCTION `getRunnerLeagueSummary`(_runner INT,_leagueId INT,_gender varchar(1)) RETURNS varchar(200)
 BEGIN
 DECLARE _result varchar(200);
 SET _result = (
-	select GROUP_CONCAT(CAST(CONCAT('[r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']') AS CHAR) SEPARATOR ',')
+	select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) SEPARATOR ',')
 	from wp_posts p
 	left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=_runner)
 	where p.ID IN (

@@ -476,8 +476,9 @@ select getRunnerLeagueSummary(7713,2659,'M');
 update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(7713,2659,'M') where leagueparticipant=7713;
 
 update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(leagueparticipant,2659,'M') where 
-league=2659 and leaguedivision="A";
-
+league=2659 and leaguedivision in ('A','B','C','D','E','F');
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(leagueparticipant,2659,'W') where 
+league=2659 and leaguedivision in ('L1','L2');
 
 delete from wp_bhaa_leaguesummary where leagueparticipant=0;
 
