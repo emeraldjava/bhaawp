@@ -7,7 +7,7 @@ Plugin URI: https://github.com/emeraldjava/bhaawp
 
 Description: Plugin to handle bhaa results
 
-Version: 2013.09.25
+Version: 2013.10.11
 
 Author: paul.t.oconnell@gmail.com
 
@@ -17,7 +17,7 @@ Author URI: https://github.com/emeraldjava/bhaawp
 
 class BHAA
 {
-	var $version = '2013.09.25';
+	var $version = '2013.10.11';
 
 	
 	var $connection;
