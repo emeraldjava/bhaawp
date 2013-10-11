@@ -107,7 +107,10 @@ class LeagueCpt
 							//error_log($helper->render($text).' '.$results);
 							$row = '';
 							foreach($results as $result) {
-								 $row .= '<td>'.$result.'</td>';
+								if($result=='0')
+									$row .= '<td>-</td>';
+								else
+									$row .= '<td>'.$result.'</td>';
 							}
 							return $row;				
 						}
