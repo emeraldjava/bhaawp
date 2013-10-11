@@ -305,7 +305,7 @@ join wp_posts r on (r.id=e2r.p2p_to)
 join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 left join wp_bhaa_raceresult rr on (r.id=rr.race and rr.runner=7713)
 where l.post_type='league'
-and l.ID=2659 and r_type.meta_value in ('C','S','M') order by eme.event_start_date ASC
+and l.ID=2659 and r_type.meta_value in ('C','S','W','M') order by eme.event_start_date ASC
 
 SELECT
 2659,
@@ -316,7 +316,7 @@ AVG(rr.position) as averageOverallPosition,
 GROUP_CONCAT( cast( concat('[r=',r.id,':p=',IFNULL(rr.leaguepoints,0),']') AS char ) SEPARATOR ',') AS summary,
 ROUND(AVG(rr.standard),0) as standard
 FROM wp_posts r
-LEFT JOIN wp_bhaa_raceresult rr on (r.id=rr.race and rr.runner=7713)
+LEFT JOIN wp_bhaa_raceresult rr on (r.id=rr.race and rr.runner=7713 and class in ('RAN','RACE_ORG'))
 where r.id in (
 select r.ID from wp_posts l
 inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
@@ -326,7 +326,7 @@ inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
 inner join wp_posts r on (r.id=e2r.p2p_to)
 inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 where l.post_type='league'
-and l.ID=2659 and r_type.meta_value in ('C','S','M') order by eme.event_start_date ASC
+and l.ID=2659 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
 );
 
 select p.ID,race,runner,leaguepoints,p.ID from wp_bhaa_raceresult
@@ -349,19 +349,87 @@ left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=7713)
 where p.ID IN (2596, 2597, 2598, 2600, 2849, 2928, 2851, 2852, 3011, 2854, 2855)
 order by p.id
 
+select p.ID,IFNULL(rr.leaguepoints,0) from wp_posts p
+left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=7713)
+where p.ID IN (
+select r.ID from wp_posts l
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+inner join wp_posts e on (e.id=l2e.p2p_to)
+inner join wp_em_events eme on (eme.post_id=e.id)
+inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+inner join wp_posts r on (r.id=e2r.p2p_to)
+inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+where l.post_type='league'
+and l.ID=2659 and r_type.meta_value in ('C','S','W') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+)
+order by p.id
+
+
+
+
+select p.ID,IFNULL(rr.leaguepoints,0) from wp_bhaa_raceresult rr
+right join wp_posts p on (p.id=rr.race and rr.runner=7713)
+where p.ID IN (2596, 2597, 2598, 2600, 2849, 2928, 2851, 2852, 3011, 2854, 2855)
+and rr.runner=7713
+order by p.id
+
 -- summarize
-select p.ID,IFNULL(rr.leaguepoints,0),
-GROUP_CONCAT( cast( concat('[r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']') AS char ) SEPARATOR ',') AS summary
+select GROUP_CONCAT( cast( concat('[r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']') AS char ) SEPARATOR ',') AS summary
 from wp_posts p
 left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=7713)
 where p.ID IN (2596, 2597, 2598, 2600, 2849, 2928, 2851, 2852, 3011, 2854, 2855)
 order by p.id
 
+select GROUP_CONCAT(CAST(concat('[r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']') AS CHAR) SEPARATOR ',') 
+from wp_posts p
+left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=7713)
+where p.ID IN (
+select r.ID from wp_posts l
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+inner join wp_posts e on (e.id=l2e.p2p_to)
+inner join wp_em_events eme on (eme.post_id=e.id)
+inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+inner join wp_posts r on (r.id=e2r.p2p_to)
+inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+where l.post_type='league'
+and l.ID=2659 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+) order by p.id
+
+
+update wp_bhaa_leaguesummary 
+
+inner join 
+from wp_posts p
+left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=x.leagueparticipant)
+where p.ID IN (
+select r.ID from wp_posts l
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+inner join wp_posts e on (e.id=l2e.p2p_to)
+inner join wp_em_events eme on (eme.post_id=e.id)
+inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+inner join wp_posts r on (r.id=e2r.p2p_to)
+inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+where l.post_type='league'
+and l.ID=2659 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+)
+order by p.id)
+where leaguedivision in ('A','B','C','D','E','F') and league=2659;
+
+select leagueparticipant from wp_bhaa_leaguesummary
+where leaguedivision in ('A','B','C','D','E','F') and league=2659;
+
+
+
+2666:9.7,2282:10,2285:9.9,2665:9.6,2660:9.7,2663:9.3,2278:10,2280:10,2662:9.7
+
+2282:10,2663:9.9,2285:9.9,2662:9.7,2278:9.9,2664:9.8,2660:9.6,2280:9.9,2666:9.7
+
 
 select * from wp_bhaa_leaguesummary 
 where league = 2806
 and class="A" order by position asc
-  
+
+select * from wp_bhaa_leaguesummary where leagueparticipant=7713
 delete from wp_bhaa_leaguesummary where leagueparticipant=0;
 
 SELECT *,wp_posts.post_title as display_name
@@ -398,3 +466,38 @@ call updateRaceScoringSets(2600);
 call updateRaceLeaguePoints(2600);
 
 call updateLeagueData(2659);
+
+select * from wp_bhaa_leaguesummary where leagueparticipant=7713
+select * from wp_bhaa_leaguesummary where league=2659 and leaguedivision="A"
+
+update wp_bhaa_leaguesummary set leaguesummary=NULL where leagueparticipant=7713;
+
+select getRunnerLeagueSummary(7713,2659,'M');
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(7713,2659,'M') where leagueparticipant=7713;
+
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(leagueparticipant,2659,'M') where 
+league=2659 and leaguedivision="A";
+
+
+delete from wp_bhaa_leaguesummary where leagueparticipant=0;
+
+
+update wp_bhaa_leaguesummary set leaguesummary = 
+select * fro
+(select GROUP_CONCAT( cast( concat('[r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']') AS char ) SEPARATOR ',') AS summary
+from wp_posts p
+left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=wp_bhaa_leaguesummary.leagueparticipant)
+where p.ID IN (
+select r.ID from wp_posts l
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+inner join wp_posts e on (e.id=l2e.p2p_to)
+inner join wp_em_events eme on (eme.post_id=e.id)
+inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+inner join wp_posts r on (r.id=e2r.p2p_to)
+inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+where l.post_type='league'
+and l.ID=2659 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+)
+order by p.id)
+where leaguedivision in ('A','B','C','D','E','F') and league=2659;
+

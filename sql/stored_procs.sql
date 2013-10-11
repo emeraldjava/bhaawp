@@ -444,6 +444,72 @@ UPDATE wp_bhaa_leaguesummary SET leagueposition=(@h:= (@h+1)) where leaguedivisi
 
 END$$
 
+DROP FUNCTION IF EXISTS `getRunnerLeagueSummary`$$
+CREATE FUNCTION `getRunnerLeagueSummary`(_runner INT,_leagueId INT,_gender varchar(1)) RETURNS varchar(200)
+BEGIN
+DECLARE _result varchar(200);
+SET _result = (
+	select GROUP_CONCAT(CAST(CONCAT('[r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']') AS CHAR) SEPARATOR ',')
+	from wp_posts p
+	left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=_runner)
+	where p.ID IN (
+	select r.ID from wp_posts l
+	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+	inner join wp_posts e on (e.id=l2e.p2p_to)
+	inner join wp_em_events eme on (eme.post_id=e.id)
+	inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+	inner join wp_posts r on (r.id=e2r.p2p_to)
+	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+	where l.post_type='league'
+	and l.ID=_leagueId and r_type.meta_value in ('C','S',_gender) AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC)
+	order by p.id
+);
+
+RETURN _result;
+END $$
+
+DROP PROCEDURE IF EXISTS `updateLeagueSummary`$$
+CREATE PROCEDURE `updateLeagueSummary`(_leagueId INT(11))
+BEGIN
+
+update wp_bhaa_leaguesummary set leaguesummary = 
+(select GROUP_CONCAT( cast( concat('[r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']') AS char ) SEPARATOR ',') AS summary
+from wp_posts p
+left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=wp_bhaa_leaguesummary.leagueparticipant)
+where p.ID IN (
+select r.ID from wp_posts l
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+inner join wp_posts e on (e.id=l2e.p2p_to)
+inner join wp_em_events eme on (eme.post_id=e.id)
+inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+inner join wp_posts r on (r.id=e2r.p2p_to)
+inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+where l.post_type='league'
+and l.ID=_leagueId and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+)
+order by p.id)
+where leaguedivision in ('A','B','C','D','E','F') and league=_leagueId;
+
+update wp_bhaa_leaguesummary set leaguesummary = 
+(select GROUP_CONCAT( cast( concat('[r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']') AS char ) SEPARATOR ',') AS summary
+from wp_posts p
+left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=wp_bhaa_leaguesummary.leagueparticipant)
+where p.ID IN (
+select r.ID from wp_posts l
+inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+inner join wp_posts e on (e.id=l2e.p2p_to)
+inner join wp_em_events eme on (eme.post_id=e.id)
+inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+inner join wp_posts r on (r.id=e2r.p2p_to)
+inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+where l.post_type='league'
+and l.ID=_leagueId and r_type.meta_value in ('C','S','W') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+)
+order by p.id)
+where leaguedivision in ('L1','L2') and league=_leagueId;
+
+END$$
+
 -- getLeaguePointsTotal                       
 DROP FUNCTION IF EXISTS `getLeaguePointsTotal`$$
 CREATE FUNCTION `getLeaguePointsTotal`(_leagueId INT(11), _runnerId INT(11)) RETURNS double
