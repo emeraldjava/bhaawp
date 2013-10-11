@@ -2,8 +2,8 @@
 get_header();
 
 echo '<section id="primary">';
-echo  post_permalink($post);
-echo '<h1>DETAILED '.$wp_query->query_vars['division'].'</h1>';
+//echo  post_permalink($post);
+echo '<h1>Division '.$wp_query->query_vars['division'].'</h1>';
 //echo the_title('<h1>','</h1>');
 echo do_shortcode('[bhaa_league division='.$wp_query->query_vars['division'].' top=1000]');
 echo '</section>';
