@@ -220,17 +220,17 @@ class RaceResultTable extends WP_List_Table
 		return $columns;
 	}
 	
-	function prepareRunnerItems($runner)
-	{
+	function prepareRunnerItems($runner) {
 		$columns = $this->getRunnerColumns();
 		$hidden = array();
 		$this->_column_headers = array($columns, $hidden, $this->get_sortable_columns());
 	
 		global $wpdb;
 		$query = 'SELECT wp_p2p.p2p_from as event,wp_bhaa_raceresult.* FROM wp_bhaa_raceresult '.
-			'join wp_p2p on (wp_p2p.p2p_to=wp_bhaa_raceresult.race and wp_p2p.p2p_type="event_to_race") '.
-			'where runner='.$runner.' order by race desc';
-	
+			'join wp_p2p on (wp_p2p.p2p_to=wp_bhaa_raceresult.race and wp_p2p.p2p_type="event_to_race")
+			inner join wp_posts r on (r.id=wp_bhaa_raceresult.race)
+			inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key="bhaa_race_type")'.
+			'where runner='.$runner.' and r_type.meta_value!="S" order by race desc';
 		$this->items = $wpdb->get_results($query,ARRAY_A);
 	}
 	
