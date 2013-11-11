@@ -1,8 +1,26 @@
 <?php
+/**
+ * curl -v http://localhost/realex/
+ * curl -v -X POST --data "a=b&c=d&MD5HASH=sadsd" http://localhost/realex
+ *
+ * @author oconnellp
+ */
 class Realex {
 	
 	function process() {
-		return "<h1>Custom Realex Class</h1>"	
+				
+		if($_SERVER['REQUEST_METHOD']=='POST') {
+			$out = '<h1>Custom Realex Class - '.$_SERVER['REQUEST_METHOD'].'</h1>';
+			$out .= '<h2>';
+			$out .= print_r($_REQUEST,true);
+			$out .= '</h2>';
+			$out .= '<h2>MD5HASH : '.$_POST['MD5HASH'].'</h2>';
+			return $out;
+		}
+		else {
+			$out = '<h1>Custom Realex Class - '.$_SERVER['REQUEST_METHOD'].'</h1>';
+			return $out;			
+		}
 	}
 }
 ?>
