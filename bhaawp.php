@@ -3,7 +3,7 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.10.11
+Version: 2013.11.11
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
@@ -45,7 +45,7 @@ class BHAA {
 		// init, wp_head, wp_enqueue_scripts
 		add_action('init', array($this,'enqueue_scripts_and_style'));
 
-		//add_filter('the_content', array($this,'bhaa_content'));
+		add_filter('the_content', array($this,'bhaa_content'));
 		//add_action('init',array($this,'bhaa_form_actions'));
 
 		// hook add_query_vars function into query_vars
@@ -64,12 +64,19 @@ class BHAA {
 	 * The runner and raceday pages will be server from the plugin templates directory.
 	 */
 	function bhaa_content($page_content) {
-		global $post, $wpdb, $wp_query;
+		global $post;//, $wpdb, $wp_query;
 
-		if( empty($post) )
-			return $page_content;
+		//if( empty($post) )
+			//return $page_content;
 
-		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
+		error_log("bhaa_content ".$post->ID);
+		// realex 3118
+		if( $post->ID == 3118){
+			error_log("bhaa_content ".$page_content);
+			$realex = new Realex();
+			return $realex->process();
+		}
+/* 		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
 			error_log("bhaa_content ".$post->ID);
 			ob_start();
 			if( $post->ID == 3091) {//2025) {		// runner
@@ -80,10 +87,9 @@ class BHAA {
 				$this->bhaa_locate_template('raceday.php', true);//, array('args'=>$args));
 			}
 			$page_content = ob_get_clean();
-		}
-		error_log("bhaa_content ".$page_content);
-		return $page_content;
-
+		} */
+		else
+			return $page_content;
 	}
 
 	function bhaa_locate_template( $template_name, $load=false, $args = array() ) {
