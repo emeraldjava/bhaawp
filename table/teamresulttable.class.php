@@ -3,6 +3,9 @@ if(!class_exists('WP_List_Table')){
 	require_once( ABSPATH . 'wp-admin/includes/template.php' );
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
+if( ! class_exists('WP_Screen') ) {
+	require_once( ABSPATH . 'wp-admin/includes/screen.php' );
+}
 
 /**
  * handle team results
@@ -16,7 +19,8 @@ class TeamResultTable extends WP_List_Table
 		parent::__construct( array(
 			'singular'  => 'teamraceresults',     //singular name of the listed records
 			'plural'    => 'teamraceresult',    //plural name of the listed records
-			'ajax'      => false        //does this table support ajax?
+			'ajax'      => false,        //does this table support ajax?
+			'screen'      => 'team-list'
 		));
 	}
 		

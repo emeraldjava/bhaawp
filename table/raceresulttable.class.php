@@ -3,6 +3,9 @@ if(!class_exists('WP_List_Table')){
 	require_once( ABSPATH . 'wp-admin/includes/template.php' );
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
+if( ! class_exists('WP_Screen') ) {
+	require_once( ABSPATH . 'wp-admin/includes/screen.php' );
+}
 
 /**
  * https://gist.github.com/7f923479a4ed135e35b2#comments
@@ -24,7 +27,8 @@ class RaceResultTable extends WP_List_Table
 		parent::__construct( array(
 			'singular'  => 'raceresult',     //singular name of the listed records
 			'plural'    => 'raceresults',    //plural name of the listed records
-			'ajax'      => false        //does this table support ajax?
+			'ajax'      => false,        //does this table support ajax?
+			'screen'      => 'race-list'
 		) );
 	}
 
