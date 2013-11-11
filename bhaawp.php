@@ -10,7 +10,7 @@ Author URI: https://github.com/emeraldjava/bhaawp
 
 class BHAA {
 	
-	var $version = '2013.10.11';
+	var $version = '2013.11.11';
 	var $connection;
 
 	var $event;
