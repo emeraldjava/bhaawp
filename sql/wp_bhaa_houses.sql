@@ -90,3 +90,17 @@ GROUP BY p2p_to
 HAVING count(p2p_id) > 1
 
 -- select active teams without contacts
+
+
+select count(p2p_to) from wp_p2p
+where p2p_from=585 and p2p_type='house_to_runner';
+
+select count(p2p_to) from wp_p2p
+where p2p_from=97 and p2p_type='house_to_runner';
+
+select count(p2p_to) from wp_p2p
+join wp_usermeta status ON (status.user_id=wp_p2p.p2p_to AND status.meta_key = 'bhaa_runner_status' and status.meta_value='M')
+where p2p_from=97 and p2p_type='house_to_runner';
+
+
+
