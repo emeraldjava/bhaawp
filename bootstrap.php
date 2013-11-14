@@ -1,15 +1,6 @@
 <?php
 define( 'BHAA_PLUGIN_DIR' , dirname(__FILE__) );
 
-// function template_autoloader ( $class ) {
-// 	if ( file_exists ( dirname(__FILE__) ."/classes/.$class.class.php" ) )
-// 		include dirname(__FILE__)."/classes/.$class.class.php";
-// 	else
-// 		echo "file not found ".$class;
-// }
-//spl_autoload_register ( 'template_autoloader' );
-
-
 // admin
 require_once(BHAA_PLUGIN_DIR.'/admin/import.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/RunnerAdmin.php');
