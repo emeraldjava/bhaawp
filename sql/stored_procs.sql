@@ -654,6 +654,11 @@ GROUP BY l.team
 ORDER BY leaguepoints DESC
 )t1, (SELECT @rownum:=0) t2;
 
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(leagueparticipant,_leagueId,'M') where 
+league=_leagueId and leaguedivision in ('M');
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(leagueparticipant,_leagueId,'W') where 
+league=_leagueId and leaguedivision in ('W');
+
 END$$
 
 DELIMITER ;
