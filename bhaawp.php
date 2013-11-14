@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.11.11
+Version: 2013.11.14
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA {
 	
-	var $version = '2013.11.11';
+	var $version = '2013.11.14';
 	var $connection;
 
 	var $event;
@@ -38,7 +38,7 @@ class BHAA {
 
 		if ( is_admin() ) {
 			register_activation_hook(__FILE__, array($this, 'bhaa_activate') );
-			register_uninstall_hook(__FILE__, array($this, 'bhaa_uninstall'));
+			//register_uninstall_hook(__FILE__, array($this, 'bhaa_uninstall'));
 			new BhaaAdmin();
 		}
 
