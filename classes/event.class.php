@@ -14,8 +14,8 @@ class Event
 	}
 	
 	function bhaa_event_meta(){
-		add_meta_boxes("youtube", "YouTube", array(&$this,"youtube"), "event", "side", "low");
-		add_meta_boxes("flickr", "Flickr", array(&$this,"flickr_photoset"), "event", "side", "low");
+		add_meta_box("youtube", "YouTube", array(&$this,"youtube"), "event", "side", "low");
+		add_meta_box("flickr", "Flickr", array(&$this,"flickr_photoset"), "event", "side", "low");
 	}
 	
 	function youtube()
