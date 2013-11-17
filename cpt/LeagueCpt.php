@@ -119,7 +119,7 @@ class LeagueCpt
 	}
 	
 	public function bhaa_league_meta_data() {
-		add_meta_boxes(
+		add_meta_box(
 			'bhaa_league_meta',
 			__( 'League Details', 'bhaa_league_meta' ),
 			array(&$this, 'bhaa_league_meta_data_fields'),

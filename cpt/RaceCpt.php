@@ -67,7 +67,7 @@ class RaceCpt
 	 * Register the race meta box
 	 */
 	public function bhaa_race_meta_data() {
-		add_meta_boxes(
+		add_meta_box(
 			'bhaa-race-meta',
 			__( 'Race Details', 'bhaa-race-meta' ),
 			array(&$this, 'bhaa_race_meta_fields'),
@@ -78,7 +78,7 @@ class RaceCpt
 	}
 	
 	public function bhaa_team_meta_data() {
-		add_meta_boxes(
+		add_meta_box(
 			'bhaa-race-team-meta',
 			__( 'Team Results', 'bhaa-race-team-meta' ),
 			array(&$this, 'bhaa_race_team_result_textarea'),
