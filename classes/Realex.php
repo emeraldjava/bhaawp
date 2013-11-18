@@ -114,7 +114,7 @@ class Realex {
 				switch ($result) {
 					case '00':// case: successful payment
 						$note="Successful Payment";
-						record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['order_id'], $result, $note);
+						$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['order_id'], $result, $note);
 						$user_data = array();
 						if ( !empty($EM_Booking->booking_meta['registration']) && is_array($EM_Booking->booking_meta['registration']) ) {
 							foreach ($EM_Booking->booking_meta['registration'] as $fieldid => $field) {
@@ -163,7 +163,7 @@ class Realex {
 					case '101':
 					case '102':// case: denied
 						$note = 'Last transaction has been reversed. Reason: Payment Denied';
-						record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['order_id'], $result, $note);
+						$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['order_id'], $result, $note);
 						$EM_Booking->cancel();
 						do_action('em_payment_denied', $EM_Booking, $this);
 						$out .= '<p>There was an error processing your payment.<br />To try again please go back to the <a href="'.site_url().'"><b>'.site_url().'</b></a> event page</p>';
@@ -220,6 +220,35 @@ class Realex {
 		//echo $out;
 		
 		return $out;
+	}
+	
+	function record_transaction($EM_Booking, $amount, $currency, $timestamp, $txn_id, $status, $note) {
+		global $wpdb;
+		$data = array();
+		$data['booking_id'] = $EM_Booking->booking_id;
+		$data['transaction_gateway_id'] = $txn_id;
+		$data['transaction_timestamp'] = $timestamp;
+		$data['transaction_currency'] = $currency;
+		$data['transaction_status'] = $status;
+		$data['transaction_total_amount'] = $amount;
+		$data['transaction_note'] = $note;
+		$data['transaction_gateway'] = "realex_redirect";
+	
+		if ( !empty($txn_id) ) {
+			$existing = $wpdb->get_row( $wpdb->prepare( "SELECT transaction_id, transaction_status, transaction_gateway_id, transaction_total_amount FROM ".EM_TRANSACTIONS_TABLE." WHERE transaction_gateway = %s AND transaction_gateway_id = %s", "realex_redirect", $txn_id ) );
+		}
+		$table = EM_TRANSACTIONS_TABLE;
+		if ( is_multisite() && !EM_MS_GLOBAL && !empty($EM_Event->blog_id) && !is_main_site($EM_Event->blog_id) ) {
+			//we must get the prefix of the transaction table for this event's blog if it is not the root blog
+			$table = $wpdb->get_blog_prefix($EM_Event->blog_id).'em_transactions';
+		}
+		if ( !empty($existing->transaction_gateway_id) && $amount == $existing->transaction_total_amount && $status != $existing->transaction_status ) {
+			// Update only if txn id and amounts are the same (e.g. pending payments changing status)
+			$wpdb->update( $table, $data, array('transaction_id' => $existing->transaction_id) );
+		} else {
+			// Insert
+			$wpdb->insert( $table, $data );
+		}
 	}
 }
 ?>
