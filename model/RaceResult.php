@@ -14,7 +14,7 @@ class RaceResult extends BaseModel implements Table
 	}
 	
 	public function getName() {
-		return $this->wpdb->prefix.'bhaa_raceresult';
+		return 'wp_bhaa_raceresult';
 	}
 	
 	public function getCreateSQL() {
@@ -258,26 +258,36 @@ group by standardscoringset;
 	 * Update the runners post race standard.
 	 */
 	function updatePostRaceStd() {
-		$runners = $this->wpdb->get_results(
-			$this->wpdb->prepare('select position, runner, standard, actualstandard from wp_bhaa_raceresult where race=%d order by position desc',$this->post_id)
-		);
+		$SQL = $this->wpdb->prepare('select position, runner, standard, actualstandard from wp_bhaa_raceresult where race=%d order by position asc',$this->post_id);
+		//error_log($SQL);
+		$runners = $this->wpdb->get_results($SQL);
+		
+		$postRaceStandard = 10;
 		foreach($runners as $runner) {
 			if($runner->standard != 0) {
 				if($runner->standard  < $runner->actualstandard) {
 					update_user_meta( $runner->runner,'bhaa_runner_standard',$runner->standard+1,$runner->standard);
+					$postRaceStandard = $runner->standard+1;
 					//error_log($runner->position.' up standard '.$runner->runner.'->'.($runner->standard+1));
 				} elseif ($runner->standard > $runner->actualstandard) {
 					update_user_meta( $runner->runner,'bhaa_runner_standard',$runner->standard-1,$runner->standard);
+					$postRaceStandard = $runner->standard-1;
 					//error_log($runner->position.' down standard '.$runner->runner.'->'.($runner->standard-1));
 				} elseif($runner->standard == $runner->actualstandard){
+					$postRaceStandard = $runner->actualstandard;
 					//error_log($runner->position.' same standard '.$runner->runner.'->'.$runner->standard);
 				}
 			} else {
 				update_user_meta( $runner->runner,'bhaa_runner_standard',$runner->actualstandard );
+				$postRaceStandard = $runner->actualstandard;
 				//error_log($runner->position.' new standard '.$runner->runner.'->'.$runner->actualstandard);
 			}
+
+			$UPDATE_POSTSTANDARD_SQL = $this->wpdb->prepare('update wp_bhaa_raceresult set poststandard=%d where race=%d and runner=%d',
+				$postRaceStandard,$this->post_id,$runner->runner);
+			//error_log($UPDATE_POSTSTANDARD_SQL);
+			$this->wpdb->query($UPDATE_POSTSTANDARD_SQL);
 		}
-		//$this->wpdb->query($this->wpdb->prepare('call updatePostRaceStandard(%d)',$this->post_id));
 	}
 	
 	function updatePositions() {
