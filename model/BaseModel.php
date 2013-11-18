@@ -12,8 +12,8 @@ class BaseModel
 	function getRegistrationRunnerDetails($status)
 	{
 		// http://stackoverflow.com/questions/907806/php-mysql-using-an-array-in-where-clause
-		$SQL = $this->wpdb->prepare(
-			'select wp_users.id as id,wp_users.id as value,
+		//$SQL = $this->wpdb->prepare(
+		$SQL = 'select wp_users.id as id,wp_users.id as value,
 			wp_users.display_name as label,
 			first_name.meta_value as firstname,
 			last_name.meta_value as lastname,
@@ -32,7 +32,7 @@ class BaseModel
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts house on (house.id=company.meta_value and house.post_type="house")
 			left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
-			where status.meta_value IN("'.implode('","',$status).'") order by lastname,firstname;');
+			where status.meta_value IN("'.implode('","',$status).'") order by lastname,firstname;';
 		//error_log($SQL);
 		return $this->wpdb->get_results($SQL);
 	}
