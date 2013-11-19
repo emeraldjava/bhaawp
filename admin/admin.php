@@ -56,7 +56,7 @@ class BhaaAdmin
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
 			// var bhaa_day_runners = 
-			$content .= json_encode($model->getRegistrationRunnerDetails(array('M','I')));
+			$content .= json_encode($model->getRegistrationRunnerDetails(array("M","I")));
 			error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
@@ -88,7 +88,7 @@ class BhaaAdmin
 			$model = new BaseModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
-			$content .= json_encode($model->getRegistrationRunnerDetails(array('D')));
+			$content .= json_encode($model->getRegistrationRunnerDetails('D'));
 			error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
@@ -115,7 +115,7 @@ class BhaaAdmin
 		$content = '<div><ul>';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_all_html'){
 			$model = new BaseModel();
-			$runners = $model->getRegistrationRunnerDetails(array('M','I','D'));
+			$runners = $model->getRegistrationRunnerDetails("M,I,D");
 			foreach($runners as $runner){
 				$content .= sprintf("<li>%s %s ,ID:%d ,Status:%s, DOB:%s</li>",
 					$runner->lastname,$runner->firstname,$runner->id,$runner->status,$runner->dob);
