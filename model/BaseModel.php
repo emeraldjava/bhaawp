@@ -11,6 +11,8 @@ class BaseModel
 	
 	function getRegistrationRunnerDetails($status)
 	{
+		$this->wpdb->query('SET SQL_BIG_SELECTS=1');
+		
 		// http://stackoverflow.com/questions/907806/php-mysql-using-an-array-in-where-clause
 		//$SQL = $this->wpdb->prepare(
 		$SQL = 'select wp_users.id as id,wp_users.id as value,
