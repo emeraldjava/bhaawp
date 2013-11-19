@@ -7,8 +7,9 @@ INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2856,22860,'0
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2856,22854,'03:59:03','RAN');
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2856,7377,'04:22:48','RAN');
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2856,7373,'04:36:34','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (10,2856,23990,'03:19:38','RAN');
 
-INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2856,,'03:19:38','RAN');xDonagh McGrath
 
+call updatePositions(2856);
 
 
