@@ -59,6 +59,8 @@ INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,1627,'01
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,1515,'02:21:26','RAN');
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,7016,'02:44:11','RAN');
 
+INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,6933,'02.51.44','RAN');
+
 
 
 join wp_bhaa_raceresult rr on (rr.race=2855)
