@@ -69,10 +69,10 @@ class BHAA {
 		//if( empty($post) )
 			//return $page_content;
 
-		error_log("bhaa_content ".$post->ID);
+		//error_log("bhaa_content ".$post->ID);
 		// realex 3143
 		if( $post->ID == 3143){
-			error_log("bhaa_content ".$page_content);
+			//error_log("bhaa_content ".$page_content);
 			$realex = new Realex();
 			return $realex->process();
 		}
