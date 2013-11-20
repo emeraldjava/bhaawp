@@ -535,10 +535,12 @@ where leaguedivision in ('A','B','C','D','E','F') and league=2659;
 select * from wp_bhaa_teamresult where race>= 2170 and race<=2283 and team=159
 
 -- get the last x team results
-select * from wp_bhaa_teamresult where team=121
-group by class,position,team
-order by race desc
-limit 20;
+select race.post_title,tr.class,tr.position,MAX(tr.leaguepoints) from wp_bhaa_teamresult tr
+join wp_posts race on tr.race=race.id
+where team=121
+group by team,race
+order by race asc
+limit 40;
 
 .*,wp_users.display_name from wp_bhaa_teamresult
 				join wp_users on wp_users.id=wp_bhaa_teamresult.runner
