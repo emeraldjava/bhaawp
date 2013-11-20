@@ -66,7 +66,7 @@ class LeagueCpt
 		$id = get_the_ID();
 		$post = get_post( $id );
 	
-		error_log('bhaa_league_shortcode '.$id.' '.$atts['division'].' '.$atts['top']);
+		//error_log('bhaa_league_shortcode '.$id.' '.$atts['division'].' '.$atts['top']);
 		
 		
 		$leagueSummary = new LeagueSummary($id);
@@ -85,7 +85,7 @@ class LeagueCpt
 			));
 		} else {
 			
-			error_log('bhaa_league_shortcode detailed');
+			//error_log('bhaa_league_shortcode detailed');
 			if(strpos($atts['division'],'L'))
 				$events = $leagueSummary->getLeagueRaces('W');
 			else

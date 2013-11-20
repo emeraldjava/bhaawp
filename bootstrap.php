@@ -27,7 +27,7 @@ require_once(BHAA_PLUGIN_DIR.'/model/HouseManager.php');
 require_once(BHAA_PLUGIN_DIR.'/model/AgeCategory.php');
 
 // tables
-require_once(BHAA_PLUGIN_DIR.'/table/teamresulttable.class.php');
+//require_once(BHAA_PLUGIN_DIR.'/table/teamresulttable.class.php');
 require_once(BHAA_PLUGIN_DIR.'/table/raceresulttable.class.php');
 
 // classes

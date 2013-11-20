@@ -3,15 +3,13 @@ class TeamResult extends BaseModel
 {
 	var $race;
 	
-	function __construct($race)
-	{
+	function __construct($race) {
 		parent::__construct();
 		$this->race = $race;
 	}
 	
-	public function getName()
-	{
-		return $this->wpdb->prefix.'bhaa_teamresult';
+	public function getName() {
+		return 'wp_bhaa_teamresult';
 	}
 	
 	/**
@@ -62,7 +60,7 @@ class TeamResult extends BaseModel
 		));
 	}
 	
-	public function getTeamResults() {
+	private function getTeamResults() {
 		return $this->wpdb->get_results(
 			$this->wpdb->prepare('select wp_bhaa_teamresult.*,wp_users.display_name from wp_bhaa_teamresult
 				join wp_users on wp_users.id=wp_bhaa_teamresult.runner
@@ -70,19 +68,31 @@ class TeamResult extends BaseModel
 		);
 	}
 	
+	public function getHouseResults($team,$limit=30) {
+		return $this->wpdb->get_results(
+			$this->wpdb->prepare('select race.post_title,tr.* from wp_bhaa_teamresult tr
+				join wp_posts race on tr.race=race.id
+				where team=%d
+				group by class,position,team
+				order by race asc
+				limit %d',$team,$limit)
+		);
+	}
+	
 	/**
 	 * We'll do the html table generation here for the moment.
 	 */
 	
-	public function getTeamTable() {
+	public function getRaceTeamResultTable() {
 		$results = $this->getTeamResults();
-		$table = '<h2>Team Results</h2>';
+		$table = '<h2 race="'.$this->race.'">Team Results</h2>';
 		//$table .= $this->teamSummary();
 		$table .= $this->displayClassTable($results,'A');
 		$table .= $this->displayClassTable($results,'B');
 		$table .= $this->displayClassTable($results,'C');
 		$table .= $this->displayClassTable($results,'D');
 		$table .= $this->displayClassTable($results,'W');
+		$table .= '<br/>';
 		return $table;
 	}
 	

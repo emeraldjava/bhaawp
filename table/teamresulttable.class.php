@@ -9,6 +9,7 @@ if( ! class_exists('WP_Screen') ) {
 
 /**
  * handle team results
+ * Deprecated
  */
 class TeamResultTable extends WP_List_Table
 {

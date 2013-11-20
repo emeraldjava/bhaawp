@@ -179,7 +179,6 @@ class BHAA {
 
 		// table views
 		$this->individualResultTable = new RaceResultTable();
-		//$this->teamResultTable = new TeamResultTable();
 
 		$this->runner = new Runner();
 		$this->event = new Event();
@@ -209,9 +208,29 @@ class BHAA {
 		return $this->individualResultTable;
 	}
 
-	public function getTeamResultTable($race) {
+	public function getRaceTeamResultTable($race) {
 		$teamResult = new TeamResult($race);
-		return $teamResult->getTeamTable();
+		return $teamResult->getRaceTeamResultTable();
+	}
+	
+	public function getTeamResultsForHouse($house){
+		$teamResult = new TeamResult($race);
+		$results = $teamResult->getHouseResults($house);
+		//var_dump($results,true);
+		
+		$options =  array('extension' => '.html');
+		$mustache = new Mustache_Engine(
+			array(
+				'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/templates',$options),
+				'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/templates/partials',$options)
+			)
+		);
+		
+		$template = $mustache->loadTemplate('team-results');
+		return $template->render(
+			array(
+				'results' => $results
+		));
 	}
 
 	/**
