@@ -453,12 +453,8 @@ select getRunnerLeagueSummary(7713,2659,'M');
 select * from wp_bhaa_leaguesummary where league=2812 and leaguetype='T' and leaguedivision='W'
 
 select * from wp_bhaa_leaguesummary where league=2812 and leaguetype='T' and leaguedivision='M' and leagueparticipant=121
-select getTeamLeagueSummary(121,2812,'M');
+select getTeamLeagueSummary(2812,121,'M')
 
-update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(2812,121,'M') where 
-league=2812 and leaguedivision in ('M');
-update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(52,2812,'W') where 
-league=2812 and leaguedivision in ('W');
 
 delete from wp_bhaa_leaguesummary where leagueparticipant=0;
 
@@ -498,7 +494,9 @@ call updateRaceLeaguePoints(2600);
 call updateLeagueData(2659);
 
 select * from wp_bhaa_leaguesummary where leagueparticipant=7713
-select * from wp_bhaa_leaguesummary where league=2659 and leaguedivision="A"
+select * from wp_bhaa_leaguesummary where league=2659 and leaguedivision="A" order by leagueposition
+
+select * from wp_bhaa_leaguesummary where league=2659 and leaguedivision="A" order by leagueposition
 
 update wp_bhaa_leaguesummary set leaguesummary=NULL where leagueparticipant=7713;
 
@@ -532,3 +530,44 @@ and l.ID=2659 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRA
 order by p.id)
 where leaguedivision in ('A','B','C','D','E','F') and league=2659;
 
+
+-- getTeamLeagueSummary
+select * from wp_bhaa_teamresult where race>= 2170 and race<=2283 and team=159
+
+-- get the last x team results
+select * from wp_bhaa_teamresult where team=121
+group by class,position,team
+order by race desc
+limit 20;
+
+.*,wp_users.display_name from wp_bhaa_teamresult
+				join wp_users on wp_users.id=wp_bhaa_teamresult.runner
+				where team=%d order by id
+
+select * from wp_bhaa_leaguesummary where league=2812 and leaguedivision="M" order by leagueposition
+
+select getTeamLeagueSummary(121,2812,'M');
+
+select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
+	from wp_posts p
+	left join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=159)
+	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
+	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
+	where p.ID IN (
+	select r.ID from wp_posts l
+	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+	inner join wp_posts e on (e.id=l2e.p2p_to)
+	inner join wp_em_events eme on (eme.post_id=e.id)
+	inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+	inner join wp_posts r on (r.id=e2r.p2p_to)
+	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+	where l.post_type='league'
+	and l.ID=2659 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC)
+	--group by race,team
+	order by p.id
+
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(2812,121,'M') where 
+league=2812 and leaguedivision in ('M');
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(52,2812,'W') where 
+league=2812 and leaguedivision in ('W');
+	
