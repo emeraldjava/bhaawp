@@ -70,10 +70,10 @@ class TeamResult extends BaseModel
 	
 	public function getHouseResults($team,$limit=30) {
 		return $this->wpdb->get_results(
-			$this->wpdb->prepare('select race.post_title,tr.* from wp_bhaa_teamresult tr
+			$this->wpdb->prepare('select race.post_title,tr.class,tr.position,MAX(tr.leaguepoints) as leaguepoints from wp_bhaa_teamresult tr
 				join wp_posts race on tr.race=race.id
 				where team=%d
-				group by class,position,team
+				group by team,race
 				order by race asc
 				limit %d',$team,$limit)
 		);
