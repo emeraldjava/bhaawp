@@ -542,17 +542,24 @@ group by team,race
 order by race asc
 limit 40;
 
-.*,wp_users.display_name from wp_bhaa_teamresult
-				join wp_users on wp_users.id=wp_bhaa_teamresult.runner
-				where team=%d order by id
+
+select race.post_title,tr.class,tr.position,MAX(tr.leaguepoints) from wp_bhaa_teamresult tr
+join wp_posts race on tr.race=race.id
+where team=121
+group by team,race
+order by race asc
+limit 40;
+
 
 select * from wp_bhaa_leaguesummary where league=2812 and leaguedivision="M" order by leagueposition
 
 select getTeamLeagueSummary(121,2812,'M');
 
-select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
+select GROUP_CONCAT(CAST(CONCAT(IFNULL(  MAX(rr.leaguepoints) ,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
+-- shows the max league points for all races in a league
+select p.id,p.post_title,MAX(rr.leaguepoints)
 	from wp_posts p
-	left join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=159)
+	left join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=121)
 	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
 	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
 	where p.ID IN (
@@ -564,8 +571,9 @@ select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) ORDER BY eme
 	inner join wp_posts r on (r.id=e2r.p2p_to)
 	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 	where l.post_type='league'
-	and l.ID=2659 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC)
-	--group by race,team
+	and l.ID=2812 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+	)
+	group by team,race
 	order by p.id
 
 update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(2812,121,'M') where 
