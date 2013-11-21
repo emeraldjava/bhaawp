@@ -3,7 +3,7 @@
 -- http://www.coderrants.com/wordpress-and-stored-procedures/
 -- http://wordpress.org/support/topic/how-to-call-stored-procedure-from-plugin
 
-SET GLOBAL log_bin_trust_function_creators = 1;
+-- SET GLOBAL log_bin_trust_function_creators = 1;
 
 DELIMITER $$
 
@@ -679,10 +679,8 @@ GROUP BY l.team
 ORDER BY leaguepoints DESC
 )t1, (SELECT @rownum:=0) t2;
 
-update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'M') where 
-league=_leagueId and leaguedivision in ('M');
-update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'W') where 
-league=_leagueId and leaguedivision in ('W');
+--update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'M') where league=_leagueId and leaguedivision in ('M');
+--update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'W') where league=_leagueId and leaguedivision in ('W');
 
 END$$
 
