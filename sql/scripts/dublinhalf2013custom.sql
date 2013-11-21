@@ -77,6 +77,7 @@ join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'sectorteam_to_runner')
 where race=2855 and r2c.p2p_from=52
 
 select * from wp_p2p where p2p_from=52
+select * from wp_posts where ID=52
 
 -- ladies h A
 insert into wp_bhaa_teamresult(class,team,company,runner,pos,std,racetime,id,race,position,totalpos,totalstd)
@@ -85,10 +86,23 @@ join wp_users u on (u.id=rr.runner)
 join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'sectorteam_to_runner')
 where race=2855 and r2c.p2p_from=52
 
-update wp_bhaa_teamresult set
 -- sum postions and standards
-select SUM(pos) as totalpos,SUM(std) as totalstd from wp_bhaa_teamresult
+select team,SUM(pos) as totalpos,SUM(std) as totalstd from wp_bhaa_teamresult
 where race=2855 group by team,race
+
+-- update sums
+UPDATE wp_bhaa_teamresult tr
+JOIN ( 
+select race,team,SUM(pos) as totalpos,SUM(std) as totalstd from wp_bhaa_teamresult
+where race=2855 group by team,race
+) i
+ON tr.race=i.race and tr.team=i.team
+SET tr.totalpos=i.totalpos,tr.totalstd=i.totalstd;
+-- update names
+UPDATE wp_bhaa_teamresult tr
+JOIN wp_posts h on (tr.team=h.id and h.post_type='house')
+set tr.teamname=h.post_title,tr.companyname=h.post_title
+where race=2855
 
 select * from wp_bhaa_teamresult where race=2855
 delete from wp_bhaa_teamresult where race=2855
