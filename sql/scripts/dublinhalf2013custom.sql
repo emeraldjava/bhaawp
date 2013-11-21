@@ -78,8 +78,17 @@ where race=2855 and r2c.p2p_from=52
 
 select * from wp_p2p where p2p_from=52
 
-insert into wp_bhaa_teamresult
+-- ladies h A
+insert into wp_bhaa_teamresult(class,team,company,runner,pos,std,racetime,id,race,position,totalpos,totalstd)
+select 'W',52,52,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1,1 from wp_bhaa_raceresult rr
+join wp_users u on (u.id=rr.runner)
+join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'sectorteam_to_runner')
+where race=2855 and r2c.p2p_from=52
 
+update wp_bhaa_teamresult set
+-- sum postions and standards
+select SUM(pos) as totalpos,SUM(std) as totalstd from wp_bhaa_teamresult
+where race=2855 group by team,race
 
 select * from wp_bhaa_teamresult where race=2855
 delete from wp_bhaa_teamresult where race=2855
