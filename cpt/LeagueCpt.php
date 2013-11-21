@@ -81,6 +81,7 @@ class LeagueCpt
 					'id'=>$id,
 					'top'=> $atts['top'],
 					'url'=> get_permalink( $id ),
+					'linktype' => $leagueSummary->getLinkType(),
 					'summary' => $summary
 			));
 		} else {
@@ -101,6 +102,7 @@ class LeagueCpt
 					'top'=> $atts['top'],
 					'url'=> get_permalink( $id ),
 					'summary' => $summary,
+					'linktype' => $leagueSummary->getLinkType(),
 					'events' => $events,
 					'matchEventResult' => function($text, Mustache_LambdaHelper $helper) {
 							$results = explode(',',$helper->render($text));

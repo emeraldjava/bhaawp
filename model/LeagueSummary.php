@@ -4,21 +4,25 @@ class LeagueSummary extends BaseModel implements Table
 	private $leagueid;
 	private $type;
 	
-	function __construct($leagueid)
-	{
+	function __construct($leagueid) {
 		parent::__construct();
 		$this->leagueid=$leagueid;
 		$this->type = get_post_meta($this->leagueid,LeagueCpt::BHAA_LEAGUE_TYPE,true);
 	}
 	
-	function getType()
-	{
+	function getType() {
 		return $this->type;
 	}
 	
-	function getName()
-	{
-		return $this->wpdb->prefix.'bhaa_leaguesummary';
+	function getName() {
+		return 'wp_bhaa_leaguesummary';
+	}
+	
+	function getLinkType() {
+		if($this->getType()=='T')
+			return 'house/?p';
+		else 
+			return 'runner/?id';
 	}
 	
 	function getCreateSQL()
