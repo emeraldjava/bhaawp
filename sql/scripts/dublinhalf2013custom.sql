@@ -59,9 +59,27 @@ INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,1627,'01
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,1515,'02:21:26','RAN');
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,7016,'02:44:11','RAN');
 
-INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,6933,'02.51.44','RAN');
+INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,6933,'02:51:44','RAN');
+
+delete from wp_bhaa_raceresult where race=2855 and runner=6933;
+
+call updatePositions(2855);
+
+-- teams
+select * from wp_bhaa_raceresult rr
+join wp_users u on u.id=rr.runner
+join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'house_to_runner')
+where race=2855 and r2c.p2p_from=121
+
+select * from wp_bhaa_raceresult rr
+join wp_users u on u.id=rr.runner
+join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'sectorteam_to_runner')
+where race=2855 and r2c.p2p_from=52
+
+select * from wp_p2p where p2p_from=52
+
+insert into wp_bhaa_teamresult
 
 
-
-join wp_bhaa_raceresult rr on (rr.race=2855)
-where BHAA=7713;
+select * from wp_bhaa_teamresult where race=2855
+delete from wp_bhaa_teamresult where race=2855
