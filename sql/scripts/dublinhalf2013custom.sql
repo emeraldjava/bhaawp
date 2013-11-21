@@ -84,27 +84,27 @@ insert into wp_bhaa_teamresult(class,position,leaguepoints,team,company,runner,p
 select 'W',1,6,52,52,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1 from wp_bhaa_raceresult rr
 join wp_users u on (u.id=rr.runner)
 join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'sectorteam_to_runner')
-where race=2855 and r2c.p2p_from=52
+where race=2855 and r2c.p2p_from=52;
 
 -- fire men A
 insert into wp_bhaa_teamresult(class,position,leaguepoints,team,company,runner,pos,std,racetime,id,race,totalpos,totalstd)
 select 'A',2,5,159,159,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1 from wp_bhaa_raceresult rr
 join wp_users u on (u.id=rr.runner)
 join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'house_to_runner')
-where race=2855 and r2c.p2p_from=159 and position<75 order by position
+where race=2855 and r2c.p2p_from=159 and position<75 order by position;
 
 insert into wp_bhaa_teamresult(class,position,leaguepoints,team,company,runner,pos,std,racetime,id,race,totalpos,totalstd)
 select 'B',2,5,159,159,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1 from wp_bhaa_raceresult rr
 join wp_users u on (u.id=rr.runner)
 join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'house_to_runner')
-where race=2855 and r2c.p2p_from=159 and position>75 order by position
+where race=2855 and r2c.p2p_from=159 and position>75 order by position;
 
 -- garda
 insert into wp_bhaa_teamresult(class,position,leaguepoints,team,company,runner,pos,std,racetime,id,race,totalpos,totalstd)
 select 'A',3,4,94,94,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1 from wp_bhaa_raceresult rr
 join wp_users u on (u.id=rr.runner)
 join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'house_to_runner')
-where race=2855 and r2c.p2p_from=94 and position<130 order by position
+where race=2855 and r2c.p2p_from=94 and position<130 order by position;
 
 -- RTE A
 insert into wp_bhaa_teamresult(class,position,leaguepoints,team,company,runner,pos,std,racetime,id,race,totalpos,totalstd)
@@ -119,10 +119,12 @@ join wp_users u on (u.id=rr.runner)
 join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'house_to_runner')
 where race=2855 and r2c.p2p_from=121 and position>50 order by position;
 
-
--- sum postions and standards
-select team,SUM(pos) as totalpos,SUM(std) as totalstd from wp_bhaa_teamresult
-where race=2855 group by team,race
+-- DCC
+insert into wp_bhaa_teamresult(class,position,leaguepoints,team,company,runner,pos,std,racetime,id,race,totalpos,totalstd)
+select 'A',2,5,93,93,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1 from wp_bhaa_raceresult rr
+join wp_users u on (u.id=rr.runner)
+join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'house_to_runner')
+where race=2855 and r2c.p2p_from=93 and position<50 order by position;
 
 -- update sums
 UPDATE wp_bhaa_teamresult tr
@@ -139,7 +141,12 @@ set tr.teamname=h.post_title,tr.companyname=h.post_title
 where race=2855;
 
 select * from wp_bhaa_teamresult where race=2855 order by class,totalpos;
-delete from wp_bhaa_teamresult where race=2855
+delete from wp_bhaa_teamresult where race=2855;
 
 update wp_bhaa_raceresult set standard=13 where race=2855 and runner=7373;
+
+-- sum postions and standards
+select team,SUM(pos) as totalpos,SUM(std) as totalstd from wp_bhaa_teamresult
+where race=2855 group by team,race
+
 select from wp_meta where user
