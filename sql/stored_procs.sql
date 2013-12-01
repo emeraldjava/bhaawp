@@ -587,8 +587,8 @@ DROP PROCEDURE IF EXISTS `updateTeamLeagueSummary`$$
 CREATE PROCEDURE `updateTeamLeagueSummary`(_leagueId  INT)
 BEGIN
 
-update wp_bhaa_teamresult set leaguepoints=(7-(position)) where class!='R';
-update wp_bhaa_teamresult set leaguepoints=1 where leaguepoints<=0 and class!='R';
+update wp_bhaa_teamresult set leaguepoints=1 where position>=7 and class!='R';
+update wp_bhaa_teamresult set leaguepoints=(7-(position)) where class!='R' and position<=6;
 
 DELETE FROM wp_bhaa_leaguesummary WHERE leagueType='T' and league = _leagueId;
 
@@ -679,8 +679,8 @@ GROUP BY l.team
 ORDER BY leaguepoints DESC
 )t1, (SELECT @rownum:=0) t2;
 
---update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'M') where league=_leagueId and leaguedivision in ('M');
---update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'W') where league=_leagueId and leaguedivision in ('W');
+update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'M') where league=_leagueId and leaguedivision in ('M');
+update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'W') where league=_leagueId and leaguedivision in ('W');
 
 END$$
 

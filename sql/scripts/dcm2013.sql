@@ -16,6 +16,24 @@ INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (25,2
 
 INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (33,2856,5253,'02:36:47','RAN');
 INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (52,2856,7327,'02:39:18','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (100,2856,8732,'03:53:33','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (373,2856,7769,'02:59:38','RAN');
+
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (258,2856,1937,'02:57:44','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1000,2856,23953,'05:39:42','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (11110,2856,21030,'05:57:08','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (8000,2856,1640,'04:28:21','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (9384,2856,9384,'03:11:15','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (644,2856,6455,'03:09:43','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (5282,2856,5282,'02:52:56','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (7924,2856,7924,'02:59:38','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (6523,2856,6523,'02:59:17','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (9005,2856,9005,'03:16:54','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (6011,2856,6011,'03:25:55','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (5846,2856,5846,'03:59:57','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (9724,2856,9724,'04:16:14','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (8096,2856,8096,'04:20:10','RAN');
 call updatePositions(2856);
+
 
 
