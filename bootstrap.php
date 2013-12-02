@@ -40,6 +40,9 @@ require_once(BHAA_PLUGIN_DIR.'/classes/Standard.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/StandardCalculator.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Realex.php');
 
+// updater
+require_once(BHAA_PLUGIN_DIR.'/updater.php');
+
 // widgets
 require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');
 
