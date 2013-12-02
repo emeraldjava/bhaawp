@@ -206,3 +206,7 @@ where race=2855 group by team,race
 select MIN(totalstd),MAX(totalstd) from wp_bhaa_teamresult where class = "D" ('A','B','C','D')
 select * from wp_bhaa_division
 select from wp_meta where user
+
+select wp_bhaa_teamresult.*,wp_users.display_name from wp_bhaa_teamresult
+join wp_users on wp_users.id=wp_bhaa_teamresult.runner
+where race=2855 order by class,position,team
