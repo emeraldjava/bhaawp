@@ -614,6 +614,40 @@ select p.id,p.post_title,MAX(rr.leaguepoints) as points,IFNULL(  MAX(rr.leaguepo
 	group by team,race
 	order by p.id
 	
+SELECT
+t1.league,
+t1.leaguetype,
+t1.leagueparticipant,
+t1.leaguestandard as leaguestandard,
+'M' AS leaguedivision,
+@rownum:=@rownum+1 AS leagueposition,
+t1.leaguescorecount,
+t1.leaguepoints as leaguepoints,
+t1.leaguesummary AS leaguesummary
+FROM
+(
+SELECT
+2812 AS league,
+'T' AS leaguetype,
+l.team AS leagueparticipant,
+0 AS leaguestandard,
+0 AS leaguedivision,
+SUM(l.leaguescorecount) AS leaguescorecount,
+SUM(l.leaguepoints) AS leaguepoints,
+GROUP_CONCAT( cast( concat_ws(':',l.event,l.leaguepoints,IF(l.class='R','RO',NULL)) AS char ) SEPARATOR ',') AS leaguesummary
+FROM
+(
+SELECT 1 AS leaguescorecount, team, race, class, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
+FROM wp_bhaa_teamresult trr
+join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
+WHERE class <> 'W' and team=159
+GROUP BY team,race
+) l
+GROUP BY l.team
+ORDER BY leaguepoints DESC
+)t1
+
+	
 	join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=121)
 	
 select CONCAT(CAST(CONCAT(IFNULL(x.maxpoints,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
@@ -640,4 +674,10 @@ update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(2812,121,'
 league=2812 and leaguedivision in ('M');
 update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(52,2812,'W') where 
 league=2812 and leaguedivision in ('W');
-	
+
+-- delete the winter league 2013 points for the moment
+delete from wp_bhaa_teamresult where race=3101;
+delete from wp_bhaa_teamresult where race=3102;
+delete from wp_bhaa_teamresult where race=3148;
+delete from wp_bhaa_teamresult where race=3147;
+delete from wp_bhaa_teamresult where race=3152;
