@@ -61,6 +61,9 @@ INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,7016,'02
 
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,6933,'02:51:44','RAN');
 
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1300,2855,5101,'01:44:53','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1300,2855,8732,'01.48.39','RAN');
+
 delete from wp_bhaa_raceresult where race=2855 and runner=6933;
 
 call updatePositions(2855);
@@ -79,6 +82,7 @@ where race=2855 and r2c.p2p_from=52
 select * from wp_p2p where p2p_from=52
 select * from wp_posts where ID=52
 
+delete from wp_bhaa_teamresult where race=2855;
 -- ladies h A
 insert into wp_bhaa_teamresult(class,position,leaguepoints,team,company,runner,pos,std,racetime,id,race,totalpos,totalstd)
 select 'W',1,6,52,52,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1 from wp_bhaa_raceresult rr
@@ -101,7 +105,7 @@ where race=2855 and r2c.p2p_from=159 and position>75 order by position;
 
 -- garda
 insert into wp_bhaa_teamresult(class,position,leaguepoints,team,company,runner,pos,std,racetime,id,race,totalpos,totalstd)
-select 'A',7,1,94,94,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1 from wp_bhaa_raceresult rr
+select 'A',8,1,94,94,rr.runner,rr.position,rr.standard,rr.racetime,null,2855,1,1 from wp_bhaa_raceresult rr
 join wp_users u on (u.id=rr.runner)
 join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'house_to_runner')
 where race=2855 and r2c.p2p_from=94 and position<130 order by position;
@@ -175,6 +179,8 @@ join wp_users u on (u.id=rr.runner)
 join wp_p2p r2c ON (r2c.p2p_to=u.id AND r2c.p2p_type = 'house_to_runner')
 where race=2855 and r2c.p2p_from=175 and position>1 order by position;
 
+update wp_bhaa_raceresult set standard=13 where race=2855 and runner=7373;
+update wp_bhaa_raceresult set standard=10 where race=2855 and runner=1704;
 -- update sums
 UPDATE wp_bhaa_teamresult tr
 JOIN ( 
@@ -192,8 +198,6 @@ where race=2855;
 select * from wp_bhaa_teamresult where race=2855 order by class,totalpos;
 delete from wp_bhaa_teamresult where race=2855;
 
-update wp_bhaa_raceresult set standard=13 where race=2855 and runner=7373;
-update wp_bhaa_raceresult set standard=10 where race=2855 and runner=1704;
 
 -- sum postions and standards
 select team,SUM(pos) as totalpos,SUM(std) as totalstd from wp_bhaa_teamresult
@@ -202,3 +206,7 @@ where race=2855 group by team,race
 select MIN(totalstd),MAX(totalstd) from wp_bhaa_teamresult where class = "D" ('A','B','C','D')
 select * from wp_bhaa_division
 select from wp_meta where user
+
+select wp_bhaa_teamresult.*,wp_users.display_name from wp_bhaa_teamresult
+join wp_users on wp_users.id=wp_bhaa_teamresult.runner
+where race=2855 order by class,position,team

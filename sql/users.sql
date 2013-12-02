@@ -206,3 +206,6 @@ set
 runner.status=ms.meta_value,
 runner.dateofrenewal=mdor.meta_value
 where wp_users.id>1500 and wp_users.id<10000;
+
+-- runners with std 30!
+select * from wp_usermeta where meta_key='bhaa_runner_standard' and meta_value=30

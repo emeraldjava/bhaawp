@@ -459,7 +459,7 @@ DECLARE _result varchar(200);
 SET _result = (
 	select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
 	from wp_posts p
-	left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=_runner)
+	left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=_runner and rr.class!='PRE_REG')
 	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
 	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
 	where p.ID IN (
@@ -471,7 +471,10 @@ SET _result = (
 	inner join wp_posts r on (r.id=e2r.p2p_to)
 	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
 	where l.post_type='league'
-	and l.ID=_leagueId and r_type.meta_value in ('C','S',_gender) AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC)
+	AND l.ID=_leagueId 
+	AND r_type.meta_value in ('C','S',_gender) 
+	AND r_type.meta_value!='TRACK'
+	order by eme.event_start_date ASC)
 	order by p.id
 );
 RETURN _result;
@@ -587,8 +590,8 @@ DROP PROCEDURE IF EXISTS `updateTeamLeagueSummary`$$
 CREATE PROCEDURE `updateTeamLeagueSummary`(_leagueId  INT)
 BEGIN
 
-update wp_bhaa_teamresult set leaguepoints=(7-(position)) where class!='R';
-update wp_bhaa_teamresult set leaguepoints=1 where leaguepoints<=0 and class!='R';
+update wp_bhaa_teamresult set leaguepoints=1 where position>=7 and class!='R';
+update wp_bhaa_teamresult set leaguepoints=(7-(position)) where class!='R' and position<=6;
 
 DELETE FROM wp_bhaa_leaguesummary WHERE leagueType='T' and league = _leagueId;
 
@@ -679,8 +682,8 @@ GROUP BY l.team
 ORDER BY leaguepoints DESC
 )t1, (SELECT @rownum:=0) t2;
 
---update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'M') where league=_leagueId and leaguedivision in ('M');
---update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'W') where league=_leagueId and leaguedivision in ('W');
+update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'M') where league=_leagueId and leaguedivision in ('M');
+update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'W') where league=_leagueId and leaguedivision in ('W');
 
 END$$
 

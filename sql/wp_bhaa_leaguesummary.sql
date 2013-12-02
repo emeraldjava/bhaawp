@@ -535,7 +535,7 @@ where leaguedivision in ('A','B','C','D','E','F') and league=2659;
 select * from wp_bhaa_teamresult where race>= 2170 and race<=2283 and team=159
 
 -- get the last x team results
-select race.post_title,tr.class,tr.position,MAX(tr.leaguepoints) from wp_bhaa_teamresult tr
+select race.post_title,tr.id,tr.class,tr.position,tr.leaguepoints from wp_bhaa_teamresult tr
 join wp_posts race on tr.race=race.id
 where team=121
 group by team,race
@@ -555,9 +555,27 @@ select * from wp_bhaa_leaguesummary where league=2812 and leaguedivision="M" ord
 
 select getTeamLeagueSummary(121,2812,'M');
 
-select GROUP_CONCAT(CAST(CONCAT(IFNULL(  MAX(rr.leaguepoints) ,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
--- shows the max league points for all races in a league
-select p.id,p.post_title,MAX(rr.leaguepoints)
+-- selects too many rows
+select GROUP_CONCAT(CAST(CONCAT(IFNULL( rr.leaguepoints ,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
+	from wp_posts p
+	left join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=121)
+	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
+	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
+	where p.ID IN (
+	select r.ID from wp_posts l
+	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+	inner join wp_posts e on (e.id=l2e.p2p_to)
+	inner join wp_em_events eme on (eme.post_id=e.id)
+	inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+	inner join wp_posts r on (r.id=e2r.p2p_to)
+	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+	where l.post_type='league'
+	and l.ID=2812 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+	)
+order by p.id
+	
+-- shows the max league points for all races in a league for RTE
+select p.id,p.post_title,MAX(rr.leaguepoints) as points,IFNULL(  MAX(rr.leaguepoints) ,0) as sum
 	from wp_posts p
 	left join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=121)
 	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
@@ -575,9 +593,91 @@ select p.id,p.post_title,MAX(rr.leaguepoints)
 	)
 	group by team,race
 	order by p.id
+	
+-- DFB
+select p.id,p.post_title,MAX(rr.leaguepoints) as points,IFNULL(  MAX(rr.leaguepoints) ,0) as sum
+	from wp_posts p
+	left join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=159)
+	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
+	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
+	where p.ID IN (
+	select r.ID from wp_posts l
+	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+	inner join wp_posts e on (e.id=l2e.p2p_to)
+	inner join wp_em_events eme on (eme.post_id=e.id)
+	inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+	inner join wp_posts r on (r.id=e2r.p2p_to)
+	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+	where l.post_type='league'
+	and l.ID=2812 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC
+	)
+	group by team,race
+	order by p.id
+	
+SELECT
+t1.league,
+t1.leaguetype,
+t1.leagueparticipant,
+t1.leaguestandard as leaguestandard,
+'M' AS leaguedivision,
+@rownum:=@rownum+1 AS leagueposition,
+t1.leaguescorecount,
+t1.leaguepoints as leaguepoints,
+t1.leaguesummary AS leaguesummary
+FROM
+(
+SELECT
+2812 AS league,
+'T' AS leaguetype,
+l.team AS leagueparticipant,
+0 AS leaguestandard,
+0 AS leaguedivision,
+SUM(l.leaguescorecount) AS leaguescorecount,
+SUM(l.leaguepoints) AS leaguepoints,
+GROUP_CONCAT( cast( concat_ws(':',l.event,l.leaguepoints,IF(l.class='R','RO',NULL)) AS char ) SEPARATOR ',') AS leaguesummary
+FROM
+(
+SELECT 1 AS leaguescorecount, team, race, class, MAX(leaguepoints) AS leaguepoints, e2r.p2p_from as event
+FROM wp_bhaa_teamresult trr
+join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=trr.race)
+WHERE class <> 'W' and team=159
+GROUP BY team,race
+) l
+GROUP BY l.team
+ORDER BY leaguepoints DESC
+)t1
+
+	
+	join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=121)
+	
+select CONCAT(CAST(CONCAT(IFNULL(x.maxpoints,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
+	from wp_posts p
+	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
+	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
+	where p.ID IN (
+	select r.ID as ID,MAX(rr.leaguepoints) as maxpoints from wp_posts l
+	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+	inner join wp_posts e on (e.id=l2e.p2p_to)
+	inner join wp_em_events eme on (eme.post_id=e.id)
+	inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+	inner join wp_posts r on (r.id=e2r.p2p_to)
+	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+	join wp_bhaa_teamresult rr on (r.id=rr.race and rr.team=121)
+	where l.post_type='league'
+	and l.ID=2812 and r_type.meta_value in ('C','S','M') AND r_type.meta_value!='TRACK' 
+	group by rr.team,rr.race
+	order by eme.event_start_date ASC
+	) x
+order by p.id
 
 update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(2812,121,'M') where 
 league=2812 and leaguedivision in ('M');
 update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(52,2812,'W') where 
 league=2812 and leaguedivision in ('W');
-	
+
+-- delete the winter league 2013 points for the moment
+delete from wp_bhaa_teamresult where race=3101;
+delete from wp_bhaa_teamresult where race=3102;
+delete from wp_bhaa_teamresult where race=3148;
+delete from wp_bhaa_teamresult where race=3147;
+delete from wp_bhaa_teamresult where race=3152;

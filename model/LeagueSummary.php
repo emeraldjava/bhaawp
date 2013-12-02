@@ -25,8 +25,7 @@ class LeagueSummary extends BaseModel implements Table
 			return 'runner/?id';
 	}
 	
-	function getCreateSQL()
-	{
+	function getCreateSQL() {
 		return "
 			league int(10) unsigned NOT NULL,
 			leaguetype enum('I','T') NOT NULL,
@@ -40,8 +39,7 @@ class LeagueSummary extends BaseModel implements Table
 			PRIMARY KEY (leaguetype, league, leagueparticipant, leaguedivision) USING BTREE";
 	}
 	
-	function getDivisions()
-	{
+	function getDivisions() {
 		//$type = get_post_meta($this->leagueid,LeagueCpt::BHAA_LEAGUE_TYPE,true);
 		//error_log('getDivisions() '.$type);
 		if($this->type == 'I')
@@ -59,8 +57,7 @@ class LeagueSummary extends BaseModel implements Table
 		}
 	}
 
-	function getLeagueRaces($type='')
-	{
+	function getLeagueRaces($type='') {
 		$SQL = $this->wpdb->prepare("select l.ID as lid,l.post_title,
 			e.ID as eid,e.post_title as etitle,LEFT(e.post_title,8) as etag,eme.event_start_date as edate,e.guid as eurl,
 			r.ID as rid,r.post_title as rtitle,r_type.meta_value as rtype
@@ -82,8 +79,7 @@ class LeagueSummary extends BaseModel implements Table
 		return $this->wpdb->get_results($SQL,OBJECT);
 	}
 
-	function getRaceIdSetString($races)
-	{
+	function getRaceIdSetString($races) {
 		// $rid_array = array_map(function($val) { return $val->rid; } ,$races);
 		return implode(',',array_map(array($this,'rid_mapper'), $races) );
 		//echo print_r($rid_array,true).PHP_EOL;
@@ -94,8 +90,7 @@ class LeagueSummary extends BaseModel implements Table
 	}
 	
 	// return a summary of the top x in each division
-	function getLeagueSummaryByDivision($limit=10)
-	{
+	function getLeagueSummaryByDivision($limit=10) {
 		global $wpdb;
 		//error_log('getLeagueSummaryByDivision '.$this->type.' '.$this->leagueid);
 		if($this->type=='I') {
@@ -136,15 +131,14 @@ class LeagueSummary extends BaseModel implements Table
 		return $this->wpdb->get_results($SQL);
 	}
 	
-	function getRunnerLeagueSummary($races,$runner)
-	{
+	function getRunnerLeagueSummary($races,$runner) {
 		// $this->wpdb->prepare
 		$SQL = sprintf("select e.ID as eid,race,leaguepoints from wp_bhaa_raceresult
 			inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=race)
 			inner join wp_posts e on (e.id=e2r.p2p_from)
 			where race in ( %s )
 			and runner=%d;",$races,$runner);
-		//error_log($SQL);
+		//error_log($SQL);5101
 		return $this->wpdb->get_results($SQL);
 	}
 	
