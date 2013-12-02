@@ -23,6 +23,9 @@ class BHAA {
 
 	var $registration;
 	var $raceday;
+	
+	var $plugin_file;
+	var $plugin_basename;
 
 	function __construct() {
 		//global $wpdb;
@@ -36,8 +39,12 @@ class BHAA {
 		//add_action( 'plugins_loaded', array(&$this, 'initialize') );
 		//add_action( 'p2p_init', array(&$this->connection,'bhaa_connection_types'));
 
+		//$this->plugin_file = __FILE__;
+		//$this->plugin_basename = plugin_basename( $this->plugin_file );
+		//add_action( 'admin_menu', array( $this, 'add_page' ) );
+		//add_action( 'network_admin_menu', array( $this, 'add_page' ) );
 		
-		define( 'WP_GITHUB_FORCE_UPDATE', true );
+		//define( 'WP_GITHUB_FORCE_UPDATE', true );
 				
 		if ( is_admin() ) {
 			register_activation_hook(__FILE__, array($this, 'bhaa_activate') );
@@ -46,15 +53,15 @@ class BHAA {
 			
 			$config = array(
 				'slug' => plugin_basename( __FILE__ ),
-				'proper_folder_name' => 'github-updater',
+				'proper_folder_name' => 'bhaawp-master',
 				'api_url' => 'https://api.github.com/repos/emeraldjava/bhaawp',
 				'raw_url' => 'https://raw.github.com/emeraldjava/bhaawp/master',
 				'github_url' => 'https://github.com/emeraldjava/bhaawp',
 				'zip_url' => 'https://github.com/emeraldjava/bhaawp/archive/master.zip',
-				'sslverify' => true,
+				'sslverify' => false,
 				'requires' => '3.0',
 				'tested' => '3.3',
-				'readme' => 'README.md',
+				'readme' => 'bhaawp.php',
 				'access_token' => '',
 			);
 			new WP_GitHub_Updater( $config );	
@@ -69,6 +76,22 @@ class BHAA {
 		// hook add_query_vars function into query_vars
 		add_filter('query_vars', array($this,'add_query_vars'));
 	}
+	
+	/*
+	function add_page() {
+		if ( current_user_can ( 'manage_options' ) ) {
+			$this->options_page_hookname = add_plugins_page ( __( 'Github Updates', 'github_plugin_updater' ), __( 'Github Updates', 'github_plugin_updater' ), 'manage_options', 'github-updater', array( $this, 'admin_page' ) );
+			add_filter( "network_admin_plugin_action_links_{$this->plugin_basename}", array( $this, 'filter_plugin_actions' ) );
+			add_filter( "plugin_action_links_{$this->plugin_basename}", array( $this, 'filter_plugin_actions' ) );
+		}
+	}
+	
+	function filter_plugin_actions( $links ) {
+		$settings_link = '<a href="plugins.php?page=github-updater">' . __( 'Setup', 'github_plugin_updater' ) . '</a>';
+		array_unshift( $links, $settings_link );
+		return $links;
+	}
+	*/
 
 	function bhaa_form_actions() {
 		if( !empty($_REQUEST['action']) && substr($_REQUEST['action'],0,17) == Raceday::BHAA_RACEDAY_FORM ) {
