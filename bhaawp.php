@@ -3,14 +3,14 @@
 Plugin Name: BHAA Plugin
 Plugin URI: https://github.com/emeraldjava/bhaawp
 Description: Plugin to handle bhaa results
-Version: 2013.11.21
+Version: 2013.12.02
 Author: paul.t.oconnell@gmail.com
 Author URI: https://github.com/emeraldjava/bhaawp
 */
 
 class BHAA {
 	
-	var $version = '2013.11.21';
+	var $version = '2013.12.02';
 	var $connection;
 
 	var $event;
@@ -36,10 +36,28 @@ class BHAA {
 		//add_action( 'plugins_loaded', array(&$this, 'initialize') );
 		//add_action( 'p2p_init', array(&$this->connection,'bhaa_connection_types'));
 
+		
+		define( 'WP_GITHUB_FORCE_UPDATE', true );
+				
 		if ( is_admin() ) {
 			register_activation_hook(__FILE__, array($this, 'bhaa_activate') );
 			//register_uninstall_hook(__FILE__, array($this, 'bhaa_uninstall'));
 			new BhaaAdmin();
+			
+			$config = array(
+				'slug' => plugin_basename( __FILE__ ),
+				'proper_folder_name' => 'github-updater',
+				'api_url' => 'https://api.github.com/repos/emeraldjava/bhaawp',
+				'raw_url' => 'https://raw.github.com/emeraldjava/bhaawp/master',
+				'github_url' => 'https://github.com/emeraldjava/bhaawp',
+				'zip_url' => 'https://github.com/emeraldjava/bhaawp/archive/master.zip',
+				'sslverify' => true,
+				'requires' => '3.0',
+				'tested' => '3.3',
+				'readme' => 'README.md',
+				'access_token' => '',
+			);
+			new WP_GitHub_Updater( $config );	
 		}
 
 		// init, wp_head, wp_enqueue_scripts
