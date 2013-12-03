@@ -1,4 +1,4 @@
-
+-- event breakdown
 select post_id,event_slug,
 (select count(distinct(rr.runner)) from wp_bhaa_raceresult rr where rr.race in 
 	(select p2p_to from wp_p2p where p2p_type='event_to_race' and p2p_from=post_id)) as total,
@@ -24,7 +24,49 @@ select post_id,event_slug,
 	and status.meta_value="D") as day
 from wp_em_events
 where YEAR(event_start_date)=2013
-	
+
+-- 1080 members
+select COUNT(DISTINCT(status.user_id)) from wp_usermeta status 
+where status.meta_key='bhaa_runner_status'
+and status.meta_value="M"
+select COUNT(DISTINCT(status.user_id)) from wp_usermeta status 
+where status.meta_key='bhaa_runner_status'
+and status.meta_value="D"
+select COUNT(DISTINCT(status.user_id)) from wp_usermeta status 
+where status.meta_key='bhaa_runner_status'
+and status.meta_value="I"
+
+-- new BHAA members in 2013
+select COUNT(DISTINCT(status.user_id)) from wp_usermeta status 
+join wp_users u on (u.id=status.user_id)
+where status.meta_key='bhaa_runner_status'
+and status.meta_value="M"
+and YEAR(u.user_registered)=2013
+
+-- all race results for 2013
+select * from wp_bhaa_raceresult rr
+join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=rr.race)
+join wp_em_events e on (e.post_id=e2r.p2p_from)
+where YEAR(e.event_start_date)=2013
+
+-- age profile
+select * from wp_bhaa_agecategory
+
+select ID,user_nicename,getAgeCategory(dob.meta_value,curdate(),gender.meta_value) as cat from wp_users
+join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
+join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key='bhaa_runner_gender')
+join wp_usermeta dob on (dob.user_id=wp_users.id and dob.meta_key='bhaa_runner_dateofbirth')
+where status.meta_value="M";
+
+select status.user_id,getagecategory(ru.dateofbirth, curdate(), ru.gender, 0) from wp_usermeta status 
+where status.meta_key='bhaa_runner_status'
+and status.meta_value="M"
+
+
+select ru.id, getagecategory(ru.dateofbirth, curdate(), ru.gender, 0)  as agecat
+    from runner ru 
+    where ru.status='M' and ru.dateofrenewal >= '2011-1-1'
+
 delete from wp_em_events where event_id in (3,2351)
 
 
