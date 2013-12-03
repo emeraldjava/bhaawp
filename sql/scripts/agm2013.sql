@@ -50,13 +50,31 @@ join wp_em_events e on (e.post_id=e2r.p2p_from)
 where YEAR(e.event_start_date)=2013
 
 -- age profile
-select * from wp_bhaa_agecategory
+select count(id) as runnercount, agecat, gender
+from
+(
+    select ID,gender.meta_value as gender,getAgeCategory(dob.meta_value,curdate(),'M') as agecat from wp_users
+	join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
+	join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key='bhaa_runner_gender')
+	join wp_usermeta dob on (dob.user_id=wp_users.id and dob.meta_key='bhaa_runner_dateofbirth')
+	where status.meta_value="M"
+) t1
+group by t1.agecat,t1.gender
+order by t1.agecat;
 
-select ID,user_nicename,getAgeCategory(dob.meta_value,curdate(),gender.meta_value) as cat from wp_users
+select ID,user_nicename,dob.meta_value,gender.meta_value,getAgeCategory(dob.meta_value,curdate(),'M') as agecat from wp_users
 join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key='bhaa_runner_status')
 join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key='bhaa_runner_gender')
 join wp_usermeta dob on (dob.user_id=wp_users.id and dob.meta_key='bhaa_runner_dateofbirth')
 where status.meta_value="M";
+
+-- dob format
+select * from wp_usermeta where meta_value='18-02-74'
+update wp_usermeta set meta_value='1982-07-09' where umeta_id=177381;
+update wp_usermeta set meta_value='1974-02-18' where umeta_id=177413;
+
+select *, (meta_value NOT REGEXP '^\d{4}-\d{1,2}-\d{1,2}') as regex from wp_usermeta where meta_key='bhaa_runner_dateofbirth';
+
 
 select status.user_id,getagecategory(ru.dateofbirth, curdate(), ru.gender, 0) from wp_usermeta status 
 where status.meta_key='bhaa_runner_status'
