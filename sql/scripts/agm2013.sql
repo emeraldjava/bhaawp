@@ -107,3 +107,9 @@ and gender.meta_value="W";
 select * from wp_p2p where p2p_type='event_to_race' and p2p_from=2121
 
 select * from wp_bhaa_raceresult where race=2359
+
+-- league winners
+select leaguedivision,leagueposition,leaguepoints from wp_bhaa_leaguesummary 
+where league=2659
+and leagueposition<=10
+order by leaguedivision,leagueposition
