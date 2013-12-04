@@ -36,12 +36,26 @@ select COUNT(DISTINCT(status.user_id)) from wp_usermeta status
 where status.meta_key='bhaa_runner_status'
 and status.meta_value="I"
 
--- new BHAA members in 2013
-select COUNT(DISTINCT(status.user_id)) from wp_usermeta status 
+-- new BHAA members in 2013 341
+select COUNT(DISTINCT(status.user_id))
+from wp_usermeta status 
 join wp_users u on (u.id=status.user_id)
 where status.meta_key='bhaa_runner_status'
 and status.meta_value="M"
 and YEAR(u.user_registered)=2013
+
+select ID,fn.meta_value,ln.meta_value,user_email from wp_users u
+join wp_usermeta s on (s.user_id=u.id and s.meta_key='bhaa_runner_status' and s.meta_value="M")
+join wp_usermeta fn on (fn.user_id=u.id and fn.meta_key='first_name')
+join wp_usermeta ln on (ln.user_id=u.id and ln.meta_key='last_name')
+where YEAR(u.user_registered)=2013
+
+(select meta_value from wp_users where user_id=status.user_id AND meta_key='first_name') as fn,
+(select meta_value from wp_users where user_id=status.user_id AND meta_key='last_name') as ln
+
+
+left JOIN wp_usermeta fn ON (fn.user_id=u.id AND fn.meta_key='first_name')
+left JOIN wp_usermeta ln ON (ln.user_id=u.id AND ln.meta_key='last_name')
 
 -- all race results for 2013
 select * from wp_bhaa_raceresult rr
@@ -109,7 +123,11 @@ select * from wp_p2p where p2p_type='event_to_race' and p2p_from=2121
 select * from wp_bhaa_raceresult where race=2359
 
 -- league winners
-select leaguedivision,leagueposition,leaguepoints from wp_bhaa_leaguesummary 
+select leaguedivision,leagueposition,leaguepoints,u.user_nicename,fn.meta_value,ln.meta_value,u.user_email,mobile.meta_value from wp_bhaa_leaguesummary 
+join wp_users u on u.id=leagueparticipant
+left JOIN wp_usermeta mobile ON (mobile.user_id=u.id AND mobile.meta_key='bhaa_runner_mobilephone')
+left JOIN wp_usermeta fn ON (fn.user_id=u.id AND fn.meta_key='first_name')
+left JOIN wp_usermeta ln ON (ln.user_id=u.id AND ln.meta_key='last_name')
 where league=2659
 and leagueposition<=10
 order by leaguedivision,leagueposition
