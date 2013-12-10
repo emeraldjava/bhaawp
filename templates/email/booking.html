@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>BHAA Online Ticket : #_BOOKINGNAME</title></head>
+
+<table cellspacing="0" cellpadding="1" border="0" summary="" style="width: 100%; font-family: Arial, Sans-serif; 
+	border: 1px Solid #ccc; border-width: 1px 2px 2px 1px; background-color: #fff;">
+<tr>
+<td>
+<div style="padding: 2px">
+
+<table cellpadding="1" cellspacing="1" border="1" summary="details">
+
+<tr><td style="padding: 0 1em 1px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<img class="bhaa-logo" src="http://bhaa.ie/wp-content/uploads/2012/11/headerlogo.jpg" width="97" height="100" alt="BHAA Logo" style="float: left; padding: 20px 20px" />
+<td style="padding: 0 1em 1px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:16px;font-weight:bold;color:#222">{{header}}</h3></td>
+</tr>
+
+<!-- Who -->
+<tr>
+<td	style="padding: 0 1em 1px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<div><i style="font-style: normal">Name</i></div></td>
+<td	style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">#_BOOKINGNAME</td>
+</tr>
+
+<!-- Member -->
+<tr><td style="padding: 0 1em 1px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<div><i style="font-style: normal">BHAA ID</i></div></td>
+<td style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">#_BHAAID</td>
+</tr>
+
+<!-- Date Of Birth -->
+<tr>
+<td	style="padding: 0 1em 1px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<div><i style="font-style: normal">Date Of Birth</i></div></td>
+<td	style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">#_BOOKINGFORMCUSTOM{bhaa_runner_dateofbirth}</td>
+</tr>
+
+<!-- Gender -->
+<tr>
+<td	style="padding: 0 1em 1px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<div><i style="font-style: normal">Gender</i></div></td>
+<td	style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">#_BOOKINGFORMCUSTOM{bhaa_runner_gender}</td>
+</tr>
+
+<!-- Company -->
+<tr>
+<td	style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<div><i style="font-style: normal">Company</i></div></td>
+<td	style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">#_BOOKINGFORMCUSTOM{bhaa_runner_companyname} - ID:#_BOOKINGFORMCUSTOM{bhaa_runner_company}</td>
+</tr>
+
+
+{{eventDetails}}<!--u for registering for the BHAA #_EVENTLINK event.  -->
+	
+<!-- When -->
+<tr><td style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<div><i style="font-style: normal">When</i></div></td>
+<td style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">#_EVENTDATES @ #_EVENTTIMES</td>
+</tr>
+
+<!-- Where -->
+<tr><td style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap" valign="top">
+<div><i style="font-style: normal">Where</i></div></td>
+<td style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">#_LOCATIONNAME - #_LOCATIONFULLLINE</td>
+</tr>
+{{/eventDetails}}
+
+
+<!-- Price -->
+<tr>
+<td	style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap"									valign="top">
+<div><i style="font-style: normal">Paid Online</i></div></td>
+<td	style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">#_BOOKINGPRICE</td>
+</tr>
+
+<!-- Booking ID -->
+<tr>
+<td	style="padding: 0 1em 10px 0; font-family: Arial, Sans-serif; font-size: 13px; color: #888; white-space: nowrap"									valign="top">
+<div><i style="font-style: normal">BOOKING ID</i></div></td>
+<td	style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222"	valign="top">#_BOOKINGID | #_BOOKINGTXNID</td>
+</tr>
+
+{{membershipDetails}}
+<!-- Notes -->
+<tr><td colspan="2" style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">
+<p>
+Thank you for renewing your membership online.
+</p>
+<ul>
+<li>Your entitled to run all BHAA events for an entry of 10e.</li>
+<li>Your race results will be counted towards the BHAA league.</li>
+<li>You can run with your company or sector team.</li>
+</ul>
+</td></tr>
+{{/membershipDetails}}
+
+{{eventDetails}}
+<tr><td colspan="2" style="padding-bottom: 10px; font-family: Arial, Sans-serif; font-size: 13px; color: #222" valign="top">
+<p>
+Thank you for using the BHAA Day Membership form.
+</p>
+<ul>
+<li>Please aim to arrive at the venue one hour before the first race to collect your race number.</li>
+<li>Your race number contains the RFID chip which allows our chip timing system to record your time and position, and you will be asked to return it at the end of the race.</li>
+<li>The use of Headphones to strictly forbidden at BHAA races on safety grounds.</li>
+<li>The BHAA is totally voluntary organisation.</li>
+<li><b style="color: red">You MUST PRINT and bring this email to the event registration.</b><li>
+</ul>
+</td></tr>
+{{/eventDetails}}
+
+</table>
+</div>
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td	style="background-color: #f6f6f6; color: #888; border-top: 1px Solid #ccc; font-family: Arial, Sans-serif; font-size: 11px">
+<p>Reminder from <a href="https://www.bhaa.ie/" target="_blank" style="">Business Houses Athletic Association</a></p>
+<p>You are receiving this email at the account '#_BOOKINGEMAIL' because you just used the BHAA payments system.</p>
+<p>Please email #_CONTACTEMAIL with any booking queries</p>
+</td>
+<td	style="background-color: #f6f6f6; color: #888; border-top: 1px Solid #ccc; font-family: Arial, Sans-serif; font-size: 11px">
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
