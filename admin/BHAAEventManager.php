@@ -30,29 +30,52 @@ class BHAAEventManager {
 	 * http://eventsmanagerpro.com/support/questions/custom-form-select-options-using-wp_dropdown_pages/
 	 */
 	function bhaa_emp_forms_output_field_input($html, $form, $field) {
-		switch($field['type']){
-			case 'house':
-				return '<select id="bhaa_runner_company" name="bhaa_runner_company">BHAA HOUSE</select>';
-				break;
-		}
-		return $html;
-	}
-	
-	function bhaa_em_form_output_field_custom_house(){
-	}
-	
-	/**
-	 * Validate the custom house form field
-	 */
-	function bhaa_em_form_validate_field_custom() {
-		/*case 'house':
-			if( $result && trim($value) == '' && !empty($field['required']) ){
-				$this->add_error($err);
-				$result = false;
+		//error_log('bhaa_emp_forms_output_field_input() field '.print_r($field,true));
+		
+		if($field['type']=='house' && $field['fieldid']=='house') {
+			
+			error_log('bhaa_emp_forms_output_field_input() field '.print_r($field,true));
+			$sectorTeamQuery = new WP_Query(
+				array(
+					'post_type' => 'house',
+					'order'		=> 'ASC',
+					'post_status' => 'publish',
+					'orderby' 	=> 'title',
+					'nopaging' => true,
+					'tax_query'	=> array(
+						array(
+							'taxonomy'  => 'teamtype',
+							'field'     => 'slug',
+							'terms'     => 'sector', // exclude house posts in the sectorteam custom teamtype taxonomy
+							'operator'  => 'IN')
+					)
+				)
+			);
+			$csv = implode(',',array_map(function($val){return $val->ID;},$sectorTeamQuery->posts) );
+			$args = array (
+				'id' => 'house',//$field['name'],//$field_name,
+				'name' => 'house',//$field['name'],//$field_name,
+				'echo' => 1,
+				'post_type' => 'house',
+				'exclude' => $csv
+			);
+				
+			global $current_user, $user_id;
+			$selected = get_user_meta($user_id,'bhaa_runner_company',true);
+			// set the correct defaults for new or existing user
+			if($selected==0) {
+				$args = array_merge( $args, array( 'show_option_none' => 'Please select a company' ) );
+				$args = array_merge( $args, array( 'option_none_value' => '1' ) );
+			} else {
+				$args = array_merge( $args, array( 'selected' => $selected ) );
 			}
-			break;*/
+			error_log('wp_dropdown_pages args '.print_r($args,true));
+			wp_dropdown_pages($args);
+		}
+		else
+			return $html;
 	}
-	
+		
 	/**
 	 * http://wp-events-plugin.com/tutorials/create-a-custom-placeholder-for-event-formatting/
 	 */
