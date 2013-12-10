@@ -6,8 +6,11 @@
 class BHAAEventManager {
 	
 	function __construct() {
+		add_filter('em_event_output_placeholder',array($this,'bhaa_em_event_output_placeholder'),2,4);
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
+
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
+		
 		
 		// em_booking_form_before_tickets
 		// em_booking_form_after_tickets
@@ -17,11 +20,59 @@ class BHAAEventManager {
 		add_action('em_booking_form_before_tickets',array($this,'bhaa_em_booking_form_before_tickets'),9,2);
 		//add_action('em_booking_form_after_user_details',array($this,'bhaa_em_booking_form_after_user_details'),9,2);
 		add_action('em_booking_form_footer',array($this,'bhaa_em_booking_form_footer'),9,2);
+		
+		//add_action('em_form_output_field_custom_house',array($this,'bhaa_em_form_output_field_custom_house'), 10, 2);
+		//add_filter('em_form_validate_field_custom',array($this,'bhaa_em_form_validate_field_custom'), 10, 2);
+		//add_filter('emp_forms_output_field_input',array($this,'bhaa_emp_forms_output_field_input'),10,2);
+	
+		// em_form_validate_field_custom
+	}
+	
+	function bhaa_emp_forms_output_field_input(){
+		
+	}
+	
+	function bhaa_em_form_output_field_custom_house(){
+		
+	}
+	
+	/**
+	 * Validate the custom house form field
+	 */
+	function bhaa_em_form_validate_field_custom() {
+		/*case 'house':
+			if( $result && trim($value) == '' && !empty($field['required']) ){
+				$this->add_error($err);
+				$result = false;
+			}
+			break;*/
+	}
+	
+	/**
+	 * http://wp-events-plugin.com/tutorials/create-a-custom-placeholder-for-event-formatting/
+	 */
+	function bhaa_em_event_output_placeholder($result, $EM_Event, $placeholder) {
+		//error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$result);
+		switch( $placeholder ){
+			case '#_BHAARACERESULTS':
+				$result = 'BHAA_RACE_RESULTS';
+				break;
+			case '#_BHAATEAMRESULTS':
+				$result = 'BHAA_TEAM_RESULTS';
+				break;
+			case '#_BHAASTANDARDS':
+				$result = 'This a custom BHAA STANDARDS';
+				break;
+		}
+		//error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$result);
+		return $result;
 	}
 	
 	/**
 	 * Add a custom placeholder to handle the BHAA custom email generation.
 	 * http://wp-events-plugin.com/tutorials/create-a-custom-placeholder-for-event-formatting/
+	 * 
+	 * em_event_output_placeholder
 	 */
 	function bhaa_em_booking_output_placeholder($replace, $EM_Booking, $result){
 		global $wp_query, $wp_rewrite;
