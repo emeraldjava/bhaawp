@@ -23,17 +23,22 @@ class BHAAEventManager {
 		
 		//add_action('em_form_output_field_custom_house',array($this,'bhaa_em_form_output_field_custom_house'), 10, 2);
 		//add_filter('em_form_validate_field_custom',array($this,'bhaa_em_form_validate_field_custom'), 10, 2);
-		//add_filter('emp_forms_output_field_input',array($this,'bhaa_emp_forms_output_field_input'),10,2);
-	
-		// em_form_validate_field_custom
+		add_filter('emp_forms_output_field_input',array($this,'bhaa_emp_forms_output_field_input'),2,3);
 	}
 	
-	function bhaa_emp_forms_output_field_input(){
-		
+	/**
+	 * http://eventsmanagerpro.com/support/questions/custom-form-select-options-using-wp_dropdown_pages/
+	 */
+	function bhaa_emp_forms_output_field_input($html, $form, $field) {
+		switch($field['type']){
+			case 'house':
+				return '<select id="bhaa_runner_company" name="bhaa_runner_company">BHAA HOUSE</select>';
+				break;
+		}
+		return $html;
 	}
 	
 	function bhaa_em_form_output_field_custom_house(){
-		
 	}
 	
 	/**
