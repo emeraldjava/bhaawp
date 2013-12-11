@@ -1,16 +1,20 @@
 <?php
 /*
-Plugin Name: BHAA Plugin
-Plugin URI: https://github.com/emeraldjava/bhaawp
-Description: Plugin to handle bhaa results
-Version: 2013.12.02
-Author: paul.t.oconnell@gmail.com
-Author URI: https://github.com/emeraldjava/bhaawp
+* Plugin Name: BHAA Plugin
+* Plugin URI: https://github.com/emeraldjava/bhaawp
+* Description: Plugin for the Business House Athletic Association which handle user registration, race results and leagues
+* Version:           0.0.1
+* Author: paul.t.oconnell@gmail.com
+* Author URI: https://github.com/emeraldjava
+* Text Domain:       bhaawp
+* License:           GPL-2.0+
+* License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+* Domain Path:       /languages
+* GitHub Plugin URI: https://github.com/emeraldjava/bhaawp
+* GitHub Branch:     master
 */
-
 class BHAA {
 	
-	var $version = '2013.12.02';
 	var $connection;
 
 	var $event;
@@ -113,10 +117,12 @@ class BHAA {
 		//error_log("bhaa_content ".$post->ID);
 		// realex 3143
 		if( $post->ID == 3143){
-			//error_log("bhaa_content ".$page_content);
 			$realex = new Realex();
 			return $realex->process();
-		}
+		} 
+		//else if($post->ID==2015) {
+			// runner page 2015
+		//}
 /* 		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
 			error_log("bhaa_content ".$post->ID);
 			ob_start();
