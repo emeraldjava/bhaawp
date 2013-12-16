@@ -147,6 +147,79 @@ class Bhaa {
 		return $located;
 	}
 	
+	function getRaceday() {
+		return $this->raceday;
+	}
+	
+	function getRunner() {
+		return $this->runner;
+	}
+	
+	function getRaceResult() {
+		return new RaceResult();
+	}
+	
+	function getIndividualResultTable()	{
+		return $this->individualResultTable;
+	}
+	
+	public function getRaceTeamResultTable($race) {
+		$teamResult = new TeamResult($race);
+		return $teamResult->getRaceTeamResultTable();
+	}
+	
+	/**
+	 * TODO Move to a Team result class
+	 * @param unknown $house
+	 * @return string
+	 */
+	public function getTeamResultsForHouse($house){
+		$teamResult = new TeamResult($race);
+		$results = $teamResult->getHouseResults($house);
+		//var_dump($results,true);
+	
+		$options =  array('extension' => '.html');
+		$mustache = new Mustache_Engine(
+				array(
+						'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/templates',$options),
+						'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/templates/partials',$options)
+				)
+		);
+	
+		$template = $mustache->loadTemplate('team-results');
+		return $template->render(
+				array(
+						'results' => $results
+				));
+	}
+	
+	/**
+	 * move to a houses class
+	 */
+	function bhaawp_house_search() {
+		error_log('bhaawp_house_search '.$_REQUEST['term']);
+		$posts = get_posts( array(
+				's' => trim( esc_attr( strip_tags( $_REQUEST['term'] ) ) ),
+				'post_type' => 'house'
+		) );
+		$suggestions=array();
+	
+		global $post;
+		foreach ($posts as $post):
+		setup_postdata($post);
+		$suggestion = array();
+		$suggestion['label'] = esc_html($post->post_title);
+		$suggestion['link'] = get_permalink();
+		$suggestions[]= $suggestion;
+		endforeach;
+	
+		wp_reset_postdata();
+		$response = json_encode(array('matches'=>$suggestions));
+		//error_log('bhaawp_house_search '.$response);
+		echo $response;
+		die();
+		//exit;
+	}
 	
 	/**
 	 * TODO spl_autoload_register
