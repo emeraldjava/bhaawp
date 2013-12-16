@@ -46,7 +46,10 @@ if(isset($user->ID)){
 			$hasError = true;
 		} else {
 			$email = trim($_POST['email']);
-			wp_update_user( array ( 'ID' => $user->ID, 'user_email' => $email ) ) ;
+			$return = wp_update_user( array ( 'ID' => $user->ID, 'user_email' => $email ) ) ;
+			if ( is_wp_error($return) )
+   				error_log($return->get_error_message());
+			$user = $user = get_user_by('id',$user->ID);
 		}
 	}
 	if(isset($_POST['mobilephone-form'])) {
@@ -90,13 +93,8 @@ if(isset($user->ID)){
 	echo $content;
 	
 	// second section - personal
-	//global $current_user;
-	//echo error_log($current_user->ID.' - '.$user->ID);
-	if( ( is_user_logged_in()&&($current_user->ID==$user->ID) ) ||current_user_can('manage_options'))
-	{
-		$content = //apply_filters(
-				//'the_content',
-				//'[one_third last="no"]'.
+	if( ( is_user_logged_in()&&($current_user->ID==$user->ID) ) ||current_user_can('manage_options')) {
+		$content = 
 				'<h2>Your Details</h2>'.
 				'<ul>'.
 				'<li>dateofbirth : '.$metadata['bhaa_runner_dateofbirth'][0].'</li>'.
@@ -104,17 +102,12 @@ if(isset($user->ID)){
 				'<li>mobilephone : '.$metadata['bhaa_runner_mobilephone'][0].'</li>'.
 				'<li>email : '.$user->user_email.'</li>'.
 				'</ul>';
-				//'[/one_third]'
-				//);
 		echo $content;
 	}
 	
-	if(current_user_can('edit_users'))
-	{
+	if(current_user_can('edit_users')) {
 		// third section - admin
-		$content = //apply_filters(
-				//'the_content',
-				//'[one_third last="yes"]'.
+		$content = 
 				'<h2>Admin Details</h2>'.
 				'<div>'.
 				'<div><form action="" method="POST"><input type="text" size=2 name="std" id="std" placeholder="std" value="'.$metadata['bhaa_runner_standard'][0].'"/><input type="hidden" name="std-form" value="true"/><input type="submit" value="Update Std"/></form></div>'.
@@ -125,8 +118,7 @@ if(isset($user->ID)){
 				'<div>Status : '.$metadata['bhaa_runner_status'][0].'</div>'.
 				'<div>dateofrenewal : '.$metadata['bhaa_runner_dateofrenewal'][0].'</div>'.
 				'<div><a href="'.get_site_url().'/wp-admin/edit.php?post_type=event&action=bhaa_runner_renew&id='.$user->ID.'">Renew</a></div>'.
-				'</div>';//);
-				//'[/one_third]');
+				'</div>';
 		echo $content;
 	
 		// get current users details
@@ -205,7 +197,6 @@ if(isset($user->ID)){
 	{
 		//var_dump(get_user_meta($user->ID));
 	}
-	
 	echo BHAA::get_instance()->getIndividualResultTable()->renderRunnerTable($user->ID);
 }
 else
