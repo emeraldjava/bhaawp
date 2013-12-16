@@ -264,7 +264,19 @@ class Bhaa {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'assets/css/public.css', __FILE__ ), array(), self::VERSION );
+		wp_enqueue_style( 
+			$this->plugin_slug . '-plugin-styles', 
+			plugins_url( 'assets/css/public.css', __FILE__ ), 
+			array(), self::VERSION );
+		
+		wp_enqueue_style(
+			'bhaawp',
+			plugins_url() . '/bhaawp-master/assets/css/bhaawp.css',
+			false);
+		wp_enqueue_style(
+			'jquery-bhaa-style',
+			plugins_url() . '/bhaawp-master/assets/css/jqueryui/jquery-ui-1.10.3.custom.min.css',
+			false);
 	}
 
 	/**
