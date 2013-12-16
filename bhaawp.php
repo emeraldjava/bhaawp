@@ -64,21 +64,6 @@ class BHAA {
 			register_activation_hook(__FILE__, array($this, 'bhaa_activate') );
 			//register_uninstall_hook(__FILE__, array($this, 'bhaa_uninstall'));
 			new BhaaAdmin();
-			
-			$config = array(
-				'slug' => plugin_basename( __FILE__ ),
-				'proper_folder_name' => 'bhaawp-master',
-				'api_url' => 'https://api.github.com/repos/emeraldjava/bhaawp',
-				'raw_url' => 'https://raw.github.com/emeraldjava/bhaawp/master',
-				'github_url' => 'https://github.com/emeraldjava/bhaawp',
-				'zip_url' => 'https://github.com/emeraldjava/bhaawp/archive/master.zip',
-				'sslverify' => false,
-				'requires' => '3.0',
-				'tested' => '3.3',
-				'readme' => 'bhaawp.php',
-				'access_token' => '',
-			);
-			new WP_GitHub_Updater( $config );	
 		}
 
 		// init, wp_head, wp_enqueue_scripts
