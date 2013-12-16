@@ -194,8 +194,7 @@ class BHAAEventManager {
 			return true;
 		}
 	
-		if ( $EM_Ticket->ticket_name == Event::DAY_MEMBER_TICKET)
-		{
+		if ( $EM_Ticket->ticket_name == Event::DAY_MEMBER_TICKET) {
 			//if you are an ANNUAL MEMBER then this ticket will NOT show up
 			if(!is_user_logged_in())
 				return true;
@@ -205,8 +204,7 @@ class BHAAEventManager {
 				return false;
 		}
 	
-		if ( $EM_Ticket->ticket_name == Event::BHAA_MEMBER_TICKET)
-		{
+		if ( $EM_Ticket->ticket_name == Event::BHAA_MEMBER_TICKET) {
 			//if you are an ANNUAL MEMBER then you can see this ticket
 			if(is_user_logged_in() && get_user_meta(get_current_user_id(),'bhaa_runner_status',true)=='M' )
 				return true;
@@ -215,8 +213,7 @@ class BHAAEventManager {
 				return false;
 		}
 	
-		if ( $EM_Ticket->ticket_name == Event::ANNUAL_MEMBERSHIP)
-		{
+		if ( $EM_Ticket->ticket_name == Event::ANNUAL_MEMBERSHIP) {
 			// TODO if they are a
 			return true;
 		}

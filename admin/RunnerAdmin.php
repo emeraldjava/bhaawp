@@ -6,8 +6,7 @@
  */
 class RunnerAdmin
 {
-	function __construct()
-	{
+	function __construct() {
 		// display the admin status column
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
@@ -24,8 +23,7 @@ class RunnerAdmin
 		return $column;
 	}
 
-	function bhaa_manage_users_custom_column( $val, $column_name, $user_id )
-	{
+	function bhaa_manage_users_custom_column( $val, $column_name, $user_id ) {
 		$user = get_userdata( $user_id );
 		switch ($column_name) {
 			case 'status' :
