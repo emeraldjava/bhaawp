@@ -5,6 +5,16 @@ class Bhaa {
 
 	protected static $instance = null;
 	
+	var $connection;
+	var $event;
+	var $race;
+	var $individualResultTable;
+	var $house;
+	var $runner;
+	var $standardCalculator;
+	var $registration;
+	var $raceday;
+	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
@@ -21,6 +31,7 @@ class Bhaa {
 	 */
 	private function __construct() {
 	
+		require_once (dirname (__FILE__) . '/../bootstrap.php');
 		//require_once( plugin_dir_path( __FILE__ ) . '/includes/class-flickr-shortcode.php' );
 		
 		// Load plugin text domain
@@ -45,6 +56,32 @@ class Bhaa {
 		//add_shortcode('wp_flickr',array($flickr_shortcode,'wp_flickr_list_album'));
 		//add_action( 'TODO', array( $this, 'action_method_name' ) );
 		//add_filter( 'TODO', array( $this, 'filter_method_name' ) );
+		
+		
+		// TODO remove these
+		define('BHAAWP_PATH', plugin_dir_path(__FILE__));
+		global $wpdb;
+		$wpdb->raceresult 	= $wpdb->prefix.'bhaa_raceresult';
+		$wpdb->teamresult 	= $wpdb->prefix.'bhaa_teamresult';
+		$wpdb->importTable = $wpdb->prefix.'bhaa_import';
+		$wpdb->standardTable = $wpdb->prefix.'bhaa_standard';
+		
+		$this->connection = new Connection();
+		new LeagueCpt();
+		new RaceCpt();
+		new HouseCpt();
+		new BHAAEventManager();
+		
+		// table views
+		$this->individualResultTable = new RaceResultTable();
+		
+		$this->runner = new Runner();
+		$this->event = new Event();
+		$this->registration = new Registration();
+		$this->raceday = new Raceday();
+		
+		$this->standardCalculator = new StandardCalculator();
+		add_shortcode('eventStandardTable', array($this->standardCalculator,'eventStandardTable'));
 	}
 	
 	/**
@@ -90,6 +127,46 @@ class Bhaa {
 		$aVars[] = "division";
 		return $aVars;
 	}
+	
+	
+	function bhaa_locate_template( $template_name, $load=false, $args = array() ) {
+		//First we check if there are overriding tempates in the child or parent theme
+		$located = locate_template(array('plugins/bhaawp-master/'.$template_name));
+		if( !$located ) {
+			if ( file_exists(BHAA_PLUGIN_DIR.'/templates/'.$template_name) ) {
+	
+				$located = BHAA_PLUGIN_DIR.'/templates/'.$template_name;
+			}
+		}
+		$located = apply_filters('bhaa_locate_template', $located, $template_name, $load, $args);
+		if( $located && $load ) {
+			if( is_array($args) )
+				extract($args);
+			include($located);
+		}
+		return $located;
+	}
+	
+	
+	/**
+	 * TODO spl_autoload_register
+	 * http://stackoverflow.com/questions/11833034/non-destructive-spl-autoload-register
+	 *
+	 * add_action ( 'init' , 'class_loader' );
+	
+	 function class_loader () {
+	 // register an autoloader function for template classes
+	 spl_autoload_register ( 'template_autoloader' );
+	 }
+	
+	 function template_autoloader ( $class ) {
+	 if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) )
+	 	include LG_FE_DIR . "/includes/chart_templates/class.{$class}.php";
+	
+	 }
+	
+	 */
+	
 	
 	/**
 	 * Return the plugin slug.
