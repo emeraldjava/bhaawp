@@ -95,13 +95,19 @@ class Bhaa {
 	
 		//error_log("bhaa_content ".$post->ID);
 		// realex 3143
-		if( $post->ID == 3143){
+		if( $post->ID == 3143) {
 			$realex = new Realex();
 			return $realex->process();
 		}
-		//else if($post->ID==2015) {
-		// runner page 2015
-		//}
+		else if($post->ID==2025) {
+			// runner page
+			return $this->getRunnerPage();
+		}
+		else if($post->ID==2651){
+			// raceday
+			return $this->getRacedayPage();
+		}
+		
 		/* 		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
 		 error_log("bhaa_content ".$post->ID);
 		ob_start();
@@ -117,7 +123,15 @@ class Bhaa {
 		else
 			return $page_content;
 	}
+	
+	private function getRunnerPage(){
+		include_once('views/runner.php');
+	}
 
+	private function getRacedayPage(){
+		include_once('views/raceday.php');
+	}
+	
 	/**
 	 * BHAA query vars
 	 * http://wordpress.stackexchange.com/questions/46/what-are-all-the-available-parameters-for-query-posts
@@ -453,7 +467,7 @@ class Bhaa {
 		wp_enqueue_style( 
 			$this->plugin_slug . '-plugin-styles', 
 			plugins_url( 'assets/css/public.css', __FILE__ ), 
-			array(), self::VERSION );
+			array());//, self::VERSION );
 		
 		// http://stackoverflow.com/questions/8849684/wordpress-jquery-ui-css-files
 		// css style
@@ -487,7 +501,7 @@ class Bhaa {
 		wp_enqueue_script( 
 			$this->plugin_slug . '-plugin-script', 
 			plugins_url( 'assets/js/public.js', __FILE__ ), 
-			array( 'jquery' ), self::VERSION );
+			array( 'jquery' ));//, self::VERSION );
 		
 		// declare the URL to the file that handles the AJAX request (wp-admin/admin-ajax.php)
 		//wp_enqueue_script( 'my-ajax-request', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
