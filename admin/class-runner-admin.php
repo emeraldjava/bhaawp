@@ -50,12 +50,11 @@ class RunnerAdmin
 	}
 
 	/**
+	 * TODO this should be moved to the runner class.
 	 * Renew action
 	 */
-	function bhaa_runner_renew_action()
-	{
-		if ( $_REQUEST['action'] == 'bhaa_runner_renew')
-		{
+	function bhaa_runner_renew_action() {
+		if ( $_REQUEST['action'] == 'bhaa_runner_renew') {
 			$user_id = $_GET['id'];
 			$action = $_GET['action'];
 			$user = get_userdata($user_id);

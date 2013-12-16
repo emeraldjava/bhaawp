@@ -3,7 +3,7 @@ define( 'BHAA_PLUGIN_DIR' , dirname(__FILE__) );
 
 // admin
 //require_once(BHAA_PLUGIN_DIR.'/admin/import.php');
-require_once(BHAA_PLUGIN_DIR.'/admin/RunnerAdmin.php');
+require_once(BHAA_PLUGIN_DIR.'/admin/class-runner-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/RaceAdmin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 //require_once(BHAA_PLUGIN_DIR.'/admin/admin.php');
