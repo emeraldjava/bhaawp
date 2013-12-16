@@ -13,6 +13,39 @@
 * GitHub Plugin URI: https://github.com/emeraldjava/bhaawp
 * GitHub Branch:     master
 */
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
+/*----------------------------------------------------------------------------*
+ * Public-Facing Functionality
+*----------------------------------------------------------------------------*/
+
+require_once( plugin_dir_path( __FILE__ ) . 'public/class-bhaa.php' );
+
+/*
+ * Register hooks that are fired when the plugin is activated or deactivated.
+* When the plugin is deleted, the uninstall.php file is loaded.
+*/
+register_activation_hook( __FILE__, array( 'Bhaa', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'Bhaa', 'deactivate' ) );
+
+add_action( 'plugins_loaded', array( 'Bhaa', 'get_instance' ) );
+
+/*----------------------------------------------------------------------------*
+ * Dashboard and Administrative Functionality
+*----------------------------------------------------------------------------*/
+
+/*
+* Load the admin
+*/
+if ( is_admin() ) { //&& ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-bhaa-admin.php' );
+	add_action( 'plugins_loaded', array( 'Bhaa_Admin', 'get_instance' ) );
+}
+
+
 class BHAA {
 	
 	var $connection;
@@ -364,46 +397,7 @@ class BHAA {
 
 	function bhaa_activate() {
 
-		global $wpdb;
-		$options = array();
-		add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
-		//add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
 
-		// raceresult SQL
-		$raceResult = new RaceResult();
-		$this->run_install_or_upgrade($raceResult->getName(),$raceResult->getCreateSQL());
-
-		$teamResultSql = "
-				id int(11) NOT NULL AUTO_INCREMENT,
-				team int(11) NOT NULL,
-				league int(11) NOT NULL,
-				race int(11) NOT NULL,
-				standardtotal int(11),
-				positiontotal int(11),
-				class enum('A', 'B', 'C', 'D', 'W', 'O', 'OW'),
-				leaguepoints int(11),
-				status enum('ACTIVE','PENDING'),
-				PRIMARY KEY (id)";
-		$this->run_install_or_upgrade($wpdb->teamresult,$teamResultSql);
-		$leagueSummaryModel = new LeagueSummary();
-		$this->run_install_or_upgrade($leagueSummaryModel->getName(),$leagueSummaryModel->getCreateSQL());
-
-		$ageCategory = new AgeCategory();
-		$this->run_install_or_upgrade($ageCategory->getName(),$ageCategory->getCreateSQL());
-
-		$importTableSql = "
-				id int(11) NOT NULL AUTO_INCREMENT,
-				tag varchar(15) NOT NULL,
-				type varchar(15) NOT NULL,
-				new int(11) NOT NULL,
-				PRIMARY KEY (id)";
-
-		$this->run_install_or_upgrade($wpdb->importTable,$importTableSql);
-		// populate the table with the data
-		$this->run_install_or_upgrade($wpdb->standardTable,$this->standardCalculator->standardTableSql);
-		foreach ($this->standardCalculator->standards as $i => $standard) {
-			$wpdb->insert( $wpdb->standardTable, (array)$standard );
-		}
 
 	}
 

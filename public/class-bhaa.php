@@ -150,6 +150,49 @@ class Bhaa {
 		 */
 	private static function single_activate() {
 		// TODO: Define activation functionality here
+		
+		/**
+		 * 		global $wpdb;
+		$options = array();
+		add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
+		//add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
+
+		// raceresult SQL
+		$raceResult = new RaceResult();
+		$this->run_install_or_upgrade($raceResult->getName(),$raceResult->getCreateSQL());
+
+		$teamResultSql = "
+				id int(11) NOT NULL AUTO_INCREMENT,
+				team int(11) NOT NULL,
+				league int(11) NOT NULL,
+				race int(11) NOT NULL,
+				standardtotal int(11),
+				positiontotal int(11),
+				class enum('A', 'B', 'C', 'D', 'W', 'O', 'OW'),
+				leaguepoints int(11),
+				status enum('ACTIVE','PENDING'),
+				PRIMARY KEY (id)";
+		$this->run_install_or_upgrade($wpdb->teamresult,$teamResultSql);
+		$leagueSummaryModel = new LeagueSummary();
+		$this->run_install_or_upgrade($leagueSummaryModel->getName(),$leagueSummaryModel->getCreateSQL());
+
+		$ageCategory = new AgeCategory();
+		$this->run_install_or_upgrade($ageCategory->getName(),$ageCategory->getCreateSQL());
+
+		$importTableSql = "
+				id int(11) NOT NULL AUTO_INCREMENT,
+				tag varchar(15) NOT NULL,
+				type varchar(15) NOT NULL,
+				new int(11) NOT NULL,
+				PRIMARY KEY (id)";
+
+		$this->run_install_or_upgrade($wpdb->importTable,$importTableSql);
+		// populate the table with the data
+		$this->run_install_or_upgrade($wpdb->standardTable,$this->standardCalculator->standardTableSql);
+		foreach ($this->standardCalculator->standards as $i => $standard) {
+			$wpdb->insert( $wpdb->standardTable, (array)$standard );
+		}
+		 */
 	}
 	
 	/**
