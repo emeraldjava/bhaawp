@@ -135,13 +135,23 @@ class Bhaa_Admin {
 		* - Change 'manage_options' to the capability you see fit
 		*   For reference: http://codex.wordpress.org/Roles_and_Capabilities
 		*/
-		$this->plugin_screen_hook_suffix = add_options_page(
+/*		$this->plugin_screen_hook_suffix = add_options_page(
 				__( 'Wordpress PHP Flickr', $this->plugin_slug ),
 				__( 'Wp Php Flickr', $this->plugin_slug ),
 				'manage_options',
 				$this->plugin_slug,
 				array( $this, 'display_plugin_admin_page' )
-		);
+		);*/
+		
+		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
+		add_submenu_page('bhaa', 'BHAA', 'Members JSON', 'manage_options', 'bhaa_admin_members_json', array(&$this, 'bhaa_admin_members_json'));
+		add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
+		add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
+		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options', 'bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
+		add_submenu_page('bhaa' ,'BHAA','Standards','manage_options', 'bhaa_admin_standards' , array(&$this, 'bhaa_admin_standards'));
+		// options panel
+		add_options_page( 'BHAA Plugin Options', 'BHAA', 'manage_options', 'bhaa-options', array(&$this,'bhaa_plugin_options'));
+		
 	}
 	
 	public function register_settings() {
