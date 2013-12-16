@@ -155,10 +155,10 @@ class Bhaa_Admin {
 	}
 	
 	public function register_settings() {
-		//register_setting($this->plugin_slug,Wp_Php_Flickr::WP_FLICKR_USERNAME);
-		//register_setting($this->plugin_slug,Wp_Php_Flickr::WP_FLICKR_USER_ID);
-		//register_setting($this->plugin_slug,Wp_Php_Flickr::WP_FLICKR_API_KEY);
-		//register_setting($this->plugin_slug,Wp_Php_Flickr::WP_FLICKR_SECRET);
+		register_setting( 'bhaa', 'bhaa_annual_event_id');
+		register_setting( 'bhaa', 'bhaa_import_username' );
+		register_setting( 'bhaa', 'bhaa_import_password' );
+		register_setting( 'bhaa', 'bhaa_enable_booking');
 	}
 	
 	/**
