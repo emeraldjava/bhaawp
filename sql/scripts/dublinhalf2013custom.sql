@@ -19,6 +19,11 @@ join wp_usermeta standard on (status.user_id=wp_users.id and status.meta_key='bh
 where race=2855;
 
 select * from wp_bhaa_raceresult where race=2855;
+delete from wp_bhaa_raceresult where id=32833;
+
+select * from wp_bhaa_raceresult where race=2855 and runner=6035;
+select runner,COUNT(runner) from wp_bhaa_raceresult where race=2855 group by runner;
+getRunnerLeagueSummary
 
 -- update the standard
 update wp_bhaa_raceresult rr
@@ -62,11 +67,21 @@ INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,7016,'02
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,6933,'02:51:44','RAN');
 
 INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1300,2855,5101,'01:44:53','RAN');
-INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1300,2855,8732,'01.48.39','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1300,2855,8732,'01:48.:9','RAN');
+
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (4693,2855,4693,'01:20:05','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (5361,2855,5361,'01:33:42','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (6750,2855,6750,'01:20:46','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (7602,2855,7602,'02:21:36','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (7595,2855,7595,'01:52:36','RAN');
+
+call updatePositions(2855);
+call updateRaceScoringSets(2855);
+call updateRaceLeaguePoints(2855);
+call updateLeagueData(2659);
 
 delete from wp_bhaa_raceresult where race=2855 and runner=6933;
 
-call updatePositions(2855);
 
 -- teams
 select * from wp_bhaa_raceresult rr
@@ -210,3 +225,13 @@ select from wp_meta where user
 select wp_bhaa_teamresult.*,wp_users.display_name from wp_bhaa_teamresult
 join wp_users on wp_users.id=wp_bhaa_teamresult.runner
 where race=2855 order by class,position,team
+
+call getRunnerLeagueSummary(5101,2812,'M');
+select getRunnerLeagueSummary(6553,2812,'M');
+
+update wp_bhaa_leaguesummary set leaguesummary=getRunnerLeagueSummary(leagueparticipant,2812,'M') where league=2812 and leaguedivision in ('D');
+
+select * from wp_bhaa_raceresult where race>=2596 and race<=2855 and class='PRE_REG'
+delete from wp_bhaa_raceresult where race>=2596 and race<=2855 and class='PRE_REG'
+
+select * from wp_bhaa_raceresult where runner=6553 and race>=2596 and race<=2855

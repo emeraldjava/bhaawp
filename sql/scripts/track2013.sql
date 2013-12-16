@@ -71,7 +71,7 @@ call updateRace(2926);
 call updateRace(2927);
 
 -- BHAA MILE
-select * from wp_p2p e2r where e2r.p2p_type='event_to_race' and e2r.p2p_from=2665
+select * from wp_p2p e2r where e2r.p2p_type='event_to_race' and e2r.p2p_from=2665;
 -- set the races to track
 update wp_postmeta set meta_value='TRACK' 
 where meta_key='bhaa_race_type' and post_id in
@@ -115,7 +115,7 @@ call updateRace(2971);
 call updateRace(2972);
 
 -- update summary race
-delete from wp_bhaa_raceresult where race=3011
+delete from wp_bhaa_raceresult where race=3011;
 insert into wp_bhaa_raceresult (race,runner,position,racenumber,category,standard,actualstandard,poststandard,leaguepoints,class)
 select 3011,runner,position,racenumber,category,standard,actualstandard,poststandard,MAX(leaguepoints) as leaguepoints,class 
 from wp_bhaa_raceresult
@@ -123,7 +123,7 @@ join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=2665)
 where race= e2r.p2p_to
 group by runner;
 
-
+select * from wp_bhaa_raceresult where race=3011 and runner=6762;
 
 --  in (2853,2964,2965,2966,2967,2968,2969,2971,2972)
 select * from wp_bhaa_raceresult where race=2972 order by position desc

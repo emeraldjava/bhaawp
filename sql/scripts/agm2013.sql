@@ -1,5 +1,5 @@
 -- event breakdown
-select post_id,event_slug,
+select event_slug,
 (select count(distinct(rr.runner)) from wp_bhaa_raceresult rr where rr.race in 
 	(select p2p_to from wp_p2p where p2p_type='event_to_race' and p2p_from=post_id)) as total,
 (select count(distinct(rr.runner)) from wp_bhaa_raceresult rr 
@@ -17,11 +17,7 @@ select post_id,event_slug,
 (select count(distinct(rr.runner)) from wp_bhaa_raceresult rr 
 	JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key='bhaa_runner_status')
 	where rr.race in (select p2p_to from wp_p2p where p2p_type='event_to_race' and p2p_from=post_id)
-	and status.meta_value="I") as inactive,
-(select count(distinct(rr.runner)) from wp_bhaa_raceresult rr 
-	JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key='bhaa_runner_status')
-	where rr.race in (select p2p_to from wp_p2p where p2p_type='event_to_race' and p2p_from=post_id)
-	and status.meta_value="D") as day
+	and status.meta_value!="M") as nonbhaa
 from wp_em_events
 where YEAR(event_start_date)=2013
 
@@ -58,10 +54,10 @@ left JOIN wp_usermeta fn ON (fn.user_id=u.id AND fn.meta_key='first_name')
 left JOIN wp_usermeta ln ON (ln.user_id=u.id AND ln.meta_key='last_name')
 
 -- all race results for 2013
-select * from wp_bhaa_raceresult rr
+select COUNT(id) from wp_bhaa_raceresult rr
 join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=rr.race)
 join wp_em_events e on (e.post_id=e2r.p2p_from)
-where YEAR(e.event_start_date)=2013
+where YEAR(e.event_start_date)=2013 and rr.class='RAN'
 
 -- age profile
 select count(id) as runnercount, agecat, gender
