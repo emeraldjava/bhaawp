@@ -6,16 +6,16 @@ class BhaaAdmin
 		//require_once( ABSPATH . 'wp-admin/includes/template.php' );
 		//$import = new BhaaImport();
 
-		$raceAdmin = new RaceAdmin();
-		$runnerAdmin = new RunnerAdmin();
-		new WPFlashMessages();
+		//$raceAdmin = new RaceAdmin();
+		//$runnerAdmin = new RunnerAdmin();
+		//new WPFlashMessages();
 		
 		//add_action('admin_menu',array(&$this,'bhaa_admin_plugin_menu'));
 		//add_action('admin_init',array(&$this,'register_bhaa_options'));
 		
-		add_action('pre_user_query', array(&$this,'match_runners_who_have_raced'));
 		
-		add_action('admin_action_bhaa_add_runner', array(&$this,'admin_action_bhaa_add_runner'));
+		
+		//add_action('admin_action_bhaa_add_runner', array(&$this,'admin_action_bhaa_add_runner'));
 	}
 	
 	function bhaa_admin_plugin_menu()
@@ -225,16 +225,7 @@ class BhaaAdmin
 		wp_reset_query();
 	}
 	
-	function match_runners_who_have_raced( $query ) {
-		if ( isset( $query->query_vars['query_id'] ) && 'match_runners_who_have_raced' == $query->query_vars['query_id'] ) {
-			$query->query_from = $query->query_from . ' LEFT OUTER JOIN (
-                SELECT runner, COUNT(race) as races
-                FROM wp_bhaa_raceresult
-				GROUP BY runner
-            ) rr ON (wp_users.ID = rr.runner)';
-			$query->query_where = $query->query_where . ' AND rr.races > 0 ';
-		}
-	}
+
 	
 	function register_bhaa_options()
 	{

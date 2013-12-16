@@ -2,11 +2,11 @@
 define( 'BHAA_PLUGIN_DIR' , dirname(__FILE__) );
 
 // admin
-require_once(BHAA_PLUGIN_DIR.'/admin/import.php');
+//require_once(BHAA_PLUGIN_DIR.'/admin/import.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/RunnerAdmin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/RaceAdmin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
-require_once(BHAA_PLUGIN_DIR.'/admin/admin.php');
+//require_once(BHAA_PLUGIN_DIR.'/admin/admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/BHAAEventManager.php');
 
 // ctps
@@ -44,7 +44,7 @@ require_once(BHAA_PLUGIN_DIR.'/classes/Realex.php');
 require_once(BHAA_PLUGIN_DIR.'/updater.php');
 
 // widgets
-require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');
+//require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');
 
 // Register Mustache
 require_once( plugin_dir_path( __FILE__ ) . 'Mustache/Autoloader.php');
