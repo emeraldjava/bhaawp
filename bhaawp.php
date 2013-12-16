@@ -97,7 +97,7 @@ class BHAA {
 			new BhaaAdmin();
 		}
 
-		add_filter('the_content', array($this,'bhaa_content'));
+
 		//add_action('init',array($this,'bhaa_form_actions'));
 
 	}
@@ -126,39 +126,7 @@ class BHAA {
 		}
 	}
 
-	/**
-	 * The runner and raceday pages will be server from the plugin templates directory.
-	 */
-	function bhaa_content($page_content) {
-		global $post;//, $wpdb, $wp_query;
 
-		//if( empty($post) )
-			//return $page_content;
-
-		//error_log("bhaa_content ".$post->ID);
-		// realex 3143
-		if( $post->ID == 3143){
-			$realex = new Realex();
-			return $realex->process();
-		} 
-		//else if($post->ID==2015) {
-			// runner page 2015
-		//}
-/* 		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
-			error_log("bhaa_content ".$post->ID);
-			ob_start();
-			if( $post->ID == 3091) {//2025) {		// runner
-				$this->bhaa_locate_template('leaguetable.php', true);// array('args'=>$args));
-			} else if( $post->ID == 2025) {//2025) {		// runner
-				$this->bhaa_locate_template('runner.php', true);// array('args'=>$args));
-			} else if( $post->ID == 2937) {	// raceday
-				$this->bhaa_locate_template('raceday.php', true);//, array('args'=>$args));
-			}
-			$page_content = ob_get_clean();
-		} */
-		else
-			return $page_content;
-	}
 
 	function bhaa_locate_template( $template_name, $load=false, $args = array() ) {
 		//First we check if there are overriding tempates in the child or parent theme
