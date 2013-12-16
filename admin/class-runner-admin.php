@@ -4,9 +4,19 @@
  * @author oconnellp
  *
  */
-class RunnerAdmin
-{
-	function __construct() {
+class RunnerAdmin {
+	
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() {
 		// display the admin status column
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );

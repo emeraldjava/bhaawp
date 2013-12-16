@@ -3,9 +3,19 @@
  * Race Admin Stuff
  * @author oconnellp
  */
-class RaceAdmin
-{
-	function __construct() {
+class RaceAdmin {
+	
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() {
 		// custom actions
 		add_action( 'init', array(&$this,'bhaa_race_actions'),11);
 		add_filter('post_row_actions', array(&$this,'bhaa_race_post_row_actions'), 0, 2);
@@ -17,8 +27,7 @@ class RaceAdmin
 	
 	function bhaa_race_post_row_actions($actions, $post) {
 	
-		if ($post->post_type =="race")
-		{
+		if ($post->post_type =="race") {
 			$actions = array_merge($actions, array(
 				'bhaa_race_delete_results' => sprintf('<a href="%s">Delete Results</a>', 
 					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa')),
@@ -50,8 +59,7 @@ class RaceAdmin
 	/**
 	 * Filters for specific cpt actions.
 	 */
-	function bhaa_race_actions()
-	{
+	function bhaa_race_actions() {
 		$post_id = $_GET['post_id'];
 		$raceResult = new RaceResult($post_id);
 		
