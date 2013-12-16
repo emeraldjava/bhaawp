@@ -9,6 +9,12 @@ require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 //require_once(BHAA_PLUGIN_DIR.'/admin/admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/BHAAEventManager.php');
 
+// common includes
+require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-mustache.php');
+// Register Mustache
+require_once( plugin_dir_path( __FILE__ ) . '/includes/Mustache/Autoloader.php');
+Mustache_Autoloader::register();
+
 // ctps
 require_once(BHAA_PLUGIN_DIR.'/cpt/HouseCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/cpt/LeagueCpt.php');
@@ -46,8 +52,5 @@ require_once(BHAA_PLUGIN_DIR.'/updater.php');
 // widgets
 //require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');
 
-// Register Mustache
-require_once( plugin_dir_path( __FILE__ ) . 'Mustache/Autoloader.php');
-Mustache_Autoloader::register();
 
 ?>

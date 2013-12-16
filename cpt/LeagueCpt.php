@@ -3,10 +3,8 @@ class LeagueCpt
 {
 	const BHAA_LEAGUE_RACES_TO_SCORE = 'races_to_score';
 	const BHAA_LEAGUE_TYPE = 'bhaa_league_type';
-	var $mustache;
 		
-	function __construct()
-	{
+	function __construct() {
 		add_action('init',array(&$this,'registerLeagueCPT'));
 		add_action('init',array(&$this,'bhaa_league_actions'),11);
 		//register_taxonomy_for_object_type('category', 'league');
@@ -18,14 +16,6 @@ class LeagueCpt
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
-		
-		$options =  array('extension' => '.html');
-		$this->mustache = new Mustache_Engine(
-			array(
-				'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/../templates',$options),
-				'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/../templates/partials',$options)
-			)
-		);
 	}
 	
 	/**
@@ -66,16 +56,13 @@ class LeagueCpt
 		$id = get_the_ID();
 		$post = get_post( $id );
 	
-		//error_log('bhaa_league_shortcode '.$id.' '.$atts['division'].' '.$atts['top']);
-		
-		
 		$leagueSummary = new LeagueSummary($id);
 		$summary = $leagueSummary->getDivisionSummary($atts['division'],$atts['top']);
 		
 		// division summary 
 		if($atts['top']!=1000) {
-			$template = $this->mustache->loadTemplate('division-summary');
-			return $template->render(
+			//$template = $this->mustache->loadTemplate('division-summary');
+			return Bhaa_Mustache::get_instance()->loadTemplate('division-summary')->render(
 				array(
 					'division' => $atts['division'],
 					'id'=>$id,
@@ -92,10 +79,7 @@ class LeagueCpt
 			else
 				$events = $leagueSummary->getLeagueRaces('M');
 			
-			//var_dump($events);
-			
-			$template = $this->mustache->loadTemplate('division-detailed');
-			return $template->render(
+			return Bhaa_Mustache::get_instance()->loadTemplate('division-detailed')->render(
 				array(
 					'division' => $atts['division'],
 					'id'=>$id,
