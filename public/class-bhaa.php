@@ -269,6 +269,17 @@ class Bhaa {
 			plugins_url( 'assets/css/public.css', __FILE__ ), 
 			array(), self::VERSION );
 		
+		// http://stackoverflow.com/questions/8849684/wordpress-jquery-ui-css-files
+		// css style
+		//wp_enqueue_style(
+		//'jquery-bhaa-style',
+		//'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+		
+		/*wp_enqueue_style(
+		 'bootstrap-css',
+				plugins_url() . '/bhaawp-master/assets/css/bootstrap.min.css',
+				false); */
+		
 		wp_enqueue_style(
 			'bhaawp',
 			plugins_url() . '/bhaawp-master/assets/css/bhaawp.css',
@@ -281,11 +292,45 @@ class Bhaa {
 
 	/**
 	 * Register and enqueues public-facing JavaScript files.
-	 *
+	 * http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 * http://stackoverflow.com/questions/5790820/using-jquery-ui-dialog-in-wordpress
+	 * http://www.garyc40.com/2010/03/5-tips-for-using-ajax-in-wordpress/
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'assets/js/public.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+		wp_enqueue_script( 
+			$this->plugin_slug . '-plugin-script', 
+			plugins_url( 'assets/js/public.js', __FILE__ ), 
+			array( 'jquery' ), self::VERSION );
+		
+		// declare the URL to the file that handles the AJAX request (wp-admin/admin-ajax.php)
+		//wp_enqueue_script( 'my-ajax-request', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
+		//wp_localize_script( 'my-ajax-request', 'MyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+		
+		// http://wordpress.stackexchange.com/questions/56343/template-issues-getting-ajax-search-results/56349#56349
+		wp_register_script(
+		'bhaawp',
+		plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
+		array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
+		
+		wp_enqueue_script('bhaawp');
+		// 		wp_register_script(
+		// 		'bootstrap-js',
+		//		plugins_url('assets/js/bootstrap.min.js',__FILE__),
+		//	array('jquery'));
+		wp_enqueue_script('bootstrap-js');
+		wp_localize_script(
+		'bhaawp',
+		'bhaaAjax',
+		array('ajaxurl'=>admin_url('admin-ajax.php')));
+		
+		// register ajax methods
+		//add_action('wp_ajax_nopriv_bhaawp_house_search',array($this,'bhaawp_house_search'));
+		//add_action('wp_ajax_bhaawp_house_search',array($this,'bhaawp_house_search'));
+		
+		// TODO should be in the admin section
+		add_action('wp_ajax_nopriv_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
+		add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
 	}
 
 	/**
