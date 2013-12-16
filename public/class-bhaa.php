@@ -33,12 +33,26 @@ class Bhaa {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	
+		// hook add_query_vars function into query_vars
+		add_filter('query_vars', array($this,'add_query_vars'));
+		
 		/* Define custom functionality.
 		 * Refer To http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
 		*/
 		//add_shortcode('wp_flickr',array($flickr_shortcode,'wp_flickr_list_album'));
 		//add_action( 'TODO', array( $this, 'action_method_name' ) );
 		//add_filter( 'TODO', array( $this, 'filter_method_name' ) );
+	}
+	
+
+	/**
+	 * BHAA query vars
+	 * http://wordpress.stackexchange.com/questions/46/what-are-all-the-available-parameters-for-query-posts
+	 * @return string
+	 */
+	function add_query_vars($aVars) {
+		$aVars[] = "division";
+		return $aVars;
 	}
 	
 	/**
@@ -192,6 +206,20 @@ class Bhaa {
 		foreach ($this->standardCalculator->standards as $i => $standard) {
 			$wpdb->insert( $wpdb->standardTable, (array)$standard );
 		}
+		
+		function run_install_or_upgrade($table_name, $sql) {
+		global $wpdb;
+		// Table does not exist, we create it!
+		// We use InnoDB and UTF-8 by default
+		if ($wpdb->get_var("SHOW TABLES LIKE '".$table_name."'") != $table_name)
+		{
+			$create = "CREATE TABLE ".$table_name." ( ".$sql." ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			error_log($create);
+			// We use the dbDelta method given by WP!
+			require_once ABSPATH.'wp-admin/includes/upgrade.php';
+			dbDelta($create);
+		}
+	}
 		 */
 	}
 	
@@ -202,6 +230,19 @@ class Bhaa {
 	*/
 	private static function single_deactivate() {
 		// TODO: Define deactivation functionality here
+		/**
+		 * 		global $wpdb;
+		// tables
+		$tables = array(
+			//$wpdb->raceresult
+		);
+		// Delete each table one by one
+		foreach ($tables as $table)	{
+			$wpdb->query('DROP TABLE IF EXISTS '.$table.';');
+		}
+		delete_option( 'bhaa_widget' );
+		delete_option( 'bhaa' );
+		 */
 	}
 
 	/**
