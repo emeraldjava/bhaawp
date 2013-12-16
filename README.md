@@ -7,6 +7,9 @@ The bhaawp is a wordpress plugin for the Business Houses Athletic Assoication.
 
 git pull origin master
 
+
+this is a change
+
 Website
 =======
 
@@ -29,6 +32,9 @@ http://wordpress.stackexchange.com/questions/57988/jquery-ui-autocomplete-not-wo
 http://jqueryui.com/demos/autocomplete/#remote
 http://wordpress.org/support/topic/troubleshooting-wordpress-35-master-list
 http://codex.wordpress.org/Using_Your_Browser_to_Diagnose_JavaScript_Errors
+http://www.garyc40.com/2010/03/5-tips-for-using-ajax-in-wordpress/#admin-ajax
+http://stackoverflow.com/questions/15273292/wordpress-submit-a-form-using-ajax
+http://stackoverflow.com/questions/17366903/form-submission-using-ajax-and-handling-response-in-wordpress-website
 
 - Widget
 http://wp.tutsplus.com/tutorials/widgets/create-a-tabbed-widget-for-custom-post-types/
@@ -99,3 +105,9 @@ http://wordpress.stackexchange.com/questions/15790/custom-form-shortcode-and-sub
 http://github.github.com/github-flavored-markdown/
 
 http://wordpress.stackexchange.com/questions/17385/custom-post-type-templates-from-plugin-folder
+
+-- initialising
+http://tommcfarlin.com/instantiating-wordpress-plugins/
+http://jespervanengelen.com/different-ways-of-instantiating-wordpress-plugins/
+
+

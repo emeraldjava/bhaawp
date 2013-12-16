@@ -102,7 +102,8 @@ class BHAAEventManager {
 	 * 
 	 * em_event_output_placeholder
 	 */
-	function bhaa_em_booking_output_placeholder($replace, $EM_Booking, $result){
+	function bhaa_em_booking_output_placeholder($html, $EM_Booking, $result){
+		//error_log('bhaa_em_booking_output_placeholder()');
 		global $wp_query, $wp_rewrite;
 		switch( $result )
 		{
@@ -121,13 +122,48 @@ class BHAAEventManager {
 				// //  				$replace = $companyid.'-'.the_title();
 				// 				break;
 			case '#_BHAATICKETS':
-				ob_start();
-				em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
-				$replace = ob_get_clean();
-				$replace = $EM_Booking->output($replace);
+				
+				$header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
+				$eventDetails = false;
+				$membershipDetails = false;
+				
+				foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking) {
+					$booking = $EM_Ticket_Booking->get_ticket();
+					error_log('bhaa_em_booking_output_placeholder() '.print_r($booking,true));
+					if($booking->name=='Annual Membership') {
+						$membershipDetails = true;
+					} elseif($bookings->name=='BHAA Member Ticket') {
+						$eventDetails = true;
+					} else {
+						$eventDetails = true;
+					}
+					break;
+				}
+				
+				$options =  array('extension' => '.html');
+				$this->mustache = new Mustache_Engine(
+					array(
+						'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/../templates/email',$options),
+						'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/../templates/partials',$options)
+					)
+				);
+				
+				$template = $this->mustache->loadTemplate('booking');
+				$email = $template->render(
+					array(
+						'header' => $header,
+						'eventDetails' => $eventDetails,
+						'membershipDetails' => $membershipDetails
+				));
+				//error_log($email);
+				//ob_start();
+				//em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
+				//$replace = ob_get_clean();
+				$html = $EM_Booking->output($email);
+				//error_log($html);
 				break;
 		}
-		return $replace;
+		return $html;
 	}
 	
 	// em_booking_form_custom

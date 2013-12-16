@@ -67,7 +67,9 @@ INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,7016,'02
 INSERT INTO wp_bhaa_raceresult(race,runner,racetime,class) VALUES (2855,6933,'02:51:44','RAN');
 
 INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1300,2855,5101,'01:44:53','RAN');
-INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1300,2855,8732,'01:48.:9','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1300,2855,8732,'01:48:39','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (1,2855,7088,'01:08:21','RAN');
+INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (7175,2855,7175,'03:28:21','RAN');
 
 INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (4693,2855,4693,'01:20:05','RAN');
 INSERT INTO wp_bhaa_raceresult(position,race,runner,racetime,class) VALUES (5361,2855,5361,'01:33:42','RAN');
@@ -81,7 +83,6 @@ call updateRaceLeaguePoints(2855);
 call updateLeagueData(2659);
 
 delete from wp_bhaa_raceresult where race=2855 and runner=6933;
-
 
 -- teams
 select * from wp_bhaa_raceresult rr

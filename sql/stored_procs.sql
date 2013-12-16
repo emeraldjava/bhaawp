@@ -3,7 +3,7 @@
 -- http://www.coderrants.com/wordpress-and-stored-procedures/
 -- http://wordpress.org/support/topic/how-to-call-stored-procedure-from-plugin
 
--- SET GLOBAL log_bin_trust_function_creators = 1;
+SET GLOBAL log_bin_trust_function_creators = 1;
 
 DELIMITER $$
 
@@ -686,5 +686,23 @@ update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leaguepartic
 update wp_bhaa_leaguesummary set leaguesummary=getTeamLeagueSummary(leagueparticipant,_leagueId,'W') where league=_leagueId and leaguedivision in ('W');
 
 END$$
+
+-- updateTeamLeagueSummary
+DROP PROCEDURE IF EXISTS `updateTeamLeagueSummary`$$
+CREATE PROCEDURE `updateTeamLeagueSummary`(_leagueId  INT)
+BEGIN
+
+select r.ID as race,r_type.meta_value as type,e.post_name as event from wp_posts l
+	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+	inner join wp_posts e on (e.id=l2e.p2p_to)
+	inner join wp_em_events eme on (eme.post_id=e.id)
+	inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+	inner join wp_posts r on (r.id=e2r.p2p_to)
+	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+	where l.post_type='league'
+	AND l.ID=2812
+	AND r_type.meta_value in ('C','S','M','W')
+	AND r_type.meta_value!='TRACK'
+	order by eme.event_start_date ASC
 
 DELIMITER ;

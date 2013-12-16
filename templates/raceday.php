@@ -14,7 +14,7 @@
 // http://www.zunisoft.com/2013/02/wordpress-plugin-form-submissions.html
 // http://wordpress.stackexchange.com/questions/3902/best-practices-for-creating-and-handling-forms-with-plugins
 
-global $BHAA;
+//global $BHAA;
 //$raceday = $BHAA->getRaceday();
 
 //echo "<pre>GET "; print_r($_GET); echo "</pre>";

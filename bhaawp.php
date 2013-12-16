@@ -31,7 +31,17 @@ class BHAA {
 	var $plugin_file;
 	var $plugin_basename;
 
-	function __construct() {
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() {
 		//global $wpdb;
 		//$wpdb->show_errors();
 		//$this->loadOptions();
@@ -432,18 +442,16 @@ class BHAA {
 		$tables = array(
 			//$wpdb->raceresult
 		);
-
 		// Delete each table one by one
 		foreach ($tables as $table)	{
 			$wpdb->query('DROP TABLE IF EXISTS '.$table.';');
 		}
 		delete_option( 'bhaa_widget' );
 		delete_option( 'bhaa' );
-
 	}
 }
 
 // Run the Plugin
-global $BHAA;
-$BHAA = new BHAA();
+// TODO this reference should not be global, make private once all template references are removed
+$BHAA = BHAA::get_instance();
 ?>
