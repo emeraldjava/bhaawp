@@ -53,10 +53,13 @@ class RunnerAdmin {
 	 */
 	function bhaa_runner_renew_link( $actions, $user ) {
 		if ( current_user_can('manage_options') ) {
-			//$bookings_link = em_add_get_params($my_bookings_page, array('person_id'=>$user->ID), false);
-			//EM_ADMIN_URL.
-			$bookings_link = "edit.php?action=bhaa_runner_renew&id=".$user->ID;
-			$actions['renew'] = "<a href='$bookings_link'>" . __( 'Renew','bhaa' ) . "</a>";
+			$actions['bhaa_runner_renew'] = '<a href="' . 
+				wp_nonce_url(
+					add_query_arg('id',$user->ID,
+						add_query_arg('action','bhaa_runner_renew')
+					),
+				'bhaa_runner_renew_'.$user->ID)
+			.'">'. __('Renew', 'bhaa').'</a>';
 		}
 		return $actions;
 	}
@@ -68,8 +71,11 @@ class RunnerAdmin {
 	 * http://pippinsplugins.com/add-custom-links-to-user-row-actions/comment-page-1/#comment-133252
 	 */
 	function bhaa_runner_renew_action() {
-		if ( $_REQUEST['action'] == 'bhaa_runner_renew') {
-			error_log('bhaa_runner_renew_action x'.$_GET['id'].'x');
+		//error_log('bhaa_runner_renew ID :'.$_GET['id']);
+		//error_log('bhaa_runner_renew nonce :'.$_GET['_wpnonce']);
+		if ( $_REQUEST['action'] == 'bhaa_runner_renew' 
+				&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_runner_renew_'.$_GET['id']) ) {
+			error_log('bhaa_runner_renew correct nonce :'.$_GET['id'].' '.$_GET['_wpnonce']);
 				
 			$user_id = $_GET['id'];
 			$action = $_GET['action'];
@@ -78,7 +84,7 @@ class RunnerAdmin {
 
 			update_user_meta($user_id, Runner::BHAA_RUNNER_STATUS, 'M');
 			update_user_meta($user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
-			error_log('bhaa_runner_renew : '.$user_id.' '.$user->display_name.','.$user->user_email.','.date('Y-m-d'));
+			//error_log('bhaa_runner_renew : '.$user_id.' '.$user->display_name.','.$user->user_email.','.date('Y-m-d'));
 			
 			if($user->user_email!=''||$user->user_email!=null) {
 				//ob_start();
