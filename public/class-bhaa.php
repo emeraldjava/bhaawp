@@ -73,7 +73,7 @@ class Bhaa {
 		new BHAAEventManager();
 		
 		// table views
-		$this->individualResultTable = new RaceResultTable();
+		$this->individualResultTable = new RaceResult_List_Table();
 		
 		$this->runner = new Runner();
 		$this->event = new Event();
@@ -135,6 +135,7 @@ class Bhaa {
 	/**
 	 * BHAA query vars
 	 * http://wordpress.stackexchange.com/questions/46/what-are-all-the-available-parameters-for-query-posts
+	 * http://codex.wordpress.org/Custom_Queries
 	 * @return string
 	 */
 	function add_query_vars($aVars) {

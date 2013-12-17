@@ -18,10 +18,9 @@ if( ! class_exists('WP_Screen') ) {
  * @author oconnellp
  *
  */
-class RaceResultTable extends WP_List_Table
+class RaceResult_List_Table extends WP_List_Table
 {
-	function __construct()
-	{
+	function __construct() {
 		global $status, $page;
 		//Set parent defaults
 		parent::__construct( array(
@@ -35,7 +34,7 @@ class RaceResultTable extends WP_List_Table
 	/**
 	 *  the columns
 	 */
-	function get_columns(){
+	function get_columns() {
 		$columns = array(
 			//'cb'        => '<input type="checkbox" />',
 			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text

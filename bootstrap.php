@@ -15,6 +15,9 @@ require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-mustache.php');
 require_once( plugin_dir_path( __FILE__ ) . '/includes/Mustache/Autoloader.php');
 Mustache_Autoloader::register();
 
+//require_once(BHAA_PLUGIN_DIR.'/table/teamresulttable.class.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/listtable/raceresulttable.class.php');
+
 // ctps
 require_once(BHAA_PLUGIN_DIR.'/cpt/HouseCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/cpt/LeagueCpt.php');
@@ -31,10 +34,6 @@ require_once(BHAA_PLUGIN_DIR.'/model/TeamResult.php');
 require_once(BHAA_PLUGIN_DIR.'/model/House.php');
 require_once(BHAA_PLUGIN_DIR.'/model/HouseManager.php');
 require_once(BHAA_PLUGIN_DIR.'/model/AgeCategory.php');
-
-// tables
-//require_once(BHAA_PLUGIN_DIR.'/table/teamresulttable.class.php');
-require_once(BHAA_PLUGIN_DIR.'/table/raceresulttable.class.php');
 
 // classes
 require_once(BHAA_PLUGIN_DIR.'/classes/connection.class.php');
