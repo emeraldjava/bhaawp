@@ -14,9 +14,9 @@ require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-mustache.php');
 // Register Mustache
 require_once( plugin_dir_path( __FILE__ ) . '/includes/Mustache/Autoloader.php');
 Mustache_Autoloader::register();
-
-//require_once(BHAA_PLUGIN_DIR.'/table/teamresulttable.class.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/listtable/raceresulttable.class.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/class-runner-manager.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/class-runner.php');
 
 // ctps
 require_once(BHAA_PLUGIN_DIR.'/cpt/HouseCpt.php');
@@ -40,7 +40,6 @@ require_once(BHAA_PLUGIN_DIR.'/classes/connection.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/event.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Raceday.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Registration.class.php');
-require_once(BHAA_PLUGIN_DIR.'/classes/runner.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Standard.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/StandardCalculator.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Realex.php');
