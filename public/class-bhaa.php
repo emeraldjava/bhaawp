@@ -10,7 +10,6 @@ class Bhaa {
 	var $race;
 	var $individualResultTable;
 	var $house;
-	var $runner;
 	var $standardCalculator;
 	var $registration;
 	var $raceday;
@@ -74,8 +73,6 @@ class Bhaa {
 		
 		// table views
 		$this->individualResultTable = new RaceResult_List_Table();
-		
-		$this->runner = new Runner();
 		$this->event = new Event();
 		$this->registration = new Registration();
 		$this->raceday = new Raceday();
@@ -166,8 +163,8 @@ class Bhaa {
 		return $this->raceday;
 	}
 	
-	function getRunner() {
-		return $this->runner;
+	function getRunnerManager() {
+		return $this->runnerManager;
 	}
 	
 	function getRaceResult() {

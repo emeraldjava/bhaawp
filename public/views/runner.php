@@ -70,7 +70,7 @@ if(isset($user->ID)){
 	}
 	
 	if(isset($_REQUEST['merge'])&&current_user_can('edit_users')) {
-		BHAA::get_instance()->getRunner()->mergeRunner($_REQUEST['id'],$_REQUEST['merge']);
+		Runner_Manager::get_instance()->mergeRunner($_REQUEST['id'],$_REQUEST['merge']);
 	}
 	
 	$metadata = get_user_meta($user->ID);
