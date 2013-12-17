@@ -3,6 +3,7 @@
  * Handles the admin view a specific user/runner
  * @author oconnellp
  *
+ * http://wordpress.stackexchange.com/questions/79898/trigger-custom-action-when-setting-button-pressed
  */
 class RunnerAdmin {
 	
@@ -21,8 +22,8 @@ class RunnerAdmin {
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
 
-		add_filter('user_row_actions',array( &$this,'bhaa_runner_renew_link'),10,2);
-		add_action('init',array(&$this,'bhaa_runner_renew_action'),11);
+		add_filter('user_row_actions',array($this,'bhaa_runner_renew_link'),10,2);
+		add_action('admin_init',array($this,'bhaa_runner_renew_action'),12);
 	}
 
 	/**
@@ -50,10 +51,11 @@ class RunnerAdmin {
 	 * @param unknown $user
 	 * @return string
 	 */
-	function bhaa_runner_renew_link( $actions, $user ){
+	function bhaa_runner_renew_link( $actions, $user ) {
 		if ( current_user_can('manage_options') ) {
 			//$bookings_link = em_add_get_params($my_bookings_page, array('person_id'=>$user->ID), false);
-			$bookings_link = EM_ADMIN_URL. "&action=bhaa_runner_renew&id=".$user->ID;
+			//EM_ADMIN_URL.
+			$bookings_link = "edit.php?action=bhaa_runner_renew&id=".$user->ID;
 			$actions['renew'] = "<a href='$bookings_link'>" . __( 'Renew','bhaa' ) . "</a>";
 		}
 		return $actions;
@@ -62,9 +64,13 @@ class RunnerAdmin {
 	/**
 	 * TODO this should be moved to the runner class.
 	 * Renew action
+	 * 
+	 * http://pippinsplugins.com/add-custom-links-to-user-row-actions/comment-page-1/#comment-133252
 	 */
 	function bhaa_runner_renew_action() {
 		if ( $_REQUEST['action'] == 'bhaa_runner_renew') {
+			error_log('bhaa_runner_renew_action x'.$_GET['id'].'x');
+				
 			$user_id = $_GET['id'];
 			$action = $_GET['action'];
 			$user = get_userdata($user_id);
@@ -74,15 +80,14 @@ class RunnerAdmin {
 			update_user_meta($user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
 			error_log('bhaa_runner_renew : '.$user_id.' '.$user->display_name.','.$user->user_email.','.date('Y-m-d'));
 			
-			if($user->user_email!=''||$user->user_email!=null)
-			{
-				ob_start();
-				require 'renewal.php';
-				$content = ob_get_clean();
+			if($user->user_email!=''||$user->user_email!=null) {
+				//ob_start();
+				//require 'renewal.php';
+				//$content = ob_get_clean();
 				//error_log($content);
 				
 				$company = '';
-				$company = get_post( get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true) )->post_title;
+				//$company = get_post( get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true) )->post_title;
 				
 // 				error_log(sprintf('%s %d %s %s %s',
 // 					$user->display_name,
@@ -90,8 +95,8 @@ class RunnerAdmin {
 // 					get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
 // 					get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true),
 // 					$company,TRUE));
-				
-				$message = sprintf($content,
+				$message = "<html>renewal email</html>";
+				$messages = sprintf($content,
 					$user->display_name,
 					$user_id,
 					$user_id,
@@ -99,19 +104,27 @@ class RunnerAdmin {
 					get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
 					get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true),
 					$company);
-				//error_log($message);
+				error_log($user->user_email.' '.$user->user_firstname." ".$user->user_lastname.' '.$message);
 				
 				//Prepare headers for HTML
 				$headers  = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-				$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
+				$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
+				// info@bhaa.ie
 				
-				$res = wp_mail($user->user_email,'BHAA Renewal 2013 : '.$user->user_firstname." ".$user->user_lastname , $message, $headers);
-				//error_log('email sent ? '.$res);
+				//$res = wp_mail(
+					//$user->user_email,
+					//'BHAA Renewal 2013 : '.$user->user_firstname.' '.$user->user_lastname,
+					//$message); 
+				//	$headers); 
+					//null);
+				error_log('email sent ? x'.$res.'x');
 			}
 			wp_redirect(wp_get_referer());
 			exit();
 		}
+		//wp_redirect(wp_get_referer());
+		//exit();
 	}
 }
 ?>
