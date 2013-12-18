@@ -33,13 +33,13 @@ class LeagueCpt
 			if(isset($wp_query->query_vars['division'])) {
 				$division = urldecode($wp_query->query_vars['division']);
 				error_log("bhaa_single_league_template division ".$division);
-				return BHAA_PLUGIN_DIR.'/templates/single-league-division.php';
+				return BHAA_PLUGIN_DIR.'/includes/templates/single-league-division.php';
 			}
 			else {
 				if($type=='T')
-					return BHAA_PLUGIN_DIR.'/templates/single-league-team.php';
+					return BHAA_PLUGIN_DIR.'/includes/templates/single-league-team.php';
 				else 
-					return BHAA_PLUGIN_DIR.'/templates/single-league-individual.php';
+					return BHAA_PLUGIN_DIR.'/includes/templates/single-league-individual.php';
 			}
 		}
 		return $single;
