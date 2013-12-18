@@ -49,8 +49,8 @@ class Runner {
 	const BHAA_RUNNER_ADDRESS2 = 'bhaa_runner_address2';
 	const BHAA_RUNNER_ADDRESS3 = 'bhaa_runner_address3';
 	
-	const BHAA_RUNNER_FIRSTNAME = 'bhaa_runner_firstname';
-	const BHAA_RUNNER_LASTNAME = 'bhaa_runner_lastname';
+	//const BHAA_RUNNER_FIRSTNAME = 'bhaa_runner_firstname';
+	//const BHAA_RUNNER_LASTNAME = 'bhaa_runner_lastname';
 	
 	const BHAA_RUNNER_DATEOFBIRTH = 'bhaa_runner_dateofbirth';
 	const BHAA_RUNNER_COMPANY = 'bhaa_runner_company';
@@ -73,14 +73,69 @@ class Runner {
 	const BHAA_RUNNER_STANDARD = 'bhaa_runner_standard';
 	
 	private $user;
+	private $meta;
 	
 	/**
 	 * Construct a runner with a specific id
 	 * @param unknown $id
 	 */
 	function __construct($user_id) {
-		//$this->id=$id;
 		$this->user = get_userdata($user_id);
+		$this->meta =  array_map( function( $a ){ return $a[0]; }, get_user_meta($user_id) );
+		//error_log( print_r( $this->meta,true) );
+	}
+	
+	function getID() {
+		return $this->user->ID;
+	}
+	
+	function geUserEmail() {
+		return $this->user->user_email;
+	}
+
+	function getFirstName() {
+		return $this->meta['first_name'];
+	}
+	
+	function getLastName() {
+		return $this->meta['last_name'];
+	}
+	
+	function getDateOfBirth() {
+		return $this->meta[Runner::BHAA_RUNNER_DATEOFBIRTH];
+	}
+	
+	function getStandard() {
+		return $this->meta[Runner::BHAA_RUNNER_STANDARD];
+	}
+	
+	function getGender() {
+		return $this->meta[Runner::BHAA_RUNNER_GENDER];
+	}
+	
+	function getStatus() {
+		return $this->meta[Runner::BHAA_RUNNER_STATUS];
+	}
+	
+	function getDateOfRenewal() {
+		return $this->meta[Runner::BHAA_RUNNER_DATEOFRENEWAL];
+	}
+	
+	function getInsertDate() {
+		return $this->meta[Runner::BHAA_RUNNER_INSERTDATE];
+	}
+	
+	function getCompany() {
+		return $this->meta[Runner::BHAA_RUNNER_COMPANY];
+	}
+	
+	function getCompanyName() {
+		$cid = $this->getCompany();
+		if(isset($cid)) {
+			return 'CompanyName:'.$this->getCompany();
+		}		
+		else
+			return 'CompanyName:';
 	}
 	
 	/**
@@ -92,30 +147,25 @@ class Runner {
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_STATUS, 'M');
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
 		if($this->user->user_email!=''||$this->user->user_email!=null) {
-			$message = "<html>renewal email</html>";
-			$messages = sprintf($content,
-					$this->user->display_name,
-					$this->user->ID,
-					$this->user->ID,
-					$this->user->user_email,
-					get_user_meta($this->user->ID,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
-					get_user_meta($this->user->ID,Runner::BHAA_RUNNER_GENDER,true),
-					$company);
-			error_log($this->user->user_email.' '.$this->user->user_firstname." ".$this->user->user_lastname.' '.$message);
+			
+			$message = Bhaa_Mustache::get_instance()->loadTemplate('runner-renewal-email')->render(
+				array(
+					'user'=>$this
+				)
+			);
+			//error_log($message);
+
 			
 			//Prepare headers for HTML
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-			$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
-			// info@bhaa.ie
-			
-			//$res = wp_mail(
-			//$user->user_email,
-			//'BHAA Renewal 2013 : '.$user->user_firstname.' '.$user->user_lastname,
-			//$message);
-			//	$headers);
-			//null);
-			//error_log('email sent ? x'.$res.'x');
+			$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
+
+ 			$res = wp_mail(
+				$this->user->user_email,
+				'BHAA Renewal 2014 wp_mail() : '.$this->user->user_firstname.' '.$this->user->user_lastname,
+				$message,
+				$headers);
 		}
 	}
 }
