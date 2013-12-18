@@ -1,6 +1,10 @@
 <?php
-// Make sure the Posts 2 Posts plugin is active.
-class Connection {
+/**
+ * Handles the various p2p connections the BHAA use
+ * @author oconnellp
+ *
+ */
+class Connections {
 	
 	const EVENT_TO_RACE = 'event_to_race';
 	const LEAGUE_TO_EVENT = 'league_to_event';
@@ -12,7 +16,17 @@ class Connection {
 	// indicates a team that 6 leagues points for organising an event
 	const TEAM_POINTS = 'team_points';
 	
-	function __construct() {
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() {
 		add_action( 'p2p_init', array(&$this,'bhaa_connection_types'));
 		add_action( 'p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
 		add_action( 'p2p_delete_connections',array($this,'bhaa_p2p_delete_connections'));	
@@ -21,47 +35,47 @@ class Connection {
 	function bhaa_connection_types() {
 				
 		p2p_register_connection_type( array(
-				'name' => Connection::EVENT_TO_RACE,
-				'from' => 'event',
-				'to' => 'race',
-				'cardinality' => 'one-to-many'
+			'name' => Connections::EVENT_TO_RACE,
+			'from' => 'event',
+			'to' => 'race',
+			'cardinality' => 'one-to-many'
 		));
 		p2p_register_connection_type( array(
-				'name' => Connection::LEAGUE_TO_EVENT,
-				'from' => 'league',
-				'to' => 'event',
-				'cardinality' => 'many-to-many'
+			'name' => Connections::LEAGUE_TO_EVENT,
+			'from' => 'league',
+			'to' => 'event',
+			'cardinality' => 'many-to-many'
 		));
 		p2p_register_connection_type( array(
-				'name' => Connection::HOUSE_TO_RUNNER,
-				'from' => 'house',
-				'to' => 'user',
-				'cardinality' => 'one-to-many',
-				'title' => array( 'from' => 'Company Runner', 'to' => 'Company' )
+			'name' => Connections::HOUSE_TO_RUNNER,
+			'from' => 'house',
+			'to' => 'user',
+			'cardinality' => 'one-to-many',
+			'title' => array( 'from' => 'Company Runner', 'to' => 'Company' )
 		));
 		p2p_register_connection_type( array(
-				'name' => Connection::SECTORTEAM_TO_RUNNER,
-				'from' => 'house',
-				'to' => 'user',
-				'cardinality' => 'one-to-many',
-				'title' => array( 'from' => 'Sector Team Runner', 'to' => 'Sector Team' )
+			'name' => Connections::SECTORTEAM_TO_RUNNER,
+			'from' => 'house',
+			'to' => 'user',
+			'cardinality' => 'one-to-many',
+			'title' => array( 'from' => 'Sector Team Runner', 'to' => 'Sector Team' )
 		));
 		p2p_register_connection_type( array(
-			'name' => Connection::TEAM_CONTACT,
+			'name' => Connections::TEAM_CONTACT,
 			'from' => 'house',
 			'to' => 'user',
 			'cardinality' => 'one-to-one',
 			'title' => array( 'from' => 'Team Contact', 'to' => 'Team Contact' )
 		));
 		p2p_register_connection_type( array(
-			'name' => Connection::RACE_ORGANISER,
+			'name' => Connections::RACE_ORGANISER,
 			'from' => 'race',
 			'to' => 'user',
 			'cardinality' => 'many-to-many',
 			'title' => array( 'from' => 'Race Organiser', 'to' => 'Race Organiser')
 		));
 		p2p_register_connection_type( array(
-			'name' => Connection::TEAM_POINTS,
+			'name' => Connections::TEAM_POINTS,
 			'from' => 'race',
 			'to' => 'house',
 			'cardinality' => 'many-to-many',
@@ -75,31 +89,31 @@ class Connection {
 	 */
 	function bhaa_p2p_created_connection($p2p_id) {
 		$connection = p2p_get_connection( $p2p_id );
-		if( $connection->p2p_type == Connection::HOUSE_TO_RUNNER ) {
+		if( $connection->p2p_type == Connections::HOUSE_TO_RUNNER ) {
 			update_user_meta( $connection->p2p_to, Runner::BHAA_RUNNER_COMPANY, $connection->p2p_from);
-			error_log("added HOUSE_TO_RUNNER ".$p2p_id);
-		} elseif($connection->p2p_type == Connection::RACE_ORGANISER) {
+			//error_log("added HOUSE_TO_RUNNER ".$p2p_id);
+		} elseif($connection->p2p_type == Connections::RACE_ORGANISER) {
 			$raceResult = new RaceResult($connection->p2p_from);
 			$raceResult->addRaceOrganiser($connection->p2p_to);
-		} elseif($connection->p2p_type == Connection::TEAM_POINTS) {
+		} elseif($connection->p2p_type == Connections::TEAM_POINTS) {
 			$teamResult = new TeamResult($connection->p2p_from);
 			$res = $teamResult->addTeamOrganiserPoints($connection->p2p_to);
 		}
-		error_log('bhaa_p2p_created_connection() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to.'. '.$res);
+		//error_log('bhaa_p2p_created_connection() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to.'. '.$res);
 	}
 	
 	function bhaa_p2p_delete_connections($p2p_id) {
 		$connection = p2p_get_connection( $p2p_id );
-		if( $connection->p2p_type == Connection::HOUSE_TO_RUNNER ) {
+		if( $connection->p2p_type == Connections::HOUSE_TO_RUNNER ) {
 			delete_user_meta( $connection->p2p_to, Runner::BHAA_RUNNER_COMPANY, $connection->p2p_from);
-		} elseif($connection->p2p_type == Connection::RACE_ORGANISER) {
+		} elseif($connection->p2p_type == Connections::RACE_ORGANISER) {
 			$raceResult = new RaceResult($connection->p2p_from);
 			$raceResult->deleteRaceOrganiser($connection->p2p_to);
-		} elseif($connection->p2p_type == Connection::TEAM_POINTS) {
+		} elseif($connection->p2p_type == Connections::TEAM_POINTS) {
 			$teamResult = new TeamResult($connection->p2p_from);
 			$res = $teamResult->deleteTeamOrganiserPoints($connection->p2p_to);
 		}
-		error_log('bhaa_p2p_delete_connections() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to.'. '.$res);
+		//error_log('bhaa_p2p_delete_connections() '.$connection->p2p_type.' '.$connection->p2p_from.' -> '.$connection->p2p_to.'. '.$res);
 	}
 	
 	/**

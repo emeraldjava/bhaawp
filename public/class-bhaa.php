@@ -5,7 +5,6 @@ class Bhaa {
 
 	protected static $instance = null;
 	
-	var $connection;
 	var $event;
 	var $race;
 	var $individualResultTable;
@@ -65,11 +64,11 @@ class Bhaa {
 		$wpdb->importTable = $wpdb->prefix.'bhaa_import';
 		$wpdb->standardTable = $wpdb->prefix.'bhaa_standard';
 		
-		$this->connection = new Connection();
+		Connections::get_instance();
 		new LeagueCpt();
 		new RaceCpt();
 		new HouseCpt();
-		new BHAAEventManager();
+		new Events_Manager();
 		
 		// table views
 		$this->individualResultTable = new RaceResult_List_Table();

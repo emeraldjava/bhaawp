@@ -902,14 +902,14 @@ class BhaaImport
 		
 		$users = $this->getRunnerTeamDetails();
 		
-		$connection = new Connection();
+		
 		foreach($users as $user)
 		{
 			$count++;
 			// company team runner
 			if($user->type=="C")// $user->company == $user->team)
 			{
-				$res = $connection->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$user->company,$user->runner);
+				$res = Connections::get_instance()->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$user->company,$user->runner);
 // 				$res = p2p_type(Connection::HOUSE_TO_RUNNER)->connect(
 // 					$user->company,
 // 					$user->runner,
@@ -924,7 +924,7 @@ class BhaaImport
 			{
 				
 				// link the sector team runner to both
-				$res = $connection->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$user->company,$user->runner);
+				$res = Connections::get_instance()->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$user->company,$user->runner);
 // 				$re = p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
 // 					$user->company,
 // 					$user->runner,
@@ -933,7 +933,7 @@ class BhaaImport
 				if ( is_wp_error($re) )
 					$this->displayAndLog($re->get_error_message());
 
-				$res = $connection->updateRunnersHouse(Connection::SECTORTEAM_TO_RUNNER,$user->team,$user->runner);
+				$res = Connections::get_instance()->updateRunnersHouse(Connection::SECTORTEAM_TO_RUNNER,$user->team,$user->runner);
 // 				$res = p2p_type(Connection::SECTORTEAM_TO_RUNNER)->connect(
 // 					$user->team,
 // 					$user->runner,
