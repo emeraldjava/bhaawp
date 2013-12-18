@@ -102,7 +102,7 @@ class BHAAEventManager {
 	 * 
 	 * em_event_output_placeholder
 	 */
-	function bhaa_em_booking_output_placeholder($html, $EM_Booking, $result){
+	function bhaa_em_booking_output_placeholder($html, $EM_Booking, $result) {
 		//error_log('bhaa_em_booking_output_placeholder()');
 		global $wp_query, $wp_rewrite;
 		switch( $result )
@@ -188,8 +188,8 @@ class BHAAEventManager {
 	 * @param unknown_type $EM_Ticket
 	 * @return boolean
 	 */
-	function bhaa_em_ticket_is_available($result, $EM_Ticket)
-	{
+	function bhaa_em_ticket_is_available($result, $EM_Ticket) {
+		
 		if (current_user_can( strtolower('administrator') )) {
 			return true;
 		}
