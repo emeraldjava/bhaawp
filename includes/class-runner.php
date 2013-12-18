@@ -159,13 +159,14 @@ class Runner {
 			//Prepare headers for HTML
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-			$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
+			$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
 
- 			$res = wp_mail(
+ 			$res = mail(
 				$this->user->user_email,
-				'BHAA Renewal 2014 wp_mail() : '.$this->user->user_firstname.' '.$this->user->user_lastname,
+				'BHAA Renewal 2014 mail() : '.$this->user->user_firstname.' '.$this->user->user_lastname,
 				$message,
 				$headers);
+ 			error_log("email sent");
 		}
 	}
 }

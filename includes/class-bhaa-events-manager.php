@@ -34,7 +34,7 @@ class Events_Manager {
 		
 		if($field['type']=='house' && $field['fieldid']=='house') {
 			
-			error_log('bhaa_emp_forms_output_field_input() field '.print_r($field,true));
+			//error_log('bhaa_emp_forms_output_field_input() field '.print_r($field,true));
 			$sectorTeamQuery = new WP_Query(
 				array(
 					'post_type' => 'house',
@@ -69,7 +69,7 @@ class Events_Manager {
 			} else {
 				$args = array_merge( $args, array( 'selected' => $selected ) );
 			}
-			error_log('wp_dropdown_pages args '.print_r($args,true));
+			//error_log('wp_dropdown_pages args '.print_r($args,true));
 			wp_dropdown_pages($args);
 		}
 		else
@@ -129,7 +129,7 @@ class Events_Manager {
 				
 				foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking) {
 					$booking = $EM_Ticket_Booking->get_ticket();
-					error_log('bhaa_em_booking_output_placeholder() '.print_r($booking,true));
+					//error_log('bhaa_em_booking_output_placeholder() '.print_r($booking,true));
 					if($booking->name=='Annual Membership') {
 						$membershipDetails = true;
 					} elseif($bookings->name=='BHAA Member Ticket') {
@@ -140,27 +140,13 @@ class Events_Manager {
 					break;
 				}
 				
-				$options =  array('extension' => '.html');
-				$this->mustache = new Mustache_Engine(
-					array(
-						'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/../templates/email',$options),
-						'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/../templates/partials',$options)
-					)
-				);
-				
-				$template = $this->mustache->loadTemplate('booking');
-				$email = $template->render(
+				$email = Bhaa_Mustache::get_instance()->loadTemplate('runner-booking-email')->render(
 					array(
 						'header' => $header,
 						'eventDetails' => $eventDetails,
 						'membershipDetails' => $membershipDetails
 				));
-				//error_log($email);
-				//ob_start();
-				//em_locate_template('emails/bhaatickets.php', true, array('EM_Booking'=>$EM_Booking));
-				//$replace = ob_get_clean();
 				$html = $EM_Booking->output($email);
-				//error_log($html);
 				break;
 		}
 		return $html;
