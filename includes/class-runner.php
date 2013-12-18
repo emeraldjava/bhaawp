@@ -72,21 +72,51 @@ class Runner {
 	
 	const BHAA_RUNNER_STANDARD = 'bhaa_runner_standard';
 	
-	private $id;
+	private $user;
 	
 	/**
 	 * Construct a runner with a specific id
 	 * @param unknown $id
 	 */
-	function __construct($id) {
-		$this->id=$id;
+	function __construct($user_id) {
+		//$this->id=$id;
+		$this->user = get_userdata($user_id);
 	}
 	
 	/**
 	 * This method updates the runners reneal date and emails them a confirmation.
 	 */
 	function renew() {
+		error_log('renew() '.$this->user->ID);
 		
+		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_STATUS, 'M');
+		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
+		if($this->user->user_email!=''||$this->user->user_email!=null) {
+			$message = "<html>renewal email</html>";
+			$messages = sprintf($content,
+					$this->user->display_name,
+					$this->user->ID,
+					$this->user->ID,
+					$this->user->user_email,
+					get_user_meta($this->user->ID,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
+					get_user_meta($this->user->ID,Runner::BHAA_RUNNER_GENDER,true),
+					$company);
+			error_log($this->user->user_email.' '.$this->user->user_firstname." ".$this->user->user_lastname.' '.$message);
+			
+			//Prepare headers for HTML
+			$headers  = 'MIME-Version: 1.0' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+			$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
+			// info@bhaa.ie
+			
+			//$res = wp_mail(
+			//$user->user_email,
+			//'BHAA Renewal 2013 : '.$user->user_firstname.' '.$user->user_lastname,
+			//$message);
+			//	$headers);
+			//null);
+			//error_log('email sent ? x'.$res.'x');
+		}
 	}
 }
 ?>

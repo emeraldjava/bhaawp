@@ -73,6 +73,12 @@ if(isset($user->ID)){
 		Runner_Manager::get_instance()->mergeRunner($_REQUEST['id'],$_REQUEST['merge']);
 	}
 	
+	// renew-form
+	if(isset($_REQUEST['renew-form'])&&current_user_can('edit_users')) {
+		$runner = new Runner($user->ID);
+		$runner->renew();
+	}
+	
 	$metadata = get_user_meta($user->ID);
 	$status = $metadata['bhaa_runner_status'][0];
 	$company = $metadata['bhaa_runner_company'][0];
@@ -104,7 +110,7 @@ if(isset($user->ID)){
 				'</ul>';
 		echo $content;
 	}
-	
+					
 	if(current_user_can('edit_users')) {
 		// third section - admin
 		$content = 
@@ -117,7 +123,10 @@ if(isset($user->ID)){
 				'<div><form action="" method="POST"><input type="text" size=2 name="gender" id="gender" value="'.$metadata['bhaa_runner_gender'][0].'"/><input type="hidden" name="gender-form" value="true"/><input type="submit" value="Update Gender"/></form></div>'.
 				'<div>Status : '.$metadata['bhaa_runner_status'][0].'</div>'.
 				'<div>dateofrenewal : '.$metadata['bhaa_runner_dateofrenewal'][0].'</div>'.
-				'<div><a href="'.get_site_url().'/wp-admin/edit.php?post_type=event&action=bhaa_runner_renew&id='.$user->ID.'">Renew</a></div>'.
+				'<div><form action="" method="POST">'.
+				'	<input type="hidden" name="renew-form" value="true"/>'.
+				'	<input type="submit" value="Renew"/>'.
+				'</form></div>'.
 				'</div>';
 		echo $content;
 	

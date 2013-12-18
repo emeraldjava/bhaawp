@@ -77,22 +77,24 @@ class RunnerAdmin {
 				&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_runner_renew_'.$_GET['id']) ) {
 			error_log('bhaa_runner_renew correct nonce :'.$_GET['id'].' '.$_GET['_wpnonce']);
 				
-			$user_id = $_GET['id'];
+			$runner = new Runner($_GET['id']);
+			$runner->renew();
+
+/* 			$user_id = $_GET['id'];
 			$action = $_GET['action'];
 			$user = get_userdata($user_id);
-			//error_log($user);
-
+			
 			update_user_meta($user_id, Runner::BHAA_RUNNER_STATUS, 'M');
-			update_user_meta($user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
+			update_user_meta($user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d')); */
 			//error_log('bhaa_runner_renew : '.$user_id.' '.$user->display_name.','.$user->user_email.','.date('Y-m-d'));
 			
-			if($user->user_email!=''||$user->user_email!=null) {
+			//if($user->user_email!=''||$user->user_email!=null) {
 				//ob_start();
 				//require 'renewal.php';
 				//$content = ob_get_clean();
 				//error_log($content);
 				
-				$company = '';
+				//$company = '';
 				//$company = get_post( get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true) )->post_title;
 				
 // 				error_log(sprintf('%s %d %s %s %s',
@@ -101,7 +103,7 @@ class RunnerAdmin {
 // 					get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
 // 					get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true),
 // 					$company,TRUE));
-				$message = "<html>renewal email</html>";
+/* 				$message = "<html>renewal email</html>";
 				$messages = sprintf($content,
 					$user->display_name,
 					$user_id,
@@ -110,12 +112,12 @@ class RunnerAdmin {
 					get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
 					get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true),
 					$company);
-				error_log($user->user_email.' '.$user->user_firstname." ".$user->user_lastname.' '.$message);
+				error_log($user->user_email.' '.$user->user_firstname." ".$user->user_lastname.' '.$message); */
 				
 				//Prepare headers for HTML
-				$headers  = 'MIME-Version: 1.0' . "\r\n";
+/* 				$headers  = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-				$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
+				$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n"; */
 				// info@bhaa.ie
 				
 				//$res = wp_mail(
@@ -124,8 +126,8 @@ class RunnerAdmin {
 					//$message); 
 				//	$headers); 
 					//null);
-				error_log('email sent ? x'.$res.'x');
-			}
+				//error_log('email sent ? x'.$res.'x');
+			//}
 			wp_redirect(wp_get_referer());
 			exit();
 		}
