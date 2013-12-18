@@ -7,7 +7,6 @@ require_once(BHAA_PLUGIN_DIR.'/admin/class-runner-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-race-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 //require_once(BHAA_PLUGIN_DIR.'/admin/admin.php');
-require_once(BHAA_PLUGIN_DIR.'/admin/BHAAEventManager.php');
 
 // common includes
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-mustache.php');
@@ -17,6 +16,7 @@ Mustache_Autoloader::register();
 require_once(BHAA_PLUGIN_DIR.'/includes/listtable/raceresulttable.class.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-events-manager.php');
 
 // ctps
 require_once(BHAA_PLUGIN_DIR.'/public/includes/HouseCpt.php');

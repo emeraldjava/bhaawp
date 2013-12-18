@@ -3,7 +3,7 @@
  * Handle the BHAA specific Event Manager plugin customisations
  * @author oconnellp
  */
-class BHAAEventManager {
+class Events_Manager {
 	
 	function __construct() {
 		add_filter('em_event_output_placeholder',array($this,'bhaa_em_event_output_placeholder'),2,4);
