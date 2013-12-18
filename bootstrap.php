@@ -19,9 +19,9 @@ require_once(BHAA_PLUGIN_DIR.'/includes/class-runner-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner.php');
 
 // ctps
-require_once(BHAA_PLUGIN_DIR.'/cpt/HouseCpt.php');
-require_once(BHAA_PLUGIN_DIR.'/cpt/LeagueCpt.php');
-require_once(BHAA_PLUGIN_DIR.'/cpt/RaceCpt.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/HouseCpt.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/LeagueCpt.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/RaceCpt.php');
 
 // model
 require_once(BHAA_PLUGIN_DIR.'/model/BaseModel.php');
