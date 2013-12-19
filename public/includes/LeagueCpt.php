@@ -45,6 +45,11 @@ class LeagueCpt
 		return $single;
 	}
 	
+	/**
+	 * should be moved to the league post
+	 * @param unknown $atts
+	 * @return string
+	 */
 	public function bhaa_league_shortcode($atts) {
 	
 		extract( shortcode_atts(

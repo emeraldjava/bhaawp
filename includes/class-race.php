@@ -1,6 +1,6 @@
 <?php
-class Race extends BaseModel
-{
+class Race {
+	
 	var $post_id;
 	
 	const BHAA_RACE_DISTANCE = 'bhaa_race_distance';

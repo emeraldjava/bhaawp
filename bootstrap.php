@@ -20,6 +20,7 @@ require_once(BHAA_PLUGIN_DIR.'/includes/class-house-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-house.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-events-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-connections.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/class-race.php');
 
 // ctps
 require_once(BHAA_PLUGIN_DIR.'/public/includes/HouseCpt.php');
@@ -31,7 +32,6 @@ require_once(BHAA_PLUGIN_DIR.'/model/BaseModel.php');
 require_once(BHAA_PLUGIN_DIR.'/model/Table.php');
 require_once(BHAA_PLUGIN_DIR.'/model/LeagueSummary.php');
 require_once(BHAA_PLUGIN_DIR.'/model/EventModel.php');
-require_once(BHAA_PLUGIN_DIR.'/model/Race.php');
 require_once(BHAA_PLUGIN_DIR.'/model/RaceResult.php');
 require_once(BHAA_PLUGIN_DIR.'/model/TeamResult.php');
 require_once(BHAA_PLUGIN_DIR.'/model/AgeCategory.php');
