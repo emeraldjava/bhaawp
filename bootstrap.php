@@ -9,11 +9,14 @@ require_once(BHAA_PLUGIN_DIR.'/admin/class-event-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 //require_once(BHAA_PLUGIN_DIR.'/admin/admin.php');
 
-// common includes
-require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-mustache.php');
+// 3rd party libs
 // Register Mustache
 require_once( plugin_dir_path( __FILE__ ) . '/includes/Mustache/Autoloader.php');
 Mustache_Autoloader::register();
+require_once( plugin_dir_path( __FILE__ ) . '/includes/CssToInlineStyles/CssToInlineStyles.php');
+
+// common includes
+require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-mustache.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/listtable/raceresulttable.class.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner.php');
