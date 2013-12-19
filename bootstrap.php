@@ -16,6 +16,7 @@ Mustache_Autoloader::register();
 require_once(BHAA_PLUGIN_DIR.'/includes/listtable/raceresulttable.class.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/class-house.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-events-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-connections.php');
 

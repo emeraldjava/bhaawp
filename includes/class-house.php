@@ -3,8 +3,8 @@
  * Logic specific to a house, which can mean a active company or sector team
  * @author oconnellp
  */
-class House extends BaseModel
-{
+class House {
+	
 	const HOUSE = 'house';
 	const SECTOR = 'sector';
 	
@@ -18,22 +18,16 @@ class House extends BaseModel
 	
 	var $houseid;
 	
-	function __construct($houseid)
-	{
-		parent::__construct();
+	function __construct($houseid) {
 		$this->houseid = $houseid;
 	}
 	
 	// true if company
-	function isCompany()
-	{
-		
+	function isCompany(){
 	}
 	
 	// indicated an active team
-	function isActive()
-	{
-		
+	function isActive() {
 	}
 	
 	// getTeamResults()
