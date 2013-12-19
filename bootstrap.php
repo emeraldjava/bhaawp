@@ -24,7 +24,8 @@ require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-connections.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-race.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-registration.php');
 
-// ctps
+// public class
+require_once(BHAA_PLUGIN_DIR.'/public/includes/class-realex.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/HouseCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/LeagueCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/RaceCpt.php');
@@ -40,7 +41,6 @@ require_once(BHAA_PLUGIN_DIR.'/includes/model/class-teamresult.php');
 // classes
 require_once(BHAA_PLUGIN_DIR.'/classes/Standard.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/StandardCalculator.php');
-require_once(BHAA_PLUGIN_DIR.'/classes/Realex.php');
 
 // widgets
 //require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');

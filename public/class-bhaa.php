@@ -86,8 +86,7 @@ class Bhaa {
 		//error_log("bhaa_content ".$post->ID);
 		// realex 3143
 		if( $post->ID == 3143) {
-			$realex = new Realex();
-			return $realex->process();
+			return Realex::get_instance()->process();
 		}
 		else if($post->ID==2025) {
 			// runner page
