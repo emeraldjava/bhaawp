@@ -9,6 +9,10 @@ class EventModel extends BaseModel
 		$this->eventid=$eventid;	
 	}
 	
+	public function getName() {
+		return 'wp_em_events';
+	}
+	
 	function getNextEvent()	{
 		return $this->wpdb->get_row('select event_id,post_id,event_slug,
 				(select MAX(p2p_to) from wp_p2p where p2p_from=post_id) as race 

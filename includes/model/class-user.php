@@ -1,18 +1,17 @@
 <?php
-class BaseModel
-{
-	protected $wpdb;
+class User extends BaseModel {
 	
-	function __construct()
-	{
-		global $wpdb;
-		$this->wpdb = $wpdb;
+	function __construct() {
+		parent::__construct();
 	}
 	
-	function getRegistrationRunnerDetails($status)
-	{
+	public function getName() {
+		return 'wp_users';
+	}
+	
+	function getRegistrationRunnerDetails($status) {
 		$this->wpdb->query('SET SQL_BIG_SELECTS=1');
-		
+	
 		// http://stackoverflow.com/questions/907806/php-mysql-using-an-array-in-where-clause
 		//$SQL = $this->wpdb->prepare(
 		$SQL = 'select wp_users.id as id,wp_users.id as value,

@@ -28,12 +28,12 @@ require_once(BHAA_PLUGIN_DIR.'/public/includes/LeagueCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/RaceCpt.php');
 
 // model
-require_once(BHAA_PLUGIN_DIR.'/model/BaseModel.php');
-require_once(BHAA_PLUGIN_DIR.'/model/Table.php');
-require_once(BHAA_PLUGIN_DIR.'/model/LeagueSummary.php');
-require_once(BHAA_PLUGIN_DIR.'/model/EventModel.php');
-require_once(BHAA_PLUGIN_DIR.'/model/RaceResult.php');
-require_once(BHAA_PLUGIN_DIR.'/model/TeamResult.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/interface-table.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/class-basemodel.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/class-leaguesummary.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/class-eventmodel.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/class-raceresult.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/class-teamresult.php');
 
 // classes
 require_once(BHAA_PLUGIN_DIR.'/classes/event.class.php');
