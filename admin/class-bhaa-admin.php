@@ -49,6 +49,7 @@ class Bhaa_Admin {
 		
 		RaceAdmin::get_instance();
 		RunnerAdmin::get_instance();
+		EventAdmin::get_instance();
 		//new WPFlashMessages();
 		
 		/*

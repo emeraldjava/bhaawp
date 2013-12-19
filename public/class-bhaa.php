@@ -5,7 +5,6 @@ class Bhaa {
 
 	protected static $instance = null;
 	
-	var $event;
 	var $race;
 	var $individualResultTable;
 	var $house;
@@ -72,7 +71,6 @@ class Bhaa {
 		
 		// table views
 		$this->individualResultTable = new RaceResult_List_Table();
-		$this->event = new Event();
 		$this->registration = new Registration();
 		$this->raceday = new Raceday();
 		

@@ -5,6 +5,7 @@ define( 'BHAA_PLUGIN_DIR' , dirname(__FILE__) );
 //require_once(BHAA_PLUGIN_DIR.'/admin/import.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-runner-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-race-admin.php');
+require_once(BHAA_PLUGIN_DIR.'/admin/class-event-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 //require_once(BHAA_PLUGIN_DIR.'/admin/admin.php');
 
@@ -36,7 +37,6 @@ require_once(BHAA_PLUGIN_DIR.'/includes/model/class-raceresult.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-teamresult.php');
 
 // classes
-require_once(BHAA_PLUGIN_DIR.'/classes/event.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Raceday.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Registration.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Standard.class.php');
