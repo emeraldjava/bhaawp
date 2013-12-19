@@ -29,7 +29,9 @@ require_once(BHAA_PLUGIN_DIR.'/public/includes/class-realex.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/HouseCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/LeagueCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/RaceCpt.php');
-
+require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standard.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standardcalculator.php');
+		
 // model
 require_once(BHAA_PLUGIN_DIR.'/includes/model/interface-table.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-basemodel.php');
@@ -38,12 +40,6 @@ require_once(BHAA_PLUGIN_DIR.'/includes/model/class-eventmodel.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-raceresult.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-teamresult.php');
 
-// classes
-require_once(BHAA_PLUGIN_DIR.'/classes/Standard.class.php');
-require_once(BHAA_PLUGIN_DIR.'/classes/StandardCalculator.php');
-
 // widgets
 //require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');
-
-
 ?>
