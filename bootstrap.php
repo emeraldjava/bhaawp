@@ -34,10 +34,8 @@ require_once(BHAA_PLUGIN_DIR.'/model/LeagueSummary.php');
 require_once(BHAA_PLUGIN_DIR.'/model/EventModel.php');
 require_once(BHAA_PLUGIN_DIR.'/model/RaceResult.php');
 require_once(BHAA_PLUGIN_DIR.'/model/TeamResult.php');
-require_once(BHAA_PLUGIN_DIR.'/model/AgeCategory.php');
 
 // classes
-
 require_once(BHAA_PLUGIN_DIR.'/classes/event.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Raceday.class.php');
 require_once(BHAA_PLUGIN_DIR.'/classes/Registration.class.php');
