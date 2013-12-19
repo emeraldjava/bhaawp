@@ -8,7 +8,6 @@ class Bhaa {
 	var $race;
 	var $individualResultTable;
 	var $house;
-	var $standardCalculator;
 	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
@@ -69,9 +68,7 @@ class Bhaa {
 		
 		// table views
 		$this->individualResultTable = new RaceResult_List_Table();
-		
-		$this->standardCalculator = new StandardCalculator();
-		add_shortcode('eventStandardTable', array($this->standardCalculator,'eventStandardTable'));
+		add_shortcode('eventStandardTable', array(StandardCalculator::get_instance(),'eventStandardTable'));
 	}
 	
 	/**
