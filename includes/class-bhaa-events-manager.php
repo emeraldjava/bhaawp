@@ -9,8 +9,8 @@ class Events_Manager {
 		add_filter('em_event_output_placeholder',array($this,'bhaa_em_event_output_placeholder'),2,4);
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 
-		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'), 10, 2);
-		
+		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'),10,2);
+		add_filter('em_bookings_get_tickets',array($this,'bhaa_em_add_default_tickets'),1,2);
 		
 		// em_booking_form_before_tickets
 		// em_booking_form_after_tickets
@@ -25,6 +25,51 @@ class Events_Manager {
 		//add_filter('em_form_validate_field_custom',array($this,'bhaa_em_form_validate_field_custom'), 10, 2);
 		add_filter('emp_forms_output_field_input',array($this,'bhaa_emp_forms_output_field_input'),2,3);
 	}
+	
+	/**
+	 * http://eventsmanagerpro.com/support/requests/editable-default-ticket/
+	 * $BHAA_tickets[0] = new EM_Ticket();
+		$BHAA_tickets[0]->ticket_name = "BHAA Member Ticket";
+		//$BHAA_tickets[0]->ticket_description = "Run for 10";
+		$BHAA_tickets[0]->ticket_price = 10;//$BHAA_Payments[day];
+		$BHAA_tickets[0]->ticket_min = 1;
+		$BHAA_tickets[0]->ticket_max = 1;
+		$BHAA_tickets[0]->ticket_start = $EM_Event->event_start_date;
+		$BHAA_tickets[0]->ticket_end = $EM_Event->event_end_date;
+		$BHAA_tickets[0]->ticket_spaces_limit = 200;
+		
+	 * @param unknown $tickets
+	 * @param unknown $EM_Bookings
+	 * @return unknown
+	 */
+	function bhaa_em_add_default_tickets($tickets,$EM_Bookings){
+		//error_log('bhaa_em_add_default_tickets :'.$tickets->event_id.': '.sizeof($tickets->tickets));
+		if ( sizeof($tickets->tickets) == 0 ) {
+			error_log($EM_Bookings->get_event()->event_start_date.' '.$EM_Bookings->get_event()->event_end_date);
+			$ticket_data = array();
+			$ticket_data[0] = array(
+				'ticket_name'=>'BHAA Member Ticket',
+				'ticket_description'=>'BHAA Members runner for 10e','ticket_spaces'=>400,
+				'ticket_price'=>10,'ticket_min'=>1,'ticket_max'=>1,'ticket_spaces_limit'=>400,
+				'ticket_start' => $EM_Bookings->get_event()->event_start_date,
+				'ticket_end' => $EM_Bookings->get_event()->event_end_date
+			);
+			
+ 			$ticket_data[1] = array(
+				'ticket_name'=>'Day Member Ticket','ticket_description'=>'Day Member Ticket','ticket_spaces'=>400,
+				'ticket_price'=>15,'ticket_min'=>1,'ticket_max'=>1,'ticket_spaces_limit'=>400,
+				'ticket_start' => $EM_Bookings->get_event()->event_start_date,
+				'ticket_end' => $EM_Bookings->get_event()->event_end_date
+			); 
+			if ( is_array($tickets->tickets) )unset($tickets->tickets);
+			foreach ($ticket_data as $ticket){
+				$EM_Ticket = new EM_Ticket($ticket);
+				$tickets->tickets[] = $EM_Ticket;
+			}
+		}
+		return $tickets;
+	}
+
 	
 	/**
 	 * http://eventsmanagerpro.com/support/questions/custom-form-select-options-using-wp_dropdown_pages/
