@@ -128,20 +128,24 @@ class Events_Manager {
 	 * http://wp-events-plugin.com/tutorials/create-a-custom-placeholder-for-event-formatting/
 	 */
 	function bhaa_em_event_output_placeholder($result, $EM_Event, $placeholder) {
-		//error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$result);
-		switch( $placeholder ){
-			case '#_BHAARACERESULTS':
-				$result = 'BHAA_RACE_RESULTS';
-				break;
-			case '#_BHAATEAMRESULTS':
-				$result = 'BHAA_TEAM_RESULTS';
-				break;
-			case '#_BHAASTANDARDS':
-				$result = 'This a custom BHAA STANDARDS';
-				break;
+		if(!substr( $placeholder, 2, 4) === "BHAA")
+			return $result;
+		else{
+			error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$EM_Event->post_id.' '.substr( $placeholder, 2, 4 ));
+			switch( $placeholder ){
+				case '#_BHAARACERESULTS':
+					$result = 'BHAA_RACE_RESULTS';
+					break;
+				case '#_BHAATEAMRESULTS':
+					$result = 'BHAA_TEAM_RESULTS';
+					break;
+				case '#_BHAASTANDARDS':
+					$result = StandardCalculator::get_instance()->getEventStandardTable($EM_Event->post_id);
+					break;
+			}
+			//error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$result);
+			return $result;
 		}
-		//error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$result);
-		return $result;
 	}
 	
 	/**
