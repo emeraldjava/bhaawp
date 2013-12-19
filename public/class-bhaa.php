@@ -6,7 +6,6 @@ class Bhaa {
 	protected static $instance = null;
 	
 	var $race;
-	var $individualResultTable;
 	var $house;
 	
 	public static function get_instance() {
@@ -66,9 +65,7 @@ class Bhaa {
 		new HouseCpt();
 		new Events_Manager();
 		
-		// table views
-		$this->individualResultTable = new RaceResult_List_Table();
-		add_shortcode('eventStandardTable', array(StandardCalculator::get_instance(),'eventStandardTable'));
+		//add_shortcode('eventStandardTable', array(StandardCalculator::get_instance(),'eventStandardTable'));
 	}
 	
 	/**
@@ -150,19 +147,6 @@ class Bhaa {
 	
 	function getRunnerManager() {
 		return $this->runnerManager;
-	}
-	
-	function getRaceResult() {
-		return new RaceResult();
-	}
-	
-	function getIndividualResultTable()	{
-		return $this->individualResultTable;
-	}
-	
-	public function getRaceTeamResultTable($race) {
-		$teamResult = new TeamResult($race);
-		return $teamResult->getRaceTeamResultTable();
 	}
 	
 	/**

@@ -132,20 +132,18 @@ class Events_Manager {
 			return $result;
 		else {
 			error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$EM_Event->post_id.' '.substr( $placeholder, 2, 4 ));
-			switch( $placeholder ){
+			$event = new Event($EM_Event->post_id);
+			switch( $placeholder ) {
 				case '#_BHAARACERESULTS':
-					$event = new Event($EM_Event->post_id);
 					$result = $event->getIndividualResultsTable();
-					//$result = 'BHAA_RACE_RESULTS';
 					break;
 				case '#_BHAATEAMRESULTS':
-					$result = 'BHAA_TEAM_RESULTS';
+					$result = $event->getTeamResultsTable();
 					break;
 				case '#_BHAASTANDARDS':
 					$result = StandardCalculator::get_instance()->getEventStandardTable($EM_Event->post_id);
 					break;
 			}
-			//error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$result);
 			return $result;
 		}
 	}

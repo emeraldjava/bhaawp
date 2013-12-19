@@ -19,9 +19,19 @@ class Event {
 	
 	function getIndividualResultsTable() {
 		$races = $this->getRaces();
-		$response = 'BHAA RUNNER TABLE';
+		$response = '';
 		foreach($races as $race){
 			$response .= RaceResult_List_Table::get_instance()->renderTable($race);
+		}
+		return $response;
+	}
+	
+	function getTeamResultsTable() {
+		$races = $this->getRaces();
+		$response = '';
+		foreach($races as $race){
+			$teamResult = new TeamResult($race);
+			$response .= $teamResult->getRaceTeamResultTable();
 		}
 		return $response;
 	}
