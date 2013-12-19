@@ -89,10 +89,10 @@ class Bhaa {
 			// runner page
 			return $this->getRunnerPage();
 		}
-		else if($post->ID==2651){
+		//else if($post->ID==2651){
 			// raceday
-			return $this->getRacedayPage();
-		}
+			//return $this->getRacedayPage();
+		//}
 		
 		/* 		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
 		 error_log("bhaa_content ".$post->ID);

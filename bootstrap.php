@@ -22,6 +22,7 @@ require_once(BHAA_PLUGIN_DIR.'/includes/class-house.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-events-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-connections.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-race.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/class-event.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-registration.php');
 
 // public class

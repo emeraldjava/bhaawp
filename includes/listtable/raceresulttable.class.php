@@ -20,7 +20,17 @@ if( ! class_exists('WP_Screen') ) {
  */
 class RaceResult_List_Table extends WP_List_Table
 {
-	function __construct() {
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	public function __construct() {
 		global $status, $page;
 		//Set parent defaults
 		parent::__construct( array(
