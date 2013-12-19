@@ -45,7 +45,6 @@ class Events_Manager {
 	function bhaa_em_add_default_tickets($tickets,$EM_Bookings){
 		//error_log('bhaa_em_add_default_tickets :'.$tickets->event_id.': '.sizeof($tickets->tickets));
 		if ( sizeof($tickets->tickets) == 0 ) {
-			error_log($EM_Bookings->get_event()->event_start_date.' '.$EM_Bookings->get_event()->event_end_date);
 			$ticket_data = array();
 			$ticket_data[0] = array(
 				'ticket_name'=>'BHAA Member Ticket',
@@ -66,6 +65,10 @@ class Events_Manager {
 				$EM_Ticket = new EM_Ticket($ticket);
 				$tickets->tickets[] = $EM_Ticket;
 			}
+			// set the Booking Cut off Date to 1 day before hand
+			$EM_Bookings->get_event()->event_rsvp_date = date('Y-m-d',
+				strtotime( $EM_Bookings->get_event()->event_start_date . ' -1 day' ) );
+			$EM_Bookings->get_event()->event_rsvp_time = '15:00';
 		}
 		return $tickets;
 	}
