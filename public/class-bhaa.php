@@ -9,8 +9,6 @@ class Bhaa {
 	var $individualResultTable;
 	var $house;
 	var $standardCalculator;
-	var $registration;
-	var $raceday;
 	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
@@ -71,8 +69,6 @@ class Bhaa {
 		
 		// table views
 		$this->individualResultTable = new RaceResult_List_Table();
-		$this->registration = new Registration();
-		$this->raceday = new Raceday();
 		
 		$this->standardCalculator = new StandardCalculator();
 		add_shortcode('eventStandardTable', array($this->standardCalculator,'eventStandardTable'));
@@ -154,10 +150,6 @@ class Bhaa {
 			include($located);
 		}
 		return $located;
-	}
-	
-	function getRaceday() {
-		return $this->raceday;
 	}
 	
 	function getRunnerManager() {
