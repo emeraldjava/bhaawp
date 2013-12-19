@@ -43,6 +43,8 @@
 
 
  */
+use \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
+
 class Runner {
 		
 	const BHAA_RUNNER_ADDRESS1 = 'bhaa_runner_address1';
@@ -148,22 +150,39 @@ class Runner {
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
 		if($this->user->user_email!=''||$this->user->user_email!=null) {
 			
-			$message = Bhaa_Mustache::get_instance()->loadTemplate('runner-renewal-email')->render(
+			// runner-renewal-email
+			$message = Bhaa_Mustache::get_instance()->loadTemplate('email')->render(
 				array(
-					'user'=>$this
+					'user'=>$this,
+					'sent_time'=>date('h:i:s d/m/Y', time())
 				)
 			);
-			//error_log($message);
-
+			
+			
+			$inlineCss = true;
+			if($inlineCss) {
+				// create instance
+				$cssToInlineStyles = new CssToInlineStyles();
+				
+				$html = $message;
+				$css = file_get_contents('./templates/email.css');
+				
+				$cssToInlineStyles->setHTML($html);
+				$cssToInlineStyles->setCSS($css);
+				
+				// output
+				$message = $cssToInlineStyles->convert();
+				//error_log($message);
+			}			
 			
 			//Prepare headers for HTML
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 			$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
 
- 			$res = mail(
+ 			$res = wp_mail(
 				$this->user->user_email,
-				'BHAA Renewal 2014 mail() : '.$this->user->user_firstname.' '.$this->user->user_lastname,
+				'BHAA Renewal 2014 wp_mail & inlinecss : '.$this->user->user_firstname.' '.$this->user->user_lastname,
 				$message,
 				$headers);
  			error_log("email sent");
