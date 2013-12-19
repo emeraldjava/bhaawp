@@ -206,7 +206,7 @@ if(isset($user->ID)){
 	{
 		//var_dump(get_user_meta($user->ID));
 	}
-	echo BHAA::get_instance()->getIndividualResultTable()->renderRunnerTable($user->ID);
+	echo RaceResult_List_Table::get_instance()->renderRunnerTable($user->ID);
 }
 else
 	echo 'You have not selected a runner!.';
