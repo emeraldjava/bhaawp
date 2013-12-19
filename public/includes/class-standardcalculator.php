@@ -9,7 +9,17 @@ class StandardCalculator
 		oneKmTimeInSecs double NOT NULL,
 		PRIMARY KEY (standard)';
 	
-	function __construct() {
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() {
 		$this->standards = array();
 		array_push($this->standards,new Standard(1,0.442101708254709,176.435763853992));
 		array_push($this->standards,new Standard(2,0.512546485943647,182.54576510527));
@@ -48,8 +58,7 @@ class StandardCalculator
 	 * @param unknown $distance
 	 * @return multitype:NULL
 	 */
-	function getTimeTable($distance)
-	{
+	function getTimeTable($distance) {
 		$times = array();
 		foreach ($this->standards as $k => $v)
 		{
@@ -59,8 +68,7 @@ class StandardCalculator
 		return $times;
 	}
 	
-	function eventStandardTable()
-	{
+	function eventStandardTable() {
 		global $post;
 		return getEventStandardTable($post->ID);
 	}	
