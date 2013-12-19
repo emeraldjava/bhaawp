@@ -1,34 +1,37 @@
 <?php
 /**
- * 
+ * The House Manager
  * @author oconnellp
- *
  */
-class HouseManager extends BaseModel
-{
-	function __construct()
-	{
-		parent::__construct();
+class House_Manager {
+	
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
 	}
 	
-	function getActiveCompanies()
-	{
+	private function __construct() {
+	}
+	
+	function getActiveCompanies() {
 		return $this->queryHousesByTypeAndStatus(House::COMPANY_TEAM,House::ACTIVE);
 	}
 	
-	function getInactiveCompanies()
-	{
+	function getInactiveCompanies() {
 		return $this->queryHousesByTypeAndStatus(House::COMPANY_TEAM,House::ACTIVE,'NOT IN');
 	}	
 	
-	function getActiveSectors()
-	{
+	function getActiveSectors() {
 		return $this->queryHousesByTypeAndStatus(House::SECTOR_TEAM,House::ACTIVE);
 	}
 		
 	// http://wordpress.stackexchange.com/questions/43585/sorting-by-custom-posts-with-attachments
-	function queryHousesByTypeAndStatus($teamType,$teamStatus,$operation='IN')
-	{
+	function queryHousesByTypeAndStatus($teamType,$teamStatus,$operation='IN') {
 		$companyList = new WP_Query(
 			array(
 			'post_type' => House::HOUSE,

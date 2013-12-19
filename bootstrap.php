@@ -16,6 +16,7 @@ Mustache_Autoloader::register();
 require_once(BHAA_PLUGIN_DIR.'/includes/listtable/raceresulttable.class.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/class-house-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-house.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-events-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-connections.php');
@@ -33,8 +34,6 @@ require_once(BHAA_PLUGIN_DIR.'/model/EventModel.php');
 require_once(BHAA_PLUGIN_DIR.'/model/Race.php');
 require_once(BHAA_PLUGIN_DIR.'/model/RaceResult.php');
 require_once(BHAA_PLUGIN_DIR.'/model/TeamResult.php');
-require_once(BHAA_PLUGIN_DIR.'/model/House.php');
-require_once(BHAA_PLUGIN_DIR.'/model/HouseManager.php');
 require_once(BHAA_PLUGIN_DIR.'/model/AgeCategory.php');
 
 // classes
