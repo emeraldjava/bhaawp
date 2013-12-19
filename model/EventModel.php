@@ -69,7 +69,7 @@ AND e2r.p2p_from=%d order by ".$order,$class,$this->eventid);
 	}
 	
 	function getRaces() {
-		$races = p2p_get_connections(Connection::EVENT_TO_RACE,
+		$races = p2p_get_connections(Connections::EVENT_TO_RACE,
 			array('direction'=>'from','from'=>$this->eventid,'fields'=>'p2p_to'));
 		//echo 'races'.print_r($races);
 		
