@@ -28,6 +28,7 @@ class Raceday
 	function __construct() {
 		$eventModel = new EventModel();
 		$this->event = $eventModel->getNextEvent();
+		//error_log(print_r($this->event,true));
 	}
 	
 	function bhaa_register_forms() {
@@ -110,7 +111,7 @@ class Raceday
 	 * Return the list of registered runners
 	 */
 	function listRegisteredRunners($limit=0,$class='RACE_REG',$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
-		$event = new EventModel($this->event->post_id);
+		$event = new EventModel(3030);//$this->event->post_id);
 		return $event->listRegisteredRunners($limit,$class,$order);
 	}
 	

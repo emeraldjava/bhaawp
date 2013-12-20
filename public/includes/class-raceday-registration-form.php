@@ -32,30 +32,12 @@ class Raceday_Registration_Form {
 			->add_element(WP_Form_Element::create('submit')
 				->set_name('submit')
 				->set_label('Register Runner'))
-			->add_validator(array($this,'bhaa_validation_callback'));
+			->add_validator(array($this,'bhaa_validation_callback'))
 		//$form->add_validator(array($this,'bhaa_validation_callback'),10);
-		//$form->add_processor(array($this,'bhaa_processing_callback'),10);
+			->add_processor(array($this,'bhaa_processing_callback'));
 		
 //		error_log('validators BHAA '.print_r($form->get_validators(),true));
 		//error_log('BHAA FORM '.print_r($form,true));
-	}
-	
-	public function filter_button_views( $decorators, $element ) {
-		if ( $element->type == 'text' ) {
-			$decorators = array(
-					'WP_Form_Decorator_HtmlTag' => array('tag' => 'div',
-							'attributes' => array( 'class' => 'control-group' )),
-			);
-		}
-		return $decorators;
-	}
-	
-	public function bhaa_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
-		$first_name = $submission->get_value('firstname');
-		// do something with $first_name
-		error_log('firstname '.$first_name);
-		// redirect the user after the form is submitted successfully
-		$submission->set_redirect('');//home_url('aPage'));
 	}
 	
 	public function bhaa_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
@@ -64,5 +46,19 @@ class Raceday_Registration_Form {
 		//	$submission->add_error('first_name', 'Your name should be Jonathan');
 		//}
 	}
+	
+	public function bhaa_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
+		error_log('bhaa_processing_callback()');
+		$first_name = $submission->get_value('firstname');
+		// do something with $first_name
+		error_log('runner '.$runner);
+		error_log('number '.$number);
+		Raceday::get_instance()->registerRunner(3216, $runner, $number, 1, 10);
+		
+		// redirect the user after the form is submitted successfully
+		$submission->set_redirect('');//home_url('aPage'));
+	}
+	
+
 }
 ?>
