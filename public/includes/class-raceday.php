@@ -43,6 +43,9 @@ class Raceday
 			case 'raceday-register':
 				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-register.php';
 				break;
+			case 'raceday-newmember':
+				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-newmember.php';
+				break;
 			case 'raceday-lastest':
 				$this->listRunners(10);
 				break;
@@ -52,6 +55,10 @@ class Raceday
 			case 'raceday-export':
 				$this->export();
 				break;
+			// raceday-cash
+			// raceday-admin
+			// prereg
+			// all
 			default :
 				include_once BHAA_PLUGIN_DIR.'/public/views/raceday.php';
 		}
