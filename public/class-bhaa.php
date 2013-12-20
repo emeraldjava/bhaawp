@@ -87,6 +87,7 @@ class Bhaa {
 	function bhaa_content($page_content) {
 		global $post;
 	
+		//error_log($post->ID.' '.$post->post_type.' '.get_query_var('pagename'));
 		// realex 3143
 		if( $post->ID == 3143) {
 			return Realex::get_instance()->process();
@@ -104,6 +105,12 @@ class Bhaa {
 				return Raceday::get_instance()->handlePage($pagename);
 			}
 		}
+		else if($post->post_type=='house')
+			return 'BHAA House '.$post->ID.' '.$post->post_title;
+		else if($post->post_type=='race')
+			return 'BHAA Race '.$post->ID.' '.$post->post_title;
+		else if($post->post_type=='league')
+			return 'BHAA League '.$post->ID.' '.$post->post_title;
 		else
 			return $page_content;
 	}
