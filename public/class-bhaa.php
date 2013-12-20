@@ -68,9 +68,17 @@ class Bhaa {
 		// register the forms
 		add_action('wp_forms_register',array(Raceday::get_instance(),'bhaa_register_forms'));
 		add_action("login_head",array($this,'bhaa_login_head'));
+		add_action('wp_login',array($this,'bhaa_force_pretty_displaynames',10,2));
 		
 		add_filter('login_message',array($this,'bhaa_lost_password_message'));
-		//add_shortcode('eventStandardTable', array(StandardCalculator::get_instance(),'eventStandardTable'));
+		
+		remove_action('wp_head','wp_generator');
+		remove_action('wp_head','wp_shortlink_wp_head' );
+		remove_action('wp_head','adjacent_posts_rel_link_wp_head' );
+		remove_action('wp_head','rsd_link');
+		
+		add_shortcode('pdf',array($this,'pdf_shortcode'));
+		add_shortcode('bhaa_standard_table', array(StandardCalculator::get_instance(),'bhaa_standard_table'));
 	}
 	
 	/**
@@ -487,7 +495,6 @@ class Bhaa {
 		array('jquery')
 		);
 		wp_enqueue_script('bhaa-raceday');
-		error_log('enqueue_admin_scripts');
 		
 		// 		wp_register_script(
 		// 		'bootstrap-js',
@@ -554,5 +561,34 @@ class Bhaa {
 		}
 	}
 	
+	// http://stackoverflow.com/questions/9326315/wordpress-change-default-display-name-publicy-as-for-all-existing-users
+	function bhaa_force_pretty_displaynames($user_login, $user) {
+		$outcome = trim(get_user_meta($user->ID, 'first_name', true) . " " . get_user_meta($user->ID, 'last_name', true));
+		if (!empty($outcome) && ($user->data->display_name!=$outcome)) {
+			wp_update_user( array ('ID' => $user->ID, 'display_name' => $outcome));
+		}
+	}
+	
+	function pdf_shortcode( $atts ) {
+		extract( shortcode_atts( array(
+		'href' => ''
+				), $atts ) );
+				// http://stackoverflow.com/questions/1244788/embed-vs-object
+				return '<object data="'.$href.'" width="95%" height="675" type="application/pdf">
+    			<embed src="'.$href.'" width="95%" height="675" type="application/pdf" />
+			</object>';
+	}
+	
+	
+	function count_team_runners( $query ) {
+		if ( isset( $query->query_vars['query_id'] ) && 'count_team_runners' == $query->query_vars['query_id'] ) {
+			$query->query_from = $query->query_from . ' LEFT OUTER JOIN (
+                SELECT COUNT(p2p_id) as runners
+                FROM wp_p2p
+            ) p2p ON (wp_users.ID = p2p.p2p_from)';
+			//$query->query_where = $query->query_where . ' AND rr.races > 0 ';
+		}
+	}
+	//add_action('pre_user_query', array(&$this,'count_team_runners'));
 }
 ?>
