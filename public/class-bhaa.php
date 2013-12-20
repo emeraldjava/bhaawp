@@ -72,37 +72,21 @@ class Bhaa {
 	 * The runner and raceday pages will be server from the plugin templates directory.
 	 */
 	function bhaa_content($page_content) {
-		global $post;//, $wpdb, $wp_query;
+		global $post;
 	
-		//if( empty($post) )
-		//return $page_content;
-	
-		//error_log("bhaa_content ".$post->ID);
 		// realex 3143
 		if( $post->ID == 3143) {
 			return Realex::get_instance()->process();
-		}
+		} 
 		else if($post->ID==2025) {
 			// runner page
 			return $this->getRunnerPage();
 		}
-		else if($post->ID==2651) {
-			// raceday
+		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2745,2847))) {
+			$pagename = get_query_var('pagename');
+			error_log($post->ID.' '.$pagename);
 			return $this->getRacedayPage();
 		}
-		
-		/* 		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
-		 error_log("bhaa_content ".$post->ID);
-		ob_start();
-		if( $post->ID == 3091) {//2025) {		// runner
-		$this->bhaa_locate_template('leaguetable.php', true);// array('args'=>$args));
-		} else if( $post->ID == 2025) {//2025) {		// runner
-		$this->bhaa_locate_template('runner.php', true);// array('args'=>$args));
-		} else if( $post->ID == 2937) {	// raceday
-		$this->bhaa_locate_template('raceday.php', true);//, array('args'=>$args));
-		}
-		$page_content = ob_get_clean();
-		} */
 		else
 			return $page_content;
 	}
