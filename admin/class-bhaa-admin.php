@@ -233,32 +233,25 @@ class Bhaa_Admin {
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
-		echo '<div class="wrap">';
-		echo '<p>BHAA Members JSON</p>';
-		
-		$file = ABSPATH.'wp-content/bhaa_members.js';
+		$file = BHAA_PLUGIN_DIR.'/admin/assets/js/bhaa_members.js';
 		$content = 'var bhaa_members = ';
-		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json')
-		{
-			echo 'command '.$_POST['command'];
-			$model = new BaseModel();
+		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json') {
+			//echo 'command '.$_POST['command'];
+			//$model = new BaseModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
 			// var bhaa_day_runners = 
-			$content .= json_encode($model->getRegistrationRunnerDetails(array("M","I")));
-			error_log('file '.$file);
+			$user = new User();
+			$content .= json_encode($user->getRegistrationRunnerDetails(array("M","I")));
+			//error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
 			}
+		} else {
+			$content = file_get_contents($file);
 		}
-		
-		echo '<p><form action="'.get_permalink().'" id="bhaa_admin_members_json" method="post">
-				<input type="hidden" name="command" value="bhaa_admin_members_json"/>
-				<input type="Submit" value="Refresh Members"/>
-			</form></p>';
-		echo '<hr/>';
-		echo file_get_contents($file);
-		echo '</div>';
+		$_REQUEST['content']=$content;
+		include_once( 'views/bhaa_admin_members_json.php' );
 	}
 	
 	function bhaa_admin_day_json()

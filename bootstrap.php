@@ -43,6 +43,7 @@ require_once(BHAA_PLUGIN_DIR.'/includes/model/class-leaguesummary.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-eventmodel.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-raceresult.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-teamresult.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/class-user.php');
 
 // widgets
 //require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');
