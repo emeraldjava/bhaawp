@@ -9,17 +9,8 @@ class Raceday_Registration_Form {
 	
 	/**
 	 *
-	 * http://jsfiddle.net/kY5LL/12/
-	 * @param unknown $form
 	 */
 	private function bhaaRegisterForm(WP_Form $form) {
-		error_log('bhaaRegisterForm');
-	
-		//$firstname = WP_Form_Element::create('text')->set_name('firstname')->set_label('First Name')->set_id('firstname');
-		//$lastname = WP_Form_Element::create('text')->set_name('lastname')->set_label('Last Name')->set_id('lastname');
-	
-		//$submit = ;
-	
 		$form
 			->add_element( WP_Form_Element::create('number')
 				->set_name('number')->set_id('number')
@@ -33,11 +24,7 @@ class Raceday_Registration_Form {
 				->set_name('submit')
 				->set_label('Register Runner'))
 			->add_validator(array($this,'bhaa_validation_callback'))
-		//$form->add_validator(array($this,'bhaa_validation_callback'),10);
 			->add_processor(array($this,'bhaa_processing_callback'));
-		
-//		error_log('validators BHAA '.print_r($form->get_validators(),true));
-		//error_log('BHAA FORM '.print_r($form,true));
 	}
 	
 	public function bhaa_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
@@ -49,7 +36,8 @@ class Raceday_Registration_Form {
 	
 	public function bhaa_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
 		error_log('bhaa_processing_callback()');
-		$first_name = $submission->get_value('firstname');
+		$runner = $submission->get_value('runner');
+		$number = $submission->get_value('number');
 		// do something with $first_name
 		error_log('runner '.$runner);
 		error_log('number '.$number);
@@ -58,7 +46,5 @@ class Raceday_Registration_Form {
 		// redirect the user after the form is submitted successfully
 		$submission->set_redirect('');//home_url('aPage'));
 	}
-	
-
 }
 ?>

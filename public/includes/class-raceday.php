@@ -55,7 +55,9 @@ class Raceday
 			case 'raceday-export':
 				$this->export();
 				break;
-			// raceday-cash
+			case 'raceday-cash':
+				$this->cash();
+				break;
 			// raceday-admin
 			// prereg
 			// all
@@ -69,6 +71,17 @@ class Raceday
 		//echo $racetec;
 		$_REQUEST['racetec']=$racetec;
 		include_once BHAA_PLUGIN_DIR.'/public/views/raceday-list.php';
+	}
+	
+	private function cash() {
+		$event = $this->getEvent();
+		$runnerCount = $this->getRegistrationTypes($event->race);
+		$registeredRunners = $this->listRegisteredRunners(
+				0,'RACE_REG','wp_bhaa_raceresult.standardscoringset asc, wp_bhaa_raceresult.id desc');
+		$_REQUEST['event']=$event;
+		$_REQUEST['runnerCount']=$runnerCount;
+		$_REQUEST['registeredRunners']=$registeredRunners;
+		include_once BHAA_PLUGIN_DIR.'/public/views/raceday-cash.php';
 	}
 	
 	function getEvent() {
