@@ -35,7 +35,7 @@ require_once(BHAA_PLUGIN_DIR.'/public/includes/RaceCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standard.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standardcalculator.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday.php');
-		
+require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-registration-form.php');		
 // model
 require_once(BHAA_PLUGIN_DIR.'/includes/model/interface-table.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-basemodel.php');

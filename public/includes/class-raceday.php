@@ -25,9 +25,13 @@ class Raceday
 		return self::$instance;
 	}
 	
-	private function __construct() {
+	function __construct() {
 		$eventModel = new EventModel();
 		$this->event = $eventModel->getNextEvent();
+		
+		$registrationForm = new Raceday_Registration_Form();
+		wp_register_form('bhaa-register-form', array($registrationForm, 'build_form'));
+		//wp_register_form( 'bhaa-register-form', array($this,'bhaaRegisterForm') );
 		
 		// https://github.com/jbrinley/wp-forms
 		//add_action('wp_forms_register',array($this,'register_my_form'), 10, 0 );
@@ -37,11 +41,11 @@ class Raceday
 		//  filter wp_form_htmltag_default
 	}
 	
-	function handlePage($pagename){
+	function handlePage($pagename) {
 		error_log('handlePage('.$pagename.')');
 		switch($pagename){
 			case 'raceday-register':
-				$this->registerForm();
+				//$this->registerForm();
 				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-register.php';
 				break;
 			case 'raceday-newmember':
@@ -64,93 +68,12 @@ class Raceday
 				include_once BHAA_PLUGIN_DIR.'/public/views/raceday.php';
 		}
 	}
-	
-	private function registerForm() {
-		wp_register_form( 'bhaa-register-form', array($this,'bhaaRegisterForm') );
-	} 
-	
+		
 	private function listRunners($size=NULL) {
 		$racetec = $this->listRegisteredRunners($size);
 		//echo $racetec;
 		$_REQUEST['racetec']=$racetec;
 		include_once BHAA_PLUGIN_DIR.'/public/views/raceday-list.php';
-	}
-	
-	
-	//	function register_my_form() {
-	//		error_log('register_my_form');
-	//		wp_register_form( 'my-unique-form-id', array($this,'my_form_building_callback') );
-	//	}
-	
-	/**
-	 *
-	 * http://jsfiddle.net/kY5LL/12/
-	 * @param unknown $form
-	 */
-	function bhaaRegisterForm( $form ) {
-		error_log('bhaaRegisterForm');
-	
-		$fieldSet = WP_Form_Element::create('fieldset')->set_name('fieldset')->set_label('fieldset');
-		
-	
-		$firstname = WP_Form_Element::create('text')->set_name('xfirstname')->set_label('First Name')->set_id('firstname');
-		//$firstname->set_view(new WP_Form_View_Input());
-		//$firstname->add_decorator('WP_Form_Decorator_Label', array());
-		//$firstname->add_decorator('WP_Form_Decorator_Description', array());
-		//$firstname->add_decorator('WP_Form_Decorator_HtmlTag', array('tag' => 'div', 'attributes' => array( 'class' => 'control-group' )));
-		
-		$lastname = WP_Form_Element::create('text')->set_name('xlastname')->set_label('Last Name')->set_id('lastname');
-		//$lastname->set_view(new WP_Form_View_Input());
-		//$lastname->add_decorator('WP_Form_Decorator_Label', array('position' => WP_Form_Decorator::POSITION_BEFORE));
-		//$lastname->add_decorator('WP_Form_Decorator_Description', array());
-		//$lastname->add_decorator('WP_Form_Decorator_HtmlTag', array('tag' => 'div', 'attributes' => array( 'class' => 'control-group' )));
-		
-		//$fieldSet->add_element($firstname);
-		//$fieldSet->add_element($lastname);
-		
-		$submit = WP_Form_Element::create('submit')
-			->set_name('submit')
-			->set_label('WP-FORM');
-		
-		$form->add_element( WP_Form_Element::create('number')
-                ->set_name('number')->set_id('number')
-                ->set_label('Race Number'));
-		$form->add_element( WP_Form_Element::create('number')
-				->set_name('runner')->set_id('runner')
-				->set_label('BHAA ID'));
-		$form->add_element($firstname);
-		$form->add_element($lastname);
-		//$form->add_element($fieldSet);
-		$form->add_element($submit);
-		$form->add_class('form-example');
-		
-		$form->add_validator( array($this,'my_validation_callback'), 10 );
-		$form->add_processor( array($this,'my_processing_callback'), 10 );
-	} 
-	
-	function filter_button_views( $decorators, $element ) {
-	 if ( $element->type == 'text' ) {
-	 		$decorators = array(
-	 			'WP_Form_Decorator_HtmlTag' => array('tag' => 'div',
-	 			'attributes' => array( 'class' => 'control-group' )),
-	 	);
-	 }
-	 return $decorators;
-	}
-	
-	function my_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
-		$first_name = $submission->get_value('first_name');
-		// do something with $first_name
-		error_log('firstname '.$first_name);
-		// redirect the user after the form is submitted successfully
-		$submission->set_redirect('');//home_url('aPage'));
-	}
-
-	function my_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
-		error_log('my_validation_callback');
-		//if ( $submission->get_value('first_name') != 'Jonathan' ) {
-		//	$submission->add_error('first_name', 'Your name should be Jonathan');
-		//}
 	}
 	
 	function getEvent() {
