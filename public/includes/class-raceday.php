@@ -11,7 +11,7 @@
  * http://pippinsplugins.com/post-data-with-ajax-in-wordpress-pugins/
  * http://stackoverflow.com/questions/1960240/jquery-ajax-submit-form
  */
-class Registration
+class Raceday
 {
 	private $event;
 	
@@ -35,6 +35,11 @@ class Registration
 		// filters
 		//add_filter('wp_form_default_decorators',array($this,'filter_button_decorators'), 10, 2 );
 		//  filter wp_form_htmltag_default
+	}
+	
+	function handlePage($pagename){
+		error_log('handlePage('.$pagename.')');
+		include_once BHAA_PLUGIN_DIR.'/public/views/raceday.php';
 	}
 	
 	//	function register_my_form() {

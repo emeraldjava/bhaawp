@@ -85,7 +85,7 @@ class Bhaa {
 		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2745,2847))) {
 			$pagename = get_query_var('pagename');
 			error_log($post->ID.' '.$pagename);
-			return $this->getRacedayPage();
+			return Raceday::get_instance()->handlePage($pagename);
 		}
 		else
 			return $page_content;
@@ -95,9 +95,9 @@ class Bhaa {
 		include_once('views/runner.php');
 	}
 
-	private function getRacedayPage(){
+/* 	private function getRacedayPage(){
 		include_once('views/raceday.php');
-	}
+	} */
 	
 	/**
 	 * BHAA query vars
