@@ -28,17 +28,11 @@ class Raceday
 	function __construct() {
 		$eventModel = new EventModel();
 		$this->event = $eventModel->getNextEvent();
-		
+	}
+	
+	function bhaa_register_forms() {
 		$registrationForm = new Raceday_Registration_Form();
-		wp_register_form('bhaa-register-form', array($registrationForm, 'build_form'));
-		//wp_register_form( 'bhaa-register-form', array($this,'bhaaRegisterForm') );
-		
-		// https://github.com/jbrinley/wp-forms
-		//add_action('wp_forms_register',array($this,'register_my_form'), 10, 0 );
-		
-		// filters
-		//add_filter('wp_form_default_decorators',array($this,'filter_button_decorators'), 10, 2 );
-		//  filter wp_form_htmltag_default
+		$val = wp_register_form('registerform', array($registrationForm,'build_form'));
 	}
 	
 	function handlePage($pagename) {

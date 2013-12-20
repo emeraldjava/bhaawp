@@ -65,6 +65,9 @@ class Bhaa {
 		new HouseCpt();
 		new Events_Manager();
 		
+		// register the forms
+		add_action('wp_forms_register',array(Raceday::get_instance(),'bhaa_register_forms'));
+
 		//add_shortcode('eventStandardTable', array(StandardCalculator::get_instance(),'eventStandardTable'));
 	}
 	
