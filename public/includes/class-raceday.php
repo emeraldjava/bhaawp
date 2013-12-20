@@ -42,9 +42,26 @@ class Raceday
 		switch($pagename){
 			case 'raceday-register':
 				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-register.php';
+				break;
+			case 'raceday-lastest':
+				$this->listRunners(10);
+				break;
+			case 'raceday-list':
+				$this->listRunners();			
+				break;
+			case 'raceday-export':
+				$this->export();
+				break;
 			default :
 				include_once BHAA_PLUGIN_DIR.'/public/views/raceday.php';
 		}
+	}
+	
+	private function listRunners($size=NULL) {
+		$racetec = $this->listRegisteredRunners($size);
+		//echo $racetec;
+		$_REQUEST['racetec']=$racetec;
+		include_once BHAA_PLUGIN_DIR.'/public/views/raceday-list.php';
 	}
 	
 	//	function register_my_form() {
