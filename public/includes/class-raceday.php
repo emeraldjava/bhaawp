@@ -61,6 +61,7 @@ class Raceday
 			// raceday-admin
 			// prereg
 			// all
+			// ABSPATH.'wp-content/bhaa_all_members.html';
 			default :
 				include_once BHAA_PLUGIN_DIR.'/public/views/raceday.php';
 		}
