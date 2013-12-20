@@ -83,9 +83,13 @@ class Bhaa {
 			return $this->getRunnerPage();
 		}
 		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2745,2847))) {
-			$pagename = get_query_var('pagename');
-			error_log($post->ID.' '.$pagename);
-			return Raceday::get_instance()->handlePage($pagename);
+			if ( !current_user_can( 'edit_users' ) )  {
+				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+			} else {
+				$pagename = get_query_var('pagename');
+				error_log($post->ID.' '.$pagename);
+				return Raceday::get_instance()->handlePage($pagename);
+			}
 		}
 		else
 			return $page_content;
