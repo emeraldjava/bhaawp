@@ -92,17 +92,18 @@ class Raceday
 	
 		$fieldSet = WP_Form_Element::create('fieldset')->set_name('fieldset')->set_label('fieldset');
 		
-		$firstname = WP_Form_Element::create('text')->set_name('first-name')->set_label('First Name');
-		$firstname->set_view(new WP_Form_View_Input());
-		$firstname->add_decorator('WP_Form_Decorator_Label', array());
-		$firstname->add_decorator('WP_Form_Decorator_Description', array());
-		$firstname->add_decorator('WP_Form_Decorator_HtmlTag', array('tag' => 'div', 'attributes' => array( 'class' => 'control-group' )));
+	
+		$firstname = WP_Form_Element::create('text')->set_name('xfirstname')->set_label('First Name')->set_id('firstname');
+		//$firstname->set_view(new WP_Form_View_Input());
+		//$firstname->add_decorator('WP_Form_Decorator_Label', array());
+		//$firstname->add_decorator('WP_Form_Decorator_Description', array());
+		//$firstname->add_decorator('WP_Form_Decorator_HtmlTag', array('tag' => 'div', 'attributes' => array( 'class' => 'control-group' )));
 		
-		$lastname = WP_Form_Element::create('text')->set_name('last-name')->set_label('Last Name');
-		$lastname->set_view(new WP_Form_View_Input());
-		$lastname->add_decorator('WP_Form_Decorator_Label', array('position' => WP_Form_Decorator::POSITION_BEFORE));
-		$lastname->add_decorator('WP_Form_Decorator_Description', array());
-		$lastname->add_decorator('WP_Form_Decorator_HtmlTag', array('tag' => 'div', 'attributes' => array( 'class' => 'control-group' )));
+		$lastname = WP_Form_Element::create('text')->set_name('xlastname')->set_label('Last Name')->set_id('lastname');
+		//$lastname->set_view(new WP_Form_View_Input());
+		//$lastname->add_decorator('WP_Form_Decorator_Label', array('position' => WP_Form_Decorator::POSITION_BEFORE));
+		//$lastname->add_decorator('WP_Form_Decorator_Description', array());
+		//$lastname->add_decorator('WP_Form_Decorator_HtmlTag', array('tag' => 'div', 'attributes' => array( 'class' => 'control-group' )));
 		
 		//$fieldSet->add_element($firstname);
 		//$fieldSet->add_element($lastname);
@@ -111,6 +112,12 @@ class Raceday
 			->set_name('submit')
 			->set_label('WP-FORM');
 		
+		$form->add_element( WP_Form_Element::create('number')
+                ->set_name('number')->set_id('number')
+                ->set_label('Race Number'));
+		$form->add_element( WP_Form_Element::create('number')
+				->set_name('runner')->set_id('runner')
+				->set_label('BHAA ID'));
 		$form->add_element($firstname);
 		$form->add_element($lastname);
 		//$form->add_element($fieldSet);
