@@ -68,6 +68,8 @@ class Bhaa {
 		// register the forms
 		add_action('wp_forms_register',array(Raceday::get_instance(),'bhaa_register_forms'));
 		add_action("login_head",array($this,'bhaa_login_head'));
+		
+		add_filter('login_message',array($this,'bhaa_lost_password_message'));
 		//add_shortcode('eventStandardTable', array(StandardCalculator::get_instance(),'eventStandardTable'));
 	}
 	
@@ -543,5 +545,14 @@ class Bhaa {
 		</style>
 		";
 	}
+	
+	function bhaa_lost_password_message() {
+		$action = $_REQUEST['action'];
+		if( $action == 'lostpassword' ) {
+			$message = '<p class="message"><b>Please enter your email address below</b><br/>- If there is an error it maybe the case that we do not have your email linked to your account, you should send an email to <a href="mailto:info@bhaa.ie?Subject=Email Reset">info@bhaa.ie</a> with your name and BHAA ID and we can fix this up.</p>';
+			return $message;
+		}
+	}
+	
 }
 ?>
