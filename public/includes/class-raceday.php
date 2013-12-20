@@ -39,7 +39,12 @@ class Raceday
 	
 	function handlePage($pagename){
 		error_log('handlePage('.$pagename.')');
-		include_once BHAA_PLUGIN_DIR.'/public/views/raceday.php';
+		switch($pagename){
+			case 'raceday-register':
+				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-register.php';
+			default :
+				include_once BHAA_PLUGIN_DIR.'/public/views/raceday.php';
+		}
 	}
 	
 	//	function register_my_form() {
@@ -120,20 +125,17 @@ class Raceday
 		return $event->getNextRaces();
 	}
 	
-	function registerRunner($race,$runner,$racenumber,$standard,$money)
-	{
+	function registerRunner($race,$runner,$racenumber,$standard,$money) {
 		$raceResult = new RaceResult($race);
 		return $raceResult->registerRunner($runner,$racenumber,$standard,$money);
 	}
 	
-	function preRegisterRunner($race,$runner,$racenumber,$money)
-	{
+	function preRegisterRunner($race,$runner,$racenumber,$money) {
 		$raceResult = new RaceResult($race);
 		return $raceResult->preRegisterRunner($runner,$racenumber,$money);
 	}
 	
-	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='')
-	{
+	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='') {
 		// lookup create runner
 		$runner = new Runner();
 		$match = $runner->matchRunner($firstname,$lastname,$dateofbirth);
@@ -166,8 +168,7 @@ class Raceday
 		return $event->listRegisteredRunners(0,RaceResult::PRE_REG);
 	}
 	
-	function deleteRunner($runner,$race)
-	{
+	function deleteRunner($runner,$race) {
 		$raceResult = new RaceResult($race);
 		return $raceResult->deleteRunner($runner);
 	}
