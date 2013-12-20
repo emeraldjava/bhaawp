@@ -26,7 +26,6 @@ require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-events-manager.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-connections.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-race.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-event.php');
-require_once(BHAA_PLUGIN_DIR.'/includes/class-registration.php');
 
 // public class
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-realex.php');
@@ -35,6 +34,7 @@ require_once(BHAA_PLUGIN_DIR.'/public/includes/LeagueCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/RaceCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standard.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standardcalculator.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday.php');
 		
 // model
 require_once(BHAA_PLUGIN_DIR.'/includes/model/interface-table.php');
