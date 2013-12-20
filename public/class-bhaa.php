@@ -86,10 +86,10 @@ class Bhaa {
 			// runner page
 			return $this->getRunnerPage();
 		}
-		//else if($post->ID==2651){
+		else if($post->ID==2651) {
 			// raceday
-			//return $this->getRacedayPage();
-		//}
+			return $this->getRacedayPage();
+		}
 		
 		/* 		if( in_array($post->ID, array(3091)) ) {//2025,2937,2940
 		 error_log("bhaa_content ".$post->ID);
@@ -431,10 +431,10 @@ class Bhaa {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( 
-			$this->plugin_slug . '-plugin-styles', 
-			plugins_url( 'assets/css/public.css', __FILE__ ), 
-			array());//, self::VERSION );
+		//wp_enqueue_style( 
+		//	$this->plugin_slug . '-plugin-styles', 
+		//	plugins_url( 'assets/css/public.css', __FILE__ ), 
+		//	array());//, self::VERSION );
 		
 		// http://stackoverflow.com/questions/8849684/wordpress-jquery-ui-css-files
 		// css style
@@ -465,10 +465,10 @@ class Bhaa {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 
-			$this->plugin_slug . '-plugin-script', 
-			plugins_url( 'assets/js/public.js', __FILE__ ), 
-			array( 'jquery' ));//, self::VERSION );
+		//wp_enqueue_script( 
+		//	$this->plugin_slug . '-plugin-script', 
+		//	plugins_url( 'assets/js/public.js', __FILE__ ), 
+		//	array( 'jquery' ));//, self::VERSION );
 		
 		// declare the URL to the file that handles the AJAX request (wp-admin/admin-ajax.php)
 		//wp_enqueue_script( 'my-ajax-request', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
@@ -476,11 +476,26 @@ class Bhaa {
 		
 		// http://wordpress.stackexchange.com/questions/56343/template-issues-getting-ajax-search-results/56349#56349
 		wp_register_script(
-		'bhaawp',
-		plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
-		array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
-		
+			'bhaawp',
+			plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
+			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
 		wp_enqueue_script('bhaawp');
+		
+		wp_register_script(
+		'bhaa_members',
+		plugins_url( '/../admin/assets/js/bhaa_members.js', __FILE__ ),
+		array('jquery')
+		);
+		wp_enqueue_script('bhaa_members');
+		
+		wp_register_script(
+		'bhaa-raceday',
+		plugins_url( '/../admin/assets/js/bhaa-raceday.js', __FILE__ ),
+		array('jquery')
+		);
+		wp_enqueue_script('bhaa-raceday');
+		error_log('enqueue_admin_scripts');
+		
 		// 		wp_register_script(
 		// 		'bootstrap-js',
 		//		plugins_url('assets/js/bootstrap.min.js',__FILE__),

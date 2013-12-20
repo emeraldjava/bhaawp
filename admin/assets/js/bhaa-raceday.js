@@ -1,5 +1,4 @@
 jQuery(document).ready( function() {
-	
 	jQuery("#memberfilter").autocomplete({
 		source: bhaa_members,
 		minLength: 3,
