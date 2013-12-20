@@ -67,7 +67,7 @@ class Bhaa {
 		
 		// register the forms
 		add_action('wp_forms_register',array(Raceday::get_instance(),'bhaa_register_forms'));
-
+		add_action("login_head",array($this,'bhaa_login_head'));
 		//add_shortcode('eventStandardTable', array(StandardCalculator::get_instance(),'eventStandardTable'));
 	}
 	
@@ -530,6 +530,18 @@ class Bhaa {
 	 */
 	public function filter_method_name() {
 		// TODO: Define your filter hook callback here
+	}
+	
+	function bhaa_login_head() {
+		echo "
+		<style>
+			body.login #login h1 a {
+			background: url('http://bhaa.ie/wp-content/uploads/2012/11/headerlogo.jpg') no-repeat center top transparent;
+			height: 120px;
+			width: 400px;
+		}
+		</style>
+		";
 	}
 }
 ?>
