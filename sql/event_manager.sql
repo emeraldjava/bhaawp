@@ -10,13 +10,17 @@ set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 	<strong>Date/Time</strong><br/>
 	Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>
 </p>
-{has_location}
-<p>
-<strong>Location</strong><br/>
-#_LOCATIONLINK
+
+[two_third last="no"]<strong>Location</strong> : #_LOCATIONNAME
+#_LOCATIONFULLBR
 #_LOCATIONNOTES
+[/two_third]
+[one_third last="yes"][map address="#_LOCATIONFULLBR" type="roadmap" width="100%" height="300px" zoom="14" scrollwheel="yes" scale="yes" zoom_pancontrol="yes"][/map][/one_third]
+
+<p><strong>Location</strong> : #_LOCATIONNAME</p>
+#_LOCATIONFULLBR
+<p>#_LOCATIONNOTES</p>
 </p>
-{/has_location}
 <p>
 	<strong>Category(ies)</strong>
 	#_CATEGORIES
