@@ -5,7 +5,6 @@ set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 
 {is_future}
 [fusion_tab title="Details"]
-<div style="float:right; margin:0px 0px 15px 15px;">#_LOCATIONMAP</div>
 <p>
 	<strong>Date/Time</strong><br/>
 	Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>
@@ -15,7 +14,9 @@ set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 #_LOCATIONFULLBR
 #_LOCATIONNOTES
 [/two_third]
-[one_third last="yes"][map address="#_LOCATIONFULLBR" type="roadmap" width="100%" height="300px" zoom="14" scrollwheel="yes" scale="yes" zoom_pancontrol="yes"][/map][/one_third]
+[one_third last="yes"]
+#_LOCATIONMAP
+[/one_third]
 
 <p><strong>Location</strong> : #_LOCATIONNAME</p>
 #_LOCATIONFULLBR
