@@ -53,13 +53,28 @@ where option_name='dbem_single_event_format';
 
 
 update wp_options
-set option_value='<table class="table-2" >
-    <thead>
-        <tr>
-			<th class="event-time" width="150">Date/Time</th>
-			<th class="event-description" width="*">Event</th>
-		</tr>
-   	</thead>
-    <tbody>
+set option_value='<table class="table-1" >
+<thead>
+<tr>
+<th class="event-time" width="150">Date/Time</th>
+<th class="event-description" width="150">Event</th>
+<th class="event-races" width="*">Races</th>
+</tr>
+</thead>
+<tbody>
 '
 where option_name='dbem_event_list_item_format_header';
+
+update wp_options
+set option_value='<tr class="event-details">
+<td>
+#_EVENTDATES
+#_EVENTTIMES
+</td>
+<td>#_EVENTLINK
+{has_location}<i>#_LOCATIONNAME, #_LOCATIONTOWN #_LOCATIONSTATE</i>{/has_location}<br/>#_EVENTEXCERPT
+</td>
+</tr>
+<tr class="spacer"><td></td></tr>
+'
+where option_name='dbem_event_list_item_format';
