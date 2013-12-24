@@ -50,3 +50,16 @@ set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 </div>
 '
 where option_name='dbem_single_event_format';
+
+
+update wp_options
+set option_value='<table class="table-2" >
+    <thead>
+        <tr>
+			<th class="event-time" width="150">Date/Time</th>
+			<th class="event-description" width="*">Event</th>
+		</tr>
+   	</thead>
+    <tbody>
+'
+where option_name='dbem_event_list_item_format_header';
