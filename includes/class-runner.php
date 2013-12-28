@@ -134,10 +134,13 @@ class Runner {
 	function getCompanyName() {
 		$cid = $this->getCompany();
 		if(isset($cid)) {
-			return 'CompanyName:'.$this->getCompany();
+			global $wpdb;
+			$name = $wpdb->get_var(
+				$wpdb->prepare('select post_title from wp_posts where ID = %s',$cid)); 
+			return $name;
 		}		
 		else
-			return 'CompanyName:';
+			return 'Company:'.$cid;
 	}
 	
 	/**
