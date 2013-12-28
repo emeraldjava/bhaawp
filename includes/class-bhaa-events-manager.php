@@ -162,19 +162,7 @@ class Events_Manager {
 			case '#_BHAAID':
 				$replace = $EM_Booking->get_person()->ID;
 				break;
-				// 			case '#_BHAACOMPANYNAME':
-				// 				$replace = get_user_meta(7713,'bhaa_runner_company',true);
-				// // 				error_log('#_BHAACOMPANY_NAME');
-				// // 				$companyid = get_user_meta($EM_Booking->get_person()->ID,'bhaa_runner_company',true);
-				// // 				error_log('#_BHAA_COMPANY_NAME '.$companyid);
-				// // //				$replace = $companyid.'';
-				// //  				$args = array('p'=>$companyid, 'post_type'=>'house', 'limit'=> '1');
-				// //  				$loop = new WP_Query($args);
-				// //  				$loop->the_post();
-				// //  				$replace = $companyid.'-'.the_title();
-				// 				break;
 			case '#_BHAATICKETS':
-				
 				$header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
 				$eventDetails = false;
 				$membershipDetails = false;
@@ -191,12 +179,16 @@ class Events_Manager {
 					}
 					break;
 				}
-				
+
+				$runner = new Runner($EM_Booking->get_person()->ID);
 				$email = Bhaa_Mustache::get_instance()->loadTemplate('runner-booking-email')->render(
 					array(
 						'header' => $header,
 						'eventDetails' => $eventDetails,
-						'membershipDetails' => $membershipDetails
+						'membershipDetails' => $membershipDetails,
+						'user'=>$runner,
+						'event'=>$EM_Booking->get_event(),
+						'sent_time'=>date('h:i:s d/m/Y', time())
 				));
 				$html = $EM_Booking->output($email);
 				break;
