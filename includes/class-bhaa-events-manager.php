@@ -80,7 +80,7 @@ class Events_Manager {
 	function bhaa_emp_forms_output_field_input($html, $form, $field) {
 		//error_log('bhaa_emp_forms_output_field_input() field '.print_r($field,true));
 		
-		if($field['type']=='house' && $field['fieldid']=='house') {
+		if($field['type']=='select' && $field['fieldid']==Runner::BHAA_RUNNER_COMPANY) {
 			
 			//error_log('bhaa_emp_forms_output_field_input() field '.print_r($field,true));
 			$sectorTeamQuery = new WP_Query(
@@ -108,8 +108,8 @@ class Events_Manager {
 				'exclude' => $csv
 			);
 				
-			global $current_user, $user_id;
-			$selected = get_user_meta($user_id,'bhaa_runner_company',true);
+			global $current_user;
+			$selected = get_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,true);			
 			// set the correct defaults for new or existing user
 			if($selected==0) {
 				$args = array_merge( $args, array( 'show_option_none' => 'Please select a company' ) );
