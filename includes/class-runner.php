@@ -103,6 +103,10 @@ class Runner {
 		return $this->meta['last_name'];
 	}
 	
+	function getFullName() {
+		return $this->getFirstName().' '.$this->getLastName();
+	}
+	
 	function getDateOfBirth() {
 		return $this->meta[Runner::BHAA_RUNNER_DATEOFBIRTH];
 	}
