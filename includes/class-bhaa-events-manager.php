@@ -170,9 +170,9 @@ class Events_Manager {
 				foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking) {
 					$booking = $EM_Ticket_Booking->get_ticket();
 					//error_log('bhaa_em_booking_output_placeholder() '.print_r($booking,true));
-					if($booking->name=='Annual Membership') {
+					if($booking->name=='Annual Membership 2014') {
 						$membershipDetails = true;
-					} elseif($bookings->name=='BHAA Member Ticket') {
+					} elseif($booking->name=='BHAA Member Ticket') {
 						$eventDetails = true;
 					} else {
 						$eventDetails = true;
@@ -190,6 +190,7 @@ class Events_Manager {
 						'event'=>$EM_Booking->get_event(),
 						'sent_time'=>date('h:i:s d/m/Y', time())
 				));
+				$email = Bhaa_Mustache::get_instance()->inlineCssStyles($email);
 				$html = $EM_Booking->output($email);
 				break;
 		}

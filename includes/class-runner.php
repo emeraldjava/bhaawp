@@ -43,7 +43,6 @@
 
 
  */
-use \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class Runner {
 		
@@ -165,7 +164,8 @@ class Runner {
 				)
 			);
 			
-			
+			$message = Bhaa_Mustache::get_instance()->inlineCssStyles($message);
+			/*
 			$inlineCss = true;
 			if($inlineCss) {
 				// create instance
@@ -180,7 +180,7 @@ class Runner {
 				// output
 				$message = $cssToInlineStyles->convert();
 				//error_log($message);
-			}			
+			}	*/		
 			
 			//Prepare headers for HTML
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -189,7 +189,7 @@ class Runner {
 
  			$res = wp_mail(
 				$this->user->user_email,
-				'BHAA Renewal 2014 wp_mail & inlinecss : '.$this->user->user_firstname.' '.$this->user->user_lastname,
+				'BHAA Renewal 2014 : '.$this->user->user_firstname.' '.$this->user->user_lastname,
 				$message,
 				$headers);
  			error_log("email sent");
