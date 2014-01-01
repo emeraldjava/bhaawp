@@ -1,8 +1,6 @@
 Overview
 ========
 
-~Current Version:2013.12.02~
-
 The bhaawp is a wordpress plugin for the Business Houses Athletic Assoication.
 
 git pull origin master
