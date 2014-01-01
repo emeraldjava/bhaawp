@@ -80,43 +80,70 @@
                                                                 After you enter your content, highlight the text you want to style and select the options you set in the style editor in the "styles" drop down box. Want to <a href="http://www.mailchimp.com/kb/article/im-using-the-style-designer-and-i-cant-get-my-formatting-to-change" target="_blank">get rid of styling on a bit of text</a>, but having trouble doing it? Just use the "clear styles" button to strip the text of any formatting and reset your style.
 																<br>-->
 
+<pre>Dear {{user.getFirstName}},
+Thank you for using the BHAA online booking tool. Details of your booking and instructions are below.
+</pre>
+
 <table cellpadding="0" cellspacing="0" border="0" summary="details">
 <tr><td span=2 valign="top">
+{{#membershipDetails}}
 <h3>{{event.event_name}}</h3>
+{{/membershipDetails}}
+{{^membershipDetails}}
+<h3>#_EVENTLINK</h3>
+{{/membershipDetails}}
+</td>
+<!-- dates -->
+<tr>
+<div><i style="font-style: normal">Dates</i></div></td>
+<td>#_EVENTDATES</td>
+</tr>
+{{#eventDetails}}
+<tr>
+<div><i style="font-style: normal">Location</i></div></td>
+<td>#_LOCATIONNAME</td>
+</tr>
+{{/eventDetails}}
+
 </tr>
 <!-- Who -->
 <tr>
-<td	 valign="top">
+<td	valign="top">
 <div><i style="font-style: normal">Name</i></div></td>
 <td	 valign="top">{{user.getFullName}}</td>
 </tr>
 <!-- BHAA ID -->
-<tr><td  valign="top">
+<tr><td valign="top">
 <div><i style="font-style: normal">BHAA ID</i></div></td>
 <td  valign="top">
-<a href="http://www.bhaa.ie/runner/?id={{user->getID}}">{{user.getID}}</a></td>
+<a href="http://www.bhaa.ie/runner/?id={{user.getID}}">{{user.getID}}</a></td>
+</tr>
+<!-- Fee Paid -->
+<tr><td  valign="top">
+<div><i style="font-style: normal">Paid Online</i></div></td>
+<td  valign="top">#_BOOKINGPRICE</a></td>
 </tr>
 
 {{#membershipDetails}}
-<tr><td colspan="2" valign="top">
+<!--<tr><td colspan="2" valign="top">
 is Membership</td>
-</tr>
+</tr>-->
 {{/membershipDetails}}
 {{^membershipDetails}}
-<tr><td colspan="2" valign="top">
+<!--<tr><td colspan="2" valign="top">
 is NOT a Membership</td>
-</tr>
+</tr>-->
 {{/membershipDetails}}
 
 {{#eventDetails}}
-<tr><td colspan="2" valign="top">
+<!--<tr><td colspan="2" valign="top">
 is an event</td>
-</tr>
+</tr>-->
 {{/eventDetails}}
 {{^eventDetails}}
-<tr><td colspan="2" valign="top">
+<!--<tr><td colspan="2" valign="top">
 is NOT an event</td>
-</tr>
+</tr>-->
 {{/eventDetails}}
 
 
@@ -147,9 +174,11 @@ is NOT an event</td>
 <tr><td colspan="2" valign="top">
 <ul>
 <li>Please remember you BHAA ID when you register at races, since this is the ensure your result is matched to your name.</li>
+{{#membershipDetails}}
 <li>You are now entitled to run all BHAA events for an entry of 10e.</li>
 <li>Your race results will be counted towards the BHAA league.</li>
 <li>You can run with your company or sector team.</li>
+{{/membershipDetails}}
 <li>You can login into the BHAA website to leave comments and pre-pay for upcoming events.</li>
 </ul>
 </td>
