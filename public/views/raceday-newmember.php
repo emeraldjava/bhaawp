@@ -1,4 +1,6 @@
 <?php
 include_once 'raceday-header.php';
-echo "<h3>BHAA New Member</h3>";
+echo '<div align="left">';
+echo wp_get_form('daymemberform');
+echo '</div>';
 ?>
