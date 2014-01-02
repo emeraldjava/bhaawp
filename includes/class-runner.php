@@ -157,7 +157,7 @@ class Runner {
 		if($this->user->user_email!=''||$this->user->user_email!=null) {
 			
 			// runner-renewal-email
-			$message = Bhaa_Mustache::get_instance()->loadTemplate('email')->render(
+			$message = Bhaa_Mustache::get_instance()->loadTemplate('runner-renewal-email')->render(
 				array(
 					'user'=>$this,
 					'sent_time'=>date('h:i:s d/m/Y', time())

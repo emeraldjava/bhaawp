@@ -35,7 +35,7 @@ class Bhaa_Mustache {
 		if($inlineCss) {
 			// create instance
 			$cssToInlineStyles = new CssToInlineStyles();
-			$css = file_get_contents('./templates/email.css');
+			$css = file_get_contents(BHAA_PLUGIN_DIR.'/includes/templates/mailchimp/email.css');
 		
 			$cssToInlineStyles->setHTML($email_html);
 			$cssToInlineStyles->setCSS($css);
