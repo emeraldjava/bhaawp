@@ -5,6 +5,10 @@
  */
 class Events_Manager {
 	
+	const ANNUAL_MEMBERSHIP = 'Annual Membership';
+	const DAY_MEMBER_TICKET = 'Day Member Ticket';
+	const BHAA_MEMBER_TICKET = 'BHAA Member Ticket';
+	
 	function __construct() {
 		add_filter('em_event_output_placeholder',array($this,'bhaa_em_event_output_placeholder'),2,4);
 		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
@@ -225,7 +229,7 @@ class Events_Manager {
 			return true;
 		}
 	
-		if ( $EM_Ticket->ticket_name == Event::DAY_MEMBER_TICKET) {
+		if ( $EM_Ticket->ticket_name == Events_Manager::DAY_MEMBER_TICKET) {
 			//if you are an ANNUAL MEMBER then this ticket will NOT show up
 			if(!is_user_logged_in())
 				return true;
@@ -235,7 +239,7 @@ class Events_Manager {
 				return false;
 		}
 	
-		if ( $EM_Ticket->ticket_name == Event::BHAA_MEMBER_TICKET) {
+		if ( $EM_Ticket->ticket_name == Events_Manager::BHAA_MEMBER_TICKET) {
 			//if you are an ANNUAL MEMBER then you can see this ticket
 			if(is_user_logged_in() && get_user_meta(get_current_user_id(),'bhaa_runner_status',true)=='M' )
 				return true;
@@ -244,7 +248,7 @@ class Events_Manager {
 				return false;
 		}
 	
-		if ( $EM_Ticket->ticket_name == Event::ANNUAL_MEMBERSHIP) {
+		if ( $EM_Ticket->ticket_name == Events_Manager::ANNUAL_MEMBERSHIP) {
 			// TODO if they are a
 			return true;
 		}

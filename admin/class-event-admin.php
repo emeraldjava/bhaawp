@@ -1,10 +1,6 @@
 <?php
 class EventAdmin {
 	
-	const ANNUAL_MEMBERSHIP = 'Annual Membership';
-	const DAY_MEMBER_TICKET = 'Day Member Ticket';
-	const BHAA_MEMBER_TICKET = 'BHAA Member Ticket';
-	
 	protected static $instance = null;
 	
 	public static function get_instance() {
