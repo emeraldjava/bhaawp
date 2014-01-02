@@ -108,13 +108,11 @@ class Raceday
 		// lookup create runner
 		$runner = new Runner();
 		$match = $runner->matchRunner($firstname,$lastname,$dateofbirth);
-		if($match!=0)
-		{
+		if($match!=0) {
 			$runner_id = $match;
 			error_log('matched existing runner '.$runner_id);
 		}
-		else
-		{
+		else {
 			$runner_id = $runner->createNewUser($firstname,$lastname,$email,$gender,$dateofbirth);
 			error_log('created new runner '.$runner_id);
 		}
@@ -150,8 +148,7 @@ class Raceday
 	/**
 	 * Export the csv file for racetec
 	 */
-	function export()
-	{
+	function export() {
 		$event = new EventModel($this->event->post_id);
 		$runners = $event->listRegisteredRunners();
 

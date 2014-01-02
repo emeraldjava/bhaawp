@@ -19,32 +19,37 @@ class Raceday_Registration_Form {
 			set_name('runner_inputs')->set_label('Runner Details');//->set_classes('row col-md-6');
 		
 		//$form
-		$number = WP_Form_Element::create('number')
-				->set_name('number')->set_id('number')
-				->set_label('Race Number')
-				->set_classes(array('form-group'))->set_attribute('class','form-group');
+		$racenumber = WP_Form_Element::create('number')
+				->set_name('racenumber')->set_id('racenumber')
+				->set_label('Race Number')->set_classes(array('form-group'));
 
-		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')->set_classes('form-group');
+		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')->set_classes(array('form-group'));
 		$race_drop_down
-			->add_option(4,'4Mile Men')
-			->add_option(2,'2M Women');
+			->add_option(3254,'4Mile Men')
+			->add_option(3252,'2M Women');
+			
+		$money_drop_down = WP_Form_Element::create('radios')->set_name('money')->set_label('Money')->set_classes(array('form-group'));
+		$money_drop_down
+			->add_option(1,'10e Member')
+			->add_option(3,'25e Renew')
+			->add_option(2,'15e Day');
 		
 		$runner = WP_Form_Element::create('number')
 				->set_name('runner')->set_id('runner')
 				->set_label('BHAA ID')
-				->set_classes('form-group');
+				->set_classes(array('form-group'));
 
-		$firstname = WP_Form_Element::create('text')->set_name('firstname')->set_label('First Name')->set_id('firstname')->set_classes('form-group');
-		$lastname = WP_Form_Element::create('text')->set_name('lastname')->set_label('Last Name')->set_id('lastname')->set_classes('form-group');
+		$firstname = WP_Form_Element::create('text')->set_name('firstname')->set_label('First Name')->set_id('firstname')->set_classes(array('form-group'));
+		$lastname = WP_Form_Element::create('text')->set_name('lastname')->set_label('Last Name')->set_id('lastname')->set_classes(array('form-group'));
 		
-		$gender_drop_down = WP_Form_Element::create('radios')->set_name('gender')->set_label('Gender')->set_classes('form-group');
+		$gender_drop_down = WP_Form_Element::create('radios')->set_name('gender')->set_label('Gender')->set_classes(array('form-group'));
 		$gender_drop_down
 			->add_option(M,'M')
 			->add_option(W,'W');
 		
-		$dateofbirth = WP_Form_Element::create('text')->set_name('dateofbirth')->set_label('DoB')->set_id('dateofbirth')->set_classes('form-group');
-		$company = WP_Form_Element::create('text')->set_name('company')->set_label('Company')->set_id('company')->set_classes('form-group');
-		$standard = WP_Form_Element::create('text')->set_name('standard')->set_label('Standard')->set_id('standard')->set_classes('form-group');
+		$dateofbirth = WP_Form_Element::create('text')->set_name('dateofbirth')->set_label('DoB')->set_id('dateofbirth')->set_classes(array('form-group'));
+		$company = WP_Form_Element::create('text')->set_name('company')->set_label('Company')->set_id('company')->set_classes(array('form-group'));
+		$standard = WP_Form_Element::create('text')->set_name('standard')->set_label('Standard')->set_id('standard')->set_classes(array('form-group'));
 		
 		
 /*		$race_inputs->add_element($number);
@@ -53,8 +58,9 @@ class Raceday_Registration_Form {
 		$runner_inputs->add_element($lastname);*/
 		
 		$form->set_attribute('role','form')
-			->add_element($number)
+			->add_element($racenumber)
 			->add_element($race_drop_down)
+			->add_element($money_drop_down)
 			->add_element($runner)
 			->add_element($firstname)
 			->add_element($lastname)
@@ -66,29 +72,56 @@ class Raceday_Registration_Form {
 				->set_name('submit')
 				->set_value('Register Runner')
 				->set_label('Register Runner')
-				->set_classes('form-group'))
+				->set_classes(array('form-group')))
 			->add_validator(array($this,'bhaa_validation_callback'))
 			->add_processor(array($this,'bhaa_processing_callback'));
 	}
 	
 	public function bhaa_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
-		error_log('bhaavalidation_callback');
-		//if ( $submission->get_value('first_name') != 'Jonathan' ) {
-		//	$submission->add_error('first_name', 'Your name should be Jonathan');
-		//}
+		
+		$race = $submission->get_value('race');
+		if(!isset($race))
+			$submission->add_error('race', 'Select a Race');
+		
+		$runner = $submission->get_value('runner');
+		$racenumber = $submission->get_value('racenumber');
+		if($racenumber==0)
+			$submission->add_error('racenumber', 'Enter a valid race number');
+
+		global $wpdb;
+		$runnerCount = $wpdb->get_var(
+			$wpdb->prepare(
+				'select exists(select * from wp_bhaa_raceresult where race=%d and runner=%d)',$race,$runner));
+		if($runnerCount)
+			$submission->add_error('runner', 'Runner with id '.$runner.' is already registered!');
+		
+		$numberCount = $wpdb->get_var(
+			$wpdb->prepare(
+				'select exists(select * from wp_bhaa_raceresult where race=%d and racenumber=%d)',$race,$racenumber)
+		);
+		if($numberCount)
+			$submission->add_error('racenumber', 'Race number '.$racenumber.' has already been assigned!');
+		
+		//if(!isset($submission->get_value('gender')))
+			//$submission->add_error('gender', 'Select a Race');
+		
+		if(!isset($submission->get_value('money')))
+			$submission->add_error('money', 'Enter the money paid!');
 	}
 	
 	public function bhaa_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
-		error_log('bhaa_processing_callback()');
+		
+		$race = $submission->get_value('race');
 		$runner = $submission->get_value('runner');
-		$number = $submission->get_value('number');
-		// do something with $first_name
-		error_log('runner '.$runner);
-		error_log('number '.$number);
-		Raceday::get_instance()->registerRunner(3216, $runner, $number, 1, 10);
+		$racenumber = $submission->get_value('racenumber');
+		$standard = $submission->get_value('standard');
+		$money = $submission->get_value('money');
+		
+		error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
+		Raceday::get_instance()->registerRunner($race, $runner, $racenumber, $standard, $money);
 		
 		// redirect the user after the form is submitted successfully
-		$submission->set_redirect('');//home_url('aPage'));
+		$submission->set_redirect('/raceday-latest');//home_url('aPage'));
 	}
 }
 ?>
