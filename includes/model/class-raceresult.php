@@ -33,34 +33,34 @@ class RaceResult extends BaseModel implements Table
 	}
 	
 	public function registerRunner($runner,$racenumber,$standard=NULL,$money) {
-		$runnerCount = $this->wpdb->get_var(
+
+		/* move validation code to the form */
+		/*$runnerCount = $this->wpdb->get_var(
 			$this->wpdb->prepare(
 				'select exists(select * from wp_bhaa_raceresult where race=%d and runner=%d)',$this->post_id,$runner)
 			);
-				//'select COUNT(*) from wp_bhaa_raceresult where race=%d and runner=%d',$this->post_id,$runner));
 		if($runnerCount)
 			return 'Runner with id '.$runner.' is already registered!';
 
 		$numberCount = $this->wpdb->get_var(
 			$this->wpdb->prepare(
 				'select exists(select * from wp_bhaa_raceresult where race=%d and racenumber=%d)',$this->post_id,$racenumber)
-				//'select COUNT(*) from wp_bhaa_raceresult where race=%d and racenumber=%d',$this->post_id,$racenumber)
 		);
 		if($numberCount)
-			return 'Race number '.$racenumber.' has already been assigned!';
+			return 'Race number '.$racenumber.' has already been assigned!';*/
 		
 		// add age category 
 		$res = $this->wpdb->insert(
-				$this->getName(),
+			$this->getName(),
 				array(
-						'race' => $this->post_id,
-						'racenumber' => $racenumber,
-						'runner' => $runner,
-						'racetime' => date('H:i:s'),
-						'standard' => $standard,
-						'standardscoringset' => $money,
-						'class' => RaceResult::RACE_REG
-				));
+					'race' => $this->post_id,
+					'racenumber' => $racenumber,
+					'runner' => $runner,
+					'racetime' => date('H:i:s'),
+					'standard' => $standard,
+					'standardscoringset' => $money,
+					'class' => RaceResult::RACE_REG
+			));
 		error_log('racedayresult registerRunner '.$res);
 		return $res;
 	}
