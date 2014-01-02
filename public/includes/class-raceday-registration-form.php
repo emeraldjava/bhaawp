@@ -2,7 +2,7 @@
 class Raceday_Registration_Form {
 	
 	public function build_form(WP_Form $form) {
-		$form->add_class('wp-form');
+		$form->add_class('form-horizontal'); //class="form-horizontal"
 		$args = func_get_args();
 		call_user_func_array(array($this, 'bhaaRegisterForm'), $args);
 	}
@@ -14,15 +14,19 @@ class Raceday_Registration_Form {
 		$form
 			->add_element( WP_Form_Element::create('number')
 				->set_name('number')->set_id('number')
-				->set_label('Race Number'))
+				->set_label('Race Number')
+				->set_classes('form-group')
+			)
 			->add_element( WP_Form_Element::create('number')
 				->set_name('runner')->set_id('runner')
-				->set_label('BHAA ID'))
-			->add_element(WP_Form_Element::create('text')->set_name('firstname')->set_label('First Name')->set_id('firstname'))
-			->add_element(WP_Form_Element::create('text')->set_name('lastname')->set_label('Last Name')->set_id('lastname'))
+				->set_label('BHAA ID')
+				->set_classes('form-group')
+			)
+			->add_element(WP_Form_Element::create('text')->set_name('firstname')->set_label('First Name')->set_id('firstname')->set_classes('form-group'))
+			->add_element(WP_Form_Element::create('text')->set_name('lastname')->set_label('Last Name')->set_id('lastname')->set_classes('form-group'))
 			->add_element(WP_Form_Element::create('submit')
 				->set_name('submit')
-				->set_label('Register Runner'))
+				->set_label('Register Runner')->set_classes('form-group'))
 			->add_validator(array($this,'bhaa_validation_callback'))
 			->add_processor(array($this,'bhaa_processing_callback'));
 	}
