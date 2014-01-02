@@ -101,7 +101,7 @@ class Bhaa {
 				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 			} else {
 				$pagename = get_query_var('pagename');
-				error_log($post->ID.' '.$pagename);
+				//error_log($post->ID.' '.$pagename);
 				return Raceday::get_instance()->handlePage($pagename);
 			}
 		}
@@ -490,18 +490,18 @@ class Bhaa {
 		wp_enqueue_script('bhaawp');
 		
 		wp_register_script(
-		'bhaa_members',
-		plugins_url( '/../admin/assets/js/bhaa_members.js', __FILE__ ),
-		array('jquery')
+			'bhaa_members',
+			plugins_url( '/../admin/assets/js/bhaa_members.js', __FILE__ ),
+			array('jquery')
 		);
 		wp_enqueue_script('bhaa_members');
 		
-		wp_register_script(
+/*		wp_register_script(
 		'bhaa-raceday',
 		plugins_url( '/../admin/assets/js/bhaa-raceday.js', __FILE__ ),
 		array('jquery')
 		);
-		wp_enqueue_script('bhaa-raceday');
+		wp_enqueue_script('bhaa-raceday');*/
 		
 		// 		wp_register_script(
 		// 		'bootstrap-js',

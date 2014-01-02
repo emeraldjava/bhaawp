@@ -37,7 +37,7 @@ class Raceday
 	}
 	
 	function handlePage($pagename) {
-		error_log('handlePage('.$pagename.')');
+		//error_log('handlePage('.$pagename.')');
 		switch($pagename){
 			case 'raceday-register':
 				//$this->registerForm();

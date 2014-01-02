@@ -24,10 +24,10 @@ class Raceday_Registration_Form {
 				->set_label('Race Number')
 				->set_classes(array('form-group'))->set_attribute('class','form-group');
 
-		$race_drop_down = WP_Form_Element::create('radios')->set_name('single_select')->set_label('Race')->set_classes('form-group');
+		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')->set_classes('form-group');
 		$race_drop_down
-			->add_option(W, '2M Women')
-			->add_option(M, '4Mile Men');
+			->add_option(4,'4Mile Men')
+			->add_option(2,'2M Women');
 		
 		$runner = WP_Form_Element::create('number')
 				->set_name('runner')->set_id('runner')
@@ -36,6 +36,16 @@ class Raceday_Registration_Form {
 
 		$firstname = WP_Form_Element::create('text')->set_name('firstname')->set_label('First Name')->set_id('firstname')->set_classes('form-group');
 		$lastname = WP_Form_Element::create('text')->set_name('lastname')->set_label('Last Name')->set_id('lastname')->set_classes('form-group');
+		
+		$gender_drop_down = WP_Form_Element::create('radios')->set_name('gender')->set_label('Gender')->set_classes('form-group');
+		$gender_drop_down
+			->add_option(M,'M')
+			->add_option(W,'W');
+		
+		$dateofbirth = WP_Form_Element::create('text')->set_name('dateofbirth')->set_label('DoB')->set_id('dateofbirth')->set_classes('form-group');
+		$company = WP_Form_Element::create('text')->set_name('company')->set_label('Company')->set_id('company')->set_classes('form-group');
+		$standard = WP_Form_Element::create('text')->set_name('standard')->set_label('Standard')->set_id('standard')->set_classes('form-group');
+		
 		
 /*		$race_inputs->add_element($number);
 		$race_inputs->add_element($runner);
@@ -48,6 +58,10 @@ class Raceday_Registration_Form {
 			->add_element($runner)
 			->add_element($firstname)
 			->add_element($lastname)
+			->add_element($gender_drop_down)
+			->add_element($dateofbirth)
+			->add_element($company)
+			->add_element($standard)
 			->add_element(WP_Form_Element::create('submit')
 				->set_name('submit')
 				->set_value('Register Runner')

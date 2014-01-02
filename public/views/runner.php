@@ -1,7 +1,7 @@
 <?php 
 
-echo "<pre>GET "; print_r($_GET); echo "</pre>";
-echo "<pre>POST "; print_r($_POST); echo "</pre>";
+//echo "<pre>GET "; print_r($_GET); echo "</pre>";
+//echo "<pre>POST "; print_r($_POST); echo "</pre>";
 
 //echo 'BHAA Runner Page : Name = '.$_REQUEST['user_nicename'];
 if(isset($_REQUEST['user_nicename']))
@@ -16,11 +16,11 @@ if(isset($user->ID)){
 	//if( ( is_user_logged_in()&&($current_user->ID==$user->ID) ) ||current_user_can('manage_options'))
 		
 	//echo 'BHAA Runner Page '.print_r($user,true);	
-	echo 'is_user_logged_in() '.is_user_logged_in();
+/* 	echo 'is_user_logged_in() '.is_user_logged_in();
 	echo '$current_user->ID '.$current_user->ID;
 	echo 'current_user_can(manage_options) '.current_user_can('manage_options');
 	echo 'current_user_can(edit_users)' .current_user_can('edit_users');
-	echo '<ht/>';
+	echo '<ht/>'; */
 	
 	if(isset($_POST['std-form'])) {
 		if(trim($_POST['std']) === '') {
