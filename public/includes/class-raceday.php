@@ -33,17 +33,15 @@ class Raceday
 	
 	function bhaa_register_forms() {
 		$registrationForm = new Raceday_Registration_Form();
-		wp_register_form('registerform', array($registrationForm,'build_form'));
+		wp_register_form('registerform',array($registrationForm,'build_form'));
 		
 		$dayMemberForm = new Raceday_DayMember_Form();
-		wp_register_form('registerform', array($dayMemberForm,'build_form'));
+		wp_register_form('daymemberform',array($dayMemberForm,'build_form'));
 	}
 	
 	function handlePage($pagename) {
-		//error_log('handlePage('.$pagename.')');
 		switch($pagename){
 			case 'raceday-register':
-				//$this->registerForm();
 				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-register.php';
 				break;
 			case 'raceday-newmember':

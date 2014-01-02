@@ -80,6 +80,14 @@ class Raceday_Registration_Form {
 	public function bhaa_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
 		
 		$race = $submission->get_value('race');
+		$runner = $submission->get_value('runner');
+		$racenumber = $submission->get_value('racenumber');
+		$standard = $submission->get_value('standard');
+		$money = $submission->get_value('money');
+		
+		error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
+		
+		$race = $submission->get_value('race');
 		if(!isset($race))
 			$submission->add_error('race', 'Select a Race');
 		
@@ -105,7 +113,8 @@ class Raceday_Registration_Form {
 		//if(!isset($submission->get_value('gender')))
 			//$submission->add_error('gender', 'Select a Race');
 		
-		if(!isset($submission->get_value('money')))
+		$money = $submission->get_value('money');
+		if(!isset($money))
 			$submission->add_error('money', 'Enter the money paid!');
 	}
 	
