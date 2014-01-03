@@ -166,9 +166,9 @@ class Bhaa_Admin {
 	
 	public function register_settings() {
 		register_setting( 'bhaa', 'bhaa_annual_event_id');
-		register_setting( 'bhaa', 'bhaa_import_username' );
-		register_setting( 'bhaa', 'bhaa_import_password' );
-		register_setting( 'bhaa', 'bhaa_enable_booking');
+		//register_setting( 'bhaa', 'bhaa_import_username' );
+		//register_setting( 'bhaa', 'bhaa_import_password' );
+		register_setting( 'bhaa', 'bhaa_bookings_enabled');
 	}
 		
 	/**
