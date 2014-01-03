@@ -28,7 +28,16 @@ class Events_Manager {
 		//add_action('em_form_output_field_custom_house',array($this,'bhaa_em_form_output_field_custom_house'), 10, 2);
 		//add_filter('em_form_validate_field_custom',array($this,'bhaa_em_form_validate_field_custom'), 10, 2);
 		add_filter('emp_forms_output_field_input',array($this,'bhaa_emp_forms_output_field_input'),2,3);
+		
+		//add_filters('em_event_output_placeholder',array($this,'bhaa_em_event_output_placeholder'),4,3);
+		//add_filter('em_event_output',array($this,'bhaa_em_event_output'),4,3);
 	}
+	
+	
+//	public function bhaa_em_event_output_placeholder($replace, $EM_Event, $full_result, $target){
+//		error_log(sprintf('bhaa_em_event_output_placeholder(%s %s %s %s)',$replace, $EM_Event, $full_result, $target));
+	//	return $replace;	
+	//}
 	
 	/**
 	 * http://eventsmanagerpro.com/support/requests/editable-default-ticket/
@@ -132,10 +141,18 @@ class Events_Manager {
 	 * http://wp-events-plugin.com/tutorials/create-a-custom-placeholder-for-event-formatting/
 	 */
 	function bhaa_em_event_output_placeholder($result, $EM_Event, $placeholder) {
-		if(!(substr( $placeholder, 2, 4)=="BHAA"))
+		//error_log(sprintf('bhaa_em_event_output_placeholder(%s)',$placeholder));
+		if($placeholder=='#_BOOKINGFORM') {
+			if(get_option('bhaa_bookings_enabled')==0){
+				// booking disabled
+				$result = '[alert type="general"]The online registration form is currently disabled while we prepare for the next BHAA event. Registration is available on the day at the next event. See you there[/alert]';
+			}
+			return $result;
+		}
+		else if(!(substr( $placeholder, 2, 4)=="BHAA"))
 			return $result;
 		else {
-			error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$EM_Event->post_id.' '.substr( $placeholder, 2, 4 ));
+			//error_log('bhaa_em_event_output_placeholder('.$placeholder.')='.$EM_Event->post_id.' '.substr( $placeholder, 2, 4 ));
 			$event = new Event($EM_Event->post_id);
 			switch( $placeholder ) {
 				case '#_BHAARACERESULTS':
