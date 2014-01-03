@@ -50,7 +50,7 @@ class Bhaa_Admin {
 		RaceAdmin::get_instance();
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
-		//new WPFlashMessages();
+		new WPFlashMessages();
 		
 		/*
 		 * Define custom functionality.
@@ -160,7 +160,7 @@ class Bhaa_Admin {
 		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options', 'bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
 		add_submenu_page('bhaa' ,'BHAA','Standards','manage_options', 'bhaa_admin_standards' , array(&$this, 'bhaa_admin_standards'));
 		// options panel
-		add_options_page( 'BHAA Plugin Options', 'BHAA', 'manage_options', 'bhaa-options', array(&$this,'bhaa_plugin_options'));
+		//add_options_page( 'BHAA Plugin Options', 'BHAA', 'manage_options', 'bhaa-options', array(&$this,'bhaa_plugin_options'));
 		
 	}
 	
@@ -225,11 +225,13 @@ class Bhaa_Admin {
 	 */
 	
 	function main() {
+
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
-		echo '<div class="wrap">';
-		echo '<p>BHAA Admin Page</p>';
+		include_once( 'views/bhaa_admin_main.php' );
+		//echo '<div class="wrap">';
+		//echo '<p>BHAA Admin Page</p>';
 	}
 
 	function bhaa_admin_members_json() {
@@ -418,7 +420,7 @@ class Bhaa_Admin {
 		}
 	}
 			
-	function bhaa_plugin_options() {
+	/*function bhaa_plugin_options() {
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
@@ -450,6 +452,6 @@ class Bhaa_Admin {
 		</form>
 		</div>
 		<?php 		
-	}
+	}*/
 }
 ?>
