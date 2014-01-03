@@ -122,7 +122,7 @@ jQuery(document).ready( function() {
 		}	
 	});
 	
-/*	jQuery("#memberfilter").autocomplete({
+	jQuery("#memberfilter").autocomplete({
 		source: bhaa_members,
 		minLength: 3,
 		source: function (request, response) {
@@ -147,13 +147,13 @@ jQuery(document).ready( function() {
 			} else {
 				jQuery("#gender-W").prop("checked",true);
 			}
-			return true;	
+			return false;	
 		}
-	}).data('ui-autocomplete')._renderItem = function( ul, item ) {
-		return jQuery("<li></li>")
-	    	.data("item.autocomplete", item)
+	});
+	//http://jqueryui.com/autocomplete/#custom-data
+/*	.data("ui-autocomplete")._renderItem = function( ul, item ) {
+		return jQuery("<li>")
 	    	.append("<a>"+item.label+" "+item.id+"</a><small>DOB:"+item.dob+", Status:"+item.status+", Company:"+item.companyname+"</small>")
 			.appendTo(ul);
 	};*/
-	
 });
