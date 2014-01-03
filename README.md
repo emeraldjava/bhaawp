@@ -1,22 +1,22 @@
 Overview
 ========
 
-The bhaawp is a wordpress plugin for the Business Houses Athletic Assoication.
-
-git pull origin master
-
-
-this is a change
+This project is a wordpress plugin for the Business Houses Athletic Assoication. It handles all aspects of 
+runner registration, race results and individual/team league logic.
 
 Website
 =======
 
 http://bhaa.ie
 
-Wiki
-====
+Change Log
+==========
 
-https://github.com/emeraldjava/bhaawp/wiki
+2014.1.3
+- Add disable/enable booking option.
+
+2014.1.1
+- Refactored the plugin to follow a more structured format. 
 
 Resources
 =========
@@ -107,5 +107,3 @@ http://wordpress.stackexchange.com/questions/17385/custom-post-type-templates-fr
 -- initialising
 http://tommcfarlin.com/instantiating-wordpress-plugins/
 http://jespervanengelen.com/different-ways-of-instantiating-wordpress-plugins/
-
-
