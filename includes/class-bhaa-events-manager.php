@@ -191,7 +191,7 @@ class Events_Manager {
 				foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking) {
 					$booking = $EM_Ticket_Booking->get_ticket();
 					//error_log('bhaa_em_booking_output_placeholder() '.print_r($booking,true));
-					if($booking->name=='Annual Membership 2014') {
+					if($booking->name=='Annual Membership') {
 						$membershipDetails = true;
 					} elseif($booking->name=='BHAA Member Ticket') {
 						$eventDetails = true;
