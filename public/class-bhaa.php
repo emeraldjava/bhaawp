@@ -71,6 +71,7 @@ class Bhaa {
 		add_action('wp_login',array($this,'bhaa_force_pretty_displaynames',10,2));
 		
 		add_filter('login_message',array($this,'bhaa_lost_password_message'));
+		add_filter( 'login_redirect',array($this,'bhaa_login_redirect'), 10, 3);
 		
 		remove_action('wp_head','wp_generator');
 		remove_action('wp_head','wp_shortlink_wp_head' );
@@ -79,6 +80,13 @@ class Bhaa {
 		
 		add_shortcode('pdf',array($this,'pdf_shortcode'));
 		add_shortcode('bhaa_standard_table', array(StandardCalculator::get_instance(),'bhaa_standard_table'));
+	}
+	
+	/**
+	 * http://tommcfarlin.com/redirect-non-admin/
+	 */
+	function bhaa_login_redirect( $redirect_to, $request, $user  ) {
+		return ( is_array( $user->roles ) && in_array( 'administrator', $user->roles ) ) ? admin_url() : site_url();
 	}
 	
 	/**
