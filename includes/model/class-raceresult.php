@@ -179,8 +179,8 @@ group by standardscoringset;
 		$dateofbirth = date("Y-m-d", strtotime(str_replace('/','-',$details[8])));
 		
 		// create runner
-		$runner = new Runner();
-		$exists = $runner->runnerExists($runner_id);
+		//$runner = new Runner();
+		$exists = Runner_Manager::get_instance()->runnerExists($runner_id);
 		error_log('addRaceResult position '.$details[0].' number '.$details[1].', dob '.$dateofbirth.', runner '.$runner_id.', exists '.$exists.'.');
 		
 		if(!$exists)
@@ -194,7 +194,7 @@ group by standardscoringset;
 			//else
 			//{
 				error_log('create new user with id "'.$runner_id.'" '.$details[5].' '.$details[4]);
-				$runner_id = $runner->createNewUser($details[5],$details[4],'',$details[6],$dateofbirth,$runner_id);
+				$runner_id = Runner_Manager::get_instance()->createNewUser($details[5],$details[4],'',$details[6],$dateofbirth,$runner_id);
 				if($details[11]=='')
 					update_user_meta( $runner_id, "bhaa_runner_company",1);
 				error_log('created new runner '.$runner_id);
