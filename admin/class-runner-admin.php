@@ -69,9 +69,9 @@ class RunnerAdmin {
 					return 'N/A';
 			case Connections::SECTORTEAM_TO_RUNNER :
 				$sectorTeam = p2p_get_connections(Connections::SECTORTEAM_TO_RUNNER,array('to'=>$user_id));
-				//var_dump( $sectorTeam );
+				//var_dump( get_edit_post_link($sectorTeam[0]->p2p_from) );
 				if(sizeof($sectorTeam)==1)
-					return sprintf('<a target="_new" href="/house/?id=%d">%s</a>',$sectorTeam[0]->p2p_from,get_the_title($sectorTeam[0]->p2p_from));
+					return sprintf('<a target="_new" href="%s">%s</a>',get_edit_post_link($sectorTeam[0]->p2p_from),get_the_title($sectorTeam[0]->p2p_from));
 				else 
 					return 'N/A';
 				break;
