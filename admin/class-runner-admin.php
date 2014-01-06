@@ -36,6 +36,8 @@ class RunnerAdmin {
 		$column[Runner::BHAA_RUNNER_DATEOFRENEWAL] = __('RenewalDate', Runner::BHAA_RUNNER_DATEOFRENEWAL);
 		$column[Runner::BHAA_RUNNER_DATEOFBIRTH] = __('DoB', Runner::BHAA_RUNNER_DATEOFBIRTH);
 		$column[Runner::BHAA_RUNNER_COMPANY] = __('Company', Runner::BHAA_RUNNER_COMPANY);
+		$column[Connections::HOUSE_TO_RUNNER] = __('Team', Connections::HOUSE_TO_RUNNER);
+		$column[Connections::SECTORTEAM_TO_RUNNER] = __('Sector', Connections::SECTORTEAM_TO_RUNNER);
 		return $column;
 	}
 
@@ -52,7 +54,21 @@ class RunnerAdmin {
 				return get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true);
 				break;
 			case Runner::BHAA_RUNNER_COMPANY:
+				//post_permalink
 				return get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
+				break;
+			case Connections::HOUSE_TO_RUNNER:
+				$teams = p2p_get_connections(Connections::HOUSE_TO_RUNNER,array('to'=>$user_id));
+			
+				//return p2p_connection_exists(Connections::HOUSE_TO_RUNNER); 'from' => $from,
+				//$connection_field = p2p_get_meta( $p2p_id, Connections::HOUSE_TO_RUNNER, true );
+				var_dump( $teams );
+				return p2p_connection_exists(Connections::HOUSE_TO_RUNNER,array('to' => $user_id));
+			case Connections::SECTORTEAM_TO_RUNNER :
+				$sectorTeam = p2p_get_connections(Connections::SECTORTEAM_TO_RUNNER,array('to'=>$user_id));
+				//$connection_field = p2p_get_meta( $p2p_id, 'YOUR_FIELD_KEY', true );
+				var_dump( $sectorTeam );
+				return p2p_connection_exists(Connections::SECTORTEAM_TO_RUNNER,array('to' => $user_id));
 				break;
 			default:
 		}
