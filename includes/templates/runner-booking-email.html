@@ -80,18 +80,20 @@
                                                                 After you enter your content, highlight the text you want to style and select the options you set in the style editor in the "styles" drop down box. Want to <a href="http://www.mailchimp.com/kb/article/im-using-the-style-designer-and-i-cant-get-my-formatting-to-change" target="_blank">get rid of styling on a bit of text</a>, but having trouble doing it? Just use the "clear styles" button to strip the text of any formatting and reset your style.
 																<br>-->
 
-<pre>Dear {{user.getFirstName}},
-Thank you for using the BHAA online booking tool. Details of your booking and instructions are below.
-</pre>
 
 <table cellpadding="0" cellspacing="0" border="0" summary="details">
+<tr><td span=2>
+<p>Dear {{user.getFirstName}},</p>
+<p>Thank you for using the BHAA online booking tool. Details of your booking and instructions are below.</p>
+</td>
+</tr>
 <tr><td span=2 valign="top">
 {{#membershipDetails}}
 <h3>{{event.event_name}}</h3>
 {{/membershipDetails}}
-{{^membershipDetails}}
+{{#eventDetails}}
 <h3>#_EVENTLINK</h3>
-{{/membershipDetails}}
+{{/eventDetails}}
 </td>
 <!-- dates -->
 <tr>
@@ -175,6 +177,7 @@ is NOT an event</td>
 <ul>
 {{#eventDetails}}
 <li>Please PRINT this email and bring it to the event, so we can ensure your result is matched to your record.</li>
+<li>You can collect your race number from the <b>New Members</b> desk at registration on the day of the event.</li>
 {{/eventDetails}}
 {{#membershipDetails}}
 <li>Please remember your BHAA ID when you register at races. This will help to ensure your result is matched to your record.</li>
