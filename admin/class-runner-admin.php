@@ -30,15 +30,25 @@ class RunnerAdmin {
 	 * handle the custom admin columns
 	 */
 	function bhaa_manage_users_columns( $column ) {
-		$column['status'] = __('Status', 'status');
+		unset($column['posts']);
+		unset($column['role']);
+		$column[Runner::BHAA_RUNNER_STATUS] = __('Status', Runner::BHAA_RUNNER_STATUS);
+		$column[Runner::BHAA_RUNNER_DATEOFRENEWAL] = __('RenewalDate', Runner::BHAA_RUNNER_DATEOFRENEWAL);
+		$column[Runner::BHAA_RUNNER_DATEOFBIRTH] = __('DoB', Runner::BHAA_RUNNER_DATEOFBIRTH);
 		return $column;
 	}
 
 	function bhaa_manage_users_custom_column( $val, $column_name, $user_id ) {
 		$user = get_userdata( $user_id );
 		switch ($column_name) {
-			case 'status' :
-				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true).' '.get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFRENEWAL,true);
+			case Runner::BHAA_RUNNER_STATUS :
+				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true);
+				break;
+			case BHAA_RUNNER_DATEOFRENEWAL :
+				return get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFRENEWAL,true);
+				break;
+			case Runner::BHAA_RUNNER_DATEOFBIRTH :
+				return get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true);
 				break;
 			default:
 		}
