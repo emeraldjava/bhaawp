@@ -81,68 +81,13 @@ class RunnerAdmin {
 	 * http://pippinsplugins.com/add-custom-links-to-user-row-actions/comment-page-1/#comment-133252
 	 */
 	function bhaa_runner_renew_action() {
-		//error_log('bhaa_runner_renew ID :'.$_GET['id']);
-		//error_log('bhaa_runner_renew nonce :'.$_GET['_wpnonce']);
 		if ( $_REQUEST['action'] == 'bhaa_runner_renew' 
 				&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_runner_renew_'.$_GET['id']) ) {
-			error_log('bhaa_runner_renew correct nonce :'.$_GET['id'].' '.$_GET['_wpnonce']);
-				
 			$runner = new Runner($_GET['id']);
 			$runner->renew();
-
-/* 			$user_id = $_GET['id'];
-			$action = $_GET['action'];
-			$user = get_userdata($user_id);
-			
-			update_user_meta($user_id, Runner::BHAA_RUNNER_STATUS, 'M');
-			update_user_meta($user_id, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d')); */
-			//error_log('bhaa_runner_renew : '.$user_id.' '.$user->display_name.','.$user->user_email.','.date('Y-m-d'));
-			
-			//if($user->user_email!=''||$user->user_email!=null) {
-				//ob_start();
-				//require 'renewal.php';
-				//$content = ob_get_clean();
-				//error_log($content);
-				
-				//$company = '';
-				//$company = get_post( get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true) )->post_title;
-				
-// 				error_log(sprintf('%s %d %s %s %s',
-// 					$user->display_name,
-// 					$user_id,
-// 					get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
-// 					get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true),
-// 					$company,TRUE));
-/* 				$message = "<html>renewal email</html>";
-				$messages = sprintf($content,
-					$user->display_name,
-					$user_id,
-					$user_id,
-					$user->user_email,
-					get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true),
-					get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true),
-					$company);
-				error_log($user->user_email.' '.$user->user_firstname." ".$user->user_lastname.' '.$message); */
-				
-				//Prepare headers for HTML
-/* 				$headers  = 'MIME-Version: 1.0' . "\r\n";
-				$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-				$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n"; */
-				// info@bhaa.ie
-				
-				//$res = wp_mail(
-					//$user->user_email,
-					//'BHAA Renewal 2013 : '.$user->user_firstname.' '.$user->user_lastname,
-					//$message); 
-				//	$headers); 
-					//null);
-				//error_log('email sent ? x'.$res.'x');
-			//}
 			wp_redirect(wp_get_referer());
 			exit();
 		}
-		//wp_redirect(wp_get_referer());
-		//exit();
 	}
 }
 ?>
