@@ -54,8 +54,11 @@ class RunnerAdmin {
 				return get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFBIRTH,true);
 				break;
 			case Runner::BHAA_RUNNER_COMPANY:
-				//post_permalink
-				return get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
+				$company = get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
+				
+				return get_the_title($company);
+				//return post_permalink(get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true));
+				//return get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
 				break;
 			case Connections::HOUSE_TO_RUNNER:
 				$team = p2p_get_connections(Connections::HOUSE_TO_RUNNER,array('to'=>$user_id));
@@ -68,7 +71,7 @@ class RunnerAdmin {
 				$sectorTeam = p2p_get_connections(Connections::SECTORTEAM_TO_RUNNER,array('to'=>$user_id));
 				//var_dump( $sectorTeam );
 				if(sizeof($sectorTeam)==1)
-					return $sectorTeam[0]->p2p_from;
+					return sprintf('<a target="_new" href="/house/?id=%d">%s</a>',$sectorTeam[0]->p2p_from,get_the_title($sectorTeam[0]->p2p_from));
 				else 
 					return 'N/A';
 				break;
