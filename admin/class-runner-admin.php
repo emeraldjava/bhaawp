@@ -55,7 +55,6 @@ class RunnerAdmin {
 				break;
 			case Runner::BHAA_RUNNER_COMPANY:
 				$company = get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
-				
 				return get_the_title($company);
 				//return post_permalink(get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true));
 				//return get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
@@ -64,7 +63,7 @@ class RunnerAdmin {
 				$team = p2p_get_connections(Connections::HOUSE_TO_RUNNER,array('to'=>$user_id));
 				//var_dump( $teams );
 				if(sizeof($team)==1)
-					return $team[0]->p2p_from;
+					return sprintf('<a target="_new" href="%s">%s</a>',get_edit_post_link($team[0]->p2p_from),get_the_title($team[0]->p2p_from));
 				else
 					return 'N/A';
 			case Connections::SECTORTEAM_TO_RUNNER :
