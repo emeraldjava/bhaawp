@@ -58,17 +58,19 @@ class RunnerAdmin {
 				return get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
 				break;
 			case Connections::HOUSE_TO_RUNNER:
-				$teams = p2p_get_connections(Connections::HOUSE_TO_RUNNER,array('to'=>$user_id));
-			
-				//return p2p_connection_exists(Connections::HOUSE_TO_RUNNER); 'from' => $from,
-				//$connection_field = p2p_get_meta( $p2p_id, Connections::HOUSE_TO_RUNNER, true );
-				var_dump( $teams );
-				return p2p_connection_exists(Connections::HOUSE_TO_RUNNER,array('to' => $user_id));
+				$team = p2p_get_connections(Connections::HOUSE_TO_RUNNER,array('to'=>$user_id));
+				//var_dump( $teams );
+				if(sizeof($team)==1)
+					return $team[0]->p2p_from;
+				else
+					return 'N/A';
 			case Connections::SECTORTEAM_TO_RUNNER :
 				$sectorTeam = p2p_get_connections(Connections::SECTORTEAM_TO_RUNNER,array('to'=>$user_id));
-				//$connection_field = p2p_get_meta( $p2p_id, 'YOUR_FIELD_KEY', true );
-				var_dump( $sectorTeam );
-				return p2p_connection_exists(Connections::SECTORTEAM_TO_RUNNER,array('to' => $user_id));
+				//var_dump( $sectorTeam );
+				if(sizeof($sectorTeam)==1)
+					return $sectorTeam[0]->p2p_from;
+				else 
+					return 'N/A';
 				break;
 			default:
 		}
