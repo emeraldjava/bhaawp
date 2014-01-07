@@ -74,8 +74,8 @@ gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,
 standard.meta_value as standard,status.meta_value as status,
 house.id as companyid, 
 house.post_title as companyname,
-r2c.p2p_from as teamid,
-r2s.p2p_from as sectorteamid,
+CASE WHEN r2s.p2p_from IS NOT NULL THEN r2s.p2p_from ELSE r2c.p2p_from END as teamid,
+CASE WHEN r2s.p2p_from IS NOT NULL THEN sectorteam.post_title ELSE house.post_title END as teamname,
 standardscoringset
 from wp_bhaa_raceresult
 JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type='event_to_race')
@@ -83,7 +83,7 @@ JOIN wp_users on (wp_users.id=wp_bhaa_raceresult.runner)
 left join wp_p2p r2c ON (r2c.p2p_to=wp_users.id AND r2c.p2p_type = 'house_to_runner')
 left join wp_p2p r2s ON (r2s.p2p_to=wp_users.id AND r2s.p2p_type = 'sectorteam_to_runner')
 left join wp_posts house on (house.id=r2c.p2p_from and house.post_type='house')
-left join wp_posts sector on (sector.id=r2s.p2p_from and house.post_type='house')
+left join wp_posts sectorteam on (sectorteam.id=r2s.p2p_from and sectorteam.post_type='house')
 left join wp_usermeta firstname ON (firstname.user_id=wp_users.id AND firstname.meta_key = 'first_name')
 left join wp_usermeta lastname ON (lastname.user_id=wp_users.id AND lastname.meta_key = 'last_name')
 left join wp_usermeta gender ON (gender.user_id=wp_users.id AND gender.meta_key = 'bhaa_runner_gender')
