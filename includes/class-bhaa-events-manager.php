@@ -114,23 +114,22 @@ class Events_Manager {
 			);
 			$csv = implode(',',array_map(function($val){return $val->ID;},$sectorTeamQuery->posts) );
 			$args = array (
-				'id' => 'house',//$field['name'],//$field_name,
-				'name' => 'house',//$field['name'],//$field_name,
+				'id' => $field['fieldid'],
+				'name' => $field['fieldid'],
 				'echo' => 1,
 				'post_type' => 'house',
 				'exclude' => $csv
 			);
 				
 			global $current_user;
-			$selected = get_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,true);			
+			$selected = get_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,true);	
 			// set the correct defaults for new or existing user
-			if($selected==0) {
+			if($selected==0||$selected=='') {
 				$args = array_merge( $args, array( 'show_option_none' => 'Please select a company' ) );
 				$args = array_merge( $args, array( 'option_none_value' => '1' ) );
 			} else {
 				$args = array_merge( $args, array( 'selected' => $selected ) );
 			}
-			//error_log('wp_dropdown_pages args '.print_r($args,true));
 			wp_dropdown_pages($args);
 		}
 		else
