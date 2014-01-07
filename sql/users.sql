@@ -1,3 +1,75 @@
+select * from wp_usermeta where user_id=1
+
+select * from wp_usermeta where user_id=7713 and meta_key='bhaa_runner_company';
+
+update wp_usermeta set meta_value=97 where user_id=7713 and meta_key='bhaa_runner_company';
+update wp_usermeta set meta_value='' where user_id=7713 and meta_key='bhaa_runner_company';
+
+select * from wp_posts where ID=1;
+
+
+select * from wp_p2p where p2p_to=6704
+UNION
+select * from wp_p2p where p2p_from=6704
+
+select * from wp_p2p where p2p_to=7194
+UNION
+select * from wp_p2p where p2p_from=7194
+
+select * from wp_bhaa_raceresult where class='RACE_REG';
+delete from wp_bhaa_raceresult where class='RACE_REG';
+
+-- raceday-members SQL
+select wp_users.id as id,wp_users.id as value,
+wp_users.display_name as label,
+first_name.meta_value as firstname,
+last_name.meta_value as lastname,
+status.meta_value as status,
+gender.meta_value as gender,
+dob.meta_value as dob,
+company.meta_value as company,
+house.post_title as companyname,
+standard.meta_value as standard
+from wp_users
+left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key="first_name")
+left join wp_usermeta last_name on (last_name.user_id=wp_users.id and last_name.meta_key="last_name")
+left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key="bhaa_runner_status")
+left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
+left join wp_usermeta dob on (dob.user_id=wp_users.id and dob.meta_key="bhaa_runner_dateofbirth")
+left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
+left join wp_posts house on (house.id=company.meta_value and house.post_type="house")
+left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
+where status.meta_value IN('M','I') and wp_users.id in(6704,7194,7713) order by lastname,firstname;
+
+-- Export SQL
+SELECT wp_bhaa_raceresult.id,runner,racenumber,race,
+firstname.meta_value as firstname,lastname.meta_value as lastname,
+gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,
+standard.meta_value as standard,status.meta_value as status,
+house.id as company, 
+CASE WHEN house.post_title IS NULL THEN companyname.post_title ELSE house.post_title END as companyname,
+CASE WHEN sector.id IS NOT NULL THEN sector.id ELSE house.id END as teamid,
+CASE WHEN sector.post_title IS NOT NULL THEN sector.post_title ELSE house.post_title END as teamname,
+standardscoringset
+from wp_bhaa_raceresult
+JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type='event_to_race')
+JOIN wp_users on (wp_users.id=wp_bhaa_raceresult.runner) 
+left join wp_p2p r2c ON (r2c.p2p_to=wp_users.id AND r2c.p2p_type = 'house_to_runner')
+left join wp_posts house on (house.id=r2c.p2p_from and house.post_type='house')
+left join wp_p2p r2s ON (r2s.p2p_to=wp_users.id AND r2s.p2p_type = 'sectorteam_to_runner')
+left join wp_posts sector on (sector.id=r2s.p2p_from and house.post_type='house')
+left join wp_usermeta firstname ON (firstname.user_id=wp_users.id AND firstname.meta_key = 'first_name')
+left join wp_usermeta lastname ON (lastname.user_id=wp_users.id AND lastname.meta_key = 'last_name')
+left join wp_usermeta gender ON (gender.user_id=wp_users.id AND gender.meta_key = 'bhaa_runner_gender')
+left join wp_usermeta dateofbirth ON (dateofbirth.user_id=wp_users.id AND dateofbirth.meta_key = 'bhaa_runner_dateofbirth')
+left join wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = 'bhaa_runner_status')
+left join wp_usermeta standard ON (standard.user_id=wp_users.id AND standard.meta_key = 'bhaa_runner_standard')
+left join wp_usermeta company ON (company.user_id=wp_users.id AND company.meta_key = 'bhaa_runner_company')
+left join wp_posts companyname on (companyname.id=company.meta_value and companyname.post_type='house')
+where wp_bhaa_raceresult.class='RACE_REG' 
+
+
+
 
 -- create table
 create table gluser_bhaarunner (
