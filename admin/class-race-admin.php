@@ -160,6 +160,11 @@ class RaceAdmin {
 				wp_redirect(wp_get_referer());
 				exit();
 				break;
+			case 'bhaa-raceday-export':
+				error_log("call bhaa-raceday-export admin");
+				Raceday::get_instance()->export();
+				exit();
+				break;
 		}
 	}
 	

@@ -53,9 +53,10 @@ class Raceday
 			case 'raceday-list':
 				$this->listRunners();			
 				break;
-			case 'raceday-export':
-				$this->export();
-				break;
+			//case 'raceday-export':
+				//include_once BHAA_PLUGIN_DIR.'/public/views/raceday-newmember.php';
+				//$this->export();
+				//break;
 			case 'raceday-cash':
 				$this->cash();
 				break;
@@ -124,7 +125,7 @@ class Raceday
 	 * Return the list of registered runners
 	 */
 	function listRegisteredRunners($limit=0,$class='RACE_REG',$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
-		$event = new EventModel(3030);//$this->event->post_id);
+		$event = new EventModel(3032);//$this->event->post_id);
 		return $event->listRegisteredRunners($limit,$class,$order);
 	}
 	
@@ -150,7 +151,8 @@ class Raceday
 	 * Export the csv file for racetec
 	 */
 	function export() {
-		$event = new EventModel($this->event->post_id);
+		error_log("export");
+		$event = new EventModel(3032);//$this->event->post_id);
 		$runners = $event->listRegisteredRunners();
 
 		$output = "";
@@ -203,8 +205,17 @@ class Raceday
 		header("Content-Length: ".strlen($output));
 		header("Content-type: text/x-csv");
 		header("Content-Disposition: attachment; filename=".$this->event->event_slug.".csv");
+	//	ob_end_clean();
+		
+		//http://faisonz.com/creating-a-wordpress-plugin-to-export-mysql-data-as-csv/
+//		$fp = fopen('php://output', 'w');
+	//	fputcsv($fp, $output);
+		//fclose($fp);
+		// This function removes all content from the output buffer
+		//ob_end_clean();
+		error_log("done");
 		echo $output;
-		exit;		
+		//exit;		
 	}
 }
 ?>

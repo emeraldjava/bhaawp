@@ -25,8 +25,8 @@ class Raceday_Registration_Form {
 
 		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')->set_classes(array('form-group'));
 		$race_drop_down
-			->add_option(3254,'4Mile Men')
-			->add_option(3252,'2M Women');
+			->add_option(3256,'5Mile Men')
+			->add_option(3255,'2M Women');
 			
 		$money_drop_down = WP_Form_Element::create('radios')->set_name('money')->set_label('Money')->set_classes(array('form-group'));
 		$money_drop_down
@@ -85,7 +85,7 @@ class Raceday_Registration_Form {
 		$standard = $submission->get_value('standard');
 		$money = $submission->get_value('money');
 		
-		error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
+		//error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
 		
 		$race = $submission->get_value('race');
 		if(!isset($race))
@@ -126,7 +126,7 @@ class Raceday_Registration_Form {
 		$standard = $submission->get_value('standard');
 		$money = $submission->get_value('money');
 		
-		error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
+		//error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
 		Raceday::get_instance()->registerRunner($race, $runner, $racenumber, $standard, $money);
 		
 		// redirect the user after the form is submitted successfully
