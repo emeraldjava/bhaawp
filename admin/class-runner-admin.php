@@ -94,6 +94,7 @@ class RunnerAdmin {
 					),
 				'bhaa_runner_renew_'.$user->ID)
 			.'">'. __('Renew', 'bhaa').'</a>';
+			$actions['bhaa_runner_view'] = '<a target="_new" href="/runner/?id='.$user->ID.'">View</a>';
 		}
 		return $actions;
 	}
