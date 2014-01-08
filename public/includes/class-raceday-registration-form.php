@@ -13,6 +13,9 @@ class Raceday_Registration_Form {
 	 */
 	private function bhaaRegisterForm(WP_Form $form) {
 		
+		$layout = new WP_FormsDemo_TableLayout();
+		$layout->add_hooks();
+		
 		$race_inputs = WP_Form_Element::create('fieldset')->
 			set_name('race_inputs')->set_label('Race Details');//->set_classes('row')->set_classes(' col-md-6');
 		$runner_inputs = WP_Form_Element::create('fieldset')->

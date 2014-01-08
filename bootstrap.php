@@ -35,6 +35,11 @@ require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standardcalculator.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-registration-form.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-daymember-form.php');
+
+require_once(BHAA_PLUGIN_DIR.'/public/includes/WP_FormsDemo_TableLayout.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/WP_FormsDemo_View_TableFieldset.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/WP_FormsDemo_View_TableForm.php');
+
 // model
 require_once(BHAA_PLUGIN_DIR.'/includes/model/interface-table.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-basemodel.php');
