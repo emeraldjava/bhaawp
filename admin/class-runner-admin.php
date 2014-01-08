@@ -33,11 +33,11 @@ class RunnerAdmin {
 		unset($column['posts']);
 		unset($column['role']);
 		$column[Runner::BHAA_RUNNER_STATUS] = __('Status', Runner::BHAA_RUNNER_STATUS);
-		$column[Runner::BHAA_RUNNER_DATEOFRENEWAL] = __('RenewalDate', Runner::BHAA_RUNNER_DATEOFRENEWAL);
+		$column[Runner::BHAA_RUNNER_DATEOFRENEWAL] = __('Renewal', Runner::BHAA_RUNNER_DATEOFRENEWAL);
 		$column[Runner::BHAA_RUNNER_DATEOFBIRTH] = __('DoB', Runner::BHAA_RUNNER_DATEOFBIRTH);
 		$column[Runner::BHAA_RUNNER_COMPANY] = __('Company', Runner::BHAA_RUNNER_COMPANY);
 		$column[Connections::HOUSE_TO_RUNNER] = __('Team', Connections::HOUSE_TO_RUNNER);
-		$column[Connections::SECTORTEAM_TO_RUNNER] = __('Sector', Connections::SECTORTEAM_TO_RUNNER);
+		$column[Connections::SECTORTEAM_TO_RUNNER] = __('SectorTeam', Connections::SECTORTEAM_TO_RUNNER);
 		return $column;
 	}
 
@@ -55,7 +55,10 @@ class RunnerAdmin {
 				break;
 			case Runner::BHAA_RUNNER_COMPANY:
 				$company = get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
-				return get_the_title($company);
+				if(isset($company))
+					return sprintf('<a target="_new" href="%s">%s</a>',get_edit_post_link($company),get_the_title($company));
+				else
+					return get_the_title($company);
 				//return post_permalink(get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true));
 				//return get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
 				break;
