@@ -16,6 +16,9 @@ class Events_Manager {
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'),10,2);
 		add_filter('em_bookings_get_tickets',array($this,'bhaa_em_add_default_tickets'),1,2);
 		
+		// http://snippets.webaware.com.au/snippets/events-manager-pro-and-required-user-fields/
+		add_filter('emp_form_validate_field',array($this,'bhaa_emp_form_validate_field'),10,4);
+		
 		// em_booking_form_before_tickets
 		// em_booking_form_after_tickets
 		// em_booking_form_before_user_details
@@ -33,6 +36,18 @@ class Events_Manager {
 		//add_filter('em_event_output',array($this,'bhaa_em_event_output'),4,3);
 	}
 	
+	function bhaa_emp_form_validate_field($result, $field, $value, $EM_Form) {
+	    // if field has validation error and user is a user admin, ignore error
+	    if (!$result && $field['fieldid']==Runner::BHAA_RUNNER_COMPANY) {
+	    	if($value==''|$value==0)
+	    		$value=1;
+	    	error_log('bhaa_emp_form_validate_field Runner::BHAA_RUNNER_COMPANY='.$value.' suppress warning');
+	    	error_log(print_r($field,true));
+	    	$result = true;
+	        array_pop($EM_Form->errors);
+	    }
+	    return $result;
+	}
 	
 //	public function bhaa_em_event_output_placeholder($replace, $EM_Event, $full_result, $target){
 //		error_log(sprintf('bhaa_em_event_output_placeholder(%s %s %s %s)',$replace, $EM_Event, $full_result, $target));
