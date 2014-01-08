@@ -139,4 +139,10 @@ class Connections {
 			error_log($re->get_error_message());
 		return $re;
 	}
+	
+	function getRunnerConnections($user_id) {
+		global $wpdb;
+		return $wpdb->get_results($wpdb->prepare('select * from wp_p2p where p2p_to=%d
+			UNION select * from wp_p2p where p2p_from=%d',$user_id,$user_id));
+	}
 }
