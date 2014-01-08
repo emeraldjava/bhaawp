@@ -26,10 +26,10 @@ jQuery(document).ready( function() {
 			}
 			return true;	
 		}
-	}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+	});/*.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 		return jQuery("<li></li>")
 	    	.data("item.autocomplete", item)
 	    	.append("<a>"+item.label+" "+item.id+"</a><small>DOB:"+item.dob+", Status:"+item.status+", Company:"+item.companyname+"</small>")
 			.appendTo(ul);
-	};
+	};*/
 });
