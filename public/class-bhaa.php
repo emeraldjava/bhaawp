@@ -115,7 +115,8 @@ class Bhaa {
 			}
 		}
 		else if($post->post_type=='house')
-			return 'BHAA House '.$post->ID.' '.$post->post_title;
+			include_once('views/house.php');
+			//return 'BHAA House '.$post->ID.' '.$post->post_title;
 		else if($post->post_type=='race')
 			return 'BHAA Race '.$post->ID.' '.$post->post_title;
 		else if($post->post_type=='league')
