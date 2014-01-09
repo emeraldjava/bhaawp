@@ -9,7 +9,7 @@ get_header();
 
 		<?php 
 		$args = array(
-				'smallest'                  => 12,
+				'smallest'                  => 8,
 				'largest'                   => 22,
 				'unit'                      => 'pt',
 				'number'                    => 45,
@@ -18,6 +18,7 @@ get_header();
 				'orderby'                   => 'name',
 				'order'                     => 'ASC',
 				'exclude'                   => '5',
+				'link'                      => 'view',
 				//    'include'                   => null,
 				//    'topic_count_text_callback' => default_topic_count_text,
 				//    'link'                      => 'view',
