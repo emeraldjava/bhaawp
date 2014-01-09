@@ -114,9 +114,8 @@ class Bhaa {
 				return Raceday::get_instance()->handlePage($pagename);
 			}
 		}
-		else if($post->post_type=='house')
-			include_once('views/house.php');
-			//return 'BHAA House '.$post->ID.' '.$post->post_title;
+		//else if($post->post_type=='house')
+			//include_once('views/house.php');
 		else if($post->post_type=='race')
 			return 'BHAA Race '.$post->ID.' '.$post->post_title;
 		else if($post->post_type=='league')

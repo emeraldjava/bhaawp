@@ -1,5 +1,11 @@
+<?php get_header(); ?>
 <section id="primary">
 <?php 
+//echo "<pre>GET "; print_r($_GET); echo "</pre>";
+//echo "<pre>POST "; print_r($_POST); echo "</pre>";
+global $post;
+//echo "<pre>post ".var_dump($post)."</pre>";
+
 if ( has_post_thumbnail() ) 
 { // check if the post has a Post Thumbnail assigned to it.
 	//echo '<a href="'.get_post_meta(get_the_ID(),'bhaa_company_website',true).'" title="'.the_title_attribute().'" >';
@@ -15,7 +21,7 @@ if($teamtype[0]->name=='sector') {
 }
 $users = get_users( array(
 		'connected_type' => $connected_type,
-		'connected_items' => $post,
+		'connected_items' => $post->ID,
 		'fields' => 'all_with_meta',
 		'orderby' => 'display_name',
 		'order' => 'ASC'
@@ -60,3 +66,4 @@ echo do_shortcode(
 ?>
 
 </section>
+<?php //get_footer(); ?>

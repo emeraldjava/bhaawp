@@ -1,12 +1,11 @@
 <?php
-class HouseCpt
-{
+class HouseCpt {
+	
 	const TEAM_TYPE = 'teamtype';
 	const COMPANY_TEAM = 'company';
 	const SECTOR_TEAM = 'sector';
 	
-	function __construct()
-	{
+	function __construct() {
 		add_action( 'init', array(&$this,'bhaa_register_cpt_house'));
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamtype'));
@@ -15,6 +14,11 @@ class HouseCpt
 		// display the admin status column
 		add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
 		add_filter('manage_house_posts_custom_column',array($this,'bhaa_manage_house_posts_custom_column'), 10, 3 );
+		add_filter('single_template', array(&$this,'bhaa_single_house_template'));
+	}
+	
+	function bhaa_single_house_template() {
+		include_once(BHAA_PLUGIN_DIR.'/public/views/house.php');
 	}
 	
  	function bhaa_manage_house_posts_columns( $columns ) {
