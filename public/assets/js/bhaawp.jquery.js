@@ -293,12 +293,17 @@ jQuery(document).ready( function() {
 			return false;	
 		}
 	})
-	//.data("ui-autocomplete")._renderItem = function( ul, item ) {
-	//	return jQuery("<li>")
-	//    	.append("<a>"+item.label+" "+item.id+"</a><small>DOB:"+item.dob+", Status:"+item.status+", Company:"+item.companyname+"</small>")
-	//		.appendTo(ul);
-	//}
-	;
+	.data("ui-autocomplete")._renderItem = function(ul,item){
+		return jQuery("<li></li>")
+	    	.append("<a>"+item.label+" "+item.id+"</a><small>DOB:"+item.dob+", Status:"+item.status+", Company:"+item.companyname+"</small>")
+	    	.data("ui-autocomplete-item", item)
+			.appendTo(ul);
+	};
+	/**
+	 * http://jqueryui.com/autocomplete/#custom-data
+	 * http://stackoverflow.com/questions/14461787/jqueryui-1-10-0-autocompleter-renderitem-problems
+	 * http://jsfiddle.net/XsskB/1/
+	 */
 	//http://jqueryui.com/autocomplete/#custom-data
 
 });
