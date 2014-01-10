@@ -123,6 +123,7 @@ jQuery(document).ready( function() {
 	});
 	
 	/* 
+	 * http://jqueryui.com/autocomplete/#combobox
 	 http://odoepner.wordpress.com/2012/07/11/autocomplete-combobox-using-jquery-ui/
 	 http://www.learningjquery.com/2010/06/a-jquery-ui-combobox-under-the-hood/
 	 http://jsfiddle.net/69akn/
