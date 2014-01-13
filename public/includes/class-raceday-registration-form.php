@@ -9,7 +9,7 @@ class Raceday_Registration_Form {
 		call_user_func_array(array($this, 'bhaaRegisterForm'), $args);
 	}
 
-	public function bhaa_wp_form_label_html_class(){
+	public function bhaa_wp_form_label_html_class() {
 		return 'col-md-4 control-label';
 	}
 	
@@ -93,27 +93,7 @@ class Raceday_Registration_Form {
 		->add_element($runnerFieldSet)
 		->add_element($bhaaFieldSet)
 		->add_validator(array($this,'bhaa_validation_callback'))
-		->add_processor(array($this,'bhaa_processing_callback'));
-		
-		/*
-		$form->set_attribute('role','form')
-			->add_element($racenumber)
-			->add_element($race_drop_down)
-			->add_element($money_drop_down)
-			->add_element($runner)
-			->add_element($firstname)
-			->add_element($lastname)
-			->add_element($gender_drop_down)
-			->add_element($dateofbirth)
-			->add_element($company)
-			->add_element($standard)
-			->add_element(WP_Form_Element::create('submit')
-				->set_name('submit')
-				->set_value('Register Runner')
-				->set_label('Register Runner')
-				->set_classes(array('form-group')))
-			->add_validator(array($this,'bhaa_validation_callback'))
-			->add_processor(array($this,'bhaa_processing_callback'));*/
+		->add_processor(array($this,'bhaa_processing_callback'));	
 	}
 	
 	public function bhaa_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
