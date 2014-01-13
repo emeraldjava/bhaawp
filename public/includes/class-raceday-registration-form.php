@@ -10,7 +10,7 @@ class Raceday_Registration_Form {
 	}
 
 	public function bhaa_wp_form_label_html_class() {
-		return 'col-md-4 control-label';
+		return 'col-md-4 control-label radio-inline';
 	}
 	
 	/**
@@ -36,12 +36,14 @@ class Raceday_Registration_Form {
 			->set_name('racenumber')->set_id('racenumber')
 			->set_label('Race Number')->set_classes(array('form-control'));
 
-		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')->set_classes(array('form-control'));
+		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')
+			->set_classes(array('form-control'));
 		$race_drop_down
 			->add_option(3256,'5Mile Men')
 			->add_option(3255,'2M Women');
 			
-		$money_drop_down = WP_Form_Element::create('radios')->set_name('money')->set_label('Money')->set_classes(array('col-md-8 form-control'));
+		$money_drop_down = WP_Form_Element::create('radios')->set_name('money')->set_label('Money')
+			->set_classes(array('form-control'));
 		$money_drop_down
 			->add_option(1,'10e Member')
 			->add_option(3,'25e Renew')
@@ -62,7 +64,7 @@ class Raceday_Registration_Form {
 		$lastname = WP_Form_Element::create('text')->set_name('lastname')
 			->set_label('Last Name')->set_id('lastname')->set_classes(array('col-md-8 form-control'));
 		
-		$gender_drop_down = WP_Form_Element::create('radios')->set_name('gender')->set_label('Gender')->set_classes(array('form-group'));
+		$gender_drop_down = WP_Form_Element::create('radios')->set_name('gender')->set_label('Gender')->set_classes(array('radio-inline'));
 		$gender_drop_down
 			->add_option(M,'M')
 			->add_option(W,'W');

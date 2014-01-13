@@ -123,6 +123,21 @@ class Bhaa_Admin {
 				plugins_url( 'assets/js/admin.js', __FILE__ ), 
 				array( 'jquery' ), wp_flickr::VERSION );
 		}
+		
+		/*
+		wp_register_script(
+			'bhaa_members',
+			plugins_url( '/../admin/assets/js/bhaa_members.js'),
+			array('jquery')
+		);
+		wp_enqueue_script('bhaa_members');
+		
+		wp_register_script(
+			'bhaa-raceday',
+			content_url().'/plugins/bhaawp-master/assets/js/bhaa-raceday.js');
+		wp_enqueue_script('bhaa-raceday');
+		*/
+		
 	}
 	
 	/**
