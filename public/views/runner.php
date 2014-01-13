@@ -201,7 +201,7 @@ if(isset($user->ID)){
 		}
 		echo '<hr/>';
 		
-		var_dump(Connections::get_instance()->getRunnerConnections($user->ID));
+		//var_dump(Connections::get_instance()->getRunnerConnections($user->ID));
 	}
 	
 	if( current_user_can('manage_options') )
