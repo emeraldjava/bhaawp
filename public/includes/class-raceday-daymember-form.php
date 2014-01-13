@@ -61,64 +61,69 @@ class Raceday_DayMember_Form {
 		
 		$form->add_element($eventFieldSet)
 			->add_element($runnerFieldSet)
-			->add_validator(array($this,'bhaa_validation_callback'))
-			->add_processor(array($this,'bhaa_processing_callback'));
+			->add_validator(array($this,'bhaa_day_validation_callback'))
+			->add_processor(array($this,'bhaa_day_processing_callback'));
 	}
 	
 	public function bhaa_day_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
 		
-		$race = $submission->get_value('race');
-		$runner = $submission->get_value('runner');
-		$racenumber = $submission->get_value('racenumber');
-		$money = $submission->get_value('money');
+		$race = $submission->get_value('bhaa_race');
+		$runner = $submission->get_value('bhaa_runner');
+		$racenumber = $submission->get_value('bhaa_racenumber');
+		$standard = $submission->get_value('bhaa_standard');
+		$money = $submission->get_value('bhaa_money');
 		
-		error_log(sprintf('bhaa_processing_callback(%s %s %s %se)',$race,$runner,$racenumber,$money));
+		//error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
 		
-		$race = $submission->get_value('race');
+		$race = $submission->get_value('bhaa_race');
 		if(!isset($race))
-			$submission->add_error('race', 'Select a Race');
+			$submission->add_error('bhaa_race', 'Select a Race');
 		
-		$runner = $submission->get_value('runner');
-		$racenumber = $submission->get_value('racenumber');
+		$runner = $submission->get_value('bhaa_runner');
+		$racenumber = $submission->get_value('bhaa_racenumber');
 		if($racenumber==0)
-			$submission->add_error('racenumber', 'Enter a valid race number');
+			$submission->add_error('bhaa_racenumber', 'Enter a valid race number');
 
 		global $wpdb;
 		$runnerCount = $wpdb->get_var(
 			$wpdb->prepare(
 				'select exists(select * from wp_bhaa_raceresult where race=%d and runner=%d)',$race,$runner));
 		if($runnerCount)
-			$submission->add_error('runner', 'Runner with id '.$runner.' is already registered!');
+			$submission->add_error('bhaa_runner', 'Runner with id '.$runner.' is already registered!');
 		
 		$numberCount = $wpdb->get_var(
 			$wpdb->prepare(
 				'select exists(select * from wp_bhaa_raceresult where race=%d and racenumber=%d)',$race,$racenumber)
 		);
 		if($numberCount)
-			$submission->add_error('racenumber', 'Race number '.$racenumber.' has already been assigned!');
+			$submission->add_error('bhaa_racenumber', 'Race number '.$racenumber.' has already been assigned!');
 		
-		$gender = $submission->get_value('gender');
-		if(!isset($gender))
-			$submission->add_error('gender', 'Select a gender');
-		
-		$money = $submission->get_value('money');
+		$money = $submission->get_value('bhaa_money');
 		if(!isset($money))
-			$submission->add_error('money', 'Enter the money paid!');
+			$submission->add_error('bhaa_money', 'Enter the money paid!');
 	}
 	
 	public function bhaa_day_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
 		
-		$race = $submission->get_value('race');
-		$runner = $submission->get_value('runner');
-		$racenumber = $submission->get_value('racenumber');
-		$standard = $submission->get_value('standard');
-		$money = $submission->get_value('money');
+		$race = $submission->get_value('bhaa_race');
+		$runner = $submission->get_value('bhaa_runner');
+		$racenumber = $submission->get_value('bhaa_racenumber');
+		$standard = $submission->get_value('bhaa_standard');
+		$money = $submission->get_value('bhaa_money');
 		
-		error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
-		//Raceday::get_instance()->registerRunner($race, $runner, $racenumber, $standard, $money);
+		if($runner=='') {
+			$runner = Runner_Manager::get_instance()->addNewMember(
+				$submission->get_value('bhaa_firstname'),
+				$submission->get_value('bhaa_lastname'),
+				$submission->get_value('bhaa_gender'),
+				$submission->get_value('bhaa_dateofbirth'));
+		}
+		
+		//error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
+		Raceday::get_instance()->registerRunner($race, $runner, $racenumber, 30, $money);
 		
 		// redirect the user after the form is submitted successfully
-		$submission->set_redirect('./raceday-latest/');//home_url('aPage'));
+		$submission->set_redirect('/raceday-latest');//home_url('aPage'));
 	}
 }
 ?>

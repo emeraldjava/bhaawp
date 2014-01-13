@@ -156,6 +156,7 @@ class Runner_Manager {
 		update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $dateofbirth);
 		update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, date('Y-m-d'));
 		update_user_meta( $id, Runner::BHAA_RUNNER_STATUS,'D');
+		update_user_meta( $id, Runner::BHAA_RUNNER_COMPANY,1);
 		update_user_meta( $id, Runner::BHAA_RUNNER_MOBILEPHONE,'0123456789');
 		return $id;
 	}
@@ -247,5 +248,18 @@ class Runner_Manager {
 		//require_once( ABSPATH . 'wp-admin/wp-includes/user.php' );
 		//wp_delete_user($merge, $runner);
 	}
+	
+	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='') {
+		$match = $this->matchRunner($firstname,$lastname,$dateofbirth);
+		if($match!=0) {
+			error_log('matched existing runner '.$runner_id);
+			return $match;
+		} else {
+			$newRunner = $this->createNewUser($firstname,$lastname,$email,$gender,$dateofbirth);
+			error_log('created new runner '.$runner_id);
+			return $newRunner;
+		}
+	}
+	
 }
 ?>

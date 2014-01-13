@@ -22,7 +22,7 @@ class Raceday_Registration_Form {
 	 */
 	private function bhaaRegisterForm(WP_Form $form) {
 		
-		$raceFieldSet = WP_Form_Element::create('fieldset')->
+		$eventFieldSet = WP_Form_Element::create('fieldset')->
 			set_classes(array('col-md-3'))->
 			set_name('raceFieldSet')->set_label('Event Details');
 		$runnerFieldSet = WP_Form_Element::create('fieldset')->
@@ -53,10 +53,10 @@ class Raceday_Registration_Form {
 			->set_value('Register Runner')
 			->set_label('Register Runner');
 				
-		$raceFieldSet->add_element($racenumber);
-		$raceFieldSet->add_element($race_drop_down);
-		$raceFieldSet->add_element($money_drop_down);
-		$raceFieldSet->add_element($submit);
+		$eventFieldSet->add_element($racenumber);
+		$eventFieldSet->add_element($race_drop_down);
+		$eventFieldSet->add_element($money_drop_down);
+		$eventFieldSet->add_element($submit);
 		
 		$firstname = WP_Form_Element::create('text')->set_name('bhaa_firstname')
 			->set_label('First Name')->set_id('bhaa_firstname')->set_classes(array('col-md-8 form-control'));
@@ -91,12 +91,11 @@ class Raceday_Registration_Form {
 		$bhaaFieldSet->add_element($company);
 		$bhaaFieldSet->add_element($standard);
 		
-		$form
-		->add_element($raceFieldSet)
-		->add_element($runnerFieldSet)
-		->add_element($bhaaFieldSet)
-		->add_validator(array($this,'bhaa_validation_callback'))
-		->add_processor(array($this,'bhaa_processing_callback'));	
+		$form->add_element($eventFieldSet)
+			->add_element($runnerFieldSet)
+			->add_element($bhaaFieldSet)
+			->add_validator(array($this,'bhaa_validation_callback'))
+			->add_processor(array($this,'bhaa_processing_callback'));	
 	}
 	
 	public function bhaa_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
@@ -139,8 +138,7 @@ class Raceday_Registration_Form {
 		if(!isset($money))
 			$submission->add_error('bhaa_money', 'Enter the money paid!');
 		
-		error_log(print_r($submission->get_errors(),false));
-		//$submission->set_redirect('/raceday-register');
+		//error_log(print_r($submission->get_errors(),false));
 	}
 	
 	public function bhaa_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
@@ -155,7 +153,7 @@ class Raceday_Registration_Form {
 		Raceday::get_instance()->registerRunner($race, $runner, $racenumber, $standard, $money);
 		
 		// redirect the user after the form is submitted successfully
-		//$submission->set_redirect('/raceday-latest');//home_url('aPage'));
+		$submission->set_redirect('/raceday-latest');//home_url('aPage'));
 	}
 }
 ?>

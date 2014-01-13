@@ -106,21 +106,6 @@ class Raceday
 		return $raceResult->preRegisterRunner($runner,$racenumber,$money);
 	}
 	
-	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='') {
-		// lookup create runner
-		$runner = new Runner();
-		$match = $runner->matchRunner($firstname,$lastname,$dateofbirth);
-		if($match!=0) {
-			$runner_id = $match;
-			error_log('matched existing runner '.$runner_id);
-		}
-		else {
-			$runner_id = $runner->createNewUser($firstname,$lastname,$email,$gender,$dateofbirth);
-			error_log('created new runner '.$runner_id);
-		}
-		return $runner_id;
-	}
-
 	/**
 	 * Return the list of registered runners
 	 */
