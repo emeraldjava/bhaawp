@@ -14,7 +14,7 @@ class HouseCpt {
 		// display the admin status column
 		add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
 		add_filter('manage_house_posts_custom_column',array($this,'bhaa_manage_house_posts_custom_column'), 10, 3 );
-		add_filter('single_template', array($this,'bhaa_single_house_template'));
+		//add_filter('single_template', array($this,'bhaa_single_house_template'));
 		
 		add_filter('template_include', array($this,'bhaa_template_include'));
 	}

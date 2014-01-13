@@ -117,8 +117,8 @@ class Bhaa {
 		else if($post->ID==2623)
 			include_once('views/sectors.php');
 		// CPTS
-		//else if($post->post_type=='house')
-			//include_once('views/house.php');
+		else if($post->post_type=='house')
+			include_once('views/house.php');
 		//else if($post->post_type=='race')
 		//	return 'BHAA Race '.$post->ID.' '.$post->post_title;
 		//else if($post->post_type=='league')
