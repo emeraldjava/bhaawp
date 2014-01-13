@@ -11,12 +11,9 @@ http://bhaa.ie
 
 Change Log
 ==========
-
-2014.1.3
-- Add disable/enable booking option.
-
-2014.1.1
-- Refactored the plugin to follow a more structured format. 
+2014.01.13 Update the raceday registration form layout with bootstrap 3 css.
+2014.01.03 Add disable/enable booking option.
+2014.01.01 Refactored the plugin to follow a more structured format. 
 
 Resources
 =========
