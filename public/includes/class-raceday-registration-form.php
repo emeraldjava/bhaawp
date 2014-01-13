@@ -3,14 +3,18 @@ class Raceday_Registration_Form {
 	
 	public function build_form(WP_Form $form) {
 		$form->add_class('form-horizontal');
-		//$form->set_attribute('align','left');
-		add_filter('wp_form_label_html_class',array($this,'bhaa_wp_form_label_html_class'));
+		//add_filter('wp_form_label_html_class',array($this,'bhaa_wp_form_label_html_class'));
+		//add_filter('wp_form_htmltag_default',array($this,'bhaa_wp_form_htmltag_default'));
 		$args = func_get_args();
 		call_user_func_array(array($this, 'bhaaRegisterForm'), $args);
 	}
 
+	public function bhaa_wp_form_htmltag_default($element){
+		return 'div';	
+	}
+	
 	public function bhaa_wp_form_label_html_class() {
-		return 'col-md-4 control-label radio-inline';
+		return 'col-md-4 control-label';
 	}
 	
 	/**
@@ -23,7 +27,7 @@ class Raceday_Registration_Form {
 		
 		$raceFieldSet = WP_Form_Element::create('fieldset')->
 			set_classes(array('col-md-3'))->
-			set_name('raceFieldSet')->set_label('Race');
+			set_name('raceFieldSet')->set_label('Event');
 		$runnerFieldSet = WP_Form_Element::create('fieldset')->
 			set_classes(array('col-md-3'))->
 			set_name('runnerFieldSet')->set_label('Runner');
@@ -36,14 +40,14 @@ class Raceday_Registration_Form {
 			->set_name('racenumber')->set_id('racenumber')
 			->set_label('Race Number')->set_classes(array('form-control'));
 
-		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')
-			->set_classes(array('form-control'));
+		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race');
+//			->set_classes(array('col-md-8'));
 		$race_drop_down
 			->add_option(3256,'5Mile Men')
 			->add_option(3255,'2M Women');
 			
-		$money_drop_down = WP_Form_Element::create('radios')->set_name('money')->set_label('Money')
-			->set_classes(array('form-control'));
+		$money_drop_down = WP_Form_Element::create('radios')->set_name('money')->set_label('Money');
+//			->set_classes(array('col-md-8'));
 		$money_drop_down
 			->add_option(1,'10e Member')
 			->add_option(3,'25e Renew')
