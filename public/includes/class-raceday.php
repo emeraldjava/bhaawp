@@ -53,10 +53,9 @@ class Raceday
 			case 'raceday-list':
 				$this->listRunners();			
 				break;
-			//case 'raceday-export':
-				//include_once BHAA_PLUGIN_DIR.'/public/views/raceday-newmember.php';
-				//$this->export();
-				//break;
+			case 'raceday-admin':
+				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-admin.php';
+				break;
 			case 'raceday-cash':
 				$this->cash();
 				break;

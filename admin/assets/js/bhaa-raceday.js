@@ -13,16 +13,16 @@ jQuery(document).ready( function() {
         	return false;
       	},
 		select: function(event, ui) {
-			jQuery("#runner").val( ui.item.id );
-			jQuery("#firstname").val( ui.item.firstname );
-			jQuery("#lastname").val( ui.item.lastname );
-			jQuery("#dateofbirth").val( ui.item.dob );
-			jQuery("#company").val( ui.item.companyname );
-			jQuery("#standard").val( ui.item.standard );
+			jQuery("#bhaa_runner").val( ui.item.id );
+			jQuery("#bhaa_firstname").val( ui.item.firstname );
+			jQuery("#bhaa_lastname").val( ui.item.lastname );
+			jQuery("#bhaa_dateofbirth").val( ui.item.dob );
+			jQuery("#bhaa_company").val( ui.item.companyname );
+			jQuery("#bhaa_standard").val( ui.item.standard );
 			if(ui.item.gender=="M") {
-				jQuery("#gender-M").prop("checked",true);
+				jQuery("#bhaa_gender-M").prop("checked",true);
 			} else {
-				jQuery("#gender-W").prop("checked",true);
+				jQuery("#bhaa_gender-W").prop("checked",true);
 			}
 			return false;	
 		}

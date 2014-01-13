@@ -105,7 +105,7 @@ class Bhaa {
 			// runner page
 			return $this->getRunnerPage();
 		}
-		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2745,2847))) {
+		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
 			if ( !current_user_can( 'edit_users' ) )  {
 				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 			} else {
