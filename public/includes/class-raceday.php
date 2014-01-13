@@ -59,8 +59,9 @@ class Raceday
 			case 'raceday-cash':
 				$this->cash();
 				break;
-			// raceday-admin
-			// prereg
+			case 'raceday-prereg':
+				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-prereg.php';
+				break;
 			// all
 			// ABSPATH.'wp-content/bhaa_all_members.html';
 			default :
