@@ -8,7 +8,7 @@ class Raceday_Registration_Form {
 		$args = func_get_args();
 		call_user_func_array(array($this, 'bhaaRegisterForm'), $args);
 	}
-	
+
 	public function bhaa_wp_form_label_html_class(){
 		return 'col-md-4 control-label';
 	}
@@ -21,37 +21,42 @@ class Raceday_Registration_Form {
 		//$layout = new WP_FormsDemo_TableLayout();
 		//$layout->add_hooks();
 		
-		$race_inputs = WP_Form_Element::create('fieldset')->
+		$raceFieldSet = WP_Form_Element::create('fieldset')->
 			set_classes(array('col-md-3'))->
-			set_name('race_inputs')->set_label('Race');
-		$runner_inputs = WP_Form_Element::create('fieldset')->
+			set_name('raceFieldSet')->set_label('Race');
+		$runnerFieldSet = WP_Form_Element::create('fieldset')->
 			set_classes(array('col-md-3'))->
-			set_name('runner_inputs')->set_label('Runner');
-		$bhaa_inputs = WP_Form_Element::create('fieldset')->
+			set_name('runnerFieldSet')->set_label('Runner');
+		$bhaaFieldSet = WP_Form_Element::create('fieldset')->
 			set_classes(array('col-md-3'))->
-			set_name('bhaa_inputs')->set_label('BHAA');
+			set_name('bhaaFieldSet')->set_label('BHAA');
 		
-		//$form
+		// race day field set
 		$racenumber = WP_Form_Element::create('number')
 			->set_name('racenumber')->set_id('racenumber')
 			->set_label('Race Number')->set_classes(array('form-control'));
 
-		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')->set_classes(array('form-group'));
+		$race_drop_down = WP_Form_Element::create('radios')->set_name('race')->set_label('Race')->set_classes(array('form-control'));
 		$race_drop_down
 			->add_option(3256,'5Mile Men')
 			->add_option(3255,'2M Women');
 			
-		$money_drop_down = WP_Form_Element::create('radios')->set_name('money')->set_label('Money')->set_classes(array('form-group'));
+		$money_drop_down = WP_Form_Element::create('radios')->set_name('money')->set_label('Money')->set_classes(array('col-md-8 form-control'));
 		$money_drop_down
 			->add_option(1,'10e Member')
 			->add_option(3,'25e Renew')
 			->add_option(2,'15e Day');
 		
-		$runner = WP_Form_Element::create('number')
-				->set_name('runner')->set_id('runner')
-				->set_label('BHAA ID')
-				->set_classes(array('form-control'));
-
+		$submit = WP_Form_Element::create('submit')
+			->set_name('submit')
+			->set_value('Register Runner')
+			->set_label('Register Runner');
+				
+		$raceFieldSet->add_element($racenumber);
+		$raceFieldSet->add_element($race_drop_down);
+		$raceFieldSet->add_element($money_drop_down);
+		$raceFieldSet->add_element($submit);
+		
 		$firstname = WP_Form_Element::create('text')->set_name('firstname')
 			->set_label('First Name')->set_id('firstname')->set_classes(array('col-md-8 form-control'));
 		$lastname = WP_Form_Element::create('text')->set_name('lastname')
@@ -63,27 +68,30 @@ class Raceday_Registration_Form {
 			->add_option(W,'W');
 		
 		$dateofbirth = WP_Form_Element::create('text')->set_name('dateofbirth')->set_label('DoB')->set_id('dateofbirth')->set_classes(array('form-group'));
-		$company = WP_Form_Element::create('text')->set_name('company')->set_label('Company')->set_id('company')->set_classes(array('form-group'));
-		$standard = WP_Form_Element::create('text')->set_name('standard')->set_label('Standard')->set_id('standard')->set_classes(array('form-group'));
 		
-		$submit = WP_Form_Element::create('submit')
-				->set_name('submit')
-				->set_value('Register Runner')
-				->set_label('Register Runner');
-
+		$runnerFieldSet->add_element($firstname);
+		$runnerFieldSet->add_element($lastname);
+		$runnerFieldSet->add_element($dateofbirth);
+		$runnerFieldSet->add_element($gender_drop_down);
 		
-		$race_inputs->add_element($racenumber);
-		$race_inputs->add_element($submit);
+		// bhaa field set
+		$runner = WP_Form_Element::create('number')
+			->set_name('runner')->set_id('runner')
+			->set_label('BHAA ID')
+			->set_classes(array('form-control'));
+		$company = WP_Form_Element::create('text')->set_name('company')->set_label('Company')
+			->set_id('company')->set_classes(array('form-control'));
+		$standard = WP_Form_Element::create('text')->set_name('standard')->set_label('Standard')
+			->set_id('standard')->set_classes(array('form-control'));
 		
-		$runner_inputs->add_element($firstname);
-		$runner_inputs->add_element($lastname);
-		
-		$bhaa_inputs->add_element($runner);
+		$bhaaFieldSet->add_element($runner);
+		$bhaaFieldSet->add_element($company);
+		$bhaaFieldSet->add_element($standard);
 		
 		$form
-		->add_element($race_inputs)
-		->add_element($runner_inputs)
-		->add_element($bhaa_inputs)
+		->add_element($raceFieldSet)
+		->add_element($runnerFieldSet)
+		->add_element($bhaaFieldSet)
 		->add_validator(array($this,'bhaa_validation_callback'))
 		->add_processor(array($this,'bhaa_processing_callback'));
 		
