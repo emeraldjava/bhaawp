@@ -11,9 +11,12 @@ http://bhaa.ie
 
 Change Log
 ==========
-2014.01.13 Update the raceday registration form layout with bootstrap 3 css.
-2014.01.03 Add disable/enable booking option.
-2014.01.01 Refactored the plugin to follow a more structured format. 
+2014.01.14 	Fix renewal email url link.
+			Add support to edit the runners name and update display name.
+			Display the runners company link.
+2014.01.13 	Update the raceday registration form layout with bootstrap 3 css.
+2014.01.03 	Add disable/enable booking option.
+2014.01.01 	Refactored the plugin to follow a more structured format. 
 
 Resources
 =========
