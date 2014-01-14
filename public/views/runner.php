@@ -21,7 +21,30 @@ if(isset($user->ID)){
 	echo 'current_user_can(manage_options) '.current_user_can('manage_options');
 	echo 'current_user_can(edit_users)' .current_user_can('edit_users');
 	echo '<ht/>'; */
-	
+	if(isset($_POST['bhaa_first_name_form'])) {
+		if(trim($_POST['bhaa_first_name']) === '') {
+			$runnerError = 'Please enter a runner firstname.';
+			$hasError = true;
+		} else {
+			$bhaa_first_name = trim($_POST['bhaa_first_name']);
+			wp_update_user( array ( 'ID' => $user->ID, 'first_name' => $bhaa_first_name ) ) ;
+			$outcome = trim(get_user_meta($user->ID, 'first_name', true) . " " . get_user_meta($user->ID, 'last_name', true));
+			wp_update_user( array ('ID' => $user->ID, 'display_name' => $outcome));
+			wp_redirect(home_url().'/runner/?id='.$user->ID);
+		}
+	}
+	if(isset($_POST['bhaa_last_name_form'])) {
+		if(trim($_POST['bhaa_last_name']) === '') {
+			$runnerError = 'Please enter a runner surname.';
+			$hasError = true;
+		} else {
+			$bhaa_last_name = trim($_POST['bhaa_last_name']);
+			wp_update_user( array ( 'ID' => $user->ID, 'last_name' => $bhaa_last_name ) ) ;
+			$outcome = trim(get_user_meta($user->ID, 'first_name', true) . " " . get_user_meta($user->ID, 'last_name', true));
+			wp_update_user( array ('ID' => $user->ID, 'display_name' => $outcome));
+			wp_redirect(home_url().'/runner/?id='.$user->ID);
+		}
+	}
 	if(isset($_POST['std-form'])) {
 		if(trim($_POST['std']) === '') {
 			$runnerError = 'Please enter a runner ID.';
@@ -116,9 +139,11 @@ if(isset($user->ID)){
 		$content = 
 				'<h2>Admin Details</h2>'.
 				'<div>'.
+				'<div><form action="" method="POST"><input type="text" size=10 name="bhaa_first_name" id="bhaa_first_name" placeholder="bhaa_first_name" value="'.$user->first_name.'"/><input type="hidden" name="bhaa_first_name_form" value="true"/><input type="submit" value="Update Firstname"/></form></div>'.
+				'<div><form action="" method="POST"><input type="text" size=20 name="bhaa_last_name" id="bhaa_last_name" placeholder="bhaa_last_name" value="'.$user->last_name.'"/><input type="hidden" name="bhaa_last_name_form" value="true"/><input type="submit" value="Update Surname"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=2 name="std" id="std" placeholder="std" value="'.$metadata['bhaa_runner_standard'][0].'"/><input type="hidden" name="std-form" value="true"/><input type="submit" value="Update Std"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=10 name="dob" id="dob" placeholder="dob" value="'.$metadata['bhaa_runner_dateofbirth'][0].'"/><input type="hidden" name="dob-form" value="true"/><input type="submit" value="Update DOB"/></form></div>'.
-				'<div><form action="" method="POST"><input type="text" size=20 name="email" id="email" value="'.$user->user_email.'"/><input type="hidden" name="email-form" value="true"/><input type="submit" value="Update Email"/></form></div>'.
+				'<div><form action="" method="POST"><input type="text" size=30 name="email" id="email" value="'.$user->user_email.'"/><input type="hidden" name="email-form" value="true"/><input type="submit" value="Update Email"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=10 name="mobilephone" id="mobilephone" value="'.$metadata['bhaa_runner_mobilephone'][0].'"/><input type="hidden" name="mobilephone-form" value="true"/><input type="submit" value="Update Mobile"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=2 name="gender" id="gender" value="'.$metadata['bhaa_runner_gender'][0].'"/><input type="hidden" name="gender-form" value="true"/><input type="submit" value="Update Gender"/></form></div>'.
 				'<div>Status : '.$metadata['bhaa_runner_status'][0].'</div>'.
