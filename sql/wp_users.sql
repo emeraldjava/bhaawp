@@ -383,6 +383,9 @@ AND  mt1.user_id IS NULL ) AND races>=1
 ORDER BY races DESC, ID ASC;
 
 
-
+select id from wp_users
+JOIN wp_usermeta AS status ON (wp_users.ID = status.user_id AND status.meta_key = 'bhaa_runner_status') 
+JOIN wp_usermeta AS standard ON (wp_users.ID = standard.user_id AND standard.meta_key = 'bhaa_runner_standard') 
+where status.meta_value='M' and standard.meta_value=30;
 
 
