@@ -106,25 +106,20 @@ if(isset($user->ID)){
 	$status = $metadata['bhaa_runner_status'][0];
 	$company = $metadata['bhaa_runner_company'][0];
 	
-	echo '<h1>'.$user->display_name.'</h1>';
+	echo '<h1>'.$user->display_name.'</h1><hr/>';
 	
 	// first section - general info
-	$content = apply_filters(
-			'the_content',
-			'[one_third last="no"]'.
-			'<h2>BHAA Details</h2>'.
+	echo '<h3>BHAA Details</h3>'.
 			'<ul>'.
 			'<li><b>BHAA ID</b> : '.$user->ID.'</li>'.
 			'<li>Standard : '.$metadata['bhaa_runner_standard'][0].'</li>'.
 			(isset($company) ? '<li>Company : '.sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$company,get_post($company)->post_title).'</li>':'').
-			'</ul>'.
-			'[/one_third]');
-	echo $content;
+			'</ul>';
 	
 	// second section - personal
 	if( ( is_user_logged_in()&&($current_user->ID==$user->ID) ) ||current_user_can('manage_options')) {
 		$content = 
-				'<h2>Your Details</h2>'.
+				'<h3>Your Details</h3>'.
 				'<ul>'.
 				'<li>dateofbirth : '.$metadata['bhaa_runner_dateofbirth'][0].'</li>'.
 				'<li>gender : '.$metadata['bhaa_runner_gender'][0].'</li>'.
