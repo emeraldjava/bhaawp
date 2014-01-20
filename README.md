@@ -11,7 +11,9 @@ http://bhaa.ie
 
 Change Log
 ==========
-2014.01.14 	Fix renewal email url link.
+2014.01.20  Handle the login/logout links with wp_nav_menu_items()
+			Don't show subscribers the wp admin screen
+2014.01.14  Fix renewal email url link.
 			Add support to edit the runners name and update display name.
 			Display the runners company link.
 2014.01.13 	Update the raceday registration form layout with bootstrap 3 css.

@@ -67,13 +67,10 @@ class Bhaa {
 		
 		// register the forms
 		add_action('wp_forms_register',array(Raceday::get_instance(),'bhaa_register_forms'));
-		add_action("login_head",array($this,'bhaa_login_head'));
+		add_action('login_head',array($this,'bhaa_login_head'));
 		add_action('wp_login',array($this,'bhaa_force_pretty_displaynames',10,2));
-		
 		add_filter('login_message',array($this,'bhaa_lost_password_message'));
-		add_filter('login_redirect',array($this,'bhaa_login_redirect'), 10, 3);
-		//add_filter('show_admin_bar','__return_false');
-		
+
 		remove_action('wp_head','wp_generator');
 		remove_action('wp_head','wp_shortlink_wp_head' );
 		remove_action('wp_head','adjacent_posts_rel_link_wp_head' );
@@ -81,15 +78,47 @@ class Bhaa {
 		
 		add_shortcode('pdf',array($this,'pdf_shortcode'));
 		add_shortcode('bhaa_standard_table', array(StandardCalculator::get_instance(),'bhaa_standard_table'));
+		
+		add_action('admin_init',array($this,'bhaa_remove_subscriber_read'));
+		add_action('wp_head',array($this,'bhaa_hide_admin_bar'));
+		//add_filter('login_redirect',array($this,'bhaa_redirect_subscriber_to_home'), 10, 3 );
+		add_filter('wp_nav_menu_items',array($this,'bhaa_add_login_out_item_to_menu'), 50, 2 );
+	}
+
+	//http://wordpress.stackexchange.com/questions/93843/disable-wp-admin-console-for-subscribers/93869#93869
+	function bhaa_remove_subscriber_read() {
+		global $wp_roles;
+		$wp_roles->remove_cap( 'subscriber', 'read' );
 	}
 	
-	/**
-	 * http://tommcfarlin.com/redirect-non-admin/
-	 */
-	function bhaa_login_redirect( $redirect_to, $request, $user  ) {
-		return ( is_array( $user->roles ) && in_array( 'administrator', $user->roles ) ) ? admin_url() : site_url();
+	function bhaa_hide_admin_bar() {
+		if (current_user_can('subscriber')) {
+			add_filter('show_admin_bar','__return_false');
+		}
 	}
 	
+	function bhaa_redirect_subscriber_to_home( $redirect_to, $request, $user ) {
+		if ( isset($user->roles) && is_array( $user->roles ) ) {
+			if ( in_array( 'subscriber', $user->roles ) ) {
+				return home_url( );
+			}
+		}
+		return $redirect_to;
+	}
+
+	function bhaa_add_login_out_item_to_menu($nav, $args) {
+		if( $args->theme_location == 'top_navigation' ){
+			if(!is_user_logged_in())
+				return $nav."<li class='menu-item'>".wp_loginout(get_site_url(), false)."</li>";
+			else {
+				global $current_user;
+				return $nav."<li class='menu-item'>".wp_loginout(get_site_url(), false)."? Welcome to the BHAA website ".$current_user->first_name."</li>";
+			}
+		}
+		else
+			return $nav;
+	}
+
 	/**
 	 * The runner and raceday pages will be server from the plugin templates directory.
 	 */
