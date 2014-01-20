@@ -1,9 +1,4 @@
 
-select * from wp_users
-select * from wp_usermeta where user_id=1;
-
-select post_title from wp_posts where id=201;
-
 update wp_options
 set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 [fusion_tabs layout="horizontal" backgroundcolor="" inactivecolor=""]
@@ -61,7 +56,8 @@ set option_value='<table class="table-1" style="width:90%">
 <tr>
 <th class="event-time" width="200">Date/Time</th>
 <th class="event-description" width="150">Event</th>
-<th class="event-description" width="*">Races</th>
+<th class="event-description" width="150">Location</th>
+<th class="event-description" width="*">Race Summary</th>
 </tr>
 </thead>
 <tbody>
@@ -74,10 +70,12 @@ set option_value='<tr class="event-details">
 #_EVENTDATES</br>
 <i>#_EVENTTIMES</i>
 </td>
-<td>#_EVENTLINK</br>
+<td>#_EVENTLINK
+</td>
+<td>
 {has_location}<i>#_LOCATIONNAME, #_LOCATIONTOWN #_LOCATIONSTATE</i>{/has_location}
 </td>
-<td>#_EVENTEXCERPT</td>
+<td>#_EVENTEXCERPT <a href="#_EVENTURL">Read Full Details</a></td>
 </tr>
 <tr class="spacer"><td></td></tr>
 '
