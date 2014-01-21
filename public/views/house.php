@@ -20,11 +20,11 @@ if($teamtype[0]->name=='sector') {
 	$connected_type = Connection::SECTORTEAM_TO_RUNNER;
 }
 $users = get_users( array(
-		'connected_type' => $connected_type,
-		'connected_items' => $post->ID,
-		'fields' => 'all_with_meta',
-		'orderby' => 'display_name',
-		'order' => 'ASC'
+	'connected_type' => $connected_type,
+	'connected_items' => $post->ID,
+	'fields' => 'all_with_meta',
+	'orderby' => 'display_name',
+	'order' => 'ASC'
 ));
 
 echo do_shortcode( 
@@ -35,8 +35,13 @@ echo do_shortcode(
 	'<a target="new" href="'.get_post_meta(get_the_ID(),'bhaa_company_website',true).'">'.get_the_title().' Website</a>'.
 	'[/two_third]'.
 	'[one_third last="yes"]'.get_the_post_thumbnail(get_the_ID(), 'thumbnail').'[/one_third]');
+
+if(current_user_can('edit_users')) {
+	echo sprintf('<h4><a href="%s">Edit Runners Linked to %s</a></h4>',get_edit_post_link(get_the_ID()),get_the_title());
+}
+else 
+	echo '<h4>Runners Linked to the Team</h4>'
 ?>
-<h4>Runners</h4>
 <table class="table-1">
 	<tr>
 		<th>Name</th>
