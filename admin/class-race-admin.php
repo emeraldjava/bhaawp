@@ -17,7 +17,7 @@ class RaceAdmin {
 	
 	private function __construct() {
 		// custom actions
-		add_action( 'init', array(&$this,'bhaa_race_actions'),11);
+		add_action('init',array($this,'bhaa_race_actions'),11);
 		add_filter('post_row_actions', array(&$this,'bhaa_race_post_row_actions'), 0, 2);
 		
 		// custom admin columns
@@ -60,7 +60,8 @@ class RaceAdmin {
 	 * Filters for specific cpt actions.
 	 */
 	function bhaa_race_actions() {
-		$post_id = $_GET['post_id'];
+		global $post_id;
+		//$post_id = $_GET['post_id'];
 		$raceResult = new RaceResult($post_id);
 		
 		switch ($_REQUEST['action']) {

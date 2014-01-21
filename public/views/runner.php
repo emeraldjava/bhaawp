@@ -91,6 +91,15 @@ if(isset($user->ID)){
 			update_user_meta($user->ID,'bhaa_runner_gender',$gender);
 		}
 	}
+	if(isset($_POST['companyteam-form'])){
+		if(trim($_POST['companyteam']) === '') {
+		} else {
+			$companyteam = trim($_POST['companyteam']);
+			Connections::get_instance()->updateRunnersHouse(Connections::HOUSE_TO_RUNNER,$companyteam,$user->ID);
+			wp_redirect(home_url().'/runner/?id='.$user->ID);
+			//update_user_meta($user->ID,'bhaa_runner_gender',$gender);
+		}
+	}
 	
 	if(isset($_REQUEST['merge'])&&current_user_can('edit_users')) {
 		Runner_Manager::get_instance()->mergeRunner($_REQUEST['id'],$_REQUEST['merge']);
@@ -107,6 +116,7 @@ if(isset($user->ID)){
 	$company = $metadata['bhaa_runner_company'][0];
 	
 	echo '<h1>'.$user->display_name.'</h1><hr/>';
+	//var_dump($metadata);
 	
 	// first section - general info
 	echo '<h3>BHAA Details</h3>'.
@@ -141,8 +151,8 @@ if(isset($user->ID)){
 				'<div><form action="" method="POST"><input type="text" size=30 name="email" id="email" value="'.$user->user_email.'"/><input type="hidden" name="email-form" value="true"/><input type="submit" value="Update Email"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=10 name="mobilephone" id="mobilephone" value="'.$metadata['bhaa_runner_mobilephone'][0].'"/><input type="hidden" name="mobilephone-form" value="true"/><input type="submit" value="Update Mobile"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=2 name="gender" id="gender" value="'.$metadata['bhaa_runner_gender'][0].'"/><input type="hidden" name="gender-form" value="true"/><input type="submit" value="Update Gender"/></form></div>'.
-				'<div><form action="" method="POST">'.House_Manager::get_instance()->getCompanyTeamDropdown().'<input type="submit" value="Company Team"/></form></div>'.
-				'<div><form action="" method="POST">'.House_Manager::get_instance()->getSectorTeamDropdown().'<input type="submit" value="Sector Team"/></form></div>'.
+				'<div><form action="" method="POST">'.House_Manager::get_instance()->getCompanyTeamDropdown($user->ID).'<input type="hidden" name="companyteam-form" value="true"/><input type="submit" value="Company Team"/></form></div>'.
+				//'<div><form action="" method="POST">'.House_Manager::get_instance()->getSectorTeamDropdown().'<input type="hidden" name="sectorteam-form" value="true"/><input type="submit" value="Sector Team"/></form></div>'.
 				'<div>Status : '.$metadata['bhaa_runner_status'][0].'</div>'.
 				'<div>dateofrenewal : '.$metadata['bhaa_runner_dateofrenewal'][0].'</div>'.
 				'<div><form action="" method="POST">'.

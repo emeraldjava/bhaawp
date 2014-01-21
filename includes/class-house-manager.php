@@ -58,7 +58,7 @@ class House_Manager {
 		return $companyList->get_posts();
 	}
 	
-	function getCompanyTeamDropdown() {
+	function getCompanyTeamDropdown($user_id) {
 		$sectorTeamQuery = new WP_Query(
 			array(
 				'post_type' => 'house',
@@ -75,24 +75,21 @@ class House_Manager {
 			))
 		);
 		$sectorTeamIds = implode(',',array_map(function($val){return $val->ID;},$sectorTeamQuery->posts) );
-		$companyTeamArgs = array (
-				'id' => 'bhaa_companyteam',
-				'name' => 'bhaa_companyteam',
+		$args = array (
+				'id' => 'companyteam',
+				'name' => 'companyteam',
 				'echo' => 0,
 				'post_type' => 'house',
 				'exclude' => $sectorTeamIds
 		);
-	
-		global $current_user;
-		$selected = get_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,true);
+		$selected = get_user_meta($user_id,Runner::BHAA_RUNNER_COMPANY,true);
 		// set the correct defaults for new or existing user
-		if($selected==0||$selected=='') {
-			$args = array_merge( $args, array( 'show_option_none' => 'Please select a company' ) );
-			$args = array_merge( $args, array( 'option_none_value' => '1' ) );
-		} else {
+		if($selected!=0&&$selected!='') {
 			$args = array_merge( $args, array( 'selected' => $selected ) );
 		}
-		return wp_dropdown_pages($companyTeamArgs);
+		//var_dump($user_id." company ".$selected);
+		//var_dump($args);
+		return wp_dropdown_pages($args);
 	}
 	
 	function getSectorTeamDropdown() {
@@ -113,16 +110,17 @@ class House_Manager {
 				)
 			);
 		$sectorTeamIds = implode(',',array_map(function($val){return $val->ID;},$sectorTeamQuery->posts) );
-		$sectorTeamArgs = array (
-				'id' => 'bhaa_sectorteam',
-				'name' => 'bhaa_sectorteam',
+		$args = array (
+				'id' => 'sectorteam',
+				'name' => 'sectorteam',
 				'echo' => 0,
 				'post_type' => 'house',
 				'include' => $sectorTeamIds
 		);
 		
-		//global $current_user;
+		global $current_user;
 		//$selected = get_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,true);
+		//var_dump("company ".$selected);
 		// set the correct defaults for new or existing user
 		if($selected==0||$selected=='') {
 			$args = array_merge( $args, array( 'show_option_none' => 'Please select a company' ) );
@@ -130,7 +128,7 @@ class House_Manager {
 		} else {
 			$args = array_merge( $args, array( 'selected' => $selected ) );
 		}
-		return wp_dropdown_pages($sectorTeamArgs);
+		return wp_dropdown_pages($args);
 	}
 }
 ?>

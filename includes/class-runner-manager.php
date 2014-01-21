@@ -260,6 +260,5 @@ class Runner_Manager {
 			return $newRunner;
 		}
 	}
-	
 }
 ?>

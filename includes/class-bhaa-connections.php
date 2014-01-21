@@ -27,11 +27,11 @@ class Connections {
 	}
 	
 	private function __construct() {
-		add_action( 'p2p_init', array(&$this,'bhaa_connection_types'));
-		add_action( 'p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
-		add_action( 'p2p_delete_connections',array($this,'bhaa_p2p_delete_connections'));	
+		add_action('p2p_init',array(&$this,'bhaa_connection_types'));
+		add_action('p2p_created_connection',array($this,'bhaa_p2p_created_connection'));
+		add_action('p2p_delete_connections',array($this,'bhaa_p2p_delete_connections'));
 	}
-		
+			
 	function bhaa_connection_types() {
 				
 		p2p_register_connection_type( array(
@@ -123,21 +123,59 @@ class Connections {
 	 * @param unknown $to
 	 * @return Ambigous <boolean, number, mixed>
 	 */
-	function updateRunnersHouse($p2p_type,$from,$to) {
-		//error_log('p2p_create_connection '.$p2p_type.' '.$from.' '.$to);
-		if(p2p_connection_exists($p2p_type,array('from' => $from, 'to' => $to))) {
-			$p2p_id = p2p_get_connections($p2p_type,array($from,$to));
-			$re = p2p_update_meta($p2p_id, $from, $to);
-			error_log('updateRunnersHouse update '.$p2p_type.' '.$from.' '.$to.' '.$re);
-		} else {
-			$re = p2p_create_connection($p2p_type, array(
-					'from' => $from,
-					'to' => $to));
-			error_log('updateRunnersHouse create '.$p2p_type.' '.$from.' '.$to.' '.$re);
+	function updateRunnersHouse($p2p_type,$newCompany,$runner) {
+		
+		$runnerObj = new Runner($runner);
+		$oldCompany = $runnerObj->getCompany();
+
+		error_log('updateRunnersHouse('.$runner.') '.$p2p_type.' '.$oldCompany.'-->'.$newCompany);
+		
+		if(p2p_connection_exists($p2p_type,array('from' => $oldCompany, 'to' => $runner))){
+			$d = p2p_type($p2p_type)->disconnect( $oldCompany, $runner);
+			error_log('updateRunnersHouse delete old link '.$p2p_type.' '.$oldCompany.' '.$runner.' '.$d);
 		}
-		if ( is_wp_error($re) )
-			error_log($re->get_error_message());
-		return $re;
+		
+		if(p2p_connection_exists($p2p_type,array('from' => $newCompany, 'to' => $runner))) {
+			error_log('updateRunnersHouse company connection exists '.$p2p_type.' '.$newCompany.' '.$runner.' '.$re);
+		} else {
+			
+			$re = p2p_type($p2p_type)->connect( $newCompany, $runner );
+			if ( is_wp_error($re) )
+				error_log('updateRunnersHouse create '.$p2p_type.' '.$newCompany.' '.$runner.' '.$re->get_error_message());
+			else 
+				error_log('updateRunnersHouse create '.$p2p_type.' '.$newCompany.' '.$runner.' '.$re);
+		}
+		$re2 = update_user_meta( $runner, Runner::BHAA_RUNNER_COMPANY, $newCompany, $oldCompany);
+		if ( is_wp_error($re2) )
+			error_log($r2e->get_error_message());
+		return $re2;
+	}
+	
+	function p2pDetails($user_id) {
+		
+		$connected = get_posts( array(
+			'connected_type' => Connections::HOUSE_TO_RUNNER,
+			'connected_items' => $user_id,
+			'suppress_filters' => false,
+			'nopaging' => true
+		) );
+		
+		//$connected = p2p_type(Connections::HOUSE_TO_RUNNER);
+		var_dump($connected);
+		//$connected->get_connected( $user_id );
+		
+		foreach ( $connected as $post )  {
+			$msg = '<li>'.$post->post_title;
+			
+			// Display count and type
+			$msg .=  '<br>';
+			$msg .=  'Count: ' . p2p_get_meta( $post->p2p_id, 'count', true );
+			$msg .=  '<br>';
+			$msg .=  'Type: ' . p2p_get_meta( $post->p2p_id, 'type', true );
+			
+			$msg .=  '</li>';
+		}
+		return $msg;
 	}
 	
 	function getRunnerConnections($user_id) {
