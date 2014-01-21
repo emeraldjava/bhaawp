@@ -57,5 +57,80 @@ class House_Manager {
 		//echo $companyList->request;
 		return $companyList->get_posts();
 	}
+	
+	function getCompanyTeamDropdown() {
+		$sectorTeamQuery = new WP_Query(
+			array(
+				'post_type' => 'house',
+				'order'		=> 'ASC',
+				'post_status' => 'publish',
+				'orderby' 	=> 'title',
+				'nopaging' => true,
+				'tax_query'	=> array(
+				array(
+					'taxonomy'  => 'teamtype',
+					'field'     => 'slug',
+					'terms'     => 'sector', // exclude house posts in the sectorteam custom teamtype taxonomy
+					'operator'  => 'IN')
+			))
+		);
+		$sectorTeamIds = implode(',',array_map(function($val){return $val->ID;},$sectorTeamQuery->posts) );
+		$companyTeamArgs = array (
+				'id' => 'bhaa_companyteam',
+				'name' => 'bhaa_companyteam',
+				'echo' => 0,
+				'post_type' => 'house',
+				'exclude' => $sectorTeamIds
+		);
+	
+		global $current_user;
+		$selected = get_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,true);
+		// set the correct defaults for new or existing user
+		if($selected==0||$selected=='') {
+			$args = array_merge( $args, array( 'show_option_none' => 'Please select a company' ) );
+			$args = array_merge( $args, array( 'option_none_value' => '1' ) );
+		} else {
+			$args = array_merge( $args, array( 'selected' => $selected ) );
+		}
+		return wp_dropdown_pages($companyTeamArgs);
+	}
+	
+	function getSectorTeamDropdown() {
+		$sectorTeamQuery = new WP_Query(
+			array(
+				'post_type' => 'house',
+				'order'		=> 'ASC',
+				'post_status' => 'publish',
+				'orderby' 	=> 'title',
+				'nopaging' => true,
+				'tax_query'	=> array(
+					array(
+						'taxonomy'  => 'teamtype',
+						'field'     => 'slug',
+						'terms'     => 'sector', // exclude house posts in the sectorteam custom teamtype taxonomy
+						'operator'  => 'IN')
+					)
+				)
+			);
+		$sectorTeamIds = implode(',',array_map(function($val){return $val->ID;},$sectorTeamQuery->posts) );
+		$sectorTeamArgs = array (
+				'id' => 'bhaa_sectorteam',
+				'name' => 'bhaa_sectorteam',
+				'echo' => 0,
+				'post_type' => 'house',
+				'include' => $sectorTeamIds
+		);
+		
+		//global $current_user;
+		//$selected = get_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,true);
+		// set the correct defaults for new or existing user
+		if($selected==0||$selected=='') {
+			$args = array_merge( $args, array( 'show_option_none' => 'Please select a company' ) );
+			$args = array_merge( $args, array( 'option_none_value' => '1' ) );
+		} else {
+			$args = array_merge( $args, array( 'selected' => $selected ) );
+		}
+		return wp_dropdown_pages($sectorTeamArgs);
+	}
 }
 ?>

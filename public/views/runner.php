@@ -141,6 +141,8 @@ if(isset($user->ID)){
 				'<div><form action="" method="POST"><input type="text" size=30 name="email" id="email" value="'.$user->user_email.'"/><input type="hidden" name="email-form" value="true"/><input type="submit" value="Update Email"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=10 name="mobilephone" id="mobilephone" value="'.$metadata['bhaa_runner_mobilephone'][0].'"/><input type="hidden" name="mobilephone-form" value="true"/><input type="submit" value="Update Mobile"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=2 name="gender" id="gender" value="'.$metadata['bhaa_runner_gender'][0].'"/><input type="hidden" name="gender-form" value="true"/><input type="submit" value="Update Gender"/></form></div>'.
+				'<div><form action="" method="POST">'.House_Manager::get_instance()->getCompanyTeamDropdown().'<input type="submit" value="Company Team"/></form></div>'.
+				'<div><form action="" method="POST">'.House_Manager::get_instance()->getSectorTeamDropdown().'<input type="submit" value="Sector Team"/></form></div>'.
 				'<div>Status : '.$metadata['bhaa_runner_status'][0].'</div>'.
 				'<div>dateofrenewal : '.$metadata['bhaa_runner_dateofrenewal'][0].'</div>'.
 				'<div><form action="" method="POST">'.
@@ -220,6 +222,8 @@ if(isset($user->ID)){
 			);
 		}
 		echo '<hr/>';
+		
+		//var_dump(Connections::get_instance()->p2pDetails($user->ID));
 		
 		//var_dump(Connections::get_instance()->getRunnerConnections($user->ID));
 	}

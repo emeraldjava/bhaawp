@@ -11,6 +11,7 @@ http://bhaa.ie
 
 Change Log
 ==========
+2014.01.21	Add company and sector dropdown for the registrar page.
 2014.01.20  Handle the login/logout links with wp_nav_menu_items()
 			Don't show subscribers the wp admin screen
 2014.01.14  Fix renewal email url link.
