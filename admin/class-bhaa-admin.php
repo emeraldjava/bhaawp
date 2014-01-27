@@ -349,7 +349,7 @@ class Bhaa_Admin {
 		echo '<h2>Lists the runner with a company but no correctly linked</h2>';
 		
 		if(isset($_POST['command']) && $_POST['command']=='link_runner') {
-			Connections::get_instance()->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$_POST['house'],$_POST['runner']);
+			Connections::get_instance()->updateRunnersHouse(Connections::HOUSE_TO_RUNNER,$_POST['house'],$_POST['runner']);
 			echo 'Linked '.$_POST['runner'].' to '.$_POST['house'].' company</br>';
 		}
 				
