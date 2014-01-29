@@ -255,7 +255,7 @@ class BhaaImport
 			if(isset($user->company))
 			{
 				update_user_meta( $id, Runner::BHAA_RUNNER_COMPANY, $user->company);
-// 				p2p_type( Connection::HOUSE_TO_RUNNER )->connect( 
+// 				p2p_type( Connections::HOUSE_TO_RUNNER )->connect( 
 // 						$user->company, 
 // 						$user->id, 
 // 						array('date' => current_time('mysql')
@@ -359,7 +359,7 @@ class BhaaImport
 			
 			if($team->contact!='' || $team->contact != NULL)
 			{
-				$res = p2p_type(Connection::TEAM_CONTACT)->connect(
+				$res = p2p_type(Connections::TEAM_CONTACT)->connect(
 					$team->id,
 					$team->contact,
 					array('date' => current_time('mysql'))
@@ -909,8 +909,8 @@ class BhaaImport
 			// company team runner
 			if($user->type=="C")// $user->company == $user->team)
 			{
-				$res = Connections::get_instance()->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$user->company,$user->runner);
-// 				$res = p2p_type(Connection::HOUSE_TO_RUNNER)->connect(
+				$res = Connections::get_instance()->updateRunnersHouse(Connections::HOUSE_TO_RUNNER,$user->company,$user->runner);
+// 				$res = p2p_type(Connections::HOUSE_TO_RUNNER)->connect(
 // 					$user->company,
 // 					$user->runner,
 // 					array('date' => current_time('mysql'))
@@ -924,8 +924,8 @@ class BhaaImport
 			{
 				
 				// link the sector team runner to both
-				$res = Connections::get_instance()->updateRunnersHouse(Connection::HOUSE_TO_RUNNER,$user->company,$user->runner);
-// 				$re = p2p_type(Connection::HOUSE_TO_RUNNER )->connect(
+				$res = Connections::get_instance()->updateRunnersHouse(Connections::HOUSE_TO_RUNNER,$user->company,$user->runner);
+// 				$re = p2p_type(Connections::HOUSE_TO_RUNNER )->connect(
 // 					$user->company,
 // 					$user->runner,
 // 					array('date' => current_time('mysql'))
@@ -933,8 +933,8 @@ class BhaaImport
 				if ( is_wp_error($re) )
 					$this->displayAndLog($re->get_error_message());
 
-				$res = Connections::get_instance()->updateRunnersHouse(Connection::SECTORTEAM_TO_RUNNER,$user->team,$user->runner);
-// 				$res = p2p_type(Connection::SECTORTEAM_TO_RUNNER)->connect(
+				$res = Connections::get_instance()->updateRunnersHouse(Connections::SECTORTEAM_TO_RUNNER,$user->team,$user->runner);
+// 				$res = p2p_type(Connections::SECTORTEAM_TO_RUNNER)->connect(
 // 					$user->team,
 // 					$user->runner,
 // 					array('date' => current_time('mysql'))

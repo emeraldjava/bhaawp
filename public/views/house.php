@@ -17,7 +17,7 @@ if ( has_post_thumbnail() )
 $teamtype = wp_get_post_terms($post->ID,'teamtype');
 $connected_type = Connections::HOUSE_TO_RUNNER;
 if($teamtype[0]->name=='sector') {
-	$connected_type = Connection::SECTORTEAM_TO_RUNNER;
+	$connected_type = Connections::SECTORTEAM_TO_RUNNER;
 }
 $users = get_users( array(
 	'connected_type' => $connected_type,
@@ -26,6 +26,40 @@ $users = get_users( array(
 	'orderby' => 'display_name',
 	'order' => 'ASC'
 ));
+
+//var_dump($post->ID);
+
+$usersByCompanyArgs = new WP_User_Query(
+	array(
+		//'exclude' => array($user->ID),
+		'fields' => 'all_with_meta',
+		'orderby' => 'bhaa_runner_dateofrenewal',
+		'meta_query' => array(
+			//'relation' => 'AND',
+			array(
+				'key' => 'bhaa_runner_company',
+				'value' => $post->ID,
+				'compare' => '=')
+		)
+	)
+);
+//var_dump($usersByCompanyArgs);
+//$userQuery = new WP_User_Query( $usersByCompanyArgs );
+
+//var_dump($userQuery);
+
+//$users = $usersByCompanyArgs->get_results();
+$house = new House($post->ID);
+//$users = $house->getRunners();
+
+/*$userz = get_users( array(
+	'connected_type' => $connected_type,
+	'connected_items' => $post->ID,
+	'fields' => 'all_with_meta',
+	'orderby' => 'display_name',
+	'order' => 'ASC'
+));*/
+//var_dump($users[0]);
 
 echo do_shortcode( 
 	'[two_third last="no"]'.
@@ -59,16 +93,14 @@ else
 		$user->display_name,
 		$user->get('bhaa_runner_gender'),
 		$user->get('bhaa_runner_standard'),
+		//$user->get('bhaa_runner_dateofrenewal').' '.
 		$user->get('bhaa_runner_status')
 	);
 	?>
 	</tr>
 	<?php endforeach; ?>
 </table>
-
 <?php 
 //echo BHAA::get_instance()->getTeamResultsForHouse(get_the_ID());
 ?>
-
 </section>
-<?php //get_footer(); ?>
