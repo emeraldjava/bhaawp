@@ -129,7 +129,7 @@ class Raceday
 	
 	function getRegistrationTypes($race) {
 		$raceResult = new RaceResult($race);
-		return $raceResult->getRegistrationTypes($runner);
+		return $raceResult->getRegistrationTypes();
 	}
 	
 	/**

@@ -29,9 +29,8 @@ class Raceday_DayMember_Form {
 			
 		$money_drop_down = WP_Form_Element::create('radios')->set_name('bhaa_money')->set_label('Money');
 		$money_drop_down
-			->add_option(1,'10e Member')
-			->add_option(3,'25e Renew')
-			->add_option(2,'15e Day');
+			->add_option(4,'15e Day Member')
+			->add_option(5,'25e New Member');
 		
 		$submit = WP_Form_Element::create('submit')
 			->set_name('submit')
