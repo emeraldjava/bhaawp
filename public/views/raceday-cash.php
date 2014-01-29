@@ -2,6 +2,11 @@
 $event = $_REQUEST['event'];//Registration::get_instance()->getEvent();
 $runnerCount = $_REQUEST['runnerCount'];// Registration::get_instance()->getRegistrationTypes($event->race);
 $registeredRunners = $_REQUEST['registeredRunners'];
+
+var_dump($event);
+var_dump($runnerCount);
+var_dump($registeredRunners);
+
 /**
  * 1 - member - 10e
  * 2 - inactive day - 15e
@@ -29,64 +34,51 @@ $online_bhaa=0;
 
 //var_dump($runnerCount);
 
-foreach($runnerCount as $runner) {
-	error_log($runner->type.' '.$runner->count);
-	switch($runner->type){
-		case(1):{
-			$member=$runner->count;
+foreach($registeredRunners as $runner) {
+	error_log($runner->standardscoringset.' '.$runner->firstname.' '.$runner->lastname);
+	if($runner->standardscoringset==1) {
+			$member++;//=$runner->count;
 			$total = $total + ($member*10);
 			$ro = $ro + ($member*10);
-			break;
-		}
-		case(2):{
-			$inactive_day=$runner->count;
+	} else if($runner->standardscoringset==2) {
+			$inactive_day++;//=$runner->count;
 			$total = $total + ($inactive_day*15);
 			$ro = $ro + ($inactive_day*10);
 			$bhaa = $bhaa + ($inactive_day*5);
-			break;
-		}
-		case(3):{
-			$renew=$runner->count;
+	} else if($runner->standardscoringset==3) {
+			$renew++;//=$runner->count;
 			$total = $total + ($renew*25);
 			$ro = $ro + ($renew*10);
 			$bhaa = $bhaa + ($renew*15);
-			break;
-		}
-		case(4):{
-			$day=$runner->count;
+	} else if($runner->standardscoringset==4) {
+			$day++;//=$runner->count;
 			$total = $total + ($day*15);
 			$ro = $ro + ($day*10);
 			$bhaa = $bhaa + ($day*5);
-			break;
-		}
-		case(5):{
-			$new=$runner->count;
+	} else if($runner->standardscoringset==5) {
+			$new++;//=$runner->count;
 			$total = $total + ($new*25);
 			$ro = $ro + ($new*10);
 			$bhaa = $bhaa + ($new*15);
-			break;
-		}
-		case(6):{
-			$online_day=$runner->count;
+	} else if($runner->standardscoringset==6) {
+			$online_day++;//=$runner->count;
 			//$total = $total + ($online_day*10);
 			$online = $online + ($online_day*15);
 			$online_bhaa = $online_bhaa + ($online_day*5);
 			$online_ro = $online_ro + ($online_day*10);
-			break;
-		}
-		case(7):{
-			$online_member=$runner->count;
+	} else if($runner->standardscoringset==7) {
+			$online_member++;//$runner->count;
 			//error_log('online member '.$online_member);
 			//$total = $total + ($online_member*15);
 			$online = $online + ($online_member*10);
 			$online_ro = $online_ro + ($online_member*10);
-			break;
-		}
 	}
 }
 
-echo '<h1>BHAA '.$event->event_slug.' Cash</h1>';
-echo '<table width=90%>';
+
+echo '<h1>BHAA '.strtoupper($event->event_slug).' Cash</h1>';
+echo '<h2>'.sizeof($registeredRunners).' Registered Runners</h2>';
+echo '<table width=95%>';
 echo '<tr align="left">';
 echo '<th>Type</th>';
 echo '<th>Number</th>';
