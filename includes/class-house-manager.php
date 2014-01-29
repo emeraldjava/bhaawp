@@ -129,6 +129,6 @@ class House_Manager {
 			$args = array_merge( $args, array( 'selected' => $selected ) );
 		}
 		return wp_dropdown_pages($args);
-	}
+	}	
 }
 ?>
