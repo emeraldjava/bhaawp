@@ -29,7 +29,7 @@ set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 {is_past}
 [fusion_tab title="Results"]#_BHAARACERESULTS[/fusion_tab]
 [fusion_tab title="Teams"]#_BHAATEAMRESULTS[/fusion_tab]
-[fusion_tab title="_EVENTNAME"]
+[fusion_tab title="#_EVENTNAME"]
 <p>
 	<strong>Date/Time</strong><br/>
 	Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>
