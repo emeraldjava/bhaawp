@@ -28,53 +28,35 @@ $total=0;
 $ro=0;
 $bhaa=0;
 
-$online=0;
+$online_total=0;
 $online_ro=0;
 $online_bhaa=0;
-
-//var_dump($runnerCount);
 
 foreach($registeredRunners as $runner) {
 	error_log($runner->standardscoringset.' '.$runner->firstname.' '.$runner->lastname);
 	if($runner->standardscoringset==1) {
-			$member++;//=$runner->count;
-			$total = $total + ($member*10);
-			$ro = $ro + ($member*10);
+			$member++;
 	} else if($runner->standardscoringset==2) {
-			$inactive_day++;//=$runner->count;
-			$total = $total + ($inactive_day*15);
-			$ro = $ro + ($inactive_day*10);
-			$bhaa = $bhaa + ($inactive_day*5);
+			$inactive_day++;
 	} else if($runner->standardscoringset==3) {
-			$renew++;//=$runner->count;
-			$total = $total + ($renew*25);
-			$ro = $ro + ($renew*10);
-			$bhaa = $bhaa + ($renew*15);
+			$renew++;
 	} else if($runner->standardscoringset==4) {
-			$day++;//=$runner->count;
-			$total = $total + ($day*15);
-			$ro = $ro + ($day*10);
-			$bhaa = $bhaa + ($day*5);
+			$day++;
 	} else if($runner->standardscoringset==5) {
-			$new++;//=$runner->count;
-			$total = $total + ($new*25);
-			$ro = $ro + ($new*10);
-			$bhaa = $bhaa + ($new*15);
+			$new++;
 	} else if($runner->standardscoringset==6) {
-			$online_day++;//=$runner->count;
-			//$total = $total + ($online_day*10);
-			$online = $online + ($online_day*15);
-			$online_bhaa = $online_bhaa + ($online_day*5);
-			$online_ro = $online_ro + ($online_day*10);
+			$online_day++;
 	} else if($runner->standardscoringset==7) {
-			$online_member++;//$runner->count;
-			//error_log('online member '.$online_member);
-			//$total = $total + ($online_member*15);
-			$online = $online + ($online_member*10);
-			$online_ro = $online_ro + ($online_member*10);
+			$online_member++;
 	}
 }
+$total = ($member*10) + ($inactive_day*15) + ($renew*25) + ($day*15) + ($new*25);
+$ro = ($member*10) + ($inactive_day*10) + ($renew*10) + ($day*10) + ($new*10);
+$bhaa = ($inactive_day*5) + ($renew*15) + ($day*5) + ($new*15);
 
+$online_total = ($online_day*15) + ($online_member*10);
+$online_ro = ($online_day*10) + ($online_member*10);
+$online_bhaa = ($online_day*5);
 
 echo '<h1>BHAA '.strtoupper($event->event_slug).' Cash</h1>';
 echo '<h2>'.sizeof($registeredRunners).' Registered Runners</h2>';
@@ -91,7 +73,7 @@ echo '<th>BHAA</th>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td>1 BHAA Member</td>';
+echo '<td>BHAA Member</td>';
 echo '<td>'.$member.'</td>';
 echo '<td>10</td>';
 echo '<td>10</td>';
@@ -102,7 +84,7 @@ echo '<td>0</td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td>2 Non-Renewing Member</td>';
+echo '<td>Non-Renewing Member</td>';
 echo '<td>'.$inactive_day.'</td>';
 echo '<td>15</td>';
 echo '<td>10</td>';
@@ -113,7 +95,7 @@ echo '<td>'.($inactive_day*5).'</td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td>3 Renewed Member</td>';
+echo '<td>Renewed Member</td>';
 echo '<td>'.$renew.'</td>';
 echo '<td>25</td>';
 echo '<td>10</td>';
@@ -124,7 +106,7 @@ echo '<td>'.($renew*15).'</td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td>4 Day Member</td>';
+echo '<td>Day Member</td>';
 echo '<td>'.$day.'</td>';
 echo '<td>15</td>';
 echo '<td>10</td>';
@@ -135,7 +117,7 @@ echo '<td>'.($day*5).'</td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td>5 New Member</td>';
+echo '<td>New Member</td>';
 echo '<td>'.$new.'</td>';
 echo '<td>25</td>';
 echo '<td>10</td>';
@@ -157,7 +139,7 @@ echo '<td><h3>'.($bhaa).'</h3></td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td>6 Online Day Member</td>';
+echo '<td>Online Day Member</td>';
 echo '<td>'.($online_day).'</td>';
 echo '<td>15</td>';
 echo '<td>10</td>';
@@ -168,7 +150,7 @@ echo '<td>'.($online_day*5).'</td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td>7 Online Member</td>';
+echo '<td>Online Member</td>';
 echo '<td>'.($online_member).'</td>';
 echo '<td>10</td>';
 echo '<td>10</td>';
@@ -184,7 +166,7 @@ echo '<td> </td>';
 echo '<td> </td>';
 echo '<td> </td>';
 echo '<td> </td>';
-echo '<td><h3>'.$online.'</h3></td>';
+echo '<td><h3>'.$online_total.'</h3></td>';
 echo '<td><h3>'.($online_ro).'</h3></td>';
 echo '<td><h3>'.($online_bhaa).'</h3></td>';
 echo '</tr>';
