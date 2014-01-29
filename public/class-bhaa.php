@@ -81,10 +81,10 @@ class Bhaa {
 		
 		add_action('admin_init',array($this,'bhaa_remove_subscriber_read'));
 		add_action('wp_head',array($this,'bhaa_hide_admin_bar'));
-		//add_filter('login_redirect',array($this,'bhaa_redirect_subscriber_to_home'), 10, 3 );
+		add_filter('login_redirect',array($this,'bhaa_redirect_subscriber_to_home'), 10, 3 );
 		add_filter('wp_nav_menu_items',array($this,'bhaa_add_login_out_item_to_menu'), 50, 2 );
 	}
-
+	
 	//http://wordpress.stackexchange.com/questions/93843/disable-wp-admin-console-for-subscribers/93869#93869
 	function bhaa_remove_subscriber_read() {
 		global $wp_roles;
@@ -135,9 +135,26 @@ class Bhaa {
 			return $this->getRunnerPage();
 		}
 		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
+			
 			if ( !current_user_can( 'edit_users' ) )  {
 				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 			} else {
+				
+				if($post->ID==2651) {
+					wp_register_script(
+					'bhaa_members',
+					plugins_url('/../admin/assets/js/bhaa_members.js', __FILE__ ),
+					array('jquery')
+					);
+					wp_enqueue_script('bhaa_members');
+				
+					wp_register_script(
+					'bhaa-raceday',
+					plugins_url('/../admin/assets/js/bhaa-raceday.js', __FILE__ )
+					);
+					wp_enqueue_script('bhaa-raceday');
+				}
+				
 				$pagename = get_query_var('pagename');
 				//error_log($post->ID.' '.$pagename);
 				return Raceday::get_instance()->handlePage($pagename);
@@ -533,6 +550,7 @@ class Bhaa {
 				'jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
 		wp_enqueue_script('bhaawp');
 			
+		/*
 		wp_register_script(
 			'bhaa-members',
 			plugins_url( '/../admin/assets/js/bhaa_members.js', __FILE__ ),
@@ -545,6 +563,7 @@ class Bhaa {
 			plugins_url( '/../admin/assets/js/bhaa-raceday.js', __FILE__ )
 		);
 		wp_enqueue_script('bhaa-raceday');
+		*/
 		
 		
 		// 		wp_register_script(

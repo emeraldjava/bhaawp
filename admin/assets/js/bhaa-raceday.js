@@ -24,14 +24,27 @@ jQuery(document).ready( function() {
 			} else {
 				jQuery("#bhaa_gender-W").prop("checked",true);
 			}
+			
+			bootstrap_alert('#form_errors', 'User must dismiss this message manually');
 			return false;	
 		}
-	}).data("ui-autocomplete")._renderItem = function(ul,item){
+	})
+	.data("ui-autocomplete")._renderItem = function(ul,item){
 		return jQuery("<li></li>")
 	   	.append("<a>"+item.label+" "+item.id+"</a><small>DOB:"+item.dob+", Status:"+item.status+", Company:"+item.companyname+"</small>")
 	    	.data("ui-autocomplete-item", item)
 			.appendTo(ul);
 	};
+	
+    function bootstrap_alert(elem, message, timeout) {
+  	  jQuery(elem).show().html('<div class="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>');
+
+  	  if (timeout || timeout === 0) {
+  	    setTimeout(function() { 
+  	    	jQuery(elem).alert('close');
+  	    }, timeout);    
+  	  }
+  	};
 	/**
 	 * http://jqueryui.com/autocomplete/#custom-data
 	 * http://stackoverflow.com/questions/14461787/jqueryui-1-10-0-autocompleter-renderitem-problems
