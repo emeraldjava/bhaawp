@@ -57,7 +57,7 @@ $online_ro = ($online_day*10) + ($online_member*10);
 $online_bhaa = ($online_day*5);
 
 echo '<h1>BHAA '.strtoupper($event->event_slug).' Cash</h1>';
-echo '<h2>'.sizeof($registeredRunners).' Registered Runners</h2>';
+echo '<h2>'.sizeof($registeredRunners).' Total Runners</h2>';
 echo '<table width=95%>';
 echo '<tr align="left">';
 echo '<th>Type</th>';
