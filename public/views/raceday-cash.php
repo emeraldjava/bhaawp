@@ -1,11 +1,9 @@
 <?php
-$event = $_REQUEST['event'];//Registration::get_instance()->getEvent();
-$runnerCount = $_REQUEST['runnerCount'];// Registration::get_instance()->getRegistrationTypes($event->race);
+$event = $_REQUEST['event'];
 $registeredRunners = $_REQUEST['registeredRunners'];
 
-var_dump($event);
-var_dump($runnerCount);
-var_dump($registeredRunners);
+//var_dump($event);
+
 
 /**
  * 1 - member - 10e
@@ -201,4 +199,5 @@ echo '<td class="cell">'.$registered->standardscoringset.'</td>';
 echo '</tr>';
 endforeach;
 echo '</table>';
+//var_dump($registeredRunners);
 ?>
