@@ -13,9 +13,9 @@ class Raceday_DayMember_Form {
 	private function dayMemberForm(WP_Form $form) {
 		
 		$eventFieldSet = WP_Form_Element::create('fieldset')->
-			set_name('raceFieldSet')->set_label('Event Details')->set_classes(array('col-md-4'));
+			set_name('raceFieldSet')->set_label('Event Details')->set_classes(array('col-md-6'));
 		$runnerFieldSet = WP_Form_Element::create('fieldset')->
-			set_name('runnerFieldSet')->set_label('Runner Details')->set_classes(array('col-md-4'));
+			set_name('runnerFieldSet')->set_label('Runner Details')->set_classes(array('col-md-6'));
 		
 		// race day field set
 		$racenumber = WP_Form_Element::create('number')
@@ -34,20 +34,22 @@ class Raceday_DayMember_Form {
 		
 		$submit = WP_Form_Element::create('submit')
 			->set_name('submit')
+			->set_classes(array('btn btn-primary col-md-6 col-md-offset-3'))
 			->set_value('Register Runner')
 			->set_label('Register Runner');
 				
 		$eventFieldSet->add_element($racenumber);
 		$eventFieldSet->add_element($race_drop_down);
 		$eventFieldSet->add_element($money_drop_down);
-		$eventFieldSet->add_element($submit);
+		//$eventFieldSet->add_element($submit);
 
 		$firstname = WP_Form_Element::create('text')->set_name('bhaa_firstname')
 			->set_label('First Name')->set_id('bhaa_firstname')->set_classes(array('col-md-8 form-control'));
 		$lastname = WP_Form_Element::create('text')->set_name('bhaa_lastname')
 			->set_label('Last Name')->set_id('bhaa_lastname')->set_classes(array('col-md-8 form-control'));
 		$dateofbirth = WP_Form_Element::create('text')->set_name('bhaa_dateofbirth')
-			->set_label('DoB')->set_id('bhaa_dateofbirth')->set_classes(array('form-group'));		
+			->set_attribute('placeholder','19YY-MM-DD')
+			->set_label('DoB')->set_id('bhaa_dateofbirth')->set_classes(array('col-md-8'));		
 		$gender_drop_down = WP_Form_Element::create('radios')->set_name('bhaa_gender')
 			->set_label('Gender')->set_classes(array('radio-inline'))
 			->add_option('M','M')
@@ -60,6 +62,7 @@ class Raceday_DayMember_Form {
 		
 		$form->add_element($eventFieldSet)
 			->add_element($runnerFieldSet)
+			->add_element($submit)
 			->add_validator(array($this,'bhaa_day_validation_callback'))
 			->add_processor(array($this,'bhaa_day_processing_callback'));
 	}
