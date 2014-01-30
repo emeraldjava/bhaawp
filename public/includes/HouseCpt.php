@@ -17,8 +17,10 @@ class HouseCpt {
 		//add_filter('single_template', array($this,'bhaa_single_house_template'));
 		
 		//add_filter('template_include', array($this,'bhaa_template_include'));
+		add_filter('manage_edit-house_sortable_columns',array($this,'bhaa_manage_edit_house_sortable_columns'));
+		add_action('pre_get_posts',array($this,'bhaa_house_orderby'));
 	}
-	
+		
 	/**
 	 * http://wordpress.stackexchange.com/questions/43624/how-to-choose-which-template-to-be-used-for-multiple-taxonomy-query
 	 */
@@ -55,7 +57,7 @@ class HouseCpt {
  				'date' => __('Date')
  		);
  	}
-	
+ 		
  	function bhaa_manage_house_posts_custom_column( $column, $post_id ) {
  		global $wpdb;
  		switch ($column) {
@@ -256,6 +258,30 @@ class HouseCpt {
 			'slug' => House::PENDING,
 			'parent'=> $parent_term_id)
 		);
+	}
+	
+	/**
+	 * http://wp.tutsplus.com/articles/tips-articles/quick-tip-make-your-custom-column-sortable/
+	 */
+	function bhaa_manage_edit_house_sortable_columns($columns) {
+		$columns['active'] = 'active';
+		$columns['total'] = 'total';
+		//To make a column 'un-sortable' remove it from the array
+		unset($columns['date']);
+		return $columns;
+	}
+	
+	function bhaa_house_orderby( $query ) {
+		if( ! is_admin() )
+			return;
+		//var_dump($query);
+		$orderby = $query->get('orderby');
+	
+		if( 'active' == $orderby ) {
+			//error_log($orderby);
+			//$query->set('meta_key','slices');
+			//$query->set('orderby','meta_value_num');
+		}
 	}
 }
 ?>
