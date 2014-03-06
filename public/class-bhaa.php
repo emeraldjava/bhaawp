@@ -124,8 +124,7 @@ class Bhaa {
 	 */
 	function bhaa_content($page_content) {
 		global $post;
-	
-		//error_log($post->ID.' '.$post->post_type.' '.get_query_var('pagename'));
+		error_log($post->ID.' '.$post->post_type.' '.get_query_var('pagename'));
 		// realex 3143
 		if( $post->ID == 3143) {
 			return Realex::get_instance()->process();
@@ -141,22 +140,26 @@ class Bhaa {
 			} else {
 				
 				if($post->ID==2651) {
+					
+					//wp_dequeue_script('jquery');
+					//wp_deregister_script();
 					wp_register_script(
-					'bhaa_members',
-					plugins_url('/../admin/assets/js/bhaa_members.js', __FILE__ ),
-					array('jquery')
+						'bhaa_members',
+						plugins_url('/../admin/assets/js/bhaa_members.js', __FILE__ ),
+						array('jquery')
 					);
 					wp_enqueue_script('bhaa_members');
 				
 					wp_register_script(
-					'bhaa-raceday',
-					plugins_url('/../admin/assets/js/bhaa-raceday.js', __FILE__ )
+						'bhaa-raceday',
+						plugins_url('/../admin/assets/js/bhaa-raceday.js', __FILE__ )
 					);
 					wp_enqueue_script('bhaa-raceday');
 				}
 				
 				$pagename = get_query_var('pagename');
-				//error_log($post->ID.' '.$pagename);
+				error_log($post->ID.' '.$pagename);
+				error_log($page_content);
 				return Raceday::get_instance()->handlePage($pagename);
 			}
 		}
