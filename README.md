@@ -11,7 +11,7 @@ http://bhaa.ie
 
 Change Log
 ==========
-2014.01.30  Update the raceday form layput
+2014.01.30  Update the raceday form layout
 
 2014.01.29	Update the raceday registration pages.
 
@@ -33,6 +33,14 @@ Change Log
 
 Resources
 =========
+
+-- Virtual Pages
+http://stackoverflow.com/questions/11281071/wordpress-plugin-content-after-the-content-using-add-filter
+http://wordpress.stackexchange.com/questions/12295/creating-a-default-custom-post-template-that-a-theme-can-override
+http://davejesch.com/wordpress/wordpress-tech/creating-virtual-pages-in-wordpress/
+http://stackoverflow.com/questions/17960649/wordpress-plugin-generating-virtual-pages-and-using-theme-template
+http://xaviesteve.com/2851/generate-a-custom-fakevirtual-page-on-the-fly-wordpress-plugin-development/
+
 
 - AJAX
 http://docs.jquery.com/UI/API/1.8/Autocomplete
