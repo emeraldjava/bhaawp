@@ -91,27 +91,43 @@ select
 2492,"I",leagueparticipantid,leaguestandard,leaguedivision,leagueposition,leaguescorecount,leaguepoints
 from bhaaie_members.leaguesummary where leagueid=13;
 
-select * from wp_posts where post_type='race';
+select * from wp_posts where post_type='race' AND id>=3101 AND id<=3523;
 
-select event.tag,
-(select COUNT(team) from bhaa_wp_teamresult where teamraceresult.race=race.id and class NOT IN ('RO','W','WO')) as total,
-(select Min(standardTotal) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='A' group by race,class) as Amin,
-(select Max(standardTotal) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='A' group by race,class) as Amax,
-getTeamStandardQuartile(1,race.id) as 'AQ1',
-(select COUNT(team) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='A' group by race,class) as Ateams,
-(select Min(standardTotal) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='B' group by race,class) as Bmin,
-(select Max(standardTotal) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='B' group by race,class) as Bmax,
-getTeamStandardQuartile(2,race.id) as 'BQ2',
-(select COUNT(team) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='B' group by race,class) as Bteams,
-(select Min(standardTotal) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='C' group by race,class) as Cmin,
-(select Max(standardTotal) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='C' group by race,class) as Cmax,
-getTeamStandardQuartile(3,race.id) as 'CQ3',
-(select COUNT(team) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='C' group by race,class) as Cteams,
-(select Min(standardTotal) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='D' group by race,class) as Dmin,
-(select Max(standardTotal) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='D' group by race,class) as Dmax,
-getTeamStandardQuartile(4,race.id) as 'DQ4',
-(select COUNT(team) from bhaa_wp_teamresult where teamraceresult.race=race.id and Class='D' group by race,class) as Dteams
-from race join event on event.id=race.event
+-- winter 2013
+select wp_posts.post_title,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and class NOT IN ('RO','W','WO')) as total,
+(select Min(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='A' group by race,class) as Amin,
+(select Max(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='A' group by race,class) as Amax,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='A' group by race,class) as Ateams,
+(select Min(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='B' group by race,class) as Bmin,
+(select Max(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='B' group by race,class) as Bmax,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='B' group by race,class) as Bteams,
+(select Min(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='C' group by race,class) as Cmin,
+(select Max(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='C' group by race,class) as Cmax,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='C' group by race,class) as Cteams,
+(select Min(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='D' group by race,class) as Dmin,
+(select Max(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='D' group by race,class) as Dmax,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='D' group by race,class) as Dteams
+from wp_posts where post_type='race' AND id>=3101 AND id<=3523;
+
+-- summer 2013
+select wp_posts.post_title,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and class NOT IN ('RO','W','WO')) as total,
+(select Min(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='A' group by race,class) as Amin,
+(select Max(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='A' group by race,class) as Amax,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='A' group by race,class) as Ateams,
+(select Min(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='B' group by race,class) as Bmin,
+(select Max(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='B' group by race,class) as Bmax,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='B' group by race,class) as Bteams,
+(select Min(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='C' group by race,class) as Cmin,
+(select Max(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='C' group by race,class) as Cmax,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='C' group by race,class) as Cteams,
+(select Min(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='D' group by race,class) as Dmin,
+(select Max(totalstd) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='D' group by race,class) as Dmax,
+(select ROUND(COUNT(team)/3) from wp_bhaa_teamresult trr where trr.race=wp_posts.id and Class='D' group by race,class) as Dteams
+from wp_posts where post_type='race' AND id>=2595 AND id<=2856;
+
+race join event on event.id=wp_posts.event
 where race.id > 2010 and race.type IN ('M','C') and event.type != "track";
 and race.type IN ('M','C') and event.type != "track";
 where race.id between 201200 and 201199 
