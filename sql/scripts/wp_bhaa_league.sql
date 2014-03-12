@@ -1,6 +1,7 @@
 -- schema setup
 DROP TABLE wp_bhaa_teamresult;
 DROP TABLE wp_bhaa_league;
+DROP TABLE wp_bhaa_leaguesummary;
 
 CREATE TABLE wp_bhaa_teamresult (
 	id int(11) auto_increment primary key,
@@ -28,8 +29,7 @@ VALUES
 (3,'A',1,90,'RTE',6),
 (3,'A',2,91,'ESB',5),
 (3,'A',3,97,'Garda',4),
-(3,'B',1,3,'3',6)
-;
+(3,'B',1,3,'3',6);
 
 CREATE TABLE wp_bhaa_league (
 	id int(11) auto_increment primary key,
@@ -48,6 +48,19 @@ VALUES
 (1,1,"DCC",1,"M",4),
 (1,2,"RTE",2,"C",5),
 (1,3,"KCLUB",3,"C",10);
+
+CREATE TABLE wp_bhaa_leaguesummary (
+	league int(10) NOT NULL,
+	leaguetype enum('I','T') NOT NULL,
+	leagueparticipant int(10) NOT NULL,
+	leaguestandard int(10) NOT NULL,
+	leaguedivision varchar(5) NOT NULL,
+	leagueposition int(10) NOT NULL,
+	leaguescorecount int(10) NOT NULL,
+	leaguepoints double NOT NULL,
+	leaguesummary varchar(500)
+);
+
 
 -- SQL Queries
 select * from wp_bhaa_teamresult;
