@@ -66,7 +66,7 @@ order by ".$order,$class);// AND e2r.p2p_from=%d,$this->eventid);
 		
 		if($limit!=0)
 			$SQL .= " limit ".$limit;
-		error_log($SQL);
+		//error_log($SQL);
 		return $this->wpdb->get_results($SQL);
 	}
 	
