@@ -109,7 +109,7 @@ if($racetec->status=='M')
 	<input type="hidden" name="form-submitted" value="true"/>
 </td>
 <td class="cell">
-	<input type="submit" value="<?php echo $racetec->firstname;?> <?php echo $racetec->lastname;?> Race Number"/>
+	<input class="btn btn-success" role="button" type="submit" value="<?php echo $racetec->firstname;?> <?php echo $racetec->lastname;?> Race Number"/>
 </td>
 </form>
 </td>

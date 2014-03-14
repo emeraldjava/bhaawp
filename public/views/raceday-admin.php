@@ -47,10 +47,11 @@ if(isset($_GET['action'])){
 }
 
 
-
-include_once 'page-raceday-header.php';
+include_once 'raceday-header.php';
+//include_once 'page-raceday-header.php';
 
 $event = Raceday::get_instance()->getEvent();
+var_dump($event);
 $registeredRunners = Raceday::get_instance()->listRegisteredRunners();
 
 echo '<h2>BHAA RACE DAY ADMIN</h2>';

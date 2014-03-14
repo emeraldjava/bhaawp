@@ -1,4 +1,6 @@
 <?php
+include_once 'raceday-header.php';
+
 $event = $_REQUEST['event'];
 $registeredRunners = $_REQUEST['registeredRunners'];
 
