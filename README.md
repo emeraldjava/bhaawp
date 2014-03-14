@@ -11,7 +11,9 @@ http://bhaa.ie
 
 Change Log
 ==========
-2014.01.30  Update the raceday form layout
+2014.03.14  Fix up the raceday pages.
+
+2014.01.30  Update the raceday form layout.
 
 2014.01.29	Update the raceday registration pages.
 
