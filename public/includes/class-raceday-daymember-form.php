@@ -70,7 +70,6 @@ class Raceday_DayMember_Form {
 		
 		$form->add_element($eventFieldSet)
 			->add_element($runnerFieldSet)
-			//->add_element($submit)
 			->add_validator(array($this,'bhaa_day_validation_callback'))
 			->add_processor(array($this,'bhaa_day_processing_callback'));
 	}
