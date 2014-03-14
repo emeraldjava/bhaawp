@@ -17,12 +17,16 @@ CREATE TABLE wp_bhaa_teamresult (
 	runner int(11) NOT NULL
 );
 
+-- simulate DCC, Kclub, RTE races
+-- I've added 'raceteam' value to the table, which makes it easier to pick a multi garda team from a specific race
+-- We should only record 'leaguepoints' against the best scoring team
+-- The team league summing logic can then exclude teams with league points of 0.
 INSERT INTO wp_bhaa_teamresult
 (race,class,raceteam,position,team,teamname,leaguepoints,runner)
 VALUES
 (1,'A',1,1,97,'Garda',6,1),
 (1,'A',1,1,97,'Garda',6,2),
-(1,'A',1,1,,97,'Garda',6,3),
+(1,'A',1,1,97,'Garda',6,3),
 (1,'A',2,2,91,'ESB',5,1),
 (1,'A',2,2,91,'ESB',5,2),
 (1,'A',2,2,91,'ESB',5,3),
@@ -35,12 +39,15 @@ VALUES
 (1,'B',5,2,2,'2',5,1),
 (1,'B',5,2,2,'2',5,2),
 (1,'B',5,2,2,'2',5,3),
-(1,'B',6,3,97,'Garda',4,1),
-(1,'B',6,3,97,'Garda',4,2),
-(1,'B',6,3,97,'Garda',4,3),
-(1,'W',7,1,10,'Women',6,1),
-(1,'W',7,1,10,'Women',6,2),
-(1,'W',7,1,10,'Women',6,3),
+(1,'B',7,3,90,'RTE',0,1), --second RTE team with the same position but pick the higher class
+(1,'B',7,3,90,'RTE',0,2),
+(1,'B',7,3,90,'RTE',0,3),
+(1,'B',6,3,97,'Garda',0,1),
+(1,'B',6,3,97,'Garda',0,2),
+(1,'B',6,3,97,'Garda',0,3),
+(4,'W',1,1,10,'Women',6,1),
+(4,'W',1,1,10,'Women',6,2),
+(4,'W',1,1,10,'Women',6,3),
 (2,'A',1,1,1,'1',6,1),
 (2,'A',1,1,1,'1',6,2),
 (2,'A',1,1,1,'1',6,3),
@@ -53,9 +60,9 @@ VALUES
 (2,'C',4,1,4,'4',6,1),
 (2,'C',4,1,4,'4',6,2),
 (2,'C',4,1,4,'4',6,3),
-(2,'W',5,10,'Women',6,1),
-(2,'W',5,10,'Women',6,2),
-(2,'W',5,10,'Women',6,3),
+(2,'W',5,1,10,'Women',6,1),
+(2,'W',5,1,10,'Women',6,2),
+(2,'W',5,1,10,'Women',6,3),
 (3,'A',1,1,90,'RTE',6,1),
 (3,'A',1,1,90,'RTE',6,2),
 (3,'A',1,1,90,'RTE',6,3),
@@ -124,13 +131,20 @@ CREATE TABLE wp_bhaa_leaguesummary (
 
 
 -- SQL Queries
-select * from wp_bhaa_teamresult;
-select * from p2p;
+select * from wp_bhaa_teamresult where race=1;
 
-select tr.* from wp_bhaa_race_detail r
-join wp_bhaa_league l on l.event=r.event
-join wp_bhaa_teamresult tr on tr.race=r.race
-where l.league=1;
+-- order the best scroing teams for a specific race
+select race,teamname,position,MAX(leaguepoints),class from wp_bhaa_teamresult 
+where race=1
+group by race,team
+order by class,position
+
+-- order the best scroing teams for a specific race
+select race,teamname,position,MAX(leaguepoints),class from wp_bhaa_teamresult 
+group by race,team
+order by race,class,position
+
+
 
 
 select l.ID as lid,l.post_title,
