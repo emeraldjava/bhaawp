@@ -140,9 +140,17 @@ group by race,team
 order by class,position
 
 -- order the best scroing teams for a specific race
-select race,teamname,position,MAX(leaguepoints),class from wp_bhaa_teamresult 
+select race,teamname,team,position,MAX(leaguepoints),class from wp_bhaa_teamresult 
 group by race,team
 order by race,class,position
+
+-- get the league summary
+-- BRENDAN - the whole dividing by 3 here
+select teamname,team,ROUND(COUNT(race)/3) as ran,SUM(leaguepoints)/3 as total from wp_bhaa_teamresult 
+where leaguepoints!=0
+group by team
+order by total desc
+
 
 
 
