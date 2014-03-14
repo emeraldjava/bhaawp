@@ -13,7 +13,8 @@
  */
 class Raceday
 {
-	private $event;
+	private $eventModel = null;
+	private $event = null;
 	
 	protected static $instance = null;
 	
@@ -26,9 +27,8 @@ class Raceday
 	}
 	
 	function __construct() {
-		$eventModel = new EventModel();
-		$this->event = $eventModel->getNextEvent();
-		//error_log(print_r($this->event,true));
+		$this->eventModel = new EventModel();
+		$this->event = $this->eventModel->getNextEvent();
 	}
 	
 	function bhaa_register_forms() {
@@ -92,8 +92,7 @@ class Raceday
 	}
 	
 	function getNextRaces()	{
-		$event = new EventModel();
-		return $event->getNextRaces();
+		return $this->eventModel->getNextRaces();
 	}
 	
 	function registerRunner($race,$runner,$racenumber,$standard,$money) {
@@ -110,16 +109,16 @@ class Raceday
 	 * Return the list of registered runners
 	 */
 	function listRegisteredRunners($limit=0,$class='RACE_REG',$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
-		$event = new EventModel(3032);//$this->event->post_id);
-		return $event->listRegisteredRunners($limit,$class,$order);
+		//$event = new EventModel(3032);//$this->event->post_id);
+		return $this->eventModel->listRegisteredRunners($limit,$class,$order);
 	}
 	
 	/**
 	 * Return the list of all pre-registered runners
 	 */
 	function listPreRegisteredRunners() {
-		$event = new EventModel($this->event->post_id);
-		return $event->listRegisteredRunners(0,RaceResult::PRE_REG);
+		//$event = new EventModel($this->event->post_id);
+		return $this->eventModel->listRegisteredRunners(0,RaceResult::PRE_REG);
 	}
 	
 	function deleteRunner($runner,$race) {
@@ -137,8 +136,8 @@ class Raceday
 	 */
 	function export() {
 		error_log("export");
-		$event = new EventModel(3032);//$this->event->post_id);
-		$runners = $event->listRegisteredRunners();
+		//$event = new EventModel(3032);//$this->event->post_id);
+		$runners = $this->eventModel->listRegisteredRunners();
 
 		$output = "";
 		$columns = $runners[0];
@@ -198,7 +197,7 @@ class Raceday
 		//fclose($fp);
 		// This function removes all content from the output buffer
 		//ob_end_clean();
-		error_log("done");
+		error_log("exported file");
 		echo $output;
 		//exit;		
 	}
