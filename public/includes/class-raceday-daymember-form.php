@@ -1,5 +1,9 @@
 <?php 
-class Raceday_DayMember_Form {
+class Raceday_DayMember_Form extends Raceday_Form {
+	
+	function __construct(){
+		parent::__construct();
+	}
 	
 	public function build_form(WP_Form $form) {
 		$form->add_class('form-horizontal');
@@ -21,11 +25,6 @@ class Raceday_DayMember_Form {
 		$racenumber = WP_Form_Element::create('number')
 			->set_name('bhaa_racenumber')->set_id('bhaa_racenumber')
 			->set_label('Race Number')->set_classes(array('form-control'));
-
-		$race_drop_down = WP_Form_Element::create('radios')->set_name('bhaa_race')->set_label('Race');
-		$race_drop_down
-			->add_option(3256,'5Mile Men')
-			->add_option(3255,'2M Women');
 			
 		$money_drop_down = WP_Form_Element::create('radios')->set_name('bhaa_money')->set_label('Money');
 		$money_drop_down
@@ -39,7 +38,7 @@ class Raceday_DayMember_Form {
 			->set_label('Register Runner');
 				
 		$eventFieldSet->add_element($racenumber);
-		$eventFieldSet->add_element($race_drop_down);
+		$eventFieldSet->add_element($this->race_drop_down);
 		$eventFieldSet->add_element($money_drop_down);
 		$eventFieldSet->add_element($submit);
 

@@ -33,6 +33,7 @@ require_once(BHAA_PLUGIN_DIR.'/public/includes/RaceCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standard.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standardcalculator.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-form.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-registration-form.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-daymember-form.php');
 
