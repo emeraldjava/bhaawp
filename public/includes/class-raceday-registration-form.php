@@ -52,11 +52,21 @@ class Raceday_Registration_Form {
 			->set_attribute('placeholder','Race Number')
 			->set_classes(array('form-control'));
 
+		
+		$races = Raceday::get_instance()->getNextRaces();
+		//var_dump($races);
+
+		
 		$race_drop_down = WP_Form_Element::create('radios')
 			->set_name('bhaa_race')
-			->set_label('Race')
-			->add_option(3256,'5Mile Men')
-			->add_option(3255,'2M Women');
+			->set_label('Race');
+		//	->add_option(3256,'5Mile Men')
+		//	->add_option(3255,'2M Women');
+		foreach ($races as $race ) {
+			$race_drop_down->add_option($race->id,$race->dist.''.$race->unit);
+			//if(sizeof($races)==1)
+				//$race_drop_down->set_attribute('selected','true');
+		}
 			
 		$money_drop_down = WP_Form_Element::create('radios')
 			->set_name('bhaa_money')
