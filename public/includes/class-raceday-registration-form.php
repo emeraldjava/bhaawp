@@ -54,15 +54,13 @@ class Raceday_Registration_Form {
 
 		$race_drop_down = WP_Form_Element::create('radios')
 			->set_name('bhaa_race')
-			->set_label('Race');
-		$race_drop_down
+			->set_label('Race')
 			->add_option(3256,'5Mile Men')
 			->add_option(3255,'2M Women');
 			
 		$money_drop_down = WP_Form_Element::create('radios')
 			->set_name('bhaa_money')
-			->set_label('Money');
-		$money_drop_down
+			->set_label('Money')
 			->add_option(1,'10e Member')
 			->add_option(3,'25e Renew')
 			->add_option(2,'15e Day');
@@ -82,12 +80,12 @@ class Raceday_Registration_Form {
 			->set_name('bhaa_firstname')
 			->set_label('First Name')
 			->set_id('bhaa_firstname')
-			->set_classes(array('form-control'));//col-sm-8
+			->set_classes(array('form-control'));
 		$lastname = WP_Form_Element::create('text')
 			->set_name('bhaa_lastname')
 			->set_label('Last Name')
 			->set_id('bhaa_lastname')
-			->set_classes(array('form-control'));//col-sm-8
+			->set_classes(array('form-control'));
 		
 		$gender_drop_down = WP_Form_Element::create('radios')
 			->set_name('bhaa_gender')
@@ -101,7 +99,7 @@ class Raceday_Registration_Form {
 			->set_name('bhaa_dateofbirth')
 			->set_label('DoB')
 			->set_id('bhaa_dateofbirth')
-			->set_classes(array('form-control'));//col-sm-8
+			->set_classes(array('form-control'));
 		
 		$runnerFieldSet->add_element($firstname);
 		$runnerFieldSet->add_element($lastname);
@@ -153,10 +151,8 @@ class Raceday_Registration_Form {
 		
 		$runner = $submission->get_value('bhaa_runner');
 		$racenumber = $submission->get_value('bhaa_racenumber');
-		if($racenumber==0) {
+		if($racenumber==0||$racenumber=='')
 			$submission->add_error('bhaa_racenumber', 'Enter a valid race number');
-			$form->get_element('bhaa_racenumber')->set_classes(array('form-control has-error'));
-		}
 
 		global $wpdb;
 		$runnerCount = $wpdb->get_var(
@@ -194,7 +190,7 @@ class Raceday_Registration_Form {
 		Raceday::get_instance()->registerRunner($race, $runner, $racenumber, $standard, $money);
 		
 		// redirect the user after the form is submitted successfully
-		$submission->set_redirect('/raceday-latest');//home_url('aPage'));
+		$submission->set_redirect('/raceday-list');
 	}
 }
 ?>

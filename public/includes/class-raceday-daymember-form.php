@@ -50,12 +50,13 @@ class Raceday_DayMember_Form {
 			->set_classes(array('form-control'));
 		$lastname = WP_Form_Element::create('text')
 			->set_name('bhaa_lastname')
-			->set_label('Last Name')->set_id('bhaa_lastname')
+			->set_label('Last Name')
+			->set_id('bhaa_lastname')
 			->set_classes(array('form-control'));
 		$dateofbirth = WP_Form_Element::create('text')
 			->set_name('bhaa_dateofbirth')
 			->set_attribute('placeholder','19YY-MM-DD')
-			->set_label('DoB')
+			->set_label('Date of Birth')
 			->set_id('bhaa_dateofbirth')
 			->set_classes(array('form-control'));		
 		$gender_drop_down = WP_Form_Element::create('radios')->set_name('bhaa_gender')
@@ -75,20 +76,19 @@ class Raceday_DayMember_Form {
 	}
 	
 	public function bhaa_day_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
-		
+		//error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));		
 		$race = $submission->get_value('bhaa_race');
 		$runner = $submission->get_value('bhaa_runner');
 		$racenumber = $submission->get_value('bhaa_racenumber');
 		$standard = $submission->get_value('bhaa_standard');
 		$money = $submission->get_value('bhaa_money');
-		
-		//error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
-		
+
+		// validate race selected
 		$race = $submission->get_value('bhaa_race');
 		if(!isset($race))
 			$submission->add_error('bhaa_race', 'Select a Race');
 		
-		$runner = $submission->get_value('bhaa_runner');
+		// validate race number selected
 		$racenumber = $submission->get_value('bhaa_racenumber');
 		if($racenumber==0)
 			$submission->add_error('bhaa_racenumber', 'Enter a valid race number');
@@ -107,9 +107,30 @@ class Raceday_DayMember_Form {
 		if($numberCount)
 			$submission->add_error('bhaa_racenumber', 'Race number '.$racenumber.' has already been assigned!');
 		
+		// money
 		$money = $submission->get_value('bhaa_money');
 		if(!isset($money))
 			$submission->add_error('bhaa_money', 'Enter the money paid!');
+		
+		// bhaa_firstname
+		$firstname = $submission->get_value('bhaa_firstname'); 
+		if(!isset($firstname)||$firstname=='')
+			$submission->add_error('bhaa_firstname', 'First name is required!');
+		
+		// bhaa_lastname
+		$bhaa_lastname = $submission->get_value('bhaa_lastname'); 
+		if(!isset($bhaa_lastname)||$bhaa_lastname=='')
+			$submission->add_error('bhaa_lastname', 'Surname name is required!');
+		
+		// date of birth format
+		$dob = $submission->get_value('bhaa_dateofbirth');
+		if (!preg_match("/^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/",$dob))
+			$submission->add_error('bhaa_dateofbirth', 'Date of Birth '.$dob.' MUST be yyyy-mm-dd format!');
+		
+		// gender
+		$gender = $submission->get_value('bhaa_gender');
+		if(!isset($gender))
+			$submission->add_error('bhaa_gender', 'Enter the runners gender!');
 	}
 	
 	public function bhaa_day_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
@@ -122,8 +143,8 @@ class Raceday_DayMember_Form {
 		
 		if($runner=='') {
 			$runner = Runner_Manager::get_instance()->addNewMember(
-				$submission->get_value('bhaa_firstname'),
-				$submission->get_value('bhaa_lastname'),
+				ucfirst($submission->get_value('bhaa_firstname')),
+				ucfirst($submission->get_value('bhaa_lastname')),
 				$submission->get_value('bhaa_gender'),
 				$submission->get_value('bhaa_dateofbirth'));
 		}
@@ -132,7 +153,7 @@ class Raceday_DayMember_Form {
 		Raceday::get_instance()->registerRunner($race, $runner, $racenumber, 30, $money);
 		
 		// redirect the user after the form is submitted successfully
-		$submission->set_redirect('/raceday-latest');//home_url('aPage'));
+		$submission->set_redirect('/raceday-list');
 	}
 }
 ?>
