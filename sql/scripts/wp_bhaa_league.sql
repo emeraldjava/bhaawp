@@ -144,9 +144,17 @@ select race,teamname,team,position,MAX(leaguepoints),class from wp_bhaa_teamresu
 group by race,team
 order by race,class,position
 
--- get the league summary
--- BRENDAN - the whole dividing by 3 here
-select teamname,team,ROUND(COUNT(race)/3) as ran,SUM(leaguepoints)/3 as total from wp_bhaa_teamresult 
+-- get the league totals
+select teamname,team,ROUND(COUNT(race)/3) as ran,SUM(leaguepoints)/3 as total
+from wp_bhaa_teamresult 
+where leaguepoints!=0
+group by team
+order by total desc
+
+-- add the summary of race results
+select teamname,team,ROUND(COUNT(race)/3) as ran,SUM(leaguepoints)/3 as total,
+(select GROUP_CONCAT( cast( concat('[r=',race,':p=',leaguepoints,']') AS char ) SEPARATOR ',') ) AS summary
+from wp_bhaa_teamresult 
 where leaguepoints!=0
 group by team
 order by total desc
