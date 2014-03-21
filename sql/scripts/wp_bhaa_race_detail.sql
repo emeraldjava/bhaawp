@@ -50,19 +50,41 @@ ORDER BY position,class
 
 ALTER TABLE wp_bhaa_teamresult ADD COLUMN points DOUBLE DEFAULT NULL AFTER leaguepoints;
 
--- the best teams in race
-select race,team,teamname,MAX(leaguepoints),totalpos,COUNT(DISTINCT(totalpos)) from wp_bhaa_teamresult 
+select race,team,teamname,MAX(leaguepoints),totalpos from wp_bhaa_teamresult 
 WHERE race=3523 
--- AND team=94
+AND team=94
 GROUP BY race,team
+-- ORDER BY leaguepoints desc, totalpos
+limit 1;
+
+-- http://stackoverflow.com/questions/19401155/mysql-update-max-value-with-group-by
+-- http://stackoverflow.com/questions/16910050/get-row-with-highest-or-lowest-value-from-a-group-by
+-- the best teams in race
+select race,team,teamname,id,class,position,MAX(leaguepoints),totalpos from wp_bhaa_teamresult 
+WHERE race=3523 
+GROUP BY race,team
+ORDER BY leaguepoints desc,totalpos
+
+select * from wp_bhaa_teamresult r
+inner join 
 
 -- group by race and team position, order by league points
-select race,team,teamname,class,leaguepoints,position,totalpos,COUNT(DISTINCT(totalpos)) from wp_bhaa_teamresult 
+select race,team,teamname,class,leaguepoints,position,totalpos,points from wp_bhaa_teamresult 
 WHERE race=3523 
 GROUP BY race,totalpos
 ORDER BY race,team,leaguepoints desc
 
--- UPDATE wp_bhaa_teamresult SET points
+UPDATE wp_bhaa_teamresult oteam,
+(
+select i.race,i.team,i.teamname,MAX(i.leaguepoints) as bestpoints,i.totalpos,COUNT(DISTINCT(i.totalpos)) as teams from wp_bhaa_teamresult i
+WHERE i.race=race
+AND i.team=team
+GROUP BY i.race,i.team
+) best
+SET oteam.points=best.bestpoints
+where oteam.team=best.team
+AND oteam.totalpos=best.totalpos
+AND oteam.race=3523;
 
 
 
