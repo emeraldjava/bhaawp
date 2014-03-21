@@ -43,3 +43,20 @@ select DISTINCT(meta_key) from wp_postmeta;
 select DISTINCT(post_type) from wp_posts;
 select ID,post_title from wp_posts where post_type="league";
 
+-- 3523 the garda teams from AIB/NUI
+select * from wp_bhaa_teamresult 
+WHERE race=3523 AND team=94
+ORDER BY position,class
+
+ALTER TABLE wp_bhaa_teamresult ADD COLUMN points DOUBLE DEFAULT NULL AFTER leaguepoints;
+
+-- the best teams in race
+select race,team,teamname,MAX(leaguepoints),totalpos,COUNT(DISTINCT(totalpos)) from wp_bhaa_teamresult 
+WHERE race=3523 
+-- AND team=94
+GROUP BY race,team
+
+-- UPDATE wp_bhaa_teamresult SET points
+
+
+
