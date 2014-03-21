@@ -17,14 +17,14 @@ DELETE FROM wp_bhaa_race_detail;
 
 select 
 l2e.p2p_from as league,
-e.ID as event,
-e.post_title as eventname,
-e.post_date as eventdate,
-r.ID as race
+event.ID as event,
+event.post_title as eventname,
+event.post_date as eventdate,
+race.ID as race
 from wp_p2p l2e
-join wp_posts e on (l2e.p2p_to=e.ID)
+join wp_posts event on (l2e.p2p_to=event.ID)
 join wp_p2p e2r on (l2e.p2p_to=e2r.p2p_from AND e2r.p2p_type='event_to_race')
-join wp_posts r on (e2r.p2p_to=r.ID)
+join wp_posts race on (e2r.p2p_to=race.ID)
 where l2e.p2p_type='league_to_event' and l2e.p2p_from=3103
 ORDER BY eventdate;
 
