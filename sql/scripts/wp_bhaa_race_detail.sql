@@ -15,7 +15,15 @@ CREATE TABLE wp_bhaa_race_detail (
 SELECT * FROM wp_bhaa_race_detail;
 DELETE FROM wp_bhaa_race_detail;
 
-select * from wp_p2p where p2p_type='league_to_event' and p2p_from=3103;
+select 
+l2e.p2p_from as league,
+e.ID as event,
+e.post_title as eventname,
+e.post_date as eventdate
+from wp_p2p l2e
+join wp_posts e on (l2e.p2p_to=e.ID)
+where l2e.p2p_type='league_to_event' and l2e.p2p_from=3103
+ORDER BY eventdate;
 
 select DISTINCT(post_type) from wp_posts;
 select ID,post_title from wp_posts where post_type="league";
