@@ -56,6 +56,12 @@ WHERE race=3523
 -- AND team=94
 GROUP BY race,team
 
+-- group by race and team position, order by league points
+select race,team,teamname,class,leaguepoints,position,totalpos,COUNT(DISTINCT(totalpos)) from wp_bhaa_teamresult 
+WHERE race=3523 
+GROUP BY race,totalpos
+ORDER BY race,team,leaguepoints desc
+
 -- UPDATE wp_bhaa_teamresult SET points
 
 
