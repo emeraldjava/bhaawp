@@ -73,11 +73,9 @@ class RaceResult_List_Table extends WP_List_Table
 	    	'standard' => array('standard',false)
 	  	);
 		return $sortable_columns;
-		//return array();
 	}
 
 	function column_default( $item, $column_name ) {
-		//error_log('column_default '.$item['position'].' '.memory_get_usage());
 		switch( $column_name )
 		{
 			case 'race':
@@ -99,7 +97,6 @@ class RaceResult_List_Table extends WP_List_Table
 			default:
 				return print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
 		}
-		//ob_flush();
 	}
 
 	/**
@@ -114,16 +111,11 @@ class RaceResult_List_Table extends WP_List_Table
  	}
  	
  	function column_racetime($item) {
-		$edit = current_user_can('manage_options');
-		if($edit){
-	 		$form = sprintf('[%3$d]<form method="POST" action="">
-	 			<input type="text" name="racetime" value="%1$s" size="8"/><input type="submit" name="submit" value="Edit"/>
-	 			<input type="hidden" name="id" value="%2$d"/><input type="hidden" name="editracetime" value="true"/>
-	 			</form>',$item['racetime'],$item['id'],$item['actualstandard']);
-	 		return $form;
-		} else {
-	 		return sprintf('%1$s [%3$d] %2$s', $item['racetime'], $this->row_actions($actions), $item['actualstandard'] );
-		}
+ 		return sprintf('%1$s [%3$d] %2$s', $item['racetime'], $this->row_actions($actions), $item['actualstandard'] );
+ 	}
+ 	
+ 	function column_position($item) {
+ 		return sprintf('<a href="/runner-editresult?id=%d&runner=%d">%d</a>',$item['id'],$item['runner'],$item['position']);
  	}
  	
  	function column_standard($item) {
@@ -184,38 +176,14 @@ class RaceResult_List_Table extends WP_List_Table
 		$this->items = $querydata;
 	}
 
-	function renderTable($race)
-	{   
-		//error_log("render table ".$race);
-		
+	function renderTable($race)	{   
 		$this->prepare_items($race);
-		//echo '<div class="wrap">';
-		//ob_clean();
 		ob_start();
 		$this->display();
-		//$res = ob_get_contents();
-		//flush();
 		return ob_get_clean();
-		//return ob_end_flush();
-		//return $res;
-		//echo '</div>';
-		//return ob_get_clean();
 	}
-	
-// 	function display_rows() {
-// 		parent::display_rows();
-// 		//error_log('column_display_name '.$item.' '.memory_get_usage(true));
-// 		//ob_flush();
-// 	}
 
-// 	function single_row( $item ) {
-// 		parent::single_row($item);
-// 		//error_log('single_row '.$item.' '.memory_get_usage(true));
-// 		//ob_flush();
-// 	}
-	
-	function renderRunnerTable($runner)
-	{
+	function renderRunnerTable($runner) {
 		echo '<div class="wrap">';
 		$this->prepareRunnerItems($runner);
 		$this->display();
