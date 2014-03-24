@@ -17,8 +17,8 @@ class HouseCpt {
 		//add_filter('single_template', array($this,'bhaa_single_house_template'));
 		
 		//add_filter('template_include', array($this,'bhaa_template_include'));
-		add_filter('manage_edit-house_sortable_columns',array($this,'bhaa_manage_edit_house_sortable_columns'));
-		add_action('pre_get_posts',array($this,'bhaa_house_orderby'));
+		//add_filter('manage_edit-house_sortable_columns',array($this,'bhaa_manage_edit_house_sortable_columns'));
+		//add_action('pre_get_posts',array($this,'bhaa_house_orderby'));
 	}
 		
 	/**
