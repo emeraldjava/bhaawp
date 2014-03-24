@@ -109,13 +109,13 @@ class Raceday
 	 * Return the list of registered runners
 	 */
 	function listRegisteredRunners($limit=0,$class='RACE_REG',$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
-		$special_query_results = get_transient( 'bhaa_registered_runners' );
-		if ( empty( $special_query_results ) ){
-			$special_query_results = $this->eventModel->listRegisteredRunners($limit,$class,$order);
-			set_transient( 'bhaa_registered_runners', $special_query_results, MINUTE_IN_SECONDS );
-		} 
-		return $special_query_results;
-		//return $this->eventModel->listRegisteredRunners($limit,$class,$order);
+		//$special_query_results = get_transient( 'bhaa_registered_runners' );
+		//if ( empty( $special_query_results ) ){
+		//	$special_query_results = $this->eventModel->listRegisteredRunners($limit,$class,$order);
+		//	set_transient( 'bhaa_registered_runners', $special_query_results, MINUTE_IN_SECONDS );
+		//} 
+		//return $special_query_results;
+		return $this->eventModel->listRegisteredRunners($limit,$class,$order);
 	}
 	
 	/**
