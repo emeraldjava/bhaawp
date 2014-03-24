@@ -97,9 +97,9 @@ class Raceday_Registration_Form extends Raceday_Form {
 			->set_label('BHAA ID')
 			->set_classes(array('form-control'));
 		$company = WP_Form_Element::create('text')
-			->set_name('company')
+			->set_name('bhaa_company')
 			->set_label('Company')
-			->set_id('company')
+			->set_id('bhaa_company')
 			->set_classes(array('form-control'));
 		$standard = WP_Form_Element::create('text')
 			->set_name('bhaa_standard')
