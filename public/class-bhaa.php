@@ -125,14 +125,18 @@ class Bhaa {
 	 */
 	function bhaa_content($page_content) {
 		global $post;
-		error_log($post->ID.' '.$post->post_type.' '.get_query_var('pagename'));
+		//error_log($post->ID.' '.$post->post_type.' '.get_query_var('pagename'));
 		// realex 3143
 		if( $post->ID == 3143) {
 			return Realex::get_instance()->process();
 		} 
 		else if($post->ID==2025) {
 			// runner page
-			return $this->getRunnerPage();
+			include_once('views/runner.php');
+		}
+		else if($post->ID==3658){
+			// runner-editresult
+			include_once('views/runner-editresult.php');
 		}
 		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
 			
@@ -159,8 +163,8 @@ class Bhaa {
 				}
 				
 				$pagename = get_query_var('pagename');
-				error_log($post->ID.' '.$pagename);
-				error_log($page_content);
+				//error_log($post->ID.' '.$pagename);
+				//error_log($page_content);
 				return Raceday::get_instance()->handlePage($pagename);
 			}
 		}
@@ -178,14 +182,6 @@ class Bhaa {
 		else
 			return $page_content;
 	}
-	
-	private function getRunnerPage(){
-		include_once('views/runner.php');
-	}
-
-/* 	private function getRacedayPage(){
-		include_once('views/raceday.php');
-	} */
 	
 	/**
 	 * BHAA query vars
