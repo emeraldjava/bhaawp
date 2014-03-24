@@ -77,10 +77,13 @@ class Raceday_DayMember_Form extends Raceday_Form {
 			$submission->add_error('bhaa_lastname', 'Surname name is required!');
 		
 		// date of birth format
+		// http://stackoverflow.com/questions/19773418/regex-to-validate-date-in-php-using-format-as-yyyy-mm-dd
 		$dob = $submission->get_value('bhaa_dateofbirth');
-		if (!preg_match("/^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/",$dob))
+		$date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
+		//$date_regex = '/^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/';
+		if (!preg_match($date_regex,$dob))
 			$submission->add_error('bhaa_dateofbirth', 'Date of Birth '.$dob.' MUST be yyyy-mm-dd format!');
-		
+						
 		// gender
 		$gender = $submission->get_value('bhaa_gender');
 		if(!isset($gender))
