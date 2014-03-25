@@ -11,6 +11,8 @@ http://bhaa.ie
 
 Change Log
 ==========
+2014.03.25  Add GitHub Timeout
+
 2014.03.24  Add company name to autocomplete.
 			Fix dob regex.
 			Add page to edit a runners race result.
