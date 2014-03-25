@@ -227,26 +227,50 @@ class Runner_Manager {
 		}
 	}
 	
-	public function mergeRunner($runner,$deleteRunner)
-	{
-		error_log('merging runner '.$merge.' to '.$runner);
+	public function mergeRunner($runner,$deleteRunner) {
+		error_log('merging runner '.$deleteRunner.' to '.$runner);
 		global $wpdb;
 		// update existing race results
-		error_log('moved raceresults '.$wpdb->update(
-		'wp_bhaa_raceresult',
-		array('runner' => $runner),
-		array('runner' => $deleteRunner)
-		));
-		error_log('deleted metadata '.$wpdb->delete(
-		'wp_usermeta',
-		array('user_id' => $deleteRunner)
-		));
-		error_log('deleted user '.$wpdb->delete(
-		'wp_users',
-		array('ID' => $deleteRunner)
-		));
-		//require_once( ABSPATH . 'wp-admin/wp-includes/user.php' );
-		//wp_delete_user($merge, $runner);
+		$wpdb->update(
+			'wp_bhaa_raceresult',
+			array('runner' => $runner),
+			array('runner' => $deleteRunner)
+		);
+		// update team results
+		$wpdb->update(
+			'wp_bhaa_teamresult',
+			array('runner' => $runner),
+			array('runner' => $deleteRunner)
+		);
+		// wp_bhaa_leaguerunnerdata
+		$wpdb->update(
+			'wp_bhaa_leaguerunnerdata',
+			array('runner' => $runner),
+			array('runner' => $deleteRunner)
+		);
+		// wp_bhaa_leaguesummary
+		$wpdb->update(
+			'wp_bhaa_leaguerunnerdata',
+			array('leagueparticipant' => $runner),
+			array('leagueparticipant' => $deleteRunner,'leaguetype'=>'I')
+		);
+		// update any bookings
+		$wpdb->update(
+			'wp_em_bookings',
+			array('person_id' => $runner),
+			array('person_id' => $deleteRunner)
+		);
+
+		// delete the user and metadata
+		$wpdb->delete(
+			'wp_usermeta',
+			array('user_id' => $deleteRunner)
+		);
+		$wpdb->delete(
+			'wp_users',
+			array('ID' => $deleteRunner)
+		);
+		error_log('merged runner '.$deleteRunner.' to '.$runner);
 	}
 	
 	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='') {
