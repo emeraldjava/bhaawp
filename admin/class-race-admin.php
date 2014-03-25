@@ -2,6 +2,8 @@
 /**
  * Race Admin Stuff
  * @author oconnellp
+ * 
+ * http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
  */
 class RaceAdmin {
 	

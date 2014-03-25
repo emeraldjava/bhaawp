@@ -25,8 +25,8 @@ class RaceCpt
 		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
 	}
 		
-	public function bhaa_register_race_cpt()
-	{
+	public function bhaa_register_race_cpt() {
+		
 		$raceLabels = array(
 				'name' => _x( 'Races', 'race' ),
 				'singular_name' => _x( 'Race', 'race' ),
@@ -115,6 +115,7 @@ class RaceCpt
 		echo '<option value="TRACK" '.(($type[0]=='TRACK')?'selected="selected"':"").'>TRACK</option>';
 		echo '</select></p>';
 		
+		// http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
 		// admin url links		
 		echo sprintf('<a href="%s">Delete Results</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa'));
 		echo sprintf('<a href="%s">Load Results</a><br/>',wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa'));
@@ -141,7 +142,7 @@ class RaceCpt
 	 * Save the race meta data
 	 * @param unknown_type $post_id
 	 */
-	public function bhaa_save_race_meta( $post_id ){
+	public function bhaa_save_race_meta( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			return;
 
