@@ -62,11 +62,18 @@ class RaceAdmin {
 	 * Filters for specific cpt actions.
 	 */
 	function bhaa_race_actions() {
-		global $post_id;
-		//$post_id = $_GET['post_id'];
-		$raceResult = new RaceResult($post_id);
 		
-		switch ($_REQUEST['action']) {
+		//error_log("GET  :".print_r($_GET,true));
+		//error_log("POST :".print_r($_POST,true));
+
+		$action = $_GET['action'];
+		if(isset($action) && (substr($action, 0, 4) === 'bhaa')){
+			error_log('bhaa_race_actions() '.print_r($_GET,true));	
+			$post_id = $_GET['post_id'];
+			$raceResult = new RaceResult($post_id);
+		
+		switch ($action) {
+				
 			case "bhaa_race_delete_results":
 				$raceResult->deleteRaceResults();
 				queue_flash_message("bhaa_race_delete_results");
@@ -75,7 +82,9 @@ class RaceAdmin {
 				break;
 			case "bhaa_race_load_results":
 				$post = get_post($post_id);
-				$results = explode("\n",$post->post_content);
+				$resultText = $post->post_content;
+				error_log('bhaa_race_load_results('.strlen($resultText).')');
+				$results = explode("\n",$resultText);
 				error_log('Number of rows '.sizeof($results));
 				$n=0;
 				foreach($results as $result)
@@ -168,6 +177,7 @@ class RaceAdmin {
 				Raceday::get_instance()->export();
 				exit();
 				break;
+			}	
 		}
 	}
 	
