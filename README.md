@@ -11,6 +11,8 @@ http://bhaa.ie
 
 Change Log
 ==========
+2014.03.26  Update logic around getting the post_id for the race admin, needs more work.
+
 2014.03.25  Add GitHub Timeout
 
 2014.03.24  Add company name to autocomplete.
