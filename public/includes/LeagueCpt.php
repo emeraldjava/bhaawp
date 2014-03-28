@@ -49,9 +49,10 @@ class LeagueCpt
 	 * 
 	 */
 	function bhaa_league_populate() {
+		$time = time();
 		// Do your stuff here
-		error_log('bhaa_league_populate  GET:'.print_r($_GET,true));
-		error_log('bhaa_league_populate POST:'.print_r($_POST,true));
+		error_log($time.' bhaa_league_populate  GET:'.print_r($_GET,true));
+		error_log($time.' bhaa_league_populate POST:'.print_r($_POST,true));
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
@@ -69,9 +70,13 @@ class LeagueCpt
 	}
 	
 	function bhaa_league_populate_fields() {
-		echo '<form method="POST" action="<?php echo admin_url( '.admin.php.' ); ?>">
+		
+		$url = admin_url( 'admin.php' );
+		error_log('bhaa_league_populate_fields '.$url);
+		echo '<form method="POST" action="'.admin_url( 'admin.php').'">
 		    <input type="hidden" name="action" value="bhaa_league_populate" />
-		    <input type="submit" value="Do it!" />
+			<input type="hidden" name="from" value="meta-box" />
+		    <input type="submit" value="Do it - meta-box!" />
 		</form>';
 	}
 	
@@ -222,7 +227,7 @@ class LeagueCpt
 						wp_nonce_url(
 							sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa_update_league_data'.$post->ID)),
 					'bhaa_league_populate' => 
-						'<a id="bhaa_league_populate" href=\''.admin_url('?action=bhaa_league_populate&post='.$post->ID).'\'>
+						'<a id="bhaa_league_populate" href=\''.admin_url('admin.php?action=bhaa_league_populate&from=custom_post_row_action&post='.$post->ID).'\'>
 						bhaa_league_populate</a>'
 //						'<script type="text/javascript">
 	//						$(document).ready(function(){
