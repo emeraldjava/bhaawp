@@ -33,6 +33,13 @@ class LeagueCpt
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
 		
+		wp_register_script(
+			'bhaa.league',
+			plugins_url('../assets/js/bhaa.league.js',__FILE__),
+			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable',
+			'jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
+		wp_enqueue_script('bhaa.league');
+		
 		// register the admin_action hook
 		add_action( 'admin_action_bhaa_league_populate', array( &$this,'bhaa_league_populate'));
 		add_action( 'admin_menu', array( &$this,'bhaa_league_populate_metabox'));
@@ -214,7 +221,17 @@ class LeagueCpt
 					'update_league' => sprintf('<a href="%s">Update League</a>',
 						wp_nonce_url(
 							sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa_update_league_data'.$post->ID)),
-					'bhaa_league_populate' => '<a href=\''.admin_url('?action=bhaa_league_populate&post='.$post->ID).'\' target=\'blank\'>bhaa_league_populate</a>'
+					'bhaa_league_populate' => 
+						'<a id="bhaa_league_populate" href=\''.admin_url('?action=bhaa_league_populate&post='.$post->ID).'\'>
+						bhaa_league_populate</a>'
+//						'<script type="text/javascript">
+	//						$(document).ready(function(){
+		//						$(#bhaa_league_populate).bind("click", function(event) {
+			//						event.preventDefault();
+				//					var url = $(this).attr("href");
+					//				alert("Now I want to call this page: " + url);
+						//		});
+							//	</script>'
 			));
 		}
 		return $actions;
