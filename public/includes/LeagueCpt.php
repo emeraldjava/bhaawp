@@ -1,4 +1,20 @@
 <?php
+/**
+ * Represents a BHAA league where events and their races are linked so that we can
+ * aggregate the details of runner and team results.
+ * 
+ * This topic shows how to handle FORM submission via action hooks with a POST
+ * http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
+ * 
+ * But want to use custom post-row-action URL which are based on URL with a GET
+ * http://wordpress.stackexchange.com/questions/8481/custom-post-row-actions
+ * 
+ * The idea is to map the URL GET to a FORM POST via jquery
+ * http://stackoverflow.com/questions/9748593/jquery-convert-get-url-to-post
+ * 
+ * @author oconnellp
+ *
+ */
 class LeagueCpt
 {
 	const BHAA_LEAGUE_RACES_TO_SCORE = 'races_to_score';
@@ -16,6 +32,40 @@ class LeagueCpt
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
+		
+		// register the admin_action hook
+		add_action( 'admin_action_bhaa_league_populate', array( &$this,'bhaa_league_populate'));
+		add_action( 'admin_menu', array( &$this,'bhaa_league_populate_metabox'));
+	}
+	
+	/**
+	 * 
+	 */
+	function bhaa_league_populate() {
+		// Do your stuff here
+		error_log('bhaa_league_populate  GET:'.print_r($_GET,true));
+		error_log('bhaa_league_populate POST:'.print_r($_POST,true));
+		wp_redirect( $_SERVER['HTTP_REFERER'] );
+		exit();
+	}
+	
+	//add_action( 'admin_menu', 'wpse10500_admin_menu' );
+	function bhaa_league_populate_metabox() {
+		add_meta_box(
+			'bhaa_league_populate',
+			__( 'bhaa_league_populate', 'bhaa_league_populate' ),
+			array(&$this, 'bhaa_league_populate_fields'),
+			'league',
+			'side',
+			'low'
+		);
+	}
+	
+	function bhaa_league_populate_fields() {
+		echo '<form method="POST" action="<?php echo admin_url( '.admin.php.' ); ?>">
+		    <input type="hidden" name="action" value="bhaa_league_populate" />
+		    <input type="submit" value="Do it!" />
+		</form>';
 	}
 	
 	/**
@@ -159,10 +209,12 @@ class LeagueCpt
 	
 	function bhaa_league_post_row_actions($actions, $post) {
 		if ($post->post_type =="league") {
-			$actions = array_merge($actions, array(
-				'update_league' => sprintf('<a href="%s">Update League</a>',
-					wp_nonce_url(
-						sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa_update_league_data'.$post->ID))
+			$actions = array_merge(
+				$actions, array(
+					'update_league' => sprintf('<a href="%s">Update League</a>',
+						wp_nonce_url(
+							sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa_update_league_data'.$post->ID)),
+					'bhaa_league_populate' => '<a href=\''.admin_url('?action=bhaa_league_populate&post='.$post->ID).'\' target=\'blank\'>bhaa_league_populate</a>'
 			));
 		}
 		return $actions;
