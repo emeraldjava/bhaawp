@@ -17,6 +17,16 @@ CREATE TABLE wp_bhaa_teamresult (
 	runner int(11) NOT NULL
 );
 
+CREATE TABLE wp_bhaa_teamsummary (
+	race int(11) NOT NULL,
+	team int(11) NOT NULL,
+	teamname varchar(20),
+	totalstd int(11) NOT NULL, -- aka team total std value 
+	class varchar(1) NOT NULL, --
+	position int(11) NOT NULL,
+	leaguepoints double NOT NULL
+);
+
 -- simulate DCC, Kclub, RTE races
 -- I've added 'raceteam' value to the table, which makes it easier to pick a multi garda team from a specific race
 -- We should only record 'leaguepoints' against the best scoring team
@@ -39,7 +49,7 @@ VALUES
 (1,'B',5,2,2,'2',5,1),
 (1,'B',5,2,2,'2',5,2),
 (1,'B',5,2,2,'2',5,3),
-(1,'B',7,3,90,'RTE',0,1), --second RTE team with the same position but pick the higher class
+(1,'B',7,3,90,'RTE',0,1), 
 (1,'B',7,3,90,'RTE',0,2),
 (1,'B',7,3,90,'RTE',0,3),
 (1,'B',6,3,97,'Garda',0,1),
@@ -158,6 +168,20 @@ from wp_bhaa_teamresult
 where leaguepoints!=0
 group by team
 order by total desc
+
+SELECT team, teamname, TotalPts
+FROM
+(
+  SELECT team, teamname, sum(LeaguePts)as TotalPts
+  FROM
+  (
+    SELECT race, team, teamname, max(leaguepoints) as LeaguePts
+    FROM wp_bhaa_teamresult
+    GROUP BY race, team, teamname
+  ) pts
+  GROUP BY team, teamname
+  ORDER BY TotalPts DESC
+);
 
 
 
