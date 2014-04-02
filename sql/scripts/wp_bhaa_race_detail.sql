@@ -12,10 +12,7 @@ CREATE TABLE wp_bhaa_race_detail (
 	racetype varchar(1) NULL,
 	distance varchar(4),
 	unit varchar(4) NULL
-);
-
-SELECT * FROM wp_bhaa_race_detail;
-DELETE FROM wp_bhaa_race_detail;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO wp_bhaa_race_detail (league,leaguetype,event,eventname,eventdate,race,racetype,distance,unit)
 select 
@@ -38,6 +35,9 @@ LEFT join wp_postmeta raceunit on (race.ID=raceunit.post_id AND raceunit.meta_ke
 LEFT join wp_postmeta leaguetype on (l2e.p2p_from=leaguetype.post_id AND leaguetype.meta_key='bhaa_league_type')
 where l2e.p2p_type='league_to_event' and l2e.p2p_from IN (3103,3615)
 ORDER BY eventdate;
+
+SELECT * FROM wp_bhaa_race_detail;
+DELETE FROM wp_bhaa_race_detail;
 
 select DISTINCT(meta_key) from wp_postmeta;
 select DISTINCT(post_type) from wp_posts;
