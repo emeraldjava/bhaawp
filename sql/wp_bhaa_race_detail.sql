@@ -14,6 +14,7 @@ CREATE TABLE wp_bhaa_race_detail (
 	unit varchar(4) NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DELETE FROM wp_bhaa_race_detail;
 INSERT INTO wp_bhaa_race_detail (league,leaguetype,event,eventname,eventdate,race,racetype,distance,unit)
 select 
 l2e.p2p_from as league,
