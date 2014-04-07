@@ -11,6 +11,9 @@ http://bhaa.ie
 
 Change Log
 ==========
+2014.04.07  New members form and the runner id
+			Make the raceday list page pretty
+			Set form autocomplete=off
 2014.03.28  Add 'admin_action' functions and link the 'post_row_actions' via Jquery to the same for the League CPT.
 2014.03.27  Update logic around getting the post_id for the race admin, needs more work.
 2014.03.25  Add GitHub Timeout
