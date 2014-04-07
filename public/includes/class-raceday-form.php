@@ -9,12 +9,14 @@ abstract class Raceday_Form {
 	function __construct() {
 		$this->races = Raceday::get_instance()->getNextRaces();
 		
-		$this->race_drop_down = WP_Form_Element::create('radios')
+		$this->race_drop_down = WP_Form_Element::create('radio')
 			->set_name('bhaa_race')
-			->set_label('Race');
-		foreach ($this->races as $race ) {
-			$this->race_drop_down->add_option($race->id,$race->dist.''.$race->unit);
-		}
+			->set_label($this->races[0]->dist.' '.$this->races[0]->unit)
+			->set_value($this->races[0]->id)
+			->set_attribute('selected','true');
+		//foreach ($this->races as $race ) {
+		//	$this->race_drop_down->add_option($race->id,$race->dist.''.$race->unit);
+		//}
 		
 		// race day field set
 		$this->racenumber = WP_Form_Element::create('number')
@@ -26,10 +28,7 @@ abstract class Raceday_Form {
 		
 		$this->money_drop_down = WP_Form_Element::create('radios')
 			->set_name('bhaa_money')
-			->set_label('Money')
-			->add_option(1,'10e Member')
-			->add_option(3,'25e Renew')
-			->add_option(2,'15e Day');
+			->set_label('Money');
 	}
 
 	/**
@@ -56,14 +55,14 @@ abstract class Raceday_Form {
 	
 		global $wpdb;
 		$runnerCount = $wpdb->get_var(
-				$wpdb->prepare(
-						'select exists(select * from wp_bhaa_raceresult where race=%d and runner=%d)',$race,$runner));
+			$wpdb->prepare(
+				'select exists(select * from wp_bhaa_raceresult where race=%d and runner=%d)',$race,$runner));
 		if($runnerCount)
 			$submission->add_error('bhaa_runner', 'Runner with id '.$runner.' is already registered!');
 	
 		$numberCount = $wpdb->get_var(
-				$wpdb->prepare(
-						'select exists(select * from wp_bhaa_raceresult where race=%d and racenumber=%d)',$race,$racenumber)
+			$wpdb->prepare(
+				'select exists(select * from wp_bhaa_raceresult where race=%d and racenumber=%d)',$race,$racenumber)
 		);
 		if($numberCount)
 			$submission->add_error('bhaa_racenumber', 'Race number '.$racenumber.' has already been assigned!');

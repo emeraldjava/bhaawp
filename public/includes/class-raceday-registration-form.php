@@ -3,10 +3,17 @@ class Raceday_Registration_Form extends Raceday_Form {
 	
 	function __construct() {
 		parent::__construct();
+		
+		$this->money_drop_down
+			->add_option(1,'10e Member')
+			->add_option(3,'25e Renew')
+			->add_option(2,'15e Day');
 	}
 	
 	public function build_form(WP_Form $form) {
 		$form->add_class('form-horizontal');
+		$form->set_attribute('autocomplete','off');
+		
 		//add_filter('wp_form_label_html_class',array($this,'bhaa_wp_form_label_html_class'));
 		//add_filter('wp_form_htmltag_default',array($this,'bhaa_wp_form_htmltag_default'));
 		$args = func_get_args();
@@ -36,15 +43,15 @@ class Raceday_Registration_Form extends Raceday_Form {
 	private function bhaaRegisterForm(WP_Form $form) {
 		
 		$eventFieldSet = WP_Form_Element::create('fieldset')
-			->set_classes(array('col-md-3'))
+			->set_classes(array('col-md-2'))
 			->set_name('raceFieldSet')
 			->set_label('Event Details');
 		$runnerFieldSet = WP_Form_Element::create('fieldset')
-			->set_classes(array('col-md-5'))
+			->set_classes(array('col-md-4'))
 			->set_name('runnerFieldSet')
 			->set_label('Runner Details');
 		$bhaaFieldSet = WP_Form_Element::create('fieldset')
-			->set_classes(array('col-md-4'))
+			->set_classes(array('col-md-3'))
 			->set_name('bhaaFieldSet')
 			->set_label('BHAA Details');
 		
