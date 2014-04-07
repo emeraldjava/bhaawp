@@ -61,18 +61,18 @@ echo sprintf('<h3><a href="/raceday-admin?action=preregexport&eventid=%d&raceid=
 echo sprintf('<h3><a href="/raceday-admin?action=deleteall&eventid=%d&raceid=%d">Delete All RACE_REG</a></h3>',$event->event_id,$event->race);//119,2851);
 echo '<hr/>';
 
-echo '<table id="raceteclist" >
-<tr class="row">
-<th class="cell">Name</th>
-<th class="cell">Number</th>
-<th class="cell">DELETE</th>
+echo '<table class="table table-condensed">
+<tr>
+<th>Name</th>
+<th>Number</th>
+<th>DELETE</th>
 </tr>';
 
 foreach($registeredRunners as $registered) : ?>
-<tr class="row">
-<td class="cell"><?php echo $registered->firstname;?> <?php echo $registered->lastname;?></td>
-<td class="cell"><?php echo $registered->racenumber;?></td>
-<td class="cell"><?php echo sprintf('<a href="/raceday-admin?action=deleterunner&runner=%d&raceid=%d">%d</a>',$registered->runner,$registered->race,$registered->runner);?></td>
+<tr>
+<td><?php echo $registered->firstname;?> <?php echo $registered->lastname;?></td>
+<td><?php echo $registered->racenumber;?></td>
+<td><?php echo sprintf('<a href="/raceday-admin?action=deleterunner&runner=%d&raceid=%d">%d</a>',$registered->runner,$registered->race,$registered->runner);?></td>
 </tr>
 <?php endforeach;?>
 </table>
