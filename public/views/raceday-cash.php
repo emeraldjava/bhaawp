@@ -33,7 +33,7 @@ $online_ro=0;
 $online_bhaa=0;
 
 foreach($registeredRunners as $runner) {
-	error_log($runner->standardscoringset.' '.$runner->firstname.' '.$runner->lastname);
+	//error_log($runner->standardscoringset.' '.$runner->firstname.' '.$runner->lastname);
 	if($runner->standardscoringset==1) {
 			$member++;
 	} else if($runner->standardscoringset==2) {
@@ -59,8 +59,8 @@ $online_ro = ($online_day*10) + ($online_member*10);
 $online_bhaa = ($online_day*5);
 
 echo '<h1>BHAA '.strtoupper($event->event_slug).' Cash</h1>';
-echo '<h2>'.sizeof($registeredRunners).' Total Runners</h2>';
-echo '<table width=95%>';
+echo '<h3>'.sizeof($registeredRunners).' Total Runners</h3>';
+echo '<table class="table table-bordered">';
 echo '<tr align="left">';
 echo '<th>Type</th>';
 echo '<th>Number</th>';
@@ -186,18 +186,18 @@ echo '</table>';
 
 echo '<hr/>';
 
-echo '<table id="raceteclist">
-<tr class="row">
-<th class="cell">ID</th>
-<th class="cell">Name</th>
-<th class="cell">Type</th>
+echo '<table class="table table-condensed">
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Type</th>
 </tr>';
 
 foreach($registeredRunners as $registered) :
-echo '<tr class="row">';
-echo '<td class="cell">'.$registered->runner.'</td>';
-echo '<td class="cell">'.$registered->firstname.' '.$registered->lastname.'</td>';
-echo '<td class="cell">'.$registered->standardscoringset.'</td>';
+echo '<tr>';
+echo '<td>'.$registered->runner.'</td>';
+echo '<td>'.$registered->firstname.' '.$registered->lastname.'</td>';
+echo '<td>'.$registered->standardscoringset.'</td>';
 echo '</tr>';
 endforeach;
 echo '</table>';
