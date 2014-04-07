@@ -76,15 +76,15 @@ if(isset($hasError) && $hasError==true)
 
 $racetec = Raceday::get_instance()->listPreRegisteredRunners();
 
-echo '<table id="raceteclist" width="95%">
-<tr class="row">
-<th class="cell">BHAA ID</th>
-<th class="cell">Name</th>
-<th class="cell">DOB</th>
-<th class="cell">Status</th>
-<th class="cell">Company</th>
-<th class="cell">Race Number</th>
-<th class="cell">Assign</th>
+echo '<table class="table table-bordered">
+<tr>
+<th>BHAA ID</th>
+<th>Name</th>
+<th>DOB</th>
+<th>Status</th>
+<th>Company</th>
+<th>Race Number</th>
+<th>Assign</th>
 </tr>';
 
 foreach($racetec as $racetec) : 
@@ -94,21 +94,21 @@ $money=6;
 if($racetec->status=='M')
 	$money=7;
 ?>
-<tr class="row">
-<td class="cell"><?php echo $racetec->runner;?></td>
-<td class="cell"><?php echo $racetec->firstname;?> <?php echo $racetec->lastname;?></td>
-<td class="cell"><?php echo $racetec->dateofbirth;?></td>
-<td class="cell"><?php echo $racetec->status;?></td>
-<td class="cell"><?php echo $racetec->companyname;?></td>
+<tr>
+<td><?php echo $racetec->runner;?></td>
+<td><?php echo $racetec->firstname;?> <?php echo $racetec->lastname;?></td>
+<td><?php echo $racetec->dateofbirth;?></td>
+<td><?php echo $racetec->status;?></td>
+<td><?php echo $racetec->companyname;?></td>
 <form action="" id="bhaa-prereg-form" method="POST">
-<td class="cell">
+<td>
 	<input type="text" name="number"/>
 	<input type="hidden" name="raceid" value="<?php echo $racetec->race;?>">
 	<input type="hidden" name="runner" value="<?php echo $racetec->runner;?>">
 	<input type="hidden" name="money" value="<?php echo $money;?>">
 	<input type="hidden" name="form-submitted" value="true"/>
 </td>
-<td class="cell">
+<td>
 	<input class="btn btn-success" role="button" type="submit" value="<?php echo $racetec->firstname;?> <?php echo $racetec->lastname;?> Race Number"/>
 </td>
 </form>
