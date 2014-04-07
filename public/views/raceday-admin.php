@@ -76,6 +76,3 @@ foreach($registeredRunners as $registered) : ?>
 </tr>
 <?php endforeach;?>
 </table>
-<?php 
-get_footer(); 
-?>
