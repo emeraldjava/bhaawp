@@ -145,19 +145,16 @@ class Bhaa {
 			} else {
 				
 				if($post->ID==2651) {
-					
-					//wp_dequeue_script('jquery');
-					//wp_deregister_script();
 					wp_register_script(
 						'bhaa_members',
-						plugins_url('/../admin/assets/js/bhaa_members.js', __FILE__ ),
+						plugins_url('/admin/assets/js/bhaa_members.js',dirname(__FILE__)),
 						array('jquery')
 					);
 					wp_enqueue_script('bhaa_members');
 				
 					wp_register_script(
 						'bhaa-raceday',
-						plugins_url('/../admin/assets/js/bhaa-raceday.js', __FILE__ )
+						plugins_url('/admin/assets/js/bhaa-raceday.js',dirname(__FILE__))
 					);
 					wp_enqueue_script('bhaa-raceday');
 				}
