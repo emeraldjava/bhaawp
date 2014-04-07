@@ -58,7 +58,7 @@ class Raceday_Registration_Form extends Raceday_Form {
 		// submit button		
 		$submit = WP_Form_Element::create('submit')
 			->set_name('submit')
-			->set_classes(array('btn btn-primary'))//col-md-6 col-md-offset-3
+			->set_classes(array('btn btn-primary'))
 			->set_value('Register Runner')
 			->set_label('Register Runner');
 				
