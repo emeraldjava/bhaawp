@@ -50,7 +50,7 @@ CASE WHEN r2s.p2p_from IS NOT NULL THEN sectorteam.post_title ELSE house.post_ti
 standardscoringset
 from wp_bhaa_raceresult
 JOIN wp_p2p e2r ON (wp_bhaa_raceresult.race=e2r.p2p_to AND e2r.p2p_type='event_to_race')
-JOIN wp_users on (wp_users.id=wp_bhaa_raceresult.runner) 
+left JOIN wp_users on (wp_users.id=wp_bhaa_raceresult.runner) 
 left join wp_p2p r2c ON (r2c.p2p_to=wp_users.id AND r2c.p2p_type = 'house_to_runner')
 left join wp_p2p r2s ON (r2s.p2p_to=wp_users.id AND r2s.p2p_type = 'sectorteam_to_runner')
 left join wp_posts house on (house.id=r2c.p2p_from and house.post_type='house')
