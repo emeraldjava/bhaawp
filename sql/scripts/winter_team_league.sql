@@ -18,7 +18,6 @@ select
 l.league as league,
 'I' as leaguetype,
 ts.team as leagueparticipant,
-ts.teamname as name,
 ROUND(AVG(ts.totalstd),0) as leaguestandard,
 COUNT(ts.race) as leaguescorecount,
 ROUND(SUM(ts.leaguepoints),0) as leaguepoints,
@@ -28,9 +27,32 @@ GROUP_CONCAT( cast( concat_ws(':',l.event,ts.leaguepoints) AS char ) SEPARATOR '
 from wp_bhaa_race_detail l
 join wp_bhaa_teamsummary ts on l.race=ts.race
 where league=3615
-and racetype in ("C","M")
+and racetype in ('C','M')
 GROUP BY l.league,ts.team
 ORDER BY leaguepoints desc,leaguescorecount desc;
+
+INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,
+leaguedivision,leagueposition,leaguesummary)
+select 
+l.league as league,
+'I' as leaguetype,
+ts.team as leagueparticipant,
+ROUND(AVG(ts.totalstd),0) as leaguestandard,
+COUNT(ts.race) as leaguescorecount,
+ROUND(SUM(ts.leaguepoints),0) as leaguepoints,
+'W' as leaguedivision,
+1 as leagueposition,
+GROUP_CONCAT( cast( concat_ws(':',l.event,ts.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
+from wp_bhaa_race_detail l
+join wp_bhaa_teamsummary ts on l.race=ts.race
+where league=3615
+and racetype in ('C','W')
+GROUP BY l.league,ts.team
+ORDER BY leaguepoints desc,leaguescorecount desc;
+
+update wp_bhaa_leaguesummary
+set leaguesummary=getTeamLeagueSummary(leagueparticipant,league,leaguedivision)
+where league=3615;
 
 -- TODO update league position & league summary
 
@@ -100,5 +122,5 @@ order by leaguedivision,leaguepoints desc
 
 update wp_bhaa_leaguesummary
 set leaguesummary=getTeamLeagueSummary(leagueparticipant,league,leaguedivision)
-where league=3615
+where league=3615;
 
