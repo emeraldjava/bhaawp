@@ -452,30 +452,30 @@ END$$
 /**
  * [r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']
  */
-DROP FUNCTION IF EXISTS `getRunnerLeagueSummary`$$
+DROP FUNCTION IF EXISTS `event`$$
 CREATE FUNCTION `getRunnerLeagueSummary`(_runner INT,_leagueId INT,_gender varchar(1)) RETURNS varchar(200)
 BEGIN
 DECLARE _result varchar(200);
 SET _result = (
 	select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
-	from wp_posts p
-	left join wp_bhaa_raceresult rr on (p.id=rr.race and rr.runner=_runner and rr.class!='PRE_REG')
-	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
+	from wp_posts event
+	left join wp_bhaa_raceresult rr on (event.id=rr.race and rr.runner=_runner and rr.class!='PRE_REG')
+	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=event.id)
 	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
-	where p.ID IN (
-	select r.ID from wp_posts l
-	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
-	inner join wp_posts e on (e.id=l2e.p2p_to)
-	inner join wp_em_events eme on (eme.post_id=e.id)
-	inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
-	inner join wp_posts r on (r.id=e2r.p2p_to)
-	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
-	where l.post_type='league'
-	AND l.ID=_leagueId 
-	AND r_type.meta_value in ('C','S',_gender) 
-	AND r_type.meta_value!='TRACK'
-	order by eme.event_start_date ASC)
-	order by p.id
+	where event.ID IN (
+		select r.ID from wp_posts l
+		inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
+		inner join wp_posts e on (e.id=l2e.p2p_to)
+		inner join wp_em_events eme on (eme.post_id=e.id)
+		inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
+		inner join wp_posts r on (r.id=e2r.p2p_to)
+		inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
+		where l.post_type='league'
+		AND l.ID=_leagueId 
+		AND r_type.meta_value in ('C','S',_gender) 
+		AND r_type.meta_value!='TRACK'
+		order by eme.event_start_date ASC)
+	order by event.id
 );
 RETURN _result;
 END $$
@@ -485,22 +485,13 @@ CREATE FUNCTION `getTeamLeagueSummary`(_team INT,_leagueId INT,_gender varchar(1
 BEGIN
 DECLARE _result varchar(200);
 SET _result = (
-	select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) ORDER BY eme.event_start_date SEPARATOR ',')
-	from wp_posts p
-	left join wp_bhaa_teamresult rr on (p.id=rr.race and rr.team=_team)
-	join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=p.id)
-	join wp_em_events eme on (eme.post_id=e2r.p2p_from)
-	where p.ID IN (
-	select r.ID from wp_posts l
-	inner join wp_p2p l2e on (l2e.p2p_type='league_to_event' and l2e.p2p_from=l.ID)
-	inner join wp_posts e on (e.id=l2e.p2p_to)
-	inner join wp_em_events eme on (eme.post_id=e.id)
-	inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_from=e.ID)
-	inner join wp_posts r on (r.id=e2r.p2p_to)
-	inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key='bhaa_race_type')
-	where l.post_type='league'
-	and l.ID=_leagueId and r_type.meta_value in ('C','S',_gender) AND r_type.meta_value!='TRACK' order by eme.event_start_date ASC)
-	order by p.id
+	select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
+	from wp_bhaa_race_detail rd
+	left join wp_bhaa_teamsummary ts on (rd.race=ts.race and ts.team=_team)
+	where rd.league=_leagueId
+	and rd.racetype in ('C','S',_gender) 
+	and rd.racetype!='TRACK'
+	order by rd.eventdate asc
 );
 RETURN _result;
 END $$

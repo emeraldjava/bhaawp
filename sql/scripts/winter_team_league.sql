@@ -62,6 +62,7 @@ where league=3615
 and racetype in ("C","M")
 order by eventdate asc
 
+-- this don't work!
 update wp_bhaa_leaguesummary ls
 set ls.leaguesummary=(
 select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY l.eventdate SEPARATOR ',')
@@ -79,8 +80,23 @@ select * from wp_bhaa_leaguesummary
 where league=3615 and leaguedivision='M'
 order by leaguepoints desc
 
-select ls.leagueparticipant,ls.leaguepoints,ls.leaguesummary from wp_bhaa_leaguesummary ls
-where ls.league=3615 and ls.leaguedivision='M'
-order by ls.leaguepoints desc
+getTeamLeagueSummary(97,3615,'M');
+
+select league,leagueparticipant,leaguepoints,getTeamLeagueSummary(leagueparticipant,league,'M') as s
+from wp_bhaa_leaguesummary
+where league=3615 and leaguedivision='M'
+order by leaguepoints desc
+
+select league,leagueparticipant,leaguepoints,getTeamLeagueSummary(leagueparticipant,league,'W') as s
+from wp_bhaa_leaguesummary
+where league=3615 and leaguedivision='W'
+order by leaguepoints desc
+
+select league,leaguedivision,leagueparticipant,leaguepoints,
+getTeamLeagueSummary(leagueparticipant,league,leaguedivision) as s
+from wp_bhaa_leaguesummary
+where league=3615
+order by leaguedivision,leaguepoints desc
+
 
 
