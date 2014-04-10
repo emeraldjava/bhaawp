@@ -76,7 +76,7 @@ where ls.league=3615 and ls.leaguedivision='M'
 order by ls.leaguepoints desc
 
 -- display the league table
-select * from wp_bhaa_leaguesummary
+select league,leagueparticipant,leaguepoints,leaguesummary from wp_bhaa_leaguesummary
 where league=3615 and leaguedivision='M'
 order by leaguepoints desc
 
@@ -98,5 +98,7 @@ from wp_bhaa_leaguesummary
 where league=3615
 order by leaguedivision,leaguepoints desc
 
-
+update wp_bhaa_leaguesummary
+set leaguesummary=getTeamLeagueSummary(leagueparticipant,league,leaguedivision)
+where league=3615
 
