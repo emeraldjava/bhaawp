@@ -4,8 +4,8 @@ if ( !current_user_can( 'manage_options' ) )  {
 }
 get_header();
 
-echo "<pre>GET "; print_r($_GET); echo "</pre>";
-echo "<pre>POST "; print_r($_POST); echo "</pre>";
+//echo "<pre>GET "; print_r($_GET); echo "</pre>";
+//echo "<pre>POST "; print_r($_POST); echo "</pre>";
 
 echo wp_get_form('raceResultForm');
 ?>
