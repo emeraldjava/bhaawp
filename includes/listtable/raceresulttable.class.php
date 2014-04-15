@@ -115,7 +115,8 @@ class RaceResult_List_Table extends WP_List_Table
  	}
  	
  	function column_position($item) {
- 		return sprintf('<a href="/runner-editresult?id=%d&runner=%d">%d</a>',$item['id'],$item['runner'],$item['position']);
+ 		return sprintf('<a href="/runner-editresult?bhaa_raceresult_id=%d&bhaa_runner=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d">%d</a>',
+ 			$item['id'],$item['runner'],$item['standard'],$item['poststandard'],$item['race'],$item['position']);
  	}
  	
  	function column_standard($item) {
