@@ -2,7 +2,6 @@
 class Raceresult_Form {
 	
 	public function build_form(WP_Form $form) {
-		//$form->add_class('form-horizontal');
 		$form->set_attribute('autocomplete','off');
 		$args = func_get_args();
 		call_user_func_array(array($this, 'bhaa_raceresult_form'), $args);
@@ -15,38 +14,51 @@ class Raceresult_Form {
 			->set_label('Race Details')
 			->set_classes(array('col-md-8'));
 		
-		$raceresult_id = WP_Form_Element::create('hidden')
+		$raceresult_id = WP_Form_Element::create('number')
 			->set_name('bhaa_raceresult_id')
-			->set_id('bhaa_raceresult_id');
+			->set_id('bhaa_raceresult_id')
+			->set_label('Result')
+			->set_value($_GET['bhaa_raceresult_id'])
+			->set_classes(array('form-control'));
 			
 		$runner = WP_Form_Element::create('number')
 			->set_name('bhaa_runner')
 			->set_id('bhaa_runner')
 			->set_label('BHAA ID')
+			->set_value($_GET['bhaa_runner'])
 			->set_classes(array('form-control'));
 		
 		$race = WP_Form_Element::create('number')
 			->set_name('bhaa_race')
 			->set_id('bhaa_race')
 			->set_label('Race')
+			->set_value($_GET['bhaa_race'])
 			->set_classes(array('form-control'));
 		
-		$racenumber = WP_Form_Element::create('number')
-			->set_name('bhaa_racenumber')
-			->set_id('bhaa_racenumber')
-			->set_label('Number')
+		$bhaa_pre_standard = WP_Form_Element::create('number')
+			->set_name('bhaa_pre_standard')
+			->set_id('bhaa_pre_standard')
+			->set_label('Pre Standard')
+			->set_value($_GET['bhaa_pre_standard'])
+			->set_classes(array('form-control'));
+		
+		$bhaa_post_standard = WP_Form_Element::create('number')
+			->set_name('bhaa_post_standard')
+			->set_id('bhaa_post_standard')
+			->set_label('Post Standard')
+			->set_value($_GET['bhaa_post_standard'])
 			->set_classes(array('form-control'));
 		
 		$submit = WP_Form_Element::create('submit')
 			->set_name('submit')
 			->set_classes(array('btn btn-info'))
 			->set_value('Update Race Result');
-			//->set_label('Update Race Result');
 			
 		$fieldSet->add_element($raceresult_id);
-		$fieldSet->add_element($runner);
 		$fieldSet->add_element($race);
-		$fieldSet->add_element($racenumber);
+		$fieldSet->add_element($runner);
+		$fieldSet->add_element($bhaa_pre_standard);
+		$fieldSet->add_element($bhaa_post_standard);
 		$fieldSet->add_element($submit);
 		
 		$form->	add_element($fieldSet)
@@ -58,8 +70,15 @@ class Raceresult_Form {
 		error_log("bhaa_raceresult_validation");
 	}
 	
-	public function bhaa_raceresult_processing(WP_Form_Submission $submission, WP_Form $form){
+	public function bhaa_raceresult_processing(WP_Form_Submission $submission, WP_Form $form) {
 		error_log("bhaa_raceresult_processing");
+		$raceResult = new RaceResult($submission->get_value('bhaa_race'));
+		$raceResult->updateRunnersRaceResultStandard(
+			$submission->get_value('bhaa_race'),
+			$submission->get_value('bhaa_runner'),
+			$submission->get_value('bhaa_pre_standard'),
+			$submission->get_value('bhaa_post_standard')
+		);
 	}
 }
 ?>

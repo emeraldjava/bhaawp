@@ -118,10 +118,10 @@ class RaceResult extends BaseModel implements Table
 	
 	/**
 	 * select standardscoringset as type, count(*) as count
-from wp_bhaa_raceresult 
-where race=2849
-and class="RACE_REG"
-group by standardscoringset;
+		from wp_bhaa_raceresult 
+		where race=2849
+		and class="RACE_REG"
+		group by standardscoringset;
 	 */
 	public function getRegistrationTypes() {
 		return $this->wpdb->get_results(
@@ -306,6 +306,24 @@ group by standardscoringset;
 	function updateLeague() {
 		$this->wpdb->query($this->wpdb->prepare('call updateRaceScoringSets(%d)',$this->post_id));
 		$this->wpdb->query($this->wpdb->prepare('call updateRaceLeaguePoints(%d)',$this->post_id));
+	}
+	
+	/**
+	 * Method to update the pre and post standard of a runner in a race. Used to fix up the league.
+	 * @param unknown $race
+	 * @param unknown $runner
+	 * @param unknown $standard
+	 * @param unknown $poststandard
+	 */
+	function updateRunnersRaceResultStandard($race,$runner,$standard,$poststandard) {
+		error_log('updateRunnersRaceResultStandard('.$race.' '.$runner.' '.$standard.' '.$poststandard.')');
+		global $wpdb;
+		$res = $wpdb->update(
+			'wp_bhaa_raceresult',
+			array('standard' => $standard,'poststandard'=>$poststandard),
+			array('runner' => $runner,'race'=>$race)
+		);
+		error_log('updateRunnersRaceResultStandard()'.$res);
 	}
 }
 ?>

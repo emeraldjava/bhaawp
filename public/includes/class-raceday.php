@@ -37,6 +37,9 @@ class Raceday
 		
 		$dayMemberForm = new Raceday_DayMember_Form();
 		wp_register_form('daymemberform',array($dayMemberForm,'build_form'));
+		
+		$raceResultForm = new Raceresult_Form();
+		wp_register_form('raceResultForm',array($raceResultForm,'build_form'));
 	}
 	
 	function handlePage($pagename) {
