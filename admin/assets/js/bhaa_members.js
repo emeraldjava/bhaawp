@@ -1,1 +1,0 @@
-var bhaa_members = []
