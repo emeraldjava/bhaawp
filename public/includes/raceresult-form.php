@@ -74,6 +74,7 @@ class Raceresult_Form {
 		error_log("bhaa_raceresult_processing");
 		$raceResult = new RaceResult($submission->get_value('bhaa_race'));
 		$raceResult->updateRunnersRaceResultStandard(
+			$submission->get_value('bhaa_raceresult_id'),
 			$submission->get_value('bhaa_race'),
 			$submission->get_value('bhaa_runner'),
 			$submission->get_value('bhaa_pre_standard'),
