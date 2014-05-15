@@ -310,20 +310,20 @@ class RaceResult extends BaseModel implements Table
 	
 	/**
 	 * Method to update the pre and post standard of a runner in a race. Used to fix up the league.
+	 * @param $id
 	 * @param unknown $race
 	 * @param unknown $runner
 	 * @param unknown $standard
 	 * @param unknown $poststandard
 	 */
 	function updateRunnersRaceResultStandard($id,$race,$runner,$standard,$poststandard) {
-		error_log('updateRunnersRaceResultStandard('.$race.' '.$runner.' '.$standard.' '.$poststandard.')');
 		global $wpdb;
 		$res = $wpdb->update(
 			'wp_bhaa_raceresult',
 			array('runner' => $runner,'race'=>$race,'standard' => $standard,'poststandard'=>$poststandard),
 			array('id' => $id)
 		);
-		error_log('updateRunnersRaceResultStandard()'.$res);
+		//error_log('updateRunnersRaceResultStandard('.$id.' '.$race.' '.$runner.' '.$standard.' '.$poststandard.') -> '.$res);
 	}
 }
 ?>
