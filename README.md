@@ -13,6 +13,7 @@ Change Log
 ==========
 2014.06.10  Table styling and use correct plugin name.
 			Support editing a race time.
+			Add a new race result which can then be editied.
 2014.05.15  Update the edit runner result form to use the ID.
 2014.04.15  Add a raceresult edit form so we can fix up the league results
 2014.04.07  New members form and the runner id
