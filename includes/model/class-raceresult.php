@@ -316,11 +316,11 @@ class RaceResult extends BaseModel implements Table
 	 * @param unknown $standard
 	 * @param unknown $poststandard
 	 */
-	function updateRunnersRaceResultStandard($id,$race,$runner,$standard,$poststandard) {
+	function updateRunnersRaceResultStandard($id,$race,$runner,$time,$standard,$poststandard) {
 		global $wpdb;
 		$res = $wpdb->update(
 			'wp_bhaa_raceresult',
-			array('runner' => $runner,'race'=>$race,'standard' => $standard,'poststandard'=>$poststandard),
+			array('runner' => $runner,'race'=>$race,'standard' => $standard,'poststandard'=>$poststandard,'racetime'=>$time),
 			array('id' => $id)
 		);
 		//error_log('updateRunnersRaceResultStandard('.$id.' '.$race.' '.$runner.' '.$standard.' '.$poststandard.') -> '.$res);

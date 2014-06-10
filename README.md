@@ -12,6 +12,7 @@ http://bhaa.ie
 Change Log
 ==========
 2014.06.10  Table styling and use correct plugin name.
+			Support editing a race time.
 2014.05.15  Update the edit runner result form to use the ID.
 2014.04.15  Add a raceresult edit form so we can fix up the league results
 2014.04.07  New members form and the runner id

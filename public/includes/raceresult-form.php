@@ -35,6 +35,13 @@ class Raceresult_Form {
 			->set_value($_GET['bhaa_race'])
 			->set_classes(array('form-control'));
 		
+		$time = WP_Form_Element::create('text')
+			->set_name('bhaa_time')
+			->set_id('bhaa_time')
+			->set_label('Time')
+			->set_value($_GET['bhaa_time'])
+			->set_classes(array('form-control'));
+		
 		$bhaa_pre_standard = WP_Form_Element::create('number')
 			->set_name('bhaa_pre_standard')
 			->set_id('bhaa_pre_standard')
@@ -57,6 +64,7 @@ class Raceresult_Form {
 		$fieldSet->add_element($raceresult_id);
 		$fieldSet->add_element($race);
 		$fieldSet->add_element($runner);
+		$fieldSet->add_element($time);
 		$fieldSet->add_element($bhaa_pre_standard);
 		$fieldSet->add_element($bhaa_post_standard);
 		$fieldSet->add_element($submit);
@@ -77,6 +85,7 @@ class Raceresult_Form {
 			$submission->get_value('bhaa_raceresult_id'),
 			$submission->get_value('bhaa_race'),
 			$submission->get_value('bhaa_runner'),
+			$submission->get_value('bhaa_time'),
 			$submission->get_value('bhaa_pre_standard'),
 			$submission->get_value('bhaa_post_standard')
 		);
