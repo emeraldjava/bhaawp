@@ -52,7 +52,9 @@ class RaceAdmin {
 				'bhaa_team_results_delete' => sprintf('<a href="%s">Delete Team Results</a>',
 					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_delete&post_id=%d', $post->ID),'bhaa')),
 				'bhaa_team_results_load' => sprintf('<a href="%s">Team Results</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_load&post_id=%d', $post->ID),'bhaa'))
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_load&post_id=%d', $post->ID),'bhaa')),
+				'bhaa_add_result' => sprintf('<a href="%s">Add Result</a>',
+					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_add_result&post_id=%d', $post->ID),'bhaa'))
 			));
 		}
 		return $actions;
@@ -65,9 +67,9 @@ class RaceAdmin {
 		
 		//error_log("GET  :".print_r($_GET,true));
 		//error_log("POST :".print_r($_POST,true));
-
 		$action = $_GET['action'];
 		if(isset($action) && (substr($action, 0, 4) === 'bhaa')){
+			
 			error_log('bhaa_race_actions() '.print_r($_GET,true));	
 			$post_id = $_GET['post_id'];
 			$raceResult = new RaceResult($post_id);
@@ -175,6 +177,12 @@ class RaceAdmin {
 			case 'bhaa-raceday-export':
 				error_log("call bhaa-raceday-export admin");
 				Raceday::get_instance()->export();
+				exit();
+				break;
+			case 'bhaa_add_result':
+				$raceResult->addDefaultResult();
+				queue_flash_message("bhaa_add_result");
+				wp_redirect(wp_get_referer());
 				exit();
 				break;
 			}	

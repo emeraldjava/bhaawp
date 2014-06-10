@@ -158,6 +158,13 @@ class RaceResult extends BaseModel implements Table
 	}
 	
 	/**
+	 * Insert a new result with default position and time, user will then edit
+	 */
+	function addDefaultResult() {
+		return $this->addRaceResult(array('1','1','1','00:00:01','','','','','','','','','','','',''));
+	}
+	
+	/**
 	[0] => 7
     [1] => 1719
     [2] => 1683
@@ -175,16 +182,14 @@ class RaceResult extends BaseModel implements Table
 	 */
 	public function addRaceResult($details)
 	{
+		// check if the runner exists
 		$runner_id = trim($details[2]);
-		$dateofbirth = date("Y-m-d", strtotime(str_replace('/','-',$details[8])));
-		
-		// create runner
-		//$runner = new Runner();
 		$exists = Runner_Manager::get_instance()->runnerExists($runner_id);
-		error_log('addRaceResult position '.$details[0].' number '.$details[1].', dob '.$dateofbirth.', runner '.$runner_id.', exists '.$exists.'.');
+		error_log('addRaceResult position '.$details[0].' number '.$details[1].', runner '.$runner_id.', exists '.$exists.'.');
 		
 		if(!$exists)
 		{
+			$dateofbirth = date("Y-m-d", strtotime(str_replace('/','-',$details[8])));
 			//$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
 			//if($match!=0)
 			//{
@@ -193,7 +198,7 @@ class RaceResult extends BaseModel implements Table
 			//}
 			//else
 			//{
-				error_log('create new user with id "'.$runner_id.'" '.$details[5].' '.$details[4]);
+				error_log('create new user with id "'.$runner_id.'" '.$details[5].' '.$details[4].' '.$dateofbirth);
 				$runner_id = Runner_Manager::get_instance()->createNewUser($details[5],$details[4],'',$details[6],$dateofbirth,$runner_id);
 				if($details[11]=='')
 					update_user_meta( $runner_id, "bhaa_runner_company",1);
