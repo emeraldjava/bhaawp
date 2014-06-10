@@ -61,7 +61,7 @@ class RaceResult_List_Table extends WP_List_Table
 		);
 		return $columns;
 	}
-	
+		
 	/**
 	 * http://wpengineer.com/2426/wp_list_table-a-step-by-step-guide/
 	 * @see WP_List_Table::get_sortable_columns()
@@ -98,7 +98,7 @@ class RaceResult_List_Table extends WP_List_Table
 				return print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
 		}
 	}
-
+	
 	/**
 	 * http://localhost/?post_type=company&p=100
 	 * http://webtide.wordpress.com/2010/12/15/using-custom-permalinks-with-custom-post-types-in-wordpress/

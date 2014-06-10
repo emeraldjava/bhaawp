@@ -194,7 +194,7 @@ class Bhaa {
 	
 	function bhaa_locate_template( $template_name, $load=false, $args = array() ) {
 		//First we check if there are overriding tempates in the child or parent theme
-		$located = locate_template(array('plugins/bhaawp-master/'.$template_name));
+		$located = locate_template(array('plugins/bhaawp/'.$template_name));
 		if( !$located ) {
 			if ( file_exists(BHAA_PLUGIN_DIR.'/templates/'.$template_name) ) {
 	
@@ -509,16 +509,15 @@ class Bhaa {
 		
 		wp_enqueue_style(
 		 'bootstrap-css',
-			plugins_url().'/bhaawp-master/public/assets/css/bootstrap.min.css',
-			false); 
-		
+			plugins_url().'/bhaawp/public/assets/css/bootstrap.min.css',
+			false);
 		wp_enqueue_style(
 			'bhaawp',
-			plugins_url().'/bhaawp-master/public/assets/css/bhaawp.css',
+			plugins_url().'/bhaawp/public/assets/css/bhaawp.css',
 			false);
 		wp_enqueue_style(
 			'jquery-bhaa-style',
-			plugins_url().'/bhaawp-master/public/assets/css/jqueryui/jquery-ui-1.10.3.custom.min.css',
+			plugins_url().'/bhaawp/public/assets/css/jqueryui/jquery-ui-1.10.3.custom.min.css',
 			false);
 	}
 

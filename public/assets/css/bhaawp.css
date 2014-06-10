@@ -9,6 +9,17 @@
 
 li.error { display:block;width:100%; color: red; padding-left: .5em; vertical-align: top; }
 
+.column-position { text-align:left; width:20px; }
+.column-racenumber { text-align:left; width:20px; }
+.column-display_name { text-align:center; width:100px; }
+.column-racetime { text-align:center; width:100px; }
+.column-category { text-align:center; width:100px; }
+.column-gender { text-align:center; width:100px; }
+.column-posincat { text-align:center; width:100px; }
+.column-standard { text-align:center; width:100px; }
+.column-posinstd { text-align:center; width:100px; }
+.column-cname { text-align:center; width:100px; }
+
 .form-example {
     max-width: 400px;        
     margin: 0 auto;

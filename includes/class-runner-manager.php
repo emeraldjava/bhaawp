@@ -87,8 +87,7 @@ class Runner_Manager {
 	 *
 	 $user_login = str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
 	 */
-	public function getNextRunnerId()
-	{
+	public function getNextRunnerId() {
 		global $wpdb;
 		$sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";
 		return str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
@@ -99,8 +98,7 @@ class Runner_Manager {
 	 * @param unknown $id
 	 * @return Ambigous <mixed, NULL, multitype:>
 	 */
-	public function runnerExists($id)
-	{
+	public function runnerExists($id) {
 		global $wpdb;
 		return $wpdb->get_var($wpdb->prepare('select count(id) as isrunner from wp_users where id=%d',$id));
 	}
@@ -118,7 +116,7 @@ class Runner_Manager {
 		}
 	
 		// format the username
-		$username = $firstname.'.'.$surname;
+		$username = $firstname.' '.$surname;
 		$username = str_replace(' ', '', $username);
 		$username = str_replace("'", '', $username);
 	
@@ -151,7 +149,6 @@ class Runner_Manager {
 		if(is_wp_error($res))
 			error_log('update user error '.$res->get_error_message());
 	
-		update_user_meta( $id, Runner::BHAA_RUNNER_COMPANY, 1);
 		update_user_meta( $id, Runner::BHAA_RUNNER_GENDER, $gender);
 		update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $dateofbirth);
 		update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, date('Y-m-d'));

@@ -134,7 +134,7 @@ class Bhaa_Admin {
 		
 		wp_register_script(
 			'bhaa-raceday',
-			content_url().'/plugins/bhaawp-master/assets/js/bhaa-raceday.js');
+			content_url().'/plugins/bhaawp/assets/js/bhaa-raceday.js');
 		wp_enqueue_script('bhaa-raceday');
 		*/
 		
