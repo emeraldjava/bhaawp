@@ -24,8 +24,17 @@ class RunnerAdmin {
 
 		add_filter('user_row_actions',array($this,'bhaa_runner_renew_link'),10,2);
 		add_action('admin_init',array($this,'bhaa_runner_renew_action'),12);
+		add_action('user_register',array($this,'bhaa_user_register'),12);
 	}
-
+	
+	function bhaa_user_register( $user_id ) {
+		//if ( isset( $_POST['first_name'] ) )
+		//update_user_meta($user_id,'first_name',$_POST['first_name']);
+		update_user_meta($user_id,'bhaa_runner_status','D');
+		update_user_meta($user_id,'bhaa_runner_gender','M');
+		update_user_meta($user_id,'bhaa_runner_dateofbirth','01/01/1980');
+	}
+	
 	/**
 	 * handle the custom admin columns
 	 */
