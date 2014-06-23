@@ -11,6 +11,7 @@ http://bhaa.ie
 
 Change Log
 ==========
+2014.06.23  Add user_register hook to set the default runner status and gender when a new user is added manually.
 2014.06.10  Table styling and use correct plugin name.
 			Support editing a race time.
 			Add a new race result which can then be editied.
