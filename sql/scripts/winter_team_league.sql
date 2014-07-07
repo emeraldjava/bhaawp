@@ -11,7 +11,7 @@ and racetype in ("C","M");
 select * from wp_bhaa_leaguesummary where league=3615;
 delete from wp_bhaa_leaguesummary where league=3615;
 
--- populate league summary table
+-- populate individual league summary table
 INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,
 leaguedivision,leagueposition,leaguesummary)
 select 
@@ -52,7 +52,7 @@ ORDER BY leaguepoints desc,leaguescorecount desc;
 
 update wp_bhaa_leaguesummary
 set leaguesummary=getTeamLeagueSummary(leagueparticipant,league,leaguedivision)
-where league=3615;
+where league=;
 
 -- TODO update league position & league summary
 
@@ -123,4 +123,26 @@ order by leaguedivision,leaguepoints desc
 update wp_bhaa_leaguesummary
 set leaguesummary=getTeamLeagueSummary(leagueparticipant,league,leaguedivision)
 where league=3615;
+
+-- top ten per division
+select leagueparticipant,u.display leagueposition,leaguedivision from wp_bhaa_leaguesummary ls
+join wp_users u on ls.leagueparticipant=u.ID
+where league=3103
+and leagueposition<=10
+order by leaguedivision,leagueposition
+
+select leaguedivision,leagueposition,leaguepoints,u.user_nicename,fn.meta_value,
+ln.meta_value,u.user_email,mobile.meta_value as mobile from wp_bhaa_leaguesummary 
+join wp_users u on u.id=leagueparticipant
+left JOIN wp_usermeta mobile ON (mobile.user_id=u.id AND mobile.meta_key='bhaa_runner_mobilephone')
+left JOIN wp_usermeta fn ON (fn.user_id=u.id AND fn.meta_key='first_name')
+left JOIN wp_usermeta ln ON (ln.user_id=u.id AND ln.meta_key='last_name')
+where league=3103
+and leagueposition<=10
+order by leaguedivision,leagueposition
+
+
+
+
+
 
