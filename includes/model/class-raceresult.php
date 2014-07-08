@@ -61,7 +61,7 @@ class RaceResult extends BaseModel implements Table
 					'standardscoringset' => $money,
 					'class' => RaceResult::RACE_REG
 			));
-		error_log('racedayresult registerRunner '.$res);
+		//error_log('racedayresult registerRunner '.$res);
 		return $res;
 	}
 	
