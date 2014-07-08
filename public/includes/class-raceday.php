@@ -143,8 +143,7 @@ class Raceday
 	 * Export the csv file for racetec
 	 */
 	function export() {
-		error_log("export");
-		//$event = new EventModel(3032);//$this->event->post_id);
+		//error_log("export");
 		$runners = $this->eventModel->listRegisteredRunners();
 
 		$output = "";
@@ -197,17 +196,7 @@ class Raceday
 		header("Content-Length: ".strlen($output));
 		header("Content-type: text/x-csv");
 		header("Content-Disposition: attachment; filename=".$this->event->event_slug.".csv");
-	//	ob_end_clean();
-		
-		//http://faisonz.com/creating-a-wordpress-plugin-to-export-mysql-data-as-csv/
-//		$fp = fopen('php://output', 'w');
-	//	fputcsv($fp, $output);
-		//fclose($fp);
-		// This function removes all content from the output buffer
-		//ob_end_clean();
-		error_log("exported file");
 		echo $output;
-		//exit;		
 	}
 }
 ?>
