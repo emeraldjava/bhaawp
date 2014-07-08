@@ -33,16 +33,17 @@ class LeagueCpt
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
 		
-		wp_register_script(
+/*		wp_register_script(
 			'bhaa.league',
 			plugins_url('../assets/js/bhaa.league.js',__FILE__),
 			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable',
 			'jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
 		wp_enqueue_script('bhaa.league');
-		
+	*/
+			
 		// register the admin_action hook
-		add_action( 'admin_action_bhaa_league_populate', array( &$this,'bhaa_league_populate'));
-		add_action( 'admin_menu', array( &$this,'bhaa_league_populate_metabox'));
+		//add_action( 'admin_action_bhaa_league_populate', array( &$this,'bhaa_league_populate'));
+		//add_action( 'admin_menu', array( &$this,'bhaa_league_populate_metabox'));
 	}
 	
 	/**
@@ -58,7 +59,7 @@ class LeagueCpt
 	}
 	
 	//add_action( 'admin_menu', 'wpse10500_admin_menu' );
-	function bhaa_league_populate_metabox() {
+	/*function bhaa_league_populate_metabox() {
 		add_meta_box(
 			'bhaa_league_populate',
 			__( 'bhaa_league_populate', 'bhaa_league_populate' ),
@@ -78,7 +79,7 @@ class LeagueCpt
 			<input type="hidden" name="from" value="meta-box" />
 		    <input type="submit" value="Do it - meta-box!" />
 		</form>';
-	}
+	}*/
 	
 	/**
 	 * http://wordpress.stackexchange.com/questions/17385/custom-post-type-templates-from-plugin-folder
@@ -175,10 +176,10 @@ class LeagueCpt
 		add_meta_box(
 			'bhaa_league_meta',
 			__( 'League Details', 'bhaa_league_meta' ),
-			array(&$this, 'bhaa_league_meta_data_fields'),
+			array(&$this,'bhaa_league_meta_data_fields'),
 			'league',
 			'side',
-			'low'
+			'high'
 		);
 	}
 	
@@ -208,6 +209,7 @@ class LeagueCpt
 			update_post_meta( $post, LeagueCpt::BHAA_LEAGUE_RACES_TO_SCORE, $_POST[LeagueCpt::BHAA_LEAGUE_RACES_TO_SCORE] );
 		}
 		if ( !empty($_POST[LeagueCpt::BHAA_LEAGUE_TYPE])) {
+			error_log("bhaa_league_save_meta_data ".$_POST[LeagueCpt::BHAA_LEAGUE_TYPE]);
 			update_post_meta( $post, LeagueCpt::BHAA_LEAGUE_TYPE, $_POST[LeagueCpt::BHAA_LEAGUE_TYPE]);
 		}
 	}
