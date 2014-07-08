@@ -150,8 +150,9 @@ class LeagueSummary extends BaseModel implements Table
 			$res = $this->wpdb->query($this->wpdb->prepare('call updateLeagueData(%d)',$this->leagueid));
 			error_log("updateLeagueData(".$this->leagueid.')-->'.$res);
 		} else {
-			$res = $this->wpdb->query($this->wpdb->prepare('call updateTeamLeagueSummary(%d)',$this->leagueid));			
-			error_log("updateTeamLeagueSummary(".$this->leagueid.')-->'.$res);
+			$SQL = $this->wpdb->prepare('call updateTeamLeagueSummary(%d)',$this->leagueid);
+			$res = $this->wpdb->query($SQL);			
+			error_log("updateTeamLeagueSummary(".$this->leagueid.') : '.$SQL.' ==>> '.$res);
 		} 
 	}
 }
