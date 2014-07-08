@@ -67,12 +67,16 @@ class RaceAdmin {
 		
 		//error_log("GET  :".print_r($_GET,true));
 		//error_log("POST :".print_r($_POST,true));
+		// http://stackoverflow.com/questions/8463126/how-to-get-post-id-in-wordpress-admin
 		$action = $_GET['action'];
+		
+		
 		if(isset($action) && (substr($action, 0, 4) === 'bhaa')){
-			
-			error_log('bhaa_race_actions() '.print_r($_GET,true));	
-			$post_id = $_GET['post_id'];
-			$raceResult = new RaceResult($post_id);
+			//	global $post;
+			//error_log(print_r($post,true));	
+			//$post_id = $_GET['post_id'];
+			error_log($post->ID);
+			$raceResult = new RaceResult($post->ID);
 		
 		switch ($action) {
 				
@@ -155,10 +159,7 @@ class RaceAdmin {
 				break;
 			case "bhaa_team_results_load":
 				$teamResult = new TeamResult($post_id);
-				
 				$teamResultBlob = get_post_meta($post_id,RaceCpt::BHAA_RACE_TEAM_RESULTS,true);
-				//error_log('BLOB '.$teamResultBlob);
-				
 				$teamResults = explode("\n",$teamResultBlob);
 				error_log('Number of team results '.sizeof($teamResults));
 				$n=0;
@@ -175,7 +176,7 @@ class RaceAdmin {
 				exit();
 				break;
 			case 'bhaa-raceday-export':
-				error_log("call bhaa-raceday-export admin");
+				error_log('call bhaa-raceday-export admin');
 				Raceday::get_instance()->export();
 				exit();
 				break;
