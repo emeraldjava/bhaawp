@@ -29,7 +29,7 @@ class Bhaa {
 		
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-	
+		
 		// Activate plugin when new blog is added
 		//add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 	
@@ -85,7 +85,7 @@ class Bhaa {
 		add_filter('login_redirect',array($this,'bhaa_redirect_subscriber_to_home'), 10, 3 );
 		add_filter('wp_nav_menu_items',array($this,'bhaa_add_login_out_item_to_menu'), 50, 2 );
 	}
-	
+		
 	//http://wordpress.stackexchange.com/questions/93843/disable-wp-admin-console-for-subscribers/93869#93869
 	function bhaa_remove_subscriber_read() {
 		global $wp_roles;
@@ -148,9 +148,11 @@ class Bhaa {
 					wp_register_script(
 						'bhaa_members',
 						plugins_url('/admin/assets/js/bhaa_members.js',dirname(__FILE__)),
-						array('jquery')
+						array('jquery'),
+						null,
+						false
 					);
-					wp_enqueue_script('bhaa_members');
+					wp_enqueue_script('bhaa_members');//,false,array(),"poc_version",false);
 				
 					wp_register_script(
 						'bhaa-raceday',
