@@ -7,18 +7,10 @@ abstract class Raceday_Form {
 	protected $money_drop_down = null;
 	 
 	function __construct() {
-		//$this->races = Raceday::get_instance()->getNextRaces();
-		
 		$this->race_drop_down = WP_Form_Element::create('hidden')
 			->set_name('bhaa_race')
-			->set_value('1');
-			//->set_label($this->races[0]->dist.' '.$this->races[0]->unit)
-			//->set_value($this->races[0]->id)
-			//->set_attribute('selected','true');
-		//foreach ($this->races as $race ) {
-		//	$this->race_drop_down->add_option($race->id,$race->dist.''.$race->unit);
-		//}
-		
+			->set_value(Raceday::get_instance()->getEvent()->race);
+	
 		// race day field set
 		$this->racenumber = WP_Form_Element::create('number')
 			->set_name('bhaa_racenumber')
