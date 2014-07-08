@@ -43,6 +43,7 @@ class Bhaa_Admin {
 		// Add an action link pointing to the options page.
 		//$plugin_basename = ( dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/' . $this->plugin_slug . '.php' );
 		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_slug . '.php' );
+		//error_log("admin "+plugin_dir_path( __DIR__ )+" "+$plugin_basename);
 		add_filter('plugin_action_links_'.$plugin_basename, array( $this, 'add_action_links' ) );
 	
 		add_action('pre_user_query', array(&$this,'match_runners_who_have_raced'));
@@ -253,10 +254,34 @@ class Bhaa_Admin {
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
+		
+		require_once( ABSPATH . 'wp-includes/plugin.php' );
+		
+		$file = dirname(__FILE__).'/assets/js/bhaa_members.js';
+		$plugin_url = plugin_dir_url($file);
+		//error_log("plugin_url:".$plugin_url,0);
+		
+		$plugin_path = plugin_dir_path($file);
+		//error_log("plugin_path:".$plugin_path,0);
+		//echo $plugin_path;
+		
+		
+		//error_log("BHAA_PLUGIN_DIR:".BHAA_PLUGIN_DIR,0);
+		
+		//error_log("1 ".plugin_dir_url(__DIR__),0);
+		
+		//error_log("2".plugin_dir_path( '/admin/assets/js/bhaa_members.js' ),0);
+		
+		//error_log("3".plugins_url( 'admin/assets/js/bhaa_members.js' , __FILE__ ),0);
+		
 		$file = BHAA_PLUGIN_DIR.'/admin/assets/js/bhaa_members.js';
+		//$file = plugin_dir_path('/admin/assets/js/bhaa_members.js');
+		//error_log($file,0);
+		
 		$content = 'var bhaa_members = ';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json') {
 			//echo 'command '.$_POST['command'];
+			//error_log("write to file ".$_POST['command'],0);
 			//$model = new BaseModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
@@ -266,9 +291,14 @@ class Bhaa_Admin {
 			//error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
+				error_log("write to file ".$file,0);
+			}
+			else {
+				error_log("file doesn't exist",0);
 			}
 		} else {
 			$content = file_get_contents($file);
+			error_log("get context");
 		}
 		$_REQUEST['content']=$content;
 		include_once( 'views/bhaa_admin_members_json.php' );
