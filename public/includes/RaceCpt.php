@@ -23,6 +23,10 @@ class RaceCpt
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_team_meta_data' ) );
 		
 		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
+		
+		// custom admin columns
+		add_filter('manage_race_posts_columns',array($this,'bhaa_manage_race_posts_columns'));
+		add_filter('manage_race_posts_custom_column',array($this,'bhaa_manage_race_posts_custom_column'), 10, 3 );
 	}
 		
 	public function bhaa_register_race_cpt() {
@@ -61,6 +65,27 @@ class RaceCpt
 				'capability_type' => 'post'
 		);
 		register_post_type( 'race', $raceArgs );
+	}
+	
+	function bhaa_manage_race_posts_columns( $column ) {
+		return array(
+			'title' => __('Title'),
+			'distance' => __('Distance'),
+			'type' => __('Type'),
+			'date' => __('Date')
+		);
+	}
+	
+	function bhaa_manage_race_posts_custom_column( $column, $post_id ) {
+		switch ($column) {
+			case 'distance' :
+				echo get_post_meta($post_id,RaceCpt::BHAA_RACE_DISTANCE,true).''.get_post_meta($post_id,RaceCpt::BHAA_RACE_UNIT,true);
+				break;
+			case 'type' :
+				echo get_post_meta($post_id,RaceCpt::BHAA_RACE_TYPE,true);
+				break;
+			default:
+		}
 	}
 
 	/**

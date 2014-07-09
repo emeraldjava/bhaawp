@@ -19,12 +19,10 @@ class RaceAdmin {
 	
 	private function __construct() {
 		// custom actions
-		add_action('init',array($this,'bhaa_race_actions'),11);
+		//add_action('init',array($this,'bhaa_race_actions'),11);
 		add_filter('post_row_actions', array(&$this,'bhaa_race_post_row_actions'), 0, 2);
 		
-		// custom admin columns
-		add_filter('manage_race_posts_columns',array($this,'bhaa_manage_race_posts_columns'));
-		add_filter('manage_race_posts_custom_column',array($this,'bhaa_manage_race_posts_custom_column'), 10, 3 );
+
 	}
 	
 	function bhaa_race_post_row_actions($actions, $post) {
@@ -187,28 +185,6 @@ class RaceAdmin {
 				exit();
 				break;
 			}	
-		}
-	}
-	
-	function bhaa_manage_race_posts_columns( $column ) {
-		return array(
-				'cb' => '<input type="checkbox" />',
-				'title' => __('Title'),
-				'distance' => __('Distance'),
-				'type' => __('Type'),
-				'date' => __('Date')
-		);
-	}
-	
-	function bhaa_manage_race_posts_custom_column( $column, $post_id ) {
-		switch ($column) {
-			case 'distance' :
-				echo get_post_meta($post_id,RaceCpt::BHAA_RACE_DISTANCE,true).''.get_post_meta($post_id,RaceCpt::BHAA_RACE_UNIT,true);
-				break;
-			case 'type' :
-				echo get_post_meta($post_id,RaceCpt::BHAA_RACE_TYPE,true);
-				break;
-			default:
 		}
 	}
 }
