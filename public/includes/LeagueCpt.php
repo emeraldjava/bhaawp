@@ -12,6 +12,10 @@
  * The idea is to map the URL GET to a FORM POST via jquery
  * http://stackoverflow.com/questions/9748593/jquery-convert-get-url-to-post
  * 
+ * http://wordpress.stackexchange.com/questions/99211/how-to-add-a-publish-link-to-the-quick-actions/99230#99230
+ * http://wordpress.stackexchange.com/questions/82761/how-can-i-link-post-row-actions-with-a-custom-action-function
+ * http://wordpress.stackexchange.com/questions/14973/row-actions-for-custom-post-types/14982#14982
+ * 
  * @author oconnellp
  *
  */
@@ -33,38 +37,19 @@ class LeagueCpt
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
 		
-/*		wp_register_script(
-			'bhaa.league',
-			plugins_url('../assets/js/bhaa.league.js',__FILE__),
-			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable',
-			'jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
-		wp_enqueue_script('bhaa.league');
-	*/
-			
 		// register the admin_action hook
 		add_action( 'admin_menu', array( &$this,'bhaa_league_populate_metabox'));
 
 		// handle FORM POST submit with admin_action_ hook
 		// http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
-		add_action('admin_action_bhaa_league_populate',array(&$this,'admin_action_bhaa_league_populate'));
-		add_action('admin_action_bhaa_update_league_data',array(&$this,'bhaa_update_league_data'));
-		
-		// handle URL GET requests
-		//add_action( 'admin_head-edit.php',array( &$this,'bhaa_league_url_actions'));
-		
-		// use load-edit to grab URL GET params
-		// http://wordpress.stackexchange.com/questions/99211/how-to-add-a-publish-link-to-the-quick-actions/99230#99230
-		//add_action('load-edit.php',array( &$this,'bhaa_league_url_actions'),10,2);
-	}
-		
-	// http://wordpress.stackexchange.com/questions/82761/how-can-i-link-post-row-actions-with-a-custom-action-function
-	// http://wordpress.stackexchange.com/questions/14973/row-actions-for-custom-post-types/14982#14982
-	
+		add_action('admin_action_bhaa_update_league',array(&$this,'bhaa_update_league'));
+		add_action('admin_action_bhaa_league_populate',array(&$this,'bhaa_league_populate'));
+	}	
 
 	function bhaa_league_populate_metabox() {
 		add_meta_box(
 			'bhaa_league_populate',
-			__( 'bhaa_league_populate', 'bhaa_league_populate' ),
+			'League Actions',
 			array(&$this, 'bhaa_league_populate_fields'),
 			'league',
 			'side',
@@ -73,52 +58,17 @@ class LeagueCpt
 	}
 	
 	function bhaa_league_populate_fields() {
-		$url = admin_url( 'admin.php' );
-		//error_log('bhaa_league_populate_fields '.$url);
-		//echo sprintf('<a href="%s">Update League</a>',
-		//	wp_nonce_url(sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa_update_league_data'.$post->ID)
-		//);
 		global $post;
-		echo $this->generate_admin_url_link('bhaa_update_league_data',$post->ID,'Update League');
-		echo '<form method="POST" action="'.admin_url( 'admin.php').'">
-		    <input type="hidden" name="action" value="bhaa_league_populate" />
-			<input type="hidden" name="from" value="meta-box" />
-		    <input type="submit" value="FORM POST SUBMIT" />
-		</form>';
+		echo implode('<br/>', $this->get_admin_url_links($post));
 	}
 	
 	/**
 	 * Handle submit of the FORM
 	 * http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
 	 */
-	function admin_action_bhaa_league_populate() {
+	function bhaa_league_populate() {
 		error_log('admin_action_bhaa_league_populate '.print_r($_GET,true));
-		wp_redirect( $_SERVER['HTTP_REFERER'] );
-		exit();
-	}
-	
-	/**
-	 * Handle the URL GET call to edit.php
-	 * http://wordpress.stackexchange.com/questions/82761/how-can-i-link-post-row-actions-with-a-custom-action-function?rq=1
-	 * 
-	 */
-	function admin_action_bhaa_update_league_data() {
-		global $typenow;
-		if( 'league' != $typenow )
-			return;
-		
-		error_log($time.' admin_action_bhaa_update_league_data GET:'.print_r($_GET,true));
-		
-		//$nonce = isset( $_REQUEST['_wpnonce'] ) ? $_REQUEST['_wpnonce'] : null;
-		//if ( wp_verify_nonce( $nonce, 'bhaa_update_league_data' ) && $_GET['action']=='bhaa_update_league_data') {//isset( $_REQUEST['update_id'] )
-		
-		//if(isset($_GET['action'])&& $_GET['action']=='bhaa_update_league_data') {
-			//error_log('bhaa_update_league_data');
-		//	$time = time();
-			// Do your stuff here
-			//error_log($time.' bhaa_league_url_actions nonce  GET:'.print_r($_GET,true));
-			//error_log($time.' bhaa_league_url_actions POST:'.print_r($_POST,true));
-		//}	
+		queue_flash_message("bhaa_league_populate");
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
@@ -266,32 +216,24 @@ class LeagueCpt
 	function bhaa_league_post_row_actions($actions, $post) {
 		if ($post->post_type =="league") {
 			$actions = array_merge(
-				$actions, array(
-					'update_league' => $this->generate_admin_url_link('bhaa_update_league_data',$post->ID,'Update League'),
-						//sprintf('<a href="%s">Update League</a>',
-						//wp_nonce_url(
-							//sprintf('edit.php?post_type=league&action=bhaa_update_league_data&post_id=%d', $post->ID),'bhaa_update_league_data'.$post->ID)),
-					'bhaa_league_populate' => 
-						'<a id="bhaa_league_populate" href=\''.admin_url('admin.php?action=bhaa_league_populate&from=custom_post_row_action&post='.$post->ID).'\'>
-						bhaa_league_populate</a>'
-//						'<script type="text/javascript">
-	//						$(document).ready(function(){
-		//						$(#bhaa_league_populate).bind("click", function(event) {
-			//						event.preventDefault();
-				//					var url = $(this).attr("href");
-					//				alert("Now I want to call this page: " + url);
-						//		});
-							//	</script>'
-			));
+				$actions, $this->get_admin_url_links($post)
+			);
 		}
 		return $actions;
+	}
+	
+	private function get_admin_url_links($post){
+		return array(
+			'bhaa_update_league' => $this->generate_admin_url_link('bhaa_update_league',$post->ID,'bhaa_update_league'),
+			'bhaa_league_populate' => $this->generate_admin_url_link('bhaa_league_populate',$post->ID,'bhaa_league_populate')
+		);
 	}
 	
 	/**
 	 * Use the admin.php page as the hook point
 	 * http://shibashake.com/wordpress-theme/obscure-wordpress-errors-why-where-and-how
 	 */
-	function generate_admin_url_link($action,$post_id,$name) {
+	private function generate_admin_url_link($action,$post_id,$name) {
 		$nonce = wp_create_nonce( $action );
 		//$link = admin_url( 'edit.php?post_type=league&action='.$action.'&post_id='.$post_id.'&_wpnonce='.$nonce );
 		$link = admin_url('admin.php?action='.$action.'&post_type=league&post_id='.$post_id);//.'&_wpnonce='.$nonce );
@@ -299,20 +241,21 @@ class LeagueCpt
 	}
 	
 	/**
-	 * Filters for specific cpt actions.
+	 * Handle the URL GET call to edit.php
+	 * http://wordpress.stackexchange.com/questions/82761/how-can-i-link-post-row-actions-with-a-custom-action-function?rq=1
 	 */
-	function bhaa_update_league_data() {
+	function bhaa_update_league() {
 		global $typenow;
 		if( 'league' != $typenow )
 			return;
 		
-		if(isset($_GET['action']) && ($_GET['action'] == 'bhaa_update_league_data') ) {
+		if(isset($_GET['action']) && ($_GET['action'] == 'bhaa_update_league') ) {
 
 				$id = $_GET['post_id'];
-				error_log('bhaa_update_league_data : '.$id.' '.$action);
+				error_log('bhaa_update_league : '.$id.' '.$action);
 				$leagueSummary = new LeagueSummary($id);
 				$leagueSummary->updateLeagueData();
-				queue_flash_message("bhaa_update_league_data");
+				queue_flash_message("bhaa_update_league");
 				wp_redirect( $_SERVER['HTTP_REFERER'] );
 				exit();
 		}
