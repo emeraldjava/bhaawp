@@ -61,7 +61,6 @@ class Bhaa {
 		
 		Connections::get_instance();
 		new LeagueCpt();
-		new RaceCpt();
 		new HouseCpt();
 		new Events_Manager();
 		

@@ -20,43 +20,10 @@ class RaceAdmin {
 	private function __construct() {
 		// custom actions
 		//add_action('init',array($this,'bhaa_race_actions'),11);
-		add_filter('post_row_actions', array(&$this,'bhaa_race_post_row_actions'), 0, 2);
-		
 
 	}
 	
-	function bhaa_race_post_row_actions($actions, $post) {
-	
-		if ($post->post_type =="race") {
-			$actions = array_merge($actions, array(
-				'bhaa_race_delete_results' => sprintf('<a href="%s">Delete Results</a>', 
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_delete_results&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_load_results' => sprintf('<a href="%s">Load Results</a>', 
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_load_results&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_update_positions' => sprintf('<a href="%s">Positions</a>', 
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_positions&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_update_pace' => sprintf('<a href="%s">Pace</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_update_pace&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_posincat' => sprintf('<a href="%s">Pos Cat</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posincat&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_posinstd' => sprintf('<a href="%s">Pos Std</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_posinstd&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_postracestd' => sprintf('<a href="%s">Post Race Std</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_postracestd&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_league' => sprintf('<a href="%s">League</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_league&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_race_all' => sprintf('<a href="%s">BHAA ALL</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_race_all&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_team_results_delete' => sprintf('<a href="%s">Delete Team Results</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_delete&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_team_results_load' => sprintf('<a href="%s">Team Results</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_team_results_load&post_id=%d', $post->ID),'bhaa')),
-				'bhaa_add_result' => sprintf('<a href="%s">Add Result</a>',
-					wp_nonce_url(sprintf('edit.php?post_type=race&action=bhaa_add_result&post_id=%d', $post->ID),'bhaa'))
-			));
-		}
-		return $actions;
-	}
+
 	
 	/**
 	 * Filters for specific cpt actions.
