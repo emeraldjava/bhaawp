@@ -52,10 +52,10 @@ class LeagueCpt {
 
 		// handle FORM POST submit with admin_action_ hook
 		// http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
-		add_action('admin_action_bhaa_update_league',array(&$this,'bhaa_update_league'));
+		add_action('admin_action_bhaa_league_delete',array(&$this,'bhaa_league_delete'));
 		add_action('admin_action_bhaa_league_populate',array(&$this,'bhaa_league_populate'));
 	}	
-
+	
 	function bhaa_league_populate_metabox() {
 		add_meta_box(
 			'bhaa_league_populate',
@@ -73,14 +73,46 @@ class LeagueCpt {
 	}
 	
 	/**
+	 * Handle the URL GET call to edit.php
+	 * http://wordpress.stackexchange.com/questions/82761/how-can-i-link-post-row-actions-with-a-custom-action-function?rq=1
+	 */
+	function bhaa_league_delete() {
+		global $typenow;
+		if( 'league' != $typenow )
+			return;
+		$leagueId = $_GET['post_id'];
+		$leagueHandler = $this->getLeagueHandler($leagueId);
+		$leagueHandler->deleteLeague();
+		queue_flash_message("bhaa_league_delete");
+		wp_redirect( $_SERVER['HTTP_REFERER'] );
+		exit();
+	}
+	
+	/**
 	 * Handle submit of the FORM
 	 * http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
 	 */
 	function bhaa_league_populate() {
-		error_log('admin_action_bhaa_league_populate '.print_r($_GET,true));
+		error_log('bhaa_league_populate');
+		$leagueId = $_GET['post_id'];
+		$leagueHandler = $this->getLeagueHandler($leagueId);
+		$leagueHandler->deleteLeague();
 		queue_flash_message("bhaa_league_populate");
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
+	}
+	
+	/**
+	 * Return a specific class for handling league actions.
+	 * @param unknown $leagueid
+	 * @return IndividualLeague|TeamLeague
+	 */
+	private function getLeagueHandler($leagueid) {
+		$type = get_post_meta($leagueid,LeagueCpt::BHAA_LEAGUE_TYPE,true);
+		if($type=='I')
+			return new IndividualLeague($leagueid);
+		else
+			return new TeamLeague($leagueid);
 	}
 	
 	/**
@@ -234,8 +266,8 @@ class LeagueCpt {
 	
 	private function get_admin_url_links($post){
 		return array(
-			'bhaa_update_league' => $this->generate_admin_url_link('bhaa_update_league',$post->ID,'bhaa_update_league'),
-			'bhaa_league_populate' => $this->generate_admin_url_link('bhaa_league_populate',$post->ID,'bhaa_league_populate')
+			'bhaa_league_delete' => $this->generate_admin_url_link('bhaa_league_delete',$post->ID,'Delete'),
+			'bhaa_league_populate' => $this->generate_admin_url_link('bhaa_league_populate',$post->ID,'Populate')
 		);
 	}
 	
@@ -248,27 +280,6 @@ class LeagueCpt {
 		//$link = admin_url( 'edit.php?post_type=league&action='.$action.'&post_id='.$post_id.'&_wpnonce='.$nonce );
 		$link = admin_url('admin.php?action='.$action.'&post_type=league&post_id='.$post_id);//.'&_wpnonce='.$nonce );
 		return '<a href='.$link.'>'.$name.'</a>';
-	}
-	
-	/**
-	 * Handle the URL GET call to edit.php
-	 * http://wordpress.stackexchange.com/questions/82761/how-can-i-link-post-row-actions-with-a-custom-action-function?rq=1
-	 */
-	function bhaa_update_league() {
-		global $typenow;
-		if( 'league' != $typenow )
-			return;
-		
-		if(isset($_GET['action']) && ($_GET['action'] == 'bhaa_update_league') ) {
-
-				$id = $_GET['post_id'];
-				error_log('bhaa_update_league : '.$id.' '.$action);
-				$leagueSummary = new LeagueSummary($id);
-				$leagueSummary->updateLeagueData();
-				queue_flash_message("bhaa_update_league");
-				wp_redirect( $_SERVER['HTTP_REFERER'] );
-				exit();
-		}
 	}
 	
 	//
