@@ -1,21 +1,22 @@
 <?php
-class RaceCpt
-{
-	private $race;
-
+class RaceCpt {
+	
 	const BHAA_RACE_DISTANCE = 'bhaa_race_distance';
 	const BHAA_RACE_UNIT = 'bhaa_race_unit';
 	const BHAA_RACE_TYPE = 'bhaa_race_type';
 	const BHAA_RACE_TEAM_RESULTS = 'bhaa_race_team_results';
 
-	/**
-	 * https://github.com/emeraldjava/tmp-bmx/blob/master/controllers/events_controller.php
-	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series1/
-	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series2/
-	 * http://new2wp.com/pro/wordpress-custom-post-types-object-oriented-series3/
-	 *
-	 */
-	public function __construct() {
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() {
 		add_action( 'init', array(&$this,'bhaa_register_race_cpt'));
 
 		// custom meta

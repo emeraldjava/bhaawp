@@ -3,8 +3,8 @@ define( 'BHAA_PLUGIN_DIR' , dirname(__FILE__) );
 
 // admin
 require_once(BHAA_PLUGIN_DIR.'/admin/class-runner-admin.php');
-require_once(BHAA_PLUGIN_DIR.'/admin/class-race-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-event-admin.php');
+require_once(BHAA_PLUGIN_DIR.'/admin/RaceCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 
 // 3rd party libs
@@ -27,7 +27,6 @@ require_once(BHAA_PLUGIN_DIR.'/includes/class-event.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-realex.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/HouseCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/LeagueCpt.php');
-require_once(BHAA_PLUGIN_DIR.'/public/includes/RaceCpt.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standard.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-standardcalculator.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday.php');
