@@ -19,12 +19,22 @@
  * @author oconnellp
  *
  */
-class LeagueCpt
-{
+class LeagueCpt {
+
 	const BHAA_LEAGUE_RACES_TO_SCORE = 'races_to_score';
 	const BHAA_LEAGUE_TYPE = 'bhaa_league_type';
+	
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
 		
-	function __construct() {
+	private function __construct() {
 		add_action('init',array(&$this,'registerLeagueCPT'));
 
 		//register_taxonomy_for_object_type('category', 'league');
