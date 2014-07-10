@@ -60,7 +60,6 @@ class Bhaa {
 		$wpdb->standardTable = $wpdb->prefix.'bhaa_standard';
 		
 		Connections::get_instance();
-		new LeagueCpt();
 		new HouseCpt();
 		new Events_Manager();
 		
