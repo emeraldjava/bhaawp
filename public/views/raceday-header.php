@@ -5,7 +5,7 @@ $buttonMenu = '
 <a class="btn btn-info" href="/raceday-newmember" role="button">New Member</a>
 <a class="btn btn-success" href="/raceday-prereg" role="button">Pre-Reg</a>
 <a class="btn btn-warning" href="/raceday-list" role="button">List</a>
-<a class="btn btn-danger" href="/wp-admin/edit.php?post_type=race&action=bhaa-raceday-export" role="button">Export</a>
+<a class="btn btn-danger" href="/wp-admin/admin.php?post_type=race&action=bhaa_raceday_export" role="button">Export</a>
 </div><hr/>
 ';
 echo $buttonMenu;

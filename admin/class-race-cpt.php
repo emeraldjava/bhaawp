@@ -44,6 +44,7 @@ class RaceCpt {
 		add_action('admin_action_bhaa_race_delete_team_results',array(&$this,'bhaa_race_delete_team_results'));
 		add_action('admin_action_bhaa_race_load_team_results',array(&$this,'bhaa_race_load_team_results'));
 		add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
+		add_action('admin_action_bhaa_raceday_export',array(&$this,'bhaa_raceday_export'));
 	}
 	
 	function bhaa_race_delete_results() {
@@ -145,9 +146,7 @@ class RaceCpt {
 		exit();
 	}
 	function bhaa_raceday_export() {
-		error_log('call bhaa-raceday-export admin');
 		Raceday::get_instance()->export();
-		wp_redirect(wp_get_referer());
 		exit();
 	}
 	function bhaa_race_add_result() {
