@@ -48,7 +48,7 @@ class Bhaa_Admin {
 	
 		add_action('pre_user_query', array(&$this,'match_runners_who_have_raced'));
 		
-		new RaceCpt();
+		RaceCpt::get_instance();
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
 		new WPFlashMessages();
