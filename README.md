@@ -11,7 +11,7 @@ http://bhaa.ie
 
 Change Log
 ==========
-2014.07.10  Merge all race admin code to a new class-race-cpt in the admin area.
+2014.07.10  Merge all race admin code to a new class-race-cpt in the admin area. Add team league SQL logic.
 2014.07.09  Fix up the League CPT actions for GET and POST scenarios. Move the race CTP logic for columns
 2014.07.08  Drop the race dropdown from the raceday forms. Update versioning of members.js script.
 2014.06.23  Add user_register hook to set the default runner status and gender when a new user is added manually.
