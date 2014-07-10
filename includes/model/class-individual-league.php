@@ -8,6 +8,7 @@ class IndividualLeague extends BaseModel implements League {
 	private $leagueid;
 	
 	function __construct($leagueid) {
+		parent::__construct();
 		$this->leagueid=$leagueid;
 	}
 	

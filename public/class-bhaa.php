@@ -62,6 +62,7 @@ class Bhaa {
 		Connections::get_instance();
 		new HouseCpt();
 		new Events_Manager();
+		LeagueCpt::get_instance();
 		
 		// register the forms
 		add_action('wp_forms_register',array(Raceday::get_instance(),'bhaa_register_forms'));

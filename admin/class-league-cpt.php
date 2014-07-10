@@ -96,7 +96,7 @@ class LeagueCpt {
 		error_log('bhaa_league_populate');
 		$leagueId = $_GET['post_id'];
 		$leagueHandler = $this->getLeagueHandler($leagueId);
-		$leagueHandler->deleteLeague();
+		$leagueHandler->loadLeague();
 		queue_flash_message("bhaa_league_populate");
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
@@ -122,17 +122,13 @@ class LeagueCpt {
 		global $wp_query, $post;
 		/* Checks for single template by post type */
 		if ($post->post_type == "league") {
-			
 			// check the type and redirect to a template
 			$type = get_post_meta($post->ID,'bhaa_league_type',true);
-			
 			// check if this is a division sub-query
 			if(isset($wp_query->query_vars['division'])) {
 				$division = urldecode($wp_query->query_vars['division']);
-				error_log("bhaa_single_league_template division ".$division);
 				return BHAA_PLUGIN_DIR.'/includes/templates/single-league-division.php';
-			}
-			else {
+			} else {
 				if($type=='T')
 					return BHAA_PLUGIN_DIR.'/includes/templates/single-league-team.php';
 				else 
