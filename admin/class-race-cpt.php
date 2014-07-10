@@ -249,18 +249,18 @@ class RaceCpt {
 
 	private function get_admin_url_links($post) {
 		return array(
-			'bhaa_race_delete_results' => $this->generate_admin_url_link('bhaa_race_delete_results',$post->ID,'bhaa_race_delete_results'),
-			'bhaa_race_load_results' => $this->generate_admin_url_link('bhaa_race_load_results',$post->ID,'bhaa_race_load_results'),
-			'bhaa_race_positions' => $this->generate_admin_url_link('bhaa_race_positions',$post->ID,'bhaa_race_positions'),
-			'bhaa_race_pace' => $this->generate_admin_url_link('bhaa_race_pace',$post->ID,'bhaa_race_pace'),
-			'bhaa_race_pos_in_cat' => $this->generate_admin_url_link('bhaa_race_pos_in_cat',$post->ID,'bhaa_race_pos_in_cat'),
-			'bhaa_race_pos_in_std' => $this->generate_admin_url_link('bhaa_race_pos_in_std',$post->ID,'bhaa_race_pos_in_std'),
-			'bhaa_race_update_standards' => $this->generate_admin_url_link('bhaa_race_update_standards',$post->ID,'bhaa_race_update_standards'),
-			'bhaa_race_league' => $this->generate_admin_url_link('bhaa_race_league',$post->ID,'bhaa_race_league'),
-			'bhaa_race_all' => $this->generate_admin_url_link('bhaa_race_all',$post->ID,'bhaa_race_all'),
-			'bhaa_race_delete_team_results' => $this->generate_admin_url_link('bhaa_race_delete_team_results',$post->ID,'bhaa_race_delete_team_results'),
-			'bhaa_race_load_team_results' => $this->generate_admin_url_link('bhaa_race_load_team_results',$post->ID,'bhaa_race_load_team_results'),
-			'bhaa_race_add_result' => $this->generate_admin_url_link('bhaa_race_add_result',$post->ID,'bhaa_race_add_result')
+			'bhaa_race_delete_results' => $this->generate_admin_url_link('bhaa_race_delete_results',$post->ID,'Delete Results'),
+			'bhaa_race_load_results' => $this->generate_admin_url_link('bhaa_race_load_results',$post->ID,'Load Results'),
+			'bhaa_race_positions' => $this->generate_admin_url_link('bhaa_race_positions',$post->ID,'Positions'),
+			'bhaa_race_pace' => $this->generate_admin_url_link('bhaa_race_pace',$post->ID,'Pace'),
+			'bhaa_race_pos_in_cat' => $this->generate_admin_url_link('bhaa_race_pos_in_cat',$post->ID,'Pos_in_cat'),
+			'bhaa_race_pos_in_std' => $this->generate_admin_url_link('bhaa_race_pos_in_std',$post->ID,'Pos_in_std'),
+			'bhaa_race_update_standards' => $this->generate_admin_url_link('bhaa_race_update_standards',$post->ID,'Update Stds'),
+			'bhaa_race_league' => $this->generate_admin_url_link('bhaa_race_league',$post->ID,'League Points'),
+			'bhaa_race_all' => $this->generate_admin_url_link('bhaa_race_all',$post->ID,'All'),
+			'bhaa_race_delete_team_results' => $this->generate_admin_url_link('bhaa_race_delete_team_results',$post->ID,'Delete Teams'),
+			'bhaa_race_load_team_results' => $this->generate_admin_url_link('bhaa_race_load_team_results',$post->ID,'Load Teams'),
+			'bhaa_race_add_result' => $this->generate_admin_url_link('bhaa_race_add_result',$post->ID,'Add Result')
 		);
 	}
 	
