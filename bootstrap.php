@@ -4,7 +4,7 @@ define( 'BHAA_PLUGIN_DIR' , dirname(__FILE__) );
 // admin
 require_once(BHAA_PLUGIN_DIR.'/admin/class-runner-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-event-admin.php');
-require_once(BHAA_PLUGIN_DIR.'/admin/RaceCpt.php');
+require_once(BHAA_PLUGIN_DIR.'/admin/class-race-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 
 // 3rd party libs
