@@ -22,3 +22,7 @@ license.txt
 /.buildpath
 /.settings
 /build.properties
+
+*.sublime-project
+
+*.sublime-workspace
