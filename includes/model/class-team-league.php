@@ -30,7 +30,7 @@ class TeamLeague extends BaseModel implements League {
 		error_log($SQL);
 		$this->wpdb->query($SQL);
 		//$SQL = $this->wpdb->prepare('DELETE FROM wp_bhaa_teamsummary');
-		$SQL = 'DELETE FROM wp_bhaa_teamsummary';
+		$SQL = 'DELETE FROM wp_bhaa_teamsummary WHERE race!=3147 AND race!=3148';
 		error_log($SQL);
 		$this->wpdb->query($SQL);
 		$SQL = $this->wpdb->prepare('DELETE FROM wp_bhaa_leaguesummary WHERE league=%d',$this->leagueid);// leaguedivision="M" AND leaguedivision="W" AND
