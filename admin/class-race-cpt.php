@@ -134,14 +134,14 @@ class RaceCpt {
 	}
 	function bhaa_race_load_team_results() {
 		$teamResult = new TeamResult($_GET['post_id']);
-		$teamResultBlob = get_post_meta($post_id,RaceCpt::BHAA_RACE_TEAM_RESULTS,true);
+		$teamResultBlob = get_post_meta($_GET['post_id'],RaceCpt::BHAA_RACE_TEAM_RESULTS,true);
 		$teamResults = explode("\n",$teamResultBlob);
 		error_log('Number of team results '.sizeof($teamResults));
 		foreach($teamResults as $result){
 			$details = explode(',',$result);
 			$teamResult->addResult($details);
 		}
-		queue_flash_message("bhaa_race_load_team_results");
+		queue_flash_message("bhaa_race_load_team_results :: ".sizeof($teamResults));
 		wp_redirect(wp_get_referer());
 		exit();
 	}
@@ -305,7 +305,7 @@ class RaceCpt {
 	}
 
 	public function bhaa_race_team_result_textarea( $post ) {
-		$teamresults = get_post_meta($post->ID, RaceCpt::BHAA_RACE_TEAM_RESULTS,true);
+		$teamresults = get_post_meta($post->ID,RaceCpt::BHAA_RACE_TEAM_RESULTS,true);
 		echo '<textarea name='.RaceCpt::BHAA_RACE_TEAM_RESULTS.' id='.RaceCpt::BHAA_RACE_TEAM_RESULTS.'
 			 rows="20" cols="80" style="width:99%">'.$teamresults.'</textarea>';
 		//echo '<textarea rows="20" cols="80" name='.RaceCpt::BHAA_RACE_TEAM_RESULTS.' value="'.$teamresults.'" />';
