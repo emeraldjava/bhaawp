@@ -11,6 +11,7 @@ http://bhaa.ie
 
 Change Log
 ==========
+2014.07.23  Individual league delete and populate actions implements via SQL.
 2014.07.21  Fix the $postId reference in the Load Team Results action.
 2014.07.10  Merge all race admin code to a new class-race-cpt in the admin area. Add team league SQL logic.
 2014.07.09  Fix up the League CPT actions for GET and POST scenarios. Move the race CTP logic for columns
