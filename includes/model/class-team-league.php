@@ -86,7 +86,8 @@ class TeamLeague extends BaseModel implements League {
 			ORDER BY class,position';
 		error_log($SQL);
 		$this->wpdb->query($SQL);
-		
+
+		// GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY l.eventdate SEPARATOR ',') AS leaguesummary
 		$SQL = $this->wpdb->prepare(
 			"INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,
 			leaguedivision,leagueposition,leaguesummary)
@@ -99,7 +100,7 @@ class TeamLeague extends BaseModel implements League {
 			ROUND(SUM(ts.leaguepoints),0) as leaguepoints,
 			'M' as leaguedivision,
 			1 as leagueposition,
-			GROUP_CONCAT( cast( concat_ws(':',l.event,ts.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
+			GROUP_CONCAT(CAST(CONCAT_WS(':',l.event,ts.leaguepoints,IF(ts.class='RACE_ORG','RO',NULL)) AS char ) SEPARATOR ',') AS leaguesummary
 			from wp_bhaa_race_detail l
 			join wp_bhaa_teamsummary ts on l.race=ts.race
 			where league=%d
@@ -122,7 +123,7 @@ class TeamLeague extends BaseModel implements League {
 			ROUND(SUM(ts.leaguepoints),0) as leaguepoints,
 			'W' as leaguedivision,
 			1 as leagueposition,
-			GROUP_CONCAT( cast( concat_ws(':',l.event,ts.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
+			GROUP_CONCAT(CAST(CONCAT_WS(':',l.event,ts.leaguepoints,IF(ts.class='RACE_ORG','RO',NULL)) AS char ) SEPARATOR ',') AS leaguesummary
 			from wp_bhaa_race_detail l
 			join wp_bhaa_teamsummary ts on l.race=ts.race
 			where league=%d
@@ -133,13 +134,18 @@ class TeamLeague extends BaseModel implements League {
 		error_log($SQL);
 		$this->wpdb->query($SQL);
 		
-		$SQL = $this->wpdb->prepare(
-			'update wp_bhaa_leaguesummary
-			set leaguesummary=getTeamLeagueSummary(leagueparticipant,league,leaguedivision)
-			where league=%d',$this->leagueid);
+		// update the league summary
+		$SQL = $this->wpdb->prepare("update wp_bhaa_leaguesummary set leaguesummary=
+			getLeagueTeamSummary(leagueparticipant,%d,'M') where
+			league=%d and leaguedivision in ('M')",$this->leagueid,$this->leagueid);
 		error_log($SQL);
-		$this->wpdb->query($SQL);
+		$res = $this->wpdb->query($SQL);
+		
+		$SQL = $this->wpdb->prepare("update wp_bhaa_leaguesummary set leaguesummary=
+			getLeagueTeamSummary(leagueparticipant,%d,'W') where
+			league=%d and leaguedivision in ('W')",$this->leagueid,$this->leagueid);
+		error_log($SQL);
+		$res = $this->wpdb->query($SQL);
 	}
-	
 }
 ?>

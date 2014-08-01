@@ -113,13 +113,13 @@ class IndividualLeague extends BaseModel implements League {
 		
 		// update the league summary
 		$SQL = $this->wpdb->prepare("update wp_bhaa_leaguesummary set leaguesummary=
-			getRunnerLeagueSummary(leagueparticipant,%d,'M') where
+			getLeagueRunnerSummary(leagueparticipant,%d,'M') where
 			league=%d and leaguedivision in ('A','B','C','D','E','F')",$this->leagueid,$this->leagueid);
 		error_log($SQL);
 		$res = $this->wpdb->query($SQL);
 		
 		$SQL = $this->wpdb->prepare("update wp_bhaa_leaguesummary set leaguesummary=
-			getRunnerLeagueSummary(leagueparticipant,%d,'W') where
+			getLeagueRunnerSummary(leagueparticipant,%d,'W') where
 			league=%d and leaguedivision in ('L1','L2')",$this->leagueid,$this->leagueid);
 		error_log($SQL);
 		$res = $this->wpdb->query($SQL);
