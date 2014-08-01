@@ -39,6 +39,13 @@ WHERE position!=0
 GROUP BY race,team
 ORDER BY class,position;
 
+
+DELETE FROM wp_bhaa_race_detail where league=3709
+SELECT * FROM wp_bhaa_race_detail where league=3709
+
+DELETE FROM wp_bhaa_leaguesummary WHERE league=3709 AND leaguedivision="M" AND leaguedivision="W" AND 
+SELECT * FROM wp_bhaa_leaguesummary WHERE league=3709 AND leaguedivision="M" AND leaguedivision="W"
+
 -- mens teams
 DELETE FROM wp_bhaa_leaguesummary where league=3709 and leaguedivision='M';
 INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,
@@ -52,6 +59,8 @@ COUNT(ts.race) as leaguescorecount,
 ROUND(SUM(ts.leaguepoints),0) as leaguepoints,
 'M' as leaguedivision,
 1 as leagueposition,
+GROUP_CONCAT(CAST(CONCAT_WS(':',l.event,ts.leaguepoints,IF(ts.class='RACE_ORG','RO',NULL)) AS char ) SEPARATOR ",") AS leagues,
+GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY l.eventdate SEPARATOR ',') as ls,
 GROUP_CONCAT( cast( concat_ws(':',l.event,ts.leaguepoints) AS char ) SEPARATOR ',') AS leaguesummary
 from wp_bhaa_race_detail l
 join wp_bhaa_teamsummary ts on l.race=ts.race
@@ -59,7 +68,15 @@ where league=3709
 AND ts.class != 'W'
 and racetype in ('C','M')
 GROUP BY l.league,ts.team
+HAVING COALESCE(leaguepoints, 0) > 0
 ORDER BY leaguepoints desc,leaguescorecount desc;
+
+GROUP BY le.id,rr.runner
+
+
+-- individual format
+select * from wp_bhaa_leaguesummary
+where leagueparticipant=7713;
 
 -- womens teams
 DELETE FROM wp_bhaa_leaguesummary where league=3709 and leaguedivision='W';
