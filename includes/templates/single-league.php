@@ -106,13 +106,14 @@ else
 	// only show name for individual league
 	if($leagueSummary->getType()=='I')
 		echo '<th>Name</th>';
-
-	echo '<th>Company</th>';
+	else
+		echo '<th>Company</th>';
+	
 	//echo '<th>Standard</th>';
 	foreach ( $events as $event )
 	{
 		//  [lid] => 2492 [post_title] => Winter League 2012/2013 [eid] => 2121 [etitle] => South Dublin County Council 2013 [rid] => 2359 [rtitle] => sdcc2013_4M_M [rtype] => M
-		echo '<th>'.substr($event->etitle,0,8).'</th>';
+		echo '<th>'.substr($event->etitle,0,12).'</th>';
 	}
 	echo '<th>Races</th>
   	<th>Points</th>
@@ -139,10 +140,12 @@ else
 			echo '<tr><td>'.($i++).'</td>';
 			if($leagueSummary->getType()=='I')
 				echo '<td>'.sprintf('<a href="/runner/?id=%d"><b>%s</b></a>',$row->leagueparticipant,$row->display_name).'</td>';
-			echo '<td>'.sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$row->ID,$row->post_title).'</td>';
+			else
+				echo '<td>'.sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$row->ID,$row->post_title).'</td>';
 			//echo '<td>'.$row->leaguesummary.'</td>';
 			
 			$points = explode(',', $row->leaguesummary);
+			//var_dump($points);
 			//$points = json_decode(html_entity_decode($row->leaguesummary));
 			// for each event id - look for a matching json row
 			foreach ( $events as $event )
@@ -187,7 +190,7 @@ else
 				//}
 			}
 			echo '<td>'.$row->leaguescorecount.'</td>
-    <td>'.$row->leaguepoints.'</td>
+    <td><b>'.$row->leaguepoints.'</b></td>
   	</tr>';
 		}
 	
