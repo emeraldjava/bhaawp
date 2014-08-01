@@ -413,7 +413,7 @@ inner JOIN wp_posts le ON l2e.p2p_from = le.id
 inner JOIN wp_users ru ON rr.runner = ru.id
 JOIN wp_usermeta status ON (status.user_id=rr.runner AND status.meta_key = 'bhaa_runner_status')
 JOIN wp_usermeta standard ON (standard.user_id=rr.runner AND standard.meta_key = 'bhaa_runner_standard')
-WHERE le.id=_leagueId AND class in ('RAN','RACE_ORG') 
+WHERE le.id=3709 AND class in ('RAN','RACE_ORG') 
 AND standard.meta_value IS NOT NULL AND status.meta_value='M'
 AND rt.meta_value!='TRACK' -- exclude TRACK events
 GROUP BY le.id,rr.runner
@@ -449,10 +449,45 @@ league=_leagueId and leaguedivision in ('L1','L2');
 
 END$$
 
+--SET GLOBAL log_bin_trust_function_creators = 1$$
+DROP FUNCTION IF EXISTS `getLeagueRunnerSummary`$$
+CREATE FUNCTION `getLeagueRunnerSummary`(_runner INT,_leagueId INT,_gender varchar(1)) RETURNS varchar(200)
+BEGIN
+DECLARE _result varchar(200);
+SET _result = (
+	select GROUP_CONCAT(CAST(CONCAT(IFNULL(rr.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
+	from wp_bhaa_race_detail rd
+	left join wp_bhaa_raceresult rr on (rr.race=rd.race and rr.runner=_runner)
+	where rd.league=_leagueId
+	and rd.racetype in ('C','S',_gender) 
+	and rd.racetype!='TRACK'
+	order by rd.eventdate asc
+);
+RETURN _result;
+END $$
+
+--SET GLOBAL log_bin_trust_function_creators = 1$$
+DROP FUNCTION IF EXISTS `getLeagueTeamSummary`$$
+CREATE FUNCTION `getLeagueTeamSummary`(_team INT,_leagueId INT,_gender varchar(1)) RETURNS varchar(200)
+BEGIN
+DECLARE _result varchar(200);
+SET _result = (
+	select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
+	from wp_bhaa_race_detail rd
+	left join wp_bhaa_teamsummary ts on (rd.race=ts.race and ts.team=_team)
+	where rd.league=_leagueId
+	and rd.racetype in ('C','S',_gender) 
+	and rd.racetype!='TRACK'
+	order by rd.eventdate asc
+);
+RETURN _result;
+END $$
+
+
 /**
  * [r=',p.ID,':p=',IFNULL(rr.leaguepoints,0),']
  */
-DROP FUNCTION IF EXISTS `event`$$
+DROP FUNCTION IF EXISTS `getRunnerLeagueSummary`$$
 CREATE FUNCTION `getRunnerLeagueSummary`(_runner INT,_leagueId INT,_gender varchar(1)) RETURNS varchar(200)
 BEGIN
 DECLARE _result varchar(200);
