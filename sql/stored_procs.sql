@@ -467,16 +467,33 @@ RETURN _result;
 END $$
 
 --SET GLOBAL log_bin_trust_function_creators = 1$$
-DROP FUNCTION IF EXISTS `getLeagueTeamSummary`$$
-CREATE FUNCTION `getLeagueTeamSummary`(_team INT,_leagueId INT,_gender varchar(1)) RETURNS varchar(200)
+DROP FUNCTION IF EXISTS `getLeagueMTeamSummary`$$
+CREATE FUNCTION `getLeagueMTeamSummary`(_team INT,_leagueId INT) RETURNS varchar(200)
 BEGIN
 DECLARE _result varchar(200);
 SET _result = (
 	select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
 	from wp_bhaa_race_detail rd
-	left join wp_bhaa_teamsummary ts on (rd.race=ts.race and ts.team=_team)
+	left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=_team AND ts.class!='W')
 	where rd.league=_leagueId
-	and rd.racetype in ('C','S',_gender) 
+	and rd.racetype in ('C','S','M')
+	and rd.racetype!='TRACK'
+	order by rd.eventdate asc
+);
+RETURN _result;
+END $$
+
+--SET GLOBAL log_bin_trust_function_creators = 1$$
+DROP FUNCTION IF EXISTS `getLeagueWTeamSummary`$$
+CREATE FUNCTION `getLeagueWTeamSummary`(_team INT,_leagueId INT) RETURNS varchar(200)
+BEGIN
+DECLARE _result varchar(200);
+SET _result = (
+	select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
+	from wp_bhaa_race_detail rd
+	left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=_team AND ts.class='W')
+	where rd.league=_leagueId
+	and rd.racetype in ('C','S','W')
 	and rd.racetype!='TRACK'
 	order by rd.eventdate asc
 );

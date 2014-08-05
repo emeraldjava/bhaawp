@@ -134,15 +134,16 @@ class TeamLeague extends BaseModel implements League {
 		error_log($SQL);
 		$this->wpdb->query($SQL);
 		
-		// update the league summary
+		// update the mens team league summary
 		$SQL = $this->wpdb->prepare("update wp_bhaa_leaguesummary set leaguesummary=
-			getLeagueTeamSummary(leagueparticipant,%d,'M') where
+			getLeagueMTeamSummary(leagueparticipant,%d) where
 			league=%d and leaguedivision in ('M')",$this->leagueid,$this->leagueid);
 		error_log($SQL);
 		$res = $this->wpdb->query($SQL);
 		
+		// update the womens team league summary
 		$SQL = $this->wpdb->prepare("update wp_bhaa_leaguesummary set leaguesummary=
-			getLeagueTeamSummary(leagueparticipant,%d,'W') where
+			getLeagueWTeamSummary(leagueparticipant,%d) where
 			league=%d and leaguedivision in ('W')",$this->leagueid,$this->leagueid);
 		error_log($SQL);
 		$res = $this->wpdb->query($SQL);

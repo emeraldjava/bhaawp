@@ -11,6 +11,7 @@ http://bhaa.ie
 
 Change Log
 ==========
+2014.08.05  Split SQL function for generating the mens and womens team summary value.
 2014.08.01  Add sp's to calculate the correct inidividual and team league summary string.
 2014.07.23  Individual league delete and populate actions implements via SQL.
 2014.07.21  Fix the $postId reference in the Load Team Results action.

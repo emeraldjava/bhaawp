@@ -78,16 +78,6 @@ class LeagueSummary extends BaseModel implements Table
 		// OBJECT, OBJECT_K, ARRAY_A, ARRAY_N
 		return $this->wpdb->get_results($SQL,OBJECT);
 	}
-
-	function getRaceIdSetString($races) {
-		// $rid_array = array_map(function($val) { return $val->rid; } ,$races);
-		return implode(',',array_map(array($this,'rid_mapper'), $races) );
-		//echo print_r($rid_array,true).PHP_EOL;
-	}
-	
-	private function rid_mapper($val) {
-		return $val->rid;
-	}
 	
 	// return a summary of the top x in each division
 	function getLeagueSummaryByDivision($limit=10) {
@@ -129,31 +119,6 @@ class LeagueSummary extends BaseModel implements Table
 		}
 		//error_log($division.' '.$SQL);
 		return $this->wpdb->get_results($SQL);
-	}
-	
-	function getRunnerLeagueSummary($races,$runner) {
-		// $this->wpdb->prepare
-		$SQL = sprintf("select e.ID as eid,race,leaguepoints from wp_bhaa_raceresult
-			inner join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e2r.p2p_to=race)
-			inner join wp_posts e on (e.id=e2r.p2p_from)
-			where race in ( %s )
-			and runner=%d;",$races,$runner);
-		//error_log($SQL);5101
-		return $this->wpdb->get_results($SQL);
-	}
-	
-	/**
-	 * Call the correct stored procedure to recalcualate the league summary
-	 */
-	function updateLeagueData() {
-		if($this->type=='I') {
-			$res = $this->wpdb->query($this->wpdb->prepare('call updateLeagueData(%d)',$this->leagueid));
-			error_log("updateLeagueData(".$this->leagueid.')-->'.$res);
-		} else {
-			$SQL = $this->wpdb->prepare('call updateTeamLeagueSummary(%d)',$this->leagueid);
-			$res = $this->wpdb->query($SQL);			
-			error_log("updateTeamLeagueSummary(".$this->leagueid.') : '.$SQL.' ==>> '.$res);
-		} 
-	}
+	}	
 }
 ?>
