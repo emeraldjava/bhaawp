@@ -11,31 +11,32 @@ http://bhaa.ie
 
 Change Log
 ==========
-- 2014.08.05  Split SQL function for generating the mens and womens team summary value.
-- 2014.08.01  Add sp's to calculate the correct inidividual and team league summary string.
-- 2014.07.23  Individual league delete and populate actions implements via SQL.
-- 2014.07.21  Fix the $postId reference in the Load Team Results action.
-- 2014.07.10  Merge all race admin code to a new class-race-cpt in the admin area. Add team league SQL logic.
-- 2014.07.09  Fix up the League CPT actions for GET and POST scenarios. Move the race CTP logic for columns
-- 2014.07.08  Drop the race dropdown from the raceday forms. Update versioning of members.js script.
-- 2014.06.23  Add user_register hook to set the default runner status and gender when a new user is added manually.
-- 2014.06.10  Table styling and use correct plugin name. Support editing a race time. Add a new race result which can then be editied.
-- 2014.05.15  Update the edit runner result form to use the ID.
-- 2014.04.15  Add a raceresult edit form so we can fix up the league results
-- 2014.04.07  New members form and the runner id. Make the raceday list page pretty. Set form autocomplete=off
-- 2014.03.28  Add 'admin_action' functions and link the 'post_row_actions' via Jquery to the same for the League CPT.
-- 2014.03.27  Update logic around getting the post_id for the race admin, needs more work.
-- 2014.03.25  Add GitHub Timeout
-- 2014.03.24  Add company name to autocomplete.Fix dob regex.Add page to edit a runners race result.
-- 2014.03.14  Fix up the raceday pages.
-- 2014.01.30  Update the raceday form layout.
-- 2014.01.29  Update the raceday registration pages.
-- 2014.01.21  Add company and sector dropdown for the registrar page with back end logic. Add a edit house url link for admin users to alter team members
-- 2014.01.20  Handle the login/logout links with wp_nav_menu_items(). Don't show subscribers the wp admin screen
-- 2014.01.14  Fix renewal email url link.Add support to edit the runners name and update display name. Display the runners company link.
-- 2014.01.13  Update the raceday registration form layout with bootstrap 3 css.
-- 2014.01.03  Add disable/enable booking option.
-- 2014.01.01  Refactored the plugin to follow a more structured format. 
+- 2014.08.21 The individual league needs to update the race_details.
+- 2014.08.05 Split SQL function for generating the mens and womens team summary value.
+- 2014.08.01 Add sp's to calculate the correct inidividual and team league summary string.
+- 2014.07.23 Individual league delete and populate actions implements via SQL.
+- 2014.07.21 Fix the $postId reference in the Load Team Results action.
+- 2014.07.10 Merge all race admin code to a new class-race-cpt in the admin area. Add team league SQL logic.
+- 2014.07.09 Fix up the League CPT actions for GET and POST scenarios. Move the race CTP logic for columns
+- 2014.07.08 Drop the race dropdown from the raceday forms. Update versioning of members.js script.
+- 2014.06.23 Add user_register hook to set the default runner status and gender when a new user is added manually.
+- 2014.06.10 Table styling and use correct plugin name. Support editing a race time. Add a new race result which can then be editied.
+- 2014.05.15 Update the edit runner result form to use the ID.
+- 2014.04.15 Add a raceresult edit form so we can fix up the league results
+- 2014.04.07 New members form and the runner id. Make the raceday list page pretty. Set form autocomplete=off
+- 2014.03.28 Add 'admin_action' functions and link the 'post_row_actions' via Jquery to the same for the League CPT.
+- 2014.03.27 Update logic around getting the post_id for the race admin, needs more work.
+- 2014.03.25 Add GitHub Timeout
+- 2014.03.24 Add company name to autocomplete.Fix dob regex.Add page to edit a runners race result.
+- 2014.03.14 Fix up the raceday pages.
+- 2014.01.30 Update the raceday form layout.
+- 2014.01.29 Update the raceday registration pages.
+- 2014.01.21 Add company and sector dropdown for the registrar page with back end logic. Add a edit house url link for admin users to alter team members
+- 2014.01.20 Handle the login/logout links with wp_nav_menu_items(). Don't show subscribers the wp admin screen
+- 2014.01.14 Fix renewal email url link.Add support to edit the runners name and update display name. Display the runners company link.
+- 2014.01.13 Update the raceday registration form layout with bootstrap 3 css.
+- 2014.01.03 Add disable/enable booking option.
+- 2014.01.01 Refactored the plugin to follow a more structured format. 
 
 Resources
 =========
