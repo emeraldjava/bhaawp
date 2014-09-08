@@ -78,7 +78,8 @@ class Bhaa {
 		
 		add_shortcode('pdf',array($this,'pdf_shortcode'));
 		add_shortcode('bhaa_standard_table', array(StandardCalculator::get_instance(),'bhaa_standard_table'));
-		
+		add_shortcode('bhaa_runner',array(Bhaa_Shortcode::get_instance(),'bhaa_runner'));
+				
 		add_action('admin_init',array($this,'bhaa_remove_subscriber_read'));
 		add_action('wp_head',array($this,'bhaa_hide_admin_bar'));
 		add_filter('login_redirect',array($this,'bhaa_redirect_subscriber_to_home'), 10, 3 );
@@ -129,10 +130,10 @@ class Bhaa {
 		if( $post->ID == 3143) {
 			return Realex::get_instance()->process();
 		} 
-		else if($post->ID==2025) {
+		//else if($post->ID==2025) {
 			// runner page
-			include_once('views/runner.php');
-		}
+			//include_once('views/runner.php');
+		//}
 		else if($post->ID==3658){
 			// runner-editresult
 			include_once('views/runner-editresult.php');

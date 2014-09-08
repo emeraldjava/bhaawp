@@ -127,7 +127,7 @@ class RaceResult_List_Table extends WP_List_Table
  	}
  	
  	function column_display_name($item) {
- 		$page = get_page_by_title('runnerz');
+ 		$page = get_page_by_title('runner');
  		$permalink = get_permalink($page);
  		$permalink = add_query_arg(array('user_nicename'=>$item['user_nicename']),$permalink);
  		$permalink = add_query_arg(array('runner_id'=>$item['runner']),$permalink);
