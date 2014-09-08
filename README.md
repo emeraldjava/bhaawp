@@ -9,6 +9,14 @@ Website
 
 http://bhaa.ie
 
+Shortcodes
+==========
+
+|Shortcode|Description|
+|pdf|Embeds a PDF document in the html page|
+|bhaa_standard_table|Displays the standard table for races belongs to this event page|
+|bhaa_runner|Shows a runners race results|
+
 Change Log
 ==========
 - 2014.09.08 Start re-work to support generic bhaa shortcodes.
