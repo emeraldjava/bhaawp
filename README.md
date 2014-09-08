@@ -13,6 +13,7 @@ Shortcodes
 ==========
 
 |Shortcode|Description|
+|---------|-----------|
 |pdf|Embeds a PDF document in the html page|
 |bhaa_standard_table|Displays the standard table for races belongs to this event page|
 |bhaa_runner|Shows a runners race results|
