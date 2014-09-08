@@ -11,6 +11,7 @@ http://bhaa.ie
 
 Change Log
 ==========
+- 2014.09.08 Start re-work to support generic bhaa shortcodes.
 - 2014.08.21 The individual league needs to update the race_details.
 - 2014.08.05 Split SQL function for generating the mens and womens team summary value.
 - 2014.08.01 Add sp's to calculate the correct inidividual and team league summary string.

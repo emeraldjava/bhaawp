@@ -127,14 +127,15 @@ class RaceResult_List_Table extends WP_List_Table
  	}
  	
  	function column_display_name($item) {
- 		
- 		$page = get_page_by_title('runner');
- 		$permalink = get_permalink( $page );
+ 		$page = get_page_by_title('runnerz');
+ 		$permalink = get_permalink($page);
+ 		$permalink = add_query_arg(array('user_nicename'=>$item['user_nicename']),$permalink);
+ 		$permalink = add_query_arg(array('runner_id'=>$item['runner']),$permalink);
  		return sprintf('<a r="%d" href="%s"><b>%s</b></a>',
 			$item['runner'],
-			add_query_arg( array ( 'user_nicename'=>$item['user_nicename']),$permalink ),
+			$permalink,
  			$item['display_name']
- 			);
+ 		);
  		//return sprintf('<a href="/?page_id=%d&name=%s">%s</a>',$page->ID,$item['user_nicename'],$item['display_name']);
  	}
  	

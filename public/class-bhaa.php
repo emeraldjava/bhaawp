@@ -38,7 +38,7 @@ class Bhaa {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	
 		// hook add_query_vars function into query_vars
-		add_filter('query_vars', array($this,'add_query_vars'));
+		add_filter('query_vars', array($this,'bhaa_add_query_vars'));
 		
 		// filter the bhaa content pages
 		add_filter('the_content', array($this,'bhaa_content'));
@@ -182,14 +182,16 @@ class Bhaa {
 	}
 	
 	/**
-	 * BHAA query vars
+	 * Register BHAA query vars
+	 * http://stackoverflow.com/questions/4586835/how-to-pass-extra-variables-in-url-with-wordpress
 	 * http://wordpress.stackexchange.com/questions/46/what-are-all-the-available-parameters-for-query-posts
 	 * http://codex.wordpress.org/Custom_Queries
 	 * @return string
 	 */
-	function add_query_vars($aVars) {
-		$aVars[] = "division";
-		return $aVars;
+	function bhaa_add_query_vars($qvars) {
+		$qvars[] = "runner_id";
+		$qvars[] = "division";
+		return $qvars;
 	}
 	
 	
