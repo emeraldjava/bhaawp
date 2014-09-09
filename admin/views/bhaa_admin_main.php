@@ -18,4 +18,9 @@
     </table>
     <?php submit_button(); ?>
 </form>
+
+<?php 
+$link = admin_url('admin.php?action=bhaa_send_email');
+echo '<a href='.$link.'>Send Email</a>';
+?>
 </div>

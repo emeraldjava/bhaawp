@@ -48,6 +48,8 @@ class Bhaa_Admin {
 	
 		add_action('pre_user_query', array(&$this,'match_runners_who_have_raced'));
 		
+		add_action('admin_action_bhaa_send_email',array(&$this,'bhaa_send_email'));
+		
 		RaceCpt::get_instance();
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
@@ -61,6 +63,39 @@ class Bhaa_Admin {
 		*/
 		//add_action( 'TODO', array( $this, 'action_method_name' ) );
 		//add_filter( 'TODO', array( $this, 'filter_method_name' ) );
+	}
+	
+	function bhaa_send_email() {
+		
+		$time = date("Y-m-d H:i:s",time());
+		error_log('bhaa_send_email() start '.$time);
+		
+		$page = get_page_by_title('email_template_page');
+		//$post = get_post($id);
+		$content = apply_filters('the_content', $page->post_content);
+		//error_log($content);
+		
+		add_filter('wp_mail_content_type',create_function('', 'return "text/html"; '));
+		
+		$headers = 'MIME-Version: 1.0' . "\r\n";
+		$headers .= 'Content-type: text/html; charset=iso-8859-1'."\r\n";
+		$headers .= 'From: paul.oconnell@aegon.ie' . "\r\n";
+		
+
+		
+		$style = "<link rel='stylesheet' id='avia-grid-css'  href='http://localhost/wp-content/themes/enfold/css/grid.css?ver=1' type='text/css' media='screen' />
+		<link rel='stylesheet' id='avia-base-css'  href='http://localhost/wp-content/themes/enfold/css/base.css?ver=1' type='text/css' media='screen' />
+		<link rel='stylesheet' id='avia-layout-css'  href='http://localhost/wp-content/themes/enfold/css/layout.css?ver=1' type='text/css' media='screen' />";
+
+		$top = '<html><head>'.$style.'</head><body id="top" class="page"><div class="container">';
+		
+		$end = '</div></div></body></html>';
+		
+		wp_mail('email','Subject top content end '.$time,$top.$content.$end,$headers);
+		error_log('bhaa_send_email() done');
+		queue_flash_message("bhaa_send_email");
+		wp_redirect(wp_get_referer());
+		exit();
 	}
 	
 	/**
