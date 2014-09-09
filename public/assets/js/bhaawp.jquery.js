@@ -1,5 +1,11 @@
 jQuery(document).ready( function() {
 	
+	// table sorter
+	jQuery('.raceresults').tablesorter({
+		sortList: [[0,0],[1,0]],
+    	debug: false
+	}); 
+
 	// firstname 8
 	// secondname 10
 	

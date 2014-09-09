@@ -510,14 +510,18 @@ class Bhaa {
 		//wp_enqueue_style(
 		//'jquery-bhaa-style',
 		//'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
-		
+
 		wp_enqueue_style(
-		 'bootstrap-css',
+		 	'bootstrap-css',
 			plugins_url().'/bhaawp/public/assets/css/bootstrap.min.css',
 			false);
 		wp_enqueue_style(
-			'bhaawp',
+			'bhaawp-css',
 			plugins_url().'/bhaawp/public/assets/css/bhaawp.css',
+			false);
+		wp_enqueue_style(
+			'tablesorter-css',
+			plugins_url().'/bhaawp/public/assets/css/tablesorter/tablesorter.css',
 			false);
 		wp_enqueue_style(
 			'jquery-bhaa-style',
@@ -542,6 +546,12 @@ class Bhaa {
 		//wp_enqueue_script( 'my-ajax-request', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
 		//wp_localize_script( 'my-ajax-request', 'MyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		
+		wp_register_script(
+			'tablesorter',
+			plugins_url('assets/js/jquery.tablesorter.js',__FILE__),
+			array('jquery'));
+		wp_enqueue_script('tablesorter');
+		
 		// http://wordpress.stackexchange.com/questions/56343/template-issues-getting-ajax-search-results/56349#56349
 		wp_register_script(
 			'bhaawp',
@@ -550,6 +560,8 @@ class Bhaa {
 				'jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
 		wp_enqueue_script('bhaawp');
 			
+
+		
 		/*
 		wp_register_script(
 			'bhaa-members',

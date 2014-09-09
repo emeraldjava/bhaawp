@@ -151,7 +151,7 @@ class RaceResult_List_Table extends WP_List_Table
 	{
 		$columns = $this->get_columns();
 		$hidden = array();
-		$this->_column_headers = array($columns, $hidden, $this->get_sortable_columns());
+		$this->_column_headers = array($columns, $hidden, null);// $this->get_sortable_columns());
 
 		$orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'position+0'; //If no sort, default to title
 		$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
@@ -223,7 +223,11 @@ class RaceResult_List_Table extends WP_List_Table
 	 * @see WP_List_Table::get_table_classes()
 	 */
 	function get_table_classes() {
-		return array( 'table-1',$this->_args['plural'] );
+		return array( 
+			'table-1',
+			'tablesorter',
+			//'bhaatable',
+			$this->_args['plural'] );
 	}
 	
 	function usort_reorder( $a, $b ) {
