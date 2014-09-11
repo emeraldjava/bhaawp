@@ -55,21 +55,41 @@ class RunnerSearchWidget extends WP_Widget {
 			$match = trim(stripslashes($_REQUEST['match']));
 			error_log('bhaa_rsw_ajax '.$match);
 			
+			$suggestions=array();
 			// cancel if no search term is set
 			//if ( !$match ) die();
 			
 			
 			
 			// http://wordpress.stackexchange.com/questions/105168/how-can-i-search-for-a-worpress-user-by-display-name-or-a-part-of-it
-			$users = new WP_User_Query( array(
-					'search'         => '*'.esc_attr( $match ).'*',
-					'search_columns' => array(
-							'user_login',
-							'user_nicename'
-					),
-			) );
-			$users_found = $users->get_results();
-			$response = json_encode(array('matches'=>$users_found));
+			$args = array(
+					'number' => 10,
+					'fields' => 'all',
+					'meta_query' => array(
+							'relation' => 'AND',
+							array('key' => 'nickname','compare' => 'like', 'value' => $match),
+							array('key' => 'bhaa_runner_status','compare'=>'!=','value'=>'D')
+					)
+			);
+	
+			//error_log(print_r($args,true));
+			$user_query = new WP_User_Query( $args );
+			$runners = $user_query->get_results();
+			if (!empty($runners))
+			{
+				foreach ($runners as $runner)
+				{
+					$runner_info = get_userdata($runner->ID);
+					$suggestion = array();
+					$suggestion['label'] = $runner_info->display_name;
+					$suggestion['link'] = sprintf('%s/runner/?id=%d',get_site_url(),$runner_info->ID);
+					$suggestions[]=$suggestion;
+				}
+			}
+			//wp_reset_postdata();
+			$response = json_encode(array('matches'=>$suggestions));
+			//$users_found = $users->get_results();
+			//$response = json_encode(array('matches'=>$users_found));
 			echo $response;
 			die();
 		}

@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
 	//				  {"matches":[{"data":{"ID":"1","user_login":"webmaster",
 						response(	
 							jQuery.each(request.matches, function(item){
-								return {label:item.ID,link:item.user_login}
+								return {label:item.label,link:item.link}
 						})	  
 						);
 					}
