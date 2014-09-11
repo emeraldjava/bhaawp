@@ -29,9 +29,7 @@ class Bhaa {
 		
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-		
-		$runnerSearchWidget = new RunnerSearchWidget();
-		add_action( 'widgets_init', array($runnerSearchWidget,'register'));
+		add_action( 'widgets_init', array($this,'bhaa_register_widgets'));
 		
 		// Activate plugin when new blog is added
 		//add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
@@ -87,6 +85,10 @@ class Bhaa {
 		add_action('wp_head',array($this,'bhaa_hide_admin_bar'));
 		add_filter('login_redirect',array($this,'bhaa_redirect_subscriber_to_home'), 10, 3 );
 		add_filter('wp_nav_menu_items',array($this,'bhaa_add_login_out_item_to_menu'), 50, 2 );
+	}
+	
+	function bhaa_register_widgets() {
+		register_widget('RunnerSearchWidget');
 	}
 		
 	//http://wordpress.stackexchange.com/questions/93843/disable-wp-admin-console-for-subscribers/93869#93869
