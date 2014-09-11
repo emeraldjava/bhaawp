@@ -1,16 +1,19 @@
 jQuery(document).ready(function($) {
 	
-	jQuery("#runner_search").autocomplete({
+	jQuery("#bhaa_rsw").autocomplete({
 		source: function(req, response){
 			jQuery.ajax({
+					dataType: 'json',
 				  url: bhaa_rsw.ajax_url,
-				  data: { action:'bhaawp_runner_search', term:req.term },
+				  data: { match:req.term },
 				  success: function( request ) {
 					  	//debug('success'+request.matches);
 						//alert(request);
+					  
+	//				  {"matches":[{"data":{"ID":"1","user_login":"webmaster",
 						response(	
 							jQuery.each(request.matches, function(item){
-								return {label:item.label,link:item.link}
+								return {label:item.ID,link:item.user_login}
 						})	  
 						);
 					}

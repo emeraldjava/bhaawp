@@ -17,15 +17,18 @@ class RunnerSearchWidget extends WP_Widget {
 		//if ( is_active_widget( false, false, $this->id_base ) && !is_admin())
 			add_action( 'wp_footer', array( $this, 'bhaa_rsw_enqueue_script' ) );
 		
-		add_action('wp_ajax_wpasw', array( $this, 'bhaa_rsw_ajax') );
-		add_action('wp_ajax_nopriv_wpasw', array( $this, 'bhaa_rsw_ajax') );
+		add_action('wp_ajax_bhaa_rsw', array($this,'bhaa_rsw_ajax') );
+		add_action('wp_ajax_nopriv_bhaa_rsw', array( $this, 'bhaa_rsw_ajax') );
 	}
 	
 	/**
 	 * Add the javascript ajax logic
 	 */
 	function bhaa_rsw_register_script(){
-		wp_register_script( 'bhaa_rsw', plugins_url('./../assets/js/bhaa_rsw.js', __FILE__), array('jquery'), '1.0', true);
+		wp_register_script( 
+			'bhaa_rsw', 
+			plugins_url('./../assets/js/bhaa_rsw.js', __FILE__), 
+			array('jquery','jquery-ui-autocomplete'), '1.0', true);
 		
 		wp_localize_script('bhaa_rsw','bhaa_rsw', array(
 			'ajax_url' => add_query_arg(
@@ -45,9 +48,30 @@ class RunnerSearchWidget extends WP_Widget {
 	 * The method that will be called
 	 */
 	function bhaa_rsw_ajax(){
-		error_log('bhaa_rsw_ajax');
+		
 		if ( wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_rsw') ) {
 			
+			// clean up the query
+			$match = trim(stripslashes($_REQUEST['match']));
+			error_log('bhaa_rsw_ajax '.$match);
+			
+			// cancel if no search term is set
+			//if ( !$match ) die();
+			
+			
+			
+			// http://wordpress.stackexchange.com/questions/105168/how-can-i-search-for-a-worpress-user-by-display-name-or-a-part-of-it
+			$users = new WP_User_Query( array(
+					'search'         => '*'.esc_attr( $match ).'*',
+					'search_columns' => array(
+							'user_login',
+							'user_nicename'
+					),
+			) );
+			$users_found = $users->get_results();
+			$response = json_encode(array('matches'=>$users_found));
+			echo $response;
+			die();
 		}
 	}
 	
@@ -90,7 +114,7 @@ class RunnerSearchWidget extends WP_Widget {
 	{
 		echo '<form class="search_form" action="<?php echo home_url(); ?>/" method="get">'.
 		'<fieldset>'.
-		'<span class="text"><input id="runner_search" type="text" value=""/></span>'.
+		'<span class="text"><input id="bhaa_rsw" type="text" value=""/></span>'.
 		'</fieldset>'.
 		'</form>';
 	}
