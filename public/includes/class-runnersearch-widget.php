@@ -10,20 +10,45 @@ class RunnerSearchWidget extends WP_Widget {
 	function __construct() {
 		$widget_ops = array('classname' => 'RunnerSearchWidget', 'description' => __( "A runner search form for your site") );
 		parent::__construct('runnersearch', __('Runner Search'), $widget_ops);
-	}
 	
-	function init_widget() {
-//		$widget_ops = array('classname' => 'RunnerSearchWidget', 'description' => __( "A runner search form for your site") );
-	//	parent::__construct('runnersearch', __('Runner Search'), $widget_ops);
-	
-		//add_action('init', array( $this, 'wpasw_register_script' ) ) ;
+		add_action('init', array( $this, 'bhaa_rsw_register_script' ) ) ;
 		
 		// only load scripts when an instance is active
 		//if ( is_active_widget( false, false, $this->id_base ) && !is_admin())
-		//	add_action( 'wp_footer', array( $this, 'wpasw_print_script' ) );
+			add_action( 'wp_footer', array( $this, 'bhaa_rsw_enqueue_script' ) );
 		
-		//add_action('wp_ajax_wpasw', array( $this, 'wpasw_ajax') );
-		//add_action('wp_ajax_nopriv_wpasw', array( $this, 'wpasw_ajax') );
+		add_action('wp_ajax_wpasw', array( $this, 'bhaa_rsw_ajax') );
+		add_action('wp_ajax_nopriv_wpasw', array( $this, 'bhaa_rsw_ajax') );
+	}
+	
+	/**
+	 * Add the javascript ajax logic
+	 */
+	function bhaa_rsw_register_script(){
+		wp_register_script( 'bhaa_rsw', plugins_url('./../assets/js/bhaa_rsw.js', __FILE__), array('jquery'), '1.0', true);
+		
+		wp_localize_script('bhaa_rsw','bhaa_rsw', array(
+			'ajax_url' => add_query_arg(
+				array('action' => 'bhaa_rsw',
+					'_wpnonce' => wp_create_nonce( 'bhaa_rsw' )),
+				untrailingslashit(admin_url('admin-ajax.php'))),
+		));
+		//wp_enqueue_script( 'bhaa_rsw' );
+		//error_log('bhaa_rsw_register_script');
+	}
+	
+	function bhaa_rsw_enqueue_script(){
+		wp_enqueue_script( 'bhaa_rsw' );
+	}
+	
+	/**
+	 * The method that will be called
+	 */
+	function bhaa_rsw_ajax(){
+		error_log('bhaa_rsw_ajax');
+		if ( wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_rsw') ) {
+			
+		}
 	}
 	
 	/**

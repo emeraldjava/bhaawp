@@ -35,6 +35,7 @@ require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-form.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-registration-form.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/class-raceday-daymember-form.php');
 require_once(BHAA_PLUGIN_DIR.'/public/includes/raceresult-form.php');
+require_once(BHAA_PLUGIN_DIR.'/public/includes/class-runnersearch-widget.php');
 // model
 require_once(BHAA_PLUGIN_DIR.'/includes/model/interface-table.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-basemodel.php');
@@ -46,6 +47,4 @@ require_once(BHAA_PLUGIN_DIR.'/includes/model/class-user.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/interface-league.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-team-league.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-individual-league.php');
-
-require_once(BHAA_PLUGIN_DIR.'/widgets/RunnerSearchWidget.php');
 ?>
