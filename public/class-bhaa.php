@@ -561,8 +561,14 @@ class Bhaa {
 		wp_register_script(
 			'bhaawp',
 			plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
-			array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable',
-				'jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
+			array('jquery',
+			'jquery-ui-core',
+			'jquery-ui-widget',
+			'jquery-ui-position',
+			'jquery-ui-sortable',
+			'jquery-ui-datepicker',
+			'jquery-ui-autocomplete',
+			'jquery-ui-dialog'));
 		wp_enqueue_script('bhaawp');
 			
 

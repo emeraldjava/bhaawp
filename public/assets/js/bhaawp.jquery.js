@@ -37,42 +37,7 @@ jQuery(document).ready( function() {
 	        console.log(log_txt);
 	    }
 	}
-	
-	jQuery("#runner_search").autocomplete({
-		source: function(req, response){
-//			jQuery.getJSON(bhaawp.ajaxurl+'?callback=?action='+acs_action, req, response);
-			jQuery.ajax({
-				  url: bhaaAjax.ajaxurl,
-				  dataType: 'json',
-				  data: { action:'bhaawp_runner_search', term:req.term },
-				  success: function( request ) {
-					  	//debug('success'+request.matches);
-						//alert(request);
-						response(	
-							jQuery.each(request.matches, function(item){
-								return {label:item.label,link:item.link}
-						})	  
-						);
-					}
-//		,error:function(xhr,err) {
-//		    debug("readyState: "+xhr.readyState+"\nstatus: "+xhr.status+"\n:responseText: "+xhr.responseText+" "+err);
-//			}
-		});
-		},
-		minChars: 4,
-		select: function(event, ui) {
-			//debug(ui.item.id);
-			window.location.href=ui.item.link;
-		},
-		open: function() {
-			jQuery( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-		},
-		close: function() {
-			jQuery( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-		}
-	});
-	//});
-	
+		
 	// http://stackoverflow.com/questions/11166981/how-to-use-jquery-to-retrieve-ajax-search-results-for-wordpress
 	// http://stackoverflow.com/questions/7136887/autocomplete-with-json-data-fetched-via-ajax
 	// http://wordpress.stackexchange.com/questions/42891/how-to-create-live-autofill-search
