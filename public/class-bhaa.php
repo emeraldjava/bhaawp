@@ -30,6 +30,9 @@ class Bhaa {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 		
+		$runnerSearchWidget = new RunnerSearchWidget();
+		add_action( 'widgets_init', array($runnerSearchWidget,'register'));
+		
 		// Activate plugin when new blog is added
 		//add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 	

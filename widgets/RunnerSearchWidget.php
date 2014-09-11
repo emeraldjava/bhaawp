@@ -1,14 +1,18 @@
 <?php
 
-class RunnerSearchWidget extends WP_Widget
-{
+/**
+ * http://plugins.svn.wordpress.org/wp-ajax-search-widget/trunk/wp-ajax-search-widget.php
+ * @author oconnellp
+ *
+ */
+class RunnerSearchWidget extends WP_Widget {
+	
 	function __construct() {
 		$widget_ops = array('classname' => 'RunnerSearchWidget', 'description' => __( "A runner search form for your site") );
 		parent::__construct('runnersearch', __('Runner Search'), $widget_ops);
 	}
 	
-	function register()
-	{
+	function register() {
 		register_widget('RunnerSearchWidget');
 	}
 	
@@ -46,7 +50,7 @@ class RunnerSearchWidget extends WP_Widget
 	{
 		echo '<form class="search_form" action="<?php echo home_url(); ?>/" method="get">'.
 		'<fieldset>'.
-		'<span class="text"><input id="runner_search" type="text" value="User Search"/></span>'.
+		'<span class="text"><input id="runner_search" type="text" value=""/></span>'.
 		'</fieldset>'.
 		'</form>';
 	}
