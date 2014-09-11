@@ -1,6 +1,8 @@
 <?php get_header(); ?>
 <section id="primary">
 <?php 
+// TODO - all logic should be moved to shortcodes and the file deleted.
+
 //echo "<pre>GET "; print_r($_GET); echo "</pre>";
 //echo "<pre>POST "; print_r($_POST); echo "</pre>";
 global $post;
@@ -62,13 +64,13 @@ $house = new House($post->ID);
 //var_dump($users[0]);
 
 echo do_shortcode( 
-	'[two_third last="no"]'.
+	'[av_one_half first]'.
 	'<p>'.get_the_term_list(get_the_ID(), 'sector', 'Sector : ', ', ', '').'</p>'.
 	'<p>Team ID: '.$post->ID.'</p>'.
 	'<p>Team Type: '.$teamtype[0]->name.'</p>'.
 	'<a target="new" href="'.get_post_meta(get_the_ID(),'bhaa_company_website',true).'">'.get_the_title().' Website</a>'.
-	'[/two_third]'.
-	'[one_third last="yes"]'.get_the_post_thumbnail(get_the_ID(), 'thumbnail').'[/one_third]');
+	'[/av_one_half]'.
+	'[av_one_half]'.get_the_post_thumbnail(get_the_ID(), 'thumbnail').'[/av_one_half]');
 
 if(current_user_can('edit_users')) {
 	echo sprintf('<h4><a href="%s">Edit Runners Linked to %s</a></h4>',get_edit_post_link(get_the_ID()),get_the_title());

@@ -78,7 +78,7 @@ class Bhaa {
 		
 		add_shortcode('pdf',array($this,'pdf_shortcode'));
 		add_shortcode('bhaa_standard_table', array(StandardCalculator::get_instance(),'bhaa_standard_table'));
-		add_shortcode('bhaa_runner',array(Bhaa_Shortcode::get_instance(),'bhaa_runner'));
+		Bhaa_Shortcode::get_instance()->registerShortCodes();
 				
 		add_action('admin_init',array($this,'bhaa_remove_subscriber_read'));
 		add_action('wp_head',array($this,'bhaa_hide_admin_bar'));
@@ -170,10 +170,10 @@ class Bhaa {
 		//else if($post->ID==2623)
 			//include_once('views/sectors.php');
 		// CPTS
-		else if($post->post_type=='house') {
+		//else if($post->post_type=='house') {
 			//error_log("house "+$post->post_type);
-			include_once('views/house.php');
-		}
+			//include_once('views/house.php');
+		//}
 		//else if($post->post_type=='race')
 		//	return 'BHAA Race '.$post->ID.' '.$post->post_title;
 		//else if($post->post_type=='league')

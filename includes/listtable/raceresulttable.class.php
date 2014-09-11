@@ -186,10 +186,12 @@ class RaceResult_List_Table extends WP_List_Table
 	}
 
 	function renderRunnerTable($runner) {
+		ob_start();
 		echo '<div class="wrap">';
 		$this->prepareRunnerItems($runner);
 		$this->display();
 		echo '</div>';
+		return ob_get_clean();
 	}
 	
 	function getRunnerColumns(){
