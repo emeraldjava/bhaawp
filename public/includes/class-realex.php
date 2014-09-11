@@ -27,12 +27,11 @@ class Realex {
 				
 		if($_SERVER['REQUEST_METHOD']=='POST') {
 			return $this->handle_post();
-		}
-		else {
+		} else {
 			$out = '<h1>Custom Realex Class - '.$_SERVER['REQUEST_METHOD'].'</h1>';
-			$out .= '<h2>';
-			$out .= print_r($_REQUEST,true);
-			$out .= '</h2>';
+			//$out .= '<h2>';
+			//$out .= print_r($_REQUEST,true);
+			//$out .= '</h2>';
 			return $out;			
 		}
 	}
@@ -92,7 +91,7 @@ class Realex {
 		else
 		{
 			// md5 is correct. authorised response from RealEx Servers
-			error_log('realex-ipn:'."$result,$user_id,$orderid,$timestamp,$ip");
+			error_log('Realex->handle_post():'."$result,$user_id,$orderid,$timestamp,$ip");
 			file_put_contents('./logs/ipn.csv', $msg."$result,$user_id,$orderid,$timestamp,$ip".PHP_EOL, FILE_APPEND);
 			//switch the result
 			$new_status = false;
