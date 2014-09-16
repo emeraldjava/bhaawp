@@ -195,7 +195,7 @@ class Bhaa {
 	 * @return string
 	 */
 	function bhaa_add_query_vars($qvars) {
-		$qvars[] = "runner_id";
+		$qvars[] = "bhaaid";
 		$qvars[] = "division";
 		return $qvars;
 	}
