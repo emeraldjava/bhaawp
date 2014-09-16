@@ -15,7 +15,7 @@ class RunnerSearchWidget extends WP_Widget {
 		
 		// only load scripts when an instance is active
 		//if ( is_active_widget( false, false, $this->id_base ) && !is_admin())
-			add_action( 'wp_footer', array( $this, 'bhaa_rsw_enqueue_script' ) );
+		add_action( 'wp_footer', array( $this, 'bhaa_rsw_enqueue_script' ) );
 		
 		add_action('wp_ajax_bhaa_rsw', array($this,'bhaa_rsw_ajax') );
 		add_action('wp_ajax_nopriv_bhaa_rsw', array( $this, 'bhaa_rsw_ajax') );
@@ -62,6 +62,14 @@ class RunnerSearchWidget extends WP_Widget {
 			
 			// http://wordpress.stackexchange.com/questions/105168/how-can-i-search-for-a-worpress-user-by-display-name-or-a-part-of-it
 			$args = array(
+			//		'search'         => "%".$match."%",
+			//		'search_columns' => array(
+			//				'ID',
+			//				'user_login',
+			//				'user_nicename'
+			//				'user_email',
+			//				'user_url',
+			//		),
 					'number' => 10,
 					'fields' => 'all',
 					'meta_query' => array(

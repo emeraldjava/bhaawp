@@ -6,10 +6,6 @@ jQuery(document).ready(function($) {
 				  url: bhaa_rsw.ajax_url,
 				  data: { match:req.term },
 				  success: function( request ) {
-					  	//debug('success'+request.matches);
-						//alert(request);
-					  
-	//				  {"matches":[{"data":{"ID":"1","user_login":"webmaster",
 						response(	
 							jQuery.each(request.matches, function(item){
 								return {label:item.label,link:item.link}
@@ -23,7 +19,6 @@ jQuery(document).ready(function($) {
 		},
 		minChars: 4,
 		select: function(event, ui) {
-			// debug(ui.item.id);
 			window.location.href=ui.item.link;
 		},
 		open: function() {
@@ -34,3 +29,4 @@ jQuery(document).ready(function($) {
 		}
 	});
 });
+
