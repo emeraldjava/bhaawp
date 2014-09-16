@@ -60,7 +60,6 @@ class RunnerSearchWidget extends WP_Widget {
 			//if ( !$match ) die();
 			
 			
-			
 			// http://wordpress.stackexchange.com/questions/105168/how-can-i-search-for-a-worpress-user-by-display-name-or-a-part-of-it
 			$args = array(
 					'number' => 10,
@@ -82,7 +81,7 @@ class RunnerSearchWidget extends WP_Widget {
 					$runner_info = get_userdata($runner->ID);
 					$suggestion = array();
 					$suggestion['label'] = $runner_info->display_name;
-					$suggestion['link'] = sprintf('%s/runner/?id=%d',get_site_url(),$runner_info->ID);
+					$suggestion['link'] = sprintf('%s/runner/?bhaaid=%d',get_site_url(),$runner_info->ID);
 					$suggestions[]=$suggestion;
 				}
 			}

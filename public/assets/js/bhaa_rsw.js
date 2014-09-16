@@ -1,5 +1,4 @@
 jQuery(document).ready(function($) {
-	
 	jQuery("#bhaa_rsw").autocomplete({
 		source: function(req, response){
 			jQuery.ajax({
@@ -24,7 +23,7 @@ jQuery(document).ready(function($) {
 		},
 		minChars: 4,
 		select: function(event, ui) {
-			//debug(ui.item.id);
+			// debug(ui.item.id);
 			window.location.href=ui.item.link;
 		},
 		open: function() {
