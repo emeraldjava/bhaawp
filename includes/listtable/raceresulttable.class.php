@@ -53,26 +53,12 @@ class RaceResult_List_Table extends WP_List_Table
 			'display_name' => 'Name',
 			'racetime'  => 'Time',
 			'category'  => 'Category',
-			'gender' => 'Gender', 
 			'posincat' => 'Pos Cat',
 			'standard'  => 'Std',
 			'posinstd' => 'Pos Std',
 			'cname'    => 'Company'
 		);
 		return $columns;
-	}
-		
-	/**
-	 * http://wpengineer.com/2426/wp_list_table-a-step-by-step-guide/
-	 * @see WP_List_Table::get_sortable_columns()
-	 */
-	function get_sortable_columns() {
-		$sortable_columns = array(
-	    	'position' => array('position',true),
-	    	'category' => array('category',false),
-	    	'standard' => array('standard',false)
-	  	);
-		return $sortable_columns;
 	}
 
 	function column_default( $item, $column_name ) {
@@ -114,8 +100,15 @@ class RaceResult_List_Table extends WP_List_Table
  		return sprintf('%1$s [%3$d] %2$s', $item['racetime'], $this->row_actions($actions), $item['actualstandard'] );
  	}
  	
+ 	/**
+ 	 * Merge the category and Gender columns
+ 	 */
+ 	function column_category($item) {
+ 		return $item['category'].$item['gender'];
+ 	}
+ 	
  	function column_position($item) {
- 		return sprintf('<a target="_blank" href="/runner-editresult?bhaa_raceresult_id=%d&bhaa_runner=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d&bhaa_time=%s">%d</a>',
+ 		return sprintf('<a target="_blank" href="/runner-editresult?bhaa_raceresult_id=%d&bhaaid=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d&bhaa_time=%s">%d</a>',
  			$item['id'],$item['runner'],$item['standard'],$item['poststandard'],$item['race'],$item['racetime'],$item['position']);
  	}
  	
@@ -130,7 +123,7 @@ class RaceResult_List_Table extends WP_List_Table
  		$page = get_page_by_title('runner');
  		$permalink = get_permalink($page);
  		$permalink = add_query_arg(array('user_nicename'=>$item['user_nicename']),$permalink);
- 		$permalink = add_query_arg(array('runner_id'=>$item['runner']),$permalink);
+ 		$permalink = add_query_arg(array('bhaaid'=>$item['runner']),$permalink);
  		return sprintf('<a r="%d" href="%s"><b>%s</b></a>',
 			$item['runner'],
 			$permalink,
@@ -174,7 +167,6 @@ class RaceResult_List_Table extends WP_List_Table
 		//echo $query;
 		//$totalitems = $wpdb->query($query);
 		$querydata = $wpdb->get_results($query,ARRAY_A);
-		//usort( $querydata, array( &$this, 'usort_reorder' ) );
 		$this->items = $querydata;
 	}
 
@@ -230,17 +222,6 @@ class RaceResult_List_Table extends WP_List_Table
 			'tablesorter',
 			//'bhaatable',
 			$this->_args['plural'] );
-	}
-	
-	function usort_reorder( $a, $b ) {
-		// If no sort, default to title
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'position';
-		// If no order, default to asc
-		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
-		// Determine sort order
-		$result = strcmp( $a[$orderby], $b[$orderby] );
-		// Send final sort direction to usort
-		return ( $order === 'asc' ) ? $result : -$result;
 	}
 }
 ?>
