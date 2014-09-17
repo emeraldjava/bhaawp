@@ -18,27 +18,61 @@ class IndividualLeague extends AbstractLeague {
 	}
 	
 	function getTopRunnersInDivision($division,$limit) {
-		$query = $this->getWpdb()->prepare('SELECT *,wp_users.display_name as display_name
-			FROM wp_bhaa_leaguesummary
-			join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant
-			WHERE league = %d
-			AND leagueposition <= %d
-			AND leaguedivision = %s
-			order by league, leaguedivision, leagueposition',$this->getLeagueId(),$limit,$division);
+		$query = $this->getWpdb()->prepare('SELECT ls.*,wp_users.display_name as display_name
+			FROM wp_bhaa_leaguesummary ls
+			LEFT join wp_users on wp_users.id=ls.leagueparticipant
+			LEFT join wp_posts on wp_posts.post_type="house" and wp_posts.id=
+				(select meta_value from wp_usermeta where user_id=ls.leagueparticipant and meta_key="bhaa_runner_company")
+			WHERE ls.league = %d
+			AND ls.leaguedivision = %s
+			AND ls.leagueposition <= %d
+			AND ls.leaguescorecount>=2
+			order by league, leaguedivision, leagueposition',$this->getLeagueId(),$division,$limit);
 		//error_log($this->getLeagueId().' '.$query);
 		$summary = $this->getWpdb()->get_results($query);
 		
 		$divisionDetails = $this->getDivisionDetails($division);
 		
-		return Bhaa_Mustache::get_instance()->loadTemplate('division-summary')->render(
-			array(
-				'division' => $divisionDetails,
-				'id'=> $this->getLeagueId(),
-				'top'=> $limit,
-				'url'=> get_permalink( $this->getLeagueId() ),
-				'linktype' => $this->getLinkType(),
-				'summary' => $summary
-		));
+		if($limit!=1000) {
+			return Bhaa_Mustache::get_instance()->loadTemplate('division-summary')->render(
+				array(
+					'division' => $divisionDetails,
+					'id'=> $this->getLeagueId(),
+					'top'=> $limit,
+					'url'=> get_permalink( $this->getLeagueId() ),
+					'linktype' => $this->getLinkType(),
+					'summary' => $summary
+			));
+		} else {
+			
+			if(strpos($division,'L'))
+				$events = $this->getLeagueRaces('W');
+			else
+				$events = $this->getLeagueRaces('M');
+				
+			return Bhaa_Mustache::get_instance()->loadTemplate('division-detailed')->render(
+				array(
+					'division' => $divisionDetails,
+					'id'=> $this->getLeagueId(),
+					'top'=> $limit,
+					'url'=> get_permalink( $this->getLeagueId() ),
+					'summary' => $summary,
+					'linktype' => $this->getLinkType(),
+					'events' => $events,
+					'matchEventResult' => function($text, Mustache_LambdaHelper $helper) {
+						$results = explode(',',$helper->render($text));
+						//error_log($helper->render($text).' '.$results);
+						$row = '';
+						foreach($results as $result) {
+							if($result==0)
+								$row .= '<td>-</td>';
+							else
+								$row .= '<td>'.$result.'</td>';
+						}
+						return $row;
+					}
+			));
+		}
 	}
 	
 	/**

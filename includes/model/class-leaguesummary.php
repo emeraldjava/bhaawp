@@ -111,11 +111,11 @@ class LeagueSummary extends BaseModel implements Table
 				left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
 				left join wp_posts on wp_posts.post_type="house" and wp_posts.id=
 					(select meta_value from wp_usermeta where user_id=wp_bhaa_leaguesummary.leagueparticipant and meta_key="bhaa_runner_company")
-				where league=%d and leaguedivision=%s and leagueposition<=%d and leaguescorecount>=1 order by leaguepoints desc',$this->leagueid,$division,$limit);
+				where league=%d and leaguedivision=%s and leagueposition<=%d and leaguescorecount>=2 order by leaguepoints desc',$this->leagueid,$division,$limit);
 		} else {
 			$SQL = $this->wpdb->prepare('select wp_bhaa_leaguesummary.*,wp_posts.post_title as display_name,wp_posts.ID,wp_posts.post_title from wp_bhaa_leaguesummary
 				left join wp_posts on (wp_posts.post_type="house" and wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant)
-				where league=%d and leaguedivision=%s and leagueposition<=%d and leaguescorecount>=1 order by leaguepoints desc',$this->leagueid,$division,$limit);
+				where league=%d and leaguedivision=%s and leagueposition<=%d and leaguescorecount>=2 order by leaguepoints desc',$this->leagueid,$division,$limit);
 		}
 		//error_log($division.' '.$SQL);
 		return $this->wpdb->get_results($SQL);
