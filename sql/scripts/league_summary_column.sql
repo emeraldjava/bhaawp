@@ -77,4 +77,10 @@ INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestan
 			GROUP BY l.league,ts.team
 			ORDER BY leaguepoints desc,leaguescorecount desc
 			
+-- display the total number of runners in specific league division
+select d.*,count(ls.leagueparticipant) from wp_bhaa_division d
+join wp_bhaa_leaguesummary ls 
+on ls.leaguedivision=d.code 
+where ls.league=3637
+group by d.code
 
