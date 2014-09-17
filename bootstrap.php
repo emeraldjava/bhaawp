@@ -45,6 +45,8 @@ require_once(BHAA_PLUGIN_DIR.'/includes/model/class-raceresult.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-teamresult.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-user.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/interface-league.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/class-league-factory.php');
+require_once(BHAA_PLUGIN_DIR.'/includes/model/class-abstract-league.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-team-league.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/model/class-individual-league.php');
 ?>

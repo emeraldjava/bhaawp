@@ -7,5 +7,9 @@ abstract class BaseModel implements Table
 		global $wpdb;
 		$this->wpdb = $wpdb;
 	}
+	
+	function getWpdb(){
+		return $this->wpdb;
+	}
 }
 ?>

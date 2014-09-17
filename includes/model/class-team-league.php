@@ -4,17 +4,18 @@
  * @author oconnellp
  *
  */
-class TeamLeague extends BaseModel implements League {
-	
-	private $leagueid;
+class TeamLeague extends AbstractLeague {
 	
 	function __construct($leagueid) {
-		parent::__construct();
-		$this->leagueid=$leagueid;
+		parent::__construct($leagueid);
 	}
 	
-	public function getName() {
+	function getName() {
 		return 'TeamLeague';
+	}
+	
+	function getLinkType() {
+		return 'house/?p';
 	}
 	
 	/**

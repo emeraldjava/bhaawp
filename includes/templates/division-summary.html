@@ -1,18 +1,20 @@
-<h2><a href="{{url}}?division={{division}}"/>League:{{division}}</a></h2>
-
-<table width="100%" class=" table-1">
-
+<div id="division" name="division" style="border:1px solid black; border-radius: 10px; padding: 5px; margin: 5px">
+{{# division}}
+<h3><a href="{{url}}?division={{code}}"/>Division:{{name}}</a></h3>
+<h4>Standards:{{min}}-{{max}}</a></h4>
+{{/ division}}
+<table width="100%" class="table-1">
 <thead>
 <tr>
-<th>Position</th>
+<th>Pos</th>
 <th>Name</th>
 <th>Points</th>
 </tr>
 </thead>
-
 <tbody>
 {{# summary }}
 <tr>{{> summary_row_detailed }}</tr>
 {{/ summary }}
 </tbody>
 </table>
+</div>

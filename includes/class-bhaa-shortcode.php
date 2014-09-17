@@ -32,7 +32,7 @@ class Bhaa_Shortcode{
 		add_shortcode('house_sector',array(Bhaa_Shortcode::get_instance(),'house_sector'));
 		
 		// league related shortcodes
-		add_shortcode('bhaa_league_division',array(Bhaa_Shortcode::get_instance(),'bhaa_league_division'));
+		add_shortcode('bhaa_league',array(Bhaa_Shortcode::get_instance(),'bhaa_league'));
 	}	
 	
 	/**
@@ -83,12 +83,19 @@ class Bhaa_Shortcode{
 	/**
 	 * League Division short codes
 	 */
-	function bhaa_league_division($attrs) {
+	function bhaa_league($attrs) {
 		$a = shortcode_atts( array(
-			'div' => 'A',
-			'size' => '10',
+			'division' => 'A',
+			'top' => '10',
 		), $attrs );
-		return $a['div'].'-'.$a['size'];
+		
+		$leagueid = get_the_ID();
+		//$post = get_post( $id );
+		
+		//$bhaaid = get_query_var('bhaaid');
+		$league = LeagueFactory::getLeague($leagueid);
+		return $league->getTopRunnersInDivision($a['division'],$a['top']);
+		//return $a['division'].'-'.$a['top'].'-'.$id.' '.$league->getName();
 	}
 }
 ?>
