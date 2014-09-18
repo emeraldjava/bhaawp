@@ -1,17 +1,21 @@
 
 update wp_options
 set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
-[fusion_tabs layout="horizontal" backgroundcolor="" inactivecolor=""]
+[av_tab_container position='top_tab' boxed='border_tabs' initial='1']
 
 {is_future}
-[fusion_tab title="#_EVENTNAME"]
+[av_tab title="#_EVENTNAME" icon_select="yes" icon="6"]
 <p>
 	<strong>Date/Time</strong><br/>
 	Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>
 </p>
-[separator top="20" style="single"]
+[av_one_full first]
+[av_hr class="default" height="50" shadow="no-shadow" position="center"]
+[/av_one_full]
 #_EVENTNOTES
-[separator top="20" style="single"]
+[av_one_full first]
+[av_hr class="default" height="50" shadow="no-shadow" position="center"]
+[/av_one_full]
 [two_third last="no"]<strong>Location</strong> : #_LOCATIONNAME
 #_LOCATIONFULLBR
 #_LOCATIONNOTES
@@ -19,32 +23,32 @@ set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 [one_third last="yes"]
 #_LOCATIONMAP
 [/one_third]
-[/fusion_tab]
+[/av_tab]
 
-[fusion_tab title="Register"]
+[av_tab title="Register" icon_select="yes" icon="5"]
 #_BOOKINGFORM
-[/fusion_tab]
+[/av_tab]
 {/is_future}
 
 {is_past}
-[fusion_tab title="Results"]#_BHAARACERESULTS[/fusion_tab]
-[fusion_tab title="Teams"]#_BHAATEAMRESULTS[/fusion_tab]
-[fusion_tab title="#_EVENTNAME"]
+[av_tab title="Results"]#_BHAARACERESULTS[/av_tab]
+[av_tab title="Teams"]#_BHAATEAMRESULTS[/av_tab]
+[av_tab title="#_EVENTNAME"]
 <p>
 	<strong>Date/Time</strong><br/>
 	Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>
 </p>
 [separator top="20" style="single"]
 #_EVENTNOTES
-[/fusion_tab]
+[/av_tab]
 {/is_past}			
 
-[fusion_tab title="Standards"]
+[av_tab title="Standards" icon_select="yes" icon="4"]
 <h3>BHAA Standard Table</h3>
 <p>Like a golf handicap the BHAA standard table gives a runner a target time for the race distance</p>
 <p>#_BHAASTANDARDS</p>
-[/fusion_tab]
-[/fusion_tabs]
+[/av_tab]
+[/av_tab_container]
 </div>
 '
 where option_name='dbem_single_event_format';
