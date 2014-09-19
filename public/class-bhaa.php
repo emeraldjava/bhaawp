@@ -67,7 +67,6 @@ class Bhaa {
 
 		// register the forms
 		add_action('wp_forms_register',array(Raceday::get_instance(),'bhaa_register_forms'));
-		add_action('login_head',array($this,'bhaa_login_head'));
 		add_action('wp_login',array($this,'bhaa_force_pretty_displaynames',10,2));
 		add_filter('login_message',array($this,'bhaa_lost_password_message'));
 
@@ -399,63 +398,6 @@ class Bhaa {
 		*/
 	private static function single_activate() {
 		// TODO: Define activation functionality here
-
-		/**
-		 * 		global $wpdb;
-		 $options = array();
-		 add_option( 'bhaa', $options, 'BHAA Options', 'yes' );
-		 //add_option( 'bhaa_widget', array(), 'BHAA Widget Options', 'yes' );
-
-		 // raceresult SQL
-		 $raceResult = new RaceResult();
-		 $this->run_install_or_upgrade($raceResult->getName(),$raceResult->getCreateSQL());
-
-		 $teamResultSql = "
-		 id int(11) NOT NULL AUTO_INCREMENT,
-		 team int(11) NOT NULL,
-		 league int(11) NOT NULL,
-		 race int(11) NOT NULL,
-		 standardtotal int(11),
-		 positiontotal int(11),
-		 class enum('A', 'B', 'C', 'D', 'W', 'O', 'OW'),
-		 leaguepoints int(11),
-		 status enum('ACTIVE','PENDING'),
-		 PRIMARY KEY (id)";
-		 $this->run_install_or_upgrade($wpdb->teamresult,$teamResultSql);
-		 $leagueSummaryModel = new LeagueSummary();
-		 $this->run_install_or_upgrade($leagueSummaryModel->getName(),$leagueSummaryModel->getCreateSQL());
-
-		 $ageCategory = new AgeCategory();
-		 $this->run_install_or_upgrade($ageCategory->getName(),$ageCategory->getCreateSQL());
-
-		 $importTableSql = "
-		 id int(11) NOT NULL AUTO_INCREMENT,
-		 tag varchar(15) NOT NULL,
-		 type varchar(15) NOT NULL,
-		 new int(11) NOT NULL,
-		 PRIMARY KEY (id)";
-
-		 $this->run_install_or_upgrade($wpdb->importTable,$importTableSql);
-		 // populate the table with the data
-		 $this->run_install_or_upgrade($wpdb->standardTable,$this->standardCalculator->standardTableSql);
-		 foreach ($this->standardCalculator->standards as $i => $standard) {
-			$wpdb->insert( $wpdb->standardTable, (array)$standard );
-			}
-
-			function run_install_or_upgrade($table_name, $sql) {
-			global $wpdb;
-			// Table does not exist, we create it!
-			// We use InnoDB and UTF-8 by default
-			if ($wpdb->get_var("SHOW TABLES LIKE '".$table_name."'") != $table_name)
-			{
-			$create = "CREATE TABLE ".$table_name." ( ".$sql." ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			error_log($create);
-			// We use the dbDelta method given by WP!
-			require_once ABSPATH.'wp-admin/includes/upgrade.php';
-			dbDelta($create);
-			}
-			}
-		 */
 	}
 
 	/**
@@ -465,19 +407,6 @@ class Bhaa {
 	 */
 	private static function single_deactivate() {
 		// TODO: Define deactivation functionality here
-		/**
-		 * 		global $wpdb;
-		 // tables
-		 $tables = array(
-			//$wpdb->raceresult
-		 );
-		 // Delete each table one by one
-		 foreach ($tables as $table)	{
-			$wpdb->query('DROP TABLE IF EXISTS '.$table.';');
-			}
-			delete_option( 'bhaa_widget' );
-			delete_option( 'bhaa' );
-		 */
 	}
 
 	/**
@@ -626,18 +555,6 @@ class Bhaa {
 	 */
 	public function filter_method_name() {
 		// TODO: Define your filter hook callback here
-	}
-
-	function bhaa_login_head() {
-		echo "
-				<style>
-				body.login #login h1 a {
-				background: url('http://bhaa.ie/wp-content/uploads/2012/11/headerlogo.jpg') no-repeat center top transparent;
-				height: 120px;
-				width: 400px;
-	}
-				</style>
-				";
 	}
 
 	function bhaa_lost_password_message() {
