@@ -46,8 +46,6 @@ class RaceResult_List_Table extends WP_List_Table
 	 */
 	function get_columns() {
 		$columns = array(
-			//'cb'        => '<input type="checkbox" />',
-			//'id'        => 'ID',//<input type="checkbox" />', //Render a checkbox instead of text
 			'position'  => 'Pos',
 			'racenumber' => 'No',
 			'display_name' => 'Name',
@@ -146,21 +144,21 @@ class RaceResult_List_Table extends WP_List_Table
 		$hidden = array();
 		$this->_column_headers = array($columns, $hidden, null);// $this->get_sortable_columns());
 
-		$orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'position+0'; //If no sort, default to title
-		$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
-		if($orderby!='position+0')
-			$order .= ', position+0';
+		//$orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'position+0'; //If no sort, default to title
+		//$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
+		//if($orderby!='position+0')
+			//$order .= ', position+0';
 		
 		global $wpdb;
 		$query = '
 			SELECT wp_bhaa_raceresult.*,wp_users.display_name,
 			wp_users.user_nicename,gender.meta_value as gender,wp_posts.id as cid,wp_posts.post_title as cname
-			FROM '.$wpdb->prefix .'bhaa_raceresult 
+			FROM wp_bhaa_raceresult 
 			left join wp_users on wp_users.id=wp_bhaa_raceresult.runner 
 			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
-			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY '.$orderby.' '. $order;
+			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY position';
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
 		//error_log($query);	
 		
