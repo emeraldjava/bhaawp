@@ -50,8 +50,7 @@ class RaceResult_List_Table extends WP_List_Table
 			'racenumber' => 'No',
 			'display_name' => 'Name',
 			'racetime'  => 'Time',
-			'category'  => 'Category',
-			'posincat' => 'Pos Cat',
+			'category'  => 'Age Category',
 			'standard'  => 'Std',
 			'posinstd' => 'Pos Std',
 			'cname'    => 'Company'
@@ -66,13 +65,13 @@ class RaceResult_List_Table extends WP_List_Table
 			case 'runner':
 			case 'display_name':
 			case 'user_nicename';
-			case 'gender';
+			//case 'gender';
 			case 'cname':
 			case 'racetime':
 			case 'position':
 			case 'racenumber':
 			case 'category':
-			case 'posincat':
+			//case 'posincat':
 			case 'standard':
 			case 'posinstd':
 			case 'pace':
@@ -102,7 +101,7 @@ class RaceResult_List_Table extends WP_List_Table
  	 * Merge the category and Gender columns
  	 */
  	function column_category($item) {
- 		return $item['category'].$item['gender'];
+ 		return $item['category'].$item['gender'].' p'.str_pad($item['posincat'],2,"0",STR_PAD_LEFT);
  	}
  	
  	function column_position($item) {
