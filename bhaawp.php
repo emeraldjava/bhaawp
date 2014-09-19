@@ -1,10 +1,10 @@
 <?php
 /*
-* Plugin Name: 			BHAA Plugin
+ * Plugin Name: 		BHAA Plugin
 * Plugin URI: 			https://github.com/emeraldjava/bhaawp
 * Description: 			Plugin for the Business House Athletic Association which handle user registration, race
 * 						results and leagues
-* Version:          	2014.09.08
+* Version:          	2014.09.19
 * Author: 				paul.t.oconnell@gmail.com
 * Author URI: 			https://github.com/emeraldjava
 * Text Domain:      	bhaawp
@@ -40,7 +40,7 @@ add_action( 'plugins_loaded', array( 'Bhaa', 'get_instance' ) );
 *----------------------------------------------------------------------------*/
 
 /*
-* Load the admin
+ * Load the admin
 */
 if ( is_admin() ) { //&& ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-bhaa-admin.php' );
