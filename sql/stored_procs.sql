@@ -50,7 +50,7 @@ END $$
 
 -- getAgeCategory
 DROP FUNCTION IF EXISTS `getAgeCategory`$$
-CREATE FUNCTION `getAgeCategory`(_birthDate DATE, _currentDate DATE, _gender ENUM('M','W')) RETURNS varchar(4) CHARSET utf8
+CREATE FUNCTION `getAgeCategory`(_birthDate DATE, _currentDate DATE, _gender ENUM('M','W')) RETURNS varchar(6) CHARSET utf8
 BEGIN
 DECLARE _age INT(11);
 SET _age = (YEAR(_currentDate)-YEAR(_birthDate)) - (RIGHT(_currentDate,5)<RIGHT(_birthDate,5));
@@ -160,7 +160,7 @@ BEGIN
     INSERT INTO tmpCategoryRaceResult(runner)
     SELECT runner
     FROM wp_bhaa_raceresult
-    WHERE race = _raceId AND category = _nextCategory AND class='RAN';
+    WHERE race = _raceId AND category = _nextCategory AND class='RAN' ORDER BY position;
     UPDATE wp_bhaa_raceresult, tmpCategoryRaceResult
     SET wp_bhaa_raceresult.posincat = tmpCategoryRaceResult.actualposition
     WHERE wp_bhaa_raceresult.runner = tmpCategoryRaceResult.runner AND wp_bhaa_raceresult.race = _raceId;
@@ -193,12 +193,12 @@ CASE
 END
 WHERE rr_outer.race = t.race AND rr_outer.runner=t.runner;
 -- update 'bhaa_runner_standard' meta field
-UPDATE wp_bhaa_raceresult, wp_usermeta
-SET wp_usermeta.meta_value = wp_bhaa_raceresult.poststandard
-WHERE wp_bhaa_raceresult.runner = wp_usermeta.user_id
-AND wp_usermeta.meta_key='bhaa_runner_standard'
-AND wp_bhaa_raceresult.race = _raceId
-AND COALESCE(wp_usermeta.meta_value,0) <> wp_bhaa_raceresult.poststandard;
+--UPDATE wp_bhaa_raceresult, wp_usermeta
+--SET wp_usermeta.meta_value = wp_bhaa_raceresult.poststandard
+--WHERE wp_bhaa_raceresult.runner = wp_usermeta.user_id
+--AND wp_usermeta.meta_key='bhaa_runner_standard'
+--AND wp_bhaa_raceresult.race = _raceId
+--AND COALESCE(wp_usermeta.meta_value,0) <> wp_bhaa_raceresult.poststandard;
 END$$
 
 -- updateRaceScoringSets
