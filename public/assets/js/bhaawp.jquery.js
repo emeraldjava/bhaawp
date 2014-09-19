@@ -1,5 +1,8 @@
 jQuery(document).ready( function() {
 	
+	jQuery( "#sortable" ).sortable();
+	jQuery( "#sortable" ).disableSelection();
+	
 	// table sorter
 	jQuery('.raceresults').tablesorter({
 		sortList: [[0,0],[1,0]],
