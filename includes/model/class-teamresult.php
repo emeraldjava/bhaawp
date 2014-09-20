@@ -1,5 +1,5 @@
 <?php
-class TeamResult extends BaseModel
+class TeamResult extends BaseModel 
 {
 	var $race;
 	
@@ -113,7 +113,7 @@ class TeamResult extends BaseModel
 		// ["totalstd"]=> string(2) "45" ["runner"]=> string(4) "7048" ["pos"]=> string(2) "11" ["std"]=> string(2) "15" 
 		// ["racetime"]=> string(8) "00:13:32" ["company"]=> string(3) "549" ["companyname"]=> string(18) "McInerney Saunders" 
 		// ["leaguepoints"]=> string(1) "0" } 
-		$table .= '<table class="table-1" width="90%">';
+		$table = '<table class="table-1" width="90%">';
 		$header='';
 		$position=0;
 		$count=0;

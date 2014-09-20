@@ -8,8 +8,9 @@
 class RunnerSearchWidget extends WP_Widget {
 	
 	function __construct() {
-		$widget_ops = array('classname' => 'RunnerSearchWidget', 'description' => __( "A runner search form for your site") );
-		parent::__construct('runnersearch', __('Runner Search'), $widget_ops);
+		$widget_ops = array('classname' => 'RunnerSearchWidget', 
+			'description' => __( "A runner search form for your site") );
+		parent::__construct('runnersearch', __('BHAA Runner Search'), $widget_ops);
 	
 		add_action('init', array( $this, 'bhaa_rsw_register_script' ) ) ;
 		

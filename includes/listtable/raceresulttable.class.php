@@ -94,7 +94,7 @@ class RaceResult_List_Table extends WP_List_Table
  	}
  	
  	function column_racetime($item) {
- 		return sprintf('%1$s [%3$d] %2$s', $item['racetime'], $this->row_actions($actions), $item['actualstandard'] );
+ 		return sprintf('%1$s [%2$d]', $item['racetime'], $item['actualstandard']);
  	}
  	
  	/**

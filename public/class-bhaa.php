@@ -449,7 +449,7 @@ class Bhaa {
 		false);
 		wp_enqueue_style(
 		'tablesorter-css',
-		plugins_url().'/bhaawp/public/assets/css/tablesorter/tablesorter.css',
+		plugins_url().'/bhaawp/public/assets/css/tablesorter/theme.default.css',
 		false);
 		wp_enqueue_style(
 		'jquery-bhaa-style',
@@ -476,7 +476,7 @@ class Bhaa {
 
 		wp_register_script(
 		'tablesorter',
-		plugins_url('assets/js/jquery.tablesorter.js',__FILE__),
+		plugins_url('assets/js/jquery.tablesorter.min.js',__FILE__),
 		array('jquery'));
 		wp_enqueue_script('tablesorter');
 
@@ -527,8 +527,8 @@ class Bhaa {
 		//add_action('wp_ajax_bhaawp_house_search',array($this,'bhaawp_house_search'));
 
 		// TODO should be in the admin section
-		add_action('wp_ajax_nopriv_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
-		add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
+		//add_action('wp_ajax_nopriv_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
+		//add_action('wp_ajax_bhaawp_runner_search',array($this->runner,'bhaa_runner_search'));
 	}
 
 	/**
