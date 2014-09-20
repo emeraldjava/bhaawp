@@ -1,7 +1,7 @@
 
 update wp_options
 set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
-[av_tab_container position='top_tab' boxed='border_tabs' initial='1']
+[av_tab_container position=top_tab boxed=border_tabs initial=1]
 
 {is_future}
 [av_tab title="#_EVENTNAME" icon_select="yes" icon="6"]
