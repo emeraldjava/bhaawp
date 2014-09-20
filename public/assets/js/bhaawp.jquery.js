@@ -5,8 +5,14 @@ jQuery(document).ready( function() {
 	
 	// table sorter
 	jQuery('.raceresults').tablesorter({
-		sortList: [[0,0],[1,0]],
-    	debug: false
+		sortList: [[0,0]],
+    	debug: false,
+    	stringTo: "min",
+        headers: {
+            4: {
+                sorter: 'digit'
+            }
+        }
 	}); 
 
 	// firstname 8
