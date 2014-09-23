@@ -49,10 +49,7 @@ set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 <p>#_BHAASTANDARDS</p>
 [/av_tab]
 [/av_tab_container]
-</div>
-'
-where option_name='dbem_single_event_format';
-
+</div>' where option_name='dbem_single_event_format';
 
 update wp_options
 set option_value='<table class="table-1" style="width:90%">
@@ -64,9 +61,7 @@ set option_value='<table class="table-1" style="width:90%">
 <th class="event-description" width="*">Race Summary</th>
 </tr>
 </thead>
-<tbody>
-'
-where option_name='dbem_event_list_item_format_header';
+<tbody>' where option_name='dbem_event_list_item_format_header';
 
 update wp_options
 set option_value='<tr class="event-details">
@@ -81,6 +76,4 @@ set option_value='<tr class="event-details">
 </td>
 <td>#_EVENTEXCERPT <a href="#_EVENTURL">Read Full Details</a></td>
 </tr>
-<tr class="spacer"><td></td></tr>
-'
-where option_name='dbem_event_list_item_format';
+<tr class="spacer"><td></td></tr>' where option_name='dbem_event_list_item_format';
