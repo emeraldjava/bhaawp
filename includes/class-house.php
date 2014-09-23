@@ -17,17 +17,47 @@ class House {
 	const PENDING = 'PENDING';
 	
 	var $houseid;
+	var $teamType;
+	var $connectionType;
 	
 	function __construct($houseid) {
 		$this->houseid = $houseid;
+		$terms = wp_get_post_terms($this->houseid,House::TEAM_TYPE);
+		$this->teamType=$terms[0]->name;
+		$this->connectionType = Connections::HOUSE_TO_RUNNER;
+		if($this->teamType==HOuse::SECTOR_TEAM) {
+			$connected_type = Connections::SECTORTEAM_TO_RUNNER;
+		}
 	}
 	
-	// true if company
-	function isCompany(){
+	function getTeamType(){
+		$this->teamType;
 	}
 	
-	// indicated an active team
-	function isActive() {
+	function getConnectionType(){
+		return $this->connectionType;
+	}
+		
+	function getLinkedRunners() {
+		$users = get_users( array(
+			'connected_type' => $this->getConnectionType(),
+			'connected_items' => $this->houseid,
+			'fields' => 'all',
+			'orderby' => 'display_name',
+			'order' => 'ASC'
+		));
+		var_dump($users[0],true);
+		return $users;
+	}
+	
+	/**
+	 * Use the template 'house-runner' to show the runners linked to a house.
+	 * @return string
+	 */
+	function displayRunnersTable() {
+		return Bhaa_Mustache::get_instance()->loadTemplate('house-runners')->render(
+			array('users' => $this->getLinkedRunners()
+		));
 	}
 	
 	//add_action( 'pre_user_query', 'wps_pre_user_query' );

@@ -30,6 +30,7 @@ class Bhaa_Shortcode{
 		// house-team specific shortcodes
 		add_shortcode('house_title',array(Bhaa_Shortcode::get_instance(),'house_title'));
 		add_shortcode('house_sector',array(Bhaa_Shortcode::get_instance(),'house_sector'));
+		add_shortcode('house_runners',array(Bhaa_Shortcode::get_instance(),'house_runners'));
 		
 		// league related shortcodes
 		add_shortcode('bhaa_league',array(Bhaa_Shortcode::get_instance(),'bhaa_league'));
@@ -78,6 +79,11 @@ class Bhaa_Shortcode{
 	
 	function house_sector($args){
 		return get_the_term_list(get_the_ID(), 'sector', 'Sector : ', ', ', '');
+	}
+	
+	function house_runners($args){
+		$house = new House(get_the_ID());
+		return $house->displayRunnersTable();
 	}
 	
 	/**

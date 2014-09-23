@@ -16,7 +16,7 @@ class HouseCpt {
 		add_filter('manage_house_posts_custom_column',array($this,'bhaa_manage_house_posts_custom_column'), 10, 3 );
 		//add_filter('single_template', array($this,'bhaa_single_house_template'));
 		
-		add_filter('template_include', array($this,'bhaa_template_include'));
+		//add_filter('template_include', array($this,'bhaa_template_include'));
 		//add_filter('manage_edit-house_sortable_columns',array($this,'bhaa_manage_edit_house_sortable_columns'));
 		//add_action('pre_get_posts',array($this,'bhaa_house_orderby'));
 	}
@@ -30,7 +30,6 @@ class HouseCpt {
 		global $wp_query;
 		if ( $wp_query->query_vars['post_type'] === 'house' ) {
 			if ( have_posts() )	{
-				//include( BHAA_PLUGIN_DIR.'/public/views/house.php' );
 				include( BHAA_PLUGIN_DIR.'/public/views/house-template.php' );
 				die();
 			} 
@@ -39,7 +38,6 @@ class HouseCpt {
 		}
 		else 
 			return $template;
-
 	}
 	
 //	function bhaa_taxonomy_template($template) {
