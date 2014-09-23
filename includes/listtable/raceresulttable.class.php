@@ -187,7 +187,7 @@ class RaceResult_List_Table extends WP_List_Table
 		$columns = array(
 			'event'     => 'Event',
 			'position'  => 'Pos',
-			'racenumber' => 'Race No',
+			//'racenumber' => 'Race No',
 			'racetime'  => 'Time',		
 			'standard'  => 'Std'
 		);
