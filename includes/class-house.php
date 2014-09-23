@@ -46,10 +46,16 @@ class House {
 			'orderby' => 'display_name',
 			'order' => 'ASC'
 		));
-		var_dump($users[0],true);
+		//var_dump($users[0],true);
 		return $users;
 	}
 	
+	function house_website_url(){
+		$site = get_post_meta(get_the_ID(),'bhaa_company_website',true);
+		if(!empty($site))
+			return 'Visit the '.get_the_title().' website : <a target="new" href="'.$site.'">'.$site.'</a>';
+	}
+		
 	/**
 	 * Use the template 'house-runner' to show the runners linked to a house.
 	 * @return string
