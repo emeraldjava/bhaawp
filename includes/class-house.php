@@ -50,6 +50,26 @@ class House {
 		return $users;
 	}
 	
+	function getLinkedRunners2(){
+		$usersByCompanyQuery = new WP_User_Query(
+				array(
+						//'exclude' => array($user->ID),
+						'fields' => 'all',// _with_meta
+						'orderby' => 'bhaa_runner_dateofrenewal',
+						'meta_query' => array(
+								//'relation' => 'AND',
+								array(
+										'key' => 'bhaa_runner_company',
+										'value' => $this->houseid,
+										'compare' => '=')
+						)
+				)
+		);
+		$users = $usersByCompanyQuery->get_results();
+		var_dump($users);
+		return $users;
+	}
+	
 	function house_website_url(){
 		$site = get_post_meta(get_the_ID(),'bhaa_company_website',true);
 		if(!empty($site))
@@ -62,7 +82,7 @@ class House {
 	 */
 	function displayRunnersTable() {
 		return Bhaa_Mustache::get_instance()->loadTemplate('house-runners')->render(
-			array('users' => $this->getLinkedRunners()
+			array('users' => $this->getLinkedRunners2()
 		));
 	}
 	
