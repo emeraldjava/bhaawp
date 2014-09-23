@@ -47,7 +47,7 @@ class RaceResult_List_Table extends WP_List_Table
 	function get_columns() {
 		$columns = array(
 			'position'  => 'Pos',
-			'racenumber' => 'No',
+			//'racenumber' => 'No',
 			'display_name' => 'Name',
 			'racetime'  => 'Time',
 			'category'  => 'Age Category',
@@ -69,7 +69,7 @@ class RaceResult_List_Table extends WP_List_Table
 			case 'cname':
 			case 'racetime':
 			case 'position':
-			case 'racenumber':
+			//case 'racenumber':
 			case 'category':
 			//case 'posincat':
 			case 'standard':
