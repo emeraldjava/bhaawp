@@ -1,7 +1,9 @@
-<div id="division" name="division" style="border:1px solid black; border-radius: 10px; padding: 5px; margin: 5px">
+<div>
 {{# division}}
-<h4><a href="{{url}}?division={{code}}"/>{{name}}</a></h4>
-<h5>Standards:{{min}}-{{max}}. Runners:{{count}}</a></h5>
+<div id="division{{code}}" class="division">
+<div id="title"><a href="{{url}}?division={{code}}"/>{{name}}</a></div>
+<div>Standards:{{min}}-{{max}}. Runners:{{count}}</a></div>
+</div>
 {{/ division}}
 <table width="100%" class="table-1">
 <thead>

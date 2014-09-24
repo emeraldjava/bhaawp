@@ -41,7 +41,7 @@ class LeagueCpt {
 		add_filter('post_row_actions', array(&$this,'bhaa_league_post_row_actions'), 0, 2);
 		/* Filter the single_template with our custom function*/
 		add_filter('single_template', array(&$this,'bhaa_single_league_template'));
-		add_shortcode('bhaa_league', array($this,'bhaa_league_shortcode'));
+		//add_shortcode('bhaa_league', array($this,'bhaa_league_shortcode'));
 		
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );

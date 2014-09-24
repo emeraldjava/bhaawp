@@ -84,3 +84,20 @@ on ls.leaguedivision=d.code
 where ls.league=3637
 group by d.code
 
+SELECT ls.*,wp_users.display_name as display_name
+FROM wp_bhaa_leaguesummary ls
+LEFT join wp_users on wp_users.id=ls.leagueparticipant
+LEFT join wp_posts on wp_posts.post_type="house" and wp_posts.id=
+(select meta_value from wp_usermeta where user_id=ls.leagueparticipant and meta_key="bhaa_runner_company")
+WHERE ls.league = 3637
+AND ls.leaguedivision = 'A'
+AND ls.leagueposition <= 10
+AND ls.leaguescorecount>=2
+order by league, leaguedivision, leagueposition
+
+SELECT d.*,count(ls.leagueparticipant) as count FROM wp_bhaa_division d
+			JOIN wp_bhaa_leaguesummary ls on ls.leaguedivision=d.code
+			WHERE ls.league=3637
+			AND ls.leaguescorecount>=2
+			AND d.code='A'
+			
