@@ -199,16 +199,18 @@ class Events_Manager {
 	 * 
 	 * em_event_output_placeholder
 	 */
-	function bhaa_em_booking_output_placeholder($html, $EM_Booking, $result) {
-		//error_log('bhaa_em_booking_output_placeholder()');
+	function bhaa_em_booking_output_placeholder($replace, $EM_Booking, $result) {
+		
 		global $wp_query, $wp_rewrite;
 		switch( $result )
 		{
 			case '#_BHAAID':
 				$replace = $EM_Booking->get_person()->ID;
+				return $replace;
 				break;
 			case '#_BHAATICKETS':
-				$header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
+				error_log('bhaa_em_booking_output_placeholder() '.$replace.' '.$result);
+				//$header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
 				$eventDetails = false;
 				$membershipDetails = false;
 				
@@ -225,7 +227,9 @@ class Events_Manager {
 					break;
 				}
 
-				$runner = new Runner($EM_Booking->get_person()->ID);
+				//error_log(var_dump($EM_Booking,true));
+				$runner = new Runner($EM_Booking->person_id);
+				error_log("booking for "+$runner->getID());
 				
 				global $wp_query;
 				$wp_query->set('bhaaid',$runner->getID());
@@ -245,23 +249,26 @@ class Events_Manager {
 						'sent_time'=>date('h:i:s d/m/Y', time())
 				));
 				*/
-				error_log("sending email to ".get_query_var('bhaaid'));
-				error_log($email);
+				//error_log("sending email to ".get_query_var('bhaaid'));
+				error_log("email ".$email);
 				//$email = Bhaa_Mustache::get_instance()->inlineCssStyles($email);
 				$message = $EM_Booking->output($email);
-				
-				$html = '<html>
+				error_log("message ".$message);
+				/*$html = '<html>
 				<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 						<title>BHAA Booking 2014</title>
 						</head>
 						<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">'.$message.'</body></html>';
 				
-				error_log($html);
+				error_log($html);*/
+				//$replace = $message;
+				return $message;
+				break;
 				//$html = $header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
 				//break;
 		}
-		return $html;
+		//return $html;
 	}
 	
 	// em_booking_form_custom
