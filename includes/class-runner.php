@@ -82,7 +82,8 @@ class Runner {
 	 */
 	function __construct($user_id) {
 		$this->user = get_userdata($user_id);
-		$user_meta = get_user_meta($user_id,'',false);
+	//	$this->meta = get_user_meta($user_id,'',false);
+		$user_meta = get_user_meta($user_id,"",false);
 		$this->meta = array_map( function( $a ){ return $a[0]; }, $user_meta );
 	}
 	
@@ -156,15 +157,27 @@ class Runner {
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
 		if($this->user->user_email!=''||$this->user->user_email!=null) {
 			
+			//$runner = new Runner($EM_Booking->get_person()->ID);
+			
+			global $wp_query;
+			$wp_query->set('bhaaid',$this->user->ID);
+			
+			$page = get_page_by_title('email-runner-renewal');
+			$message = apply_filters('the_content', $page->post_content);
+			
 			// runner-renewal-email
-			$message = Bhaa_Mustache::get_instance()->loadTemplate('runner-renewal-email')->render(
+			/*$message = Bhaa_Mustache::get_instance()->loadTemplate('runner-renewal-email')->render(
 				array(
 					'user'=>$this,
 					'sent_time'=>date('h:i:s d/m/Y', time())
 				)
-			);
+			);*/
 			
-			$message = Bhaa_Mustache::get_instance()->inlineCssStyles($message);
+			// email-runner-renewal
+			//$css = bloginfo('stylesheet_url');
+			//$css = get_stylesheet_uri().'/style.css';
+			//error_log($css);
+			//$message = Bhaa_Mustache::get_instance()->inlineCssStyles($message);
 			//error_log($message);
 			/*
 			$inlineCss = true;
