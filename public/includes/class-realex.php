@@ -91,7 +91,7 @@ class Realex {
 		else
 		{
 			// md5 is correct. authorised response from RealEx Servers
-			error_log('Realex->handle_post():'."$result,$user_id,$orderid,$timestamp,$ip");
+			error_log('realex-ipn:'."$result,$user_id,$orderid,$timestamp,$ip");
 			file_put_contents('./logs/ipn.csv', $msg."$result,$user_id,$orderid,$timestamp,$ip".PHP_EOL, FILE_APPEND);
 			//switch the result
 			$new_status = false;
