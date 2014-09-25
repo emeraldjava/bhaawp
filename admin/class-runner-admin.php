@@ -120,7 +120,7 @@ class RunnerAdmin {
 	function bhaa_runner_renew_action() {
 		if ( $_REQUEST['action'] == 'bhaa_runner_renew' 
 				&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_runner_renew_'.$_GET['id']) ) {
-			$runner = new Runner($_GET['id']);
+			$runner = new Runner($_GET['bhaaid']);
 			$runner->renew();
 			wp_redirect(wp_get_referer());
 			exit();

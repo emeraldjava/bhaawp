@@ -82,8 +82,8 @@ class Runner {
 	 */
 	function __construct($user_id) {
 		$this->user = get_userdata($user_id);
-		$this->meta =  array_map( function( $a ){ return $a[0]; }, get_user_meta($user_id) );
-		//error_log( print_r( $this->meta,true) );
+		$user_meta = get_user_meta($user_id,'',false);
+		$this->meta = array_map( function( $a ){ return $a[0]; }, $user_meta );
 	}
 	
 	function getID() {
@@ -150,7 +150,7 @@ class Runner {
 	 * This method updates the runners reneal date and emails them a confirmation.
 	 */
 	function renew() {
-		error_log('renew() '.$this->user->ID);
+		//error_log('renew() '.$this->user->ID);
 		
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_STATUS, 'M');
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
@@ -165,6 +165,7 @@ class Runner {
 			);
 			
 			$message = Bhaa_Mustache::get_instance()->inlineCssStyles($message);
+			//error_log($message);
 			/*
 			$inlineCss = true;
 			if($inlineCss) {
@@ -186,14 +187,23 @@ class Runner {
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 			$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
-
+			//$headers = 'From: Your Name <abc@gmail.com>' . "\r\n";
+			
+			$subject = 'BHAA Renewal 2014 : '.$this->user->user_firstname.' '.$this->user->user_lastname;
+			//error_log($subject);
+			
  			$res = wp_mail(
-				$this->user->user_email,
-				'BHAA Renewal 2014 : '.$this->user->user_firstname.' '.$this->user->user_lastname,
+				//$this->user->user_email,
+				'paul.oconnell@aegon.ie',
+				$subject,
 				$message,
 				$headers);
  			error_log("email sent");
+ 			
+ 			
 		}
+		wp_redirect(wp_get_referer());
+		exit();
 	}
 }
 ?>

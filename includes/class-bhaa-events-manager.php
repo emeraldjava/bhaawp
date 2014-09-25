@@ -226,6 +226,15 @@ class Events_Manager {
 				}
 
 				$runner = new Runner($EM_Booking->get_person()->ID);
+				
+				global $wp_query;
+				$wp_query->set('bhaaid',$runner->getID());
+				
+				$page = get_page_by_title('runner-booking-email');
+				$email = apply_filters('the_content', $page->post_content);
+				//echo $content;
+				
+				/*
 				$email = Bhaa_Mustache::get_instance()->loadTemplate('runner-booking-email')->render(
 					array(
 						'header' => $header,
@@ -235,10 +244,22 @@ class Events_Manager {
 						'event'=>$EM_Booking->get_event(),
 						'sent_time'=>date('h:i:s d/m/Y', time())
 				));
-				$email = Bhaa_Mustache::get_instance()->inlineCssStyles($email);
-				$html = $EM_Booking->output($email);
+				*/
+				error_log("sending email to ".get_query_var('bhaaid'));
+				error_log($email);
+				//$email = Bhaa_Mustache::get_instance()->inlineCssStyles($email);
+				$message = $EM_Booking->output($email);
+				
+				$html = '<html>
+				<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+						<title>BHAA Booking 2014</title>
+						</head>
+						<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">'.$message.'</body></html>';
+				
+				error_log($html);
 				//$html = $header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
-				break;
+				//break;
 		}
 		return $html;
 	}

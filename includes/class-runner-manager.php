@@ -17,8 +17,26 @@ class Runner_Manager {
 		return self::$instance;
 	}
 	
-	private function __construct() {
-		
+	private function __construct() {	
+		add_action('admin_action_bhaa_runner_renew',array($this,'bhaa_runner_renew'));
+	}
+	
+	/**
+	 * Generate a renewal button for admin users via a shortcode
+	 * @return string
+	 */
+	function generateRenewalForm(){
+		return '<form action="'.admin_url( 'admin.php' ).'" method="POST">
+		    <input type="hidden" name="action" value="bhaa_runner_renew" />
+			<input type="hidden" name="bhaaid" value="'.get_query_var('bhaaid').'"/>
+			<input type="submit" value="Renew Runner"/>
+			</form>';
+	}
+	
+	function bhaa_runner_renew(){
+		//error_log('Runner_Manager bhaa_runner_renew:'.$_POST['bhaaid']);
+		$runner = new Runner($_POST['bhaaid']);
+		$runner->renew();
 	}
 	
 	/**
