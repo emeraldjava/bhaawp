@@ -18,6 +18,37 @@ class TeamLeague extends AbstractLeague {
 		return 'house/?p';
 	}
 	
+	function getTopParticipantsInDivision($division,$limit) {
+
+		$query = $this->getWpdb()->prepare('SELECT *,wp_posts.post_title as display_name
+			FROM wp_bhaa_leaguesummary
+			left join wp_posts on (wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant and wp_posts.post_type="house")
+			WHERE league = %d
+			AND ls.leaguedivision = %s
+			AND leagueposition <= %d
+			order by league, leaguedivision, leagueposition',$this->getLeagueId(),$division,$limit);
+		//error_log($this->type.' '.$this->leagueid.' '.$query);
+		//return $wpdb->get_results($query);
+		
+		$summary = $this->getWpdb()->get_results($query);
+		
+		$divisionDetails = $this->getDivisionDetails($division);
+		
+		if($limit!=1000) {
+			return Bhaa_Mustache::get_instance()->loadTemplate('division-summary')->render(
+				array(
+						'division' => $divisionDetails,
+						'id'=> $this->getLeagueId(),
+						'top'=> $limit,
+						'url'=> get_permalink( $this->getLeagueId() ),
+						'linktype' => $this->getLinkType(),
+						'summary' => $summary
+				));
+		} else {
+			return 'TEAM LEAGUE '.$division.' '.$limit;
+		}
+	}
+	
 	/**
 	 * Delete the league data
 	 * 

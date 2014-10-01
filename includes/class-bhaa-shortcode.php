@@ -107,7 +107,7 @@ class Bhaa_Shortcode{
 		
 		//$bhaaid = get_query_var('bhaaid');
 		$league = LeagueFactory::getLeague($leagueid);
-		return $league->getTopRunnersInDivision($a['division'],$a['top']);
+		return $league->getTopParticipantsInDivision($a['division'],$a['top']);
 		//return $a['division'].'-'.$a['top'].'-'.$id.' '.$league->getName();
 	}
 }

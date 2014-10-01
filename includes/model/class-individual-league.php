@@ -17,7 +17,8 @@ class IndividualLeague extends AbstractLeague {
 		return 'runner/?bhaaid';
 	}
 	
-	function getTopRunnersInDivision($division,$limit) {
+	function getTopParticipantsInDivision($division,$limit) {
+	//function getTopRunnersInDivision($division,$limit) {
 		$query = $this->getWpdb()->prepare('SELECT ls.*,wp_users.display_name as display_name
 			FROM wp_bhaa_leaguesummary ls
 			LEFT join wp_users on wp_users.id=ls.leagueparticipant

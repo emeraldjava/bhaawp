@@ -15,5 +15,10 @@ interface League{
 	 * Load the league data
 	 */
 	public function loadLeague();
+	
+	/**
+	 * Return the top runners or teams for a specific division
+	 */
+	function getTopParticipantsInDivision($division,$top);
 }
 ?>
