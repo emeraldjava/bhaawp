@@ -76,6 +76,6 @@ set option_value='<tr class="event-details">
 <td>
 {has_location}<i>#_LOCATIONNAME, #_LOCATIONTOWN #_LOCATIONSTATE</i>{/has_location}
 </td>
-<td>#_CATEGORYIMAGE{100,100} #_EVENTEXCERPT <a href="#_EVENTURL">Read Full Details</a></td>
+<td>#_EVENTEXCERPT <a href="#_EVENTURL">Read Full Details</a> #_BOOKINGLISTURL</td>
 </tr>
 <tr class="spacer"><td></td></tr>' where option_name='dbem_event_list_item_format';
