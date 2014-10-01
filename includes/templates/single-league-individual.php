@@ -1,7 +1,9 @@
 <?php
 get_header();
 
-echo '<section id="primary">';
+echo '<div class="container">';
+echo '<div class="content">';
+
 echo the_title('<h1>','</h1>');
 
 echo do_shortcode('[av_one_third first][av_textblock][bhaa_league division=A top=10][/av_textblock][/av_one_third]');
@@ -16,7 +18,7 @@ echo do_shortcode('[av_one_half first][av_textblock][bhaa_league division=E top=
 echo do_shortcode('[av_one_half ][av_textblock][bhaa_league division=F top=10][/av_textblock][/av_one_half]');
 
 //echo do_shortcode('[separator top="40" style="single"]');
-echo '</section>';
+echo '</div></div>';
 
 if($data['blog_comments']):
 	wp_reset_query();
