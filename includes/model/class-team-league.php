@@ -20,18 +20,14 @@ class TeamLeague extends AbstractLeague {
 	
 	function getTopParticipantsInDivision($division,$limit) {
 
-		$query = $this->getWpdb()->prepare('SELECT *,wp_posts.post_title as display_name
-			FROM wp_bhaa_leaguesummary
-			left join wp_posts on (wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant and wp_posts.post_type="house")
-			WHERE league = %d
+		$query = $this->getWpdb()->prepare('SELECT ls.*,wp_posts.post_title as display_name
+			FROM wp_bhaa_leaguesummary ls
+			left join wp_posts on (wp_posts.id=ls.leagueparticipant and wp_posts.post_type="house")
+			WHERE ls.league = %d
 			AND ls.leaguedivision = %s
-			AND leagueposition <= %d
-			order by league, leaguedivision, leagueposition',$this->getLeagueId(),$division,$limit);
-		//error_log($this->type.' '.$this->leagueid.' '.$query);
-		//return $wpdb->get_results($query);
-		
+			order by leaguepoints desc limit %d',$this->getLeagueId(),$division,$limit);
+		//error_log($query);
 		$summary = $this->getWpdb()->get_results($query);
-		
 		$divisionDetails = $this->getDivisionDetails($division);
 		
 		if($limit!=1000) {
@@ -73,7 +69,6 @@ class TeamLeague extends AbstractLeague {
 								return $row;
 							}
 			));
-			//return 'TEAM LEAGUE '.$division.' '.$limit;
 		}
 	}
 	
