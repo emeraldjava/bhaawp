@@ -48,26 +48,26 @@ class TeamLeague extends AbstractLeague {
 				$events = $this->getLeagueRaces('M');
 			
 			return Bhaa_Mustache::get_instance()->loadTemplate('division-detailed')->render(
-					array(
-							'division' => $divisionDetails,
-							'id'=> $this->getLeagueId(),
-							'top'=> $limit,
-							'url'=> get_permalink( $this->getLeagueId() ),
-							'summary' => $summary,
-							'linktype' => $this->getLinkType(),
-							'events' => $events,
-							'matchEventResult' => function($text, Mustache_LambdaHelper $helper) {
-								$results = explode(',',$helper->render($text));
-								//error_log($helper->render($text).' '.$results);
-								$row = '';
-								foreach($results as $result) {
-									if($result==0)
-										$row .= '<td>-</td>';
-									else
-										$row .= '<td>'.$result.'</td>';
-								}
-								return $row;
-							}
+				array(
+					'division' => $divisionDetails,
+					'id'=> $this->getLeagueId(),
+					'top'=> $limit,
+					'url'=> get_permalink( $this->getLeagueId() ),
+					'summary' => $summary,
+					'linktype' => $this->getLinkType(),
+					'events' => $events,
+					'matchEventResult' => function($text, Mustache_LambdaHelper $helper) {
+						$results = explode(',',$helper->render($text));
+						//error_log($helper->render($text).' '.$results);
+						$row = '';
+						foreach($results as $result) {
+							if($result==0)
+								$row .= '<td>-</td>';
+							else
+								$row .= '<td>'.$result.'</td>';
+						}
+						return $row;
+					}
 			));
 		}
 	}
