@@ -51,6 +51,13 @@ set option_value='<div eventid="#_EVENTID" postid="#_EVENTPOSTID">
 [/av_tab_container]
 </div>' where option_name='dbem_single_event_format';
 
+
+update wp_options
+set option_value="[av_one_full first]
+[av_heading heading='#s' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class='']
+[/av_heading]  
+[/av_one_full]" where option_name='dbem_event_list_groupby_header_format';
+
 update wp_options
 set option_value='<table class="table-1" style="width:90%">
 <thead>
