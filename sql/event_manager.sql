@@ -96,9 +96,8 @@ set option_value="
 [av_heading heading='Race Type' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 
 [av_textblock custom_class='']
-<strong><span style='font-size: 14pt;'>#_EVENTCATEGORIES</span></strong>
 <strong><span style='font-size: 14pt;'>#_CATEGORYNAME</span></strong>
-<span style='font-size: 14pt;'>#_ATT{footware}</span>
+<span style='font-size: 14pt;'>Footware : #_ATT{footware}</span>
 [/av_textblock]
 
 [av_image src='http://bhaa.ie/wp-content/uploads/2012/12/6904536631_48afbc60b2_z.jpg' attachment='2445' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
