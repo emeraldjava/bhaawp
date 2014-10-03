@@ -27,7 +27,7 @@ class House {
 		$this->connectionType = Connections::HOUSE_TO_RUNNER;
 		if($this->teamType==HOuse::SECTOR_TEAM) {
 			$connected_type = Connections::SECTORTEAM_TO_RUNNER;
-		}
+		}	
 	}
 	
 	function getTeamType(){
@@ -42,22 +42,32 @@ class House {
 		$users = get_users( array(
 			'connected_type' => $this->getConnectionType(),
 			'connected_items' => $this->houseid,
-			'fields' => 'all',
+			'fields' => 'all_with_meta',
 			'orderby' => 'display_name',
 			'order' => 'ASC'
 		));
 		//var_dump($users[0],true);
-		return $users;
+		
+		$runners = array();
+		foreach ( $users AS $user ) {
+			$runners[] = new Runner($user->id);
+		}
+
+		//var_dump($runners[0],true);
+	    //var_dump($x,true);
+		//return $runners;
+		
+		$x = array_values($runners);
+		return $x;
 	}
 	
 	function getLinkedRunners2(){
 		$usersByCompanyQuery = new WP_User_Query(
 				array(
-						//'exclude' => array($user->ID),
-						'fields' => 'all',// _with_meta
+						'fields' => 'all_with_meta',
 						'orderby' => 'bhaa_runner_dateofrenewal',
+						'query_id'=>'get_bhaa_meta',
 						'meta_query' => array(
-								//'relation' => 'AND',
 								array(
 										'key' => 'bhaa_runner_company',
 										'value' => $this->houseid,
@@ -66,9 +76,13 @@ class House {
 				)
 		);
 		$users = $usersByCompanyQuery->get_results();
-		var_dump($users);
-		return $users;
+		//var_dump($users);
+		//$x = array_values($users);
+		//var_dump($x[0]);
+		return $x;//users;
 	}
+	
+
 	
 	function house_website_url(){
 		$site = get_post_meta(get_the_ID(),'bhaa_company_website',true);
@@ -82,7 +96,7 @@ class House {
 	 */
 	function displayRunnersTable() {
 		return Bhaa_Mustache::get_instance()->loadTemplate('house-runners')->render(
-			array('users' => $this->getLinkedRunners2()
+			array('users' => $this->getLinkedRunners()
 		));
 	}
 	
@@ -105,7 +119,7 @@ class House {
 		$usersByCompanyArgs = new WP_User_Query(
 				array(
 						//'exclude' => array($user->ID),
-						'fields' => 'all_with_meta',
+						'fields' => 'all',//_with_meta',
 						'orderby' => 'display_name',
 						'order' => 'ASC',
 						'meta_query' => array(
