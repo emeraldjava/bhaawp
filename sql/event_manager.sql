@@ -155,9 +155,18 @@ Google Map and Directions
 
 {is_past}
 [av_one_full first]
-[av_tab_container]
-[av_tab title='Results']#_BHAARACERESULTS[/av_tab]
-[av_tab title='Teams']#_BHAATEAMRESULTS[/av_tab]
+[av_icon_box icon='ue81e' font='entypo-fontello' position='left' title='#_LOCATIONNAME - #_EVENTNAME' link='' linktarget='' linkelement='' custom_class='']
+#_EVENTDATES #_EVENTEXCERPT
+[/av_icon_box]
+[/av_one_full]
+[av_one_full first]
+[av_tab_container position='top_tab' boxed='border_tabs' initial='1' custom_class='']
+[av_tab title='Results' icon_select='yes' icon='ue84b' font='entypo-fontello']
+#_BHAARACERESULTS
+[/av_tab]
+[av_tab title='Team Results' icon_select='yes' icon='ue84c' font='entypo-fontello']
+#_BHAATEAMRESULTS
+[/av_tab]
 [/av_tab_container]
 [/av_one_full]
 {/is_past}
