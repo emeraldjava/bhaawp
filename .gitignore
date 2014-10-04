@@ -26,3 +26,7 @@ license.txt
 *.sublime-project
 
 *.sublime-workspace
+
+sql/3910.txt
+
+sql/3934-pre-race.txt
