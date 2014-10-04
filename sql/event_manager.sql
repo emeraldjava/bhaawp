@@ -89,25 +89,20 @@ set option_value="
 [/av_one_full]
 
 [av_one_fifth first]
-
-[av_heading heading='Race' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
-
+[av_heading heading='Organiser' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 [av_textblock custom_class='']
-<strong><span style='font-size: 14pt;'>#_EVENTNAME</span></strong>
+#_ATT{bhaa_organiser}
 [/av_textblock]
-
-[av_image src='http://bhaa.ie/wp-content/uploads/2014/01/10252603574_518b9193fb_b.jpg' attachment='3376' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
-
+[av_image src='#_ATT{bhaa_organiser_image}' attachment='' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
 [/av_one_fifth]
 
 [av_one_fifth]
-
-[av_heading heading='Organiser' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_heading heading='Race' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 
 [av_textblock custom_class='']
-<span style='font-size: 14pt;'><strong>#_CONTACTNAME</strong></span>
-<span style='font-size: 14pt;'><strong>#_CONTACTEMAIL</strong></span>
-<span style='font-size: 14pt;'><strong>#_CONTACTURL</strong></span>
+<span style='font-size: 14pt;'><strong>#_EVENTNAME</strong></span>
+<span style='font-size: 14pt;'><strong>#_LOCATIONNAME</strong></span>
+<span style='font-size: 14pt;'><strong>#_LOCATIONTOWN</strong></span>
 
 [/av_textblock]
 
@@ -116,8 +111,7 @@ set option_value="
 [/av_one_fifth]
 
 [av_one_fifth]
-
-[av_heading heading='Race Type' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_heading heading='Race Type' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 
 [av_textblock custom_class='']
 <strong><span style='font-size: 14pt;'>#_CATEGORYNAME</span></strong>
@@ -129,8 +123,7 @@ set option_value="
 [/av_one_fifth]
 
 [av_one_fifth]
-
-[av_heading heading='Distances' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_heading heading='Distances' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 
 [av_textblock custom_class='']
 <span style='font-size: 14pt;'><strong>#_EVENTEXCERPT</strong></span>
@@ -140,9 +133,10 @@ set option_value="
 <span style='font-size: 14pt;'><strong>Footwear: Spikes </strong></span>-->
 [/av_textblock]
 
-[/av_one_fifth][av_one_fifth]
+[/av_one_fifth]
 
-[av_heading heading='Date / Time' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_one_fifth]
+[av_heading heading='Date / Time' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 
 [av_textblock custom_class='']
 <span style='font-size: 14pt;'><strong>#_EVENTDATES</strong></span>
