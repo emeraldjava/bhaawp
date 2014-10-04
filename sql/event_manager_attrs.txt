@@ -1,0 +1,450 @@
+#_ATT{bhaa_organiser_name}{BHAA}
+#_ATT{bhaa_organiser_image}{http://bhaa.ie/wp-content/uploads/2014/09/bhaa-Business-Houses-Athletic-Association-Dublin-Logo-180x180.jpg}
+#_ATT{bhaa_event_image}{http://bhaa.ie/wp-content/uploads/2014/10/BHAA-Castleknock-College-Cross-Country-Race-Teachers.jpg}
+#_ATT{bhaa_cost_member}{BHAA Members 10e}
+#_ATT{bhaa_cost_daymember}{Day Member 15e}
+#_ATT{bhaa_start_type}{Combined Start|Separate Starts}
+#_ATT{bhaa_race_1}{X km/miles}
+#_ATT{bhaa_race_2}
+#_ATT{footware}{runners|spikes}
+#_ATT{bhaa_contact_name}
+#_ATT{bhaa_contact_number}
+#_ATT{bhaa_contact_email}
+
+http://bhaa.ie/wp-content/uploads/2014/10/BHAA-Castleknock-College-Cross-Country-Race-Teachers.jpg
+
+http://bhaa.ie/wp-content/uploads/2014/10/Dublin-City-Maratho-BHAA1.jpg
+
+http://bhaa.ie/wp-content/uploads/2014/10/BHAA-ALSAA-Dublin-Airport-Cross-Country-Race.jpg
+
+http://bhaa.ie/wp-content/uploads/2014/10/BHAA-Santry-Demense-Irish-Life-Cross-Country-Race.jpg
+
+http://bhaa.ie/wp-content/uploads/2014/10/BHAA-Marlay-Park-Vodafone-Cross-Country-Race.jpg
+
+http://bhaa.ie/wp-content/uploads/2014/10/Vodafone-Logo.jpg
+
+http://bhaa.ie/wp-content/uploads/2014/10/Irish-Life-Logo.jpg
+
+http://bhaa.ie/wp-content/uploads/2014/10/Bank-Of-Ireland-Logo.jpg
+
+http://bhaa.ie/wp-content/uploads/2014/09/bhaa-Business-Houses-Athletic-Association-Dublin-Logo-180x180.jpg
+
+
+Event Related Placeholders
+Event Details
+
+#_EVENTID
+    Shows the event ID number in the wp_em_events table.
+#_EVENTPOSTID
+    Shows the event corresponding Post ID in the wp_posts table.
+#_EVENTNAME
+    Displays the name of the event.
+#_EVENTNOTES
+    Shows the description of the event.
+#_EVENTEXCERPT
+    If an excerpt has been added to the event, it will be used. If you added a more tag to your event description, only the content before this tag will show.
+#_EVENTEXCERPT{words,...}
+    If an excerpt has not been added to the event you can use this format #_EVENTEXCERPT{10,...}, where 10 is the number of words to show and ... is what is used at the cut-off point.
+#_EVENTIMAGE
+    Shows the event image, if available.
+#_EVENTIMAGE{x,y}
+    Shows the event image thumbnail, x and y are width and height respectively, both being numbers e.g. #_EVENTIMAGE{100,100}. If 0 is used for either width or height, the corresponding dimension will be proportionally sized
+#_EVENTCATEGORIES
+    Shows a list of category links this event belongs to.
+#_EVENTCATEGORIESIMAGES
+    Shows a list of category images this event belongs to. Categories without an image will be ignored.
+#_EVENTTAGS
+    Shows a list of tag links this event belongs to.
+
+Date and Times
+
+These are shortcut placeholders for pre-formatted dates and times. See the Custom Date/Time Formatting section below for more refined formatting placeholders.
+
+#_24HSTARTTIME
+    Displays the start time in a 24 hours format (e.g. 16:30).
+#_24HENDTIME
+    Displays the end time in a 24 hours format (e.g. 18:30).
+#_12HSTARTTIME
+    Displays the start time in a 12 hours format (e.g. 4:30 PM).
+#_12HENDTIME
+    Displays the end time in a 12 hours format (e.g. 6:30 PM).
+#_EVENTTIMES
+    Displays either a single time, time-span, or "All Day" depending on your event times. Format is taken from your Events Manager settings page.
+#_EVENTDATES
+    Displays either a single date or a date range depending on your event dates. Format is taken from your Events Manager settings page.
+
+Custom Date/Time Formatting
+
+Events Manager allows extremely flexible date formatting by using PHP date syntax format characters along with placeholders.
+
+# or #@
+    Prepend # or #@ before a valid PHP date syntax format character to show start and end date/time information respectively (e.g. #F will show the starting month name like "January", #@h shows the end hour).
+#{x} or #@{x}
+    You can also create a date format without prepending # to each character by wrapping a valid php date() format in #{} or #@{} (e.g. #_{d/m/Y}). If there is no end date (or is same as start date), the value is not shown. This is useful if you want to show event end dates only on events that are longer than one day, e.g. #j #M #Y #@_{ \u\n\t\i\l j M Y}.
+
+Links/URLs
+
+#_EVENTIMAGEURL
+    Shows the event image url, if available.
+#_EVENTURL
+    Simply prints the event URL. You can use this placeholder to build your own customised links.
+#_EVENTLINK
+    Displays the event name with a link to the event page.
+#_EDITEVENTLINK
+    Inserts a link to the admin or buddypress (if activated) edit event page, only if a user is logged in and is allowed to edit the event.
+#_EDITEVENTURL
+    Inserts a url to the admin or buddypress (if activated) edit event page, only if a user is logged in and is allowed to edit the event.
+
+Custom Attributes
+
+Events Manager allows you to create dynamic attributes to your events, which act as extra information fields for your events (e.g. "Dress Code"). For more information see our online documentation for more info on attributes.
+
+#_ATT{key}
+    This key will appear as an option when adding attributes to your event.
+#_ATT{key}{alternative text}
+    This key will appear as an option when adding attributes to your event. The text in the second braces will appear if the attribute is not defined or left blank for that event.
+#_ATT{key}{option 1|option 2|option 3|etc.}
+    This key will appear as an option when adding attributes to your event. The second braces are optional and will use a select box with these values as input. If no valid value is defined, the first option is used.
+
+Bookings
+
+These placeholders will only show if bookings are enabled for the given event and in the events manager settings page. Spaces placeholders will default to 0
+
+#_BOOKINGFORM
+    Adds a booking forms for this event.
+#_BOOKINGBUTTON
+    A single button that will appear to logged in users, if they click on it, they apply for a booking. This button will only display if there is one ticket.
+#_AVAILABLESPACES
+    Shows available spaces for the event.
+#_BOOKEDSPACES
+    Shows the amount of currently booked spaces for the event.
+#_PENDINGSPACES
+    Shows the amount of pending spaces for the event.
+#_SPACES
+    Shows the total spaces for the event.
+#_ATTENDEES
+    Shows the list of user avatars attending the event.
+#_ATTENDEESLIST
+    Shows the list of people attending the event.
+#_ATTENDEESPENDINGLIST
+    Shows the list of people with a pending booking for the event.
+#_BOOKINGSURL
+    Shows the url to the admin, front-end or buddypress (if activated) bookings management page for this event. Only shown if user is logged in and able to manage bookings.
+#_BOOKINGSLINK
+    Shows a link to the admin, front-end or buddypress (if activated) bookings management page for this event. Only shown if user is logged in and able to manage bookings.
+#_EVENTPRICERANGE
+    Shows a "maximum - minimum" price range for available tickets at the time of display, or a single price if there is no range. Once bookings are closed this will show a 0 value, if you have enabled 'Show unavailable tickets' in your booking settings these will be included. Price is formatted according to currency formatting in your settings page.
+#_EVENTPRICERANGEALL
+    Like #_EVENTPRICERANGE but shows all tickets price range whether or not bookings or individual tickets are available.
+#_EVENTPRICEMIN
+    Shows the lowest ticket price for this event.
+#_EVENTPRICEMAX
+    Shows the highest ticket price for this event.
+
+Contact Details
+
+The values here are taken from the chosen contact for the specific event, or the default contact in the settings page.
+
+#_CONTACTNAME
+    Name of the contact person for this event (as shown in the dropdown when adding an event).
+#_CONTACTUSERNAME
+    Contact person's username.
+#_CONTACTEMAIL
+    E-mail of the contact person for this event.
+#_CONTACTURL
+    Website of the contact person for this event.
+#_CONTACTPHONE
+    Phone number of the contact person for this event. Can be set in the user profile page.
+#_CONTACTAVATAR
+    Contact person's avatar.
+#_CONTACTPROFILELINK
+    Contact person's "Profile" link. Only works with BuddyPress enabled.
+#_CONTACTPROFILEURL
+    Contact person's profile url. Only works with BuddyPress enabled.
+#_CONTACTID
+    Contact person's WordPress user ID.
+#_CONTACTMETA
+    Display any user meta of a WordPress account by including the meta key, e.g. #_CONTACTMETA{dbem_phone}
+
+iCal/Calendar
+
+#_EVENTICALURL
+    Displays the URL of the event ical feed (ics file format).
+#_EVENTICALLINK
+    Displays an html link to the event ical feed (ics file format).
+#_EVENTGCALURL
+    Displays URL which would take the user to Google Calendar and pre-fill their add new event form.
+#_EVENTGCALLINK
+    Displays a button which would take the user to Google Calendar and pre-fill their add new event form.
+
+Category Related Placeholders
+Category Details
+
+You can use these when displaying categories or for showing the first available category in an event format.
+
+#_CATEGORYNAME
+    Shows the category name.
+#_CATEGORYID
+    Shows the category ID.
+#_CATEGORYSLUG
+    Shows the category slug.
+#_CATEGORYCOLOR
+    Shows the category color (useful for inline styling), in hex format, if no color is defined #FFFFFF (white) will be used.
+#_CATEGORYIMAGE
+    Shows the category image, if available.
+#_CATEGORYIMAGE{x,y}
+    Shows the category image thumbnail if available, x and y are width and height respectively, both being numbers e.g. #_CATEGORYIMAGE{100,100}. If 0 is used for either width or height, the corresponding dimension will be proportionally sized.
+#_CATEGORYIMAGEURL
+    Shows the category image url, if available.
+#_CATEGORYNOTES
+    Shows the category description.
+
+Related Events
+
+You can show lists of other events belonging to this category. The formatting of the list is the same as a normal events list.
+
+#_CATEGORYPASTEVENTS
+    Will show a list of all past events with this category.
+#_CATEGORYNEXTEVENTS
+    Will show a list of all future events with this category.
+#_CATEGORYALLEVENTS
+    Will show a list of all events with this category.
+#_CATEGORYNEXTEVENT
+    Will show the next event with this category.
+
+iCal/RSS Feeds
+
+#_CATEGORYICALURL
+    Displays the URL of the event ical feed (ics file format) which shows all events happening in this category.
+#_CATEGORYICALLINK
+    Displays an html link to the event ical feed (ics file format) which shows all events happening in this category.
+#_CATEGORYRSSURL
+    Displays the URL of an RSS feed showing all upcoming events happening in this category.
+#_CATEGORYRSSLINK
+    Displays an html link to an RSS feed showing all upcoming events happening in this category.
+
+Tag Related Placeholders
+Tag Details
+
+You can use these when displaying tags or for showing the first available tag in an event format.
+
+#_TAGNAME
+    Shows the tag name.
+#_TAGID
+    Shows the tag ID.
+#_TAGSLUG
+    Shows the tag slug.
+#_TAGIMAGE
+    Shows the tag image, if available.
+#_TAGIMAGE{x,y}
+    Shows the tag image thumbnail if available, x and y are width and height respectively, both being numbers e.g. #_TAGIMAGE{100,100}. If 0 is used for either width or height, the corresponding dimension will be proportionally sized.
+#_TAGIMAGEURL
+    Shows the tag image url, if available.
+#_TAGNOTES
+    Shows the tag description.
+
+Related Events
+
+You can show lists of other events belonging to this tag. The formatting of the list is the same as a normal events list.
+
+#_TAGPASTEVENTS
+    Will show a list of all past events with this tag.
+#_TAGNEXTEVENTS
+    Will show a list of all future events with this tag.
+#_TAGALLEVENTS
+    Will show a list of all events with this tag.
+#_TAGNEXTEVENT
+    Will show the next event with this tag.
+
+iCal/RSS Feeds
+
+#_TAGICALURL
+    Displays the URL of the event ical feed (ics file format) which shows all events happening in this tag.
+#_TAGICALLINK
+    Displays an html link to the event ical feed (ics file format) which shows all events happening in this tag.
+#_TAGRSSURL
+    Displays the URL of an RSS feed showing all upcoming events happening in this tag.
+#_TAGRSSLINK
+    Displays an html link to an RSS feed showing all upcoming events happening in this tag.
+
+Location Related Placeholders
+Location Details
+
+#_LOCATIONID
+    Shows the event ID number in the wp_em_locations table.
+#_LOCATIONPOSTID
+    Shows the location corresponding Post ID in the wp_posts table.
+#_LOCATIONNAME
+    Displays the location name.
+#_LOCATIONADDRESS
+    Displays the address.
+#_LOCATIONTOWN
+    Displays the town.
+#_LOCATIONSTATE
+    Displays the state/county.
+#_LOCATIONPOSTCODE
+    Displays the postcode.
+#_LOCATIONREGION
+    Displays the region.
+#_LOCATIONCOUNTRY
+    Displays the country.
+#_LOCATIONLONGITUDE
+    Displays the longitude, used for locating in Google Maps.
+#_LOCATIONLATITUDE
+    Displays the latitude, used for locating in Google Maps.
+#_LOCATIONMAP
+    Displays a google map showing where the location is located (Will not show if maps are disabled in the settings page)
+#_LOCATIONNOTES
+    Shows the location description.
+#_LOCATIONEXCERPT
+    If an excerpt has been added to the location, it will be used. If you added a more tag to your location description, only the content before this tag will show.
+#_LOCATIONEXCERPT{words, ...}
+    If an excerpt has not been added to the location, only a specific length is shown, e.g. #_EVENTEXCERPT{10,...} where 10 is the number of words to show and ... is what is used at the cut-off point.
+#_LOCATIONIMAGE
+    Shows the location image.
+#_LOCATIONIMAGE{x,y}
+    Shows the location image thumbnail, x and y are width and height respectively, both being numbers e.g. #_LOCATIONIMAGE{100,100}. If 0 is used for either width or height, the corresponding dimension will be proportionally sized.
+#_LOCATIONIMAGEURL
+    Shows the location image url, if available.
+#_LOCATIONFULLLINE
+    Shows a comma-seperated line of location information, ommitting blanks (format of address, town, state, postcode, region
+#_LOCATIONFULLBR
+    Shows a line-break (br tag) seperated location information, ommitting blanks (format of address, town, state, postcode, region
+
+Custom Attributes
+
+Events Manager allows you to create dynamic attributes to your locations, which act as extra information fields for your locations (e.g. "Dress Code"). For more information see our online documentation for more info on attributes.
+
+#_LATT{key}
+    This key will appear as an option when adding attributes to your location.
+#_LATT{key}{alternative text}
+    This key will appear as an option when adding attributes to your location. The text in the second braces will appear if the attribute is not defined or left blank for that location.
+#_LATT{key}{option 1|option 2|option 3|etc.}
+    This key will appear as an option when adding attributes to your location. The second braces are optional and will use a select box with these values as input. If no valid value is defined, the first option is used.
+
+Links
+
+#_LOCATIONURL
+    Simply prints the location URL. You can use this placeholder to build your own customised links.
+#_LOCATIONLINK
+    Displays the location name with a link to the location page.
+#_EDITLOCATIONLINK
+    Inserts a link to the admin or buddypress (if activated) edit location page, only if a user is logged in and is allowed to edit the location.
+#_EDITLOCATIONURL
+    Inserts a url to the admin or buddypress (if activated) edit location page, only if a user is logged in and is allowed to edit the location.
+
+Related Events
+
+You can show lists of other events that are being held at this location. The formatting of the list is the same as a normal events list.
+
+#_LOCATIONPASTEVENTS
+    Will show a list of all past events at this location.
+#_LOCATIONNEXTEVENTS
+    Will show a list of all future events at this location.
+#_LOCATIONALLEVENTS
+    Will show a list of all events at this location.
+#_LOCATIONNEXTEVENT
+    Will show a link to the next event at this location, or the no events message.
+
+iCal/RSS Feeds
+
+#_LOCATIONICALURL
+    Displays the URL of the location ical feed (ics file format) which shows all events happening at that location.
+#_LOCATIONICALLINK
+    Displays an html link to the event ical feed (ics file format) which shows all events happening at that location.
+#_LOCATIONRSSURL
+    Displays the URL of an RSS feed showing all upcoming events happening at this location.
+#_LOCATIONRSSLINK
+    Displays an html link to an RSS feed showing all upcoming events happening at this location.
+
+Booking Related Placeholders
+Individual Booking Information
+
+When a specific booking is displayed (on screen and on email), you can use these placeholders to show specific information about the booking. Event and Location placeholders are also available in these cases.
+
+#_BOOKINGID
+    The unique ID of this booking, useful if you are making your own customizations to this plugin.
+#_BOOKINGNAME
+    Name of person who made the booking.
+#_BOOKINGEMAIL
+    Email of person who made the booking.
+#_BOOKINGPHONE
+    Phone number of person who made the booking.
+#_BOOKINGSPACES
+    Number of spaces the person has booked.
+#_BOOKINGCOMMENT
+    Any specific comments made by the person who made the booking.
+#_BOOKINGTICKETNAME
+    Name of the ticket booked. Useful in single ticket mode, if multiple tickets are booked a random ticket is used.
+#_BOOKINGTICKETDESCRIPTION
+    Description of the ticket booked. Useful in single ticket mode, if multiple tickets are booked a random ticket is used.
+#_BOOKINGTICKETPRICE
+    Booked ticket price with currency symbol (e.g. $ 10.00). Useful in single ticket mode, if multiple tickets are booked a random ticket is used.
+#_BOOKINGTICKETS
+    A list of booked tickets. You can modify this by using template files and modifying templates/emails/bookingtickets.php
+#_BOOKINGSUMMARY
+    Shows a breakdown of price/quantity booked by ticket, followed by a summary of price totals, taxes, and other discounts applied.
+#_BOOKINGFORMCUSTOM{field_id}
+    (pro only) Shows booking form custom fields. The field_id value must match that of your custom booking form field.
+#_BOOKINGFORMCUSTOMREG{field_id}
+    (pro only) Shows booking form custom fields that are used for guest user registration. The field_id value must match that of your custom booking form field.
+#_BOOKINGFORMCUSTOMFIELDS
+    (pro only) Generates a list of booking form custom fields that are used in the booking.
+#_BOOKINGATTENDEES
+    (pro only) Generates a list of attendee information displaying the filled in form data for each attendee (requires individual attendee forms enabled for the event). This list is split by ticket type, then by individual attendee.
+
+Pricing Information
+
+#_BOOKINGPRICE
+    Displays booking total price (tax inclusion depends on your booking settings).
+#_BOOKINGPRICETAX
+    Displays booking total tax.
+#_BOOKINGPRICEWITHOUTTAX
+    Displays booking total without tax.
+#_BOOKINGPRICEWITHTAX
+    Displays booking total with tax.
+
+Ticket Information
+
+#_BOOKINGTICKETS
+    Shows a breakdown of tickets and pricing, defined in the emails/bookingtickets.php template. (See Using Template Files for more information)
+#_BOOKINGTICKETDESCRIPTION
+    Shows the description of the first ticket booked (useful in single ticket mode/events).
+#_BOOKINGTICKETPRICE
+    Shows the price of the first ticket booked, tax inclusion depending on your booking settings (useful in single ticket mode/events).
+#_BOOKINGTICKETTAX
+    Shows the tax of the first ticket booked (useful in single ticket mode/events).
+#_BOOKINGTICKETPRICEWITHTAX
+    Shows the price including tax of the first ticket booked (useful in single ticket mode/events).
+#_BOOKINGTICKETPRICEWITHOUTTAX
+    Shows the price excluding tax of the first ticket booked (useful in single ticket mode/events).
+
+Links
+
+People are able to manage their bookings. Below are some placeholder which automatically provides correctly formatted urls
+
+#_BOOKINGLISTURL
+    URL to page showing that users booked events.
+
+Gateway-Specific Information
+
+Information pertaining to speicifc gateways. Requires Events Manager Pro
+
+#_BOOKINGTXNID
+    Online Payments Only - Prints the transaction ID of this booking if available.
+
+Coupon Information
+
+When a booking has been made with a coupon, you can display coupon information using these placeholders. If no coupon is used, nothing will be shown. Requires Events Manager Pro
+
+#_BOOKINGCOUPON
+    Displays the coupon code followed by the amount/percentage discounted.
+#_BOOKINGCOUPONCODE
+    Displays the coupon code used.
+#_BOOKINGCOUPONNAME
+    Displays the name given to this coupon.
+#_BOOKINGCOUPONDISCOUNT
+    Displays amount/percentage discounted (e.g. 25% Off).
+#_BOOKINGCOUPONDESCRIPTION
+    Displays the coupon description.
+
