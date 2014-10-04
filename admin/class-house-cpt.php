@@ -14,40 +14,8 @@ class HouseCpt {
 		// display the admin status column
 		add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
 		add_filter('manage_house_posts_custom_column',array($this,'bhaa_manage_house_posts_custom_column'), 10, 3 );
-		//add_filter('single_template', array($this,'bhaa_single_house_template'));
-		
-		//add_filter('template_include', array($this,'bhaa_template_include'));
-		//add_filter('manage_edit-house_sortable_columns',array($this,'bhaa_manage_edit_house_sortable_columns'));
-		//add_action('pre_get_posts',array($this,'bhaa_house_orderby'));
 	}
-		
-	/**
-	 * 
-	 * http://wordpress.stackexchange.com/questions/44239/custom-post-types-and-template-redirect
-	 * http://wordpress.stackexchange.com/questions/43624/how-to-choose-which-template-to-be-used-for-multiple-taxonomy-query
-	 */
-	function bhaa_template_include($template){
-		global $wp_query;
-		if ( $wp_query->query_vars['post_type'] === 'house' ) {
-			if ( have_posts() )	{
-				include( BHAA_PLUGIN_DIR.'/public/views/house-template.php' );
-				die();
-			} 
-			else
-				$wp_query->is_404 = true;
-		}
-		else 
-			return $template;
-	}
-	
-//	function bhaa_taxonomy_template($template) {
-//		return var_dump($template);
-//	}
-	
-//	function bhaa_single_house_template() {
-//		include_once(BHAA_PLUGIN_DIR.'/public/views/house.php');
-//	}
-	
+			
  	function bhaa_manage_house_posts_columns( $columns ) {
  		return array(
  				'cb' => '<input type="checkbox" />',
@@ -270,19 +238,6 @@ class HouseCpt {
 		//To make a column 'un-sortable' remove it from the array
 		unset($columns['date']);
 		return $columns;
-	}
-	
-	function bhaa_house_orderby( $query ) {
-		if( ! is_admin() )
-			return;
-		//var_dump($query);
-		$orderby = $query->get('orderby');
-	
-		if( 'active' == $orderby ) {
-			//error_log($orderby);
-			//$query->set('meta_key','slices');
-			//$query->set('orderby','meta_value_num');
-		}
 	}
 }
 ?>
