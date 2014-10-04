@@ -1,26 +1,3 @@
-[av_tab title='#_EVENTNAME' icon_select='yes' icon='6']
-<p>
-	<strong>Date/Time</strong><br/>
-	Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>
-</p>
-[av_one_full first]
-[av_hr class='default' height='50' shadow='no-shadow' position='center']
-[/av_one_full]
-#_EVENTNOTES
-[av_one_full first]
-[av_hr class='default' height='50' shadow='no-shadow' position='center']
-[/av_one_full]
-[two_third last='no']
-[/two_third]
-[one_third last='yes']
-
-[/one_third]
-[/av_tab]
-
-[av_tab title='Register' icon_select='yes' icon='5']
-
-[/av_tab]
-
 update wp_options
 set option_value="<div eventid='#_EVENTID' postid='#_EVENTPOSTID'>
 {is_future}
@@ -106,6 +83,11 @@ where option_name='dbem_event_list_item_format_header';
 
 update wp_options
 set option_value="
+[av_section color='main_color' custom_bg='#f7f7f7' src='' attachment='' attachment_size='' attach='scroll' position='top left' repeat='no-repeat' video='' video_ratio='16:9' min_height='' padding='default' shadow='no-shadow' id='' custom_class='']
+[av_one_full first]
+[av_image src='#_ATT{bhaa_event_image}' attachment='' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
+[/av_one_full]
+
 [av_one_fifth first]
 
 [av_heading heading='Race' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
@@ -171,6 +153,7 @@ set option_value="
 [av_button label='Enter Race' link='#_EVENTURL' link_target='' color='red' custom_bg='#444444' custom_font='#ffffff' size='small' position='left' icon_select='yes' icon='ue897' font='entypo-fontello' custom_class='']
 
 [/av_one_fifth]
+[/av_section]
 " where option_name='dbem_event_list_item_format';
 
 update wp_options
