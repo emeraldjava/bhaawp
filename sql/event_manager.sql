@@ -19,10 +19,10 @@ CLICK ON ANY HEADING TO OPEN INFO.
 
 [av_toggle_container initial='1' mode='accordion' sort='' custom_class='']
 [av_toggle title='Day | Date | Time | Distance | Surface' tags='']
-<span style='font-size: 14pt;'><strong>When:</strong>#_EVENTDATES at #_EVENTTIMES</span>
-<span style='font-size: 14pt;'><strong>Surface:</strong>#_CATEGORYNAME</span>
-<span style='font-size: 14pt;'><strong>Time:</strong>#_ATT{bhaa_start_type}</span>
-<span style='font-size: 14pt;'><strong>Distance:</strong>#_ATT{bhaa_race_1} #_ATT{bhaa_race_2}</span>
+<span style='font-size: 14pt;'><strong>When:</strong> #_EVENTDATES at #_EVENTTIMES</span>
+<span style='font-size: 14pt;'><strong>Surface:</strong> #_CATEGORYNAME</span>
+<span style='font-size: 14pt;'><strong>Start:</strong> #_ATT{bhaa_start_type}</span>
+<span style='font-size: 14pt;'><strong>Distance:</strong> #_ATT{bhaa_race_1} #_ATT{bhaa_race_2}</span>
 [/av_toggle]
 [av_toggle title='Registration + Race Number Collection' tags='']
 <span style='font-size: 14pt;'><strong>Location:</strong>#_LOCATIONNAME from 9:30am to 10:30am</span>
@@ -108,7 +108,7 @@ Prizes
 
 [av_one_half]
 [av_notification title='' color='custom' border='solid' custom_bg='#6fa640' custom_font='#ffffff' size='large' icon_select='no' icon='ue800' font='entypo-fontello' custom_class='']
-OPTIONAL ONLINE ENTRY FOR CASTLEKNOCK
+ONLINE ENTRY FOR CASTLEKNOCK
 [/av_notification]
 [av_textblock custom_class='']
 [event event=150]#_BOOKINGFORM[/event]
@@ -120,25 +120,17 @@ OPTIONAL ONLINE ENTRY FOR CASTLEKNOCK
 
 [av_one_half first]
 [av_notification title='' color='custom' border='' custom_bg='#37589b' custom_font='#ffffff' size='large' icon_select='no' icon='ue800' font='entypo-fontello' custom_class='']
-Race Course Map (Click to ENLARGE)
+Race Details
 [/av_notification]
 
 [av_textblock custom_class='']
-<a href='http://bhaa.ie/wp-content/uploads/2014/10/Castleknock-College-Teachers-Course-Map.jpg'><img class='alignleft size-full wp-image-3943' src='http://bhaa.ie/wp-content/uploads/2014/10/Castleknock-College-Teachers-Course-Map.jpg' alt='Castleknock-College-Teachers-Course-Map' width='900' height='540' /></a>
+<a href='#_EVENTIMAGE'><img class='alignleft size-full wp-image-3943' src='#_EVENTIMAGE' alt='#_EVENTNAME' width='900' height='540' /></a>
 [/av_textblock]
 
 [av_hr class='default' height='50' shadow='no-shadow' position='center']
 
 [av_textblock custom_class='']
-<h3><span style='font-size: 18pt;'><br class='none' />Race Course Description</span></h3>
-<br class='none' />
-<span style='font-size: 14pt;'>Castleknock College is a Cross Country Race in the beautiful historic school grounds.</span><br class='none' />
-<span style='font-size: 14pt;'>Combined Start (Womens and Mens race starts together).</span><br class='none' />
-<span style='font-size: 14pt;'>Women will complete 2 x 1 Mile laps. Men 4 x 1 Mile laps.</span><br class='none' />
-<span style='font-size: 14pt;'>The start is at the top centre of the map marked 'Start of Combined Race'.</span><br class='none' />
-<span style='font-size: 14pt;'>You run down the map and swing left handed to start an outer lap. </span><br class='none' />
-<span style='font-size: 14pt;'>Women run the outer lap twice when they will turn 90 degrees left at the end of the 2nd to run a right handed U shaped finish. </span><br class='none' />
-<span style='font-size: 14pt;'>Men will run the same lap four times before completing the same finish.</span>
+#_EVENTNOTES
 [/av_textblock]
 
 [/av_one_half]
@@ -171,15 +163,15 @@ Google Map and Directions
 {/is_past}
 </div>" where option_name='dbem_single_event_format';
 
--- <h3>#s</h3>
+-- [av_one_full first]
+-- [av_heading heading='#s' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class='']
+-- [/av_heading]  
+-- [/av_one_full]
 update wp_options
-set option_value="[av_one_full first]
-[av_heading heading='#s' tag='h3' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class='']
-[/av_heading]  
-[/av_one_full]" where option_name='dbem_event_list_groupby_header_format';
+set option_value="<h3>#s</h3>" where option_name='dbem_event_list_groupby_header_format';
 
 update wp_options
-set option_value="[av_one_full first]"
+set option_value=""
 where option_name='dbem_event_list_item_format_header';
 
 update wp_options
