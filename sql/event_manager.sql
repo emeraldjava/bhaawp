@@ -84,6 +84,7 @@ where option_name='dbem_event_list_item_format_header';
 update wp_options
 set option_value="
 [av_section color='main_color' custom_bg='#f7f7f7' src='' attachment='' attachment_size='' attach='scroll' position='top left' repeat='no-repeat' video='' video_ratio='16:9' min_height='' padding='default' shadow='no-shadow' id='' custom_class='']
+
 [av_one_full first]
 [av_image src='#_ATT{bhaa_event_image}' attachment='' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
 [/av_one_full]
@@ -98,55 +99,41 @@ set option_value="
 
 [av_one_fifth]
 [av_heading heading='Race' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
-
 [av_textblock custom_class='']
 <span style='font-size: 14pt;'><strong>#_EVENTNAME</strong></span>
-<span style='font-size: 14pt;'><strong>#_LOCATIONNAME</strong></span>
-<span style='font-size: 14pt;'><strong>#_LOCATIONTOWN</strong></span>
-
+<span style='font-size: 12pt;'><strong>#_LOCATIONNAME</strong></span>
+<span style='font-size: 11pt;'><strong>#_LOCATIONTOWN</strong></span>
 [/av_textblock]
-
-[av_image src='http://bhaa.ie/wp-content/uploads/2013/03/revenue.gif' attachment='2629' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
-
+[av_button label='Race Info Page' link='#_EVENTURL' link_target='_blank' color='theme-color' custom_bg='#444444' custom_font='#ffffff' size='small' position='left' icon_select='yes' icon='ue897' font='entypo-fontello' custom_class='']
 [/av_one_fifth]
 
 [av_one_fifth]
-[av_heading heading='Race Type' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
-
+[av_heading heading='Type/Cost' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 [av_textblock custom_class='']
-<strong><span style='font-size: 14pt;'>#_CATEGORYNAME</span></strong>
-<span style='font-size: 14pt;'>Footware : #_ATT{footware}</span>
+<span style='font-size: 14pt;'>#_CATEGORYNAME</span>
+<span style='font-size: 12pt;'>#_ATT{bhaa_cost_member}</span>
+<span style='font-size: 11pt;'>#_ATT{bhaa_cost_daymember}</span>
 [/av_textblock]
-
-[av_image src='http://bhaa.ie/wp-content/uploads/2012/12/6904536631_48afbc60b2_z.jpg' attachment='2445' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
-
 [/av_one_fifth]
 
 [av_one_fifth]
 [av_heading heading='Distances' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
-
 [av_textblock custom_class='']
-<span style='font-size: 14pt;'><strong>#_EVENTEXCERPT</strong></span>
-<!--<span style='font-size: 14pt;'><strong>Combined Start</strong></span>
-<span style='font-size: 14pt;'><strong>Women:    2 Miles</strong></span>
-<span style='font-size: 14pt;'><strong>Men:           4 Miles</strong></span>
-<span style='font-size: 14pt;'><strong>Footwear: Spikes </strong></span>-->
+<span style='font-size: 14pt;'>#_ATT{bhaa_start_type}</span>
+<span style='font-size: 12pt;'>#_ATT{bhaa_race_1}</span>
+<span style='font-size: 11pt;'>#_ATT{bhaa_race_2}</span>
 [/av_textblock]
-
 [/av_one_fifth]
 
 [av_one_fifth]
 [av_heading heading='Date / Time' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
-
 [av_textblock custom_class='']
-<span style='font-size: 14pt;'><strong>#_EVENTDATES</strong></span>
-
-<span style='font-size: 14pt;'><strong>#_EVENTTIMES</strong></span>
+<span style='font-size: 14pt;'>#_EVENTDATES</span>
+<span style='font-size: 14pt;'>#_EVENTTIMES</span>
 [/av_textblock]
-
-[av_button label='Enter Race' link='#_EVENTURL' link_target='' color='red' custom_bg='#444444' custom_font='#ffffff' size='small' position='left' icon_select='yes' icon='ue897' font='entypo-fontello' custom_class='']
-
+[av_button label='Enter Race Online' link='#_EVENTURL' link_target='' color='theme-color' custom_bg='#444444' custom_font='#ffffff' size='small' position='left' icon_select='yes' icon='ue897' font='entypo-fontello' custom_class='']
 [/av_one_fifth]
+
 [/av_section]
 " where option_name='dbem_event_list_item_format';
 
