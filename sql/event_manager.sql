@@ -177,11 +177,12 @@ Google Map and Directions
 -- [/av_heading]  
 -- [/av_one_full]
 update wp_options
-set option_value="<h3>#s</h3>" where option_name='dbem_event_list_groupby_header_format';
+set option_value="[av_one_full first]<h3>#s</h3>[/av_one_full]" 
+where option_name='dbem_event_list_groupby_header_format';
 
 update wp_options
-set option_value=""
-where option_name='dbem_event_list_item_format_header';
+set option_value="" 
+where option_name='dbem_event_list_item_format_footer';
 
 update wp_options
 set option_value="
@@ -238,7 +239,3 @@ set option_value="
 
 [/av_section]
 " where option_name='dbem_event_list_item_format';
-
-update wp_options
-set option_value="[/av_one_full]" 
-where option_name='dbem_event_list_item_format_footer';
