@@ -103,6 +103,11 @@ Prizes
 [av_toggle title='Water Stations' tags='']
 <span style='font-size: 14pt;'>The BHAA races do not operate water stations as they are not required for our short distance races.Ê</span>
 [/av_toggle]
+[av_toggle title='BHAA Standards' tags='']
+The BHAA stardard times for these races
+#_BHAASTANDARDS
+<a href='http://bhaa.ie/bhaa/standards'>Read more about BHAA standards.</a>
+[/av_toggle]
 [/av_toggle_container]
 [/av_one_half]
 
