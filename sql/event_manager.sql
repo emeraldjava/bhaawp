@@ -5,7 +5,7 @@ set option_value="<div eventid='#_EVENTID' postid='#_EVENTPOSTID'>
 [av_heading tag='h1' padding='10' heading='#_LOCATIONNAME - #_EVENTNAME' color='' style='blockquote modern-quote' custom_font='' size='' subheading_active='' subheading_size='15' custom_class='']
 #_EVENTDATES at #_EVENTTIMES
 [/av_heading]
-[av_image src='#_ATT{bhaa_event_image}' attachment='3918' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
+[av_image src='#_ATT{bhaa_event_image}' attachment='' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
 [/av_one_full]
 
 [av_section color='main_color' custom_bg='' src='' attach='scroll' position='top left' repeat='no-repeat' video='' video_ratio='16:9' video_mobile_disabled='' min_height='' padding='default' shadow='no-shadow' id='']
