@@ -10,14 +10,14 @@
 /**
  * https://kuler.adobe.com/Neutral-Blue-color-theme-22361/
  */
-#divisionA { background-color:#D1DBBA; }
-#divisionB { background-color:#D1DBBD; }
-#divisionC { background-color:#91AA9D; }
-#divisionD { background-color:#3E606F; }
-#divisionE { background-color:#47AA79; }
-#divisionF { background-color:#14636F; }
-#divisionL1 { background-color:#151941; }
-#divisionL2 { background-color:#193441; }
+#divisionA { background-color:#37589b; }
+#divisionB { background-color:#37589b; }
+#divisionC { background-color:#37589b; }
+#divisionD { background-color:#37589b; }
+#divisionE { background-color:#37589b; }
+#divisionF { background-color:#37589b; }
+#divisionL1 { background-color:#37589b; }
+#divisionL2 { background-color:#37589b; }
 
 li.error { display:block;width:100%; color: red; padding-left: .5em; vertical-align: top; }
 
