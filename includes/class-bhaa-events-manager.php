@@ -11,7 +11,7 @@ class Events_Manager {
 	
 	function __construct() {
 		add_filter('em_event_output_placeholder',array($this,'bhaa_em_event_output_placeholder'),2,4);
-		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
+		//add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'),10,2);
 		add_filter('em_bookings_get_tickets',array($this,'bhaa_em_add_default_tickets'),1,2);
