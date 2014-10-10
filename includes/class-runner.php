@@ -86,12 +86,12 @@ class Runner {
 	 * http://codebyjeff.com/blog/2014/01/a-cleaner-wp-user-object
 	 */
 	function __construct($user_id) {
-		//$this->user = get_userdata($user_id);
-		$this->user = (array) get_user_by( 'id', $user_id )->data;
+		$this->user = get_userdata($user_id);
+		//$this->user = (array) get_user_by( 'id', $user_id )->data;
 		
 		//$user_meta = get_user_meta($user_id);//,"",false);
-		$this->meta = array_map( function( $a ){ return $a[0]; }, get_user_meta( $user_id ) );
-		$this->user_data = array_merge($this->user, $this->user_meta);
+		$this->meta = @array_map( function( $a ){ return $a[0]; }, get_user_meta( $user_id ) );
+		$this->user_data = @array_merge($this->user, $this->user_meta);
 		//var_dump($this->user_data);
 	}
 
@@ -166,7 +166,7 @@ class Runner {
 	 * This method updates the runners reneal date and emails them a confirmation.
 	 */
 	function renew() {
-		//error_log('renew() '.$this->user->ID);
+		error_log('renew() '.$this->user->ID);
 		
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_STATUS, 'M');
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
