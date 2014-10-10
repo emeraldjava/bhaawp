@@ -26,8 +26,12 @@ class TeamResult extends BaseModel
 	 */
 	public function addResult($row)
 	{
-		//error_log($row[0].'->'.( 6.5-(((int)$row[0])*.5) ) );
-		//$this->wpdb->show_errors();
+		// calculate the team league points.
+		$leaguepoints = 7 - $row[0];
+		if($leaguepoints<=1){
+			$leaguepoints=1;
+		}
+		
 		$res = $this->wpdb->insert(
 				$this->getName(),
 				array(
@@ -44,12 +48,9 @@ class TeamResult extends BaseModel
 					'racetime'=>$row[16],
 					'company'=>$row[20],
 					'companyname'=>$row[14],
-					'leaguepoints'=> (6.5-( ((int)$row[0]) *.5))
+					'leaguepoints'=> $leaguepoints
 				)
 		);
-		//$this->wpdb->print_error();
-		//$this->wpdb->hide_errors();
-		//error_log($res);
 	}
 	
 	public function deleteResults()
