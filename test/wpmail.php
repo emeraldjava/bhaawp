@@ -22,6 +22,7 @@ $message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
 
 //@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);
 
+$headers = 'From: Your Name <abc@gmail.com>' . "\r\n";
 
 $message  = __('Hi there,') . "\r\n\r\n";
 $message .= sprintf(__("Welcome to %s! Here's how to log in:"), get_option('blogname')) . "\r\n\r\n";
@@ -31,7 +32,7 @@ $message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n\r\n";
 $message .= sprintf(__('If you have any problems, please contact me at %s.'), get_option('admin_email')) . "\r\n\r\n";
 $message .= __('Adios!');
 
-wp_mail('paul.oconnell@aegon.ie', sprintf(__('[%s] Your username and password'), get_option('blogname')), $message);
+wp_mail('paul.oconnell@aegon.ie', sprintf(__('[%s] Your username and password'), get_option('blogname')), $message);//, $headers);
 
 echo "wp-mail done";
 ?>

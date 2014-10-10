@@ -132,3 +132,114 @@ select * from wp_postmeta where meta_key='bhaa_league_type'
 
 
 
+SELECT * FROM wp_bhaa_leaguesummary
+WHERE league=3709 
+AND leagueparticipant=110;
+
+SELECT leaguesummary,REPLACE(leaguesummary,'4,4,4,','4,') FROM wp_bhaa_leaguesummary
+WHERE leaguesummary IS NOT NULL;
+AND league=3709 
+AND leagueparticipant=110;
+
+UPDATE wp_bhaa_leaguesummary
+SET leaguesummary = REPLACE(leaguesummary,'6,6,6,','6,')
+WHERE league=3709;
+UPDATE wp_bhaa_leaguesummary
+SET leaguesummary = REPLACE(leaguesummary,'5,5,5,','5,')
+WHERE league=3709;
+UPDATE wp_bhaa_leaguesummary
+SET leaguesummary = REPLACE(leaguesummary,'5.5,5.5,5.5,','5.5,')
+WHERE league=3709;
+UPDATE wp_bhaa_leaguesummary
+SET leaguesummary = REPLACE(leaguesummary,'4,4,4,','4,')
+WHERE league=3709;
+UPDATE wp_bhaa_leaguesummary
+SET leaguesummary = REPLACE(leaguesummary,'3,3,3,','3,')
+WHERE league=3709;
+UPDATE wp_bhaa_leaguesummary
+SET leaguesummary = REPLACE(leaguesummary,'2,2,2,','2,')
+WHERE league=3709;
+UPDATE wp_bhaa_leaguesummary
+SET leaguesummary = REPLACE(leaguesummary,'1,1,1,','1,')
+WHERE league=3709;
+UPDATE wp_bhaa_leaguesummary
+SET leaguesummary = REPLACE(leaguesummary,'0,0,0,','0,')
+WHERE league=3709;
+
+
+
+SELECT REPLACE('www.mysql.com', 'w', 'Ww');
+
+UPDATE 
+
+select *
+select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
+
+from wp_bhaa_race_detail rd
+left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=110 AND ts.class!='W')
+where rd.league=3709
+and rd.racetype in ('C','S','M')
+and rd.racetype!='TRACK'
+order by rd.eventdate asc
+
+select *
+from wp_bhaa_race_detail rd
+left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=110 AND ts.class!='W')
+where rd.league=3709
+and rd.racetype in ('C','S','M')
+and rd.racetype!='TRACK'
+GROUP BY league,event
+order by rd.eventdate asc
+
+select CONCAT(ts.leaguepoints)
+from wp_bhaa_race_detail rd
+left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=110 AND ts.class!='W')
+where rd.league=3709
+and rd.racetype in ('C','S','M')
+and rd.racetype!='TRACK'
+GROUP BY league,event
+order by rd.eventdate asc
+
+select GROUP_CONCAT(CAST(CONCAT(IFNULL(subselect.x,0)) AS CHAR) SEPARATOR ',') from (
+select ts.leaguepoints as x
+from wp_bhaa_race_detail rd
+left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=110 AND ts.class!='W')
+where rd.league=3709
+and rd.racetype in ('C','S','M')
+and rd.racetype!='TRACK'
+GROUP BY league,event
+order by rd.eventdate asc)
+as subselect;
+
+select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
+SELECT *
+from wp_bhaa_race_detail rd
+left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=110 AND ts.class!='W')
+where rd.league=3709
+and rd.racetype in ('C','S','M')
+and rd.racetype!='TRACK'
+GROUP BY league,event
+order by rd.eventdate asc
+
+SELECT getTeamLeagueSummary(110,3709,'M')
+SELECT getLeagueMTeamSummary(110,3709)
+
+
+
+
+
+SELECT ls.*,wp_posts.post_title as display_name
+
+FROM wp_bhaa_leaguesummary ls
+
+left join wp_posts on (wp_posts.id=ls.leagueparticipant and wp_posts.post_type="house")
+
+WHERE ls.league = 3709
+
+AND ls.leaguedivision = 'M'
+
+order by leaguepoints desc limit 10
+
+
+
+			

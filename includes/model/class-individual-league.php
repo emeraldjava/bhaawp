@@ -14,7 +14,7 @@ class IndividualLeague extends AbstractLeague {
 	}
 	
 	function getLinkType() {
-		return 'runner/?bhaaid';
+		return 'runner/?id';
 	}
 	
 	function getTopParticipantsInDivision($division,$limit) {

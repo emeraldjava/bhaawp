@@ -73,18 +73,33 @@ class Runner {
 	
 	const BHAA_RUNNER_STANDARD = 'bhaa_runner_standard';
 	
-	private $user;
-	private $meta;
+	public $user;
+	public $meta;
+	
+	public $user_data;
+	protected $default = null;
 	
 	/**
 	 * Construct a runner with a specific id
 	 * @param unknown $id
+	 * 
+	 * http://codebyjeff.com/blog/2014/01/a-cleaner-wp-user-object
 	 */
 	function __construct($user_id) {
-		$this->user = get_userdata($user_id);
-	//	$this->meta = get_user_meta($user_id,'',false);
-		$user_meta = get_user_meta($user_id,"",false);
-		$this->meta = array_map( function( $a ){ return $a[0]; }, $user_meta );
+		//$this->user = get_userdata($user_id);
+		$this->user = (array) get_user_by( 'id', $user_id )->data;
+		
+		//$user_meta = get_user_meta($user_id);//,"",false);
+		$this->meta = array_map( function( $a ){ return $a[0]; }, get_user_meta( $user_id ) );
+		$this->user_data = array_merge($this->user, $this->user_meta);
+		//var_dump($this->user_data);
+	}
+
+	function __get($var) {
+		if (!array_key_exists($var, $this->user_data)){
+			return $this->default;
+		}
+	    return $this->user_data[$var];		
 	}
 	
 	function getID() {
@@ -111,7 +126,7 @@ class Runner {
 		return $this->meta[Runner::BHAA_RUNNER_DATEOFBIRTH];
 	}
 	
-	function getStandard() {
+	public function getStandard() {
 		return $this->meta[Runner::BHAA_RUNNER_STANDARD];
 	}
 	
@@ -160,7 +175,7 @@ class Runner {
 			//$runner = new Runner($EM_Booking->get_person()->ID);
 			
 			global $wp_query;
-			$wp_query->set('bhaaid',$this->user->ID);
+			$wp_query->set('id',$this->user->ID);
 			
 			$page = get_page_by_title('email-runner-renewal');
 			$message = apply_filters('the_content', $page->post_content);

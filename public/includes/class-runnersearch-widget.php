@@ -90,7 +90,7 @@ class RunnerSearchWidget extends WP_Widget {
 					$runner_info = get_userdata($runner->ID);
 					$suggestion = array();
 					$suggestion['label'] = $runner_info->display_name;
-					$suggestion['link'] = sprintf('%s/runner/?bhaaid=%d',get_site_url(),$runner_info->ID);
+					$suggestion['link'] = sprintf('%s/runner/?id=%d',get_site_url(),$runner_info->ID);
 					$suggestions[]=$suggestion;
 				}
 			}

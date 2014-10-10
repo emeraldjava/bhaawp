@@ -1,13 +1,14 @@
 <table class="table-1">
 <tr>
 <th>Name</th>
+<th>Gender</th>
 </tr>
 {{#users}}
-{{#data}}
+
 <tr>
-<td>
-<b><a href="/runner/?bhaaid={{ID}}">{{display_name}}</a></b></td>
+<td><b><a href="/runner/?id={{user.data.ID}}">{{user.data.display_name}}</a></b></td>
+<td>{{user.meta.get('bhaa_runner_gender')}}</td>
 </tr>
-{{/data}}
+
 {{/users}}
 </table>

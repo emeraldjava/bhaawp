@@ -43,33 +43,33 @@ class Bhaa_Shortcode{
 	 * @param unknown $args
 	 */
 	function bhaa_runner($atts) {
-		$bhaaid = get_query_var('bhaaid');
+		$bhaaid = get_query_var('id');
 		$runner = new Runner($bhaaid);
 		return $runner->getFullName();
 	}
 	
 	function bhaa_runner_name($atts) {
-		$runner = new Runner(get_query_var('bhaaid'));
+		$runner = new Runner(get_query_var('id'));
 		return $runner->getFullName();
 	}
 	
 	function bhaa_runner_standard($atts) {
-		$runner = new Runner(get_query_var('bhaaid'));
+		$runner = new Runner(get_query_var('id'));
 		return $runner->getStandard();
 	}
 	
 	function bhaa_runner_status($atts) {
-		$runner = new Runner(get_query_var('bhaaid'));
+		$runner = new Runner(get_query_var('id'));
 		return $runner->getStatus();
 	}
 	
 	function bhaa_runner_company_name($atts) {
-		$runner = new Runner(get_query_var('bhaaid'));
+		$runner = new Runner(get_query_var('id'));
 		return $runner->getCompanyName();
 	}
 	
 	function bhaa_runner_results($args) {
-		return RaceResult_List_Table::get_instance()->renderRunnerTable(get_query_var('bhaaid'));
+		return RaceResult_List_Table::get_instance()->renderRunnerTable(get_query_var('id'));
 	}
 	
 	/**
@@ -105,7 +105,6 @@ class Bhaa_Shortcode{
 		$leagueid = get_the_ID();
 		//$post = get_post( $id );
 		
-		//$bhaaid = get_query_var('bhaaid');
 		$league = LeagueFactory::getLeague($leagueid);
 		return $league->getTopParticipantsInDivision($a['division'],$a['top']);
 		//return $a['division'].'-'.$a['top'].'-'.$id.' '.$league->getName();

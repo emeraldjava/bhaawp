@@ -105,7 +105,7 @@ class RaceResult_List_Table extends WP_List_Table
  	}
  	
  	function column_position($item) {
- 		return sprintf('<a target="_blank" href="/runner-editresult?bhaa_raceresult_id=%d&bhaaid=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d&bhaa_time=%s">%d</a>',
+ 		return sprintf('<a target="_blank" href="/runner-editresult?bhaa_raceresult_id=%d&id=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d&bhaa_time=%s">%d</a>',
  			$item['id'],$item['runner'],$item['standard'],$item['poststandard'],$item['race'],$item['racetime'],$item['position']);
  	}
  	
@@ -120,7 +120,7 @@ class RaceResult_List_Table extends WP_List_Table
  		$page = get_page_by_title('runner');
  		$permalink = get_permalink($page);
  		$permalink = add_query_arg(array('user_nicename'=>$item['user_nicename']),$permalink);
- 		$permalink = add_query_arg(array('bhaaid'=>$item['runner']),$permalink);
+ 		$permalink = add_query_arg(array('id'=>$item['runner']),$permalink);
  		return sprintf('<a r="%d" href="%s"><b>%s</b></a>',
 			$item['runner'],
 			$permalink,

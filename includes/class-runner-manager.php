@@ -28,14 +28,13 @@ class Runner_Manager {
 	function generateRenewalForm(){
 		return '<form action="'.admin_url( 'admin.php' ).'" method="POST">
 		    <input type="hidden" name="action" value="bhaa_runner_renew" />
-			<input type="hidden" name="bhaaid" value="'.get_query_var('bhaaid').'"/>
+			<input type="hidden" name="id" value="'.get_query_var('id').'"/>
 			<input type="submit" value="Renew Runner"/>
 			</form>';
 	}
 	
 	function bhaa_runner_renew(){
-		//error_log('Runner_Manager bhaa_runner_renew:'.$_POST['bhaaid']);
-		$runner = new Runner($_POST['bhaaid']);
+		$runner = new Runner($_POST['id']);
 		$runner->renew();
 	}
 	
