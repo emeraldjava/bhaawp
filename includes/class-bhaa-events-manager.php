@@ -234,7 +234,7 @@ class Events_Manager {
 				global $wp_query;
 				$wp_query->set('bhaaid',$runner->getID());
 				
-				$page = get_page_by_title('runner-booking-email');
+				$page = get_page_by_title('email-runner-booking');
 				$email = apply_filters('the_content', $page->post_content);
 				//echo $content;
 				
@@ -250,10 +250,10 @@ class Events_Manager {
 				));
 				*/
 				//error_log("sending email to ".get_query_var('bhaaid'));
-				error_log("email ".$email);
+				//error_log("email ".$email);
 				//$email = Bhaa_Mustache::get_instance()->inlineCssStyles($email);
 				$message = $EM_Booking->output($email);
-				error_log("message ".$message);
+				//error_log("message ".$message);
 				/*$html = '<html>
 				<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
