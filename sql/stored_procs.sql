@@ -472,13 +472,16 @@ CREATE FUNCTION `getLeagueMTeamSummary`(_team INT,_leagueId INT) RETURNS varchar
 BEGIN
 DECLARE _result varchar(200);
 SET _result = (
-	select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
-	from wp_bhaa_race_detail rd
-	left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=_team AND ts.class!='W')
-	where rd.league=_leagueId
-	and rd.racetype in ('C','S','M')
-	and rd.racetype!='TRACK'
-	order by rd.eventdate asc
+	select GROUP_CONCAT(CAST(CONCAT(IFNULL(subselect.leaguepoints,0)) AS CHAR) SEPARATOR ',') from (
+		select ts.leaguepoints as leaguepoints
+		from wp_bhaa_race_detail rd
+		left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=_team AND ts.class!='W')
+		where rd.league=_leagueId
+		and rd.racetype in ('C','S','M')
+		and rd.racetype!='TRACK'
+		GROUP BY league,event
+		order by rd.eventdate asc
+	) as subselect
 );
 RETURN _result;
 END $$
@@ -489,13 +492,16 @@ CREATE FUNCTION `getLeagueWTeamSummary`(_team INT,_leagueId INT) RETURNS varchar
 BEGIN
 DECLARE _result varchar(200);
 SET _result = (
-	select GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY rd.eventdate SEPARATOR ',')
-	from wp_bhaa_race_detail rd
-	left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=_team AND ts.class='W')
-	where rd.league=_leagueId
-	and rd.racetype in ('C','S','W')
-	and rd.racetype!='TRACK'
-	order by rd.eventdate asc
+	select GROUP_CONCAT(CAST(CONCAT(IFNULL(subselect.leaguepoints,0)) AS CHAR) SEPARATOR ',') from (
+		select ts.leaguepoints as leaguepoints
+		from wp_bhaa_race_detail rd
+		left join wp_bhaa_teamsummary ts on (rd.race=ts.race AND ts.team=_team AND ts.class='W')
+		where rd.league=_leagueId
+		and rd.racetype in ('C','S','W')
+		and rd.racetype!='TRACK'
+		GROUP BY league,event
+		order by rd.eventdate asc
+	) as subselect
 );
 RETURN _result;
 END $$
