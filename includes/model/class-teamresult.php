@@ -24,8 +24,7 @@ class TeamResult extends BaseModel
 	 * Pos,RaceName,EventDescr,TeamType,Team Pos,TeamTypeId,TeamId,TempTeamId,Team Time,Team Name,Team Std,RaceNo,Name,Gender,Company,Overall Pos,Finish Time,Std,Class,Team No,Company No,RaceId,EventId,MemberNo
 	 * 1,BHAA Dublin City Council 2013,Ladies 2 Mile,Womens,1,1,4,1,48,Accountants Ladies A,45,1789,Ann Marie Coughlan,Female,McInerney Saunders,11,00:13:32,15,W,21,549,48,1,7048
 	 */
-	public function addResult($row)
-	{
+	public function addResult($row) {
 		// calculate the team league points.
 		$leaguepoints = 7 - $row[0];
 		if($leaguepoints<=1){
@@ -33,28 +32,26 @@ class TeamResult extends BaseModel
 		}
 		
 		$res = $this->wpdb->insert(
-				$this->getName(),
-				array(
-					'race'=>$this->race,
-					'class'=>$row[18],
-					'position'=>$row[0],
-					'team'=>$row[19],
-					'teamname'=>$row[9],
-					'totalpos'=>$row[8],
-					'totalstd'=>$row[10],
-					'runner'=>$row[23],
-					'pos'=>$row[15],
-					'std'=>$row[17],
-					'racetime'=>$row[16],
-					'company'=>$row[20],
-					'companyname'=>$row[14],
-					'leaguepoints'=> $leaguepoints
-				)
+			$this->getName(),
+			array(
+				'race'=>$this->race,
+				'class'=>$row[18],
+				'position'=>$row[0],
+				'team'=>$row[19],
+				'teamname'=>$row[9],
+				'totalpos'=>$row[8],
+				'totalstd'=>$row[10],
+				'runner'=>$row[23],
+				'pos'=>$row[15],
+				'std'=>$row[17],
+				'racetime'=>$row[16],
+				'company'=>$row[20],
+				'companyname'=>$row[14],
+				'leaguepoints'=> $leaguepoints)
 		);
 	}
 	
-	public function deleteResults()
-	{
+	public function deleteResults() {
 		return $this->wpdb->delete(
 			$this->getName(),
 			array('race' => $this->race
