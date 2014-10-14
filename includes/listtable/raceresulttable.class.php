@@ -105,7 +105,7 @@ class RaceResult_List_Table extends WP_List_Table
  	}
  	
  	function column_position($item) {
- 		if ( ! is_admin() ) {
+ 		if ( ! current_user_can('edit_users')) {
  			return sprintf('%d',$item['position']);
  		} else {
 	 		return sprintf('<a target="_blank" href="/runner-editresult?bhaa_raceresult_id=%d&id=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d&bhaa_time=%s">%d</a>',
