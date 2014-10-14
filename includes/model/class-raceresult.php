@@ -142,6 +142,7 @@ class RaceResult extends BaseModel implements Table
 				array('race' => $this->post_id,
 					'runner' => $runner,
 					'leaguepoints' => 10,
+					'category' => 'S',
 					'class' => RaceResult::RACE_ORG));
 	}
 
