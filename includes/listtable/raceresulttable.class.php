@@ -76,9 +76,11 @@ class RaceResult_List_Table extends WP_List_Table
 			case 'posinstd':
 			case 'pace':
 			case 'event':
+			case 'eventdate':
+			case 'distance':
 				return $item[$column_name];
 			default:
-				return print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
+				return "";//print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
 		}
 	}
 	
@@ -187,11 +189,12 @@ class RaceResult_List_Table extends WP_List_Table
 		return ob_get_clean();
 	}
 	
-	function getRunnerColumns(){
+	function getRunnerColumns() {
 		$columns = array(
 			'event'     => 'Event',
+			'eventdate' => 'Date',
+			'distance'	=> 'Distance',
 			'position'  => 'Pos',
-			//'racenumber' => 'Race No',
 			'racetime'  => 'Time',		
 			'standard'  => 'Std'
 		);
@@ -204,11 +207,19 @@ class RaceResult_List_Table extends WP_List_Table
 		$this->_column_headers = array($columns, $hidden, $this->get_sortable_columns());
 	
 		global $wpdb;
-		$query = 'SELECT wp_p2p.p2p_from as event,wp_bhaa_raceresult.* FROM wp_bhaa_raceresult '.
-			'join wp_p2p on (wp_p2p.p2p_to=wp_bhaa_raceresult.race and wp_p2p.p2p_type="event_to_race")
-			inner join wp_posts r on (r.id=wp_bhaa_raceresult.race)
-			inner join wp_postmeta r_type on (r_type.post_id=r.id and r_type.meta_key="bhaa_race_type")'.
-			'where runner='.$runner.' and r_type.meta_value!="S" order by race desc';
+		$query = 'select 
+			d.event,
+			d.eventname,
+			d.eventdate,
+			d.race,
+			concat(d.distance,d.unit) as distance,
+			rr.racetime,
+			rr.position,
+			rr.standard,
+			rr.poststandard
+			from wp_bhaa_race_detail d
+			join wp_bhaa_raceresult rr on (rr.race=d.race and d.leaguetype="I")
+			where rr.runner='.$runner.' order by d.eventdate desc';
 		$this->items = $wpdb->get_results($query,ARRAY_A);
 	}
 	
