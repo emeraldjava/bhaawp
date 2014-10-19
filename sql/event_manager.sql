@@ -194,6 +194,8 @@ update wp_options
 set option_value="
 [av_section color='main_color' custom_bg='#f7f7f7' src='' attachment='' attachment_size='' attach='scroll' position='top left' repeat='no-repeat' video='' video_ratio='16:9' min_height='' padding='default' shadow='no-shadow' id='' custom_class='']
 
+[av_notification title='' color='custom' border='solid' custom_bg='#dd3333' custom_font='#ffffff' size='normal']#_LOCATIONNAME #_EVENTNAME[/av_notification]
+
 [av_one_full first]
 [av_image src='#_ATT{bhaa_event_image}' attachment='' attachment_size='full' align='center' animation='no-animation' link='' target='' styling='' caption='' font_size='' appearance='' custom_class=''][/av_image]
 [/av_one_full]
