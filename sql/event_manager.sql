@@ -19,25 +19,25 @@ CLICK ON ANY HEADING TO OPEN INFO.
 
 [av_toggle_container initial='1' mode='accordion' sort='' custom_class='']
 [av_toggle title='Day | Date | Time | Distance | Surface' tags='']
-<span style='font-size: 14pt;'><strong>When:</strong> #_EVENTDATES at #_EVENTTIMES</span>
-<span style='font-size: 14pt;'><strong>Surface:</strong> #_CATEGORYNAME</span>
-<span style='font-size: 14pt;'><strong>Start:</strong> #_ATT{bhaa_start_type}</span>
+<span style='font-size: 14pt;'><strong>When:</strong> #_EVENTDATES at #_EVENTTIMES</span><br/>
+<span style='font-size: 14pt;'><strong>Surface:</strong> #_CATEGORYNAME</span><br/>
+<span style='font-size: 14pt;'><strong>Start:</strong> #_ATT{bhaa_start_type}</span><br/>
 <span style='font-size: 14pt;'><strong>Distance:</strong> #_ATT{bhaa_race_1} #_ATT{bhaa_race_2}</span>
 [/av_toggle]
 [av_toggle title='Registration + Race Number Collection' tags='']
-<span style='font-size: 14pt;'><strong>Location:</strong>#_LOCATIONNAME from 9:30am to 10:30am</span>
+<span style='font-size: 14pt;'><strong>Location:</strong>#_LOCATIONNAME from 9:30am to 10:30am</span><br/>
 <span style='font-size: 14pt;'>Race Registration and Payment online or on the day.</span>
 [/av_toggle]
 [av_toggle title='Chip Timing' tags='']
-<span style='font-size: 14pt;'>Yes we have Chip Timing at all our races.</span>
-<span style='font-size: 14pt;'>All Race Numbers are embedded with an electronic chip that records your race time.Ê</span>
-<img class='alignleft size-full wp-image-3937' src='http://bhaa.ie/wp-content/uploads/2014/10/Finish-Line-BHAA-Race.jpg' alt='Finish-Line-BHAA-Race' width='500' height='333' />
-<p class='none'><span style='font-size: 14pt;'><br class='none' />Your time starts when the race starts.</span></p>
-<p class='none'><span style='font-size: 14pt;'>Your time stops when you pass over the Finish line timing mat. Ê</span></p>
-<p class='none'><span style='font-size: 14pt;'>Your time will be posted on our website Results page after the race.Ê</span></p>
+<span style='font-size: 14pt;'>Yes we have Chip Timing at all our races.</span><br/>
+<span style='font-size: 14pt;'>All Race Numbers are embedded with an electronic chip that records your race time.ï¿½</span><br/>
+<img class='alignleft size-full wp-image-3937' src='http://bhaa.ie/wp-content/uploads/2014/10/Finish-Line-BHAA-Race.jpg' alt='Finish-Line-BHAA-Race' width='500' height='333' /><br/>
+<p class='none'><span style='font-size: 14pt;'><br class='none' />Your time starts when the race starts.</span></p><br/>
+<p class='none'><span style='font-size: 14pt;'>Your time stops when you pass over the Finish line timing mat. ï¿½</span></p><br/><br/>
+<p class='none'><span style='font-size: 14pt;'>Your time will be posted on our website Results page after the race.ï¿½</span></p>
 [/av_toggle]
 [av_toggle title='Post Race Reception' tags='']
-<span style='font-size: 14pt;'>All BHAA races finish with a post race Reception and Prize giving on site with complimentary Tea, Coffee, Water and snacks such as our famous Brack!Ê</span>
+<span style='font-size: 14pt;'>All BHAA races finish with a post race Reception and Prize giving on site with complimentary Tea, Coffee, Water and snacks such as our famous Brack!ï¿½</span>
 <img class='alignleft size-full wp-image-3940' src='http://bhaa.ie/wp-content/uploads/2014/10/Refreshments.jpg' alt='BHAA-Post-Race-Refreshments' width='500' height='333' />
 [/av_toggle]
 [av_toggle title='Prizes + Prize Giving' tags='']
@@ -58,19 +58,19 @@ There are also 15 Prizes at each event.
 Prizes
 [/av_toggle]
 [av_toggle title='Who Can Enter The Race?' tags='']
-<span style='font-size: 14pt;'>Male or Female Adults whoÊare 18 years of age or over.</span>
+<span style='font-size: 14pt;'>Male or Female Adults whoï¿½are 18 years of age or over.</span>
 
-<span style='font-size: 14pt;'><strong><span style='color: #ff0000;'><br class='none' />YOU DOÊNOT</span></strong>Êhave to be a BHAA Member.</span>
+<span style='font-size: 14pt;'><strong><span style='color: #ff0000;'><br class='none' />YOU DOï¿½NOT</span></strong>ï¿½have to be a BHAA Member.</span>
 
-<span style='font-size: 14pt;'><strong><span style='color: #ff0000;'>YOU DOÊNOT</span></strong>Êhave to be an employee of any Business.</span>
+<span style='font-size: 14pt;'><strong><span style='color: #ff0000;'>YOU DOï¿½NOT</span></strong>ï¿½have to be an employee of any Business.</span>
 
-<span style='font-size: 14pt;'><strong><span style='color: #ff0000;'>YOU DOÊNOT</span></strong>Êhave to be aÊmember of any running club.Ê</span>
+<span style='font-size: 14pt;'><strong><span style='color: #ff0000;'>YOU DOï¿½NOT</span></strong>ï¿½have to be aï¿½member of any running club.ï¿½</span>
 
 <br class='none' /><span style='font-size: 14pt;'>It's open to Everyone and all are very Welcome.</span>
 
-<span style='font-size: 14pt;'>BHAA Members pay Û15 per annum and pay Û10 per race they run in.</span>
+<span style='font-size: 14pt;'>BHAA Members pay ï¿½15 per annum and pay ï¿½10 per race they run in.</span>
 
-<span style='font-size: 14pt;'>Non BHAA Members pay Û15 per race they run in.</span>
+<span style='font-size: 14pt;'>Non BHAA Members pay ï¿½15 per race they run in.</span>
 
 <span style='font-size: 14pt;'>If you wish to join the BHAA for a year just click the button.</span>
 
@@ -79,9 +79,9 @@ Prizes
 [av_toggle title='Race Entry Fee' tags='']
 <span style='font-size: 14pt;'>#_ATT{bhaa_cost_member}</span>
 <span style='font-size: 14pt;'>#_ATT{bhaa_cost_daymember}</span>
-<span style='font-size: 14pt;'>You can enter online on this page to the right or enter on the day before the race and pay by Cash.Ê</span>
-<span style='font-size: 14pt;'>This gets you Race Entry with Chip Timing on Race No. and FREE Post Race Refreshments!Ê</span>
-<span style='font-size: 14pt;'>BHAA Membership costs Û15 for the year and gets you a Û5 (33%) discount on all 25 races for one year.Ê</span>
+<span style='font-size: 14pt;'>You can enter online on this page to the right or enter on the day before the race and pay by Cash.ï¿½</span>
+<span style='font-size: 14pt;'>This gets you Race Entry with Chip Timing on Race No. and FREE Post Race Refreshments!ï¿½</span>
+<span style='font-size: 14pt;'>BHAA Membership costs ï¿½15 for the year and gets you a ï¿½5 (33%) discount on all 25 races for one year.ï¿½</span>
 <span style='font-size: 14pt;'>To become a BHAA member just click this button;</span>
 <span style='font-size: 14pt;'>[av_button label='Join Now' link='page,2151' link_target='' color='red' custom_bg='#444444' custom_font='#ffffff' size='medium' position='left' icon_select='yes' icon='ue897' font='entypo-fontello' custom_class='']</span>
 [/av_toggle]
@@ -93,15 +93,15 @@ Prizes
 [/av_toggle]
 [av_toggle title='Facilities' tags='']
 <span style='font-size: 14pt;'>There are Changing, Shower and Toilet facilites at all BHAA events.</span>
-<span style='font-size: 14pt;'>The BHAA accept no responsibility for belongings or possessions left unattended on site during the race.Ê</span>
+<span style='font-size: 14pt;'>The BHAA accept no responsibility for belongings or possessions left unattended on site during the race.ï¿½</span>
 [/av_toggle]
 [av_toggle title='Bag Drop?' tags='']
 <span style='font-size: 14pt;'>The BHAA does not offer an official Bag Drop.</span>
 <span style='font-size: 14pt;'>Participants often leave a bag at the registration hall which is staffed for the entire race proceedings.</span>
-<span style='font-size: 14pt;'>The BHAA accept no responsibility for belongings or possessions left unattended on site during the race.Ê</span>
+<span style='font-size: 14pt;'>The BHAA accept no responsibility for belongings or possessions left unattended on site during the race.ï¿½</span>
 [/av_toggle]
 [av_toggle title='Water Stations' tags='']
-<span style='font-size: 14pt;'>The BHAA races do not operate water stations as they are not required for our short distance races.Ê</span>
+<span style='font-size: 14pt;'>The BHAA races do not operate water stations as they are not required for our short distance races.ï¿½</span>
 [/av_toggle]
 [av_toggle title='BHAA Standards' tags='']
 The BHAA stardard times for these races
@@ -135,7 +135,7 @@ Race Details
 [av_hr class='default' height='50' shadow='no-shadow' position='center']
 
 [av_textblock custom_class='']
-#_EVENTNOTES
+<span style='font-size: 14pt;'>#_EVENTNOTES</span>
 [/av_textblock]
 
 [/av_one_half]
@@ -146,7 +146,8 @@ Google Map and Directions
 [/av_notification]
 
 [av_textblock custom_class='']
-#_LOCATIONMAP
+<span style='font-size: 14pt;'>#_LOCATIONMAP</span>
+
 [/av_textblock]
 
 [av_textblock custom_class='']
@@ -182,7 +183,7 @@ Google Map and Directions
 -- [/av_heading]  
 -- [/av_one_full]
 update wp_options
-set option_value="[av_one_full first]<h3>#s</h3>[/av_one_full]" 
+set option_value="" 
 where option_name='dbem_event_list_groupby_header_format';
 
 update wp_options
@@ -208,9 +209,9 @@ set option_value="
 [av_one_fifth]
 [av_heading heading='Race' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 [av_textblock custom_class='']
-<span style='font-size: 14pt;'><strong>#_EVENTNAME</strong></span>
-<span style='font-size: 12pt;'><strong>#_LOCATIONNAME</strong></span>
-<span style='font-size: 11pt;'><strong>#_LOCATIONTOWN</strong></span>
+<span style='font-size: 14pt;'><strong>#_EVENTNAME</strong></span><br/>
+<span style='font-size: 14pt;'><strong>#_LOCATIONNAME</strong></span><br/>
+<span style='font-size: 14pt;'><strong>#_LOCATIONTOWN</strong></span>
 [/av_textblock]
 [av_button label='Race Info Page' link='#_EVENTURL' link_target='_blank' color='theme-color' custom_bg='#444444' custom_font='#ffffff' size='small' position='left' icon_select='yes' icon='ue897' font='entypo-fontello' custom_class='']
 [/av_one_fifth]
@@ -218,25 +219,25 @@ set option_value="
 [av_one_fifth]
 [av_heading heading='Type/Cost' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 [av_textblock custom_class='']
-<span style='font-size: 14pt;'>#_CATEGORYNAME</span>
-<span style='font-size: 12pt;'>#_ATT{bhaa_cost_member}</span>
-<span style='font-size: 11pt;'>#_ATT{bhaa_cost_daymember}</span>
+<span style='font-size: 14pt;'>#_CATEGORYNAME</span><br/>
+<span style='font-size: 14pt;'>#_ATT{bhaa_cost_member}</span><br/>
+<span style='font-size: 14pt;'>#_ATT{bhaa_cost_daymember}</span>
 [/av_textblock]
 [/av_one_fifth]
 
 [av_one_fifth]
 [av_heading heading='Distances' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 [av_textblock custom_class='']
-<span style='font-size: 14pt;'>#_ATT{bhaa_start_type}</span>
-<span style='font-size: 12pt;'>#_ATT{bhaa_race_1}</span>
-<span style='font-size: 11pt;'>#_ATT{bhaa_race_2}</span>
+<span style='font-size: 14pt;'>#_ATT{bhaa_start_type}</span><br/>
+<span style='font-size: 14pt;'>#_ATT{bhaa_race_1}</span><br/>
+<span style='font-size: 14pt;'>#_ATT{bhaa_race_2}</span>
 [/av_textblock]
 [/av_one_fifth]
 
 [av_one_fifth]
 [av_heading heading='Date / Time' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
 [av_textblock custom_class='']
-<span style='font-size: 14pt;'>#_EVENTDATES</span>
+<span style='font-size: 14pt;'>#_EVENTDATES</span><br/>
 <span style='font-size: 14pt;'>#_EVENTTIMES</span>
 [/av_textblock]
 [av_button label='Enter Race Online' link='#_EVENTURL' link_target='' color='theme-color' custom_bg='#444444' custom_font='#ffffff' size='small' position='left' icon_select='yes' icon='ue897' font='entypo-fontello' custom_class='']
