@@ -179,6 +179,10 @@ Google Map and Directions
 [av_tab title='Team Results' icon_select='yes' icon='ue84c' font='entypo-fontello']
 #_BHAATEAMRESULTS
 [/av_tab]
+[av_tab title='Comments' icon_select='no']
+[av_notification title='' color='custom' border='solid' custom_bg='#012C52' custom_font='#ffffff' size='normal']Comments[/av_notification]
+[av_comments_list]
+[/av_tab]
 [/av_tab_container]
 [/av_one_full]
 {/is_past}
