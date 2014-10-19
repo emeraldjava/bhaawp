@@ -201,7 +201,7 @@ set option_value="
 [/av_one_full]
 
 [av_one_fifth first]
-[av_heading heading='Organiser' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_notification title='' color='custom' border='solid' custom_bg='#012C52' custom_font='#ffffff' size='normal']Organiser[/av_notification]
 [av_textblock custom_class='']
 #_ATT{bhaa_organiser}
 [/av_textblock]
@@ -209,7 +209,7 @@ set option_value="
 [/av_one_fifth]
 
 [av_one_fifth]
-[av_heading heading='Race' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_notification title='' color='custom' border='solid' custom_bg='#012C52' custom_font='#ffffff' size='normal']Race[/av_notification]
 [av_textblock custom_class='']
 <span style='font-size: 14pt;'><strong>#_EVENTNAME</strong></span><br/>
 <span style='font-size: 14pt;'><strong>#_LOCATIONNAME</strong></span><br/>
@@ -219,7 +219,7 @@ set option_value="
 [/av_one_fifth]
 
 [av_one_fifth]
-[av_heading heading='Type/Cost' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_notification title='' color='custom' border='solid' custom_bg='#012C52' custom_font='#ffffff' size='normal']Type|Cost[/av_notification]
 [av_textblock custom_class='']
 <span style='font-size: 14pt;'>#_CATEGORYNAME</span><br/>
 <span style='font-size: 14pt;'>#_ATT{bhaa_cost_member}</span><br/>
@@ -228,7 +228,7 @@ set option_value="
 [/av_one_fifth]
 
 [av_one_fifth]
-[av_heading heading='Distances' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_notification title='' color='custom' border='solid' custom_bg='#012C52' custom_font='#ffffff' size='normal']Distances[/av_notification]
 [av_textblock custom_class='']
 <span style='font-size: 14pt;'>#_ATT{bhaa_start_type}</span><br/>
 <span style='font-size: 14pt;'>#_ATT{bhaa_race_1}</span><br/>
@@ -237,7 +237,7 @@ set option_value="
 [/av_one_fifth]
 
 [av_one_fifth]
-[av_heading heading='Date / Time' tag='h3' padding='10' color='' custom_font='' style='' size='' subheading_active='' subheading_size='15' padding='10' custom_class=''][/av_heading]
+[av_notification title='' color='custom' border='solid' custom_bg='#012C52' custom_font='#ffffff' size='normal']Day | Time[/av_notification]
 [av_textblock custom_class='']
 <span style='font-size: 14pt;'>#_EVENTDATES</span><br/>
 <span style='font-size: 14pt;'>#_EVENTTIMES</span>
