@@ -156,6 +156,12 @@ Google Map and Directions
 #_LOCATIONNOTES
 [/av_textblock]
 [/av_one_half]
+
+[av_one_full first]
+[av_notification title='' color='custom' border='solid' custom_bg='#012C52' custom_font='#ffffff' size='normal']Comments[/av_notification]
+[av_comments_list]
+[/av_one_full]
+
 [/av_section]
 {/is_future}
 
