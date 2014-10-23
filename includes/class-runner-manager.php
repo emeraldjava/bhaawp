@@ -19,13 +19,14 @@ class Runner_Manager {
 	
 	private function __construct() {	
 		add_action('admin_action_bhaa_runner_renew',array($this,'bhaa_runner_renew'));
+		add_action('admin_action_bhaa_runner_rename',array($this,'bhaa_runner_rename'));
 	}
 	
 	/**
 	 * Generate a renewal button for admin users via a shortcode
 	 * @return string
 	 */
-	function generateRenewalForm() {
+	function renewal_button() {
 		if(current_user_can('edit_users')) {
 			return '<form action="'.admin_url( 'admin.php' ).'" method="POST">
 			    <input type="hidden" name="action" value="bhaa_runner_renew" />
@@ -40,6 +41,37 @@ class Runner_Manager {
 	function bhaa_runner_renew() {
 		$runner = new Runner($_POST['id']);
 		$runner->renew();
+	}
+	
+	/**
+	 * Return the runners name or edit form for the admin user
+	 * @return string
+	 */
+	function bhaa_runner_name() {
+		$runner = new Runner(get_query_var('id'));
+		if(current_user_can('edit_users')) {
+			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">
+			    <input type="hidden" name="action" value="bhaa_runner_rename" />
+				<input type="text" name="first_name" value="'.$runner->getFirstName().'"/>
+				<input type="text" name="last_name" value="'.$runner->getLastName().'"/>
+				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
+				<input type="submit" value="Rename"/>
+				</form></div>';
+		}
+		else {
+			return $runner->getFullName();
+		}
+	}
+	
+	function bhaa_runner_rename() {
+		$first_name = trim($_POST['first_name']);
+		wp_update_user( array ( 'ID' => $_POST['id'], 'first_name' => $first_name ) ) ;
+		$last_name = trim($_POST['last_name']);
+		wp_update_user( array ( 'ID' => $_POST['id'], 'last_name' => $last_name ) ) ;
+		wp_update_user( array ('ID' => $_POST['id'], 'display_name' => $first_name." ".$last_name));
+		wp_update_user( array ('ID' => $_POST['id'], 'user_nicename' =>  $first_name."-".$last_name));
+		wp_redirect(wp_get_referer());
+		exit();
 	}
 	
 	/**

@@ -21,30 +21,6 @@ if(isset($user->ID)){
 	echo 'current_user_can(manage_options) '.current_user_can('manage_options');
 	echo 'current_user_can(edit_users)' .current_user_can('edit_users');
 	echo '<ht/>'; */
-	if(isset($_POST['bhaa_first_name_form'])) {
-		if(trim($_POST['bhaa_first_name']) === '') {
-			$runnerError = 'Please enter a runner firstname.';
-			$hasError = true;
-		} else {
-			$bhaa_first_name = trim($_POST['bhaa_first_name']);
-			wp_update_user( array ( 'ID' => $user->ID, 'first_name' => $bhaa_first_name ) ) ;
-			$outcome = trim(get_user_meta($user->ID, 'first_name', true) . " " . get_user_meta($user->ID, 'last_name', true));
-			wp_update_user( array ('ID' => $user->ID, 'display_name' => $outcome));
-			wp_redirect(home_url().'/runner/?id='.$user->ID);
-		}
-	}
-	if(isset($_POST['bhaa_last_name_form'])) {
-		if(trim($_POST['bhaa_last_name']) === '') {
-			$runnerError = 'Please enter a runner surname.';
-			$hasError = true;
-		} else {
-			$bhaa_last_name = trim($_POST['bhaa_last_name']);
-			wp_update_user( array ( 'ID' => $user->ID, 'last_name' => $bhaa_last_name ) ) ;
-			$outcome = trim(get_user_meta($user->ID, 'first_name', true) . " " . get_user_meta($user->ID, 'last_name', true));
-			wp_update_user( array ('ID' => $user->ID, 'display_name' => $outcome));
-			wp_redirect(home_url().'/runner/?id='.$user->ID);
-		}
-	}
 	if(isset($_POST['std-form'])) {
 		if(trim($_POST['std']) === '') {
 			$runnerError = 'Please enter a runner ID.';

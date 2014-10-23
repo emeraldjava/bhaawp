@@ -217,14 +217,10 @@ class Runner {
 			$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
 			//$headers = 'From: Your Name <abc@gmail.com>' . "\r\n";
 			
-			$subject = 'BHAA Renewal 2014 : '.$this->user->user_firstname.' '.$this->user->user_lastname;
+			$subject = 'BHAA Renewal 2015 : '.$this->user->user_firstname.' '.$this->user->user_lastname;
 			//error_log($subject);
 			
- 			$res = wp_mail(
-				$this->user->user_email,
-				$subject,
-				$message,
-				$headers);
+ 			$res = wp_mail($this->user->user_email,$subject,$message,$headers);
  			error_log("email sent");
 		}
 		wp_redirect(wp_get_referer());

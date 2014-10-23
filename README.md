@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2014.10.23 Add renewal and edit name shortcode for registrar user.
 - 2014.10.10 Fix the team league point calculation and layout.
 - 2014.09.10 Use a template_redirect to grab a shortcode house page content.
 - 2014.09.09 Add jquery tablesorter support.

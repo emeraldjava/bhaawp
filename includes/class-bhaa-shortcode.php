@@ -20,13 +20,13 @@ class Bhaa_Shortcode{
 	
 	function registerShortCodes(){
 		// runner specific shortcodes
-		add_shortcode('bhaa_runner',array(Bhaa_Shortcode::get_instance(),'bhaa_runner'));
-		add_shortcode('bhaa_runner_name',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_name'));
+		add_shortcode('bhaa_runner_name',array(Runner_Manager::get_instance(),'bhaa_runner_name'));
+		add_shortcode('bhaa_runner_id',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_id'));
 		add_shortcode('bhaa_runner_standard',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_standard'));
 		add_shortcode('bhaa_runner_status',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_status'));
 		add_shortcode('bhaa_runner_company_name',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_company_name'));
 		add_shortcode('bhaa_runner_results',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_results'));
-		add_shortcode('bhaa_runner_renew',array(Runner_Manager::get_instance(),'generateRenewalForm'));
+		add_shortcode('bhaa_runner_renew',array(Runner_Manager::get_instance(),'renewal_button'));
 		
 		// house-team specific shortcodes
 		add_shortcode('house_title',array(Bhaa_Shortcode::get_instance(),'house_title'));
@@ -37,20 +37,12 @@ class Bhaa_Shortcode{
 		// league related shortcodes
 		add_shortcode('bhaa_league',array(Bhaa_Shortcode::get_instance(),'bhaa_league'));
 	}	
-	
+		
 	/**
-	 * Return a specific 'runner_id' race results
-	 * @param unknown $args
+	 * Return the runners BHAA ID
 	 */
-	function bhaa_runner($atts) {
-		$bhaaid = get_query_var('id');
-		$runner = new Runner($bhaaid);
-		return $runner->getFullName();
-	}
-	
-	function bhaa_runner_name($atts) {
-		$runner = new Runner(get_query_var('id'));
-		return $runner->getFullName();
+	function bhaa_runner_id($atts) {
+		return get_query_var('id');
 	}
 	
 	function bhaa_runner_standard($atts) {
