@@ -25,15 +25,19 @@ class Runner_Manager {
 	 * Generate a renewal button for admin users via a shortcode
 	 * @return string
 	 */
-	function generateRenewalForm(){
-		return '<form action="'.admin_url( 'admin.php' ).'" method="POST">
-		    <input type="hidden" name="action" value="bhaa_runner_renew" />
-			<input type="hidden" name="id" value="'.get_query_var('id').'"/>
-			<input type="submit" value="Renew Runner"/>
-			</form>';
+	function generateRenewalForm() {
+		if(current_user_can('edit_users')) {
+			return '<form action="'.admin_url( 'admin.php' ).'" method="POST">
+			    <input type="hidden" name="action" value="bhaa_runner_renew" />
+				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
+				<input type="submit" value="Renew Runner"/>
+				</form>';
+		} else {
+			return "";
+		}
 	}
 	
-	function bhaa_runner_renew(){
+	function bhaa_runner_renew() {
 		$runner = new Runner($_POST['id']);
 		$runner->renew();
 	}

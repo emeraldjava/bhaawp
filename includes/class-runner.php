@@ -166,8 +166,7 @@ class Runner {
 	 * This method updates the runners reneal date and emails them a confirmation.
 	 */
 	function renew() {
-		error_log('renew() '.$this->user->ID);
-		
+		error_log('renew() '.$this->user->ID.' '.$this->user->user_email);
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_STATUS, 'M');
 		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
 		if($this->user->user_email!=''||$this->user->user_email!=null) {
@@ -179,6 +178,7 @@ class Runner {
 			
 			$page = get_page_by_title('email-runner-renewal');
 			$message = apply_filters('the_content', $page->post_content);
+			//error_log($message);
 			
 			// runner-renewal-email
 			/*$message = Bhaa_Mustache::get_instance()->loadTemplate('runner-renewal-email')->render(
@@ -221,14 +221,11 @@ class Runner {
 			//error_log($subject);
 			
  			$res = wp_mail(
-				//$this->user->user_email,
-				'paul.oconnell@aegon.ie',
+				$this->user->user_email,
 				$subject,
 				$message,
 				$headers);
  			error_log("email sent");
- 			
- 			
 		}
 		wp_redirect(wp_get_referer());
 		exit();
