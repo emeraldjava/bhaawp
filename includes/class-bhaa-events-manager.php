@@ -283,8 +283,12 @@ class Events_Manager {
 	}
 	
 	function bhaa_em_booking_form_before_tickets() {
-		echo '<p>Existing BHAA members should login first to ensure they can access the discounted rates and their renewal is linked to the correct BHAA ID.
-				New runner should just fill out the form below and a new account will be created for you.</p>';
+		if(!is_user_logged_in()) {
+			echo '<p>Existing BHAA members should first <a href="'.wp_login_url(get_permalink()).'" title="Login">Login</a> to ensure they can access the discounted rates and their ticket is linked to the correct BHAA ID. New runners should just fill out the form below and a new account will be created for you.';
+		} else {
+			global $current_user;
+			echo '<b>Welcome '.$current_user->first_name.' to the ticket booking page</b>';
+		}
 	}
 	
 	/**
