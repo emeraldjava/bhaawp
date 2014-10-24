@@ -21,7 +21,8 @@ class Runner_Manager {
 		add_action('admin_action_bhaa_runner_renew_action',array($this,'bhaa_runner_renew_action'));
 		add_action('admin_action_bhaa_runner_rename_action',array($this,'bhaa_runner_rename_action'));
 		add_action('admin_action_bhaa_runner_email_action',array($this,'bhaa_runner_email_action'));
-		add_action('admin_action_bhaa_runner_dob_action',array($this,'bhaa_runner_dob_action'));		
+		add_action('admin_action_bhaa_runner_dob_action',array($this,'bhaa_runner_dob_action'));
+		add_action('admin_action_bhaa_runner_merge_action',array($this,'bhaa_runner_merge_action'));
 	}
 	
 	/**
@@ -321,8 +322,90 @@ class Runner_Manager {
 			return $runner[0]->ID;
 		}
 	}
+
+	/**
+	 * Return a list of matching runners to this runner
+	 * @return unknown
+	 */
+	function bhaa_runner_matches_shortcode() {
+		// get current users details
+		$user_info = get_userdata(get_query_var('id'));
+		$bhaa_runner_dateofbirth = get_user_meta(get_query_var('id'),'bhaa_runner_dateofbirth',true);
 	
-	public function mergeRunner($runner,$deleteRunner) {
+		$queryMatchAll = new WP_User_Query(
+			array(
+				'exclude' => array(get_query_var('id')),
+				'fields' => 'all_with_meta',
+				'meta_query' => array(
+					array(
+							'key' => 'last_name',
+							'value' => $user_info->user_lastname,
+							'compare' => '='),
+					array(
+							'key' => 'first_name',
+							'value' => $user_info->user_firstname,
+							'compare' => '='),
+					array(
+							'key' => 'bhaa_runner_dateofbirth',
+							'value' => $bhaa_runner_dateofbirth,
+							'compare' => '='
+					))));
+	
+		$queryMatchName = new WP_User_Query(
+			array(
+				'exclude' => array(get_query_var('id')),
+				'fields' => 'all_with_meta',
+				'meta_query' => array(
+					array(
+						'key' => 'last_name',
+						'value' => $user_info->user_lastname,
+						'compare' => '='),
+					array(
+						'key' => 'first_name',
+						'value' => $user_info->user_firstname,
+						'compare' => '='
+					))));
+	
+		$queryMatchLastDob = new WP_User_Query(
+			array(
+				'exclude' => array(get_query_var('id')),
+				'fields' => 'all_with_meta',
+				'meta_query' => array(
+					array(
+							'key' => 'last_name',
+							'value' => $user_info->user_lastname,
+							'compare' => '='),
+					array(
+							'key' => 'bhaa_runner_dateofbirth',
+							'value' => $bhaa_runner_dateofbirth,
+							'compare' => '='
+					))));
+	
+		// merge the three results	
+		$users = array_merge( $queryMatchAll->get_results(), $queryMatchName->get_results(), $queryMatchLastDob->get_results());
+		$table = '<div>';
+		foreach($users as $matcheduser) {
+			$table .= sprintf('<div>%d <a href="%s">%s</a> DOB:%s, Status:%s, Email:%s <form action="'.admin_url( 'admin.php' ).'" method="POST">
+					<input type="hidden" name="action" value="bhaa_runner_merge_action"/>
+					<input type="hidden" name="id" value="%d"/>
+					<input type="hidden" name="merge" value="%d"/>
+					<input type="submit" value="Delete %d and merge to %d"/>
+					</form></div>',
+				$matcheduser->ID,
+				add_query_arg(array('id'=>$matcheduser->ID),'/runner'),$matcheduser->display_name,
+				$matcheduser->bhaa_runner_dateofbirth,$matcheduser->bhaa_runner_status,$matcheduser->user_email,
+				$matcheduser->ID,get_query_var('id'),
+				$matcheduser->ID,get_query_var('id')
+			);
+		return $table;
+		}
+	}
+	
+	function bhaa_runner_merge_action() {
+		$this->mergeRunner($_POST['id'],$_POST['id']);
+	}
+	
+	function mergeRunner($runner,$deleteRunner) {
 		error_log('merging runner '.$deleteRunner.' to '.$runner);
 		global $wpdb;
 		// update existing race results
@@ -345,7 +428,7 @@ class Runner_Manager {
 		);
 		// wp_bhaa_leaguesummary
 		$wpdb->update(
-			'wp_bhaa_leaguerunnerdata',
+			'wp_bhaa_leaguesummary',
 			array('leagueparticipant' => $runner),
 			array('leagueparticipant' => $deleteRunner,'leaguetype'=>'I')
 		);

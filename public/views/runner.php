@@ -55,17 +55,7 @@ if(isset($user->ID)){
 			//update_user_meta($user->ID,'bhaa_runner_gender',$gender);
 		}
 	}
-	
-	if(isset($_REQUEST['merge'])&&current_user_can('edit_users')) {
-		Runner_Manager::get_instance()->mergeRunner($_REQUEST['id'],$_REQUEST['merge']);
-	}
-	
-	// renew-form
-	if(isset($_REQUEST['renew-form'])&&current_user_can('edit_users')) {
-		$runner = new Runner($user->ID);
-		$runner->renew();
-	}
-	
+
 	$metadata = get_user_meta($user->ID);
 	$status = $metadata['bhaa_runner_status'][0];
 	$company = $metadata['bhaa_runner_company'][0];
@@ -116,80 +106,8 @@ if(isset($user->ID)){
 				'</form></div>'.
 				'</div>';
 		echo $content;
-	
-		// get current users details
-		$user_info = get_userdata($user->ID);
-		$bhaa_runner_dateofbirth = get_user_meta($user->ID,'bhaa_runner_dateofbirth',true);
-	
-		$queryMatchAll = new WP_User_Query(
-				array(
-						'exclude' => array($user->ID),
-						'fields' => 'all_with_meta',
-						'meta_query' => array(
-								array(
-										'key' => 'last_name',
-										'value' => $user_info->user_lastname,
-										'compare' => '='),
-								array(
-										'key' => 'first_name',
-										'value' => $user_info->user_firstname,
-										'compare' => '='),
-								array(
-										'key' => 'bhaa_runner_dateofbirth',
-										'value' => $bhaa_runner_dateofbirth,
-										'compare' => '='
-								))));
-	
-		$queryMatchName = new WP_User_Query(
-				array(
-						'exclude' => array($user->ID),
-						'fields' => 'all_with_meta',
-						'meta_query' => array(
-								array(
-										'key' => 'last_name',
-										'value' => $user_info->user_lastname,
-										'compare' => '='),
-								array(
-										'key' => 'first_name',
-										'value' => $user_info->user_firstname,
-										'compare' => '='
-								))));
-	
-		$queryMatchLastDob = new WP_User_Query(
-				array(
-						'exclude' => array($user->ID),
-						'fields' => 'all_with_meta',
-						'meta_query' => array(
-								array(
-										'key' => 'last_name',
-										'value' => $user_info->user_lastname,
-										'compare' => '='),
-								array(
-										'key' => 'bhaa_runner_dateofbirth',
-										'value' => $bhaa_runner_dateofbirth,
-										'compare' => '='
-								))));
-	
-		// 	var_dump($query->query_where);
-		// 	echo '<hr/>';
-		// 	var_dump($query->get_results());
-		// 	echo '<hr/>';
-	
-		$users = array_merge( $queryMatchAll->get_results(), $queryMatchName->get_results(), $queryMatchLastDob->get_results());
-		//var_dump($users);
-		foreach($users as $matcheduser)
-		{
-			echo sprintf('<div>%d <a href="%s">%s</a> DOB:%s, Status:%s, Email:%s <a href="%s">Delete %d and merge to %d</a></div>',
-					$matcheduser->ID,
-					add_query_arg(array('id'=>$matcheduser->ID),'/runner'),$matcheduser->display_name,
-					$matcheduser->bhaa_runner_dateofbirth,$matcheduser->bhaa_runner_status,$matcheduser->user_email,
-					add_query_arg(array('id'=>$user->ID,'merge'=>$matcheduser->ID),'/runner'),$matcheduser->ID,$user->ID
-			);
-		}
-		echo '<hr/>';
 		
 		//var_dump(Connections::get_instance()->p2pDetails($user->ID));
-		
 		//var_dump(Connections::get_instance()->getRunnerConnections($user->ID));
 	}
 	
