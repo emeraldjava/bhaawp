@@ -20,13 +20,15 @@ class Bhaa_Shortcode{
 	
 	function registerShortCodes(){
 		// runner specific shortcodes
-		add_shortcode('bhaa_runner_name',array(Runner_Manager::get_instance(),'bhaa_runner_name'));
+		add_shortcode('bhaa_runner_name',array(Runner_Manager::get_instance(),'bhaa_runner_name_shortcode'));
 		add_shortcode('bhaa_runner_id',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_id'));
 		add_shortcode('bhaa_runner_standard',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_standard'));
 		add_shortcode('bhaa_runner_status',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_status'));
 		add_shortcode('bhaa_runner_company_name',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_company_name'));
 		add_shortcode('bhaa_runner_results',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_results'));
-		add_shortcode('bhaa_runner_renew',array(Runner_Manager::get_instance(),'renewal_button'));
+		add_shortcode('bhaa_runner_renew',array(Runner_Manager::get_instance(),'renewal_button_shortcode'));
+		add_shortcode('bhaa_runner_email',array(Runner_Manager::get_instance(),'bhaa_runner_email_shortcode'));
+		add_shortcode('bhaa_runner_dob',array(Runner_Manager::get_instance(),'bhaa_runner_dob_shortcode'));
 		
 		// house-team specific shortcodes
 		add_shortcode('house_title',array(Bhaa_Shortcode::get_instance(),'house_title'));

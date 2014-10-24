@@ -30,27 +30,6 @@ if(isset($user->ID)){
 			update_user_meta($user->ID,'bhaa_runner_standard',$std);
 		}
 	}
-	if(isset($_POST['dob-form'])) {
-		if(trim($_POST['dob']) === '') {
-			$runnerError = 'Please enter a runner ID.';
-			$hasError = true;
-		} else {
-			$dob = trim($_POST['dob']);
-			update_user_meta($user->ID,'bhaa_runner_dateofbirth',$dob);
-		}
-	}
-	if(isset($_POST['email-form'])) {
-		if(trim($_POST['email']) === '') {
-			$runnerError = 'Please enter a runner ID.';
-			$hasError = true;
-		} else {
-			$email = trim($_POST['email']);
-			$return = wp_update_user( array ( 'ID' => $user->ID, 'user_email' => $email ) ) ;
-			if ( is_wp_error($return) )
-   				error_log($return->get_error_message());
-			$user = $user = get_user_by('id',$user->ID);
-		}
-	}
 	if(isset($_POST['mobilephone-form'])) {
 		if(trim($_POST['mobilephone']) === '') {
 			$runnerError = 'Please enter a mobilephone.';

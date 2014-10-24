@@ -18,18 +18,20 @@ class Runner_Manager {
 	}
 	
 	private function __construct() {	
-		add_action('admin_action_bhaa_runner_renew',array($this,'bhaa_runner_renew'));
-		add_action('admin_action_bhaa_runner_rename',array($this,'bhaa_runner_rename'));
+		add_action('admin_action_bhaa_runner_renew_action',array($this,'bhaa_runner_renew_action'));
+		add_action('admin_action_bhaa_runner_rename_action',array($this,'bhaa_runner_rename_action'));
+		add_action('admin_action_bhaa_runner_email_action',array($this,'bhaa_runner_email_action'));
+		add_action('admin_action_bhaa_runner_dob_action',array($this,'bhaa_runner_dob_action'));		
 	}
 	
 	/**
 	 * Generate a renewal button for admin users via a shortcode
 	 * @return string
 	 */
-	function renewal_button() {
+	function renewal_button_shortcode() {
 		if(current_user_can('edit_users')) {
 			return '<form action="'.admin_url( 'admin.php' ).'" method="POST">
-			    <input type="hidden" name="action" value="bhaa_runner_renew" />
+			    <input type="hidden" name="action" value="bhaa_runner_renew_action" />
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
 				<input type="submit" value="Renew Runner"/>
 				</form>';
@@ -38,7 +40,7 @@ class Runner_Manager {
 		}
 	}
 	
-	function bhaa_runner_renew() {
+	function bhaa_runner_renew_action() {
 		$runner = new Runner($_POST['id']);
 		$runner->renew();
 	}
@@ -47,11 +49,11 @@ class Runner_Manager {
 	 * Return the runners name or edit form for the admin user
 	 * @return string
 	 */
-	function bhaa_runner_name() {
+	function bhaa_runner_name_shortcode() {
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
 			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">
-			    <input type="hidden" name="action" value="bhaa_runner_rename" />
+			    <input type="hidden" name="action" value="bhaa_runner_rename_action" />
 				<input type="text" name="first_name" value="'.$runner->getFirstName().'"/>
 				<input type="text" name="last_name" value="'.$runner->getLastName().'"/>
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
@@ -63,7 +65,7 @@ class Runner_Manager {
 		}
 	}
 	
-	function bhaa_runner_rename() {
+	function bhaa_runner_rename_action() {
 		$first_name = trim($_POST['first_name']);
 		wp_update_user( array ( 'ID' => $_POST['id'], 'first_name' => $first_name ) ) ;
 		$last_name = trim($_POST['last_name']);
@@ -73,6 +75,49 @@ class Runner_Manager {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
+	
+	function bhaa_runner_email_shortcode(){
+		$runner = new Runner(get_query_var('id'));
+		if(current_user_can('edit_users')) {
+			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">
+			    <input type="hidden" name="action" value="bhaa_runner_email_action"/>
+				<input type="text" name="email" value="'.$runner->geUserEmail().'"/>
+				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
+				<input type="submit" value="Email"/>
+				</form></div>';
+		}
+		else {
+			return "";
+		}
+	}
+	
+	function bhaa_runner_email_action(){
+		wp_update_user( array ( 'ID' => $_POST['id'], 'user_email' => trim($_POST['email']) ) ) ;
+		wp_redirect(wp_get_referer());
+		exit();
+	}
+	
+	function bhaa_runner_dob_shortcode(){
+		$runner = new Runner(get_query_var('id'));
+		if(current_user_can('edit_users')) {
+			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">
+			    <input type="hidden" name="action" value="bhaa_runner_email_action"/>
+				<input type="text" name="email" value="'.$runner->getDateOfBirth().'"/>
+				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
+				<input type="submit" value="DateOfBirth"/>
+				</form></div>';
+		}
+		else {
+			return "";
+		}
+	}
+	
+	function bhaa_runner_dob_action() {
+		update_user_meta( array ( 'ID' => $_POST['id'], 'bhaa_runner_dateofbirth' => trim($_POST['dob']) ) ) ;
+		wp_redirect(wp_get_referer());
+		exit();
+	}
+
 	
 	/**
 	 * http://mattvarone.com/wordpress/list-users/
