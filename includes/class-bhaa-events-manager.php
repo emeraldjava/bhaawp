@@ -65,38 +65,42 @@ class Events_Manager {
 	//}
 	
 	/**
+	 * Set up default tickets for each event.
+	 * 
 	 * http://eventsmanagerpro.com/support/requests/editable-default-ticket/
-	 * $BHAA_tickets[0] = new EM_Ticket();
-		$BHAA_tickets[0]->ticket_name = "BHAA Member Ticket";
-		//$BHAA_tickets[0]->ticket_description = "Run for 10";
-		$BHAA_tickets[0]->ticket_price = 10;//$BHAA_Payments[day];
-		$BHAA_tickets[0]->ticket_min = 1;
-		$BHAA_tickets[0]->ticket_max = 1;
-		$BHAA_tickets[0]->ticket_start = $EM_Event->event_start_date;
-		$BHAA_tickets[0]->ticket_end = $EM_Event->event_end_date;
-		$BHAA_tickets[0]->ticket_spaces_limit = 200;
-		
-	 * @param unknown $tickets
-	 * @param unknown $EM_Bookings
-	 * @return unknown
+	 * http://eventsmanagerpro.com/support/questions/default-ticket-being-marked-as-unavailable/
 	 */
 	function bhaa_em_add_default_tickets($tickets,$EM_Bookings){
-		//error_log('bhaa_em_add_default_tickets :'.$tickets->event_id.': '.sizeof($tickets->tickets));
 		if ( sizeof($tickets->tickets) == 0 ) {
 			$ticket_data = array();
 			$ticket_data[0] = array(
 				'ticket_name'=>'BHAA Member Ticket',
-				'ticket_description'=>'BHAA Members runner for 10e','ticket_spaces'=>400,
-				'ticket_price'=>10,'ticket_min'=>1,'ticket_max'=>1,'ticket_spaces_limit'=>400,
+				'ticket_description'=>'BHAA Members runner for 10e',
+				'ticket_spaces'=>400,
+				'ticket_price'=>10,
 				'ticket_start' => $EM_Bookings->get_event()->event_start_date,
-				'ticket_end' => $EM_Bookings->get_event()->event_end_date
+				'ticket_end' => $EM_Bookings->get_event()->event_end_date,
+				'ticket_max' => 1,
+				'ticket_min' => 1,
+				'ticket_members' => 0,
+				'ticket_required' => 0,
+				'ticket_members_roles' => null,
+				'ticket_guests' => 0
 			);
 			
  			$ticket_data[1] = array(
-				'ticket_name'=>'Day Member Ticket','ticket_description'=>'Day Member Ticket','ticket_spaces'=>400,
-				'ticket_price'=>15,'ticket_min'=>1,'ticket_max'=>1,'ticket_spaces_limit'=>400,
-				'ticket_start' => $EM_Bookings->get_event()->event_start_date,
-				'ticket_end' => $EM_Bookings->get_event()->event_end_date
+				'ticket_name'=>'Day Member Ticket',
+ 				'ticket_description'=>'Day Member Ticket',
+ 				'ticket_spaces'=>400,
+				'ticket_price'=>15,
+ 				'ticket_start' => $EM_Bookings->get_event()->event_start_date,
+				'ticket_end' => $EM_Bookings->get_event()->event_end_date,
+ 				'ticket_max' => 1,
+ 				'ticket_min' => 1,
+ 				'ticket_members' => 0,
+ 				'ticket_required' => 0,
+ 				'ticket_members_roles' => null,
+ 				'ticket_guests' => 0
 			); 
 			if ( is_array($tickets->tickets) )unset($tickets->tickets);
 			foreach ($ticket_data as $ticket){
@@ -104,8 +108,7 @@ class Events_Manager {
 				$tickets->tickets[] = $EM_Ticket;
 			}
 			// set the Booking Cut off Date to 1 day before hand
-			$EM_Bookings->get_event()->event_rsvp_date = date('Y-m-d',
-				strtotime( $EM_Bookings->get_event()->event_start_date . ' -1 day' ) );
+			$EM_Bookings->get_event()->event_rsvp_date = date('Y-m-d',strtotime( $EM_Bookings->get_event()->event_start_date . ' -1 day' ) );
 			$EM_Bookings->get_event()->event_rsvp_time = '15:00';
 		}
 		return $tickets;
