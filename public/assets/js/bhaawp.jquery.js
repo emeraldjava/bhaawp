@@ -1,10 +1,10 @@
 jQuery(document).ready( function() {
 	
-	jQuery( "#sortable" ).sortable();
-	jQuery( "#sortable" ).disableSelection();
+	//jQuery( "#sortable" ).sortable();
+	//jQuery( "#sortable" ).disableSelection();
 	
 	// table sorter
-	jQuery('.raceresults').tablesorter({
+	jQuery('.race_results').tablesorter({
 		sortList: [[0,0]],
     	debug: false,
     	stringTo: "min",
@@ -13,6 +13,10 @@ jQuery(document).ready( function() {
                 sorter: 'digit'
             }
         }
+	}); 
+	
+	jQuery('.runner_results').tablesorter({
+		sortList: [[1,1]]
 	}); 
 
 	// firstname 8

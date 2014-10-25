@@ -21,6 +21,7 @@ if( ! class_exists('WP_Screen') ) {
 class RaceResult_List_Table extends WP_List_Table
 {
 	protected static $instance = null;
+	protected static $runnerTable = false;
 	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
@@ -34,10 +35,10 @@ class RaceResult_List_Table extends WP_List_Table
 		global $status, $page;
 		//Set parent defaults
 		parent::__construct( array(
-			'singular'  => 'raceresult',     //singular name of the listed records
-			'plural'    => 'raceresults',    //plural name of the listed records
+			'singular'  => 'result',     //singular name of the listed records
+			'plural'    => 'results',    //plural name of the listed records
 			'ajax'      => false,        //does this table support ajax?
-			'screen'      => 'race-list'
+			'screen'    => 'race-list'
 		) );
 	}
 
@@ -174,21 +175,28 @@ class RaceResult_List_Table extends WP_List_Table
 	}
 
 	function renderTable($race)	{   
+		self::$runnerTable = false;
 		$this->prepare_items($race);
 		ob_start();
 		$this->display();
 		return ob_get_clean();
 	}
-
-	function renderRunnerTable($runner) {
-		ob_start();
-		echo '<div class="wrap">';
-		$this->prepareRunnerItems($runner);
-		$this->display();
-		echo '</div>';
-		return ob_get_clean();
-	}
 	
+	function renderRunnerTable($runner) {
+		if(isset($runner)) {
+			ob_start();
+			self::$runnerTable = true;
+			echo '<div class="wrap">';
+			$this->prepareRunnerItems($runner);
+			$this->display();
+			echo '</div>';
+			self::$runnerTable = false;
+			return ob_get_clean();
+		} else {
+			return 'No results for this runner.';
+		}		 
+	}
+		
 	function getRunnerColumns() {
 		$columns = array(
 			'event'     => 'Event',
@@ -224,16 +232,15 @@ class RaceResult_List_Table extends WP_List_Table
 	}
 	
 	/**
-	 * Add tw bootstrap styling to the table 
-	 * http://twitter.github.com/bootstrap/base-css.html
+	 * Set different table class styles so sorting can be controlled
 	 * @see WP_List_Table::get_table_classes()
 	 */
 	function get_table_classes() {
-		return array( 
-			'table-1',
-			'tablesorter',
-			//'bhaatable',
-			$this->_args['plural'] );
+		if(self::$runnerTable) {
+			return array('widefat', 'runner_results');
+		} else {
+			return array('widefat', 'race_results');
+		}
 	}
 }
 ?>
