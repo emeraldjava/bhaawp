@@ -413,7 +413,7 @@ class Runner_Manager {
 	}
 	
 	function mergeRunner($runner,$deleteRunner) {
-		error_log('merging runner '.$deleteRunner.' to '.$runner);
+		error_log('deleting runner '.$deleteRunner.' and merging to '.$runner);
 		global $wpdb;
 		// update existing race results
 		$wpdb->update(
