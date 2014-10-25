@@ -402,7 +402,9 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_merge_action() {
-		$this->mergeRunner($_POST['id'],$_POST['id']);
+		$this->mergeRunner($_POST['id'],$_POST['merge']);
+		wp_redirect(wp_get_referer());
+		exit();
 	}
 	
 	function mergeRunner($runner,$deleteRunner) {
