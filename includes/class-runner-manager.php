@@ -77,10 +77,11 @@ class Runner_Manager {
 		exit();
 	}
 	
-	function bhaa_runner_email_shortcode(){
+	function bhaa_runner_email_shortcode() {
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
-			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">
+			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+				wp_nonce_field('bhaa_runner_email_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_email_action"/>
 				<input type="text" name="email" value="'.$runner->geUserEmail().'"/>
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
@@ -93,8 +94,10 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_email_action() {
-		error_log('bhaa_runner_email_action '.$_POST['id'].' -> '.$_POST['email']);
-		wp_update_user( array ( 'ID' => $_POST['id'], 'user_email' => trim($_POST['email']) ) ) ;
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_email_action')) {
+			error_log('bhaa_runner_email_action '.$_POST['id'].' -> '.$_POST['email']);
+			wp_update_user( array ( 'ID' => $_POST['id'], 'user_email' => trim($_POST['email']) ) ) ;
+		}
 		wp_redirect(wp_get_referer());
 		exit();
 	}
