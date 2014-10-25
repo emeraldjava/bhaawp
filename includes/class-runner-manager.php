@@ -31,7 +31,8 @@ class Runner_Manager {
 	 */
 	function renewal_button_shortcode() {
 		if(current_user_can('edit_users')) {
-			return '<form action="'.admin_url( 'admin.php' ).'" method="POST">
+			return '<form action="'.admin_url( 'admin.php' ).'" method="POST">'
+				wp_nonce_field('bhaa_runner_renew_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_renew_action" />
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
 				<input type="submit" value="Renew Runner"/>
@@ -42,8 +43,10 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_renew_action() {
-		$runner = new Runner($_POST['id']);
-		$runner->renew();
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_renew_action')) {
+			$runner = new Runner($_POST['id']);
+			$runner->renew();
+		}
 	}
 	
 	/**
@@ -53,7 +56,8 @@ class Runner_Manager {
 	function bhaa_runner_name_shortcode() {
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
-			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">
+			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'
+				wp_nonce_field('bhaa_runner_rename_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_rename_action" />
 				<input type="text" name="first_name" value="'.$runner->getFirstName().'"/>
 				<input type="text" name="last_name" value="'.$runner->getLastName().'"/>
@@ -67,12 +71,14 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_rename_action() {
-		$first_name = trim($_POST['first_name']);
-		wp_update_user( array ( 'ID' => $_POST['id'], 'first_name' => $first_name ) ) ;
-		$last_name = trim($_POST['last_name']);
-		wp_update_user( array ( 'ID' => $_POST['id'], 'last_name' => $last_name ) ) ;
-		wp_update_user( array ('ID' => $_POST['id'], 'display_name' => $first_name." ".$last_name));
-		wp_update_user( array ('ID' => $_POST['id'], 'user_nicename' =>  $first_name."-".$last_name));
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_rename_action')) {
+			$first_name = trim($_POST['first_name']);
+			wp_update_user( array ( 'ID' => $_POST['id'], 'first_name' => $first_name ) ) ;
+			$last_name = trim($_POST['last_name']);
+			wp_update_user( array ( 'ID' => $_POST['id'], 'last_name' => $last_name ) ) ;
+			wp_update_user( array ('ID' => $_POST['id'], 'display_name' => $first_name." ".$last_name));
+			wp_update_user( array ('ID' => $_POST['id'], 'user_nicename' =>  $first_name."-".$last_name));
+		}
 		wp_redirect(wp_get_referer());
 		exit();
 	}
@@ -105,7 +111,8 @@ class Runner_Manager {
 	function bhaa_runner_dob_shortcode(){
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
-			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">
+			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'
+				wp_nonce_field('bhaa_runner_dob_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_dob_action"/>
 				<input type="text" name="dob" value="'.$runner->getDateOfBirth().'"/>
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
@@ -118,8 +125,10 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_dob_action() {
-		error_log('bhaa_runner_dob_action '.$_POST['id'].' -> '.$_POST['dob']);
-		update_user_meta($_POST['id'],'bhaa_runner_dateofbirth',trim($_POST['dob']));
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_dob_action')) {
+			error_log('bhaa_runner_dob_action '.$_POST['id'].' -> '.$_POST['dob']);
+			update_user_meta($_POST['id'],'bhaa_runner_dateofbirth',trim($_POST['dob']));
+		}
 		wp_redirect(wp_get_referer());
 		exit();
 	}
@@ -134,9 +143,7 @@ class Runner_Manager {
 	 * http://codex.wordpress.org/Class_Reference/WP_User_Query
 	 */
 	function bhaa_runner_search() {
-	
-	
-		error_log('bhaawp_runner_search '.$_REQUEST['term']);
+		//error_log('bhaawp_runner_search '.$_REQUEST['term']);
 		$query = strip_tags( $_REQUEST['term'] );
 	
 		$suggestions=array();
@@ -390,7 +397,9 @@ class Runner_Manager {
 		$users = array_merge( $queryMatchAll->get_results(), $queryMatchName->get_results(), $queryMatchLastDob->get_results());
 		$table = '<div>';
 		foreach($users as $matcheduser) {
-			$table .= sprintf('<div>%d <a href="%s">%s</a> DOB:%s, Status:%s, Email:%s <form action="'.admin_url( 'admin.php' ).'" method="POST">
+			$table .= sprintf('<div>%d <a href="%s">%s</a> DOB:%s, Status:%s, Email:%s <form action="'
+					.admin_url( 'admin.php' ).'" method="POST">'
+					wp_nonce_field('bhaa_runner_merge_action').'
 					<input type="hidden" name="action" value="bhaa_runner_merge_action"/>
 					<input type="hidden" name="id" value="%d"/>
 					<input type="hidden" name="merge" value="%d"/>
@@ -407,7 +416,9 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_merge_action() {
-		$this->mergeRunner($_POST['id'],$_POST['merge']);
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_merge_action')) {
+			$this->mergeRunner($_POST['id'],$_POST['merge']);
+		}
 		wp_redirect(wp_get_referer());
 		exit();
 	}
