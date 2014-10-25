@@ -54,23 +54,14 @@ class RunnerSearchWidget extends WP_Widget {
 			
 			// clean up the query
 			$match = trim(stripslashes($_REQUEST['match']));
-			error_log('bhaa_rsw_ajax '.$match);
+			//error_log('bhaa_rsw_ajax '.$match);
 			
 			$suggestions=array();
 			// cancel if no search term is set
 			//if ( !$match ) die();
-			
-			
+						
 			// http://wordpress.stackexchange.com/questions/105168/how-can-i-search-for-a-worpress-user-by-display-name-or-a-part-of-it
 			$args = array(
-			//		'search'         => "%".$match."%",
-			//		'search_columns' => array(
-			//				'ID',
-			//				'user_login',
-			//				'user_nicename'
-			//				'user_email',
-			//				'user_url',
-			//		),
 					'number' => 10,
 					'fields' => 'all',
 					'meta_query' => array(
@@ -94,10 +85,7 @@ class RunnerSearchWidget extends WP_Widget {
 					$suggestions[]=$suggestion;
 				}
 			}
-			//wp_reset_postdata();
 			$response = json_encode(array('matches'=>$suggestions));
-			//$users_found = $users->get_results();
-			//$response = json_encode(array('matches'=>$users_found));
 			echo $response;
 			die();
 		}
