@@ -183,7 +183,7 @@ class RaceResult_List_Table extends WP_List_Table
 	}
 	
 	function renderRunnerTable($runner) {
-		if(isset($runner)) {
+		if(isset($runner)&&($runner!='')) {
 			ob_start();
 			self::$runnerTable = true;
 			echo '<div class="wrap">';
