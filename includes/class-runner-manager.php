@@ -92,7 +92,8 @@ class Runner_Manager {
 		}
 	}
 	
-	function bhaa_runner_email_action(){
+	function bhaa_runner_email_action() {
+		error_log('bhaa_runner_email_action '.$_POST['id'].' -> '.$_POST['email']);
 		wp_update_user( array ( 'ID' => $_POST['id'], 'user_email' => trim($_POST['email']) ) ) ;
 		wp_redirect(wp_get_referer());
 		exit();
@@ -102,8 +103,8 @@ class Runner_Manager {
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
 			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">
-			    <input type="hidden" name="action" value="bhaa_runner_email_action"/>
-				<input type="text" name="email" value="'.$runner->getDateOfBirth().'"/>
+			    <input type="hidden" name="action" value="bhaa_runner_dob_action"/>
+				<input type="text" name="dob" value="'.$runner->getDateOfBirth().'"/>
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
 				<input type="submit" value="DateOfBirth"/>
 				</form></div>';
@@ -114,7 +115,8 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_dob_action() {
-		update_user_meta( array ( 'ID' => $_POST['id'], 'bhaa_runner_dateofbirth' => trim($_POST['dob']) ) ) ;
+		error_log('bhaa_runner_dob_action '.$_POST['id'].' -> '.$_POST['dob']);
+		update_user_meta($_POST['id'],'bhaa_runner_dateofbirth',trim($_POST['dob']));
 		wp_redirect(wp_get_referer());
 		exit();
 	}
