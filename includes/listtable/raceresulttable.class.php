@@ -227,7 +227,7 @@ class RaceResult_List_Table extends WP_List_Table
 			rr.poststandard
 			from wp_bhaa_race_detail d
 			join wp_bhaa_raceresult rr on (rr.race=d.race and d.leaguetype="I")
-			where rr.runner='.$runner.' order by d.eventdate desc';
+			where rr.runner='.$runner.' AND rr.class="RAN" order by d.eventdate desc';
 		$this->items = $wpdb->get_results($query,ARRAY_A);
 	}
 	
