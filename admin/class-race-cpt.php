@@ -181,22 +181,21 @@ class RaceCpt {
 		);
 
 		$raceArgs = array(
-				'labels' => $raceLabels,
-				'hierarchical' => false,
-				'description' => 'bhaa race post',
-				'supports' => array('title','excerpt','editor','post-formats'),// 'custom-fields', 'page-attributes' ),
-				'public' => true,
-				'show_ui' => true,
-				'show_in_menu' => true,
-				'show_in_nav_menus' => true,
-				'publicly_queryable' => false,
-				'exclude_from_search' => true,
-				'has_archive' => true,
-				'query_var' => true,
-				'can_export' => true,
-				'publicly_queryable' => true,
-				'rewrite' => true, //array('slug' => 'race'),
-				'capability_type' => 'post'
+			'labels' => $raceLabels,
+			'hierarchical' => false,
+			'description' => 'bhaa race post',
+			'supports' => array('title','excerpt','editor','post-formats'),// 'custom-fields', 'page-attributes' ),
+			'public' => true,
+			'show_ui' => true,
+			'show_in_menu' => true,
+			'show_in_nav_menus' => true,
+			'exclude_from_search' => true,
+			'has_archive' => false,
+			'query_var' => true,
+			'can_export' => true,
+			'publicly_queryable' => true,
+			'rewrite' => true,
+			'capability_type' => 'post'
 		);
 		register_post_type( 'race', $raceArgs );
 	}
