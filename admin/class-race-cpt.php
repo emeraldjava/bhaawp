@@ -184,17 +184,17 @@ class RaceCpt {
 			'labels' => $raceLabels,
 			'hierarchical' => false,
 			'description' => 'bhaa race post',
-			'supports' => array('title','excerpt','editor','post-formats'),// 'custom-fields', 'page-attributes' ),
+			'supports' => array('title','excerpt','editor'),
 			'public' => true,
 			'show_ui' => true,
 			'show_in_menu' => true,
 			'show_in_nav_menus' => true,
-			'exclude_from_search' => true,
+			'exclude_from_search' => false,
 			'has_archive' => false,
 			'query_var' => true,
 			'can_export' => true,
 			'publicly_queryable' => true,
-			'rewrite' => true,
+			'rewrite' =>  true, // array('slug' => 'race','with_front' => false),
 			'capability_type' => 'post'
 		);
 		register_post_type( 'race', $raceArgs );
