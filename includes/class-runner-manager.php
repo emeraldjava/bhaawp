@@ -31,7 +31,7 @@ class Runner_Manager {
 	 */
 	function renewal_button_shortcode() {
 		if(current_user_can('edit_users')) {
-			return '<form action="'.admin_url( 'admin.php' ).'" method="POST">'
+			return '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 				wp_nonce_field('bhaa_runner_renew_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_renew_action" />
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
@@ -56,7 +56,7 @@ class Runner_Manager {
 	function bhaa_runner_name_shortcode() {
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
-			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'
+			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 				wp_nonce_field('bhaa_runner_rename_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_rename_action" />
 				<input type="text" name="first_name" value="'.$runner->getFirstName().'"/>
@@ -111,7 +111,7 @@ class Runner_Manager {
 	function bhaa_runner_dob_shortcode(){
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
-			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'
+			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 				wp_nonce_field('bhaa_runner_dob_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_dob_action"/>
 				<input type="text" name="dob" value="'.$runner->getDateOfBirth().'"/>
@@ -398,7 +398,7 @@ class Runner_Manager {
 		$table = '<div>';
 		foreach($users as $matcheduser) {
 			$table .= sprintf('<div>%d <a href="%s">%s</a> DOB:%s, Status:%s, Email:%s <form action="'
-					.admin_url( 'admin.php' ).'" method="POST">'
+					.admin_url( 'admin.php' ).'" method="POST">'.
 					wp_nonce_field('bhaa_runner_merge_action').'
 					<input type="hidden" name="action" value="bhaa_runner_merge_action"/>
 					<input type="hidden" name="id" value="%d"/>
