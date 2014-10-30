@@ -52,8 +52,7 @@ class HouseCpt {
  		return $return;
  	}
 	
-	function bhaa_register_cpt_house()
-	{
+	function bhaa_register_cpt_house() {
 		$houseLabels = array(
 				'name' => _x( 'Houses', 'house' ),
 				'singular_name' => _x( 'House', 'house' ),
@@ -90,8 +89,7 @@ class HouseCpt {
 		register_post_type( 'house', $houseArgs );
 	}
 	
-	function bhaa_register_taxonomy_sector()
-	{
+	function bhaa_register_taxonomy_sector() {
 		$labels = array(
 				'name' => _x( 'Sectors', 'sector' ),
 				'singular_name' => _x( 'Sector', 'sector' ),
@@ -123,8 +121,7 @@ class HouseCpt {
 		register_taxonomy( 'sector', array('house'), $args );
 	}
 	
-	function bhaa_register_taxonomy_teamtype()
-	{
+	function bhaa_register_taxonomy_teamtype() {
 		$labels = array(
 				'name' => _x( 'Team Types', 'teamtype' ),
 				'singular_name' => _x( 'Team Type', 'teamtype' ),
@@ -176,8 +173,7 @@ class HouseCpt {
 		);
 	}
 	
-	function bhaa_register_taxonomy_teamstatus()
-	{
+	function bhaa_register_taxonomy_teamstatus() {
 		$labels = array(
 				'name' => _x( 'TeamStatus', 'teamstatus' ),
 				'singular_name' => _x( 'TeamStatus', 'teamstatus' ),
