@@ -394,7 +394,7 @@ class Bhaa {
 	 * @since    1.0.0
 	 */
 	private static function single_activate() {
-		 flush_rewrite_rules();
+		 flush_rewrite_rules(false);
 		 error_log('single_activate');
 	}
 
@@ -403,7 +403,7 @@ class Bhaa {
 	 * @since    1.0.0
 	 */
 	private static function single_deactivate() {
-		 flush_rewrite_rules();
+		 flush_rewrite_rules(false);
 		 error_log('single_deactivate');
 	}
 
