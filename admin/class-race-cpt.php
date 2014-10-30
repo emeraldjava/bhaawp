@@ -189,12 +189,12 @@ class RaceCpt {
 			'show_ui' => true,
 			'show_in_menu' => true,
 			'show_in_nav_menus' => true,
-			'exclude_from_search' => false,
+			'exclude_from_search' => true,
 			'has_archive' => false,
 			'query_var' => true,
 			'can_export' => true,
 			'publicly_queryable' => true,
-			'rewrite' =>  true, // array('slug' => 'race','with_front' => false),
+			'rewrite' =>  array('slug' => 'race','with_front' => false),
 			'capability_type' => 'post'
 		);
 		register_post_type( 'race', $raceArgs );
