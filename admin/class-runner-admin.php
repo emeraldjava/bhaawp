@@ -22,12 +22,13 @@ class RunnerAdmin {
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
 
-		add_filter('user_row_actions',array($this,'bhaa_runner_renew_link'),10,2);
-		add_action('admin_init',array($this,'bhaa_runner_renew_action'),12);
+		//add_filter('user_row_actions',array($this,'bhaa_runner_renew_link'),10,2);
+		//add_action('admin_init',array($this,'bhaa_runner_renew_action'),12);
 		add_action('user_register',array($this,'bhaa_user_register'),12);
 	}
 	
 	function bhaa_user_register( $user_id ) {
+		error_log('bhaa_user_register '.$user_id);
 		//if ( isset( $_POST['first_name'] ) )
 		//update_user_meta($user_id,'first_name',$_POST['first_name']);
 		update_user_meta($user_id,'bhaa_runner_status','D');
@@ -118,8 +119,9 @@ class RunnerAdmin {
 	 * http://pippinsplugins.com/add-custom-links-to-user-row-actions/comment-page-1/#comment-133252
 	 */
 	function bhaa_runner_renew_action() {
-		if ( $_REQUEST['action'] == 'bhaa_runner_renew' 
-				&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_runner_renew_'.$_GET['id']) ) {
+		if ( isset($_REQUEST['action']) 
+			&& $_REQUEST['action'] == 'bhaa_runner_renew' 
+			&& wp_verify_nonce($_GET['_wpnonce'],'bhaa_runner_renew_'.$_GET['id']) ) {
 			$runner = new Runner($_GET['id']);
 			$runner->renew();
 			wp_redirect(wp_get_referer());
