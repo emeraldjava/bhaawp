@@ -385,28 +385,26 @@ class Bhaa {
 	private static function get_blog_ids() {
 		global $wpdb;
 		// get an array of blog ids
-		$sql = "SELECT blog_id FROM $wpdb->blogs
-		WHERE archived = '0' AND spam = '0'
-		AND deleted = '0'";
+		$sql = "SELECT blog_id FROM $wpdb->blogs WHERE archived = '0' AND spam = '0' AND deleted = '0'";
 		return $wpdb->get_col( $sql );
 	}
 
 	/**
-		* Fired for each blog when the plugin is activated.
-		*
-		* @since    1.0.0
-		*/
+  	 * Fired for each blog when the plugin is activated.
+	 * @since    1.0.0
+	 */
 	private static function single_activate() {
-		// TODO: Define activation functionality here
+		 flush_rewrite_rules();
+		 error_log('single_activate');
 	}
 
 	/**
 	 * Fired for each blog when the plugin is deactivated.
-	 *
 	 * @since    1.0.0
 	 */
 	private static function single_deactivate() {
-		// TODO: Define deactivation functionality here
+		 flush_rewrite_rules();
+		 error_log('single_deactivate');
 	}
 
 	/**
