@@ -50,7 +50,7 @@ class House {
 		
 		$runners = array();
 		foreach ( $users AS $user ) {
-			$runners[] = new Runner($user->id);
+			$runners[] = new Runner($user->ID);
 		}
 
 		//var_dump($runners[0],true);
