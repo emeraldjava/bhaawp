@@ -183,18 +183,18 @@ class RaceCpt {
 		$raceArgs = array(
 			'labels' => $raceLabels,
 			'hierarchical' => false,
-			'description' => 'bhaa race post',
+			'description' => 'BHAA Race',
 			'supports' => array('title','excerpt','editor'),
 			'public' => true,
 			'show_ui' => true,
 			'show_in_menu' => true,
 			'show_in_nav_menus' => true,
-			'exclude_from_search' => true,
-			'has_archive' => false,
+			'exclude_from_search' => false,
+			'has_archive' => true,
 			'query_var' => true,
 			'can_export' => true,
 			'publicly_queryable' => true,
-			'rewrite' =>  array('slug' => 'race','with_front' => false),
+			'rewrite' => true, // array('slug' => 'race','with_front' => false),
 			'capability_type' => 'post'
 		);
 		register_post_type( 'race', $raceArgs );

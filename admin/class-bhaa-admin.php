@@ -50,7 +50,6 @@ class Bhaa_Admin {
 		
 		add_action('admin_action_bhaa_send_email',array(&$this,'bhaa_send_email'));
 		
-		RaceCpt::get_instance();
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
 		new WPFlashMessages();
