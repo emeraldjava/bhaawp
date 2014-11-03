@@ -43,6 +43,7 @@ class Bhaa_Shortcode{
 		// race related shortcodes
 		add_shortcode('bhaa_race_title',array(Bhaa_Shortcode::get_instance(),'bhaa_race_title'));
 		add_shortcode('bhaa_race_results',array(Bhaa_Shortcode::get_instance(),'bhaa_race_results'));
+		add_shortcode('bhaa_race_edit_result',array(Bhaa_Shortcode::get_instance(),'bhaa_race_edit_result'));
 	}	
 		
 	/**
@@ -81,6 +82,15 @@ class Bhaa_Shortcode{
 	
 	function bhaa_race_results() {
 		return RaceResult_List_Table::get_instance()->renderTable(get_the_ID());
+	}
+	
+	function bhaa_race_edit_result() {
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+		return '<a href="'.post_permalink(get_query_var('bhaa_race')).'">'
+			.post_permalink(get_query_var('bhaa_race')).' '.get_query_var('bhaa_race').'</a><br/>'
+			.wp_get_form('raceResultForm');
 	}
 	
 	/**

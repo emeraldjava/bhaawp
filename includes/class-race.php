@@ -27,7 +27,7 @@ class Race {
 	}
 	
 	function getTitle() {
-		return get_the_title($race_id).' '.$this->getDistance().' '.$this->getUnit();
+		return get_the_title($this->race_id).' '.$this->getDistance().' '.$this->getUnit();
 	}
 }
 ?>

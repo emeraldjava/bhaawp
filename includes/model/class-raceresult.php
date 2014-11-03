@@ -324,12 +324,22 @@ class RaceResult extends BaseModel implements Table
 	 */
 	function updateRunnersRaceResultStandard($id,$race,$runner,$time,$standard,$poststandard) {
 		global $wpdb;
-		$res = $wpdb->update(
-			'wp_bhaa_raceresult',
-			array('runner' => $runner,'race'=>$race,'standard' => $standard,'poststandard'=>$poststandard,'racetime'=>$time),
-			array('id' => $id)
-		);
-		//error_log('updateRunnersRaceResultStandard('.$id.' '.$race.' '.$runner.' '.$standard.' '.$poststandard.') -> '.$res);
+		error_log(sprintf('updateRunnersRaceResultStandard %d,%d,%d,%s,%d,%d',$id,$race,$runner,$time,$standard,$poststandard));
+		if(isset($id)&&$id!=0) {
+			$res = $wpdb->update(
+				'wp_bhaa_raceresult',
+				array('runner' => $runner,'race'=>$race,'standard' => $standard,'poststandard'=>$poststandard,'racetime'=>$time),
+				array('id' => $id)
+			);
+		} else {
+			$res = $wpdb->insert(
+				'wp_bhaa_raceresult',
+				array('runner' => $runner,'race'=>$race,'racetime'=>$time,
+					'standard' => $standard,'poststandard'=>$poststandard,
+					'class'=>'RAN','position'=>1)
+			);
+			$this->updatePositions();
+		}
 	}
 }
 ?>

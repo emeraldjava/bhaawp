@@ -133,10 +133,10 @@ class Bhaa {
 		// runner page
 		//include_once('views/runner.php');
 		//}
-		else if($post->ID==3658){
+		//else if($post->ID==3658){
 			// runner-editresult
-			include_once('views/runner-editresult.php');
-		}
+			//include_once('views/runner-editresult.php');
+		//}
 		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
 				
 			if ( !current_user_can( 'edit_users' ) )  {
@@ -191,6 +191,7 @@ class Bhaa {
 	function bhaa_add_query_vars($qvars) {
 		$qvars[] = "id";
 		$qvars[] = "division";
+		$qvars[] = "bhaa_race";
 		return $qvars;
 	}
 

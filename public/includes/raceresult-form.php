@@ -11,49 +11,49 @@ class Raceresult_Form {
 	
 		$fieldSet = WP_Form_Element::create('fieldset')
 			->set_name('raceFieldSet')
-			->set_label('Race Details')
+			->set_label('Edit Result Details')
 			->set_classes(array('col-md-8'));
 		
 		$raceresult_id = WP_Form_Element::create('number')
 			->set_name('bhaa_raceresult_id')
 			->set_id('bhaa_raceresult_id')
 			->set_label('Result')
-			->set_value($_GET['bhaa_raceresult_id'])
+			->set_value(@$_GET['bhaa_raceresult_id'])
 			->set_classes(array('form-control'));
 			
 		$runner = WP_Form_Element::create('number')
 			->set_name('bhaa_runner')
 			->set_id('bhaa_runner')
 			->set_label('BHAA ID')
-			->set_value($_GET['bhaa_runner'])
+			->set_value(@$_GET['bhaa_runner'])
 			->set_classes(array('form-control'));
 		
 		$race = WP_Form_Element::create('number')
 			->set_name('bhaa_race')
 			->set_id('bhaa_race')
 			->set_label('Race')
-			->set_value($_GET['bhaa_race'])
+			->set_value(@$_GET['bhaa_race'])
 			->set_classes(array('form-control'));
 		
 		$time = WP_Form_Element::create('text')
 			->set_name('bhaa_time')
 			->set_id('bhaa_time')
 			->set_label('Time')
-			->set_value($_GET['bhaa_time'])
+			->set_value(@$_GET['bhaa_time'])
 			->set_classes(array('form-control'));
 		
 		$bhaa_pre_standard = WP_Form_Element::create('number')
 			->set_name('bhaa_pre_standard')
 			->set_id('bhaa_pre_standard')
 			->set_label('Pre Standard')
-			->set_value($_GET['bhaa_pre_standard'])
+			->set_value(@$_GET['bhaa_pre_standard'])
 			->set_classes(array('form-control'));
 		
 		$bhaa_post_standard = WP_Form_Element::create('number')
 			->set_name('bhaa_post_standard')
 			->set_id('bhaa_post_standard')
 			->set_label('Post Standard')
-			->set_value($_GET['bhaa_post_standard'])
+			->set_value(@$_GET['bhaa_post_standard'])
 			->set_classes(array('form-control'));
 		
 		$submit = WP_Form_Element::create('submit')
@@ -75,11 +75,11 @@ class Raceresult_Form {
 	}
 
 	public function bhaa_raceresult_validation(WP_Form_Submission $submission, WP_Form $form) {
-		error_log("bhaa_raceresult_validation");
+		//error_log("bhaa_raceresult_validation");
 	}
 	
 	public function bhaa_raceresult_processing(WP_Form_Submission $submission, WP_Form $form) {
-		error_log("bhaa_raceresult_processing");
+		//error_log("bhaa_raceresult_processing");
 		$raceResult = new RaceResult($submission->get_value('bhaa_race'));
 		$raceResult->updateRunnersRaceResultStandard(
 			$submission->get_value('bhaa_raceresult_id'),
