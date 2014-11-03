@@ -328,16 +328,27 @@ class RaceResult extends BaseModel implements Table
 		if(isset($id)&&$id!=0) {
 			$res = $wpdb->update(
 				'wp_bhaa_raceresult',
-				array('runner' => $runner,'race'=>$race,'standard' => $standard,'poststandard'=>$poststandard,'racetime'=>$time),
+				array('runner' => $runner,
+					'race'=>$race,
+					'standard' => $standard,
+					'poststandard'=>$poststandard,
+					'racetime'=>$time),
 				array('id' => $id)
 			);
 		} else {
+			$raceObj = new Race($race);
+			$ageCategory = $raceObj->getRunnersAgeCategory($runner);
 			$res = $wpdb->insert(
 				'wp_bhaa_raceresult',
-				array('runner' => $runner,'race'=>$race,'racetime'=>$time,
-					'standard' => $standard,'poststandard'=>$poststandard,
-					'class'=>'RAN','position'=>1)
-			);
+				array('runner' => $runner,
+					'race'=>$race,
+					'racetime'=>$time,
+					'standard' => $standard,
+					'poststandard'=>$poststandard,
+					'class'=>"RAN",
+					'position'=>1,
+					'category'=>$ageCategory
+			));
 			$this->updatePositions();
 		}
 	}

@@ -42,10 +42,10 @@ UPDATE wp_bhaa_raceresult SET category = 'S' WHERE category IS NULL;
 
 -- r7713 and race=3854
 SELECT runner.id,eventdate,gender.meta_value,dob.meta_value,
-getAgeCategory(dob.meta_value,eventdate,gender.meta_value) as ageCat
+getAgeCategory(dob.meta_value,eventdate,gender.meta_value) as age,
+CONCAT(getAgeCategory(dob.meta_value,eventdate,gender.meta_value),gender.meta_value) as ageCat
 FROM wp_bhaa_race_detail 
 LEFT JOIN wp_users runner ON runner.id=7713 
 LEFT JOIN wp_usermeta gender ON (gender.user_id=runner.id and gender.meta_key='bhaa_runner_gender') 
 LEFT JOIN wp_usermeta dob ON (dob.user_id=runner.id and dob.meta_key='bhaa_runner_dateofbirth') 
 WHERE race=3854 LIMIT 1
-

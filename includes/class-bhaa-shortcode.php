@@ -77,7 +77,7 @@ class Bhaa_Shortcode{
 	 */
 	function bhaa_race_title() {
 		$race = new Race(get_the_ID());
-		return $race->getTitle();
+		return 'Race '.$race->getTitle().' on date '.$race->getDate();
 	}
 	
 	function bhaa_race_results() {
