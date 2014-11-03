@@ -39,6 +39,10 @@ class Bhaa_Shortcode{
 		
 		// league related shortcodes
 		add_shortcode('bhaa_league',array(Bhaa_Shortcode::get_instance(),'bhaa_league'));
+		
+		// race related shortcodes
+		add_shortcode('bhaa_race_title',array(Bhaa_Shortcode::get_instance(),'bhaa_race_title'));
+		add_shortcode('bhaa_race_results',array(Bhaa_Shortcode::get_instance(),'bhaa_race_results'));
 	}	
 		
 	/**
@@ -65,6 +69,18 @@ class Bhaa_Shortcode{
 	
 	function bhaa_runner_results($args) {
 		return RaceResult_List_Table::get_instance()->renderRunnerTable(get_query_var('id'));
+	}
+
+	/**
+	 * Race specific shortcodes
+	 */
+	function bhaa_race_title() {
+		$race = new Race(get_the_ID());
+		return $race->getTitle();
+	}
+	
+	function bhaa_race_results() {
+		return RaceResult_List_Table::get_instance()->renderTable(get_the_ID());
 	}
 	
 	/**
