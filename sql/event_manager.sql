@@ -129,7 +129,7 @@ Race Details
 [/av_notification]
 
 [av_textblock custom_class='']
-<a href=#_EVENTIMAGEURL>#_EVENTIMAGE</a>
+#_EVENTIMAGE
 [/av_textblock]
 
 [av_hr class='default' height='50' shadow='no-shadow' position='center']
