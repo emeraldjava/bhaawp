@@ -176,8 +176,19 @@ class Runner {
 			global $wp_query;
 			$wp_query->set('id',$this->user->ID);
 			
+			//ob_start();
+			//the_content();
+
 			$page = get_page_by_title('email-runner-renewal');
+			
+			// http://digwp.com/2009/07/putting-the_content-into-a-php-variable/
+			//ob_start();
+			//$message = apply_filters('the_content', $this->get_the_content($page));
+			//$message = ob_get_clean();
+			
 			$message = apply_filters('the_content', $page->post_content);
+			//$content = ob_get_clean();
+			
 			//error_log($message);
 			
 			// runner-renewal-email
@@ -213,18 +224,14 @@ class Runner {
 			
 			//Prepare headers for HTML
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
-			$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-			$headers .= 'From: Business Houses Athletic Association <paul.oconnell@aegon.ie>' . "\r\n";
-			//$headers = 'From: Your Name <abc@gmail.com>' . "\r\n";
-			
+			$headers .= 'Content-type: text/html; charset="utf-8"' . "\r\n";
+			$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
 			$subject = 'BHAA Renewal 2015 : '.$this->user->user_firstname.' '.$this->user->user_lastname;
-			//error_log($subject);
-			
- 			$res = wp_mail($this->user->user_email,$subject,$message,$headers);
- 			error_log("email sent");
+ 			$res = wp_mail($this->user->user_email,$subject,'<html>'.$message.'</html>',$headers);
+ 			error_log("email sent ".$res);
 		}
-		wp_redirect(wp_get_referer());
-		exit();
+		//wp_redirect(wp_get_referer());
+		//exit();
 	}
 }
 ?>

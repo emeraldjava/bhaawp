@@ -43,10 +43,12 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_renew_action() {
-		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_renew_action')) {
+		if(current_user_can('edit_users') && wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_renew_action')) {
 			$runner = new Runner($_POST['id']);
 			$runner->renew();
 		}
+		wp_redirect(wp_get_referer());
+		exit();
 	}
 	
 	/**
@@ -55,18 +57,22 @@ class Runner_Manager {
 	 */
 	function bhaa_runner_name_shortcode() {
 		$runner = new Runner(get_query_var('id'));
+		return $runner->getFullName();
+	}
+	
+	function bhaa_runner_edit_name_shortcode() {
+		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
 			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
-				wp_nonce_field('bhaa_runner_rename_action').'
+					wp_nonce_field('bhaa_runner_rename_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_rename_action" />
 				<input type="text" name="first_name" value="'.$runner->getFirstName().'"/>
 				<input type="text" name="last_name" value="'.$runner->getLastName().'"/>
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
 				<input type="submit" value="Rename"/>
 				</form></div>';
-		}
-		else {
-			return $runner->getFullName();
+		} else {
+			return '';
 		}
 	}
 	
@@ -83,7 +89,7 @@ class Runner_Manager {
 		exit();
 	}
 	
-	function bhaa_runner_email_shortcode() {
+	function bhaa_runner_edit_email_shortcode() {
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
 			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
@@ -93,8 +99,7 @@ class Runner_Manager {
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
 				<input type="submit" value="Email"/>
 				</form></div>';
-		}
-		else {
+		} else {
 			return "";
 		}
 	}
@@ -108,7 +113,7 @@ class Runner_Manager {
 		exit();
 	}
 	
-	function bhaa_runner_dob_shortcode(){
+	function bhaa_runner_edit_dob_shortcode(){
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
 			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
