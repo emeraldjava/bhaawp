@@ -18,7 +18,6 @@ class IndividualLeague extends AbstractLeague {
 	}
 	
 	function getTopParticipantsInDivision($division,$limit) {
-	//function getTopRunnersInDivision($division,$limit) {
 		$query = $this->getWpdb()->prepare('SELECT ls.*,wp_users.display_name as display_name
 			FROM wp_bhaa_leaguesummary ls
 			LEFT join wp_users on wp_users.id=ls.leagueparticipant
@@ -27,9 +26,9 @@ class IndividualLeague extends AbstractLeague {
 			WHERE ls.league = %d
 			AND ls.leaguedivision = %s
 			AND ls.leagueposition <= %d
-			AND ls.leaguescorecount>=2
+			AND ls.leaguescorecount>=1
 			order by league, leaguedivision, leagueposition',$this->getLeagueId(),$division,$limit);
-		//error_log($this->getLeagueId().' '.$query);
+		error_log($this->getLeagueId().' '.$query);
 		$summary = $this->getWpdb()->get_results($query);
 		
 		$divisionDetails = $this->getDivisionDetails($division);
@@ -62,7 +61,6 @@ class IndividualLeague extends AbstractLeague {
 					'events' => $events,
 					'matchEventResult' => function($text, Mustache_LambdaHelper $helper) {
 						$results = explode(',',$helper->render($text));
-						//error_log($helper->render($text).' '.$results);
 						$row = '';
 						foreach($results as $result) {
 							if($result==0)
