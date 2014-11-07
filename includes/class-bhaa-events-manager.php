@@ -172,9 +172,9 @@ class Events_Manager {
 		if($placeholder=='#_BOOKINGFORM') {
 			if(get_option('bhaa_bookings_enabled')==0){
 				// booking disabled
-				$result = '[av_notification title="Note" color="orange" border="" custom_bg="#444444" custom_font="#ffffff" size="large" icon_select="no" font="entypo-fontello"]'.
+				$result = do_shortcode('[av_notification title="Note" color="orange" border="" custom_bg="#444444" custom_font="#ffffff" size="large" icon_select="no" font="entypo-fontello"]'.
 					'The online registration form is currently disabled while we prepare for the next BHAA event. Registration is available on the day at the next event. See you there.'.
-					'[/av_notification]';
+					'[/av_notification]');
 			}
 			return $result;
 		}
