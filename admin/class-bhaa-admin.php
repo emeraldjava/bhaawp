@@ -53,15 +53,6 @@ class Bhaa_Admin {
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
 		new WPFlashMessages();
-		
-		/*
-		 * Define custom functionality.
-		*
-		* Read more about actions and filters:
-		* http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
-		*/
-		//add_action( 'TODO', array( $this, 'action_method_name' ) );
-		//add_filter( 'TODO', array( $this, 'filter_method_name' ) );
 	}
 	
 	function bhaa_send_email() {
@@ -275,13 +266,10 @@ class Bhaa_Admin {
 	 */
 	
 	function main() {
-
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 		include_once( 'views/bhaa_admin_main.php' );
-		//echo '<div class="wrap">';
-		//echo '<p>BHAA Admin Page</p>';
 	}
 
 	function bhaa_admin_members_json() {
