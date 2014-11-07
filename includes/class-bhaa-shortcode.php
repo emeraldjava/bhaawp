@@ -104,12 +104,12 @@ class Bhaa_Shortcode{
 		return get_the_term_list(get_the_ID(), 'sector', 'Sector : ', ', ', '');
 	}
 	
-	function house_runner_table($args){
+	function house_runner_table($args) {
 		$house = new House(get_the_ID());
 		return $house->displayRunnersTable();
 	}
 	
-	function house_website_url(){
+	function house_website_url() {
 		$house = new House(get_the_ID());
 		return $house->house_website_url();
 	}
@@ -122,13 +122,9 @@ class Bhaa_Shortcode{
 			'division' => 'A',
 			'top' => '10',
 		), $attrs );
-		
 		$leagueid = get_the_ID();
-		//$post = get_post( $id );
-		
 		$league = LeagueFactory::getLeague($leagueid);
 		return $league->getTopParticipantsInDivision($a['division'],$a['top']);
-		//return $a['division'].'-'.$a['top'].'-'.$id.' '.$league->getName();
 	}
 }
 ?>
