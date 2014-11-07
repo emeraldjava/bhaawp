@@ -129,14 +129,6 @@ class Bhaa {
 		if( $post->ID == 3143) {
 			return Realex::get_instance()->process();
 		}
-		//else if($post->ID==2025) {
-		// runner page
-		//include_once('views/runner.php');
-		//}
-		//else if($post->ID==3658){
-			// runner-editresult
-			//include_once('views/runner-editresult.php');
-		//}
 		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
 				
 			if ( !current_user_can( 'edit_users' ) )  {
@@ -159,24 +151,10 @@ class Bhaa {
 					);
 					wp_enqueue_script('bhaa-raceday');
 				}
-
 				$pagename = get_query_var('pagename');
-				//error_log($post->ID.' '.$pagename);
-				//error_log($page_content);
 				return Raceday::get_instance()->handlePage($pagename);
 			}
 		}
-		//else if($post->ID==2623)
-		//include_once('views/sectors.php');
-		// CPTS
-		//else if($post->post_type=='house') {
-		//error_log("house "+$post->post_type);
-		//include_once('views/house.php');
-		//}
-		//else if($post->post_type=='race')
-		//	return 'BHAA Race '.$post->ID.' '.$post->post_title;
-		//else if($post->post_type=='league')
-		//return 'BHAA League '.$post->ID.' '.$post->post_title;
 		else
 			return $page_content;
 	}
