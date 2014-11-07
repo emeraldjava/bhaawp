@@ -48,7 +48,7 @@ class RaceResult_List_Table extends WP_List_Table
 	function get_columns() {
 		$columns = array(
 			'position'  => 'Pos',
-			//'racenumber' => 'No',
+			'racenumber' => 'No',
 			'display_name' => 'Name',
 			'racetime'  => 'Time',
 			'category'  => 'Age Category',
@@ -66,13 +66,11 @@ class RaceResult_List_Table extends WP_List_Table
 			case 'runner':
 			case 'display_name':
 			case 'user_nicename';
-			//case 'gender';
 			case 'cname':
 			case 'racetime':
 			case 'position':
-			//case 'racenumber':
+			case 'racenumber':
 			case 'category':
-			//case 'posincat':
 			case 'standard':
 			case 'posinstd':
 			case 'pace':
@@ -120,7 +118,7 @@ class RaceResult_List_Table extends WP_List_Table
  		if($item['standard']!='0')
 	 		return sprintf('%d->%d',$item['standard'],$item['poststandard']);
  		else 
- 			return '';// sprintf('%d',$item['poststandard']);
+ 			return '';
  	}
  	
  	function column_display_name($item) {
@@ -133,7 +131,6 @@ class RaceResult_List_Table extends WP_List_Table
 			$permalink,
  			$item['display_name']
  		);
- 		//return sprintf('<a href="/?page_id=%d&name=%s">%s</a>',$page->ID,$item['user_nicename'],$item['display_name']);
  	}
  	
  	function column_event($item) {
@@ -149,12 +146,7 @@ class RaceResult_List_Table extends WP_List_Table
 		$columns = $this->get_columns();
 		$hidden = array();
 		$this->_column_headers = array($columns, $hidden, null);// $this->get_sortable_columns());
-
-		//$orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'position+0'; //If no sort, default to title
-		//$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
-		//if($orderby!='position+0')
-			//$order .= ', position+0';
-		
+	
 		global $wpdb;
 		$query = '
 			SELECT wp_bhaa_raceresult.*,wp_users.display_name,
@@ -167,9 +159,7 @@ class RaceResult_List_Table extends WP_List_Table
 			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY position';
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
 		//error_log($query);	
-		
-		//echo $query;
-		//$totalitems = $wpdb->query($query);
+
 		$querydata = $wpdb->get_results($query,ARRAY_A);
 		$this->items = $querydata;
 	}
@@ -186,10 +176,10 @@ class RaceResult_List_Table extends WP_List_Table
 		if(isset($runner)&&($runner!='')) {
 			ob_start();
 			self::$runnerTable = true;
-			echo '<div class="wrap">';
+			//echo '<div class="wrap">';
 			$this->prepareRunnerItems($runner);
 			$this->display();
-			echo '</div>';
+			//echo '</div>';
 			self::$runnerTable = false;
 			return ob_get_clean();
 		} else {
