@@ -14,8 +14,6 @@ echo '<div class="container_wrap container_wrap_first main_color fullsize">';
 echo '<div class="container">';
 echo '<div class="content">';
 
-
-
 echo do_shortcode('[av_one_third first][av_textblock][bhaa_league division=A top=10][/av_textblock][/av_one_third]');
 echo do_shortcode('[av_one_third ][av_textblock][bhaa_league division=B top=10][/av_textblock][/av_one_third]');
 echo do_shortcode('[av_one_third ][av_textblock][bhaa_league division=L1 top=10][/av_textblock][/av_one_third]');
@@ -27,7 +25,11 @@ echo do_shortcode('[av_one_third ][av_textblock][bhaa_league division=L2 top=10]
 echo do_shortcode('[av_one_half first][av_textblock][bhaa_league division=E top=10][/av_textblock][/av_one_half]');
 echo do_shortcode('[av_one_half ][av_textblock][bhaa_league division=F top=10][/av_textblock][/av_one_half]');
 
-//echo do_shortcode('[separator top="40" style="single"]');
+echo do_shortcode('[av_one_full first]
+[av_notification title="" color=custom border=solid custom_bg="#012C52" custom_font="#ffffff" size="normal"]Comments[/av_notification]
+[av_comments_list]
+[/av_one_full]');
+
 echo '</div></div>';
 echo '</div></div>';
 

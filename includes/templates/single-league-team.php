@@ -14,6 +14,12 @@ echo '<div class="container">';
 echo '<div class="content">';
 echo do_shortcode('[av_one_half first][bhaa_league division=M top=10][/av_one_half]');
 echo do_shortcode('[av_one_half][bhaa_league division=W top=10][/av_one_half]');
+
+echo do_shortcode('[av_one_full first]
+[av_notification title="" color=custom border=solid custom_bg="#012C52" custom_font="#ffffff" size="normal"]Comments[/av_notification]
+[av_comments_list]
+[/av_one_full]');
+
 echo '</div></div>';
 echo '</div></div>';
 if($data['blog_comments']):
