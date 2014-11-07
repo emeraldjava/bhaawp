@@ -30,22 +30,6 @@ if(isset($user->ID)){
 			update_user_meta($user->ID,'bhaa_runner_standard',$std);
 		}
 	}
-	if(isset($_POST['mobilephone-form'])) {
-		if(trim($_POST['mobilephone']) === '') {
-			$runnerError = 'Please enter a mobilephone.';
-			$hasError = true;
-		} else {
-			$mobilephone = trim($_POST['mobilephone']);
-			update_user_meta($user->ID,'bhaa_runner_mobilephone',$mobilephone);
-		}
-	}
-	if(isset($_POST['gender-form'])) {
-		if(trim($_POST['gender']) === '') {
-		} else {
-			$gender = trim($_POST['gender']);
-			update_user_meta($user->ID,'bhaa_runner_gender',$gender);
-		}
-	}
 	if(isset($_POST['companyteam-form'])){
 		if(trim($_POST['companyteam']) === '') {
 		} else {
@@ -94,8 +78,6 @@ if(isset($user->ID)){
 				'<div><form action="" method="POST"><input type="text" size=2 name="std" id="std" placeholder="std" value="'.$metadata['bhaa_runner_standard'][0].'"/><input type="hidden" name="std-form" value="true"/><input type="submit" value="Update Std"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=10 name="dob" id="dob" placeholder="dob" value="'.$metadata['bhaa_runner_dateofbirth'][0].'"/><input type="hidden" name="dob-form" value="true"/><input type="submit" value="Update DOB"/></form></div>'.
 				'<div><form action="" method="POST"><input type="text" size=30 name="email" id="email" value="'.$user->user_email.'"/><input type="hidden" name="email-form" value="true"/><input type="submit" value="Update Email"/></form></div>'.
-				'<div><form action="" method="POST"><input type="text" size=10 name="mobilephone" id="mobilephone" value="'.$metadata['bhaa_runner_mobilephone'][0].'"/><input type="hidden" name="mobilephone-form" value="true"/><input type="submit" value="Update Mobile"/></form></div>'.
-				'<div><form action="" method="POST"><input type="text" size=2 name="gender" id="gender" value="'.$metadata['bhaa_runner_gender'][0].'"/><input type="hidden" name="gender-form" value="true"/><input type="submit" value="Update Gender"/></form></div>'.
 				'<div><form action="" method="POST">'.House_Manager::get_instance()->getCompanyTeamDropdown($user->ID).'<input type="hidden" name="companyteam-form" value="true"/><input type="submit" value="Company Team"/></form></div>'.
 				//'<div><form action="" method="POST">'.House_Manager::get_instance()->getSectorTeamDropdown().'<input type="hidden" name="sectorteam-form" value="true"/><input type="submit" value="Sector Team"/></form></div>'.
 				'<div>Status : '.$metadata['bhaa_runner_status'][0].'</div>'.

@@ -126,7 +126,7 @@ class Runner {
 		return $this->meta[Runner::BHAA_RUNNER_DATEOFBIRTH];
 	}
 	
-	public function getStandard() {
+	function getStandard() {
 		return $this->meta[Runner::BHAA_RUNNER_STANDARD];
 	}
 	
@@ -148,6 +148,10 @@ class Runner {
 	
 	function getCompany() {
 		return $this->meta[Runner::BHAA_RUNNER_COMPANY];
+	}
+	
+	function getMobile() {
+		return $this->meta[Runner::BHAA_RUNNER_MOBILEPHONE];
 	}
 	
 	function getCompanyName() {

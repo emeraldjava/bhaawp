@@ -22,8 +22,60 @@ class Runner_Manager {
 		add_action('admin_action_bhaa_runner_rename_action',array($this,'bhaa_runner_rename_action'));
 		add_action('admin_action_bhaa_runner_email_action',array($this,'bhaa_runner_email_action'));
 		add_action('admin_action_bhaa_runner_dob_action',array($this,'bhaa_runner_dob_action'));
+		add_action('admin_action_bhaa_runner_gender_action',array($this,'bhaa_runner_gender_action'));
+		add_action('admin_action_bhaa_runner_mobile_action',array($this,'bhaa_runner_mobile_action'));
 		add_action('admin_action_bhaa_runner_merge_action',array($this,'bhaa_runner_merge_action'));
 	}
+
+	function bhaa_runner_edit_gender_shortcode() {
+		if(current_user_can('edit_users')) {
+			$runner = new Runner(get_query_var('id'));
+			$form = '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+					wp_nonce_field('bhaa_runner_gender_action').'
+			    <input type="hidden" name="action" value="bhaa_runner_gender_action" />
+				<input type="text" size=2 name="gender" id="gender" value="'.$runner->getGender().'"/>
+				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
+				<input type="submit" value="Gender"/>
+				</form></div>';
+			return $form;
+		} else {
+			return "";
+		}
+	}
+	
+	function bhaa_runner_gender_action() {
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_gender_action')) {
+			update_user_meta($_POST['id'],'bhaa_runner_gender',trim($_POST['gender']));
+		}
+		wp_redirect(wp_get_referer());
+		exit();
+	}
+		
+	function bhaa_runner_edit_mobile_shortcode() {
+		if(current_user_can('edit_users')) {
+			$runner = new Runner(get_query_var('id'));
+			$form = '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+					wp_nonce_field('bhaa_runner_mobile_action').'
+				<input type="text" size="10" name="mobilephone" value="'.$runner->getMobile().'"/>
+			    <input type="hidden" name="action" value="bhaa_runner_mobile_action" />
+				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
+				<input type="submit" value="Mobile"/>
+				</form></div>';
+			return $form;
+		} else {
+			return "";
+		}
+	}
+	
+	function bhaa_runner_mobile_action() {
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_mobile_action')) {
+			update_user_meta($_POST['id'],'bhaa_runner_mobilephone',trim($_POST['mobilephone']));
+		}
+		wp_redirect(wp_get_referer());
+		exit();
+	}
+	
+	
 	
 	/**
 	 * Generate a renewal button for admin users via a shortcode
@@ -32,7 +84,7 @@ class Runner_Manager {
 	function renewal_button_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
-			$form = '<div>Status: '.$runner->getStatus().'. DateOfRenewal '.$runner->getDateOfRenewal().'<br/>';
+			$form = '<p>Status: '.$runner->getStatus().'. DateOfRenewal '.$runner->getDateOfRenewal().'</p>';
 			$form .= '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 				wp_nonce_field('bhaa_runner_renew_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_renew_action" />
@@ -64,8 +116,8 @@ class Runner_Manager {
 	}
 	
 	function bhaa_runner_edit_name_shortcode() {
-		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
+			$runner = new Runner(get_query_var('id'));
 			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 					wp_nonce_field('bhaa_runner_rename_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_rename_action" />
