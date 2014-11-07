@@ -31,12 +31,15 @@ class Runner_Manager {
 	 */
 	function renewal_button_shortcode() {
 		if(current_user_can('edit_users')) {
-			return '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+			$runner = new Runner(get_query_var('id'));
+			$form = '<div>Status: '.$runner->getStatus().'. DateOfRenewal '.$runner->getDateOfRenewal().'<br/>';
+			$form .= '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 				wp_nonce_field('bhaa_runner_renew_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_renew_action" />
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
 				<input type="submit" value="Renew Runner"/>
-				</form>';
+				</form></div>';
+			return $form;
 		} else {
 			return "";
 		}
