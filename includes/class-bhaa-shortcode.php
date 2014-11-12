@@ -52,6 +52,9 @@ class Bhaa_Shortcode{
 		
 		// booking email shortcodes
 		add_shortcode('bhaa_booking_details',array(Events_Manager::get_instance(),'bhaa_booking_details_shortcode'));
+		add_shortcode('bhaa_booking_annual_membership',array(Events_Manager::get_instance(),'bhaa_booking_annual_membership_shortcode'));
+		add_shortcode('bhaa_booking_member_ticket',array(Events_Manager::get_instance(),'bhaa_booking_member_ticket_shortcode'));
+		add_shortcode('bhaa_booking_day_ticket',array(Events_Manager::get_instance(),'bhaa_booking_day_ticket_shortcode'));
 	}	
 		
 	/**
