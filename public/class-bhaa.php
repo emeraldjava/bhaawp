@@ -63,7 +63,7 @@ class Bhaa {
 		Connections::get_instance();
 		RaceCpt::get_instance();
 		new HouseCpt();
-		new Events_Manager();
+		Events_Manager::get_instance();
 		LeagueCpt::get_instance();
 
 		// register the forms
