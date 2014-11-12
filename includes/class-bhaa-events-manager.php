@@ -289,10 +289,9 @@ class Events_Manager {
 	// bhaa_booking_annual_membership
 	function bhaa_booking_annual_membership_shortcode($atts = null,$content = null){
 		$EM_Booking = new EM_Booking(get_query_var('booking_id'));
-		$EM_Ticket = $EM_Booking->get_tickets()->get_first(); 
-		
+		$EM_Ticket = $EM_Booking->get_tickets()->get_first();
 		if(trim($EM_Ticket->ticket_name)=="Annual Membership") {
-			return 'IS a '.$EM_Ticket->ticket_name.'.';//.' CONTENT : '.$content;
+			return 'IS a '.$EM_Ticket->ticket_name.'.';
 		} else {
 			return 'NOT an annual membership, is a '.trim($EM_Ticket->ticket_name).'.';
 		}
@@ -301,23 +300,23 @@ class Events_Manager {
 	// bhaa_booking_member_ticket
 	function bhaa_booking_member_ticket_shortcode($atts = null,$content = null){
 		$EM_Booking = new EM_Booking(get_query_var('booking_id'));
+		$EM_Ticket = $EM_Booking->get_tickets()->get_first();
 		if(trim($EM_Ticket->ticket_name)=="BHAA Member Ticket") {
-			return 'IS a '.$EM_Ticket->ticket_name.'.';//.' CONTENT : '.$content;
+			return 'IS a '.$EM_Ticket->ticket_name.'.';
 		} else {
 			return 'NOT a BHAA Member Ticket, is a '.trim($EM_Ticket->ticket_name).'.';
 		}
-		//return $EM_Booking->get_tickets()->get_first()->ticket_name.' CONTENT : '.$content;
 	}
 	
 	// bhaa_booking_day_ticket
 	function bhaa_booking_day_ticket_shortcode($atts = null,$content = null){
 		$EM_Booking = new EM_Booking(get_query_var('booking_id'));
+		$EM_Ticket = $EM_Booking->get_tickets()->get_first();
 		if(trim($EM_Ticket->ticket_name)=="Day Member Ticket") {
-			return 'IS a '.$EM_Ticket->ticket_name.'.';//.' CONTENT : '.$content;
+			return 'IS a '.$EM_Ticket->ticket_name.'.';
 		} else {
 			return 'NOT a Day Member Ticket, is a '.trim($EM_Ticket->ticket_name).'.';
 		}
-		//return $EM_Booking->get_tickets()->get_first()->ticket_name.' CONTENT : '.$content;
 	}
 	
 	// em_booking_form_custom
