@@ -9,9 +9,19 @@ class Events_Manager {
 	const DAY_MEMBER_TICKET = 'Day Member Ticket';
 	const BHAA_MEMBER_TICKET = 'BHAA Member Ticket';
 	
-	function __construct() {
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() {
 		add_filter('em_event_output_placeholder',array($this,'bhaa_em_event_output_placeholder'),2,4);
-		//add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
+		add_filter('em_booking_output_placeholder',array($this,'bhaa_em_booking_output_placeholder'),1,3);
 
 		add_filter('em_ticket_is_available',array($this,'bhaa_em_ticket_is_available'),10,2);
 		add_filter('em_bookings_get_tickets',array($this,'bhaa_em_add_default_tickets'),1,2);
@@ -58,11 +68,6 @@ class Events_Manager {
 	    }
 	    return $result;
 	}
-	
-//	public function bhaa_em_event_output_placeholder($replace, $EM_Event, $full_result, $target){
-//		error_log(sprintf('bhaa_em_event_output_placeholder(%s %s %s %s)',$replace, $EM_Event, $full_result, $target));
-	//	return $replace;	
-	//}
 	
 	/**
 	 * Set up default tickets for each event.
@@ -211,12 +216,13 @@ class Events_Manager {
 		{
 			case '#_BHAAID':
 				$replace = $EM_Booking->get_person()->ID;
-				return $replace;
+				//return $replace;
 				break;
 			case '#_BHAATICKETS':
-				error_log('bhaa_em_booking_output_placeholder() '.$replace.' '.$result);
+				//error_log('bhaa_em_booking_output_placeholder() '.$replace.' '.$result);
 				//$header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
-				$eventDetails = false;
+				
+				/*$eventDetails = false;
 				$membershipDetails = false;
 				
 				foreach($EM_Booking->get_tickets_bookings() as $EM_Ticket_Booking) {
@@ -230,14 +236,15 @@ class Events_Manager {
 						$eventDetails = true;
 					}
 					break;
-				}
+				}*/
 
 				//error_log(var_dump($EM_Booking,true));
-				$runner = new Runner($EM_Booking->person_id);
-				error_log("booking for "+$runner->getID());
+				//$runner = new Runner($EM_Booking->person_id);
+				error_log("booking "+$EM_Booking->booking_id.' for runner '.$EM_Booking->person_id.' at event '.$EM_Booking->event_id);
 				
 				global $wp_query;
-				$wp_query->set('id',$runner->getID());
+				$wp_query->set('id',$EM_Booking->person_id);
+				$wp_query->set('booking_id',$EM_Booking->booking_id);
 				
 				$page = get_page_by_title('email-runner-booking');
 				$email = apply_filters('the_content', $page->post_content);
@@ -259,22 +266,29 @@ class Events_Manager {
 				//$email = Bhaa_Mustache::get_instance()->inlineCssStyles($email);
 				$message = $EM_Booking->output($email);
 				//error_log("message ".$message);
-				/*$html = '<html>
-				<head>
-				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-						<title>BHAA Booking 2014</title>
-						</head>
-						<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">'.$message.'</body></html>';
-				
-				error_log($html);*/
-				//$replace = $message;
-				return $message;
+				$html = '<html>
+					<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+					</head>
+					<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">'.
+					$message.
+					'</body></html>';
+				//error_log($html);
+				$replace = $html;
 				break;
-				//$html = $header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
-				//break;
 		}
-		//return $html;
+		return $replace;
 	}
+	
+	function bhaa_booking_details_shortcode($atts = null,$content = null){
+		//error_log('bhaa_booking_details_shortcode '.get_query_var('booking_id').' POST '.$_POST['booking_id']);
+		$EM_Booking = new EM_Booking(get_query_var('booking_id'));
+		return '<p>booking '+$EM_Booking->booking_id.' for runner '.$EM_Booking->person_id.' at event '.$EM_Booking->event_id.'</p>'.$content;
+	}
+	
+	// bhaa_booking_annual_membership
+	// bhaa_booking_member_ticket
+	// bhaa_booking_day_ticket
 	
 	// em_booking_form_custom
 	function bhaa_em_booking_form_after_user_details($EM_Event) {

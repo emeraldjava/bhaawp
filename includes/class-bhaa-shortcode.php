@@ -49,6 +49,9 @@ class Bhaa_Shortcode{
 		add_shortcode('bhaa_race_title',array(Bhaa_Shortcode::get_instance(),'bhaa_race_title'));
 		add_shortcode('bhaa_race_results',array(Bhaa_Shortcode::get_instance(),'bhaa_race_results'));
 		add_shortcode('bhaa_race_edit_result',array(Bhaa_Shortcode::get_instance(),'bhaa_race_edit_result'));
+		
+		// booking email shortcodes
+		add_shortcode('bhaa_booking_details',array(Events_Manager::get_instance(),'bhaa_booking_details_shortcode'));
 	}	
 		
 	/**
