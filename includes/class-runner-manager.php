@@ -3,7 +3,6 @@
  * Handles operation on runners.
  * TODO move some stuff to user class.
  * @author oconnellp
- *
  */
 class Runner_Manager {
 	
@@ -462,8 +461,8 @@ class Runner_Manager {
 						.admin_url( 'admin.php' ).'" method="POST">'.
 						wp_nonce_field('bhaa_runner_merge_action').'
 						<input type="hidden" name="action" value="bhaa_runner_merge_action"/>
+						<input type="hidden" name="delete" value="%d"/>
 						<input type="hidden" name="id" value="%d"/>
-						<input type="hidden" name="merge" value="%d"/>
 						<input type="submit" value="Delete %d and merge to %d"/>
 						</form></div>',
 					$matcheduser->ID,
@@ -472,8 +471,9 @@ class Runner_Manager {
 					$matcheduser->ID,get_query_var('id'),
 					$matcheduser->ID,get_query_var('id')
 				);
-			return $table;
 			}
+			$table .= '</div>';
+			return $table;
 		} else {
 			return "";
 		}
@@ -481,7 +481,7 @@ class Runner_Manager {
 	
 	function bhaa_runner_merge_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_merge_action')) {
-			$this->mergeRunner($_POST['id'],$_POST['merge']);
+			$this->mergeRunner($_POST['id'],$_POST['delete']);
 		}
 		wp_redirect(wp_get_referer());
 		exit();
