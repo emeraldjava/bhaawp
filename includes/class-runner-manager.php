@@ -74,20 +74,25 @@ class Runner_Manager {
 		exit();
 	}
 	
-
+	/**
+	 * Show the membership status with last renewal month/year.
+	 * @param unknown $atts
+	 * @return string
+	 */
 	function bhaa_runner_status_shortcode($atts) {
 		$runner = new Runner(get_query_var('id'));
+		$date = DateTime::createFromFormat('Y-m-d',$runner->getDateOfRenewal());
+		$lastRenewalMonthYear = $date->format('F Y');
 		if($runner->getStatus()=='M') {
-			return "Member";
+			return "Member since ".$lastRenewalMonthYear;
 		} else if($runner->getStatus()=='I') {
-			return "Inactive Member";
+			return '<a href='.get_permalink(2151).'>Inactive member '.$lastRenewalMonthYear.' - Renew?</a>';
 		} else if($runner->getStatus()=='D') {
-			return "Day Member";
+			return '<a href='.get_permalink(2151).'>Day Member - How about joining the BHAA</a>';
 		} else {
 			return $runner->getStatus();
 		}
 	}
-	
 	
 	/**
 	 * Generate a renewal button for admin users via a shortcode
