@@ -23,7 +23,7 @@ class Bhaa_Shortcode{
 		add_shortcode('bhaa_runner_id',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_id'));
 		add_shortcode('bhaa_runner_name',array(Runner_Manager::get_instance(),'bhaa_runner_name_shortcode'));
 		add_shortcode('bhaa_runner_standard',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_standard'));
-		add_shortcode('bhaa_runner_status',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_status'));
+		add_shortcode('bhaa_runner_status',array(Runner_Manager::get_instance(),'bhaa_runner_status_shortcode'));
 		add_shortcode('bhaa_runner_company_name',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_company_name'));
 		add_shortcode('bhaa_runner_results',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_results'));
 				
@@ -67,11 +67,6 @@ class Bhaa_Shortcode{
 	function bhaa_runner_standard($atts) {
 		$runner = new Runner(get_query_var('id'));
 		return $runner->getStandard();
-	}
-	
-	function bhaa_runner_status($atts) {
-		$runner = new Runner(get_query_var('id'));
-		return $runner->getStatus();
 	}
 	
 	function bhaa_runner_company_name($atts) {

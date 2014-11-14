@@ -74,6 +74,19 @@ class Runner_Manager {
 		exit();
 	}
 	
+
+	function bhaa_runner_status_shortcode($atts) {
+		$runner = new Runner(get_query_var('id'));
+		if($runner->getStatus()=='M') {
+			return "Member";
+		} else if($runner->getStatus()=='I') {
+			return "Inactive Member";
+		} else if($runner->getStatus()=='D') {
+			return "Day Member";
+		} else {
+			return $runner->getStatus();
+		}
+	}
 	
 	
 	/**
