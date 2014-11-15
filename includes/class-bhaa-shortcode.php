@@ -41,6 +41,7 @@ class Bhaa_Shortcode{
 		add_shortcode('house_sector',array(Bhaa_Shortcode::get_instance(),'house_sector'));
 		add_shortcode('house_runner_table',array(Bhaa_Shortcode::get_instance(),'house_runner_table'));
 		add_shortcode('house_website_url',array(Bhaa_Shortcode::get_instance(),'house_website_url'));
+		add_shortcode('house_image',array(Bhaa_Shortcode::get_instance(),'house_image_shortcode'));
 		
 		// league related shortcodes
 		add_shortcode('bhaa_league',array(Bhaa_Shortcode::get_instance(),'bhaa_league'));
@@ -108,6 +109,13 @@ class Bhaa_Shortcode{
 	
 	function house_sector($args){
 		return get_the_term_list(get_the_ID(), 'sector', 'Sector : ', ', ', '');
+	}
+
+	/**
+	 * Return the post thumbnail
+	 */	
+	function house_image_shortcode() {
+		return get_the_post_thumbnail(get_the_ID(),'medium');
 	}
 	
 	function house_runner_table($args) {
