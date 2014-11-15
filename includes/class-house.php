@@ -58,6 +58,7 @@ class House {
 		//return $runners;
 		
 		$x = array_values($runners);
+		//var_dump($x[0]);
 		return $x;
 	}
 	
