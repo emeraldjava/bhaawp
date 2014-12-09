@@ -302,7 +302,8 @@ class RaceResult extends BaseModel implements Table
 	}
 	
 	function updateRacePosInCat() {
-		$this->wpdb->query($this->wpdb->prepare('call updatePositionInAgeCategory(%d)',$this->post_id));
+		$this->wpdb->query($this->wpdb->prepare('call updatePositionInAgeCategory(%d,"M")',$this->post_id));
+		$this->wpdb->query($this->wpdb->prepare('call updatePositionInAgeCategory(%d,"W")',$this->post_id));
 	}
 	
 	function updateRacePosInStd() {

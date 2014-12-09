@@ -82,7 +82,7 @@ BEGIN
     insert into tmp_raceresult
 		select race, runner, @row:=@row+1
 	    from wp_bhaa_raceresult, (SELECT @row:=0) r
-	    where race=_race order by racetime;
+	    where race=_race AND class='RAN' order by racetime;
 	    
 	alter table tmp_raceresult add index (race,runner);
 	
@@ -139,7 +139,7 @@ END$$
 
 -- updatePositionInAgeCategory
 DROP PROCEDURE IF EXISTS `updatePositionInAgeCategory`$$
-CREATE PROCEDURE `updatePositionInAgeCategory`(_raceId INT(11))
+CREATE PROCEDURE `updatePositionInAgeCategory`(_raceId INT(11),_gender ENUM('M','W'))
 BEGIN
 
  DECLARE _nextCategory VARCHAR(6);
@@ -160,7 +160,12 @@ BEGIN
     INSERT INTO tmpCategoryRaceResult(runner)
     SELECT runner
     FROM wp_bhaa_raceresult
-    WHERE race = _raceId AND category = _nextCategory AND class='RAN' ORDER BY position;
+    JOIN wp_usermeta gender on (gender.user_id=wp_bhaa_raceresult.runner AND gender.meta_key='bhaa_runner_gender')
+    WHERE race = _raceId 
+    AND category = _nextCategory 
+    AND class='RAN' 
+    AND gender.meta_value=_gender
+    ORDER BY position;
     UPDATE wp_bhaa_raceresult, tmpCategoryRaceResult
     SET wp_bhaa_raceresult.posincat = tmpCategoryRaceResult.actualposition
     WHERE wp_bhaa_raceresult.runner = tmpCategoryRaceResult.runner AND wp_bhaa_raceresult.race = _raceId;
