@@ -20,7 +20,8 @@ Shortcodes
 
 Change Log
 ==========
-- 2012.12.00 Fix up age category and positions.
+- 2012.12.11 Edit runner standard shortcode.
+- 2012.12.10 Fix up age category and positions.
 - 2014.11.07 Split admin shortcodes for the renewal email.
 - 2014.11.03 Register the Race CPT via the public class and not the admin one.
 - 2014.10.23 Add renewal and edit name shortcode for registrar user.

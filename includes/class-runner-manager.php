@@ -22,10 +22,35 @@ class Runner_Manager {
 		add_action('admin_action_bhaa_runner_email_action',array($this,'bhaa_runner_email_action'));
 		add_action('admin_action_bhaa_runner_dob_action',array($this,'bhaa_runner_dob_action'));
 		add_action('admin_action_bhaa_runner_gender_action',array($this,'bhaa_runner_gender_action'));
+		add_action('admin_action_bhaa_runner_standard_action',array($this,'bhaa_runner_standard_action'));		
 		add_action('admin_action_bhaa_runner_mobile_action',array($this,'bhaa_runner_mobile_action'));
 		add_action('admin_action_bhaa_runner_merge_action',array($this,'bhaa_runner_merge_action'));
 	}
 
+	function bhaa_runner_edit_standard_shortcode() {
+		if(current_user_can('edit_users')) {
+			$runner = new Runner(get_query_var('id'));
+			$form = '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+					wp_nonce_field('bhaa_runner_standard_action').'
+			    <input type="hidden" name="action" value="bhaa_runner_standard_action" />
+				<input type="text" size=1 name="standard" id="standard" value="'.$runner->getStandard().'"/>
+				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
+				<input type="submit" value="Standard"/>
+				</form></div>';
+			return $form;
+		} else {
+			return "";
+		}
+	}
+	
+	function bhaa_runner_standard_action() {
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_standard_action')) {
+			update_user_meta($_POST['id'],'bhaa_runner_standard',trim($_POST['standard']));
+		}
+		wp_redirect(wp_get_referer());
+		exit();
+	}
+	
 	function bhaa_runner_edit_gender_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));

@@ -33,6 +33,7 @@ class Bhaa_Shortcode{
 		add_shortcode('bhaa_runner_edit_dob',array(Runner_Manager::get_instance(),'bhaa_runner_edit_dob_shortcode'));
 		add_shortcode('bhaa_runner_edit_gender',array(Runner_Manager::get_instance(),'bhaa_runner_edit_gender_shortcode'));
 		add_shortcode('bhaa_runner_edit_mobile',array(Runner_Manager::get_instance(),'bhaa_runner_edit_mobile_shortcode'));
+		add_shortcode('bhaa_runner_edit_standard',array(Runner_Manager::get_instance(),'bhaa_runner_edit_standard_shortcode'));
 		add_shortcode('bhaa_runner_matches',array(Runner_Manager::get_instance(),'bhaa_runner_matches_shortcode'));
 		add_shortcode('bhaa_runner_renew',array(Runner_Manager::get_instance(),'renewal_button_shortcode'));
 				
