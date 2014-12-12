@@ -51,9 +51,10 @@ class RaceResult_List_Table extends WP_List_Table
 			'racenumber' => 'No',
 			'display_name' => 'Name',
 			'racetime'  => 'Time',
-			'category'  => 'Age Category',
+			'category'  => 'Cat',
+			//'pcategory'  => 'Pos Cat',
 			'standard'  => 'Std',
-			'posinstd' => 'Pos Std',
+			//'posinstd' => 'Pos Std',
 			'cname'    => 'Company'
 		);
 		return $columns;
@@ -91,11 +92,12 @@ class RaceResult_List_Table extends WP_List_Table
 	 * @return string
 	 */
  	function column_cname($item) {
- 		return sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$item['cid'],$item['cname']);
+ 		return sprintf('<a class="bhaa-url-link" href="/?post_type=house&p=%d"><b>%s</b></a>',$item['cid'],$item['cname']);
  	}
  	
  	function column_racetime($item) {
- 		return sprintf('%1$s [%2$d]', $item['racetime'], $item['actualstandard']);
+ 		//return sprintf('%1$s [%2$d]', $item['racetime'], $item['actualstandard']);
+ 		return sprintf('%1$s',$item['racetime']);
  	}
  	
  	/**
@@ -103,22 +105,28 @@ class RaceResult_List_Table extends WP_List_Table
  	 */
  	function column_category($item) {
  		return $item['category'].$item['gender'].' p'.str_pad($item['posincat'],2,"0",STR_PAD_LEFT);
+ 		//return $item['category'].$item['gender'];
+ 	}
+ 	
+ 	function column_pcategory($item) {
+ 		return $item['posincat'];//$item['category'].$item['gender'].' p'.str_pad($item['posincat'],2,"0",STR_PAD_LEFT);
  	}
  	
  	function column_position($item) {
  		if ( ! current_user_can('edit_users')) {
  			return sprintf('%d',$item['position']);
  		} else {
-	 		return sprintf('<a target="_blank" href="/edit-result-page-template?bhaa_raceresult_id=%d&bhaa_runner=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d&bhaa_time=%s">%d</a>',
+	 		return sprintf('<a target="_blank" class="bhaa-url-link" href="/edit-result-page-template?bhaa_raceresult_id=%d&bhaa_runner=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d&bhaa_time=%s">%d</a>',
 	 			$item['id'],$item['runner'],$item['standard'],$item['poststandard'],$item['race'],$item['racetime'],$item['position']);
  		}
  	}
  	
  	function column_standard($item) {
- 		if($item['standard']!='0')
+ 		if($item['standard']!='0') {
 	 		return sprintf('%d->%d',$item['standard'],$item['poststandard']);
- 		else 
- 			return '';
+ 		} else { 
+ 			return sprintf('%d', $item['actualstandard']);
+ 		}
  	}
  	
  	function column_display_name($item) {
@@ -126,7 +134,7 @@ class RaceResult_List_Table extends WP_List_Table
  		$permalink = get_permalink($page);
  		$permalink = add_query_arg(array('user_nicename'=>$item['user_nicename']),$permalink);
  		$permalink = add_query_arg(array('id'=>$item['runner']),$permalink);
- 		return sprintf('<a r="%d" href="%s"><b>%s</b></a>',
+ 		return sprintf('<a class="bhaa-url-link" r="%d" href="%s"><b>%s</b></a>',
 			$item['runner'],
 			$permalink,
  			$item['display_name']
@@ -135,7 +143,7 @@ class RaceResult_List_Table extends WP_List_Table
  	
  	function column_event($item) {
  		$page = get_post($item['event']);
- 		return '<a href='.get_permalink($item['event']).'><b>'.get_the_title($item['event']).'</b></a>';
+ 		return '<a class="bhaa-url-link" href='.get_permalink($item['event']).'><b>'.get_the_title($item['event']).'</b></a>';
  	}
 
 	/**

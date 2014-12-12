@@ -426,6 +426,10 @@ class Bhaa {
 		plugins_url().'/bhaawp/public/assets/css/tablesorter/theme.default.css',
 		false);
 		wp_enqueue_style(
+		'tablesorter-bhaa-css',
+		plugins_url().'/bhaawp/public/assets/css/tablesorter/tablesorter.css',
+		false);
+		wp_enqueue_style(
 		'jquery-bhaa-style',
 		plugins_url().'/bhaawp/public/assets/css/jqueryui/jquery-ui-1.10.3.custom.min.css',
 		false);

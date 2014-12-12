@@ -1,19 +1,14 @@
-jQuery(document).ready( function() {
-	
-	//jQuery( "#sortable" ).sortable();
-	//jQuery( "#sortable" ).disableSelection();
-	
+jQuery(document).ready( function() {	
 	// table sorter
 	jQuery('.race_results').tablesorter({
 		sortList: [[0,0]],
-    	debug: false,
     	stringTo: "min",
         headers: {
-            4: {
-                sorter: 'digit'
-            }
+        	1: {sorter: false},
+        	3: {sorter: false},
+            5: {sorter: false}
         }
-	}); 
+	});
 	
 	jQuery('.runner_results').tablesorter({
 		sortList: [[1,1]]

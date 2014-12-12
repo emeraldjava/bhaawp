@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2012.12.12 Tidy the race result table.
 - 2012.12.11 Edit runner standard shortcode.
 - 2012.12.10 Fix up age category and positions.
 - 2014.11.07 Split admin shortcodes for the renewal email.
