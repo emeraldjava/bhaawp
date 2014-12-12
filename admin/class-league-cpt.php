@@ -315,24 +315,6 @@ class LeagueCpt {
 	        'capability_type' => 'post'
 	        );
 		register_post_type('league', $leagueArgs );
-		
-		$labels = array(
-			'name' => _x( 'Divisions', 'division' ),
-			'singular_name' => _x( 'Division', 'division' ),
-			'search_items' => _x( 'Search divisions', 'division' ),
-			'popular_items' => _x( 'Popular divisions', 'division' ),
-			'all_items' => _x( 'All divisions', 'division' ),
-			'parent_item' => _x( 'Parent division', 'division' ),
-			'parent_item_colon' => _x( 'Parent division:', 'division' ),
-			'edit_item' => _x( 'Edit division', 'division' ),
-			'update_item' => _x( 'Update division', 'division' ),
-			'add_new_item' => _x( 'Add New division', 'division' ),
-			'new_item_name' => _x( 'New division', 'division' ),
-			'separate_items_with_commas' => _x( 'Separate divisions with commas', 'division' ),
-			'add_or_remove_items' => _x( 'Add or remove divisions', 'division' ),
-			'choose_from_most_used' => _x( 'Choose from most used divisions', 'division' ),
-			'menu_name' => _x( 'Divisions', 'division' ),
-		);
 	}
 }
 ?>

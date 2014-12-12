@@ -7,6 +7,7 @@ require_once(BHAA_PLUGIN_DIR.'/admin/class-event-admin.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-race-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-league-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-house-cpt.php');
+require_once(BHAA_PLUGIN_DIR.'/admin/class-course-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 
 // 3rd party libs
