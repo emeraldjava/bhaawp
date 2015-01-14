@@ -1,0 +1,22 @@
+<a href="http://bhaa.ie"><img src="http://bhaa.ie/wp-content/uploads/2013/11/bhaa_logo.jpg" align="middle"></a>
+
+Dear #_BOOKINGNAME,
+
+Thank you for using the online ticketing system to book your place for the BHAA #_EVENTNAME event.
+
+<b>Event:</b> #_BOOKINGTICKETNAME for #_EVENTNAME
+
+<b>Paid:</b> #_BOOKINGTICKETPRICE was paid for 1 #_BOOKINGTICKETNAME
+
+<b>When:</b> #_EVENTDATES @ #_EVENTTIMES
+
+<b>Where:</b> #_LOCATIONNAME - #_LOCATIONFULLLINE
+
+<b>BHAA ID:</b> #_BHAAID
+
+Please print this email and bring it with you to the BHAA event you are attending. You can collect your chipped race number at registration on the day of the event.
+
+Yours in sport,
+The BHAA Committee
+
+If you have any question please contact us via email at <a href="mailto:info@bhaa.ie?Subject=BHAA%20Ticket%20Query" target="_top">info@bhaa.ie</a>
