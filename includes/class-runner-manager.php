@@ -107,11 +107,15 @@ class Runner_Manager {
 	function bhaa_runner_status_shortcode($atts) {
 		$runner = new Runner(get_query_var('id'));
 		$date = DateTime::createFromFormat('Y-m-d',$runner->getDateOfRenewal());
-		$lastRenewalMonthYear = $date->format('F Y');
+		if(is_object($date)){
+			$lastRenewalMonthYear = $date->format('F Y');
+		} else {
+			$lastRenewalMonthYear='2015';
+		}
 		if($runner->getStatus()=='M') {
 			return "Member since ".$lastRenewalMonthYear;
 		} else if($runner->getStatus()=='I') {
-			return '<a href='.get_permalink(2151).'>Inactive member '.$lastRenewalMonthYear.' - Renew?</a>';
+			return '<a href='.get_permalink(2151).'>Inactive member since '.$lastRenewalMonthYear.' - Renew?</a>';
 		} else if($runner->getStatus()=='D') {
 			return '<a href='.get_permalink(2151).'>Day Member - How about joining the BHAA</a>';
 		} else {
