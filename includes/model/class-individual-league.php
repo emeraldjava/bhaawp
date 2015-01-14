@@ -28,7 +28,7 @@ class IndividualLeague extends AbstractLeague {
 			AND ls.leagueposition <= %d
 			AND ls.leaguescorecount>=1
 			order by league, leaguedivision, leagueposition',$this->getLeagueId(),$division,$limit);
-		error_log($this->getLeagueId().' '.$query);
+		//error_log($this->getLeagueId().' '.$query);
 		$summary = $this->getWpdb()->get_results($query);
 		
 		$divisionDetails = $this->getDivisionDetails($division);
@@ -148,7 +148,7 @@ class IndividualLeague extends AbstractLeague {
 			AND rt.meta_value!="TRACK" -- exclude TRACK events
 			GROUP BY le.id,rr.runner
 			HAVING COALESCE(leaguepoints, 0) > 0;',$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		
 		// set the divisions
@@ -157,61 +157,61 @@ class IndividualLeague extends AbstractLeague {
 			JOIN wp_bhaa_division d ON ((wp_bhaa_leaguesummary.leaguestandard BETWEEN d.min AND d.max) AND d.type="I" and d.gender=gender.meta_value)
 			set wp_bhaa_leaguesummary.leaguedivision=d.code
 			where league=%d',$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		
 		$this->getWpdb()->query("SET @a=0");
 		$SQL = $this->getWpdb()->prepare("UPDATE wp_bhaa_leaguesummary SET leagueposition=(@a:=(@a+1)) 
 			where leaguedivision='A' and league=%d ORDER BY leaguepoints DESC",$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		$this->getWpdb()->query("SET @b=0");
 		$SQL = $this->getWpdb()->prepare("UPDATE wp_bhaa_leaguesummary SET leagueposition=(@b:=(@b+1))
 			where leaguedivision='B' and league=%d ORDER BY leaguepoints DESC",$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		$this->getWpdb()->query("SET @c=0");
 		$SQL = $this->getWpdb()->prepare("UPDATE wp_bhaa_leaguesummary SET leagueposition=(@c:=(@c+1))
 			where leaguedivision='C' and league=%d ORDER BY leaguepoints DESC",$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		$this->getWpdb()->query("SET @d=0");
 		$SQL = $this->getWpdb()->prepare("UPDATE wp_bhaa_leaguesummary SET leagueposition=(@d:=(@d+1))
 			where leaguedivision='D' and league=%d ORDER BY leaguepoints DESC",$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		$this->getWpdb()->query("SET @e=0");
 		$SQL = $this->getWpdb()->prepare("UPDATE wp_bhaa_leaguesummary SET leagueposition=(@e:=(@e+1))
 			where leaguedivision='E' and league=%d ORDER BY leaguepoints DESC",$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		$this->getWpdb()->query("SET @f=0");
 		$SQL = $this->getWpdb()->prepare("UPDATE wp_bhaa_leaguesummary SET leagueposition=(@f:=(@f+1))
 			where leaguedivision='F' and league=%d ORDER BY leaguepoints DESC",$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		$this->getWpdb()->query("SET @g=0");
 		$SQL = $this->getWpdb()->prepare("UPDATE wp_bhaa_leaguesummary SET leagueposition=(@g:=(@g+1))
 			where leaguedivision='L1' and league=%d ORDER BY leaguepoints DESC",$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		$this->getWpdb()->query("SET @h=0");
 		$SQL = $this->getWpdb()->prepare("UPDATE wp_bhaa_leaguesummary SET leagueposition=(@h:=(@h+1))
 			where leaguedivision='L2' and league=%d ORDER BY leaguepoints DESC",$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		
 		// update the league summary
 		$SQL = $this->getWpdb()->prepare("update wp_bhaa_leaguesummary set leaguesummary=
 			getLeagueRunnerSummary(leagueparticipant,%d,'M') where
 			league=%d and leaguedivision in ('A','B','C','D','E','F')",$this->leagueid,$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		
 		$SQL = $this->getWpdb()->prepare("update wp_bhaa_leaguesummary set leaguesummary=
 			getLeagueRunnerSummary(leagueparticipant,%d,'W') where
 			league=%d and leaguedivision in ('L1','L2')",$this->leagueid,$this->leagueid);
-		error_log($SQL);
+		//error_log($SQL);
 		$res = $this->getWpdb()->query($SQL);
 		
 		queue_flash_message('Updated league content '.$this->leagueid);
