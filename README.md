@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2015.01.21 Add a text alert admin page.
 - 2015.01.14 Update the bhaa_runner_status_shortcode() logic to handle dates.
 - 2014.12.12 Add course cpt with p2p link to events. Tidy the race result table.
 - 2014.12.11 Edit runner standard shortcode.

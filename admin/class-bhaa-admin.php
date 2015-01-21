@@ -46,9 +46,10 @@ class Bhaa_Admin {
 		//error_log("admin "+plugin_dir_path( __DIR__ )+" "+$plugin_basename);
 		add_filter('plugin_action_links_'.$plugin_basename, array( $this, 'add_action_links' ) );
 	
-		add_action('pre_user_query', array(&$this,'match_runners_who_have_raced'));
+		add_action('pre_user_query', array($this,'match_runners_who_have_raced'));
 		
-		add_action('admin_action_bhaa_send_email',array(&$this,'bhaa_send_email'));
+		add_action('admin_action_bhaa_send_email',array($this,'bhaa_send_email'));
+		add_action('admin_action_bhaa_admin_send_text',array($this,'bhaa_admin_send_text'));
 		
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
@@ -199,10 +200,10 @@ class Bhaa_Admin {
 		add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
 		add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
 		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options', 'bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
-		add_submenu_page('bhaa' ,'BHAA','Standards','manage_options', 'bhaa_admin_standards' , array(&$this, 'bhaa_admin_standards'));
+		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options', 'bhaa_admin_standards' , array(&$this, 'bhaa_admin_standards'));
+		add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options', 'bhaa_admin_text' , array(&$this, 'bhaa_admin_text'));
 		// options panel
 		//add_options_page( 'BHAA Plugin Options', 'BHAA', 'manage_options', 'bhaa-options', array(&$this,'bhaa_plugin_options'));
-		
 	}
 	
 	public function register_settings() {
@@ -485,6 +486,20 @@ class Bhaa_Admin {
             ) rr ON (wp_users.ID = rr.runner)';
 			$query->query_where = $query->query_where . ' AND rr.races > 0 ';
 		}
+	}
+	
+	/**
+	 * Display the text submission form
+	 */
+	function bhaa_admin_text(){
+		include_once('views/bhaa_admin_text_form.php');
+	}
+	
+	/**
+	 * http://jaskokoyn.com/2013/03/26/wordpress-admin-forms/
+	 */
+	function bhaa_admin_send_text(){
+		echo 'bhaa_admin_send_text';
 	}
 }
 ?>
