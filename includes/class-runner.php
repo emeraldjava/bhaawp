@@ -154,16 +154,17 @@ class Runner {
 		return $this->meta[Runner::BHAA_RUNNER_MOBILEPHONE];
 	}
 	
+	/**
+	 * Return a url link the runners company.
+	 * @return string
+	 */
 	function getCompanyName() {
 		$cid = $this->getCompany();
 		if(isset($cid)) {
-			global $wpdb;
-			$name = $wpdb->get_var(
-				$wpdb->prepare('select post_title from wp_posts where ID = %s',$cid)); 
-			return $name;
+			return sprintf('<a href="%s">%s</a>',get_permalink($cid),get_the_title($cid));
 		}		
 		else
-			return 'Company:'.$cid;
+			return '';
 	}
 	
 	/**
