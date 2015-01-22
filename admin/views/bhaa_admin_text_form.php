@@ -1,6 +1,11 @@
 <div class="wrap">
 <!-- http://jaskokoyn.com/2013/03/26/wordpress-admin-forms/ -->
 <h2>BHAA Text Submit Page</h2>
+<?php
+if(isset( $_GET['result'])){
+	echo "<div id='message' class='updated fade'><p><strong>Text message sent</strong></p></div>";
+}
+?>
 <form method="post" action="<?php echo admin_url( 'admin.php' ) ?>">
 	<input type="hidden" name="action" value="bhaa_admin_send_text" />
 	<?php wp_nonce_field( 'bhaa_admin_send_text' ); ?>

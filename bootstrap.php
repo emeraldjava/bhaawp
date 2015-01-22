@@ -9,6 +9,7 @@ require_once(BHAA_PLUGIN_DIR.'/admin/class-league-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-house-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-course-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
+require_once(BHAA_PLUGIN_DIR.'/admin/class-02-texter.php');
 
 // 3rd party libs
 // Register Mustache

@@ -498,8 +498,23 @@ class Bhaa_Admin {
 	/**
 	 * http://jaskokoyn.com/2013/03/26/wordpress-admin-forms/
 	 */
-	function bhaa_admin_send_text(){
-		echo 'bhaa_admin_send_text';
+	function bhaa_admin_send_text() {
+		$texter = new O2Texter();
+		// 0863799240	BHAA10	Bhaa9240
+		$loginResult = $texter->login('0863799240','Bhaa9240');
+		error_log('$loginResult='.$loginResult);
+		
+		$gotoResult = $texter->goto_text_page();
+		error_log('$gotoResult='.$gotoResult);
+		 
+		if($loginResult==1) {
+			$sendMessageResult = $texter->send_message('0863701860','bhaa_admin_send_text');
+			error_log('$sendMessageResult='.$sendMessageResult);
+		}
+		
+		$texter->delCookie();
+		wp_redirect(admin_url('admin.php?page=bhaa_admin_text&result='.$sendMessageResult));
+		exit;
 	}
 }
 ?>
