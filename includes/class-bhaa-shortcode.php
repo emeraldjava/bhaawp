@@ -102,12 +102,21 @@ class Bhaa_Shortcode{
 	}
 	
 	/**
-	 * House related short codes
+	 * Return the house title as plaintext or edit URL for admin users. 
 	 */
 	function house_title($args) {
-		return get_the_title();
+		if(current_user_can('edit_users')) {
+			return sprintf('<a target="_blank" href="%s">Edit %s</a>',get_edit_post_link(get_the_ID()),get_the_title(get_the_ID()));
+		} else {
+			return get_the_title();
+		}
 	}
 	
+	/**
+	 * Return the sector this house belongs to.
+	 * @param unknown $args
+	 * @return Ambigous <string, boolean, WP_Error, multitype:, mixed>
+	 */
 	function house_sector($args){
 		return get_the_term_list(get_the_ID(), 'sector', 'Sector : ', ', ', '');
 	}
