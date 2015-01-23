@@ -9,7 +9,7 @@ class HouseCpt {
 		add_action( 'init', array(&$this,'bhaa_register_cpt_house'));
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamtype'));
-		add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamstatus'));
+		//add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamstatus'));
 		
 		// display the admin status column
 		add_filter('manage_house_posts_columns',array($this,'bhaa_manage_house_posts_columns'));
