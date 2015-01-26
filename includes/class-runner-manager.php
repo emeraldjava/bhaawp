@@ -680,7 +680,7 @@ class Runner_Manager {
 		$start = round(microtime(true) * 1000);
 		$result = $wpdb->get_results($SQL);
 		$end = round(microtime(true) * 1000);
-		error_log('SQL time '.($end-$start));
+		//error_log('SQL time '.($end-$start));
 		return $result;
 	}
 }
