@@ -117,8 +117,8 @@ class Bhaa_Shortcode{
 	 * @param unknown $args
 	 * @return Ambigous <string, boolean, WP_Error, multitype:, mixed>
 	 */
-	function house_sector($args){
-		return get_the_term_list(get_the_ID(), 'sector', 'Sector : ', ', ', '');
+	function house_sector($args) {
+		return get_the_term_list(get_the_ID(), 'sector', 'Sector : ', ', ', '');//.' terms '.the_terms(get_the_ID(), 'sector', 'categories: ', ' / ' );;
 	}
 
 	/**
