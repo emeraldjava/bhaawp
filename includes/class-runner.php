@@ -110,7 +110,7 @@ class Runner {
 		return $this->__get('ID');// $this->user->ID;
 	}
 	
-	function geUserEmail() {
+	function getUserEmail() {
 		return $this->__get('user_email');//$this->user->user_email;
 	}
 
@@ -184,72 +184,24 @@ class Runner {
 	 * This method updates the runners reneal date and emails them a confirmation.
 	 */
 	function renew() {
-		error_log('renew() '.$this->user->ID.' '.$this->user->user_email);
-		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_STATUS, 'M');
-		update_user_meta($this->user->ID, Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
-		if($this->user->user_email!=''||$this->user->user_email!=null) {
-			
-			//$runner = new Runner($EM_Booking->get_person()->ID);
-			
+		error_log('renew() '.$this->getID().' '.$this->getUserEmail());
+		update_user_meta($this->getID(), Runner::BHAA_RUNNER_STATUS, 'M');
+		update_user_meta($this->getID(), Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
+		if($this->getUserEmail()!=''||$this->getUserEmail()!=null) {
+						
 			global $wp_query;
-			$wp_query->set('id',$this->user->ID);
-			
-			//ob_start();
-			//the_content();
-
+			$wp_query->set('id',$this->getID());
 			$page = get_page_by_title('email-runner-renewal');
-			
-			// http://digwp.com/2009/07/putting-the_content-into-a-php-variable/
-			//ob_start();
-			//$message = apply_filters('the_content', $this->get_the_content($page));
-			//$message = ob_get_clean();
-			
 			$message = apply_filters('the_content', $page->post_content);
-			//$content = ob_get_clean();
-			
-			//error_log($message);
-			
-			// runner-renewal-email
-			/*$message = Bhaa_Mustache::get_instance()->loadTemplate('runner-renewal-email')->render(
-				array(
-					'user'=>$this,
-					'sent_time'=>date('h:i:s d/m/Y', time())
-				)
-			);*/
-			
-			// email-runner-renewal
-			//$css = bloginfo('stylesheet_url');
-			//$css = get_stylesheet_uri().'/style.css';
-			//error_log($css);
-			//$message = Bhaa_Mustache::get_instance()->inlineCssStyles($message);
-			//error_log($message);
-			/*
-			$inlineCss = true;
-			if($inlineCss) {
-				// create instance
-				$cssToInlineStyles = new CssToInlineStyles();
-				
-				$html = $message;
-				$css = file_get_contents('./templates/email.css');
-				
-				$cssToInlineStyles->setHTML($html);
-				$cssToInlineStyles->setCSS($css);
-				
-				// output
-				$message = $cssToInlineStyles->convert();
-				//error_log($message);
-			}	*/		
 			
 			//Prepare headers for HTML
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset="utf-8"' . "\r\n";
 			$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
-			$subject = 'BHAA Renewal 2015 : '.$this->user->user_firstname.' '.$this->user->user_lastname;
- 			$res = wp_mail($this->user->user_email,$subject,'<html>'.$message.'</html>',$headers);
- 			error_log("email sent ".$res);
+			$subject = 'BHAA Renewal 2015 : '.$this->getFirstName().' '.$this->getLastName();
+ 			$res = wp_mail($this->getUserEmail(),$subject,'<html>'.$message.'</html>',$headers);
+ 			error_log("renewal email sent ".$res);
 		}
-		//wp_redirect(wp_get_referer());
-		//exit();
 	}
 }
 ?>

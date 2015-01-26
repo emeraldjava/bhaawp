@@ -196,7 +196,7 @@ class Runner_Manager {
 			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 				wp_nonce_field('bhaa_runner_email_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_email_action"/>
-				<input type="text" name="email" value="'.$runner->geUserEmail().'"/>
+				<input type="text" name="email" value="'.$runner->getUserEmail().'"/>
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
 				<input type="submit" value="Email"/>
 				</form></div>';
