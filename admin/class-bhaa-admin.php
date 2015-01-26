@@ -50,6 +50,7 @@ class Bhaa_Admin {
 		
 		add_action('admin_action_bhaa_send_email',array($this,'bhaa_send_email'));
 		add_action('admin_action_bhaa_admin_send_text',array($this,'bhaa_admin_send_text'));
+		add_action('admin_action_bhaa_admin_racetec_export',array($this,'bhaa_admin_racetec_export'));
 		
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
@@ -199,11 +200,10 @@ class Bhaa_Admin {
 		add_submenu_page('bhaa', 'BHAA', 'Members JSON', 'manage_options', 'bhaa_admin_members_json', array(&$this, 'bhaa_admin_members_json'));
 		add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
 		add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
-		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options', 'bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
-		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options', 'bhaa_admin_standards' , array(&$this, 'bhaa_admin_standards'));
-		add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options', 'bhaa_admin_text' , array(&$this, 'bhaa_admin_text'));
-		// options panel
-		//add_options_page( 'BHAA Plugin Options', 'BHAA', 'manage_options', 'bhaa-options', array(&$this,'bhaa_plugin_options'));
+		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options','bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
+		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options','bhaa_admin_standards',array(&$this, 'bhaa_admin_standards'));
+		add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options','bhaa_admin_text',array(&$this,'bhaa_admin_text'));
+		add_submenu_page('bhaa' ,'BHAA', 'Racetec','manage_options','bhaa_admin_racetec',array(&$this,'bhaa_admin_racetec'));
 	}
 	
 	public function register_settings() {
@@ -500,8 +500,8 @@ class Bhaa_Admin {
 	 */
 	function bhaa_admin_send_text() {
 		$texter = new O2Texter();
-		// 0863799240	BHAA10	Bhaa9240
-		$loginResult = $texter->login('0863799240','Bhaa9240');
+		// 0863799240	BHAA10	Bhaa
+		$loginResult = $texter->login('0863799240','Bhaa');
 		error_log('$loginResult='.$loginResult);
 		
 		$gotoResult = $texter->goto_text_page();
@@ -515,6 +515,27 @@ class Bhaa_Admin {
 		$texter->delCookie();
 		wp_redirect(admin_url('admin.php?page=bhaa_admin_text&result='.$sendMessageResult));
 		exit;
+	}
+	
+	/**
+	 * Display the racetec export panel.
+	 */
+	function bhaa_admin_racetec(){
+		error_log('bhaa_admin_racetec');
+		include_once('views/bhaa_admin_racetec.php');
+	}
+	
+	function bhaa_admin_racetec_export(){
+		error_log('bhaa_admin_racetec_export');
+		Runner_Manager::get_instance()->exportRacetecAtheletes();
+		$output = 'this,is,the,file';
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Content-Length: ".strlen($output));
+		header("Content-type: text/x-csv");
+		header("Content-Disposition: attachment; filename=racetec.athlete.csv");
+		echo $output;
+		exit;
+//		return 'bhaa_admin_racetec_export';
 	}
 }
 ?>
