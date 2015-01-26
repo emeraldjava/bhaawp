@@ -527,40 +527,42 @@ class Bhaa_Admin {
 	
 	function bhaa_admin_racetec_export(){
 		
-		ini_set('max_execution_time', 480); //8 minutes
+		//ini_set('max_execution_time', 480); //8 minutes
 		
 		$limit = 3000;
-		error_log('bhaa_admin_racetec_export '.$limit);
+		//error_log('bhaa_admin_racetec_export '.$limit);
 		
 		$start = round(microtime(true) * 1000);
 		$athletes = Runner_Manager::get_instance()->exportRacetecAtheletes($limit);
 		error_log('bhaa_admin_racetec_export '.sizeof($athletes));
 		
-		$output = "";
-		$columns = $athletes[0];
-		foreach ($columns as $column => $value) {
-			$output = stripslashes($output.$column.",");
-		}
-		$output = $output."\n";
+		// Set header row values
+		$csv_fields=array('AthleteId','FirstName','LastName','Initials','IDNumber','RedworldIdNumber','DateOfBirth','AthleteStatusId','GenderId','LanguageId','CountryId','StateId','Address1','Address2','Address3','Address4','AddressPostalCode','PhoneHome','PhoneWork','PhoneFax','PhoneCell','EMail','MedicalAidName','MedicalAidNo','MedicalDetails','MedicalAllergies','MedicalMedication','Comments','ReplStatus','ReplDate','CreateDate','CreateUser','ModifyUser','ModifyDate','MergeAthleteId','MemberNo','AthleteClubId','uName');
+		$output_filename = 'racetec.athlete.csv';
+		$output_handle = @fopen( 'php://output', 'w' );
 		
-		foreach ($athletes as $rowArray) {
-			foreach ($rowArray as $column => $value) {
-				// string any comma's or the csv file is screwed.
-				$value = str_replace(",","",$value);
-				$value = html_entity_decode($value);	
-				$output =  stripslashes($output.$value.",");
-			}
-			$output = $output."\n";
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Content-type: text/csv');
+		header('Content-Description: File Transfer' );
+		header('Content-Disposition: attachment; filename='.$output_filename);
+		header('Expires: 0' );
+		header('Pragma: public' );
+				
+		// use fputcsv : http://imtheirwebguy.com/exporting-the-results-of-a-custom-wpdb-query-to-a-downloaded-csv/
+		fputcsv( $output_handle, $csv_fields );
+		
+		// Parse results to csv format
+		foreach ($athletes as $Result) {
+			$leadArray = (array) $Result; // Cast the Object to an array
+			// Add row to file
+			fputcsv( $output_handle, $leadArray );
 		}
-		// set the headers		
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-Length: ".strlen($output));
-		header("Content-type: text/x-csv");
-		header("Content-Disposition: attachment; filename=racetec.athlete.csv");
 		
 		$end = round(microtime(true) * 1000);
-		error_log('bhaa_admin_racetec_export ['.$limit.'] '.($end-$start).' ms');
-		echo $output;
+		error_log('bhaa_admin_racetec_export ['.sizeof($athletes).'] '.($end-$start).' ms');
+		
+		// Close output file stream
+		fclose( $output_handle );
 		exit;
 	}
 }
