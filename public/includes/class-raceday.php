@@ -11,8 +11,8 @@
  * http://pippinsplugins.com/post-data-with-ajax-in-wordpress-pugins/
  * http://stackoverflow.com/questions/1960240/jquery-ajax-submit-form
  */
-class Raceday
-{
+class Raceday {
+	
 	private $eventModel = null;
 	private $event = null;
 	

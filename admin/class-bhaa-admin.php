@@ -526,16 +526,42 @@ class Bhaa_Admin {
 	}
 	
 	function bhaa_admin_racetec_export(){
-		error_log('bhaa_admin_racetec_export');
-		Runner_Manager::get_instance()->exportRacetecAtheletes();
-		$output = 'this,is,the,file';
+		
+		ini_set('max_execution_time', 480); //8 minutes
+		
+		$limit = 3000;
+		error_log('bhaa_admin_racetec_export '.$limit);
+		
+		$start = round(microtime(true) * 1000);
+		$athletes = Runner_Manager::get_instance()->exportRacetecAtheletes($limit);
+		error_log('bhaa_admin_racetec_export '.sizeof($athletes));
+		
+		$output = "";
+		$columns = $athletes[0];
+		foreach ($columns as $column => $value) {
+			$output = stripslashes($output.$column.",");
+		}
+		$output = $output."\n";
+		
+		foreach ($athletes as $rowArray) {
+			foreach ($rowArray as $column => $value) {
+				// string any comma's or the csv file is screwed.
+				$value = str_replace(",","",$value);
+				$value = html_entity_decode($value);	
+				$output =  stripslashes($output.$value.",");
+			}
+			$output = $output."\n";
+		}
+		// set the headers		
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-Length: ".strlen($output));
 		header("Content-type: text/x-csv");
 		header("Content-Disposition: attachment; filename=racetec.athlete.csv");
+		
+		$end = round(microtime(true) * 1000);
+		error_log('bhaa_admin_racetec_export ['.$limit.'] '.($end-$start).' ms');
 		echo $output;
 		exit;
-//		return 'bhaa_admin_racetec_export';
 	}
 }
 ?>
