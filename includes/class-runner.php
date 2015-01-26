@@ -86,13 +86,17 @@ class Runner {
 	 * http://codebyjeff.com/blog/2014/01/a-cleaner-wp-user-object
 	 */
 	function __construct($user_id) {
-		$this->user = get_userdata($user_id);
-		//$this->user = (array) get_user_by( 'id', $user_id )->data;
+		//$this->user = get_userdata($user_id);
+		$this->user = (array) get_user_by( 'id', $user_id )->data;
+		//var_dump('user:'.print_r($this->user,true));
 		
 		//$user_meta = get_user_meta($user_id);//,"",false);
-		$this->meta = @array_map( function( $a ){ return $a[0]; }, get_user_meta( $user_id ) );
-		$this->user_data = @array_merge($this->user, $this->user_meta);
-		//var_dump($this->user_data);
+		$this->meta = array_map( function( $a ){ return $a[0]; }, get_user_meta( $user_id ) );
+		//var_dump('meta:'.print_r($this->meta,true));
+		
+		// @
+		$this->user_data = @array_merge($this->user, $this->meta);
+		//var_dump('user_data:'.print_r($this->user_data,true));
 	}
 
 	function __get($var) {
@@ -103,19 +107,19 @@ class Runner {
 	}
 	
 	function getID() {
-		return $this->user->ID;
+		return $this->__get('ID');// $this->user->ID;
 	}
 	
 	function geUserEmail() {
-		return $this->user->user_email;
+		return $this->__get('user_email');//$this->user->user_email;
 	}
 
 	function getFirstName() {
-		return $this->meta['first_name'];
+		return $this->first_name;//meta['first_name'];
 	}
 	
 	function getLastName() {
-		return $this->meta['last_name'];
+		return $this->last_name;//meta['last_name'];
 	}
 	
 	function getFullName() {
@@ -160,11 +164,20 @@ class Runner {
 	 */
 	function getCompanyName() {
 		$cid = $this->getCompany();
-		if(isset($cid)) {
-			return sprintf('<a href="%s">%s</a>',get_permalink($cid),get_the_title($cid));
-		}		
-		else
-			return '';
+		if(current_user_can('edit_users')) {
+			if(isset($cid)) {
+				return sprintf('<a href="%s">Edit %s</a>',get_edit_post_link($cid),get_the_title($cid));
+			}
+			else
+				return '';
+		}
+		else {
+			if(isset($cid)) {
+				return sprintf('<a href="%s">%s</a>',get_permalink($cid),get_the_title($cid));
+			}		
+			else
+				return '';
+		}
 	}
 	
 	/**
