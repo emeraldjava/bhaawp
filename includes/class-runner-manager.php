@@ -632,9 +632,9 @@ class Runner_Manager {
 			dateofbirth.meta_value as DateOfBirth,
 			%s as AthleteStatusId,
 			CASE WHEN gender.meta_value='M' THEN 1 ELSE 2 END as GenderId,
-			NULL as LanguageId,
-			NULL as CountryId,
-			NULL as StateId,
+			1 as LanguageId,
+			1 as CountryId,
+			1 as StateId,
 			'' as Address1,
 			'' as Address2,
 			'' as Address3,
@@ -659,8 +659,8 @@ class Runner_Manager {
 			'' as ModifyDate,
 			'' as MergeAthleteId,
 			wp_users.id as MemberNo,
-			CASE WHEN r2s.p2p_from IS NOT NULL THEN sectorteam.post_title ELSE house.post_title END as AthleteClubId,
-			'' as uName
+			0 as AthleteClubId,
+			CASE WHEN r2s.p2p_from IS NOT NULL THEN sectorteam.post_title ELSE house.post_title END as uName
 			FROM wp_users
 			left join wp_usermeta firstname ON (firstname.user_id=wp_users.id AND firstname.meta_key = 'first_name')
  			left join wp_usermeta lastname ON (lastname.user_id=wp_users.id AND lastname.meta_key = 'last_name')
