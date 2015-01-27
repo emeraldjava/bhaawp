@@ -538,7 +538,7 @@ class Bhaa_Admin {
 		
 		// Set header row values
 		$csv_fields=array('AthleteId','FirstName','LastName','Initials','IDNumber','RedworldIdNumber','DateOfBirth','AthleteStatusId','GenderId','LanguageId','CountryId','StateId','Address1','Address2','Address3','Address4','AddressPostalCode','PhoneHome','PhoneWork','PhoneFax','PhoneCell','EMail','MedicalAidName','MedicalAidNo','MedicalDetails','MedicalAllergies','MedicalMedication','Comments','ReplStatus','ReplDate','CreateDate','CreateUser','ModifyUser','ModifyDate','MergeAthleteId','MemberNo','AthleteClubId','uName');
-		$output_filename = 'dbo.Athlete.csv';
+		$output_filename = 'Athlete.csv';
 		$output_handle = @fopen( 'php://output', 'w' );
 		
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
