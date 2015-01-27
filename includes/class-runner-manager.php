@@ -644,7 +644,7 @@ class Runner_Manager {
 			house.id as PhoneWork,
 			standard.meta_value as PhoneFax,
 			'' as PhoneCell,
-			wp_users.user_email as EMail,
+			wp_users.user_email as Email,
 			'' as MedicalAidName,
 			'' as MedicalAidNo,
 			'' as MedicalDetails,
