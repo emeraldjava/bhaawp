@@ -36,7 +36,7 @@ class Bhaa_Shortcode{
 		add_shortcode('bhaa_runner_edit_mobile',array(Runner_Manager::get_instance(),'bhaa_runner_edit_mobile_shortcode'));
 		add_shortcode('bhaa_runner_edit_standard',array(Runner_Manager::get_instance(),'bhaa_runner_edit_standard_shortcode'));
 		add_shortcode('bhaa_runner_matches',array(Runner_Manager::get_instance(),'bhaa_runner_matches_shortcode'));
-		add_shortcode('bhaa_runner_renew',array(Runner_Manager::get_instance(),'renewal_button_shortcode'));
+		add_shortcode('bhaa_runner_renew',array(Runner_Manager::get_instance(),'bhaa_renewal_button_shortcode'));
 				
 		// house-team specific shortcodes
 		add_shortcode('house_title',array(Bhaa_Shortcode::get_instance(),'house_title'));

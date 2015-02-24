@@ -33,7 +33,7 @@ class Runner_Manager {
 	function bhaa_runner_edit_standard_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
-			$form = '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+			$form = '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 					wp_nonce_field('bhaa_runner_standard_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_standard_action" />
 				<input type="text" size=1 name="standard" id="standard" value="'.$runner->getStandard().'"/>
@@ -57,7 +57,7 @@ class Runner_Manager {
 	function bhaa_runner_edit_gender_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
-			$form = '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+			$form = '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 					wp_nonce_field('bhaa_runner_gender_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_gender_action" />
 				<input type="text" size=2 name="gender" id="gender" value="'.$runner->getGender().'"/>
@@ -81,7 +81,7 @@ class Runner_Manager {
 	function bhaa_runner_edit_mobile_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
-			$form = '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+			$form = '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 					wp_nonce_field('bhaa_runner_mobile_action').'
 				<input type="text" size="10" name="mobilephone" value="'.$runner->getMobile().'"/>
 			    <input type="hidden" name="action" value="bhaa_runner_mobile_action" />
@@ -130,10 +130,10 @@ class Runner_Manager {
 	 * Generate a renewal button for admin users via a shortcode
 	 * @return string
 	 */
-	function renewal_button_shortcode() {
+	function bhaa_renewal_button_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
-			$form = '<p>Status: '.$runner->getStatus().'. DateOfRenewal '.$runner->getDateOfRenewal().'</p>';
+			$form = '<div><p>Status: '.$runner->getStatus().'. DateOfRenewal '.$runner->getDateOfRenewal().'</p>';
 			$form .= '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 				wp_nonce_field('bhaa_runner_renew_action').'
 			    <input type="hidden" name="action" value="bhaa_runner_renew_action" />
@@ -525,7 +525,7 @@ class Runner_Manager {
 			$table .= '</div>';
 			return $table;
 		} else {
-			return "";
+			return '';
 		}
 	}
 	
