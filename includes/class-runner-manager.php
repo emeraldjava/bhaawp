@@ -3,6 +3,9 @@
  * Handles operation on runners.
  * TODO move some stuff to user class.
  * @author oconnellp
+ * 
+ * http://codex.wordpress.org/Class_Reference/WP_Object_Cache
+ * https://markjaquith.wordpress.com/2013/04/26/fragment-caching-in-wordpress/
  */
 class Runner_Manager {
 	
@@ -26,7 +29,7 @@ class Runner_Manager {
 		add_action('admin_action_bhaa_runner_mobile_action',array($this,'bhaa_runner_mobile_action'));
 		add_action('admin_action_bhaa_runner_merge_action',array($this,'bhaa_runner_merge_action'));
 	}
-
+	
 	function bhaa_runner_edit_standard_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
@@ -107,7 +110,7 @@ class Runner_Manager {
 	function bhaa_runner_status_shortcode($atts) {
 		$runner = new Runner(get_query_var('id'));
 		$date = DateTime::createFromFormat('Y-m-d',$runner->getDateOfRenewal());
-		if(is_object($date)){
+		if(is_object($date)) {
 			$lastRenewalMonthYear = $date->format('F Y');
 		} else {
 			$lastRenewalMonthYear='2015';

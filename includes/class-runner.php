@@ -73,11 +73,7 @@ class Runner {
 	
 	const BHAA_RUNNER_STANDARD = 'bhaa_runner_standard';
 	
-	public $user;
-	public $meta;
-	
-	public $user_data;
-	protected $default = null;
+	private $user_data;
 	
 	/**
 	 * Construct a runner with a specific id
@@ -87,21 +83,21 @@ class Runner {
 	 */
 	function __construct($user_id) {
 		//$this->user = get_userdata($user_id);
-		$this->user = (array) get_user_by( 'id', $user_id )->data;
+		$user = (array) @get_user_by( 'id', $user_id )->data;
 		//var_dump('user:'.print_r($this->user,true));
 		
 		//$user_meta = get_user_meta($user_id);//,"",false);
-		$this->meta = array_map( function( $a ){ return $a[0]; }, get_user_meta( $user_id ) );
+		$meta = @array_map( function( $a ){ return $a[0]; }, get_user_meta( $user_id ) );
 		//var_dump('meta:'.print_r($this->meta,true));
 		
 		// @
-		$this->user_data = @array_merge($this->user, $this->meta);
+		$this->user_data = @array_merge($user, $meta);
 		//var_dump('user_data:'.print_r($this->user_data,true));
 	}
 
 	function __get($var) {
 		if (!array_key_exists($var, $this->user_data)){
-			return $this->default;
+			return null;//$this->default;
 		}
 	    return $this->user_data[$var];		
 	}
@@ -127,35 +123,35 @@ class Runner {
 	}
 	
 	function getDateOfBirth() {
-		return $this->meta[Runner::BHAA_RUNNER_DATEOFBIRTH];
+		return $this->__get(Runner::BHAA_RUNNER_DATEOFBIRTH);
 	}
 	
 	function getStandard() {
-		return $this->meta[Runner::BHAA_RUNNER_STANDARD];
+		return $this->__get(Runner::BHAA_RUNNER_STANDARD);
 	}
 	
 	function getGender() {
-		return $this->meta[Runner::BHAA_RUNNER_GENDER];
+		return $this->__get(Runner::BHAA_RUNNER_GENDER);
 	}
 	
 	function getStatus() {
-		return $this->meta[Runner::BHAA_RUNNER_STATUS];
+		return $this->__get(Runner::BHAA_RUNNER_STATUS);
 	}
 	
 	function getDateOfRenewal() {
-		return $this->meta[Runner::BHAA_RUNNER_DATEOFRENEWAL];
+		return $this->__get(Runner::BHAA_RUNNER_DATEOFRENEWAL);
 	}
 	
 	function getInsertDate() {
-		return $this->meta[Runner::BHAA_RUNNER_INSERTDATE];
+		return $this->__get(Runner::BHAA_RUNNER_INSERTDATE);
 	}
 	
 	function getCompany() {
-		return $this->meta[Runner::BHAA_RUNNER_COMPANY];
+		return $this->__get(Runner::BHAA_RUNNER_COMPANY);
 	}
 	
 	function getMobile() {
-		return $this->meta[Runner::BHAA_RUNNER_MOBILEPHONE];
+		return $this->__get(Runner::BHAA_RUNNER_MOBILEPHONE);
 	}
 	
 	/**
@@ -182,6 +178,7 @@ class Runner {
 	
 	/**
 	 * This method updates the runners reneal date and emails them a confirmation.
+	 * TODO move to manager.
 	 */
 	function renew() {
 		error_log('renew() '.$this->getID().' '.$this->getUserEmail());

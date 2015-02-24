@@ -5,7 +5,17 @@ class HouseCpt {
 	const COMPANY_TEAM = 'company';
 	const SECTOR_TEAM = 'sector';
 	
-	function __construct() {
+	protected static $instance = null;
+	
+	public static function get_instance() {
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+	
+	private function __construct() {
 		add_action( 'init', array(&$this,'bhaa_register_cpt_house'));
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_sector'));
 		add_action( 'init', array(&$this,'bhaa_register_taxonomy_teamtype'));
