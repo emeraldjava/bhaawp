@@ -7,10 +7,10 @@
 </tr>
 {{#users}}
 <tr>
-<td><b><a href="/runner/?id={{user.ID}}">{{user.display_name}}</a></b></td>
-<td>{{meta.bhaa_runner_gender}}</td>
-<td>{{meta.bhaa_runner_standard}}</td>
-<td>{{meta.bhaa_runner_status}}</td>
+<td><b><a href="/runner/?id={{user_data.ID}}">{{user_data.display_name}}</a></b></td>
+<td>{{user_data.bhaa_runner_gender}}</td>
+<td>{{user_data.bhaa_runner_standard}}</td>
+<td>{{user_data.bhaa_runner_status}}</td>
 </tr>
 {{/users}}
 </table>
