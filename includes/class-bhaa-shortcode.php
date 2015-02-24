@@ -71,9 +71,28 @@ class Bhaa_Shortcode{
 		return $runner->getStandard();
 	}
 	
+	/**
+	 * admin_url = true | false
+	 * @param unknown $atts
+	 */
 	function bhaa_runner_company_name($atts) {
+		// Set the default admin_url to false
+		//error_log('$atts '.print_r($atts,true));
+		$a = shortcode_atts(
+			array( 'admin_url' => "false" ),
+			$atts
+		);
+		//error_log('$a '.print_r($a,true));
+		
+		if(current_user_can('edit_users')){
+			$a['admin_url']="true";
+			
+			if($atts['admin_url']==="false")
+				$a['admin_url']="false";
+		}
+		//error_log('admin_url '.print_r($a,true));
 		$runner = new Runner(get_query_var('id'));
-		return $runner->getCompanyName();
+		return $runner->getCompanyName($a['admin_url']);
 	}
 	
 	function bhaa_runner_results($args) {

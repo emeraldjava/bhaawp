@@ -158,27 +158,23 @@ class Runner {
 	 * Return a url link the runners company.
 	 * @return string
 	 */
-	function getCompanyName() {
+	function getCompanyName($admin_url) {
 		$cid = $this->getCompany();
-		if(current_user_can('edit_users')) {
-			if(isset($cid)) {
+		error_log('admin_url '.$admin_url);
+		if(isset($cid)) {
+			if($admin_url=="false"){
+				return sprintf('<a href="%s">%s</a>',get_permalink($cid),get_the_title($cid));
+			} else {
 				return sprintf('<a href="%s">Edit %s</a>',get_edit_post_link($cid),get_the_title($cid));
 			}
-			else
-				return '';
-		}
-		else {
-			if(isset($cid)) {
-				return sprintf('<a href="%s">%s</a>',get_permalink($cid),get_the_title($cid));
-			}		
-			else
-				return '';
+		} else {
+			// no company
+			return '';
 		}
 	}
 	
 	/**
 	 * This method updates the runners reneal date and emails them a confirmation.
-	 * TODO move to manager.
 	 */
 	function renew() {
 		error_log('renew() '.$this->getID().' '.$this->getUserEmail());
