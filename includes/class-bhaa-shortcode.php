@@ -60,10 +60,10 @@ class Bhaa_Shortcode{
 	}	
 		
 	/**
-	 * Return the runners BHAA ID
+	 * Return the BHAA Runners ID as a URL link.
 	 */
 	function bhaa_runner_id($atts) {
-		return get_query_var('id');
+		return sprintf('<a href="%s/runner/?id=%d">%d</a>',get_site_url(),get_query_var('id'),get_query_var('id'));
 	}
 	
 	function bhaa_runner_standard($atts) {
