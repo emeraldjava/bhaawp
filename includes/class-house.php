@@ -42,7 +42,7 @@ class House {
 		$users = get_users( array(
 			'connected_type' => $this->getConnectionType(),
 			'connected_items' => $this->houseid,
-			'fields' => 'all_with_meta',
+			'fields' => 'all',
 			'orderby' => 'display_name',
 			'order' => 'ASC'
 		));
@@ -53,10 +53,6 @@ class House {
 			$runners[] = new Runner($user->ID);
 		}
 
-		//var_dump($runners[0],true);
-	    //var_dump($x,true);
-		//return $runners;
-		
 		$x = array_values($runners);
 		//var_dump($x[0]);
 		return $x;

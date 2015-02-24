@@ -33,11 +33,11 @@
  http://wordpress.org/extend/plugins/cimy-user-extra-fields/developers/
  http://blog.ftwr.co.uk/archives/2009/07/19/adding-extra-user-meta-fields/
  
- 	// USER SEARCH
+// USER SEARCH
 	
-	// widget - http://plugins.svn.wordpress.org/advanced-search-widget/tags/0.2/advanced-search-widget.php
+// widget - http://plugins.svn.wordpress.org/advanced-search-widget/tags/0.2/advanced-search-widget.php
 	
-	// http://wp.smashingmagazine.com/2012/06/05/front-end-author-listing-user-search-wordpress/
+// http://wp.smashingmagazine.com/2012/06/05/front-end-author-listing-user-search-wordpress/
 //	http://maorchasen.com/blog/2012/09/19/using-wp_user_query-to-get-a-user-by-display_name/
 //  http://www.tomauger.com/2012/tips-and-tricks/expanded-user-search-in-wordpress	
 
@@ -73,7 +73,10 @@ class Runner {
 	
 	const BHAA_RUNNER_STANDARD = 'bhaa_runner_standard';
 	
-	private $user_data;
+	// make available for the house report via the mustache template engine.
+	var $user_data;
+	//var $company;	
+	//var $sectorteam;
 	
 	/**
 	 * Construct a runner with a specific id
@@ -92,6 +95,24 @@ class Runner {
 		
 		// @
 		$this->user_data = @array_merge($user, $meta);
+		
+		// https://github.com/scribu/wp-posts-to-posts/wiki/Checking-specific-connections
+		$sectorteam = p2p_get_connections(Connections::SECTORTEAM_TO_RUNNER,array(
+			'direction' => 'all',
+			'to' => $user_id,
+			'fields' => 'p2p_from'
+		));
+		//error_log('sector '.print_r($sectorteam,true));
+		$this->user_data = @array_merge($this->user_data, array('sectorteam'=>$sectorteam[0]) );
+		
+		$company = p2p_get_connections(Connections::HOUSE_TO_RUNNER,array(
+			'direction' => 'all',
+			'to' => $user_id,
+			'fields' => 'p2p_from'
+		));
+		//error_log('company '.print_r($company,true));
+		$this->user_data = @array_merge($this->user_data, array('company'=>$company[0]));
+		
 		//var_dump('user_data:'.print_r($this->user_data,true));
 	}
 
@@ -103,19 +124,19 @@ class Runner {
 	}
 	
 	function getID() {
-		return $this->__get('ID');// $this->user->ID;
+		return $this->__get('ID');
 	}
 	
 	function getUserEmail() {
-		return $this->__get('user_email');//$this->user->user_email;
+		return $this->__get('user_email');
 	}
 
 	function getFirstName() {
-		return $this->first_name;//meta['first_name'];
+		return $this->first_name;
 	}
 	
 	function getLastName() {
-		return $this->last_name;//meta['last_name'];
+		return $this->last_name;
 	}
 	
 	function getFullName() {
@@ -124,6 +145,10 @@ class Runner {
 	
 	function getDateOfBirth() {
 		return $this->__get(Runner::BHAA_RUNNER_DATEOFBIRTH);
+	}
+	
+	function getMobile() {
+		return $this->__get(Runner::BHAA_RUNNER_MOBILEPHONE);
 	}
 	
 	function getStandard() {
@@ -146,12 +171,13 @@ class Runner {
 		return $this->__get(Runner::BHAA_RUNNER_INSERTDATE);
 	}
 	
-	function getCompany() {
-		return $this->__get(Runner::BHAA_RUNNER_COMPANY);
+	function getCompanyId() {
+		return $this->__get('company');
+		//return $this->__get(Runner::BHAA_RUNNER_COMPANY);
 	}
 	
-	function getMobile() {
-		return $this->__get(Runner::BHAA_RUNNER_MOBILEPHONE);
+	function getSectorTeamId() {
+		return $this->__get('sectorteam');
 	}
 	
 	/**
@@ -159,8 +185,7 @@ class Runner {
 	 * @return string
 	 */
 	function getCompanyName($admin_url) {
-		$cid = $this->getCompany();
-		error_log('admin_url '.$admin_url);
+		$cid = $this->getCompanyId();
 		if(isset($cid)) {
 			if($admin_url=="false"){
 				return sprintf('<a href="%s">%s</a>',get_permalink($cid),get_the_title($cid));
@@ -169,6 +194,25 @@ class Runner {
 			}
 		} else {
 			// no company
+			return '';
+		}
+	}
+	
+	/**
+	 * Return a url link to the sector team
+	 * @param unknown $admin_url
+	 * @return string
+	 */
+	function getSectorTeam($admin_url) {
+		$id = $this->getSectorTeamId();
+		if(isset($id)) {
+			if($admin_url=="false"){
+				return sprintf('<a href="%s">%s</a>',get_permalink($id),get_the_title($id));
+			} else {
+				return sprintf('<a href="%s">Edit %s</a>',get_edit_post_link($id),get_the_title($id));
+			}
+		} else {
+			// no sector team
 			return '';
 		}
 	}

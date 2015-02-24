@@ -126,7 +126,7 @@ class Connections {
 	function updateRunnersHouse($p2p_type,$newCompany,$runner) {
 		
 		$runnerObj = new Runner($runner);
-		$oldCompany = $runnerObj->getCompany();
+		$oldCompany = $runnerObj->getCompanyId();
 
 		error_log('updateRunnersHouse('.$runner.') '.$p2p_type.' '.$oldCompany.'-->'.$newCompany);
 		

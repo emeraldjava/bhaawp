@@ -26,6 +26,7 @@ class Bhaa_Shortcode{
 		add_shortcode('bhaa_runner_status',array(Runner_Manager::get_instance(),'bhaa_runner_status_shortcode'));
 		add_shortcode('bhaa_runner_company_name',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_company_name'));
 		add_shortcode('bhaa_runner_results',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_results'));
+		add_shortcode('bhaa_runner_sectorteam_name',array(Bhaa_Shortcode::get_instance(),'bhaa_runner_sectorteam_name'));
 				
 		// admin specific runner shortcodes
 		add_shortcode('bhaa_runner_edit_name',array(Runner_Manager::get_instance(),'bhaa_runner_edit_name_shortcode'));
@@ -93,6 +94,26 @@ class Bhaa_Shortcode{
 		//error_log('admin_url '.print_r($a,true));
 		$runner = new Runner(get_query_var('id'));
 		return $runner->getCompanyName($a['admin_url']);
+	}
+	
+	/**
+	 * Return the runners sector team details
+	 * @param unknown $atts
+	 */
+	function bhaa_runner_sectorteam_name($atts) {
+		$a = shortcode_atts(
+			array( 'admin_url' => "false" ),
+			$atts
+		);
+		
+		if(current_user_can('edit_users')){
+			$a['admin_url']="true";
+				
+			if($atts['admin_url']==="false")
+				$a['admin_url']="false";
+		}
+		$runner = new Runner(get_query_var('id'));
+		return $runner->getSectorTeam($a['admin_url']);
 	}
 	
 	function bhaa_runner_results($args) {
