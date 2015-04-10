@@ -210,6 +210,12 @@ class RaceResult extends BaseModel implements Table
 		{
 			error_log("existing member ".' '.$details[5].' '.$details[4].' '.$runner_id);
 		}
+		
+		// convert Senior to S
+		$category = $details[9];
+		if($details[9]=='Senior'){
+			$category='S';
+		}
 			
 		//$this->wpdb->show_errors();
 		//error_log($race.''.print_r($details,true));
@@ -221,7 +227,7 @@ class RaceResult extends BaseModel implements Table
 				'racenumber' => $details[1],
 				'runner' => $runner_id,
 				'racetime' => $details[3],
-				'category' => $details[9],
+				'category' => $category,
 				'standard' => ($details[7]== '') ? null : $details[7],
 				'class' => RaceResult::RAN)
 				//'company' => ($company== '') ? 1 : $details[7])
