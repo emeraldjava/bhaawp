@@ -3,7 +3,7 @@
 Plugin Name:	 	BHAA Plugin
 Plugin URI: 		https://github.com/emeraldjava/bhaawp
 Description: 		Plugin for the Business House Athletic Association which handle user registration, race	results and leagues
-Version:          	2015.02.24
+Version:          	2015.05.17
 Author: 			paul.t.oconnell@gmail.com
 Author URI: 		https://github.com/emeraldjava
 Text Domain:      	bhaawp

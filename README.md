@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2015.04.10 Convert 'Senior' category to 'S' on import.
 - 2015.02.24 Add sector team links.
 - 2015.01.26 Racetec Athlete export.
 - 2015.01.21 Add a text alert admin page.
