@@ -30,3 +30,5 @@ license.txt
 sql/3910.txt
 
 sql/3934-pre-race.txt
+
+vendor/

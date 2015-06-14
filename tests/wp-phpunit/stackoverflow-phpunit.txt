@@ -1,0 +1,23 @@
+I have installed phpunit via the PHAR mechanism as described here : https://phpunit.de/manual/current/en/installation.html#installation.requirements
+
+	[14:11:04@~]$ phpunit --version
+	PHPUnit 4.7.3 by Sebastian Bergmann and contributors.
+
+In my /etc/php.ini file i have
+
+    include_path="."
+
+When i run my phpunit
+
+	[14:18:07@bhaawp]$ phpunit 
+	PHP Fatal error:  require_once(): Failed opening required 'PHPUnit/Autoload.php' (include_path='.') in /Users/pauloconnell/projects/bhaawp/wp-phpunit/bootstrap.php on line 7
+
+
+http://stackoverflow.com/questions/29870496/composer-file-is-set-up-wrong-not-auto-loading-my-class-php
+
+http://stackoverflow.com/questions/15710410/autoloading-classes-in-phpunit-using-composer-and-autoload-php?rq=1
+
+
+composer global require "wp-cli/wp-cli=0.19.*"
+
+http://leehblue.com/installing-wp-cli-and-phpunit-with-composer/

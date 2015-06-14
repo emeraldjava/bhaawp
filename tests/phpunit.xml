@@ -1,12 +1,17 @@
 <phpunit
-	bootstrap="wp-phpunit/bootstrap.php"
-        backupGlobals="false"
-        colors="true"
+    bootstrap="wp-phpunit/bootstrap.php"
+    backupGlobals="false"
+    colors="true"
         >
+<!--
+    bootstrap="./vendor/autoload.php"
+    bootstrap="wp-phpunit/bootstrap.php"
+-->
+
     <testsuites>
         <!-- Default test suite to run all tests -->
         <testsuite>
-            <directory suffix=".php">tests</directory>
+            <directory suffix=".php">.</directory>
             <!-- 
             <exclude>tests/actions/closures.php</exclude>
             <exclude>tests/image/editor.php</exclude>
