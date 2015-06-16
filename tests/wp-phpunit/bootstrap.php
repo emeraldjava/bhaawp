@@ -83,7 +83,7 @@ if(isset($GLOBALS['wp_tests_options'])) {
 }
 
 // Load WordPress
-require_once WORDPRESS . '/wp-settings.php';
+require_once ABSPATH . '/wp-settings.php';
 
 // Delete any default posts & related data
 //_delete_all_posts();
