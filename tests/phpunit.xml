@@ -8,10 +8,14 @@
     bootstrap="wp-phpunit/bootstrap.php"
 -->
 
-    <testsuites>
+    <!--<testsuites>-->
         <!-- Default test suite to run all tests -->
         <testsuite>
-            <directory suffix=".php">.</directory>
+
+            <!--<file>SimpleTest.php</file>-->
+            <!--<file>MyPlugin_Test_Example.php</file>-->
+            <directory suffix=".php">./</directory>
+            <exclude>./wp-phpunit</exclude>
             <!-- 
             <exclude>tests/actions/closures.php</exclude>
             <exclude>tests/image/editor.php</exclude>
@@ -23,7 +27,7 @@
             <file phpVersion="5.3.0">tests/image/editor_imagick.php</file>
             -->
         </testsuite>
-    </testsuites>
+    <!--</testsuites>-->
     <!-- 
     <groups>
         <exclude>
