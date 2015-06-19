@@ -11,7 +11,7 @@ if ( ! file_exists( $config_file_path . '/wp-tests-config.php' ) ) {
 	if ( basename( $config_file_path ) === 'phpunit' && basename( dirname( $config_file_path ) ) === 'tests' )
 		$config_file_path = dirname( dirname( $config_file_path ) );
 }
-$config_file_path .= '/wp-tests-config.php';
+$config_file_path .= '/wp-phpunit/wp-tests-config.php';
 
 /*
  * Globalize some WordPress variables, because PHPUnit loads this file inside a function
@@ -89,9 +89,9 @@ require_once ABSPATH . '/wp-settings.php';
 //_delete_all_posts();
 
 require dirname( __FILE__ ) . '/testcase.php';
-require dirname( __FILE__ ) . '/testcase-xmlrpc.php';
-require dirname( __FILE__ ) . '/testcase-ajax.php';
-require dirname( __FILE__ ) . '/testcase-canonical.php';
+//require dirname( __FILE__ ) . '/testcase-xmlrpc.php';
+//require dirname( __FILE__ ) . '/testcase-ajax.php';
+//require dirname( __FILE__ ) . '/testcase-canonical.php';
 require dirname( __FILE__ ) . '/exceptions.php';
 require dirname( __FILE__ ) . '/utils.php';
 
