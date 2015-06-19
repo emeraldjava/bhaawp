@@ -17,4 +17,8 @@ class RunnerManagerTest extends WP_UnitTestCase {
     function testRunnerExistsFalse() {
         $this->assertEquals(0,$this->runnerManager->runnerExists(50000));
     }
+
+    function testFormatName() {
+        $this->assertEquals("Pat O'Donnell",$this->runnerManager->formatDisplayName("pAT O'DONnELl"));
+    }
 }

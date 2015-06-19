@@ -182,9 +182,9 @@ class Runner_Manager {
 	
 	function bhaa_runner_rename_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_rename_action')) {
-			$first_name = trim($_POST['first_name']);
+			$first_name = formatDisplayName($_POST['first_name']);
 			wp_update_user( array ( 'ID' => $_POST['id'], 'first_name' => $first_name ) ) ;
-			$last_name = trim($_POST['last_name']);
+			$last_name = formatDisplayName($_POST['last_name']);
 			wp_update_user( array ( 'ID' => $_POST['id'], 'last_name' => $last_name ) ) ;
 			wp_update_user( array ('ID' => $_POST['id'], 'display_name' => $first_name." ".$last_name));
 			wp_update_user( array ('ID' => $_POST['id'], 'user_nicename' =>  $first_name."-".$last_name));
@@ -334,11 +334,15 @@ class Runner_Manager {
 			$id=$runner_id;
 			error_log('import user '.$runner_id.' with id '.$id);
 		}
-	
-		// format the username
-		$username = $firstname.' '.$surname;
+
+        $firstname = $this->formatDisplayName($firstname);
+        $surname = $this->formatDisplayName($surname);
+
+        // format the username
+		$username = $firstname.'.'.$surname;
 		$username = str_replace(' ', '', $username);
 		$username = str_replace("'", '', $username);
+        $username = strtolower($username);
 	
 		// check for a unique username
 		$user_id = username_exists($username);
@@ -362,7 +366,7 @@ class Runner_Manager {
 				'user_login'    => $username,
 				'user_email'    => $email,
 				'nickname' => $username,
-				'display_name'=> $username,
+				'display_name'=> $firstname.' '.$surname,
 				'first_name' => $firstname,
 				'last_name'=> $surname
 		));
@@ -374,16 +378,14 @@ class Runner_Manager {
 		update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, date('Y-m-d'));
 		update_user_meta( $id, Runner::BHAA_RUNNER_STATUS,'D');
 		update_user_meta( $id, Runner::BHAA_RUNNER_COMPANY,1);
-		update_user_meta( $id, Runner::BHAA_RUNNER_MOBILEPHONE,'0123456789');
+		update_user_meta( $id, Runner::BHAA_RUNNER_MOBILEPHONE,'');
 		return $id;
 	}
 	
-	private function insertUser($id,$name,$password,$email)
-	{
+	private function insertUser($id,$name,$password,$email) {
 		global $wpdb;
-		$sql;
-		if(isset($email))
-		{
+		$sql = '';
+		if(isset($email)) {
 			$sql = $wpdb->prepare(
 					"INSERT INTO wp_users(
 					ID,
@@ -396,9 +398,7 @@ class Runner_Manager {
 					user_registered)
 					VALUES (%d,%s,%s,%s,%s,%d,%s,NOW())",
 					$id,$name,$password,$name,$email,0,$name);
-		}
-		else
-		{
+		} else {
 			$sql = $wpdb->prepare(
 					"INSERT INTO wp_users(
 					ID,
@@ -586,11 +586,11 @@ class Runner_Manager {
 	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='') {
 		$match = $this->matchRunner($firstname,$lastname,$dateofbirth);
 		if($match!=0) {
-			error_log('matched existing runner '.$runner_id);
+			error_log('matched existing runner '.$match);
 			return $match;
 		} else {
 			$newRunner = $this->createNewUser($firstname,$lastname,$email,$gender,$dateofbirth);
-			error_log('created new runner '.$runner_id);
+			error_log('created new runner '.$match);
 			return $newRunner;
 		}
 	}
@@ -685,6 +685,37 @@ class Runner_Manager {
 		$end = round(microtime(true) * 1000);
 		//error_log('SQL time '.($end-$start));
 		return $result;
+	}
+
+	/**
+	 * http://www.media-division.com/correct-name-capitalization-in-php/
+	 */
+	function formatDisplayName($string) {
+		$word_splitters = array(' ', '-', "O'", "L'", "D'", 'St.', 'Mc', 'Mac');
+		$lowercase_exceptions = array('the', 'van', 'den', 'von', 'und', 'der', 'de', 'da', 'of', 'and', "l'", "d'");
+		$uppercase_exceptions = array('III', 'IV', 'VI', 'VII', 'VIII', 'IX');
+
+		$string = strtolower(trim($string));
+		foreach ($word_splitters as $delimiter)
+		{
+			$words = explode($delimiter, $string);
+			$newwords = array();
+			foreach ($words as $word)
+			{
+				if (in_array(strtoupper($word), $uppercase_exceptions))
+					$word = strtoupper($word);
+				else
+					if (!in_array($word, $lowercase_exceptions))
+						$word = ucfirst($word);
+
+				$newwords[] = $word;
+			}
+
+			if (in_array(strtolower($delimiter), $lowercase_exceptions))
+				$delimiter = strtolower($delimiter);
+			$string = join($delimiter, $newwords);
+		}
+		return $string;
 	}
 }
 ?>
