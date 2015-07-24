@@ -12,10 +12,10 @@ jQuery(document).ready(function($) {
 						})	  
 						);
 					}
-//		,error:function(xhr,err) {
-//		    debug("readyState: "+xhr.readyState+"\nstatus: "+xhr.status+"\n:responseText: "+xhr.responseText+" "+err);
-//			}
-		});
+		//,error:function(xhr,err) {
+		//    debug("readyState: "+xhr.readyState+"\nstatus: "+xhr.status+"\n:responseText: "+xhr.responseText+" "+err);
+		//	}
+		//});
 		},
 		minChars: 4,
 		select: function(event, ui) {
