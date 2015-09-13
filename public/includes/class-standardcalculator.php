@@ -106,7 +106,7 @@ class StandardCalculator
 		$standardTable .= '<th>Standard</th>';
 		foreach ($distances as $distance)
 		{
-			$standardTable .= '<th>'.$distance['title'].'</th>';
+			$standardTable .= '<th id="'.$distance['km'].'">'.$distance['title'].'</th>';
 		}
 		$standardTable .= '</tr></thead>'.PHP_EOL;
 		
