@@ -4,6 +4,8 @@ if(!class_exists('WP_List_Table')){
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 if( ! class_exists('WP_Screen') ) {
+	// http://wordpress.stackexchange.com/questions/211647/fatal-error-after-4-4-upgrade-class-wp-list-table
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-screen.php' );//added
 	require_once( ABSPATH . 'wp-admin/includes/screen.php' );
 }
 
