@@ -8,13 +8,9 @@ require_once(BHAA_PLUGIN_DIR.'/admin/class-race-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-league-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-house-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
-//require_once(BHAA_PLUGIN_DIR.'/admin/class-02-texter.php');
 
 // 3rd party libs
-// Register Mustache
-require_once( plugin_dir_path( __FILE__ ) . '/includes/Mustache/Autoloader.php');
-Mustache_Autoloader::register();
-require_once( plugin_dir_path( __FILE__ ) . '/includes/CssToInlineStyles/CssToInlineStyles.php');
+
 // common includes
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-mustache.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/listtable/raceresulttable.class.php');
