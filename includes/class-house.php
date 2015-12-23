@@ -23,9 +23,9 @@ class House {
 	function __construct($houseid) {
 		$this->houseid = $houseid;
 		$terms = wp_get_post_terms($this->houseid,House::TEAM_TYPE);
-		$this->teamType=$terms[0]->name;
+		$this->teamType=isset($terms[0]->name)?$terms[0]->name:House::COMPANY;
 		$this->connectionType = Connections::HOUSE_TO_RUNNER;
-		if($this->teamType==HOuse::SECTOR_TEAM) {
+		if($this->teamType==House::SECTOR_TEAM) {
 			$connected_type = Connections::SECTORTEAM_TO_RUNNER;
 		}	
 	}
