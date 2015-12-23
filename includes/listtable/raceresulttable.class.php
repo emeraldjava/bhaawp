@@ -148,11 +148,12 @@ class RaceResult_List_Table extends WP_List_Table
  		return '<a class="bhaa-url-link" href='.get_permalink($item['event']).'><b>'.get_the_title($item['event']).'</b></a>';
  	}
 
+	private $race;
+
 	/**
 	 *
 	 */
-	function prepare_items($race)
-	{
+	function prepare_items() {
 		$columns = $this->get_columns();
 		$hidden = array();
 		$this->_column_headers = array($columns, $hidden, null);// $this->get_sortable_columns());
@@ -166,7 +167,7 @@ class RaceResult_List_Table extends WP_List_Table
 			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
-			where race='.$race.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY position';
+			where race='.$this->race.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY position';
 		//	join wp_posts on wp_posts.id=wp_bhaa_raceresult	
 		//error_log($query);	
 
@@ -176,7 +177,8 @@ class RaceResult_List_Table extends WP_List_Table
 
 	function renderTable($race)	{   
 		self::$runnerTable = false;
-		$this->prepare_items($race);
+		$this->race=$race;
+		$this->prepare_items();
 		ob_start();
 		$this->display();
 		return ob_get_clean();
