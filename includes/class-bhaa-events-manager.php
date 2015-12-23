@@ -34,14 +34,15 @@ class Events_Manager {
 		// em_booking_form_before_user_details
 		// em_booking_form_after_user_details
 		// em_booking_form_footer
-		add_action('em_booking_form_before_tickets',array($this,'bhaa_em_booking_form_before_tickets'),9,2);
-		//add_action('em_booking_form_after_user_details',array($this,'bhaa_em_booking_form_after_user_details'),9,2);
-		add_action('em_booking_form_footer',array($this,'bhaa_em_booking_form_footer'),9,2);
+
+		//add_action('em_booking_form_before_tickets',array($this,'bhaa_em_booking_form_before_tickets'),9,2);
+		//--add_action('em_booking_form_after_user_details',array($this,'bhaa_em_booking_form_after_user_details'),9,2);
+		//add_action('em_booking_form_footer',array($this,'bhaa_em_booking_form_footer'),9,2);
 		
 		//add_action('em_form_output_field_custom_house',array($this,'bhaa_em_form_output_field_custom_house'), 10, 2);
 		//add_filter('em_form_validate_field_custom',array($this,'bhaa_em_form_validate_field_custom'), 10, 2);
 		add_filter('emp_forms_output_field_input',array($this,'bhaa_emp_forms_output_field_input'),2,3);
-		
+
 		//add_filters('em_event_output_placeholder',array($this,'bhaa_em_event_output_placeholder'),4,3);
 		//add_filter('em_event_output',array($this,'bhaa_em_event_output'),4,3);
 	}
@@ -177,9 +178,11 @@ class Events_Manager {
 		if($placeholder=='#_BOOKINGFORM') {
 			if(get_option('bhaa_bookings_enabled')==0){
 				// booking disabled
-				$result = do_shortcode('[av_notification title="Note" color="orange" border="" custom_bg="#444444" custom_font="#ffffff" size="large" icon_select="no" font="entypo-fontello"]'.
-					'The online registration form is currently disabled while we prepare for the next BHAA event. Registration is available on the day at the next event. See you there.'.
-					'[/av_notification]');
+				if(get_the_ID()!=4660 && get_the_ID()!=4663) {
+					$result = do_shortcode('[av_notification title="Note" color="orange" border="" custom_bg="#444444" custom_font="#ffffff" size="large" icon_select="no" font="entypo-fontello"]' .
+						'The online registration form is currently disabled while we prepare for the next BHAA event. Registration is available on the day at the next event. See you there.' .
+						'[/av_notification]');
+				}
 			}
 			return $result;
 		}
@@ -218,7 +221,7 @@ class Events_Manager {
 				$replace = $EM_Booking->get_person()->ID;
 				//return $replace;
 				break;
-			case '#_BHAATICKETS':
+			//case '#_BHAATICKETS':
 				//error_log('bhaa_em_booking_output_placeholder() '.$replace.' '.$result);
 				//$header = '#_EVENTNAME : #_BOOKINGTICKETNAME';
 				
@@ -240,14 +243,14 @@ class Events_Manager {
 
 				//error_log(var_dump($EM_Booking,true));
 				//$runner = new Runner($EM_Booking->person_id);
-				error_log("booking "+$EM_Booking->booking_id.' for runner '.$EM_Booking->person_id.' at event '.$EM_Booking->event_id);
-				
-				global $wp_query;
-				$wp_query->set('id',$EM_Booking->person_id);
-				$wp_query->set('booking_id',$EM_Booking->booking_id);
-				
-				$page = get_page_by_title('email-runner-booking');
-				$email = apply_filters('the_content', $page->post_content);
+//				error_log("booking "+$EM_Booking->booking_id.' for runner '.$EM_Booking->person_id.' at event '.$EM_Booking->event_id);
+//
+//				global $wp_query;
+//				$wp_query->set('id',$EM_Booking->person_id);
+//				$wp_query->set('booking_id',$EM_Booking->booking_id);
+//
+//				$page = get_page_by_title('email-runner-booking');
+//				$email = apply_filters('the_content', $page->post_content);
 				//echo $content;
 				
 				/*
@@ -264,18 +267,18 @@ class Events_Manager {
 				//error_log("sending email to ".get_query_var('id'));
 				//error_log("email ".$email);
 				//$email = Bhaa_Mustache::get_instance()->inlineCssStyles($email);
-				$message = $EM_Booking->output($email);
+				//$message = $EM_Booking->output($email);
 				//error_log("message ".$message);
-				$html = '<html>
-					<head>
-					<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-					</head>
-					<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">'.
-					$message.
-					'</body></html>';
-				//error_log($html);
-				$replace = $html;
-				break;
+//				$html = '<html>
+//					<head>
+//					<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+//					</head>
+//					<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">'.
+//					$message.
+//					'</body></html>';
+//				//error_log($html);
+//				$replace = $html;
+//				break;
 		}
 		return $replace;
 	}
