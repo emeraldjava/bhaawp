@@ -22,7 +22,9 @@ class RunnerAdmin {
 		add_filter('manage_users_columns',array($this,'bhaa_manage_users_columns'));
 		add_filter('manage_users_custom_column',array($this,'bhaa_manage_users_custom_column'), 10, 3 );
 
-		//add_filter('user_row_actions',array($this,'bhaa_runner_renew_link'),10,2);
+		add_filter('user_row_actions',array($this,'bhaa_user_row_actions_runner_link'),10,2);
+		//add_filter('user_row_actions',array($this,'bhaa_user_row_actions_renew_link'),11,2);
+
 		//add_action('admin_init',array($this,'bhaa_runner_renew_action'),12);
 		add_action('user_register',array($this,'bhaa_user_register'),12);
 	}
@@ -89,7 +91,7 @@ class RunnerAdmin {
 				break;
 			default:
 		}
-		return $return;
+		return '';
 	}
 
 	/**
@@ -98,7 +100,7 @@ class RunnerAdmin {
 	 * @param unknown $user
 	 * @return string
 	 */
-	function bhaa_runner_renew_link( $actions, $user ) {
+	function bhaa_user_row_actions_renew_link( $actions, $user ) {
 		if ( current_user_can('manage_options') ) {
 			$actions['bhaa_runner_renew'] = '<a href="' . 
 				wp_nonce_url(
@@ -107,7 +109,13 @@ class RunnerAdmin {
 					),
 				'bhaa_runner_renew_'.$user->ID)
 			.'">'. __('Renew', 'bhaa').'</a>';
-			$actions['bhaa_runner_view'] = '<a target="_new" href="/runner/?id='.$user->ID.'">View</a>';
+		}
+		return $actions;
+	}
+
+	function bhaa_user_row_actions_runner_link( $actions, $user ) {
+		if ( current_user_can('manage_options') ) {
+			$actions['bhaa_runner_view'] = '<a target="_new" href="/runner/?id='.$user->ID.'">Runner</a>';
 		}
 		return $actions;
 	}
