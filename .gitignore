@@ -36,3 +36,4 @@ vendor/
 *.iml
 *.lock
 build/logs/junit.xml
+rest-api/*
