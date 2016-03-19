@@ -32,3 +32,7 @@ sql/3910.txt
 sql/3934-pre-race.txt
 
 vendor/
+.idea/*
+*.iml
+*.lock
+build/logs/junit.xml
