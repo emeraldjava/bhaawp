@@ -94,7 +94,9 @@ class HouseCpt {
 				'query_var' => true,
 				'can_export' => true,
 				'rewrite' => true,
-				'capability_type' => 'post'
+				'capability_type' => 'post',
+				'show_in_rest' => true,
+				'rest_controller_class' => 'WP_REST_Posts_Controller'
 		);
 		register_post_type( 'house', $houseArgs );
 	}
