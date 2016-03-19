@@ -26,6 +26,7 @@ class BhaaRestApi {
     }
 
     function bhaa_rest_api_runner_metadata() {
+
         register_rest_field( 'user',
             Runner::BHAA_RUNNER_STATUS,
             array(
@@ -52,6 +53,22 @@ class BhaaRestApi {
         );
         register_rest_field( 'user',
             Runner::BHAA_RUNNER_DATEOFBIRTH,
+            array(
+                'get_callback'    => array(&$this,'bhaa_user_meta_data'),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        register_rest_field( 'user',
+            Runner::BHAA_RUNNER_COMPANY,
+            array(
+                'get_callback'    => array(&$this,'bhaa_user_meta_data'),
+                'update_callback' => null,
+                'schema'          => null,
+            )
+        );
+        register_rest_field( 'user',
+            Runner::BHAA_RUNNER_STANDARD,
             array(
                 'get_callback'    => array(&$this,'bhaa_user_meta_data'),
                 'update_callback' => null,
