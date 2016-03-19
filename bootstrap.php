@@ -12,6 +12,7 @@ require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 // 3rd party libs
 
 // common includes
+require_once(BHAA_PLUGIN_DIR.'/includes/BhaaRestApi.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-bhaa-mustache.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/listtable/raceresulttable.class.php');
 require_once(BHAA_PLUGIN_DIR.'/includes/class-runner-manager.php');

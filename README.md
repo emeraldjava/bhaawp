@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2016.03.19 Add REST API user meta data support.
 - 2015.04.10 Convert 'Senior' category to 'S' on import.
 - 2015.02.24 Add sector team links.
 - 2015.01.26 Racetec Athlete export.
