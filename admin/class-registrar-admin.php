@@ -1,10 +1,6 @@
 <?php
 class RegistrarAdmin implements IAdminPage {
 
-  //public function __construct() {
-    //add_action('admin_action_registrar_monthly',array($this,'registrar_monthly'));
-  //}
-
   public function addSubMenuPage() {
     add_submenu_page('bhaa', 'BHAA', 'Registrar',
       'manage_options','bhaa_admin_registrar',
@@ -22,7 +18,7 @@ class RegistrarAdmin implements IAdminPage {
           YEAR(DATE(dor.meta_value)) as year,
           count(m_status.umeta_id) as count
         from wp_users
-          left join wp_usermeta m_status
+          join wp_usermeta m_status
             on (m_status.user_id=wp_users.id
               and m_status.meta_key="bhaa_runner_status"
               and m_status.meta_value="M")
@@ -38,7 +34,21 @@ class RegistrarAdmin implements IAdminPage {
   }
 
   function bhaa_admin_registrar_monthly_page() {
-    //error_log('here '.var_dump($_GET));
+    global $wpdb;
+    $SQL = $wpdb->prepare('select u.ID, u.display_name, dor.meta_value as dor
+      from wp_users u
+        join wp_usermeta m_status
+          on (m_status.user_id=u.id
+            and m_status.meta_key="bhaa_runner_status"
+            and m_status.meta_value="M")
+        join wp_usermeta dor
+          on (dor.user_id=u.id
+            and dor.meta_key="bhaa_runner_dateofrenewal")
+      where MONTH(dor.meta_value)=%d AND YEAR(dor.meta_value)=%d
+        order by dor.meta_value ASC',
+      $_GET['month'],$_GET['year']);
+    //error_log($SQL);
+    $results = $wpdb->get_results($SQL,OBJECT);
     include_once('views/bhaa_admin_registrar_monthly.php');
   }
 }

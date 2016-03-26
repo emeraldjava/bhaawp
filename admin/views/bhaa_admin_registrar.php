@@ -13,7 +13,8 @@ foreach($results as $row) {
       array(
           'page' => 'bhaa-admin-registrar-monthly', // as defined in the hidden page
           'year' => $row->year,
-          'month' => $row->month
+          'month' => $row->month,
+          'monthname' => $row->monthname
       ),
       admin_url('admin.php')
   );
