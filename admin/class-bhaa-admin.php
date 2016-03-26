@@ -5,26 +5,13 @@ class Bhaa_Admin {
 
 	/**
 	 * Slug of the plugin screen.
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      string
 	 */
 	protected $plugin_screen_hook_suffix = null;
 
 	/**
-	 * Initialize the plugin by loading admin scripts & styles and adding a
-	 * settings page and menu.
-	 *
-	 * @since     1.0.0
+	 * Initialize the plugin by loading admin scripts & styles and adding a	settings page and menu.
 	 */
 	private function __construct() {
-
-		/*
-		 * TODO :
-		*
-		* - Decomment following lines if the admin class should only be available for super admins
-		*/
 		/* if( ! is_super_admin() ) {
 		 return;
 		} */
@@ -92,10 +79,6 @@ class Bhaa_Admin {
 
 	/**
 	 * Return an instance of this class.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    object    A single instance of this class.
 	 */
 	public static function get_instance() {
 		/* if( ! is_super_admin() ) {
@@ -110,14 +93,6 @@ class Bhaa_Admin {
 
 	/**
 	 * Register and enqueue admin-specific style sheet.
-	 *
-	 * TODO:
-	 *
-	 * - Rename "Plugin_Name" to the name your plugin
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    null    Return early if no settings page is registered.
 	 */
 	public function enqueue_admin_styles() {
 		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
@@ -131,14 +106,6 @@ class Bhaa_Admin {
 
 	/**
 	 * Register and enqueue admin-specific JavaScript.
-	 *
-	 * TODO:
-	 *
-	 * - Rename "Plugin_Name" to the name your plugin
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    null    Return early if no settings page is registered.
 	 */
 	public function enqueue_admin_scripts() {
 		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
@@ -170,8 +137,6 @@ class Bhaa_Admin {
 
 	/**
 	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
-	 *
-	 * @since    1.0.0
 	 */
 	public function add_plugin_admin_menu() {
 		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
@@ -181,7 +146,6 @@ class Bhaa_Admin {
 
 		$registrar = new RegistrarAdmin();
 		$registrar->addSubMenuPage();
-		//add_submenu_page('bhaa', 'BHAA', 'Registrar', 'manage_options','bhaa_admin_registrar', array(RegistrarAdmin::get_instance(), 'bhaa_admin_registrar'));
 		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options','bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
 		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options','bhaa_admin_standards',array(&$this, 'bhaa_admin_standards'));
 		add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options','bhaa_admin_text',array(&$this,'bhaa_admin_text'));

@@ -9,8 +9,16 @@ Total number of registered runners:: TODO.
   </tr>
 <?php
 foreach($results as $row) {
-  echo sprintf('<tr><td>%s - %s</td><td>%d</td></tr>',
-    $row->month,$row->year,$row->count);
+  $link = add_query_arg(
+      array(
+          'page' => 'bhaa-admin-registrar-monthly', // as defined in the hidden page
+          'year' => $row->year,
+          'month' => $row->month
+      ),
+      admin_url('admin.php')
+  );
+  echo sprintf('<tr><td><a href="%s">%s - %d</a></td><td>%d</td></tr>',
+    $link,$row->monthname,$row->year,$row->count);
 }
 ?>
 </tbody>

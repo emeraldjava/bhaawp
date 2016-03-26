@@ -1,15 +1,24 @@
 <?php
 class RegistrarAdmin implements IAdminPage {
 
-  public function addSubMenuPage(){
+  //public function __construct() {
+    //add_action('admin_action_registrar_monthly',array($this,'registrar_monthly'));
+  //}
+
+  public function addSubMenuPage() {
     add_submenu_page('bhaa', 'BHAA', 'Registrar',
       'manage_options','bhaa_admin_registrar',
-      array($this, 'registrar_page'));
+      array($this, 'bhaa_admin_registrar_page'));
+    // use 'null' to register a hidden page
+    add_submenu_page(null, 'BHAA', 'Registrar',
+      'manage_options','bhaa-admin-registrar-monthly',
+      array($this, 'bhaa_admin_registrar_monthly_page'));
   }
 
-  function registrar_page() {
+  function bhaa_admin_registrar_page() {
       $SQL = 'select
-          MONTHNAME(DATE(dor.meta_value)) as month,
+          MONTH(DATE(dor.meta_value)) as month,
+          MONTHNAME(DATE(dor.meta_value)) as monthname,
           YEAR(DATE(dor.meta_value)) as year,
           count(m_status.umeta_id) as count
         from wp_users
@@ -26,6 +35,11 @@ class RegistrarAdmin implements IAdminPage {
       global $wpdb;
   		$results = $wpdb->get_results($SQL,OBJECT);
       include_once('views/bhaa_admin_registrar.php');
+  }
+
+  function bhaa_admin_registrar_monthly_page() {
+    //error_log('here '.var_dump($_GET));
+    include_once('views/bhaa_admin_registrar_monthly.php');
   }
 }
 ?>
