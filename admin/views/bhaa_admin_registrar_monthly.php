@@ -1,7 +1,14 @@
 <div class="wrap">
-<h2>bhaa_admin_registrar_monthly</h2>
+<?php
+$link = add_query_arg(
+    array('page' => 'bhaa-admin-registrar'),
+    admin_url('admin.php')
+);
+echo sprintf('<h2><a href="%s">%s</a></h2>',$link,"Registrar");
+?>
 <h3><?php echo $_GET['monthname'].' '.$_GET['year']; ?></h3>
-Total number of registered runners:: <?php echo sizeof($results); ?>.
+Total number of registered runners:: <?php echo sizeof($results); ?>
+<hr/>
 <table border="1">
   <tbody>
   <tr>
