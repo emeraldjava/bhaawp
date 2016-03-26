@@ -9,6 +9,9 @@ class RegistrarAdmin implements IAdminPage {
     add_submenu_page(null, 'BHAA', 'Registrar',
       'manage_options','bhaa-admin-registrar-monthly',
       array($this, 'bhaa_admin_registrar_monthly_page'));
+    add_submenu_page(null, 'BHAA', 'Registrar',
+      'manage_options','bhaa-admin-registrar-deactivate',
+      array($this, 'bhaa_admin_registrar_deactivate_page'));
   }
 
   function bhaa_admin_registrar_page() {
@@ -33,7 +36,28 @@ class RegistrarAdmin implements IAdminPage {
       include_once('views/bhaa_admin_registrar.php');
   }
 
+  /**
+   * List all runners that renewed in a specifc month/year.
+   */
   function bhaa_admin_registrar_monthly_page() {
+    $results = $this->getMemberStatusRunnersForMonthYear($_GET['month'],$_GET['year']);
+    include_once('views/bhaa_admin_registrar_monthly.php');
+  }
+
+  /**
+   * Deactive runners for a specific month/year.
+   */
+  function bhaa_admin_registrar_deactivate_page() {
+    $results = $this->getMemberStatusRunnersForMonthYear($_GET['month'],$_GET['year']);
+    foreach($results as $row) {
+      // TODO move this to the Runner class and update the modification date.
+      update_user_meta($row->ID, Runner::BHAA_RUNNER_STATUS,'I');
+      error_log('Marking runner "'.$row->display_name.'/'.$row->ID.'" as status "I".');
+    }
+    $this->bhaa_admin_registrar_page();
+  }
+
+  private function getMemberStatusRunnersForMonthYear($month,$year) {
     global $wpdb;
     $SQL = $wpdb->prepare('select u.ID, u.display_name, dor.meta_value as dor
       from wp_users u
@@ -45,11 +69,8 @@ class RegistrarAdmin implements IAdminPage {
           on (dor.user_id=u.id
             and dor.meta_key="bhaa_runner_dateofrenewal")
       where MONTH(dor.meta_value)=%d AND YEAR(dor.meta_value)=%d
-        order by dor.meta_value ASC',
-      $_GET['month'],$_GET['year']);
-    //error_log($SQL);
-    $results = $wpdb->get_results($SQL,OBJECT);
-    include_once('views/bhaa_admin_registrar_monthly.php');
+        order by dor.meta_value ASC',$month,$year);
+    return $wpdb->get_results($SQL,OBJECT);
   }
 }
 ?>

@@ -14,9 +14,23 @@ Total number of registered runners:: <?php echo sizeof($results); ?>.
 $i=0;
 foreach($results as $row) {
   $i++;
-  echo sprintf('<tr><td>%d</td><td>%d</td><td>%s</td><td>%s</td></tr>',
-    $i,$row->ID,$row->display_name,$row->dor);
+  $runner_url = sprintf('<a target=new href="/runner/?id=%d">%d</a>',
+    $row->ID,$row->ID);
+  echo sprintf('<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td></tr>',
+    $i,$runner_url,$row->display_name,$row->dor);
 }
 ?>
 </tbody>
 </table>
+<hr/>
+<?php
+$link = add_query_arg(
+    array(
+        'page' => 'bhaa-admin-registrar-deactivate',
+        'year' => $_GET['year'],
+        'month' => $_GET['month']
+    ),
+    admin_url('admin.php')
+);
+echo sprintf('<a href="%s">%s</a>',$link,"Deactive Runners");
+?>
