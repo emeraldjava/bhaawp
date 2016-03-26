@@ -23,8 +23,7 @@ class RegistrarAdmin implements IAdminPage {
         where DATE(dor.meta_value)>=DATE("2014-01-01")
           group by YEAR(DATE(dor.meta_value)), MONTHNAME(DATE(dor.meta_value))
           order by YEAR(DATE(dor.meta_value)) DESC, MONTH(DATE(dor.meta_value))';
-      error_log($SQL);
-  		global $wpdb;
+      global $wpdb;
   		$results = $wpdb->get_results($SQL,OBJECT);
       include_once('views/bhaa_admin_registrar.php');
   }
