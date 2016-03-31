@@ -78,7 +78,6 @@ class Bhaa {
 
 		add_action('admin_init',array($this,'bhaa_remove_subscriber_read'));
 		add_action('wp_head',array($this,'bhaa_hide_admin_bar'));
-		add_filter('login_redirect',array($this,'bhaa_redirect_subscriber_to_home'), 10, 3 );
 		add_filter('wp_nav_menu_items',array($this,'bhaa_add_login_out_item_to_menu'), 50, 2 );
 	}
 
@@ -96,15 +95,6 @@ class Bhaa {
 		if (current_user_can('subscriber')) {
 			add_filter('show_admin_bar','__return_false');
 		}
-	}
-
-	function bhaa_redirect_subscriber_to_home( $redirect_to, $request, $user ) {
-		if ( isset($user->roles) && is_array( $user->roles ) ) {
-			if ( in_array( 'subscriber', $user->roles ) ) {
-				return home_url( );
-			}
-		}
-		return $redirect_to;
 	}
 
 	function bhaa_add_login_out_item_to_menu($nav, $args) {
