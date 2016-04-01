@@ -1,7 +1,7 @@
 Overview
 ========
 
-This project is a wordpress plugin for the Business Houses Athletic Assoication. It handles all aspects of 
+This project is a wordpress plugin for the Business Houses Athletic Assoication. It handles all aspects of
 runner registration, race results and individual/team league logic.
 
 Website
@@ -12,14 +12,15 @@ http://bhaa.ie
 Shortcodes
 ==========
 
-|Shortcode|Description|
-|---------|-----------|
+| Shortcode | Description |
+| --------- | ----------- |
 |pdf|Embeds a PDF document in the html page|
 |bhaa_standard_table|Displays the standard table for races belongs to this event page|
 |bhaa_runner|Shows a runners race results|
 
 Change Log
 ==========
+- 2016.03.28 Add registrar admin page.
 - 2016.03.19 Add REST API user meta data support.
 - 2015.04.10 Convert 'Senior' category to 'S' on import.
 - 2015.02.24 Add sector team links.
@@ -61,7 +62,7 @@ Change Log
 - 2014.01.14 Fix renewal email url link.Add support to edit the runners name and update display name. Display the runners company link.
 - 2014.01.13 Update the raceday registration form layout with bootstrap 3 css.
 - 2014.01.03 Add disable/enable booking option.
-- 2014.01.01 Refactored the plugin to follow a more structured format. 
+- 2014.01.01 Refactored the plugin to follow a more structured format.
 
 Resources
 =========

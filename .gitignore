@@ -37,4 +37,3 @@ vendor/
 *.lock
 build/logs/junit.xml
 rest-api/*
-ssh.txt

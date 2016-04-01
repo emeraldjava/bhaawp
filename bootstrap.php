@@ -9,6 +9,9 @@ require_once(BHAA_PLUGIN_DIR.'/admin/class-league-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/class-house-cpt.php');
 require_once(BHAA_PLUGIN_DIR.'/admin/WPFlashMessages.php');
 
+require_once(BHAA_PLUGIN_DIR.'/admin/IAdminPage.php');
+require_once(BHAA_PLUGIN_DIR.'/admin/class-registrar-admin.php');
+
 // 3rd party libs
 
 // common includes

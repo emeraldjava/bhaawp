@@ -3,14 +3,14 @@
  * Handles operation on runners.
  * TODO move some stuff to user class.
  * @author oconnellp
- * 
+ *
  * http://codex.wordpress.org/Class_Reference/WP_Object_Cache
  * https://markjaquith.wordpress.com/2013/04/26/fragment-caching-in-wordpress/
  */
 class Runner_Manager {
-	
+
 	protected static $instance = null;
-	
+
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
@@ -18,18 +18,18 @@ class Runner_Manager {
 		}
 		return self::$instance;
 	}
-	
-	private function __construct() {	
+
+	private function __construct() {
 		add_action('admin_action_bhaa_runner_renew_action',array($this,'bhaa_runner_renew_action'));
 		add_action('admin_action_bhaa_runner_rename_action',array($this,'bhaa_runner_rename_action'));
 		add_action('admin_action_bhaa_runner_email_action',array($this,'bhaa_runner_email_action'));
 		add_action('admin_action_bhaa_runner_dob_action',array($this,'bhaa_runner_dob_action'));
 		add_action('admin_action_bhaa_runner_gender_action',array($this,'bhaa_runner_gender_action'));
-		add_action('admin_action_bhaa_runner_standard_action',array($this,'bhaa_runner_standard_action'));		
+		add_action('admin_action_bhaa_runner_standard_action',array($this,'bhaa_runner_standard_action'));
 		add_action('admin_action_bhaa_runner_mobile_action',array($this,'bhaa_runner_mobile_action'));
 		add_action('admin_action_bhaa_runner_merge_action',array($this,'bhaa_runner_merge_action'));
 	}
-	
+
 	function bhaa_runner_edit_standard_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
@@ -45,7 +45,7 @@ class Runner_Manager {
 			return "";
 		}
 	}
-	
+
 	function bhaa_runner_standard_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_standard_action')) {
 			update_user_meta($_POST['id'],'bhaa_runner_standard',trim($_POST['standard']));
@@ -53,7 +53,7 @@ class Runner_Manager {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
-	
+
 	function bhaa_runner_edit_gender_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
@@ -69,7 +69,7 @@ class Runner_Manager {
 			return "";
 		}
 	}
-	
+
 	function bhaa_runner_gender_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_gender_action')) {
 			update_user_meta($_POST['id'],'bhaa_runner_gender',trim($_POST['gender']));
@@ -77,7 +77,7 @@ class Runner_Manager {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
-		
+
 	function bhaa_runner_edit_mobile_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
@@ -93,7 +93,7 @@ class Runner_Manager {
 			return "";
 		}
 	}
-	
+
 	function bhaa_runner_mobile_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_mobile_action')) {
 			update_user_meta($_POST['id'],'bhaa_runner_mobilephone',trim($_POST['mobilephone']));
@@ -101,7 +101,7 @@ class Runner_Manager {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
-	
+
 	/**
 	 * Show the membership status with last renewal month/year.
 	 * @param unknown $atts
@@ -125,7 +125,7 @@ class Runner_Manager {
 			return $runner->getStatus();
 		}
 	}
-	
+
 	/**
 	 * Generate a renewal button for admin users via a shortcode
 	 * @return string
@@ -145,7 +145,7 @@ class Runner_Manager {
 			return "";
 		}
 	}
-	
+
 	function bhaa_runner_renew_action() {
 		if(current_user_can('edit_users') && wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_renew_action')) {
 			$runner = new Runner($_POST['id']);
@@ -154,7 +154,7 @@ class Runner_Manager {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
-	
+
 	/**
 	 * Return the runners name or edit form for the admin user
 	 * @return string
@@ -163,7 +163,7 @@ class Runner_Manager {
 		$runner = new Runner(get_query_var('id'));
 		return $runner->getFullName();
 	}
-	
+
 	function bhaa_runner_edit_name_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
@@ -179,12 +179,12 @@ class Runner_Manager {
 			return '';
 		}
 	}
-	
+
 	function bhaa_runner_rename_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_rename_action')) {
-			$first_name = formatDisplayName($_POST['first_name']);
+			$first_name = $this->formatDisplayName($_POST['first_name']);
 			wp_update_user( array ( 'ID' => $_POST['id'], 'first_name' => $first_name ) ) ;
-			$last_name = formatDisplayName($_POST['last_name']);
+			$last_name = $this->formatDisplayName($_POST['last_name']);
 			wp_update_user( array ( 'ID' => $_POST['id'], 'last_name' => $last_name ) ) ;
 			wp_update_user( array ('ID' => $_POST['id'], 'display_name' => $first_name." ".$last_name));
 			wp_update_user( array ('ID' => $_POST['id'], 'user_nicename' =>  $first_name."-".$last_name));
@@ -192,7 +192,7 @@ class Runner_Manager {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
-	
+
 	function bhaa_runner_edit_email_shortcode() {
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
@@ -207,7 +207,7 @@ class Runner_Manager {
 			return "";
 		}
 	}
-	
+
 	function bhaa_runner_email_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_email_action')) {
 			error_log('bhaa_runner_email_action '.$_POST['id'].' -> '.$_POST['email']);
@@ -216,7 +216,7 @@ class Runner_Manager {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
-	
+
 	function bhaa_runner_edit_dob_shortcode(){
 		$runner = new Runner(get_query_var('id'));
 		if(current_user_can('edit_users')) {
@@ -232,7 +232,7 @@ class Runner_Manager {
 			return "";
 		}
 	}
-	
+
 	function bhaa_runner_dob_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_dob_action')) {
 			error_log('bhaa_runner_dob_action '.$_POST['id'].' -> '.$_POST['dob']);
@@ -242,7 +242,7 @@ class Runner_Manager {
 		exit();
 	}
 
-	
+
 	/**
 	 * http://mattvarone.com/wordpress/list-users/
 	 * http://wordpress.stackexchange.com/questions/38599/wordpress-wp-user-queryargs-using-where-and-like
@@ -254,7 +254,7 @@ class Runner_Manager {
 	function bhaa_runner_search() {
 		//error_log('bhaawp_runner_search '.$_REQUEST['term']);
 		$query = strip_tags( $_REQUEST['term'] );
-	
+
 		$suggestions=array();
 		if(preg_match('/\d{4}|\d{5}/', $query))
 		{
@@ -277,7 +277,7 @@ class Runner_Manager {
 							array('key' => 'bhaa_runner_status','compare'=>'!=','value'=>'D')
 					)
 			);
-	
+
 			error_log(print_r($args,true));
 			$user_query = new WP_User_Query( $args );
 			$runners = $user_query->get_results();
@@ -299,7 +299,7 @@ class Runner_Manager {
 		echo $response;
 		die();
 	}
-	
+
 	/**
 	 * user id - email x_id@bhaa.ie
 	 * $sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";
@@ -312,7 +312,7 @@ class Runner_Manager {
 		$sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";
 		return str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
 	}
-	
+
 	/**
 	 * Does runner exist
 	 * @param unknown $id
@@ -322,11 +322,11 @@ class Runner_Manager {
 		global $wpdb;
 		return $wpdb->get_var($wpdb->prepare('select count(id) as isrunner from wp_users where id=%d',$id));
 	}
-	
+
 	public function createNewUser($firstname,$surname,$email,$gender,$dateofbirth,$runner_id=NULL)
 	{
 		require_once( ABSPATH . 'wp-includes/user.php' );
-	
+
 		if($runner_id == '' || $runner_id == NULL) {
 			$id = $this->getNextRunnerId();
 			error_log('create new user with next id '.$id);
@@ -343,21 +343,21 @@ class Runner_Manager {
 		$username = str_replace(' ', '', $username);
 		$username = str_replace("'", '', $username);
         $username = strtolower($username);
-	
+
 		// check for a unique username
 		$user_id = username_exists($username);
 		if(!user_id) {
 			$username = $username.$id;
 		}
-	
+
 		if($email=='')
 			$email = 'x'.$username.'@bhaa.ie';
-	
+
 		if($gender!='M')
 			$gender='W';
-	
+
 		$password =  wp_hash_password($id);
-	
+
 		// insert the user via SQL
 		$this->insertUser($id,$username,$password,$email);
 		// update the wp_user
@@ -372,7 +372,7 @@ class Runner_Manager {
 		));
 		if(is_wp_error($res))
 			error_log('update user error '.$res->get_error_message());
-	
+
 		update_user_meta( $id, Runner::BHAA_RUNNER_GENDER, $gender);
 		update_user_meta( $id, Runner::BHAA_RUNNER_DATEOFBIRTH, $dateofbirth);
 		update_user_meta( $id, Runner::BHAA_RUNNER_INSERTDATE, date('Y-m-d'));
@@ -381,7 +381,7 @@ class Runner_Manager {
 		update_user_meta( $id, Runner::BHAA_RUNNER_MOBILEPHONE,'');
 		return $id;
 	}
-	
+
 	private function insertUser($id,$name,$password,$email) {
 		global $wpdb;
 		$sql = '';
@@ -413,7 +413,7 @@ class Runner_Manager {
 		}
 		$wpdb->query($sql);
 	}
-	
+
 	public function matchRunner($firstname,$surname,$dateofbirth)
 	{
 		$args = array(
@@ -429,7 +429,7 @@ class Runner_Manager {
 		);
 		//error_log(print_r($args,true));
 		$user_query = new WP_User_Query($args);
-	
+
 		$runner = $user_query->get_results();
 		error_log($firstname.' '.$surname.' matches '+sizeof($runner).' '.$user_query->get_total());
 		if(empty($runner))
@@ -453,7 +453,7 @@ class Runner_Manager {
 		if(current_user_can('edit_users')) {
 			$user_info = get_userdata(get_query_var('id'));
 			$bhaa_runner_dateofbirth = get_user_meta(get_query_var('id'),'bhaa_runner_dateofbirth',true);
-		
+
 			$queryMatchAll = new WP_User_Query(
 				array(
 					'exclude' => array(get_query_var('id')),
@@ -472,7 +472,7 @@ class Runner_Manager {
 								'value' => $bhaa_runner_dateofbirth,
 								'compare' => '='
 						))));
-		
+
 			$queryMatchName = new WP_User_Query(
 				array(
 					'exclude' => array(get_query_var('id')),
@@ -487,7 +487,7 @@ class Runner_Manager {
 							'value' => $user_info->user_firstname,
 							'compare' => '='
 						))));
-		
+
 			$queryMatchLastDob = new WP_User_Query(
 				array(
 					'exclude' => array(get_query_var('id')),
@@ -502,8 +502,8 @@ class Runner_Manager {
 								'value' => $bhaa_runner_dateofbirth,
 								'compare' => '='
 						))));
-		
-			// merge the three results	
+
+			// merge the three results
 			$users = array_merge( $queryMatchAll->get_results(), $queryMatchName->get_results(), $queryMatchLastDob->get_results());
 			$table = '<div>';
 			foreach($users as $matcheduser) {
@@ -528,7 +528,7 @@ class Runner_Manager {
 			return '';
 		}
 	}
-	
+
 	function bhaa_runner_merge_action() {
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_merge_action')) {
 			$this->mergeRunner($_POST['id'],$_POST['delete']);
@@ -536,7 +536,7 @@ class Runner_Manager {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
-	
+
 	function mergeRunner($runner,$deleteRunner) {
 		error_log('deleting runner '.$deleteRunner.' and merging to '.$runner);
 		global $wpdb;
@@ -582,7 +582,7 @@ class Runner_Manager {
 		);
 		error_log('merged runner '.$deleteRunner.' to '.$runner);
 	}
-	
+
 	function addNewMember($firstname,$lastname,$gender,$dateofbirth,$email='') {
 		$match = $this->matchRunner($firstname,$lastname,$dateofbirth);
 		if($match!=0) {
@@ -597,8 +597,8 @@ class Runner_Manager {
 
 	/**
 	 * Export the runner details in the format of the Racetec Athlete
-	 * 
-	 * 
+	 *
+	 *
 	 * SELECT wp_bhaa_raceresult.id,runner,racenumber,race,
 			firstname.meta_value as firstname,lastname.meta_value as lastname,
 			gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,
@@ -625,8 +625,8 @@ class Runner_Manager {
 	 */
 	function exportRacetecAtheletes($limit=1000) {
 		global $wpdb;
-		$SQL = $wpdb->prepare("SELECT 
-			wp_users.id as AthleteId, 
+		$SQL = $wpdb->prepare("SELECT
+			wp_users.id as AthleteId,
 			firstname.meta_value as	FirstName,
 			lastname.meta_value as LastName,
 			status.meta_value as Initials,
@@ -677,7 +677,7 @@ class Runner_Manager {
  			left join wp_posts sectorteam on (sectorteam.id=r2s.p2p_from and sectorteam.post_type='house')
 			ORDER BY wp_users.id ASC",'1');
 			//	ORDER BY wp_users.id ASC LIMIT %d",'1',$limit);
-	
+
 		//error_log($SQL);
 		$wpdb->query("SET SQL_BIG_SELECTS=1");
 		$start = round(microtime(true) * 1000);
