@@ -24,6 +24,7 @@ if ( ! defined( 'WPINC' ) ) {
  * http://torquemag.io/2015/01/using-class-autoloader-improve-wordpress-development/
  */
 require_once('vendor/autoload.php');
+define( 'BHAA_PLUGIN_DIR' , dirname(__FILE__) );
 
 /*----------------------------------------------------------------------------*
  * Public-Facing Functionality
