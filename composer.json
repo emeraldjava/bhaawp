@@ -1,5 +1,9 @@
 {
-	"require" : {
-    	"phpunit/phpunit" : "3.7.*"
-	}
+  "autoload": {
+    "classmap": [
+      "./admin",
+      "./includes",
+      "./public"
+    ]
+  }
 }

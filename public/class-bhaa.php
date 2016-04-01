@@ -24,7 +24,7 @@ class Bhaa {
 	 */
 	private function __construct() {
 
-		require_once (dirname (__FILE__) . '/../bootstrap.php');
+		//require_once (dirname (__FILE__) . '/../bootstrap.php');
 		//require_once( plugin_dir_path( __FILE__ ) . '/includes/class-flickr-shortcode.php' );
 
 		// Load plugin text domain

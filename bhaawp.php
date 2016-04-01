@@ -18,6 +18,13 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+
+/**
+ * https://gilbert.pellegrom.me/using-psr-4-autoloading-in-wordpress-plugins/
+ * http://torquemag.io/2015/01/using-class-autoloader-improve-wordpress-development/
+ */
+require_once('vendor/autoload.php');
+
 /*----------------------------------------------------------------------------*
  * Public-Facing Functionality
 *----------------------------------------------------------------------------*/
