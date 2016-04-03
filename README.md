@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2016.04.03 Update to use the composer autoloader.
 - 2016.03.28 Add registrar admin page.
 - 2016.03.19 Add REST API user meta data support.
 - 2015.04.10 Convert 'Senior' category to 'S' on import.
