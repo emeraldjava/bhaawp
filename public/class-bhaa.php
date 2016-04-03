@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Bhaa {
 
 	protected $plugin_slug = 'bhaawp';
@@ -121,7 +121,10 @@ class Bhaa {
 			return Realex::get_instance()->process();
 		}
 		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
-				
+			// http://stackoverflow.com/questions/4647604/wp-use-file-in-plugin-directory-as-custom-page-template/4975004#4975004
+			// http://wordpress.stackexchange.com/questions/3396/create-custom-page-templates-with-plugins
+			// https://github.com/tommcfarlin/page-template-example
+			// https://github.com/wpexplorer/page-templater
 			if ( !current_user_can( 'edit_users' ) )  {
 				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 			} else {
@@ -462,7 +465,7 @@ class Bhaa {
 		'jquery-ui-autocomplete',
 		'jquery-ui-dialog'));
 		wp_enqueue_script('bhaawp');
-			
+
 
 
 		/*
