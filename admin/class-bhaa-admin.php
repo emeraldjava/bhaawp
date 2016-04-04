@@ -42,6 +42,8 @@ class Bhaa_Admin {
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
 		new WPFlashMessages();
+
+		//PageTemplater::get_instance();
 	}
 
 	function bhaa_send_email() {

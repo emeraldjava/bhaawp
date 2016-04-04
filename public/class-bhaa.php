@@ -82,7 +82,8 @@ class Bhaa {
 	}
 
 	function bhaa_register_widgets() {
-		register_widget('RunnerSearchWidget');
+		//register_widget('RunnerSearchWidget');
+		//add_filter('deprecated_constructor_trigger_error','__return_false');
 	}
 
 	//http://wordpress.stackexchange.com/questions/93843/disable-wp-admin-console-for-subscribers/93869#93869
@@ -121,10 +122,15 @@ class Bhaa {
 			return Realex::get_instance()->process();
 		}
 		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
-			// http://stackoverflow.com/questions/4647604/wp-use-file-in-plugin-directory-as-custom-page-template/4975004#4975004
-			// http://wordpress.stackexchange.com/questions/3396/create-custom-page-templates-with-plugins
-			// https://github.com/tommcfarlin/page-template-example
-			// https://github.com/wpexplorer/page-templater
+			// Register templates
+			// - http://stackoverflow.com/questions/4647604/wp-use-file-in-plugin-directory-as-custom-page-template/4975004#4975004
+			// - http://wordpress.stackexchange.com/questions/3396/create-custom-page-templates-with-plugins
+			// - https://github.com/tommcfarlin/page-template-example
+			// - https://github.com/wpexplorer/page-templater
+			// Register pages which use those templates
+			// - http://wordpress.stackexchange.com/questions/9870/how-do-you-create-a-virtual-page-in-wordpress
+			// - http://stackoverflow.com/questions/17960649/wordpress-plugin-generating-virtual-pages-and-using-theme-template
+			// - https://gist.github.com/brianoz/9105004
 			if ( !current_user_can( 'edit_users' ) )  {
 				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 			} else {
