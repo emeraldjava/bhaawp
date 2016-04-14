@@ -131,6 +131,9 @@ class Bhaa {
 			// - http://wordpress.stackexchange.com/questions/9870/how-do-you-create-a-virtual-page-in-wordpress
 			// - http://stackoverflow.com/questions/17960649/wordpress-plugin-generating-virtual-pages-and-using-theme-template
 			// - https://gist.github.com/brianoz/9105004
+			// Create pages via the API
+			// - http://www.kvcodes.com/2014/01/how-to-create-pages-programmatically-and-add-custom-template-wordpress/
+			// - http://wordpress.stackexchange.com/questions/83861/create-pages-automatically-if-they-dont-exist
 			if ( !current_user_can( 'edit_users' ) )  {
 				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 			} else {
