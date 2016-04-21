@@ -38,7 +38,7 @@ class PageTemplates {
         add_filter('template_include', array( $this, 'view_project_template') );
 
         // Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
-        register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
+        //register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
         // Add your templates to this array.
         $this->templates = array(
@@ -88,19 +88,26 @@ class PageTemplates {
     public function view_project_template( $template ) {
 
         global $post;
+        error_log('91 view_project_template '.$post);
 
         // If no posts found, return to
         // avoid "Trying to get property of non-object" error
-        if ( !isset( $post ) ) return $template;
+        if ( !isset( $post ) ) {
+            error_log('96 view_project_template '.$template);
+            return $template;
+        }
 
         if ( ! isset( $this->templates[ get_post_meta( $post->ID, '_wp_page_template', true ) ] ) ) {
+            error_log('101 view_project_template '.$template);
             return $template;
         } // end if
 
         $file = plugin_dir_path( __FILE__ ) . 'admin/templates/' . get_post_meta( $post->ID, '_wp_page_template', true );
+        error_log('106 view_project_template '.$file);
 
         // Just to be safe, we check if the file exist first
         if( file_exists( $file ) ) {
+            error_log('110 view_project_template '.$file);
             return $file;
         } // end if
 
