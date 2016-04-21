@@ -7,3 +7,4 @@ $reg .= '</div>';
 error_log('Here in the template page.');
 echo $reg;
 ?>
+<h2>this is some output.</h2>
