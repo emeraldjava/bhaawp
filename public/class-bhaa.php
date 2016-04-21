@@ -118,10 +118,10 @@ class Bhaa {
 		global $post;
 		//error_log($post->ID.' '.$post->post_type.' '.get_query_var('pagename'));
 		// realex 3143
-		if( $post->ID == 3143) {
-			return Realex::get_instance()->process();
-		}
-		else if(in_array($post->ID,array(2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
+		//if( $post->ID == 3143) {
+		//	return Realex::get_instance()->process();
+		//}
+		if(in_array($post->ID,array(1))) { //s2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
 			// Register templates
 			// - http://stackoverflow.com/questions/4647604/wp-use-file-in-plugin-directory-as-custom-page-template/4975004#4975004
 			// - http://wordpress.stackexchange.com/questions/3396/create-custom-page-templates-with-plugins

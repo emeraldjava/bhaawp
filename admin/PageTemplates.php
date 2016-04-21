@@ -13,12 +13,11 @@ class PageTemplates {
     protected $templates;
 
     public static function get_instance() {
-
         if( null == self::$instance ) {
             self::$instance = new PageTemplates();
         } // end if
         return self::$instance;
-    } // end getInstance
+    }
 
     private function __construct() {
 

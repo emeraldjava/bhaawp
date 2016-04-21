@@ -42,7 +42,8 @@ class Bhaa_Admin {
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
 		//RacedayAdmin::get_instance();
-		PageTemplates::get_instance();
+		//PageTemplates::get_instance();
+		PageTemplater::get_instance();
 		new WPFlashMessages();
 
 		//PageTemplater::get_instance();
