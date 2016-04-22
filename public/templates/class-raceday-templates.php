@@ -1,4 +1,8 @@
 <?php
+/**
+ * Class RacedayTemplates
+ * http://www.kvcodes.com/2014/01/how-to-create-pages-programmatically-and-add-custom-template-wordpress/
+ */
 class RacedayTemplates {
 
 	protected static $instance = null;
@@ -39,48 +43,20 @@ class RacedayTemplates {
             array( $this, 'view_project_template')
         );
 
-
-        // Add your templates to this array.
-//        $this->templates = array(
-//            'register.php'     => 'BHAA RaceDay Register',
-//        );
-
         // Add your templates to this array.
         $this->templates = array(
-            '/register.php' => 'BHAA Raceday Register',
+            '/admin.php' => 'BHAA Raceday Admin',
+            '/cash.php' => 'BHAA Raceday Cash',
             '/list.php' => 'BHAA Raceday List',
-            '/admin.php' => 'BHAA Raceday Admin'
+            '/newmember.php' => 'BHAA Raceday New Member',
+            '/prereg.php' => 'BHAA Raceday Pre-Reg',
+            '/register.php' => 'BHAA Raceday Register'
         );
-
-        //add_action( 'admin_init', array(&$this,'bhaa_create_raceday_pages'));
-	}
-
-	function bhaa_create_raceday_pages(){
-		$this->createPageWithTemplate('rd-register','register.php');
-		$this->createPageWithTemplate('rd-list','register.php');
-	}
-
-	/**
-	 * http://www.kvcodes.com/2014/01/how-to-create-pages-programmatically-and-add-custom-template-wordpress/
-	 */
-	function createPageWithTemplate($name,$template) {
-
-		if( get_page_by_title($name) == NULL ) {
-			$page_id = wp_insert_post(array(
-				'post_title' => $name,
-				'post_type' => 'page',
-				'post_name' => $name,
-				'post_status' => 'publish'
-			));
-			add_post_meta($page_id, '_wp_page_template', $template);
-			error_log('Created page '.$name.' with ID '.$$page_id);
-		}
 	}
 
     /**
      * Adds our template to the pages cache in order to trick WordPress
      * into thinking the template file exists where it doens't really exist.
-     *
      */
     public function register_project_templates( $atts ) {
         // Create the key used for the themes cache
@@ -107,18 +83,11 @@ class RacedayTemplates {
      */
     public function view_project_template( $template ) {
         global $post;
-        $plugindir = plugin_dir_path(__FILE__);
-        error_log("view_project_template ".$plugindir);
-
-        $templatename = get_post_meta($post->ID, '_wp_page_template', true);
-        error_log("view_project_template ::".$templatename."::");
-
-        if (!isset($this->templates[get_post_meta($post->ID, '_wp_page_template', true)] ) ) {
+          if (!isset($this->templates[get_post_meta($post->ID, '_wp_page_template', true)] ) ) {
             return $template;
         }
         $file = plugin_dir_path(__FILE__). get_post_meta( $post->ID, '_wp_page_template', true );
-
-        // Just to be safe, we check if the file exist first
+      // Just to be safe, we check if the file exist first
         if( file_exists( $file ) ) {
             return $file;
         }

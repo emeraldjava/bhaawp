@@ -6,8 +6,13 @@
 //get_header();
 include_once 'header.php';
 ?>
-<div class="jumbotron">
-<h1>BHAA Raceday List</h1>
+<div class="panel-heading">
+<h3 class="panel-title">List of Registered Runners</h3>
+</div>
+
+<div class="panel-body">
+TODO
+</div>
 </div>
 <?php
 include_once 'footer.php';

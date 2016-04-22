@@ -12,10 +12,6 @@ class Bhaa_Admin {
 	 * Initialize the plugin by loading admin scripts & styles and adding a	settings page and menu.
 	 */
 	private function __construct() {
-		/* if( ! is_super_admin() ) {
-		 return;
-		} */
-
 		$plugin = Bhaa::get_instance();
 		$this->plugin_slug = $plugin->get_plugin_slug();
 
@@ -41,12 +37,7 @@ class Bhaa_Admin {
 
 		RunnerAdmin::get_instance();
 		EventAdmin::get_instance();
-		//RacedayAdmin::get_instance();
-		//PageTemplates::get_instance();
-		PageTemplater::get_instance();
 		new WPFlashMessages();
-
-		//PageTemplater::get_instance();
 	}
 
 	function bhaa_send_email() {

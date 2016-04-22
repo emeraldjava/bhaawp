@@ -42,7 +42,7 @@ class Bhaa {
 		add_filter('query_vars', array($this,'bhaa_add_query_vars'));
 
 		// filter the bhaa content pages
-		add_filter('the_content', array($this,'bhaa_content'));
+		//add_filter('the_content', array($this,'bhaa_content'));
 
 		/* Define custom functionality.
 		 * Refer To http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
@@ -66,6 +66,7 @@ class Bhaa {
 		LeagueCpt::get_instance();
 		Events_Manager::get_instance();
 		BhaaRestApi::get_instance();
+		RacedayTemplates::get_instance();
 
 		// register the forms
 		add_action('wp_forms_register',array(Raceday::get_instance(),'bhaa_register_forms'));
@@ -177,23 +178,23 @@ class Bhaa {
 	}
 
 
-	function bhaa_locate_template( $template_name, $load=false, $args = array() ) {
-		//First we check if there are overriding tempates in the child or parent theme
-		$located = locate_template(array('plugins/bhaawp/'.$template_name));
-		if( !$located ) {
-			if ( file_exists(BHAA_PLUGIN_DIR.'/templates/'.$template_name) ) {
-
-				$located = BHAA_PLUGIN_DIR.'/templates/'.$template_name;
-			}
-		}
-		$located = apply_filters('bhaa_locate_template', $located, $template_name, $load, $args);
-		if( $located && $load ) {
-			if( is_array($args) )
-				extract($args);
-			include($located);
-		}
-		return $located;
-	}
+//	function bhaa_locate_template( $template_name, $load=false, $args = array() ) {
+//		//First we check if there are overriding tempates in the child or parent theme
+//		$located = locate_template(array('plugins/bhaawp/'.$template_name));
+//		if( !$located ) {
+//			if ( file_exists(BHAA_PLUGIN_DIR.'/templates/'.$template_name) ) {
+//
+//				$located = BHAA_PLUGIN_DIR.'/templates/'.$template_name;
+//			}
+//		}
+//		$located = apply_filters('bhaa_locate_template', $located, $template_name, $load, $args);
+//		if( $located && $load ) {
+//			if( is_array($args) )
+//				extract($args);
+//			include($located);
+//		}
+//		return $located;
+//	}
 
 	function getRunnerManager() {
 		return $this->runnerManager;
@@ -416,26 +417,26 @@ class Bhaa {
 		//'jquery-bhaa-style',
 		//'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
 
-		wp_enqueue_style(
-		'bootstrap-css',
-		plugins_url().'/bhaawp/public/assets/css/bootstrap.min.css',
-		false);
-		wp_enqueue_style(
-		'bhaawp-css',
-		plugins_url().'/bhaawp/public/assets/css/bhaawp.css',
-		false);
-		wp_enqueue_style(
-		'tablesorter-css',
-		plugins_url().'/bhaawp/public/assets/css/tablesorter/theme.default.css',
-		false);
-		wp_enqueue_style(
-		'tablesorter-bhaa-css',
-		plugins_url().'/bhaawp/public/assets/css/tablesorter/tablesorter.css',
-		false);
-		wp_enqueue_style(
-		'jquery-bhaa-style',
-		plugins_url().'/bhaawp/public/assets/css/jqueryui/jquery-ui-1.10.3.custom.min.css',
-		false);
+        wp_enqueue_style(
+            'bootstrap-css',
+            plugins_url() . '/bhaawp/public/assets/css/bootstrap.min.css',
+            false);
+        wp_enqueue_style(
+            'bhaawp-css',
+            plugins_url() . '/bhaawp/public/assets/css/bhaawp.css',
+            false);
+        wp_enqueue_style(
+            'tablesorter-css',
+            plugins_url() . '/bhaawp/public/assets/css/tablesorter/theme.default.css',
+            false);
+        wp_enqueue_style(
+            'tablesorter-bhaa-css',
+            plugins_url() . '/bhaawp/public/assets/css/tablesorter/tablesorter.css',
+            false);
+        //wp_enqueue_style(
+        //    'jquery-bhaa-style',
+        //    plugins_url() . '/bhaawp/public/assets/css/jqueryui/jquery-ui-1.10.3.custom.min.css',
+        //    false);
 	}
 
 	/**
@@ -456,23 +457,23 @@ class Bhaa {
 		//wp_localize_script( 'my-ajax-request', 'MyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 		wp_register_script(
-		'tablesorter',
-		plugins_url('assets/js/jquery.tablesorter.min.js',__FILE__),
-		array('jquery'));
+    		'tablesorter',
+	    	plugins_url('assets/js/jquery.tablesorter.min.js',__FILE__),
+		    array('jquery'));
 		wp_enqueue_script('tablesorter');
 
 		// http://wordpress.stackexchange.com/questions/56343/template-issues-getting-ajax-search-results/56349#56349
 		wp_register_script(
-		'bhaawp',
-		plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
-		array('jquery',
-		'jquery-ui-core',
-		'jquery-ui-widget',
-		'jquery-ui-position',
-		'jquery-ui-sortable',
-		'jquery-ui-datepicker',
-		'jquery-ui-autocomplete',
-		'jquery-ui-dialog'));
+            'bhaawp',
+            plugins_url('assets/js/bhaawp.jquery.js',__FILE__),
+            array('jquery',
+            'jquery-ui-core',
+            'jquery-ui-widget',
+            'jquery-ui-position',
+            'jquery-ui-sortable',
+            'jquery-ui-datepicker',
+            'jquery-ui-autocomplete',
+            'jquery-ui-dialog'));
 		wp_enqueue_script('bhaawp');
 
 
@@ -493,15 +494,16 @@ class Bhaa {
 		*/
 
 
-		// 		wp_register_script(
-		// 		'bootstrap-js',
-		//		plugins_url('assets/js/bootstrap.min.js',__FILE__),
-		//	array('jquery'));
-		wp_enqueue_script('bootstrap-js');
+		wp_register_script(
+		    'bootstrap',
+		    plugins_url('assets/js/bootstrap.min.js',__FILE__),
+		    array('jquery'));
+		wp_enqueue_script('bootstrap');
+
 		wp_localize_script(
-		'bhaawp',
-		'bhaaAjax',
-		array('ajaxurl'=>admin_url('admin-ajax.php')));
+		    'bhaawp',
+		    'bhaaAjax',
+		    array('ajaxurl'=>admin_url('admin-ajax.php')));
 
 		// register ajax methods
 		//add_action('wp_ajax_nopriv_bhaawp_house_search',array($this,'bhaawp_house_search'));

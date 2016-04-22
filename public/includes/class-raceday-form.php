@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * Class Raceday_Form
+ *
+ * Uses: https://github.com/jbrinley/wp-forms
+ * See: https://github.com/oomphinc/WP-Forms-API
+ */
 abstract class Raceday_Form {
 	
 	//private $races = null;

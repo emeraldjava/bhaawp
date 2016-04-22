@@ -5,7 +5,14 @@
  */
 include_once 'header.php';
 ?>
-<h1>BHAA Raceday Pre-Reg</h1>
+<div class="panel-heading">
+    <h3 class="panel-title">Pre-Registered Runners</h3>
+</div>
+
+<div class="panel-body">
+<h4>BHAA Raceday Pre-Reg</h4>
+</div>
+
 <?php
 include_once 'footer.php';
 ?>

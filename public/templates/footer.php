@@ -1,4 +1,5 @@
-</div>
+    </div> <!-- panel -->
+</div> <!-- container -->
 <?php
 wp_footer();
 ?>

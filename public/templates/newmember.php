@@ -5,7 +5,21 @@
  */
 include_once 'header.php';
 ?>
-<h1>BHAA Raceday List</h1>
+<div class="panel-heading">
+    <h3 class="panel-title">New or Day Runner</h3>
+</div>
+
+<div class="panel-body">
+<?php echo wp_get_form('daymemberform'); ?>
+</div>
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
+        $('#bhaa_dateofbirth').datepicker({
+            format: "dd-mm-yyyy"
+        });
+    });
+</script>
 <?php
 include_once 'footer.php';
 ?>

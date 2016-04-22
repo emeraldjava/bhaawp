@@ -52,10 +52,10 @@ class Raceday_DayMember_Form extends Raceday_Form {
 			->set_classes(array('form-control'));
 		$dateofbirth = WP_Form_Element::create('text')
 			->set_name('bhaa_dateofbirth')
-			->set_attribute('placeholder','19YY-MM-DD')
+			->set_attribute('placeholder','DD-MM-YYYY')
 			->set_label('Date of Birth')
 			->set_id('bhaa_dateofbirth')
-			->set_classes(array('form-control'));	
+			->set_classes(array('datepicker form-control'));
 		$runner = WP_Form_Element::create('hidden')
 			->set_name('bhaa_runner')
 			->set_id('bhaa_runner')
@@ -94,9 +94,9 @@ class Raceday_DayMember_Form extends Raceday_Form {
 		// date of birth format
 		// http://stackoverflow.com/questions/19773418/regex-to-validate-date-in-php-using-format-as-yyyy-mm-dd
 		$dob = $submission->get_value('bhaa_dateofbirth');
-		$date_regex = '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/';
+		$date_regex = '/^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4}$/';
 		if (!preg_match($date_regex,$dob))
-			$submission->add_error('bhaa_dateofbirth', 'Date of Birth '.$dob.' MUST be yyyy-mm-dd format!');
+			$submission->add_error('bhaa_dateofbirth', 'Date of Birth '.$dob.' MUST be DD-MM-YYYY format!');
 						
 		// gender
 		$gender = $submission->get_value('bhaa_gender');
