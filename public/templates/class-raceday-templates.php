@@ -1,5 +1,5 @@
 <?php
-class RacedayAdmin {
+class RacedayTemplates {
 
 	protected static $instance = null;
     protected $templates;
@@ -41,11 +41,18 @@ class RacedayAdmin {
 
 
         // Add your templates to this array.
+//        $this->templates = array(
+//            'register.php'     => 'BHAA RaceDay Register',
+//        );
+
+        // Add your templates to this array.
         $this->templates = array(
-            'register.php'     => 'BHAA RaceDay Register',
+            '/register.php' => 'BHAA Raceday Register',
+            '/list.php' => 'BHAA Raceday List',
+            '/admin.php' => 'BHAA Raceday Admin'
         );
 
-        add_action( 'admin_init', array(&$this,'bhaa_create_raceday_pages'));
+        //add_action( 'admin_init', array(&$this,'bhaa_create_raceday_pages'));
 	}
 
 	function bhaa_create_raceday_pages(){
@@ -100,16 +107,21 @@ class RacedayAdmin {
      */
     public function view_project_template( $template ) {
         global $post;
+        $plugindir = plugin_dir_path(__FILE__);
+        error_log("view_project_template ".$plugindir);
+
+        $templatename = get_post_meta($post->ID, '_wp_page_template', true);
+        error_log("view_project_template ::".$templatename."::");
+
         if (!isset($this->templates[get_post_meta($post->ID, '_wp_page_template', true)] ) ) {
             return $template;
         }
-        $file = plugin_dir_path(__FILE__). 'admin/templates/'. get_post_meta( $post->ID, '_wp_page_template', true );
+        $file = plugin_dir_path(__FILE__). get_post_meta( $post->ID, '_wp_page_template', true );
 
         // Just to be safe, we check if the file exist first
         if( file_exists( $file ) ) {
             return $file;
         }
-        else { echo $file; }
         return $template;
     }
 }
