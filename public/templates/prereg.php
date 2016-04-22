@@ -10,7 +10,7 @@ include_once 'header.php';
 </div>
 
 <div class="panel-body">
-<h4>BHAA Raceday Pre-Reg</h4>
+    <?php echo Raceday::get_instance()->renderPreRegisteredRunnerTable(); ?>
 </div>
 
 <?php

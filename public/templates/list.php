@@ -13,7 +13,7 @@ include_once 'header.php';
 <div class="panel-body">
 <?php echo Raceday::get_instance()->listRunners(); ?>
 </div>
-</div>
+
 <?php
 include_once 'footer.php';
 ?>

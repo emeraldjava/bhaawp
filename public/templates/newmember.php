@@ -4,6 +4,9 @@
  * A template used to demonstrate how to include the template using this plugin.
  */
 include_once 'header.php';
+
+//echo "<pre>GET "; print_r($_GET); echo "</pre>";
+//echo "<pre>POST "; print_r($_POST); echo "</pre>";
 ?>
 <div class="panel-heading">
     <h3 class="panel-title">New or Day Runner</h3>

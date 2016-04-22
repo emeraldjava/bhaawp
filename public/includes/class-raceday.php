@@ -78,6 +78,12 @@ class Raceday {
 		$raceResult = new RaceResult($race);
 		return $raceResult->preRegisterRunner($runner,$racenumber,$money);
 	}
+
+    function renderPreRegisteredRunnerTable() {
+        return Bhaa_Mustache::get_instance()->loadTemplate('raceday-preregistered')->render(
+            array('runners' => $this->listPreRegisteredRunners())
+        );
+    }
 	
 	/**
 	 * Return the list of registered runners
