@@ -28,7 +28,9 @@ class Raceday {
 	
 	function __construct() {
 		$this->eventModel = new EventModel();
+        //var_dump($this->eventModel);
 		$this->event = $this->eventModel->getNextEvent();
+        //var_dump($this->event);
 	}
 	
 	function bhaa_register_forms() {
@@ -41,42 +43,11 @@ class Raceday {
 		$raceResultForm = new Raceresult_Form();
 		wp_register_form('raceResultForm',array($raceResultForm,'build_form'));
 	}
-	
-	function handlePage($pagename) {
-		switch($pagename){
-			case 'raceday-register':
-				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-register.php';
-				break;
-			case 'raceday-newmember':
-				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-newmember.php';
-				break;
-			case 'raceday-latest':
-				$this->listRunners(10);
-				break;
-			case 'raceday-list':
-				$this->listRunners();			
-				break;
-			case 'raceday-admin':
-				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-admin.php';
-				break;
-			case 'raceday-cash':
-				$this->cash();
-				break;
-			case 'raceday-prereg':
-				include_once BHAA_PLUGIN_DIR.'/public/views/raceday-prereg.php';
-				break;
-			// all
-			// ABSPATH.'wp-content/bhaa_all_members.html';
-			default :
-				include_once BHAA_PLUGIN_DIR.'/public/views/raceday.php';
-		}
-	}
-		
-	private function listRunners($size=NULL) {
-		$racetec = $this->listRegisteredRunners($size);
-		//echo $racetec;
-		$_REQUEST['racetec']=$racetec;
-		include_once BHAA_PLUGIN_DIR.'/public/views/raceday-list.php';
+
+	function listRunners($size=NULL) {
+		return Bhaa_Mustache::get_instance()->loadTemplate('raceday-list')->render(
+			array('runners' => $this->listRegisteredRunners($size))
+		);
 	}
 	
 	private function cash() {

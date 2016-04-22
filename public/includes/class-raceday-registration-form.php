@@ -43,7 +43,7 @@ class Raceday_Registration_Form extends Raceday_Form {
 	private function bhaaRegisterForm(WP_Form $form) {
 		
 		$eventFieldSet = WP_Form_Element::create('fieldset')
-			->set_classes(array('col-md-2'))
+			->set_classes(array('col-md-4'))
 			->set_name('raceFieldSet')
 			->set_label('Event Details');
 		$runnerFieldSet = WP_Form_Element::create('fieldset')
@@ -51,7 +51,7 @@ class Raceday_Registration_Form extends Raceday_Form {
 			->set_name('runnerFieldSet')
 			->set_label('Runner Details');
 		$bhaaFieldSet = WP_Form_Element::create('fieldset')
-			->set_classes(array('col-md-3'))
+			->set_classes(array('col-md-4'))
 			->set_name('bhaaFieldSet')
 			->set_label('BHAA Details');
 		
@@ -98,7 +98,7 @@ class Raceday_Registration_Form extends Raceday_Form {
 		$runnerFieldSet->add_element($gender_drop_down);
 		
 		// bhaa field set
-		$runner = WP_Form_Element::create('number')
+		$runner = WP_Form_Element::create('text')
 			->set_name('bhaa_runner')
 			->set_id('bhaa_runner')
 			->set_label('BHAA ID')
@@ -138,7 +138,7 @@ class Raceday_Registration_Form extends Raceday_Form {
 		$standard = $submission->get_value('bhaa_standard');
 		$money = $submission->get_value('bhaa_money');
 		
-		//error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
+		error_log(sprintf('bhaa_processing_callback(race:%s, runner:%s, raceno:%s, std:%s, money:%se)',$race,$runner,$racenumber,$standard,$money));
 		Raceday::get_instance()->registerRunner($race, $runner, $racenumber, $standard, $money);
 		
 		// redirect the user after the form is submitted successfully

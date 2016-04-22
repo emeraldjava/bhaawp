@@ -29,10 +29,11 @@ jQuery(document).ready( function() {
 			return false;	
 		}
 	})
-	.data("ui-autocomplete")._renderItem = function(ul,item){
-		return jQuery("<li></li>")
-	   	.append("<a>"+item.label+" "+item.id+"</a><small>DOB:"+item.dob+", Status:"+item.status+", Company:"+item.companyname+"</small>")
-	    	.data("ui-autocomplete-item", item)
+	.data("ui-autocomplete")._renderItem = function( ul, item) {
+		// http://stackoverflow.com/questions/14442471/how-to-set-up-jquery-ui-1-10-autocomplete-custom-display
+		return jQuery("<li>")
+			.data("ui-autocomplete-item", item)
+	   		.append("<a>"+item.label+" "+item.id+"</a><small>DOB:"+item.dob+", Status:"+item.status+", Company:"+item.companyname+"</small>")
 			.appendTo(ul);
 	};
 	

@@ -11,7 +11,7 @@ include_once 'header.php';
 </div>
 
 <div class="panel-body">
-TODO
+<?php echo Raceday::get_instance()->listRunners(); ?>
 </div>
 </div>
 <?php

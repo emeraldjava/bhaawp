@@ -64,8 +64,9 @@ class Raceday_DayMember_Form extends Raceday_Form {
 			->set_name('bhaa_gender')
 			->set_label('Gender')
 			->set_classes(array('radio-inline'))
-			->add_option('M','M')
-			->add_option('W','W');
+			->add_option('M','Male')
+			->add_option('W','Female')
+			->set_default_value('M');
 	
 		$runnerFieldSet->add_element($firstname);
 		$runnerFieldSet->add_element($lastname);
@@ -124,7 +125,7 @@ class Raceday_DayMember_Form extends Raceday_Form {
 			error_log("created new runner ".$runner);
 		}
 		
-		//error_log(sprintf('bhaa_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
+		error_log(sprintf('bhaa_day_processing_callback(%s %s %s %s %se)',$race,$runner,$racenumber,$standard,$money));
 		Raceday::get_instance()->registerRunner($race, $runner, $racenumber, 30, $money);
 		
 		// redirect the user after the form is submitted successfully

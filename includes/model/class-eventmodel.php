@@ -1,12 +1,11 @@
 <?php
 
-class EventModel extends BaseModel
-{
+class EventModel extends BaseModel {
+
 	var $eventid;
 	
 	function __construct($eventid=0) {
 		parent::__construct();
-		$this->eventid=$eventid;	
 	}
 	
 	public function getName() {
@@ -14,11 +13,12 @@ class EventModel extends BaseModel
 	}
 	
 	function getNextEvent()	{
-		return $this->wpdb->get_row('select event_id,post_id,event_slug,
+		$eventid = $this->wpdb->get_row('select event_id,post_id,event_slug,
 				(select MAX(p2p_to) from wp_p2p where p2p_from=post_id) as race 
 				from wp_em_events 
             	where event_start_date >= DATE(NOW())
 				order by event_start_date ASC limit 1');
+		return $eventid;
 	}
 	
 	function getNextRaces() {

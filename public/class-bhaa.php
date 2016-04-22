@@ -41,9 +41,6 @@ class Bhaa {
 		// hook add_query_vars function into query_vars
 		add_filter('query_vars', array($this,'bhaa_add_query_vars'));
 
-		// filter the bhaa content pages
-		//add_filter('the_content', array($this,'bhaa_content'));
-
 		/* Define custom functionality.
 		 * Refer To http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
 		*/
@@ -113,57 +110,6 @@ class Bhaa {
 	}
 
 	/**
-	 * The runner and raceday pages will be server from the plugin templates directory.
-	 */
-	function bhaa_content($page_content) {
-		global $post;
-		//error_log($post->ID.' '.$post->post_type.' '.get_query_var('pagename'));
-		// realex 3143
-		//if( $post->ID == 3143) {
-		//	return Realex::get_instance()->process();
-		//}
-		if(in_array($post->ID,array(1))) { //s2651,2653,2657,2869,2698,2655,2696,2698,2745,2847))) {
-			// Register templates
-			// - http://stackoverflow.com/questions/4647604/wp-use-file-in-plugin-directory-as-custom-page-template/4975004#4975004
-			// - http://wordpress.stackexchange.com/questions/3396/create-custom-page-templates-with-plugins
-			// - https://github.com/tommcfarlin/page-template-example
-			// - https://github.com/wpexplorer/page-templater
-			// Register pages which use those templates
-			// - http://wordpress.stackexchange.com/questions/9870/how-do-you-create-a-virtual-page-in-wordpress
-			// - http://stackoverflow.com/questions/17960649/wordpress-plugin-generating-virtual-pages-and-using-theme-template
-			// - https://gist.github.com/brianoz/9105004
-			// Create pages via the API
-			// - http://www.kvcodes.com/2014/01/how-to-create-pages-programmatically-and-add-custom-template-wordpress/
-			// - http://wordpress.stackexchange.com/questions/83861/create-pages-automatically-if-they-dont-exist
-			if ( !current_user_can( 'edit_users' ) )  {
-				wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-			} else {
-
-				if($post->ID==2651) {
-					wp_register_script(
-					'bhaa_members',
-					plugins_url('/admin/assets/js/bhaa_members.js',dirname(__FILE__)),
-					array('jquery'),
-					null,
-					false
-					);
-					wp_enqueue_script('bhaa_members');//,false,array(),"poc_version",false);
-
-					wp_register_script(
-					'bhaa-raceday',
-					plugins_url('/admin/assets/js/bhaa-raceday.js',dirname(__FILE__))
-					);
-					wp_enqueue_script('bhaa-raceday');
-				}
-				$pagename = get_query_var('pagename');
-				return Raceday::get_instance()->handlePage($pagename);
-			}
-		}
-		else
-			return $page_content;
-	}
-
-	/**
 	 * Register BHAA query vars
 	 * http://stackoverflow.com/questions/4586835/how-to-pass-extra-variables-in-url-with-wordpress
 	 * http://wordpress.stackexchange.com/questions/46/what-are-all-the-available-parameters-for-query-posts
@@ -176,25 +122,6 @@ class Bhaa {
 		$qvars[] = "bhaa_race";
 		return $qvars;
 	}
-
-
-//	function bhaa_locate_template( $template_name, $load=false, $args = array() ) {
-//		//First we check if there are overriding tempates in the child or parent theme
-//		$located = locate_template(array('plugins/bhaawp/'.$template_name));
-//		if( !$located ) {
-//			if ( file_exists(BHAA_PLUGIN_DIR.'/templates/'.$template_name) ) {
-//
-//				$located = BHAA_PLUGIN_DIR.'/templates/'.$template_name;
-//			}
-//		}
-//		$located = apply_filters('bhaa_locate_template', $located, $template_name, $load, $args);
-//		if( $located && $load ) {
-//			if( is_array($args) )
-//				extract($args);
-//			include($located);
-//		}
-//		return $located;
-//	}
 
 	function getRunnerManager() {
 		return $this->runnerManager;
@@ -406,20 +333,14 @@ class Bhaa {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		//wp_enqueue_style(
-		//	$this->plugin_slug . '-plugin-styles',
-		//	plugins_url( 'assets/css/public.css', __FILE__ ),
-		//	array());//, self::VERSION );
-
-		// http://stackoverflow.com/questions/8849684/wordpress-jquery-ui-css-files
-		// css style
-		//wp_enqueue_style(
-		//'jquery-bhaa-style',
-		//'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
-
         wp_enqueue_style(
             'bootstrap-css',
             plugins_url() . '/bhaawp/public/assets/css/bootstrap.min.css',
+            false);
+        // http://jquery-ui-bootstrap.github.io/jquery-ui-bootstrap/
+        wp_enqueue_style(
+            'bootstrap-theme-css',
+            plugins_url() . '/bhaawp/public/assets/css/jquery-ui-1.10.0.custom.css',
             false);
         wp_enqueue_style(
             'bhaawp-css',
@@ -433,10 +354,6 @@ class Bhaa {
             'tablesorter-bhaa-css',
             plugins_url() . '/bhaawp/public/assets/css/tablesorter/tablesorter.css',
             false);
-        //wp_enqueue_style(
-        //    'jquery-bhaa-style',
-        //    plugins_url() . '/bhaawp/public/assets/css/jqueryui/jquery-ui-1.10.3.custom.min.css',
-        //    false);
 	}
 
 	/**

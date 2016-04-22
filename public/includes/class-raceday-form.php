@@ -19,10 +19,11 @@ abstract class Raceday_Form {
 			->set_value(Raceday::get_instance()->getEvent()->race);
 	
 		// race day field set
-		$this->racenumber = WP_Form_Element::create('number')
+		$this->racenumber = WP_Form_Element::create('text')
 			->set_name('bhaa_racenumber')
 			->set_id('bhaa_racenumber')
 			->set_label('Race Number')
+			->set_attribute('autocomplete','false')
 			->set_attribute('placeholder','Race Number')
 			->set_classes(array('form-control'));
 		
