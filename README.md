@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2016.04.22 Add admin actions to the raceday app and add modal confirm dialog.
 - 2016.04.22 Refactor the raceday pages to use templates correctly.
 - 2016.04.03 Update to use the composer autoloader.
 - 2016.03.28 Add registrar admin page.
