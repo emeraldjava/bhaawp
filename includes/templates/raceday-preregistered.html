@@ -15,8 +15,20 @@
     <td>{{dateofbirth}}</td>
     <td>{{status}}</td>
     <td>{{companyname}}</td>
-    <td>Number</td>
-    <td>Assign</td>
+		<!-- TODO admin url and nonce -->
+		<form action="http://bhaaie/wp-admin/admin.php" id="bhaa-prereg-form" method="POST">
+		<td>
+			<input type="hidden" name="action" value="bhaa_raceday_admin_prereg"/>
+			<input type="text" name="number"/>
+			<input type="hidden" name="raceid" value="{{race}}">
+			<input type="hidden" name="runner" value="{{runner}}">
+			<input type="hidden" name="money" value="10">
+		</td>
+		<td>
+			<input class="btn btn-success" role="button"
+				type="submit" value="{{firstname}} {{lastname}} Race Number"/>
+		</td>
+		</form>
 </tr>
 {{/runners}}
 </table>

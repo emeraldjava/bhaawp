@@ -28,14 +28,14 @@ class Raceday {
 
 	function __construct() {
 		$this->eventModel = new EventModel();
-        //var_dump($this->eventModel);
 		$this->event = $this->eventModel->getNextEvent();
-        //var_dump($this->event);
 	}
 
 	function registerAdminActions() {
 		add_action('admin_action_bhaa_raceday_admin_import_prereg',
 			array($this,'bhaa_raceday_admin_import_prereg'));
+		add_action('admin_action_bhaa_raceday_admin_prereg',
+			array($this,'bhaa_raceday_admin_prereg'));
 	}
 
 	function bhaa_register_forms() {
@@ -133,7 +133,8 @@ class Raceday {
 			error_log("preregimport ".$event.' '.$race);
 			global $wpdb;
 			$wpdb->query(
-				$wpdb->prepare('delete from wp_bhaa_raceresult where class="PRE_REG" and race=%d',$race)
+				$wpdb->prepare(
+					'delete from wp_bhaa_raceresult where class="PRE_REG" and race=%d',$race)
 			);
 			$wpdb->query(
 				$wpdb->prepare('insert into wp_bhaa_raceresult(race,runner,class)
@@ -147,6 +148,16 @@ class Raceday {
 		}
 		wp_redirect('/raceday-prereg');
 	}
+
+	/**
+	 * Record the race number for pre-registered runner
+	 */
+	function bhaa_raceday_admin_prereg() {
+		$this->preRegisterRunner(
+			$_POST['raceid'],$_POST['runner'],$_POST['number'],$_POST['money']);
+		wp_redirect('/raceday-list');
+	}
+
 	/**
 	 * Export the csv file for racetec
 	 */
