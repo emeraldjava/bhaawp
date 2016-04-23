@@ -224,16 +224,7 @@ class Bhaa_Admin {
 
 		$plugin_path = plugin_dir_path($file);
 		//error_log("plugin_path:".$plugin_path,0);
-		//echo $plugin_path;
 
-
-		//error_log("BHAA_PLUGIN_DIR:".BHAA_PLUGIN_DIR,0);
-
-		//error_log("1 ".plugin_dir_url(__DIR__),0);
-
-		//error_log("2".plugin_dir_path( '/admin/assets/js/bhaa_members.js' ),0);
-
-		//error_log("3".plugins_url( 'admin/assets/js/bhaa_members.js' , __FILE__ ),0);
 
 		$file = BHAA_PLUGIN_DIR.'/public/assets/js/bhaa_members.js';
 		//$file = plugin_dir_path('/admin/assets/js/bhaa_members.js');

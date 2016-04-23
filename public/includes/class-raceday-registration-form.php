@@ -52,11 +52,15 @@ class Raceday_Registration_Form extends Raceday_Form {
 			->set_label('<b>BHAA Details</b>');
 
 		// submit button
-		$submit = WP_Form_Element::create('submit')
-			->set_name('submit')
-			->set_classes(array('btn btn-primary'))
-			->set_value('Register Runner')
-			->set_label('Register Runner');
+		//http://stackoverflow.com/questions/23775272/bootstrap-modal-before-form-submit
+		$submit = WP_Form_Element::create('button')
+			->set_name('submit-button')
+			->set_attribute('id','formSubmitButton')
+			->set_attribute('data-toggle','modal')
+			->set_attribute('data-target','#confirm-submit')
+			->set_classes(array('btn btn-default'))
+			->set_value('Register Runner');
+			//->set_label('Register Runner');
 
 		$eventFieldSet->add_element($this->racenumber);
 		$eventFieldSet->add_element($this->race_drop_down);
@@ -112,11 +116,13 @@ class Raceday_Registration_Form extends Raceday_Form {
 			->add_processor(array($this,'bhaa_processing_callback'));
 	}
 
-	public function bhaa_validation_callback( WP_Form_Submission $submission, WP_Form $form ) {
+	public function bhaa_validation_callback(
+		WP_Form_Submission $submission, WP_Form $form ) {
 		parent::bhaa_common_validation($submission,$form);
 	}
 
-	public function bhaa_processing_callback( WP_Form_Submission $submission, WP_Form $form ) {
+	public function bhaa_processing_callback(
+		WP_Form_Submission $submission, WP_Form $form ) {
 
 		$race = $submission->get_value('bhaa_race');
 		$runner = $submission->get_value('bhaa_runner');
