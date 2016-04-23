@@ -21,13 +21,13 @@ wp_enqueue_script('bhaa-raceday');
 include_once 'header.php';
 ?>
 <div class="panel-heading">
-    <h3 class="panel-title">Search for a BHAA member by Name or ID and Register</h3>
+    <h3 class="panel-title">Register BHAA Members</h3>
 </div>
 
 <div class="panel-body">
     <div class="row">
         <div class="ui-widget input-group col-md-12">
-            <input type="text" id="memberfilter" class="search-query form-control" placeholder="Search"/>
+            <input type="text" id="memberfilter" class="search-query form-control" placeholder="Search by Name or ID"/>
         </div>
     </div>
     <div class="row">
