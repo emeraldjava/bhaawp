@@ -127,10 +127,25 @@ class Raceday {
 	function bhaa_raceday_admin_import_prereg() {
 		error_log('bhaa_raceday_admin_import_prereg');
 		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_raceday_admin_import_prereg')) {
-
+			// move to model class at some stage
+			$race = trim($_POST['raceid']);
+			$event = trim($_POST['eventid']);
+			error_log("preregimport ".$event.' '.$race);
+			global $wpdb;
+			$wpdb->query(
+				$wpdb->prepare('delete from wp_bhaa_raceresult where class="PRE_REG" and race=%d',$race)
+			);
+			$wpdb->query(
+				$wpdb->prepare('insert into wp_bhaa_raceresult(race,runner,class)
+					select %d,person_id,"PRE_REG"
+					from wp_em_bookings
+					join wp_users on wp_users.id=wp_em_bookings.person_id
+					where event_id=%d
+					and booking_status=1
+					order by display_name desc',$race,$event)
+			);
 		}
-		wp_redirect('/raceday-prereg');//wp_get_referer());
-		//exit();
+		wp_redirect('/raceday-prereg');
 	}
 	/**
 	 * Export the csv file for racetec

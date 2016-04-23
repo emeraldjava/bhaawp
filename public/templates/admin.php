@@ -13,7 +13,7 @@ echo '<h3>Actions</h3>';
 echo '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 		wp_nonce_field('bhaa_raceday_admin_import_prereg').'
 	<input type="hidden" name="action" value="bhaa_raceday_admin_import_prereg"/>
-	<input type="hidden" name="eventid" value="'.$event->post_id.'"/>
+	<input type="hidden" name="eventid" value="'.$event->event_id.'"/>
 	<input type="hidden" name="raceid" value="'.$event->race.'"/>
 	<input type="submit" value="Pre Reg Import"/>
 	</form>';
