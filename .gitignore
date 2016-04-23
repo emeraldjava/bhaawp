@@ -38,3 +38,6 @@ vendor/
 build/logs/junit.xml
 rest-api/*
 hide/*
+public/assets/js/bhaa_members.js
+
+tags

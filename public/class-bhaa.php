@@ -181,26 +181,6 @@ class Bhaa {
 	}
 
 	/**
-	 * TODO spl_autoload_register
-	 * http://stackoverflow.com/questions/11833034/non-destructive-spl-autoload-register
-	 *
-	 * add_action ( 'init' , 'class_loader' );
-
-	 function class_loader () {
-	 // register an autoloader function for template classes
-	 spl_autoload_register ( 'template_autoloader' );
-	 }
-
-	 function template_autoloader ( $class ) {
-	 if ( file_exists ( LG_FE_DIR . "/includes/chart_templates/class.{$class}.php" ) )
-	 	include LG_FE_DIR . "/includes/chart_templates/class.{$class}.php";
-
-	 }
-
-	 */
-
-
-	/**
 	 * Return the plugin slug.
 	 *
 	 * @since    1.0.0

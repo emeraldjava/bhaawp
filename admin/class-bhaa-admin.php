@@ -33,9 +33,11 @@ class Bhaa_Admin {
 
 		add_action('admin_action_bhaa_send_email',array($this,'bhaa_send_email'));
 		add_action('admin_action_bhaa_admin_send_text',array($this,'bhaa_admin_send_text'));
-		add_action('admin_action_bhaa_admin_racetec_export',array($this,'bhaa_admin_racetec_export'));
+		//add_action('admin_action_bhaa_admin_racetec_export',array($this,'bhaa_admin_racetec_export'));
 
+		Runner_Manager::get_instance();
 		RunnerAdmin::get_instance();
+		Raceday::get_instance()->registerAdminActions();
 		EventAdmin::get_instance();
 		new WPFlashMessages();
 	}
@@ -233,9 +235,9 @@ class Bhaa_Admin {
 
 		//error_log("3".plugins_url( 'admin/assets/js/bhaa_members.js' , __FILE__ ),0);
 
-		$file = BHAA_PLUGIN_DIR.'/admin/assets/js/bhaa_members.js';
+		$file = BHAA_PLUGIN_DIR.'/public/assets/js/bhaa_members.js';
 		//$file = plugin_dir_path('/admin/assets/js/bhaa_members.js');
-		//error_log($file,0);
+		error_log($file,0);
 
 		$content = 'var bhaa_members = ';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json') {

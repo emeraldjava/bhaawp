@@ -169,7 +169,7 @@ class Runner_Manager {
 			$runner = new Runner(get_query_var('id'));
 			return '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 					wp_nonce_field('bhaa_runner_rename_action').'
-			    <input type="hidden" name="action" value="bhaa_runner_rename_action" />
+					<input type="hidden" name="action" value="bhaa_runner_rename_action" />
 				<input type="text" name="first_name" value="'.$runner->getFirstName().'"/>
 				<input type="text" name="last_name" value="'.$runner->getLastName().'"/>
 				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
