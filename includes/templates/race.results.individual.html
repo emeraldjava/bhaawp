@@ -1,0 +1,42 @@
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>Pos</th>
+            <th>Number</th>
+            <th>Name</th>
+            <th>Time</th>
+            <th>Cat</th>
+            <th>Std</th>
+            <th>Company</th>
+        </tr>
+    {{# runners}}
+    <tr>
+        <td>{{position}}</td>
+        <td>{{racenumber}}</td>
+        <td>{{display_name}}</td>
+        <td>{{racetime}}</td>
+        <td>{{category}}</td>
+        <td>{{standard}}</td>
+        <td>{{cname}}</td>
+    </tr>
+    {{/ runners}}
+    </table>
+</div>
+
+<!--
+case 'race':
+			case 'runner':
+			case 'display_name':
+			case 'user_nicename';
+			case 'cname':
+			case 'racetime':
+			case 'position':
+			case 'racenumber':
+			case 'category':
+			case 'standard':
+			case 'posinstd':
+			case 'pace':
+			case 'event':
+			case 'eventdate':
+			case 'distance':
+			-->
