@@ -128,8 +128,13 @@ class Bhaa_Shortcode{
 		return 'Race '.$race->getTitle().' on date '.$race->getDate();
 	}
 	
-	function bhaa_race_results() {
-		return RaceResult_List_Table::get_instance()->renderTable(get_the_ID());
+	function bhaa_race_results($atts) {
+		$race = new RaceResult($atts['race']);
+		$results = $race->getRaceResults();
+		return Bhaa_Mustache::get_instance()
+			->loadTemplate('race.results.individual.html')
+			->render(array('runners'=>$results)
+		);
 	}
 	
 	function bhaa_race_edit_result() {

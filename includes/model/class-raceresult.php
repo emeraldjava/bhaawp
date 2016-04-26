@@ -1,6 +1,6 @@
 <?php
-class RaceResult extends BaseModel implements Table
-{
+class RaceResult extends BaseModel implements Table {
+
 	var $post_id;
 	
 	const RAN = 'RAN';
@@ -16,22 +16,7 @@ class RaceResult extends BaseModel implements Table
 	public function getName() {
 		return 'wp_bhaa_raceresult';
 	}
-	
-	public function getCreateSQL() {
-		return 'id int(11) NOT NULL AUTO_INCREMENT,
-		race int(11) NOT NULL,
-		runner int(11) NOT NULL,
-		racetime time,
-		position int(11),
-		racenumber int(11),
-		category varchar(5),
-		standard int(11),
-		pace time,
-		class varchar(10),
-		company int(11),
-		PRIMARY KEY (id)';
-	}
-	
+
 	public function registerRunner($runner,$racenumber,$standard=NULL,$money) {
 
 		/* move validation code to the form */
@@ -358,6 +343,19 @@ class RaceResult extends BaseModel implements Table
 			));
 			$this->updatePositions();
 		}
+	}
+
+	function getRaceResults() {
+		$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name,
+			wp_users.user_nicename,gender.meta_value as gender,wp_posts.id as cid,wp_posts.post_title as cname
+			FROM wp_bhaa_raceresult
+			left join wp_users on wp_users.id=wp_bhaa_raceresult.runner
+			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
+			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
+			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
+			where race='.$this->post_id.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY position';
+		//error_log($query);
+		return $this->getWpdb()->get_results($query,OBJECT);
 	}
 }
 ?>

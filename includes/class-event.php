@@ -10,7 +10,10 @@ class Event {
 	function __construct($post_id) {
 		$this->post_id = $post_id;
 	}
-	
+
+	/**
+	 * @return array of race id's.
+	 */
 	function getRaces() {
 		$races = p2p_get_connections(Connections::EVENT_TO_RACE,
 				array('direction'=>'from','from'=>$this->post_id,'type'=>'race','fields'=>'p2p_to'));

@@ -13,30 +13,12 @@
     <tr>
         <td>{{position}}</td>
         <td>{{racenumber}}</td>
-        <td>{{display_name}}</td>
+        <td><a class="bhaa-url-link" r="{{runner}}" href="./runner?id={{runner}}">{{display_name}}</a></td>
         <td>{{racetime}}</td>
         <td>{{category}}</td>
         <td>{{standard}}</td>
-        <td>{{cname}}</td>
+        <td><a class="bhaa-url-link" href="/?post_type=house&p={{cid}}">{{cname}}</a></td>
     </tr>
     {{/ runners}}
     </table>
 </div>
-
-<!--
-case 'race':
-			case 'runner':
-			case 'display_name':
-			case 'user_nicename';
-			case 'cname':
-			case 'racetime':
-			case 'position':
-			case 'racenumber':
-			case 'category':
-			case 'standard':
-			case 'posinstd':
-			case 'pace':
-			case 'event':
-			case 'eventdate':
-			case 'distance':
-			-->
