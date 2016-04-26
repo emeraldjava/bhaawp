@@ -193,12 +193,13 @@ class Events_Manager {
 			$event = new Event($EM_Event->post_id);
 			switch( $placeholder ) {
 				case '#_BHAARACERESULTS':
-					$races = $event->getRaces();
-					$res = '';
-					foreach($races as $race) {
-						$res .= '[bhaa_race_results race="'.$race.'"]';
-					}
-					$result = $res;
+//					$races = $event->getRaces();
+//					$res = '';
+//					foreach($races as $race) {
+//						$res .= '[bhaa_race_results race="'.$race.'"]';
+//					}
+//					$result = $res;
+					$result = $event->getIndividualResultsTable();
 					break;
 				case '#_BHAATEAMRESULTS':
 					$result = $event->getTeamResultsTable();
