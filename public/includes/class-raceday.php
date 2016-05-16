@@ -36,6 +36,8 @@ class Raceday {
 			array($this,'bhaa_raceday_admin_import_prereg'));
 		add_action('admin_action_bhaa_raceday_admin_prereg',
 			array($this,'bhaa_raceday_admin_prereg'));
+		add_action('admin_action_bhaa_raceday_admin_delete_runner',
+			array($this,'bhaa_raceday_admin_delete_runner'));
 	}
 
 	function bhaa_register_forms() {
@@ -86,9 +88,17 @@ class Raceday {
 
     function renderPreRegisteredRunnerTable() {
         return Bhaa_Mustache::get_instance()->loadTemplate('raceday-preregistered')->render(
-            array('runners' => $this->listPreRegisteredRunners())
+            array('runners' => $this->listPreRegisteredRunners(),
+				'home_url' => home_url())
         );
     }
+
+	function renderAdminRunnerTable() {
+		return Bhaa_Mustache::get_instance()->loadTemplate('raceday-admin')->render(
+			array('runners' => $this->listRegisteredRunners($size=NULL),
+				'home_url' => home_url())
+		);
+	}
 
 	/**
 	 * Return the list of registered runners
@@ -111,9 +121,14 @@ class Raceday {
 		return $this->eventModel->listRegisteredRunners(0,RaceResult::PRE_REG);
 	}
 
+	function bhaa_raceday_admin_delete_runner() {
+		$this->deleteRunner($_POST['runner'],$_POST['raceid']);
+	}
+
 	function deleteRunner($runner,$race) {
 		$raceResult = new RaceResult($race);
-		return $raceResult->deleteRunner($runner);
+		$raceResult->deleteRunner($runner);
+		wp_redirect(get_home_url().'/raceday-admin');
 	}
 
 	function getRegistrationTypes($race) {
@@ -146,7 +161,7 @@ class Raceday {
 					order by display_name desc',$race,$event)
 			);
 		}
-		wp_redirect('/raceday-prereg');
+		wp_redirect(get_home_url().'/raceday-prereg');
 	}
 
 	/**
@@ -155,7 +170,7 @@ class Raceday {
 	function bhaa_raceday_admin_prereg() {
 		$this->preRegisterRunner(
 			$_POST['raceid'],$_POST['runner'],$_POST['number'],$_POST['money']);
-		wp_redirect('/raceday-list');
+		wp_redirect(get_home_url().'/raceday-list');
 	}
 
 	/**

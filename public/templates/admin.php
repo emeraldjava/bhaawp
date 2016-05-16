@@ -18,9 +18,14 @@ echo '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 	<input type="submit" value="Pre Reg Import"/>
 	</form>';
 
+echo '<hr/>';
+
 //echo sprintf('<h3><a href="/raceday-admin?action=&=%d&=%d">Import PRE_REG</a></h3>',,);
 //echo sprintf('<h3><a href="/raceday-admin?action=preregexport&eventid=%d&raceid=%d">Export PRE_REG</a></h3>',$event->event_id,$event->race);
 //echo sprintf('<h3><a href="/raceday-admin?action=deleteall&eventid=%d&raceid=%d">Delete All RACE_REG</a></h3>',$event->event_id,$event->race);
+
+echo $registeredRunners = Raceday::get_instance()->renderAdminRunnerTable();
+
 ?>
 <?php
 include_once 'footer.php';
