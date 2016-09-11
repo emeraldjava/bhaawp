@@ -41,3 +41,4 @@ hide/*
 public/assets/js/bhaa_members.js
 
 tags
+*.DS_Store
