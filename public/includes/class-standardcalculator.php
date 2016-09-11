@@ -8,9 +8,9 @@ class StandardCalculator
 		slopefactor double NOT NULL,
 		oneKmTimeInSecs double NOT NULL,
 		PRIMARY KEY (standard)';
-	
+
 	protected static $instance = null;
-	
+
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
@@ -18,7 +18,7 @@ class StandardCalculator
 		}
 		return self::$instance;
 	}
-	
+
 	private function __construct() {
 		$this->standards = array();
 		array_push($this->standards,new Standard(1,0.442101708254709,176.435763853992));
@@ -52,9 +52,9 @@ class StandardCalculator
 		array_push($this->standards,new Standard(29,2.23641926410166,381.102629781108));
 		array_push($this->standards,new Standard(30,2.29066984002303,389.732120274931));
 	}
-	
+
 	/**
-	 * Returns an array of expected standard times for a distance 
+	 * Returns an array of expected standard times for a distance
 	 * @param unknown $distance
 	 * @return multitype:NULL
 	 */
@@ -67,12 +67,12 @@ class StandardCalculator
 		echo $times;
 		return $times;
 	}
-	
+
 	function eventStandardTable() {
 		global $post;
 		return getEventStandardTable($post->ID);
-	}	
-	
+	}
+
 	/**
 	 * Display the standard table for an events races.
 	 * @param unknown $eventid
@@ -85,7 +85,7 @@ class StandardCalculator
 		{
 			return '<div><h3>BHAA Standard Table - No races have been linked yet.</h3></div>';
 		}
-			
+
 		$distances = array();
 		foreach ($races as $race) {
 			$distance = array('km'=>$race->getKmDistance(),'title'=> $race->getTitle());
@@ -96,11 +96,11 @@ class StandardCalculator
 		}
 		return $this->generateTableForDistances($distances);
 	}
-	
+
 	function generateTableForDistances($distances) {
 		$standardTable = '<div>';
 		$standardTable .= '<table class="table-1">'.PHP_EOL;
-		
+
 		// headers
 		$standardTable .= '<thead><tr>';
 		$standardTable .= '<th>Standard</th>';
@@ -109,7 +109,7 @@ class StandardCalculator
 			$standardTable .= '<th id="'.$distance['km'].'">'.$distance['title'].'</th>';
 		}
 		$standardTable .= '</tr></thead>'.PHP_EOL;
-		
+
 		// standard row and distance time
 		$standardTable .= '<tbody>';
 		foreach ($this->standards as $k => $v)
@@ -123,53 +123,58 @@ class StandardCalculator
 			$standardTable .= '</tr>'.PHP_EOL;
 		}
 		$standardTable .= '</tbody>';
-		
+
 		$standardTable .= '</table></div>'.PHP_EOL;
 		return $standardTable;
 	}
-	
+
 	function toString() {
 		return $this->standards;
 	}
-	
+
 	function bhaa_standard_table() {
 		$distances = array();
-		
+
 		$distance = array();
 		$distance['km'] = 1;
 		$distance['title'] = '1km';
 		$distances[0]= $distance;
-		
+
 		$distance = array();
 		$distance['km'] = 1.6;
 		$distance['title'] = '1Mile';
 		$distances[1]= $distance;
-		
+
+		$distance = array();
+		$distance['km'] = 3.2;
+		$distance['title'] = '2Mile';
+		$distances[2]= $distance;
+
 		$distance = array();
 		$distance['km'] = 5;
 		$distance['title'] = '5km';
-		$distances[2]= $distance;
-		
+		$distances[3]= $distance;
+
 		$distance = array();
 		$distance['km'] = 8;
 		$distance['title'] = '5Mile';
-		$distances[3]= $distance;
-		
+		$distances[4]= $distance;
+
 		$distance = array();
 		$distance['km'] = 10;
 		$distance['title'] = '10km';
-		$distances[4]= $distance;
-		
+		$distances[5]= $distance;
+
 		$distance = array();
 		$distance['km'] = 21.1;
 		$distance['title'] = 'Half';
-		$distances[5]= $distance;
-		
+		$distances[6]= $distance;
+
 		$distance = array();
 		$distance['km'] = 42.2;
 		$distance['title'] = 'Marathon';
-		$distances[6]= $distance;
-		
+		$distances[7]= $distance;
+
 		return $this->generateTableForDistances($distances);
 	}
 }
