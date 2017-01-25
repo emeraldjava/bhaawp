@@ -22,7 +22,7 @@ class BhaaRestApi {
 		 * BhaaRestApi constructor.
 		 */
 		private function __construct() {
-				add_action('rest_api_init',array(&$this,'bhaa_rest_api_runner_metadata'));
+				//add_action('rest_api_init',array(&$this,'bhaa_rest_api_runner_metadata'));
 		}
 
 		function bhaa_rest_api_runner_metadata() {
