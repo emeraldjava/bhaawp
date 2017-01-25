@@ -345,17 +345,42 @@ class RaceResult extends BaseModel implements Table {
 		}
 	}
 
+	/**
+	 * 		LPAD(wp_bhaa_raceresult.posincat,2,0) as padded,
+	 */
 	function getRaceResults() {
 		$query = 'SELECT wp_bhaa_raceresult.*,wp_users.display_name,
-			wp_users.user_nicename,gender.meta_value as gender,wp_posts.id as cid,wp_posts.post_title as cname
+			wp_users.user_nicename,gender.meta_value as gender,
+			wp_posts.id as cid,wp_posts.post_title as cname
 			FROM wp_bhaa_raceresult
 			left join wp_users on wp_users.id=wp_bhaa_raceresult.runner
 			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts on (wp_posts.post_type="house" and company.meta_value=wp_posts.id)
 			where race='.$this->post_id.' and wp_bhaa_raceresult.class="RAN" and position<=500 ORDER BY position';
-		//error_log($query);
 		return $this->getWpdb()->get_results($query,OBJECT);
+	}
+
+	function getRunnerResults($runner) {
+		$query = 'select
+			d.event,
+			d.eventname,
+			d.eventdate,
+			d.race,
+			concat(d.distance,d.unit) as distance,
+			rr.racetime,
+			rr.position,
+			rr.standard,
+			rr.poststandard,
+			rr.runner,
+			rr.id,
+			posts.post_title,
+			posts.post_name
+			from wp_bhaa_race_detail d
+			join wp_bhaa_raceresult rr on (rr.race=d.race and d.leaguetype="I")
+			join wp_posts posts on (posts.ID=d.event)
+			where rr.runner=' . $runner . ' AND rr.class="RAN" order by d.eventdate desc';
+		return $this->getWpdb()->get_results($query, ARRAY_A);
 	}
 }
 ?>
