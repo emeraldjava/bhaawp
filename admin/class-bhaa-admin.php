@@ -58,8 +58,6 @@ class Bhaa_Admin {
 		$headers .= 'Content-type: text/html; charset=iso-8859-1'."\r\n";
 		$headers .= 'From: paul.oconnell@aegon.ie' . "\r\n";
 
-
-
 		$style = "<link rel='stylesheet' id='avia-grid-css'  href='http://localhost/wp-content/themes/enfold/css/grid.css?ver=1' type='text/css' media='screen' />
 		<link rel='stylesheet' id='avia-base-css'  href='http://localhost/wp-content/themes/enfold/css/base.css?ver=1' type='text/css' media='screen' />
 		<link rel='stylesheet' id='avia-layout-css'  href='http://localhost/wp-content/themes/enfold/css/layout.css?ver=1' type='text/css' media='screen' />";
@@ -139,19 +137,19 @@ class Bhaa_Admin {
 	public function add_plugin_admin_menu() {
 		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
 		add_submenu_page('bhaa', 'BHAA', 'Members JSON', 'manage_options', 'bhaa_admin_members_json', array(&$this, 'bhaa_admin_members_json'));
-		add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
-		add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
+		//add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
+		//add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
 
 		$registrar = new RegistrarAdmin();
 		$registrar->addSubMenuPage();
 		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options','bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
 		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options','bhaa_admin_standards',array(&$this, 'bhaa_admin_standards'));
-		add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options','bhaa_admin_text',array(&$this,'bhaa_admin_text'));
-		add_submenu_page('bhaa' ,'BHAA', 'Racetec','manage_options','bhaa_admin_racetec',array(&$this,'bhaa_admin_racetec'));
+		//add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options','bhaa_admin_text',array(&$this,'bhaa_admin_text'));
+		//add_submenu_page('bhaa' ,'BHAA', 'Racetec','manage_options','bhaa_admin_racetec',array(&$this,'bhaa_admin_racetec'));
 	}
 
 	public function register_settings() {
-		register_setting( 'bhaa', 'bhaa_annual_event_id');
+		register_setting( 'bhaa', 'bhaa_registration_token');
 		register_setting( 'bhaa', 'bhaa_bookings_enabled');
 	}
 
@@ -457,7 +455,7 @@ class Bhaa_Admin {
 
 		//ini_set('max_execution_time', 480); //8 minutes
 
-		$limit = 3000;
+		$limit = 30;
 		//error_log('bhaa_admin_racetec_export '.$limit);
 
 		$start = round(microtime(true) * 1000);
