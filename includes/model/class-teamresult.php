@@ -58,7 +58,7 @@ class TeamResult extends BaseModel
 		));
 	}
 	
-	private function getTeamResults() {
+	function getTeamResults() {
 		return $this->wpdb->get_results(
 			$this->wpdb->prepare('select wp_bhaa_teamresult.*,wp_users.display_name from wp_bhaa_teamresult
 				join wp_users on wp_users.id=wp_bhaa_teamresult.runner
@@ -76,6 +76,16 @@ class TeamResult extends BaseModel
 				limit %d',$team,$limit)
 		);
 	}
+
+//	public function getEventTeamResults($event) {
+//		$query = $this->wpdb->prepare('
+//					SELECT wp_bhaa_teamresult.*,wp_posts.post_title as teamname
+//					FROM wp_bhaa_teamresult
+//					join wp_posts on wp_posts.post_type="house" and wp_bhaa_teamresult.team=wp_posts.id
+//					where race IN (select p2p_to from wp_p2p where p2p_from=%d)
+//					order by class, positiontotal',$event);
+//		return $this->wbdb->get_results($query,ARRAY_A);
+//	}
 	
 	/**
 	 * We'll do the html table generation here for the moment.
@@ -94,15 +104,15 @@ class TeamResult extends BaseModel
 		return $table;
 	}
 	
-	private function teamSummary(){
-		return '[counters_box]
-			[counter_box value="5"]A[/counter_box]
-			[counter_box value="5"]B[/counter_box]
-			[counter_box value="6"]C[/counter_box]
-			[counter_box value="8"]D[/counter_box]
-			[counter_box value="2"]W[/counter_box]
-			[/counters_box]';
-	}
+//	private function teamSummary() {
+//		return '[counters_box]
+//			[counter_box value="5"]A[/counter_box]
+//			[counter_box value="5"]B[/counter_box]
+//			[counter_box value="6"]C[/counter_box]
+//			[counter_box value="8"]D[/counter_box]
+//			[counter_box value="2"]W[/counter_box]
+//			[/counters_box]';
+//	}
 	
 	private function displayClassTable($results,$class) {
 		
@@ -110,8 +120,8 @@ class TeamResult extends BaseModel
 		// ["team"]=> string(2) "21" ["teamname"]=> string(20) "Accountants Ladies A" ["totalpos"]=> string(2) "48" 
 		// ["totalstd"]=> string(2) "45" ["runner"]=> string(4) "7048" ["pos"]=> string(2) "11" ["std"]=> string(2) "15" 
 		// ["racetime"]=> string(8) "00:13:32" ["company"]=> string(3) "549" ["companyname"]=> string(18) "McInerney Saunders" 
-		// ["leaguepoints"]=> string(1) "0" } 
-		$table = '<table class="table-1" width="90%">';
+		// ["leaguepoints"]=> string(1) "0" }
+		$table = '';
 		$header='';
 		$position=0;
 		$count=0;
@@ -122,41 +132,55 @@ class TeamResult extends BaseModel
 				if($row->class!=$header) {
 					$header = $row->class;
 					$position = $row->position;
-					$table .= $this->generateRow('<h4><b>Class '.$row->class.'</b></h4>','','','','');				
+					//$table .= $this->generateRow('<h4><b>Class '.$row->class.'</b></h4>','','','','');
+					$table .= '<h2><b>Class '.$row->class.'</b></h2>';
+
 				}
 				
 				//first row of a new team
 				if($count==0) {
+					$table .= '<table class="table borderless fixed" width="90%">';
 					$position = $row->position;
 					// start table
 					$house_url = sprintf('<a href="/?post_type=house&p=%d"><b>%s</b></a>',$row->team,$row->teamname);
-					$table .= $this->generateRow('<b>'.$row->class.'-'.$row->position.' '.$house_url.'</b>','','','<b>Position</b>','<b>Standard</b>','');
+					$table .= $this->generateHeaderRow('<b>'.$row->class.$row->position.' -> '.$house_url.'</b>','','','<b>Position</b>','<b>Standard</b>','');
 					// add first row
-					$table .= $this->generateRow('<b>Athlete</b>','<b>Race Time</b>','<b>Company</b>','<b>'.$row->totalpos.'<b>','<b>'.$row->totalstd.'<b>');
+					$table .= $this->generateHeaderRow('Athlete','Time','Company',$row->totalpos,$row->totalstd);
 				}
 				
-				$runner_url = sprintf('<a href="/runner/?id=%s"><b>%s</b></a>',$row->runner,$row->display_name);
+				$runner_url = sprintf('<a href="/runner/?id=%s"><i>%s</i></a>',$row->runner,$row->display_name);
 				$table .= $this->generateRow($runner_url,$row->racetime,$row->companyname,$row->pos,$row->std);
 				$count++;
 				if($count==3) {
 					// add second/third row
 					$count = 0;
 					$position = 0;
-				}	
+					$table .= '</table>';
+				}
+
 			}
 		}
-		$table .= '</table>';
-		return $table;		
+		return $table;
+	}
+
+	public function generateHeaderRow($name='',$time='',$company='',$position='',$standard='',$style='') {
+		return sprintf('<tr class="%s">
+			<!-- bgcolor="#FF0000" -->
+			<th style="width: 50px;">%s</th>
+			<th style="width: 50px;">%s</th>
+			<th style="width: 50px;">%s</th>
+			<th style="width: 20px;">%s</th>
+			<th style="width: 20px;">%s</th>
+			</tr>',$style,$name,$time,$company,$position,$standard);
 	}
 	
-	public function generateRow($name='',$time='',$company='',$position='',$standard='',$style='')
-	{
+	public function generateRow($name='',$time='',$company='',$position='',$standard='',$style='') {
 		return sprintf('<tr class="%s">
-			<td>%s</td>
-			<td>%s</td>
-			<td>%s</td>
-			<td>%s</td>
-			<td>%s</td>
+			<td style="width: 50px;">%s</td>
+			<td style="width: 50px;">%s</td>
+			<td style="width: 50px;">%s</td>
+			<td style="width: 20px;">%s</td>
+			<td style="width: 20px;">%s</td>
 			</tr>',$style,$name,$time,$company,$position,$standard);
 	}
 	
