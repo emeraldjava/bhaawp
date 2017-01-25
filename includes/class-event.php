@@ -24,7 +24,7 @@ class Event {
 		$races = $this->getRaces();
 		$response = '';
 		foreach($races as $race){
-			$response .= RaceResult_List_Table::get_instance()->renderTable($race);
+			$response .= Individual_Table::get_instance()->renderTable($race);
 		}
 		return $response;
 	}
@@ -32,7 +32,7 @@ class Event {
 	function getTeamResultsTable() {
 		$races = $this->getRaces();
 		$response = '';
-		foreach($races as $race){
+		foreach($races as $race) {
 			$teamResult = new TeamResult($race);
 			$response .= $teamResult->getRaceTeamResultTable();
 		}

@@ -37,6 +37,7 @@ class Bhaa_Shortcode{
 		add_shortcode('bhaa_runner_edit_standard',array(Runner_Manager::get_instance(),'bhaa_runner_edit_standard_shortcode'));
 		add_shortcode('bhaa_runner_matches',array(Runner_Manager::get_instance(),'bhaa_runner_matches_shortcode'));
 		add_shortcode('bhaa_runner_renew',array(Runner_Manager::get_instance(),'bhaa_renewal_button_shortcode'));
+		add_shortcode('bhaa_runner_deactivate',array(Runner_Manager::get_instance(),'bhaa_deactivate_button_shortcode'));
 				
 		// house-team specific shortcodes
 		add_shortcode('house_title',array(Bhaa_Shortcode::get_instance(),'house_title'));
@@ -50,7 +51,7 @@ class Bhaa_Shortcode{
 		
 		// race related shortcodes
 		add_shortcode('bhaa_race_title',array(Bhaa_Shortcode::get_instance(),'bhaa_race_title'));
-		add_shortcode('bhaa_race_results',array(Bhaa_Shortcode::get_instance(),'bhaa_race_results'));
+		//add_shortcode('bhaa_race_results',array(Bhaa_Shortcode::get_instance(),'bhaa_race_results'));
 		add_shortcode('bhaa_race_edit_result',array(Bhaa_Shortcode::get_instance(),'bhaa_race_edit_result'));
 		
 		// booking email shortcodes
@@ -117,7 +118,7 @@ class Bhaa_Shortcode{
 	}
 	
 	function bhaa_runner_results($args) {
-		return RaceResult_List_Table::get_instance()->renderRunnerTable(get_query_var('id'));
+		return Individual_Table::get_instance()->renderRunnerTable(get_query_var('id'));
 	}
 
 	/**
@@ -129,12 +130,19 @@ class Bhaa_Shortcode{
 	}
 	
 	function bhaa_race_results($atts) {
-		$race = new RaceResult($atts['race']);
-		$results = $race->getRaceResults();
-		return Bhaa_Mustache::get_instance()
-			->loadTemplate('race.results.individual.html')
-			->render(array('runners'=>$results)
-		);
+		var_dump($atts);
+
+		$attrs = shortcode_atts($atts['race']);
+
+		//Individual_Table::get_instance()->renderTable($race);
+
+//		$race = new RaceResult($attrs['race']);
+//		$results = $race->getRaceResults();
+//		return Bhaa_Mustache::get_instance()
+//			->loadTemplate('race.results.individual.html')
+//			->render(array('runners'=>$results)
+//		);
+		return 'race::'.$atts('race');//.' '.var_dump($atts);
 	}
 	
 	function bhaa_race_edit_result() {

@@ -21,6 +21,7 @@ class Runner_Manager {
 
 	private function __construct() {
 		add_action('admin_action_bhaa_runner_renew_action',array($this,'bhaa_runner_renew_action'));
+		add_action('admin_action_bhaa_runner_deactivate_action',array($this,'bhaa_runner_deactivate_action'));
 		add_action('admin_action_bhaa_runner_rename_action',array($this,'bhaa_runner_rename_action'));
 		add_action('admin_action_bhaa_runner_email_action',array($this,'bhaa_runner_email_action'));
 		add_action('admin_action_bhaa_runner_dob_action',array($this,'bhaa_runner_dob_action'));
@@ -150,6 +151,30 @@ class Runner_Manager {
 		if(current_user_can('edit_users') && wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_renew_action')) {
 			$runner = new Runner($_POST['id']);
 			$runner->renew();
+		}
+		wp_redirect(wp_get_referer());
+		exit();
+	}
+
+	function bhaa_deactivate_button_shortcode() {
+		if(current_user_can('edit_users')) {
+			$runner = new Runner(get_query_var('id'));
+			$form = '<form action="'.admin_url( 'admin.php' ).'" method="POST">'.
+				wp_nonce_field('bhaa_runner_deactivate_action').'
+			    <input type="hidden" name="action" value="bhaa_runner_deactivate_action" />
+				<input type="hidden" name="id" value="'.get_query_var('id').'"/>
+				<input type="submit" value="Deactivate Runner"/>
+				</form></div>';
+			return $form;
+		} else {
+			return "";
+		}
+	}
+
+	function bhaa_runner_deactivate_action() {
+		if(current_user_can('edit_users') && wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_deactivate_action')) {
+			$runner = new Runner($_POST['id']);
+			$runner->deactivate();
 		}
 		wp_redirect(wp_get_referer());
 		exit();
@@ -623,7 +648,7 @@ class Runner_Manager {
 			left join wp_usermeta standard ON (standard.user_id=wp_users.id AND standard.meta_key = 'bhaa_runner_standard')
 			where wp_bhaa_raceresult.class=%s
 	 */
-	function exportRacetecAtheletes($limit=1000) {
+	function exportRacetecAtheletes($limit=10) {
 		global $wpdb;
 		$SQL = $wpdb->prepare("SELECT
 			wp_users.id as AthleteId,

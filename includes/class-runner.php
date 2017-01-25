@@ -224,6 +224,7 @@ class Runner {
 		error_log('renew() '.$this->getID().' '.$this->getUserEmail());
 		update_user_meta($this->getID(), Runner::BHAA_RUNNER_STATUS, 'M');
 		update_user_meta($this->getID(), Runner::BHAA_RUNNER_DATEOFRENEWAL,date('Y-m-d'));
+		$this->postMessageToRunner("Your BHAA Membership was ACTIVED.");
 		if($this->getUserEmail()!=''||$this->getUserEmail()!=null) {
 						
 			global $wp_query;
@@ -235,10 +236,32 @@ class Runner {
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset="utf-8"' . "\r\n";
 			$headers .= 'From: Business Houses Athletic Association <info@bhaa.ie>' . "\r\n";
-			$subject = 'BHAA Renewal 2015 : '.$this->getFirstName().' '.$this->getLastName();
+			$subject = 'BHAA Renewal 2017 : '.$this->getFirstName().' '.$this->getLastName();
  			$res = wp_mail($this->getUserEmail(),$subject,'<html>'.$message.'</html>',$headers);
  			error_log("renewal email sent ".$res);
 		}
+	}
+
+	function deactivate() {
+		update_user_meta($this->getID(),Runner::BHAA_RUNNER_STATUS,'I');
+		$this->postMessageToRunner("Your BHAA Membership was marked as DEACTIVED.");
+	}
+
+	function postMessageToRunner($comment) {
+		$data = array(
+			'comment_author' => 'webmaster@bhaa.ie',
+			'comment_author_email' => 'webmaster@bhaa.ie',
+			//'comment_author_url' => 'http://www.catswhocode.com',
+			'comment_content' => $comment,
+			'comment_author_IP' => '127.0.0.1',
+			//'comment_agent' => 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; fr; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3',
+			'comment_date' => date('Y-m-d H:i:s'),
+			'comment_date_gmt' => date('Y-m-d H:i:s'),
+			'comment_approved' => 1,
+			'user_id' => $this->getID()
+		);
+		//$comment_id = wp_insert_comment($data);
+		//error_log("comment_id ".$comment_id);
 	}
 }
 ?>
