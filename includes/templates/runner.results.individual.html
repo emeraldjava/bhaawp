@@ -1,0 +1,22 @@
+<div class="container">
+    <table class="table table-sm table-striped table-bordered" width="100%">
+        <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Distance</th>
+            <th>Pos</th>
+            <th>Time</th>
+            <th>Std</th>
+        </tr>
+    {{# runners}}
+    <tr>
+        <td><a class='bhaa-url-link' href='{{url}}/events/{{post_name}}'><b>{{post_title}}</b></a></td>
+        <td>{{eventdate}}</td>
+        <td>{{distance}}</td>
+        <td>{{position}}</td>
+        <td>{{racetime}}</td>
+        <td>{{standard}}</td>
+    </tr>
+    {{/ runners}}
+    </table>
+</div>
