@@ -9,7 +9,16 @@
         <?php
         if ( ! empty( $memberStandardProfile ) ) {
             foreach ( $memberStandardProfile as $row ) {
-                echo sprintf('<tr><td>%d</td><td>%d</td></tr>',
+                // generate url link to hidden page
+                $link = add_query_arg(
+                    array(
+                        'page' => 'bhaa_admin_standard_list_members',
+                        'standard' => $row->standard
+                    ),
+                    admin_url('admin.php')
+                );
+                echo sprintf('<tr><td><a href="%s">%d</a></td><td>%d</td></tr>',
+                    $link,
                     $row->standard,
                     $row->count);
             }

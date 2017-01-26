@@ -156,7 +156,9 @@ class Bhaa_Admin {
 
 		$standardAdmin = new StandardAdmin();
 		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options','bhaa_admin_standards',array($standardAdmin,'bhaa_admin_standards'));
+		add_submenu_page( null  ,'BHAA', 'Standards','manage_options','bhaa_admin_standard_list_members',array($standardAdmin,'bhaa_admin_standard_list_members'));
 		add_submenu_page('bhaa' ,'BHAA', 'No Standard','manage_options','bhaa_admin_no_standard',array($standardAdmin,'bhaa_admin_no_standard'));
+
 		//add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options','bhaa_admin_text',array(&$this,'bhaa_admin_text'));
 		//add_submenu_page('bhaa' ,'BHAA', 'Racetec','manage_options','bhaa_admin_racetec',array(&$this,'bhaa_admin_racetec'));
 	}
@@ -249,7 +251,7 @@ class Bhaa_Admin {
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
 			// var bhaa_day_runners =
-			$user = new User();
+			$user = new RunnerModel();
 			$content .= json_encode($user->getRegistrationRunnerDetails(array("M","I")));
 			//error_log('file '.$file);
 			if(file_exists($file)){
@@ -280,7 +282,7 @@ class Bhaa_Admin {
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_day_json')
 		{
 			//echo 'command '.$_POST['command'];
-			$model = new User();
+			$model = new RunnerModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
 			$content .= json_encode($model->getRegistrationRunnerDetails('D'));
@@ -309,7 +311,7 @@ class Bhaa_Admin {
 		$file = ABSPATH.'wp-content/bhaa_all_members.html';
 		$content = '<div><ul>';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_all_html'){
-			$model = new User();
+			$model = new RunnerModel();
 			$runners = $model->getRegistrationRunnerDetails("M,I,D");
 			foreach($runners as $runner){
 				$content .= sprintf("<li>%s %s ,ID:%d ,Status:%s, DOB:%s</li>",

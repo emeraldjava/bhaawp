@@ -1,14 +1,23 @@
 <?php
 class StandardAdmin {
 
-    function bhaa_admin_standards()
-    {
+    function bhaa_admin_standards() {
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
         $standardModel = new StandardModel();
         $memberStandardProfile = $standardModel->getMemberStandardProfile();
         include_once('views/bhaa_admin_standards.php');
+    }
+
+    function bhaa_admin_standard_list_members() {
+        if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+        $runnerModel = new RunnerModel();
+        $runnersInStandard = $runnerModel->getRunnersWithStandard($_GET['standard']);
+        include_once('views/bhaa_admin_standard_list_runners.php');
+
     }
 
     function bhaa_admin_no_standard()	{

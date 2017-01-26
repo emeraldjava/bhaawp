@@ -1,5 +1,5 @@
 <?php
-class User extends BaseModel {
+class RunnerModel extends BaseModel {
 
 	function __construct() {
 		parent::__construct();
@@ -35,6 +35,17 @@ class User extends BaseModel {
 			where status.meta_value IN("'.implode('","',$status).'") order by lastname,firstname;';
 		//error_log($SQL);
 		return $this->wpdb->get_results($SQL);
+	}
+
+	function getRunnersWithStandard($standard,$status='M') {
+		return $this->wpdb->get_results(
+			$this->wpdb->prepare('SELECT wp_users.id,wp_users.display_name from wp_users
+                join wp_usermeta m_std
+                  on (m_std.meta_value=%d and m_std.meta_key="bhaa_runner_standard" and m_std.user_id=wp_users.id)
+                join wp_usermeta m_status
+                  on (m_status.user_id=wp_users.id and m_status.meta_key="bhaa_runner_status" and m_status.meta_value="M")
+                WHERE m_std.meta_value=%d',$standard,$standard)
+		);
 	}
 }
 ?>
