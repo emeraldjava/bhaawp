@@ -140,20 +140,22 @@ class Bhaa_Admin {
 		//add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
 		//add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
 
-		$registrar = new RegistrarAdmin();
+		$registrarAdmin = new RegistrarAdmin();
 		add_submenu_page('bhaa', 'BHAA', 'Registrar',
 			'manage_options','bhaa_admin_registrar',
-			array($registrar, 'bhaa_admin_registrar_page'));
+			array($registrarAdmin, 'bhaa_admin_registrar_page'));
 		// use 'null' to register a hidden page
 		add_submenu_page(null, 'BHAA', 'Registrar',
 			'manage_options','bhaa-admin-registrar-monthly',
-			array($registrar, 'bhaa_admin_registrar_monthly_page'));
+			array($registrarAdmin, 'bhaa_admin_registrar_monthly_page'));
 		add_submenu_page(null, 'BHAA', 'Registrar',
 			'manage_options','bhaa-admin-registrar-deactivate',
-			array($registrar, 'bhaa_admin_registrar_deactivate_page'));
+			array($registrarAdmin, 'bhaa_admin_registrar_deactivate_page'));
 
 		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options','bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
-		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options','bhaa_admin_standards',array(&$this, 'bhaa_admin_standards'));
+
+		$standardAdmin = new StandardAdmin();
+		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options','bhaa_admin_standards',array($standardAdmin,'bhaa_admin_standards'));
 		//add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options','bhaa_admin_text',array(&$this,'bhaa_admin_text'));
 		//add_submenu_page('bhaa' ,'BHAA', 'Racetec','manage_options','bhaa_admin_racetec',array(&$this,'bhaa_admin_racetec'));
 	}
@@ -277,7 +279,7 @@ class Bhaa_Admin {
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_day_json')
 		{
 			//echo 'command '.$_POST['command'];
-			$model = new BaseModel();
+			$model = new User();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
 			$content .= json_encode($model->getRegistrationRunnerDetails('D'));
@@ -306,7 +308,7 @@ class Bhaa_Admin {
 		$file = ABSPATH.'wp-content/bhaa_all_members.html';
 		$content = '<div><ul>';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_all_html'){
-			$model = new BaseModel();
+			$model = new User();
 			$runners = $model->getRegistrationRunnerDetails("M,I,D");
 			foreach($runners as $runner){
 				$content .= sprintf("<li>%s %s ,ID:%d ,Status:%s, DOB:%s</li>",
@@ -364,55 +366,6 @@ class Bhaa_Admin {
 			echo $runner_url.' '.$row->display_name.' '.$company_url.' :: '.$form.'</br>';
 		};
 		echo '</div>';
-	}
-
-	function bhaa_admin_standards()	{
-		if ( !current_user_can( 'manage_options' ) )  {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
-		echo '<div class="wrap">';
-
-		// standards
-
-		echo '<p>hi</p>';
-
-		$members = array(
-				'meta_key' => 'bhaa_runner_status',
-				'meta_value' => 'M',
-				'meta_compare' => '='
-		);
-
-		// http://wordpress.stackexchange.com/questions/76622/wp-user-query-to-exclude-users-with-no-posts
-		$missingStandard = array(
-				'meta_query' => array(
-						'relation' => 'AND',
-						array(
-								'key' => 'bhaa_runner_status',
-								'value' => 'M',
-								'compare' => '='
-						),
-						array(
-								'key' => 'bhaa_runner_standard',
-								'compare' => 'NOT EXISTS'
-						)
-				),
-				'orderby'=>'ID',
-				'fields'=>'all',
-				'query_id'=>'match_runners_who_have_raced'
-		);
-
-		$user_query = new WP_User_Query( $missingStandard );
-		echo 'members :'.$user_query->get_total();
-
-		if ( ! empty( $user_query->results ) ) {
-			foreach ( $user_query->results as $user ) {
-				//echo '<p>' .$user->ID.' - '.$user->display_name . '</p>';
-				echo sprintf('<div>%d <a href="%s" target="new">%s</a></div>',
-						$user->ID,
-						add_query_arg(array('id'=>$user->ID),'/runner'),$user->display_name);
-			}
-		}
-		wp_reset_query();
 	}
 
 	function match_runners_who_have_raced( $query ) {
