@@ -169,13 +169,6 @@ class Bhaa_Admin {
 	}
 
 	/**
-	 * Render the settings page for this plugin.
-	 */
-	public function display_plugin_admin_page() {
-		include_once( 'views/admin.php' );
-	}
-
-	/**
 	 * Add settings action link to the plugins page.
 	 */
 	public function add_action_links( $links ) {
@@ -285,7 +278,7 @@ class Bhaa_Admin {
 			$model = new RunnerModel();
 			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
-			$content .= json_encode($model->getRegistrationRunnerDetails('D'));
+			$content .= json_encode($model->getRegistrationRunnerDetails(array('D')));
 			error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
@@ -312,7 +305,7 @@ class Bhaa_Admin {
 		$content = '<div><ul>';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_all_html'){
 			$model = new RunnerModel();
-			$runners = $model->getRegistrationRunnerDetails("M,I,D");
+			$runners = $model->getRegistrationRunnerDetails(array("M","I","D"));
 			foreach($runners as $runner){
 				$content .= sprintf("<li>%s %s ,ID:%d ,Status:%s, DOB:%s</li>",
 					$runner->lastname,$runner->firstname,$runner->id,$runner->status,$runner->dob);

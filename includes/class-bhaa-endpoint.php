@@ -17,8 +17,8 @@ class Bhaa_Endpoint {
 
     private function __construct() {
         add_action('wp_loaded',array($this,'bhaa_internal_rewrite'));
-        add_filter( 'query_vars',array($this,'bhaa_internal_query_vars'));
-        add_action( 'parse_request',array($this,'bhaa_internal_rewrite_parse_request'));
+        add_filter('query_vars',array($this,'bhaa_internal_query_vars'));
+        add_action('parse_request',array($this,'bhaa_internal_rewrite_parse_request'));
     }
 
     function bhaa_internal_rewrite(){
@@ -40,12 +40,13 @@ class Bhaa_Endpoint {
         } else {
 
 
-        echo 'The BHAA endpoint xx. key:`'.$_GET['bhaa-registration'].'`, token:`'.$_GET['bhaa-registration-token'].'`.';//.printf("%s",$wp->query_vars['bhaa-registration'][3]);
-        // security and validation
-        // do whatever you want to do
+            //echo 'The BHAA endpoint xx. key:`'.$_GET['bhaa-registration'].'`, token:`'.$_GET['bhaa-registration-token'].'`.';//.printf("%s",$wp->query_vars['bhaa-registration'][3]);
+            // bhaawp?bhaa-registration&bhaa-registration-token=???
+            $model = new RunnerModel();
+            echo json_encode($model->getRegistrationRunnerDetails(array('M')));
 
-        //Bhaa_Admin::get_instance()->bhaa_admin_racetec_export();
         }
+        // http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
 
         die();
     }
