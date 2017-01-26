@@ -8,9 +8,6 @@ class StandardAdmin {
         echo '<div class="wrap">';
 
         // standards
-
-        echo '<p>hi</p>';
-
         $members = array(
             'meta_key' => 'bhaa_runner_status',
             'meta_value' => 'M',
@@ -37,17 +34,7 @@ class StandardAdmin {
         );
 
         $user_query = new WP_User_Query( $missingStandard );
-        echo 'members :'.$user_query->get_total();
-
-        if ( ! empty( $user_query->results ) ) {
-            foreach ( $user_query->results as $user ) {
-                //echo '<p>' .$user->ID.' - '.$user->display_name . '</p>';
-                echo sprintf('<div>%d <a href="%s" target="new">%s</a></div>',
-                    $user->ID,
-                    add_query_arg(array('id'=>$user->ID),'/runner'),$user->display_name);
-            }
-        }
-        wp_reset_query();
+        include_once('views/bhaa_admin_standards.php');
     }
 }
 ?>
