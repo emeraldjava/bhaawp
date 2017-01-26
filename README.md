@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2017.01.26 Add page to list runners by standard.
 - 2017.01.25 Update to use mustache templates in more places.
 - 2016.05.16 Add raceday-admin delete feature.
 - 2016.04.22 Refactor the raceday pages to use templates correctly.
