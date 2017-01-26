@@ -1,18 +1,5 @@
 <?php
-class RegistrarAdmin implements IAdminPage {
-
-  public function addSubMenuPage() {
-    add_submenu_page('bhaa', 'BHAA', 'Registrar',
-      'manage_options','bhaa_admin_registrar',
-      array($this, 'bhaa_admin_registrar_page'));
-    // use 'null' to register a hidden page
-    add_submenu_page(null, 'BHAA', 'Registrar',
-      'manage_options','bhaa-admin-registrar-monthly',
-      array($this, 'bhaa_admin_registrar_monthly_page'));
-    add_submenu_page(null, 'BHAA', 'Registrar',
-      'manage_options','bhaa-admin-registrar-deactivate',
-      array($this, 'bhaa_admin_registrar_deactivate_page'));
-  }
+class RegistrarAdmin {
 
   function bhaa_admin_registrar_page() {
     if ( !current_user_can( 'manage_options' ) ) {

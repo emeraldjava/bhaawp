@@ -141,7 +141,17 @@ class Bhaa_Admin {
 		//add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
 
 		$registrar = new RegistrarAdmin();
-		$registrar->addSubMenuPage();
+		add_submenu_page('bhaa', 'BHAA', 'Registrar',
+			'manage_options','bhaa_admin_registrar',
+			array($registrar, 'bhaa_admin_registrar_page'));
+		// use 'null' to register a hidden page
+		add_submenu_page(null, 'BHAA', 'Registrar',
+			'manage_options','bhaa-admin-registrar-monthly',
+			array($registrar, 'bhaa_admin_registrar_monthly_page'));
+		add_submenu_page(null, 'BHAA', 'Registrar',
+			'manage_options','bhaa-admin-registrar-deactivate',
+			array($registrar, 'bhaa_admin_registrar_deactivate_page'));
+
 		add_submenu_page('bhaa', 'BHAA', 'Teams', 'manage_options','bhaa_admin_teams', array(&$this, 'bhaa_admin_teams'));
 		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options','bhaa_admin_standards',array(&$this, 'bhaa_admin_standards'));
 		//add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options','bhaa_admin_text',array(&$this,'bhaa_admin_text'));
@@ -361,6 +371,8 @@ class Bhaa_Admin {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 		echo '<div class="wrap">';
+
+		// standards
 
 		echo '<p>hi</p>';
 
