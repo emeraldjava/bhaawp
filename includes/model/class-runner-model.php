@@ -9,7 +9,7 @@ class RunnerModel extends BaseModel {
 		return 'wp_users';
 	}
 
-	function getRegistrationRunnerDetails($status,$limit=10) {
+	function getRegistrationRunnerDetails($status,$limit=10,&$resultCount) {
 		$this->wpdb->query('SET SQL_BIG_SELECTS=1');
 		// http://stackoverflow.com/questions/907806/php-mysql-using-an-array-in-where-clause
 		$SQL = $this->wpdb->prepare(
@@ -32,7 +32,9 @@ class RunnerModel extends BaseModel {
 			left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
 			where status.meta_value IN("%s") order by lastname,firstname LIMIT %d',implode(",",$status),$limit);
 		//error_log($SQL);
-		return $this->wpdb->get_results($SQL);
+		$res = $this->wpdb->get_results($SQL);
+		$resultCount = $this->wpdb->num_rows;
+		return $res;
 	}
 
 	function getRunnersWithStandard($standard,$status='M') {

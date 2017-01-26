@@ -45,11 +45,10 @@ class Bhaa_Endpoint {
             //echo 'The BHAA endpoint xx. key:`'.$_GET['bhaa-registration'].'`, token:`'.$_GET['bhaa-registration-token'].'`.';//.printf("%s",$wp->query_vars['bhaa-registration'][3]);
             // bhaawp?bhaa-registration&bhaa-registration-token=???
             $model = new RunnerModel();
-            echo json_encode($model->getRegistrationRunnerDetails(array($status),$limit));
-
+            $runners = $model->getRegistrationRunnerDetails(array($status),$limit,$resultCount);
+            $date = date('Y-m-d');
+            echo json_encode(array('count'=>$resultCount,'date'=>$date,'runners'=>$runners));
         }
-        // http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
-
         die();
     }
 }
