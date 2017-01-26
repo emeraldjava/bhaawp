@@ -39,11 +39,13 @@ class Bhaa_Endpoint {
             return;
         } else {
 
-
+            $status = isset($_GET['status']) ? $_GET['status'] : 'M';
+            $limit = isset($_GET['limit']) ? $_GET['limit'] : 1000;
+            error_log(sprintf('json query %s %d',$status,$limit));
             //echo 'The BHAA endpoint xx. key:`'.$_GET['bhaa-registration'].'`, token:`'.$_GET['bhaa-registration-token'].'`.';//.printf("%s",$wp->query_vars['bhaa-registration'][3]);
             // bhaawp?bhaa-registration&bhaa-registration-token=???
             $model = new RunnerModel();
-            echo json_encode($model->getRegistrationRunnerDetails(array('M')));
+            echo json_encode($model->getRegistrationRunnerDetails(array($status),$limit));
 
         }
         // http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
