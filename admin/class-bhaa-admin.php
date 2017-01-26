@@ -156,6 +156,7 @@ class Bhaa_Admin {
 
 		$standardAdmin = new StandardAdmin();
 		add_submenu_page('bhaa' ,'BHAA', 'Standards','manage_options','bhaa_admin_standards',array($standardAdmin,'bhaa_admin_standards'));
+		add_submenu_page('bhaa' ,'BHAA', 'No Standard','manage_options','bhaa_admin_no_standard',array($standardAdmin,'bhaa_admin_no_standard'));
 		//add_submenu_page('bhaa' ,'BHAA', 'Text','manage_options','bhaa_admin_text',array(&$this,'bhaa_admin_text'));
 		//add_submenu_page('bhaa' ,'BHAA', 'Racetec','manage_options','bhaa_admin_racetec',array(&$this,'bhaa_admin_racetec'));
 	}
