@@ -16,6 +16,12 @@ class StandardAdmin {
 		}
         $runnerModel = new RunnerModel();
         $runnersInStandard = $runnerModel->getRunnersWithStandard($_GET['standard']);
+        $parentStandardsLink = add_query_arg(
+            array(
+                'page' => 'bhaa_admin_standards'
+            ),
+            admin_url('admin.php')
+        );
         include_once('views/bhaa_admin_standard_list_runners.php');
 
     }

@@ -22,14 +22,14 @@ class StandardModel extends BaseModel {
     /**
      * Return the count of members per standard
      */
-    function getMemberStandardProfile() {
+    function getMemberStandardProfile($status='M') {
         return $this->wpdb->get_results(
             $this->wpdb->prepare('SELECT standard,count(m_std.umeta_id) as count from wp_bhaa_standard
                 join wp_usermeta m_std
                   on (m_std.meta_value=wp_bhaa_standard.standard and m_std.meta_key="bhaa_runner_standard")
                 join wp_usermeta m_status
-                  on (m_status.user_id=m_std.user_id and m_status.meta_key="bhaa_runner_status" and m_status.meta_value="M")
-                group by wp_bhaa_standard.standard')
+                  on (m_status.user_id=m_std.user_id and m_status.meta_key="bhaa_runner_status" and m_status.meta_value="%s")
+                group by wp_bhaa_standard.standard',$status)
         );
     }
 

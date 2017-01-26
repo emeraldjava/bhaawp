@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h2>BHAA Standard '<?php echo $_GET['standard'];?>' Page</h2>
+    <h2><?php echo sprintf('<a href="%s">%s</a>',$parentStandardsLink,"Standards");?> BHAA Standard '<?php echo $_GET['standard'];?>' Page</h2>
     <table border="1">
         <tbody>
         <tr>
@@ -13,13 +13,13 @@
 
                 $link = add_query_arg(
                     array(
-                        'page' => 'bhaa_admin_standard_list_members', // as defined in the hidden page
-                        'year' => $row->standard
+                        'id' => $row->id
                     ),
-                    admin_url('admin.php')
+                    site_url('/runner')
                 );
-                echo sprintf('<tr><td>%d</td><td>%d</td><td>%s</td></tr>',
+                echo sprintf('<tr><td>%d</td><td><a href="%s" target="_new">%d</a></td><td>%s</td></tr>',
                     $key+1,
+                    $link,
                     $row->id,
                     $row->display_name);
             }
