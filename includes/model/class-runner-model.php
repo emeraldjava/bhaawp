@@ -52,5 +52,16 @@ class RunnerModel extends BaseModel {
                 WHERE m_std.meta_value=%d',$standard,$standard)
 		);
 	}
+
+	/**
+	 * A break down of the runners per membership status
+	 */
+	function getMembershipStatus() {
+		return $this->wpdb->get_results(
+			'SELECT status.meta_value as status,
+			COUNT(DISTINCT(status.user_id)) as count from wp_usermeta status
+			WHERE status.meta_key="bhaa_runner_status"
+			GROUP BY status.meta_value');
+	}
 }
 ?>

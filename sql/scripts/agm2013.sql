@@ -32,6 +32,10 @@ select COUNT(DISTINCT(status.user_id)) from wp_usermeta status
 where status.meta_key='bhaa_runner_status'
 and status.meta_value="I"
 
+select status.meta_value,COUNT(DISTINCT(status.user_id)) from wp_usermeta status
+where status.meta_key='bhaa_runner_status'
+GROUP BY status.meta_value
+
 -- new BHAA members in 2013 341
 select COUNT(DISTINCT(status.user_id))
 from wp_usermeta status 

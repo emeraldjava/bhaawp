@@ -21,7 +21,23 @@
     <?php submit_button(); ?>
 </form>
 
-<?php 
+<h2>BHAA Membership Status</h2>
+<table border="1">
+    <tbody>
+    <tr>
+        <th>Membership Status</th>
+        <th>Count</th>
+    </tr>
+    <?php
+    foreach($membershipStatus as $row) {
+        echo sprintf('<tr><td>%s</td><td>%d</td></tr>',
+            $row->status,$row->count);
+    }
+    ?>
+    </tbody>
+</table>
+
+<?php
 $link = admin_url('admin.php?action=bhaa_send_email');
 echo '<a href='.$link.'>Send Email</a>';
 ?>
