@@ -9,11 +9,15 @@ class RunnerModel extends BaseModel {
 		return 'wp_users';
 	}
 
-	function getRegistrationRunnerDetails($status,$limit=10,&$resultCount) {
+	function getRegistrationRunnerDetails($status=array('M'),$limit=1000,&$resultCount) {
 		$this->wpdb->query('SET SQL_BIG_SELECTS=1');
+
+		$IN = "'" . implode ( "', '", $status ) . "'";
+		//var_dump($IN);
+
 		// http://stackoverflow.com/questions/907806/php-mysql-using-an-array-in-where-clause
-		$SQL = $this->wpdb->prepare(
-			'select wp_users.id as id,wp_users.id as value,
+		//$SQL = $this->wpdb->prepare(
+			$SQL =	'select wp_users.id as id,wp_users.id as value,
 			wp_users.display_name as label,
 			first_name.meta_value as firstname,
 			last_name.meta_value as lastname,
@@ -30,7 +34,8 @@ class RunnerModel extends BaseModel {
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts house on (house.id=company.meta_value and house.post_type="house")
 			left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
-			where status.meta_value IN("%s") order by lastname,firstname LIMIT %d',implode(",",$status),$limit);
+			where status.meta_value IN('.$IN.') order by lastname,firstname LIMIT '.$limit;//,$IN,$limit);
+		//var_dump($SQL);
 		//error_log($SQL);
 		$res = $this->wpdb->get_results($SQL);
 		$resultCount = $this->wpdb->num_rows;

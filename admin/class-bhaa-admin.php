@@ -245,7 +245,7 @@ class Bhaa_Admin {
 			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
 			// var bhaa_day_runners =
 			$user = new RunnerModel();
-			$content .= json_encode($user->getRegistrationRunnerDetails(array("M","I")));
+			$content .= json_encode($user->getRegistrationRunnerDetails(array('M','I')));
 			//error_log('file '.$file);
 			if(file_exists($file)){
 				file_put_contents($file, $content);
@@ -305,7 +305,7 @@ class Bhaa_Admin {
 		$content = '<div><ul>';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_all_html'){
 			$model = new RunnerModel();
-			$runners = $model->getRegistrationRunnerDetails(array("M","I","D"));
+			$runners = $model->getRegistrationRunnerDetails(array('M','I','D'));
 			foreach($runners as $runner){
 				$content .= sprintf("<li>%s %s ,ID:%d ,Status:%s, DOB:%s</li>",
 					$runner->lastname,$runner->firstname,$runner->id,$runner->status,$runner->dob);

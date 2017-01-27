@@ -39,13 +39,13 @@ class Bhaa_Endpoint {
             return;
         } else {
 
-            $status = isset($_GET['status']) ? $_GET['status'] : 'M';
+            $status = isset($_GET['status']) ? explode(",",$_GET['status']) : array('M');
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 1000;
-            error_log(sprintf('json query %s %d',$status,$limit));
+            error_log(sprintf('json query %s %s %s limit %d',$status[0],$status[1],$status[2],$limit));
             //echo 'The BHAA endpoint xx. key:`'.$_GET['bhaa-registration'].'`, token:`'.$_GET['bhaa-registration-token'].'`.';//.printf("%s",$wp->query_vars['bhaa-registration'][3]);
             // bhaawp?bhaa-registration&bhaa-registration-token=???
             $model = new RunnerModel();
-            $runners = $model->getRegistrationRunnerDetails(array($status),$limit,$resultCount);
+            $runners = $model->getRegistrationRunnerDetails($status,$limit,$resultCount);
             $date = date('Y-m-d');
             echo json_encode(array('count'=>$resultCount,'date'=>$date,'runners'=>$runners));
         }
