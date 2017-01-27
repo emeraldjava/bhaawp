@@ -382,5 +382,16 @@ class RaceResult extends BaseModel implements Table {
 			where rr.runner=' . $runner . ' AND rr.class="RAN" order by d.eventdate desc';
 		return $this->getWpdb()->get_results($query, ARRAY_A);
 	}
+
+	/**
+	 * TODO
+	 * -- find raceresult without a runner
+	select * from wp_bhaa_raceresult
+	left join wp_users on wp_users.id=runner
+	where wp_users.id is null
+	 */
+	function getRaceResultWithoutRunner() {
+
+	}
 }
 ?>

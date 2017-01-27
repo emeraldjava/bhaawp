@@ -293,7 +293,6 @@ select count(id) from wp_users where id=7713
 select count(id) from wp_users where id=0
 
 -- orphaned runners
-select count(r.id)
 select r.id,r.display_name
 from wp_users r
 left join wp_bhaa_raceresult rr on r.id=rr.runner

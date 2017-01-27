@@ -42,6 +42,21 @@ class RunnerModel extends BaseModel {
 		return $res;
 	}
 
+	/**
+	 * Match runners by run count and status
+	 * - interested in run count 0 and blank status
+	 * TODO
+	 * select r.id,r.display_name
+		from wp_users r
+		left join wp_bhaa_raceresult rr on r.id=rr.runner
+		join wp_usermeta status ON (status.user_id=r.id AND status.meta_key = 'bhaa_runner_status')
+		where status.meta_value='d' and rr.runner is null;
+	 * -
+	 */
+	function getRegistrationRunnerDetailxs($status=array('M'),$limit=1000,&$resultCount) {
+
+	}
+
 	function getRunnersWithStandard($standard,$status='M') {
 		return $this->wpdb->get_results(
 			$this->wpdb->prepare('SELECT wp_users.id,wp_users.display_name from wp_users

@@ -295,7 +295,7 @@ ALTER TABLE wp_bhaa_raceresult ADD INDEX index_race_number (race,racenumber);
 ALTER TABLE wp_bhaa_raceresult ADD INDEX index_race_number_class (race,racenumber,class);
 ALTER TABLE wp_bhaa_raceresult CHANGE class class VARCHAR(10) NOT NULL;
 
--- find runners who no result
+-- find raceresult without a runner
 select * from wp_bhaa_raceresult
 left join wp_users on wp_users.id=runner
 where wp_users.id is null

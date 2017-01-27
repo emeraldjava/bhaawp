@@ -29,8 +29,6 @@ class Bhaa_Admin {
 		//error_log("admin "+plugin_dir_path( __DIR__ )+" "+$plugin_basename);
 		add_filter('plugin_action_links_'.$plugin_basename, array( $this, 'add_action_links' ) );
 
-		add_action('pre_user_query', array($this,'match_runners_who_have_raced'));
-
 		add_action('admin_action_bhaa_send_email',array($this,'bhaa_send_email'));
 		add_action('admin_action_bhaa_admin_send_text',array($this,'bhaa_admin_send_text'));
 		//add_action('admin_action_bhaa_admin_racetec_export',array($this,'bhaa_admin_racetec_export'));
@@ -365,17 +363,6 @@ class Bhaa_Admin {
 			echo $runner_url.' '.$row->display_name.' '.$company_url.' :: '.$form.'</br>';
 		};
 		echo '</div>';
-	}
-
-	function match_runners_who_have_raced( $query ) {
-		if ( isset( $query->query_vars['query_id'] ) && 'match_runners_who_have_raced' == $query->query_vars['query_id'] ) {
-			$query->query_from = $query->query_from . ' LEFT OUTER JOIN (
-                SELECT runner, COUNT(race) as races
-                FROM wp_bhaa_raceresult
-				GROUP BY runner
-            ) rr ON (wp_users.ID = rr.runner)';
-			$query->query_where = $query->query_where . ' AND rr.races > 0 ';
-		}
 	}
 
 	/**
