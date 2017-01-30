@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2017.01.30 Format the day runner date of birth. Add top-ten league csv file export feature.
 - 2017.01.27 Updates to the runner json export endpoint.
 - 2017.01.26 Add page to list runners by standard.
 - 2017.01.25 Update to use mustache templates in more places.
