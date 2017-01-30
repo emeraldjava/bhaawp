@@ -1,7 +1,5 @@
 <?php
 
-//use \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
-
 class Bhaa_Mustache {
 	
 	protected static $instance = null;
@@ -29,23 +27,5 @@ class Bhaa_Mustache {
 	public function loadTemplate($name) {
 		return $this->mustache->loadTemplate($name);
 	}
-	
-//	public function inlineCssStyles($email_html) {
-//		$inlineCss = true;
-//		if($inlineCss) {
-//			// create instance
-//			$cssToInlineStyles = new CssToInlineStyles();
-//			//$css = file_get_contents(BHAA_PLUGIN_DIR.'/includes/templates/mailchimp/email.css');
-//			$css = get_stylesheet_uri();
-//			//error_log($css);
-//			$cssToInlineStyles->setHTML($email_html);
-//			$cssToInlineStyles->setCSS($css);
-//
-//			return $cssToInlineStyles->convert();
-//			//error_log($message);
-//		} else {
-//			return $email_html;
-//		}
-//	}
 }
 ?>
