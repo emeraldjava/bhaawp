@@ -216,5 +216,67 @@ class IndividualLeague extends AbstractLeague {
 		
 		queue_flash_message('Updated league content '.$this->leagueid);
 	}
+
+	function exportLeagueTopTen() {
+		$SQL = $this->getWpdb()->prepare('select leaguedivision,leagueposition,leaguepoints,leaguescorecount as racesran,u.user_nicename,fn.meta_value,
+			ln.meta_value,u.user_email,mobile.meta_value as mobile from wp_bhaa_leaguesummary
+			join wp_users u on u.id=leagueparticipant
+			left JOIN wp_usermeta mobile ON (mobile.user_id=u.id AND mobile.meta_key="bhaa_runner_mobilephone")
+			left JOIN wp_usermeta fn ON (fn.user_id=u.id AND fn.meta_key="first_name")
+			left JOIN wp_usermeta ln ON (ln.user_id=u.id AND ln.meta_key="last_name")
+			where league=%d
+			and leagueposition<=10
+			and leaguescorecount>=3
+			order by leaguedivision,leagueposition',$this->leagueid);
+		$queryResult = $this->getWpdb()->get_results($SQL,ARRAY_A);
+
+		// Process report request
+		if (! $queryResult) {
+			$Error = $this->getWpdb()->print_error();
+			die("The following error was found: $Error");
+		} else {
+			// Prepare our csv download
+
+			// Set header row values
+			$csv_fields = array();
+			$csv_fields[] = 'division';
+			$csv_fields[] = 'position';
+			$csv_fields[] = 'point';
+			$csv_fields[] = 'racesran';
+			$csv_fields[] = 'username';
+			$csv_fields[] = 'firstname';
+			$csv_fields[] = 'surname';
+			$csv_fields[] = 'email';
+			$csv_fields[] = 'mobile';
+
+			$post = get_post($this->leagueid);
+			$slug = $post->post_name;
+
+			$output_filename = 'bhaa-'.$slug.'-top-ten.csv';
+			$output_handle = @fopen('php://output', 'w');
+
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Content-Description: File Transfer');
+			header('Content-type: text/csv');
+			header('Content-Disposition: attachment; filename=' . $output_filename);
+			header('Expires: 0');
+			header('Pragma: public');
+
+			// Insert header row
+			fputcsv($output_handle, $csv_fields);
+
+			// Parse results to csv format
+			foreach ($queryResult as $Result) {
+				$leadArray = (array)$Result; // Cast the Object to an array
+				// Add row to file
+				fputcsv($output_handle, $leadArray);
+			}
+
+			// Close output file stream
+			fclose($output_handle);
+
+			die();
+		}
+	}
 }
 ?>

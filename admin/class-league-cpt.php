@@ -37,12 +37,10 @@ class LeagueCpt {
 	private function __construct() {
 		add_action('init',array(&$this,'registerLeagueCPT'));
 
-		//register_taxonomy_for_object_type('category', 'league');
 		add_filter('post_row_actions', array(&$this,'bhaa_league_post_row_actions'), 0, 2);
 		/* Filter the single_template with our custom function*/
 		add_filter('single_template', array(&$this,'bhaa_single_league_template'));
-		//add_shortcode('bhaa_league', array($this,'bhaa_league_shortcode'));
-		
+
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_league_meta_data' ) );
 		add_action( 'save_post', array( &$this, 'bhaa_league_save_meta_data' ) );
@@ -54,6 +52,7 @@ class LeagueCpt {
 		// http://wordpress.stackexchange.com/questions/10500/how-do-i-best-handle-custom-plugin-page-actions
 		add_action('admin_action_bhaa_league_delete',array(&$this,'bhaa_league_delete'));
 		add_action('admin_action_bhaa_league_populate',array(&$this,'bhaa_league_populate'));
+		add_action('admin_action_bhaa_league_top_ten',array(&$this,'bhaa_league_top_ten'));
 	}	
 	
 	function bhaa_league_populate_metabox() {
@@ -101,7 +100,13 @@ class LeagueCpt {
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
-	
+
+	function bhaa_league_top_ten() {
+		$leagueId = $_GET['post_id'];
+		$leagueHandler = $this->getLeagueHandler($leagueId);
+		$leagueHandler->exportLeagueTopTen();
+	}
+
 	/**
 	 * Return a specific class for handling league actions.
 	 * @param unknown $leagueid
@@ -260,10 +265,11 @@ class LeagueCpt {
 		return $actions;
 	}
 	
-	private function get_admin_url_links($post){
+	private function get_admin_url_links($post) {
 		return array(
 			'bhaa_league_delete' => $this->generate_admin_url_link('bhaa_league_delete',$post->ID,'Delete'),
-			'bhaa_league_populate' => $this->generate_admin_url_link('bhaa_league_populate',$post->ID,'Populate')
+			'bhaa_league_populate' => $this->generate_admin_url_link('bhaa_league_populate',$post->ID,'Populate'),
+			'bhaa_league_top_ten' => $this->generate_admin_url_link('bhaa_league_top_ten',$post->ID,'Export Top Ten')
 		);
 	}
 	
@@ -273,12 +279,10 @@ class LeagueCpt {
 	 */
 	private function generate_admin_url_link($action,$post_id,$name) {
 		$nonce = wp_create_nonce( $action );
-		//$link = admin_url( 'edit.php?post_type=league&action='.$action.'&post_id='.$post_id.'&_wpnonce='.$nonce );
-		$link = admin_url('admin.php?action='.$action.'&post_type=league&post_id='.$post_id);//.'&_wpnonce='.$nonce );
+		$link = admin_url('admin.php?action='.$action.'&post_type=league&post_id='.$post_id);
 		return '<a href='.$link.'>'.$name.'</a>';
 	}
 	
-	//
 	function registerLeagueCPT() {
 		$leagueLabels = array(
 			'name' => _x( 'Leagues', 'league' ),

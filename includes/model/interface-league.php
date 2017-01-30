@@ -9,16 +9,18 @@ interface League{
 	/**
 	 * Delete the league data
 	 */
-	public function deleteLeague();
+	function deleteLeague();
 	
 	/**
 	 * Load the league data
 	 */
-	public function loadLeague();
+	function loadLeague();
 	
 	/**
 	 * Return the top runners or teams for a specific division
 	 */
 	function getTopParticipantsInDivision($division,$top);
+
+	function exportLeagueTopTen();
 }
 ?>

@@ -203,5 +203,10 @@ class TeamLeague extends AbstractLeague {
 		//error_log($SQL);
 		$res = $this->wpdb->query($SQL);
 	}
+
+	function exportLeagueTopTen() {
+		wp_redirect( $_SERVER['HTTP_REFERER'] );
+		exit();
+	}
 }
 ?>
