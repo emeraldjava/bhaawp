@@ -7,6 +7,37 @@
 
 @CHARSET "ISO-8859-1";
 
+/** http://stackoverflow.com/questions/28678542/how-to-change-bootstraps-global-default-font-size {*/
+    /*font-size: 19px;*/
+/*}*/
+
+/*.result-list th, .result-list td, .list-table th, .list-table td {*/
+    /*padding: 2px 2px 2px 4px;*/
+    /*border-right: 1px solid #DEDEDE;*/
+    /*font-size: 11px;*/
+    /*vertical-align: top;*/
+/*}*/
+
+/*.result-list th, .list-table th {*/
+    /*background-color: #AAA;*/
+    /*color: white;*/
+    /*font-weight: bold;*/
+    /*text-transform: none;*/
+    /*font-size: 10px;*/
+    /*border-right: 1px solid #CBD6E1;*/
+/*}*/
+
+/*#results-table {*/
+    /*height: auto;*/
+    /*padding: 0px 0px 0px 0px;*/
+    /*margin: 0px 0 0px 0px;*/
+    /*background-color: #FFFFFF;*/
+    /*font-size: 11px;*/
+    /*font-weight: normal;*/
+    /*color: #000000;*/
+    /*text-decoration: none;*/
+/*}*/
+
 /**
  * https://kuler.adobe.com/Neutral-Blue-color-theme-22361/
  */

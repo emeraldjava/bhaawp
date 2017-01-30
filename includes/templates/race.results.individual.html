@@ -1,24 +1,24 @@
 <div class="container">
-    <table class="table table-sm table-striped table-bordered" width="100%">
+    <table class="table table-striped table-bordered" width="100%">
         <tr>
-            <th>Pos</th>
+            <th>Place</th>
             <th>Name</th>
-            <th>Time</th>
             <th>Cat</th>
+            <th>Company</th>
             <th>Std</th>
             <th>Number</th>
-            <th>Company</th>
+            <th>Time</th>
         </tr>
     {{# runners}}
-    <tr>
-        <td>{{position}}</td>
-        <td><a class="bhaa-url-link" r="{{runner}}" href="./runner?id={{runner}}">{{display_name}}</a></td>
-        <td>{{racetime}}</td>
-        <td>{{category}}{{gender}} p{{posincat}}</td>
-        <td>{{standard}}->[{{actualstandard}}]->{{poststandard}}</td>
-        <td>{{racenumber}}</td>
-        <td><a class="bhaa-url-link" href="/?post_type=house&p={{cid}}">{{cname}}</a></td>
-    </tr>
+        <tr>
+            <td>{{position}}</td>
+            <td><a class="bhaa-url-link" r="{{runner}}" href="./runner?id={{runner}}">{{display_name}}</a></td>
+            <td>{{category}}{{gender}} p{{posincat}}</td>
+            <td><a class="bhaa-url-link" href="/?post_type=house&p={{cid}}">{{cname}}</a></td>
+            <td>{{standard}}->[{{actualstandard}}]->{{poststandard}}</td>
+            <td>{{racenumber}}</td>
+            <td>{{racetime}}</td>
+        </tr>
     {{/ runners}}
     </table>
 </div>

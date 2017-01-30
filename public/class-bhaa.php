@@ -316,25 +316,17 @@ class Bhaa {
 	 */
 	public function enqueue_styles() {
         wp_enqueue_style(
-            'bootstrap-css',
+            'bootstrap',
             plugins_url() . '/bhaawp/public/assets/css/bootstrap.min.css',
             false);
         // http://jquery-ui-bootstrap.github.io/jquery-ui-bootstrap/
         wp_enqueue_style(
-            'bootstrap-theme-css',
+            'bootstrap-theme',
             plugins_url() . '/bhaawp/public/assets/css/jquery-ui-1.10.0.custom.css',
             false);
         wp_enqueue_style(
-            'bhaawp-css',
+            'bhaawp',
             plugins_url() . '/bhaawp/public/assets/css/bhaawp.css',
-            false);
-        wp_enqueue_style(
-            'tablesorter-css',
-            plugins_url() . '/bhaawp/public/assets/css/tablesorter/theme.default.css',
-            false);
-        wp_enqueue_style(
-            'tablesorter-bhaa-css',
-            plugins_url() . '/bhaawp/public/assets/css/tablesorter/tablesorter.css',
             false);
 	}
 
