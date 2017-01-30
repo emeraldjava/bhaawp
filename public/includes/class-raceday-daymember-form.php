@@ -47,8 +47,7 @@ class Raceday_DayMember_Form extends Raceday_Form {
 			->set_classes(array('form-control'));
 		$dateofbirth = WP_Form_Element::create('text')
 			->set_name('bhaa_dateofbirth')
-			->set_attribute('placeholder','DD-MM-YYYY')
-			->set_label('Date of Birth')
+			->set_label('Date of Birth - DD-MM-YYYY')
 			->set_id('bhaa_dateofbirth')
 			->set_classes(array('datepicker form-control'));
 		$runner = WP_Form_Element::create('hidden')
@@ -106,11 +105,15 @@ class Raceday_DayMember_Form extends Raceday_Form {
 		$money = $submission->get_value('bhaa_money');
 
 		if(!isset($runner)) {
+
+			$a = explode('-',$submission->get_value('bhaa_dateofbirth'));
+			$my_new_date = $a[2].'-'.$a[1].'-'.$a[0];
+
 			$runner = Runner_Manager::get_instance()->addNewMember(
 				ucfirst($submission->get_value('bhaa_firstname')),
 				ucfirst($submission->get_value('bhaa_lastname')),
 				$submission->get_value('bhaa_gender'),
-				$submission->get_value('bhaa_dateofbirth'));
+				$my_new_date);
 			error_log("created new runner ".$runner);
 		}
 

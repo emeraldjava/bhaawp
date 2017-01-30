@@ -9,7 +9,7 @@ class RunnerModel extends BaseModel {
 		return 'wp_users';
 	}
 
-	function getRegistrationRunnerDetails($status=array('M'),$limit=1000,&$resultCount) {
+	function getRegistrationRunnerDetails($status=array('M'),$limit=6000,&$resultCount) {
 		$this->wpdb->query('SET SQL_BIG_SELECTS=1');
 
 		$IN = "'" . implode ( "', '", $status ) . "'";
