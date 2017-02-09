@@ -19,12 +19,24 @@ class Individual_Table {
 	}
 
 	function renderTable($race) {
+
 		$raceResult = new RaceResult($race);
 		$results = $raceResult->getRaceResults();
 
+		$isAdmin = current_user_can('manage_options');
+
+		// http://wordpress.stackexchange.com/questions/129618/how-to-redirect-new-wordpress-user-to-previous-page-after-registering
+//		add a hidden field named redirect_to, using the current page's address (ie, $_SERVER['PHP_SELF']).
+
+//		return sprintf('<a target="_blank" class="bhaa-url-link" href="/edit-result-page-template?
+//			bhaa_raceresult_id=%d&bhaa_runner=%d&bhaa_pre_standard=%d&bhaa_post_standard=%d&bhaa_race=%d&bhaa_time=%s">%d</a>',
+//			$item['id'],$item['runner'],$item['standard'],$item['poststandard'],$item['race'],$item['racetime'],$item['position']);
+
 		return Bhaa_Mustache::get_instance()
 			->loadTemplate('race.results.individual.html')
-			->render(array('runners'=>$results)
+			->render(array(
+					'runners'=>$results,
+					'isAdmin'=>$isAdmin)
 		);
 	}
 

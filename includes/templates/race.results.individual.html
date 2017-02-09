@@ -11,7 +11,7 @@
         </tr>
     {{# runners}}
         <tr>
-            <td>{{position}}</td>
+            <td>{{#isAdmin}} ADMIN{{/isAdmin}} {{position}} - {{id}}</td>
             <td><a class="bhaa-url-link" r="{{runner}}" href="./runner?id={{runner}}">{{display_name}}</a></td>
             <td>{{category}}{{gender}} p{{posincat}}</td>
             <td><a class="bhaa-url-link" href="/?post_type=house&p={{cid}}">{{cname}}</a></td>

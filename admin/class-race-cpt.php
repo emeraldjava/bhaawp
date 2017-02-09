@@ -28,9 +28,15 @@ class RaceCpt {
 		// custom admin columns
 		add_filter('manage_race_posts_columns',array($this,'bhaa_manage_race_posts_columns'));
 		add_filter('manage_race_posts_custom_column',array($this,'bhaa_manage_race_posts_custom_column'), 10, 3 );
-		
-		add_filter('post_row_actions', array(&$this,'bhaa_race_post_row_actions'), 0, 2);
-		
+		add_filter('post_row_actions', array($this,'bhaa_race_post_row_actions'), 0, 2);
+
+		// http://wordpress.stackexchange.com/questions/96660/custom-post-type-plugin-where-do-i-put-the-template?rq=1
+		add_filter('single_template',array(&$this,'bhaa_race_cpt_single_template'));
+		//add_filter('the_content', array(&$this,'bhaa_race_cpt_the_content'));
+
+		// http://wordpress.stackexchange.com/questions/57323/how-to-set-a-fall-back-template-for-a-custom-post-type-in-a-plugin?rq=1
+		// WORKS but not sidebar - add_filter( 'template_include', array($this,'bhaa_race_render_cpt'), 100 );
+
 		// custom admin actions
 		add_action('admin_action_bhaa_race_delete_results',array(&$this,'bhaa_race_delete_results'));
 		add_action('admin_action_bhaa_race_load_results',array(&$this,'bhaa_race_load_results'));
@@ -45,6 +51,46 @@ class RaceCpt {
 		add_action('admin_action_bhaa_race_load_team_results',array(&$this,'bhaa_race_load_team_results'));
 		add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
 		add_action('admin_action_bhaa_raceday_export',array(&$this,'bhaa_raceday_export'));
+	}
+
+	function bhaa_race_render_cpt( $template ) {
+		// Our custom post type.
+		$post_type = 'race';
+
+		// WordPress has already found the correct template in the theme.
+		if ( FALSE !== strpos( $template, "/single-$post_type.php" ) ) {
+			// return the template in theme
+			return $template;
+		}
+
+		// Send our plugin file.
+		if ( is_singular() && $post_type === get_post_type( $GLOBALS['post'] ) ) {
+			// return plugin file
+			return dirname( __FILE__ ) . "/template/$post_type.php";
+		}
+		// Not our post type single view.
+		return $template;
+	}
+
+//	function bhaa_race_cpt_the_content($content) {
+//		//var_dump("here");
+//		if (is_singular('race') && in_the_loop()) {
+//			// change stuff
+//			$content = '<p>here we are on my custom post type</p>';
+//			$content .= '<div class="wrap">
+//				<h2>BHAA RACE CPT Page Template</h2>
+//				Race::[bhaa_race_title]
+//				[bhaa_race_results]';
+//			//$content =  return dirname( __FILE__ ) . "/template/$post_type.php";
+//		}
+//		return $content;
+//	}
+
+	function bhaa_race_cpt_single_template($template) {
+		if ('race' == get_post_type(get_queried_object_id())) {// && !$template) {
+			$template = dirname(__FILE__) . '/template/race.php';
+		}
+		return $template;
 	}
 	
 	function bhaa_race_delete_results() {
@@ -61,14 +107,10 @@ class RaceCpt {
 		error_log('bhaa_race_load_results('.strlen($resultText).')');
 		$results = explode("\n",$resultText);
 		error_log('Number of rows '.sizeof($results));
-		foreach($results as $result)
-		{
+		foreach($results as $result) {
 			// http://stackoverflow.com/questions/13430120/str-getcsv-alternative-for-older-php-version-gives-me-an-empty-array-at-the-e
 			$details = explode(',',$result);
 			$raceResult->addRaceResult($details);
-			$n++;
-			//if($n>=30)
-			//break;
 		}
 		queue_flash_message('bhaa_race_load_results '.sizeof($results));
 		wp_redirect(wp_get_referer());
@@ -149,6 +191,10 @@ class RaceCpt {
 		Raceday::get_instance()->export();
 		exit();
 	}
+
+	/**
+	 * Used to add an empty race result for a specific race.
+	 */
 	function bhaa_race_add_result() {
 		$raceResult = new RaceResult($_GET['post_id']);
 		$raceResult->addDefaultResult();
