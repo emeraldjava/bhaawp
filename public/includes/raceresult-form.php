@@ -1,4 +1,5 @@
 <?php
+// remove
 class Raceresult_Form {
 	
 	public function build_form(WP_Form $form) {
@@ -73,6 +74,7 @@ class Raceresult_Form {
 			->add_validator(array($this,'bhaa_raceresult_validation'))
 			->add_processor(array($this,'bhaa_raceresult_processing'));
 	}
+
 
 	public function bhaa_raceresult_validation(WP_Form_Submission $submission, WP_Form $form) {
 		//error_log("bhaa_raceresult_validation");

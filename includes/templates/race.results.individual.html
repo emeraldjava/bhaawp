@@ -2,6 +2,7 @@
     <table class="table table-striped table-bordered" width="100%">
         <tr>
             <th>Place</th>
+            <!--<th>Form</th>-->
             <th>Name</th>
             <th>Cat</th>
             <th>Company</th>
@@ -11,7 +12,18 @@
         </tr>
     {{# runners}}
         <tr>
-            <td>{{#isAdmin}} ADMIN{{/isAdmin}} {{position}} - {{id}}</td>
+            <!-- href="/edit-result-page-template?bhaa_raceresult_id={{id}}&bhaa_runner={{runner}}&bhaa_pre_standard={{standard}}&bhaa_post_standard={{poststandard}}&bhaa_race={{race}}&bhaa_time={{racetime}} -->
+            <td>{{#isAdmin}}<a target="_blank" class="bhaa-url-link" href="{{formUrl}}&raceresult={{id}}">{{position}} - {{id}}</a>{{/isAdmin}}</td>
+            <!--<td>-->
+                <!--{{#isAdmin}}-->
+                <!--&lt;!&ndash; {{formUrl}}&id={{id}} &ndash;&gt;-->
+                    <!--<form action="{{formUrl}}" method="POST">-->
+                        <!--<input type="hidden" name="action" value="bhaa_race_result_edit"/>-->
+                        <!--<input type="hidden" name="race_result_id" value="{{id}}"/>-->
+                        <!--<button type="submit" class="btn btn-link">{{id}}</button>-->
+                    <!--</form>-->
+                <!--{{/isAdmin}}-->
+            <!--</td>-->
             <td><a class="bhaa-url-link" r="{{runner}}" href="./runner?id={{runner}}">{{display_name}}</a></td>
             <td>{{category}}{{gender}} p{{posincat}}</td>
             <td><a class="bhaa-url-link" href="/?post_type=house&p={{cid}}">{{cname}}</a></td>

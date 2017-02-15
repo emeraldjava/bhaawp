@@ -225,17 +225,17 @@ class Bhaa_Admin {
 
 		require_once( ABSPATH . 'wp-includes/plugin.php' );
 
-		$file = dirname(__FILE__).'/assets/js/bhaa_members.js';
-		$plugin_url = plugin_dir_url($file);
+		//$file = dirname(__FILE__).'/assets/js/bhaa_members.js';
+		//$plugin_url = plugin_dir_url($file);
 		//error_log("plugin_url:".$plugin_url,0);
 
-		$plugin_path = plugin_dir_path($file);
+		//$plugin_path = plugin_dir_path($file);
 		//error_log("plugin_path:".$plugin_path,0);
 
 
 		$file = BHAA_PLUGIN_DIR.'/public/assets/js/bhaa_members.js';
 		//$file = plugin_dir_path('/admin/assets/js/bhaa_members.js');
-		error_log($file,0);
+		//error_log($file,0);
 
 		$content = 'var bhaa_members = ';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json') {

@@ -52,6 +52,7 @@ class Raceday {
 	}
 
 	function listRunners($size=NULL) {
+		// called from
 		return Bhaa_Mustache::get_instance()->loadTemplate('raceday-list')->render(
 			array('runners' => $this->listRegisteredRunners($size))
 		);

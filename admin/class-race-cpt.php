@@ -34,12 +34,16 @@ class RaceCpt {
 		add_filter('single_template',array(&$this,'bhaa_race_cpt_single_template'));
 		//add_filter('the_content', array(&$this,'bhaa_race_cpt_the_content'));
 
+		add_action('admin_menu',array($this,'bhaa_race_sub_menu'));
+
 		// http://wordpress.stackexchange.com/questions/57323/how-to-set-a-fall-back-template-for-a-custom-post-type-in-a-plugin?rq=1
 		// WORKS but not sidebar - add_filter( 'template_include', array($this,'bhaa_race_render_cpt'), 100 );
 
 		// custom admin actions
 		add_action('admin_action_bhaa_race_delete_results',array(&$this,'bhaa_race_delete_results'));
 		add_action('admin_action_bhaa_race_load_results',array(&$this,'bhaa_race_load_results'));
+		//add_action('admin_action_bhaa_race_edit_results',array(&$this,'bhaa_race_edit_results'));
+		//add_action('admin_action_bhaa_race_edit_result',array(&$this,'bhaa_race_edit_result'));
 		add_action('admin_action_bhaa_race_positions',array(&$this,'bhaa_race_positions'));
 		add_action('admin_action_bhaa_race_pace',array(&$this,'bhaa_race_pace'));
 		add_action('admin_action_bhaa_race_pos_in_cat',array(&$this,'bhaa_race_pos_in_cat'));
@@ -51,6 +55,66 @@ class RaceCpt {
 		add_action('admin_action_bhaa_race_load_team_results',array(&$this,'bhaa_race_load_team_results'));
 		add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
 		add_action('admin_action_bhaa_raceday_export',array(&$this,'bhaa_raceday_export'));
+
+		//add_action('admin_action_bhaa_race_result_edit',array(&$this,'bhaa_race_result_edit'));
+	}
+
+	/**
+	 * Add sub-menus under the BHAA Races to edit all race results or a specific one. Make first parameter null to hide.
+ 	 */
+	function bhaa_race_sub_menu() {
+		// see http://websitesthatdontsuck.com/2011/11/adding-a-sub-menu-to-a-custom-post-type/
+		add_submenu_page( 'edit.php?post_type=race', 'Edit Results', 'Edit Results',
+			'manage_options', 'bhaa_race_edit_results',
+			array($this,'bhaa_race_edit_results'));
+		// make first element null to hide
+		add_submenu_page( 'edit.php?post_type=race', 'Edit Result', 'Edit Result',
+			'manage_options', 'bhaa_race_edit_result',
+			array($this,'bhaa_race_edit_result'));
+	}
+
+	function bhaa_race_edit_results() {
+		echo '<div class="wrap"><h2>Edit Race Results '.$_GET['id'].'</h2>'.Individual_Table::get_instance()->renderTable($_GET['id']).'</div>';
+	}
+
+	function bhaa_race_edit_result() {
+		echo '<div class="wrap"><h2>Hello Race Result '.$_GET['raceresult'].'</h2></div>';
+//		return "";
+	}
+
+	function bhaa_race_result_edit() {
+		// Do your stuff here
+		$race_result_id = $_POST['race_result_id'];
+		error_log('bhaa_race_result_edit '.$race_result_id);
+
+//		return Bhaa_Mustache::get_instance()->loadTemplate('raceday-list')->render(
+//			array('$race_result_id' => $$race_result_id)
+//		);
+
+		// need to call the page, with a shortcode, which then loads the form. need to avoid the shortcode step!
+
+		return '<a href="'.get_permalink(get_query_var('bhaa_race')).'">'
+			.post_permalink(get_query_var('bhaa_race')).' '.get_query_var('bhaa_race').'</a><br/>'
+			.wp_get_form('raceResultForm');
+
+//		wp_redirect( plugin_dir_url( '' ) );
+		//include plugin_dir_path( __FILE__ ) . 'template/race_result_form.php';
+
+//		wp_redirect( $_SERVER['HTTP_REFERER'] );
+		//exit();
+	}
+
+	public function bhaa_raceresult_processing(WP_Form_Submission $submission, WP_Form $form) {
+		//error_log("bhaa_raceresult_processing");
+		$raceResult = new RaceResult($submission->get_value('bhaa_race'));
+		$raceResult->updateRunnersRaceResultStandard(
+			$submission->get_value('bhaa_raceresult_id'),
+			$submission->get_value('bhaa_race'),
+			$submission->get_value('bhaa_runner'),
+			$submission->get_value('bhaa_time'),
+			$submission->get_value('bhaa_pre_standard'),
+			$submission->get_value('bhaa_post_standard')
+		);
 	}
 
 	function bhaa_race_render_cpt( $template ) {
@@ -233,7 +297,8 @@ class RaceCpt {
 			'supports' => array('title','excerpt','editor'),
 			'public' => true,
 			'show_ui' => true,
-			'show_in_menu' => true,
+			// http://wordpress.stackexchange.com/questions/110562/is-it-possible-to-add-custom-post-type-menu-as-another-custom-post-type-sub-menu
+			'show_in_menu' => true,//'edit.php?post_type=house'
 			'show_in_nav_menus' => true,
 			'exclude_from_search' => false,
 			'has_archive' => true,
@@ -250,7 +315,9 @@ class RaceCpt {
 		return array(
 			'title' => __('Title'),
 			'distance' => __('Distance'),
+			//'id' => __('ID'),
 			'type' => __('Type'),
+			//'count' => __('Count'),
 			'date' => __('Date')
 		);
 	}
@@ -263,6 +330,12 @@ class RaceCpt {
 			case 'type' :
 				echo get_post_meta($post_id,RaceCpt::BHAA_RACE_TYPE,true);
 				break;
+			//case 'id' :
+			//	echo $post_id;
+			//	break;
+			//case 'count' :
+			//	echo new RaceResult()->getRunnersPerRace($post_id);
+			//	break;
 			default:
 		}
 	}
@@ -305,7 +378,11 @@ class RaceCpt {
 			'bhaa_race_all' => $this->generate_admin_url_link('bhaa_race_all',$post->ID,'All'),
 			'bhaa_race_delete_team_results' => $this->generate_admin_url_link('bhaa_race_delete_team_results',$post->ID,'Delete Teams'),
 			'bhaa_race_load_team_results' => $this->generate_admin_url_link('bhaa_race_load_team_results',$post->ID,'Load Teams'),
-			'bhaa_race_add_result' => $this->generate_admin_url_link('bhaa_race_add_result',$post->ID,'Add Result')
+			'bhaa_race_add_result' => $this->generate_admin_url_link('bhaa_race_add_result',$post->ID,'Add Result'),
+			'bhaa_race_edit_results' => $this->generate_edit_raceresult_link($post->ID)
+
+			//
+//			'bhaa_race_edit_result' => $this->generate_admin_url_link('bhaa_race_edit_result',$post->ID,'Result')
 		);
 	}
 	
@@ -317,6 +394,15 @@ class RaceCpt {
 		$nonce = wp_create_nonce( $action );
 		$link = admin_url('admin.php?action='.$action.'&post_type=race&post_id='.$post_id);
 		return '<a href='.$link.'>'.$name.'</a>';
+	}
+
+	/**
+	 * Return a edit link to a specific set of race results
+
+	 */
+	function generate_edit_raceresult_link($post_id) {
+		// http://bhaaie/wp-admin/edit.php?post_type=race&page=bhaa_race_edit_results
+		return '<a href='.admin_url('edit.php?post_type=race&page=bhaa_race_edit_results&id='.$post_id).'>Edit Results</a>';
 	}
 	
 	/**

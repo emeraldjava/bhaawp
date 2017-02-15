@@ -393,5 +393,11 @@ class RaceResult extends BaseModel implements Table {
 	function getRaceResultWithoutRunner() {
 
 	}
+
+	function getRunnersPerRace($id) {
+		//global $post, $wpdb;
+		$rowcount = $this->getWpdb()->get_var("SELECT COUNT(id) FROM wp_bhaa_raceresult rr WHERE race='.$id.'");
+		return $rowcount;
+	}
 }
 ?>
