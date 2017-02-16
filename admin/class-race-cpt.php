@@ -64,12 +64,12 @@ class RaceCpt {
 	 * Add sub-menus under the BHAA Races to edit all race results or a specific one. Make first parameter null to hide.
  	 */
 	function bhaa_race_sub_menu() {
-		// see http://websitesthatdontsuck.com/2011/11/adding-a-sub-menu-to-a-custom-post-type/
-		add_submenu_page( 'edit.php?post_type=race', 'Edit Results', 'Edit Results',
+		// see http://websitesthatdontsuck.com/2011/11/adding-a-sub-menu-to-a-custom-post-type/ - 'edit.php?post_type=race'
+		add_submenu_page( null, 'Edit Results', 'Edit Results',
 			'manage_options', 'bhaa_race_edit_results',
 			array($this,'bhaa_race_edit_results'));
-		// make first element null to hide
-		add_submenu_page( 'edit.php?post_type=race', 'Edit Result', 'Edit Result',
+		// make first element null to hide - 'edit.php?post_type=race'
+		add_submenu_page( null, 'Edit Result', 'Edit Result',
 			'manage_options', 'bhaa_race_edit_result',
 			array($this,'bhaa_race_edit_result'));
 	}
@@ -82,13 +82,14 @@ class RaceCpt {
 		$raceResult = RaceResult::get_instance()->getRaceResult($_GET['raceresult']);
 		//var_dump($raceResult);
 		$link = admin_url('admin.php'); // do we need the raceresult id?
+		$raceLink = $this->generate_edit_raceresult_link($raceResult->race);
 		//var_dump($link);
 		include plugin_dir_path( __FILE__ ) . 'template/bhaa_race_edit_result.php';
 	}
 
 	public function bhaa_save_race_result() {
 		error_log("bhaa_save_race_result() ".$_POST['bhaa_race']);
-		print_r($_POST);
+		//print_r($_POST);
 		$raceResult = new RaceResult();//$_POST['bhaa_race']);
 		$raceResult->updateRunnersRaceResultStandard(
 			$_POST['bhaa_raceresult_id'],
@@ -98,6 +99,7 @@ class RaceCpt {
 			$_POST['bhaa_pre_standard'],
 			$_POST['bhaa_post_standard']
 		);
+		wp_redirect(admin_url('edit.php?post_type=race&page=bhaa_race_edit_results&id='.$_POST['bhaa_race']));//$this->generate_edit_raceresult_link($_POST['bhaa_race']));
 	}
 
 //	function bhaa_race_result_edit() {

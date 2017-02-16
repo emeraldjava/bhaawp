@@ -1,5 +1,5 @@
 <?php
-echo '<div class="wrap"><h2>Edit Race Result '.$_GET['raceresult'].'</h2></div>';
+echo '<div class="wrap"><h2>Edit Race Result '.$_GET['raceresult'].' '.$raceLink.'</h2></div>';
 echo '<form action="'.$link.'" method="POST">
     <fieldset>
         <label>Result:<input type="text" id="bhaa_raceresult_id" name="bhaa_raceresult_id" value="'.$raceResult->id.'"/></label><br>
