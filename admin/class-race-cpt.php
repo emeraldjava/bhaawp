@@ -53,7 +53,7 @@ class RaceCpt {
 		add_action('admin_action_bhaa_race_all',array(&$this,'bhaa_race_all'));
 		add_action('admin_action_bhaa_race_delete_team_results',array(&$this,'bhaa_race_delete_team_results'));
 		add_action('admin_action_bhaa_race_load_team_results',array(&$this,'bhaa_race_load_team_results'));
-		add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
+		//add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
 		add_action('admin_action_bhaa_raceday_export',array(&$this,'bhaa_raceday_export'));
 
 		//add_action('admin_action_bhaa_race_result_edit',array(&$this,'bhaa_race_result_edit'));
@@ -74,35 +74,34 @@ class RaceCpt {
 	}
 
 	function bhaa_race_edit_results() {
-		echo '<div class="wrap"><h2>Edit Race Results '.$_GET['id'].'</h2>'.Individual_Table::get_instance()->renderTable($_GET['id']).'</div>';
+		include plugin_dir_path( __FILE__ ) . 'template/bhaa_race_edit_results.php';
 	}
 
 	function bhaa_race_edit_result() {
-		echo '<div class="wrap"><h2>Hello Race Result '.$_GET['raceresult'].'</h2></div>';
-//		return "";
+		include plugin_dir_path( __FILE__ ) . 'template/bhaa_race_edit_result.php';
 	}
 
-	function bhaa_race_result_edit() {
-		// Do your stuff here
-		$race_result_id = $_POST['race_result_id'];
-		error_log('bhaa_race_result_edit '.$race_result_id);
-
-//		return Bhaa_Mustache::get_instance()->loadTemplate('raceday-list')->render(
-//			array('$race_result_id' => $$race_result_id)
-//		);
-
-		// need to call the page, with a shortcode, which then loads the form. need to avoid the shortcode step!
-
-		return '<a href="'.get_permalink(get_query_var('bhaa_race')).'">'
-			.post_permalink(get_query_var('bhaa_race')).' '.get_query_var('bhaa_race').'</a><br/>'
-			.wp_get_form('raceResultForm');
-
-//		wp_redirect( plugin_dir_url( '' ) );
-		//include plugin_dir_path( __FILE__ ) . 'template/race_result_form.php';
-
-//		wp_redirect( $_SERVER['HTTP_REFERER'] );
-		//exit();
-	}
+//	function bhaa_race_result_edit() {
+//		// Do your stuff here
+//		$race_result_id = $_POST['race_result_id'];
+//		error_log('bhaa_race_result_edit '.$race_result_id);
+//
+////		return Bhaa_Mustache::get_instance()->loadTemplate('raceday-list')->render(
+////			array('$race_result_id' => $$race_result_id)
+////		);
+//
+//		// need to call the page, with a shortcode, which then loads the form. need to avoid the shortcode step!
+//
+//		return '<a href="'.get_permalink(get_query_var('bhaa_race')).'">'
+//			.post_permalink(get_query_var('bhaa_race')).' '.get_query_var('bhaa_race').'</a><br/>'
+//			.wp_get_form('raceResultForm');
+//
+////		wp_redirect( plugin_dir_url( '' ) );
+//		//include plugin_dir_path( __FILE__ ) . 'template/race_result_form.php';
+//
+////		wp_redirect( $_SERVER['HTTP_REFERER'] );
+//		//exit();
+//	}
 
 	public function bhaa_raceresult_processing(WP_Form_Submission $submission, WP_Form $form) {
 		//error_log("bhaa_raceresult_processing");
