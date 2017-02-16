@@ -14,8 +14,8 @@ class StandardModel extends BaseModel {
      * SELECT standard from wp_bhaa_standard
      */
     function getStandards() {
-        return $this->wpdb->get_results(
-            $this->wpdb->prepare('select * FROM %s',$this->getName())
+        return $this->getWpdb()->get_results(
+            $this->getWpdb()->prepare('select * FROM %s',$this->getName())
         );
     }
 
@@ -23,8 +23,8 @@ class StandardModel extends BaseModel {
      * Return the count of members per standard
      */
     function getMemberStandardProfile($status='M') {
-        return $this->wpdb->get_results(
-            $this->wpdb->prepare('SELECT standard,count(m_std.umeta_id) as count from wp_bhaa_standard
+        return $this->getWpdb()->get_results(
+            $this->getWpdb()->prepare('SELECT standard,count(m_std.umeta_id) as count from wp_bhaa_standard
                 join wp_usermeta m_std
                   on (m_std.meta_value=wp_bhaa_standard.standard and m_std.meta_key="bhaa_runner_standard")
                 join wp_usermeta m_status

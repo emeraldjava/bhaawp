@@ -57,6 +57,7 @@ class RaceCpt {
 		add_action('admin_action_bhaa_raceday_export',array(&$this,'bhaa_raceday_export'));
 
 		//add_action('admin_action_bhaa_race_result_edit',array(&$this,'bhaa_race_result_edit'));
+		add_action('admin_action_bhaa_save_race_result',array(&$this,'bhaa_save_race_result'));
 	}
 
 	/**
@@ -78,7 +79,25 @@ class RaceCpt {
 	}
 
 	function bhaa_race_edit_result() {
+		$raceResult = RaceResult::get_instance()->getRaceResult($_GET['raceresult']);
+		//var_dump($raceResult);
+		$link = admin_url('admin.php'); // do we need the raceresult id?
+		//var_dump($link);
 		include plugin_dir_path( __FILE__ ) . 'template/bhaa_race_edit_result.php';
+	}
+
+	public function bhaa_save_race_result() {
+		error_log("bhaa_save_race_result() ".$_POST['bhaa_race']);
+		print_r($_POST);
+		$raceResult = new RaceResult();//$_POST['bhaa_race']);
+		$raceResult->updateRunnersRaceResultStandard(
+			$_POST['bhaa_raceresult_id'],
+			$_POST['bhaa_race'],
+			$_POST['bhaa_runner'],
+			$_POST['bhaa_time'],
+			$_POST['bhaa_pre_standard'],
+			$_POST['bhaa_post_standard']
+		);
 	}
 
 //	function bhaa_race_result_edit() {
@@ -102,19 +121,6 @@ class RaceCpt {
 ////		wp_redirect( $_SERVER['HTTP_REFERER'] );
 //		//exit();
 //	}
-
-	public function bhaa_raceresult_processing(WP_Form_Submission $submission, WP_Form $form) {
-		//error_log("bhaa_raceresult_processing");
-		$raceResult = new RaceResult($submission->get_value('bhaa_race'));
-		$raceResult->updateRunnersRaceResultStandard(
-			$submission->get_value('bhaa_raceresult_id'),
-			$submission->get_value('bhaa_race'),
-			$submission->get_value('bhaa_runner'),
-			$submission->get_value('bhaa_time'),
-			$submission->get_value('bhaa_pre_standard'),
-			$submission->get_value('bhaa_post_standard')
-		);
-	}
 
 	function bhaa_race_render_cpt( $template ) {
 		// Our custom post type.
@@ -157,14 +163,14 @@ class RaceCpt {
 	}
 	
 	function bhaa_race_delete_results() {
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->deleteRaceResults();
+		$raceResult = new RaceResult();
+		$raceResult->deleteRaceResults($_GET['post_id']);
 		queue_flash_message("bhaa_race_delete_results ".$_GET['post_id']);
 		wp_redirect(wp_get_referer());
 		exit();
 	}
 	function bhaa_race_load_results() {
-		$raceResult = new RaceResult($_GET['post_id']);
+		$raceResult = new RaceResult();
 		$post = get_post($_GET['post_id']);
 		$resultText = $post->post_content;
 		error_log('bhaa_race_load_results('.strlen($resultText).')');
@@ -173,58 +179,57 @@ class RaceCpt {
 		foreach($results as $result) {
 			// http://stackoverflow.com/questions/13430120/str-getcsv-alternative-for-older-php-version-gives-me-an-empty-array-at-the-e
 			$details = explode(',',$result);
-			$raceResult->addRaceResult($details);
+			$raceResult->addRaceResult($_GET['post_id'],$details);
 		}
 		queue_flash_message('bhaa_race_load_results '.sizeof($results));
 		wp_redirect(wp_get_referer());
 		exit();
 	}
 	function bhaa_race_positions() {
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->updatePositions();
+		$raceResult = new RaceResult();
+		$raceResult->updatePositions($_GET['post_id']);
 		queue_flash_message("bhaa_race_positions");
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
 	function bhaa_race_pace() {
-		error_log("GET  :".print_r($_GET,true));
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->updateRacePace();
+		$raceResult = new RaceResult();
+		$raceResult->updateRacePace($_GET['post_id']);
 		queue_flash_message("bhaa_race_pace ".$_GET['post_id']);
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 		exit();
 	}
 	function bhaa_race_pos_in_cat() {
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->updateRacePosInCat();
+		$raceResult = new RaceResult();
+		$raceResult->updateRacePosInCat($_GET['post_id']);
 		queue_flash_message("bhaa_race_pos_in_cat");
 		wp_redirect(wp_get_referer());
 		exit();
 	}
 	function bhaa_race_pos_in_std() {
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->updateRacePosInStd();
+		$raceResult = new RaceResult();
+		$raceResult->updateRacePosInStd($_GET['post_id']);
 		queue_flash_message("bhaa_race_pos_in_std");
 		wp_redirect(wp_get_referer());
 		exit();
 	}
 	function bhaa_race_update_standards() {
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->updatePostRaceStd();
+		$raceResult = new RaceResult();
+		$raceResult->updatePostRaceStd($_GET['post_id']);
 		queue_flash_message("bhaa_race_update_standards");
 		wp_redirect(wp_get_referer());
 		exit();
 	}
 	function bhaa_race_league() {
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->updateLeague();
+		$raceResult = new RaceResult();
+		$raceResult->updateLeague($_GET['post_id']);
 		queue_flash_message("bhaa_race_league");
 		wp_redirect(wp_get_referer());
 		exit();
 	}
 	function bhaa_race_all() {
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->updateAll();
+		$raceResult = new RaceResult();
+		$raceResult->updateAll($_GET['post_id']);
 		queue_flash_message("bhaa_race_all");
 		wp_redirect(wp_get_referer());
 		exit();
@@ -377,7 +382,7 @@ class RaceCpt {
 			'bhaa_race_all' => $this->generate_admin_url_link('bhaa_race_all',$post->ID,'All'),
 			'bhaa_race_delete_team_results' => $this->generate_admin_url_link('bhaa_race_delete_team_results',$post->ID,'Delete Teams'),
 			'bhaa_race_load_team_results' => $this->generate_admin_url_link('bhaa_race_load_team_results',$post->ID,'Load Teams'),
-			'bhaa_race_add_result' => $this->generate_admin_url_link('bhaa_race_add_result',$post->ID,'Add Result'),
+			//'bhaa_race_add_result' => $this->generate_admin_url_link('bhaa_race_add_result',$post->ID,'Add Result'),
 			'bhaa_race_edit_results' => $this->generate_edit_raceresult_link($post->ID)
 
 			//

@@ -81,16 +81,16 @@ class TeamLeague extends AbstractLeague {
 	 */
 	public function deleteLeague() {
 		error_log("deleteTeamLeague(".$this->leagueid.')');
-		$SQL = $this->wpdb->prepare('DELETE FROM wp_bhaa_race_detail where league=%d',$this->leagueid);
+		$SQL = $this->getWpdb()->prepare('DELETE FROM wp_bhaa_race_detail where league=%d',$this->leagueid);
 		error_log($SQL);
-		$this->wpdb->query($SQL);
-		//$SQL = $this->wpdb->prepare('DELETE FROM wp_bhaa_teamsummary');
+		$this->getWpdb()->query($SQL);
+		//$SQL = $this->getWpdb()->prepare('DELETE FROM wp_bhaa_teamsummary');
 		$SQL = 'DELETE FROM wp_bhaa_teamsummary WHERE race!=3147 AND race!=3148';
 		error_log($SQL);
-		$this->wpdb->query($SQL);
-		$SQL = $this->wpdb->prepare('DELETE FROM wp_bhaa_leaguesummary WHERE league=%d',$this->leagueid);// leaguedivision="M" AND leaguedivision="W" AND
+		$this->getWpdb()->query($SQL);
+		$SQL = $this->getWpdb()->prepare('DELETE FROM wp_bhaa_leaguesummary WHERE league=%d',$this->leagueid);// leaguedivision="M" AND leaguedivision="W" AND
 		error_log($SQL);
-		$this->wpdb->query($SQL);
+		$this->getWpdb()->query($SQL);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ class TeamLeague extends AbstractLeague {
 	*/
 	public function loadLeague() {
 		error_log("loadTeamLeague(".$this->leagueid.')');
-		$SQL = $this->wpdb->prepare(
+		$SQL = $this->getWpdb()->prepare(
 			'INSERT INTO wp_bhaa_race_detail (league,leaguetype,event,eventname,eventdate,race,racetype,distance,unit)
 			select
 			l2e.p2p_from as league,
@@ -122,9 +122,9 @@ class TeamLeague extends AbstractLeague {
 			where l2e.p2p_type="league_to_event" and l2e.p2p_from IN (%d)
 			ORDER BY eventdate',$this->leagueid);
 		//error_log($SQL);
-		$this->wpdb->query($SQL);
+		$this->getWpdb()->query($SQL);
 		
-		//$SQL = $this->wpdb->prepare(
+		//$SQL = $this->getWpdb()->prepare(
 		$SQL = 'INSERT INTO wp_bhaa_teamsummary
 			SELECT
 			race,
@@ -140,10 +140,10 @@ class TeamLeague extends AbstractLeague {
 			GROUP BY race,team
 			ORDER BY class,position';
 		//error_log($SQL);
-		$this->wpdb->query($SQL);
+		$this->getWpdb()->query($SQL);
 
 		// GROUP_CONCAT(CAST(CONCAT(IFNULL(ts.leaguepoints,0)) AS CHAR) ORDER BY l.eventdate SEPARATOR ',') AS leaguesummary
-		$SQL = $this->wpdb->prepare(
+		$SQL = $this->getWpdb()->prepare(
 			"INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,
 			leaguedivision,leagueposition,leaguesummary)
 			select
@@ -164,9 +164,9 @@ class TeamLeague extends AbstractLeague {
 			GROUP BY l.league,ts.team
 			ORDER BY leaguepoints desc,leaguescorecount desc",$this->leagueid);
 		//error_log($SQL);
-		$this->wpdb->query($SQL);
+		$this->getWpdb()->query($SQL);
 		
-		$SQL = $this->wpdb->prepare(
+		$SQL = $this->getWpdb()->prepare(
 			"INSERT INTO wp_bhaa_leaguesummary(league,leaguetype,leagueparticipant,leaguestandard,leaguescorecount,leaguepoints,
 			leaguedivision,leagueposition,leaguesummary)
 			select
@@ -187,21 +187,21 @@ class TeamLeague extends AbstractLeague {
 			GROUP BY l.league,ts.team
 			ORDER BY leaguepoints desc,leaguescorecount desc",$this->leagueid);
 		//error_log($SQL);
-		$this->wpdb->query($SQL);
+		$this->getWpdb()->query($SQL);
 		
 		// update the mens team league summary
-		$SQL = $this->wpdb->prepare("update wp_bhaa_leaguesummary set leaguesummary=
+		$SQL = $this->getWpdb()->prepare("update wp_bhaa_leaguesummary set leaguesummary=
 			getLeagueMTeamSummary(leagueparticipant,%d) where
 			league=%d and leaguedivision in ('M')",$this->leagueid,$this->leagueid);
 		//error_log($SQL);
-		$res = $this->wpdb->query($SQL);
+		$res = $this->getWpdb()->query($SQL);
 		
 		// update the womens team league summary
-		$SQL = $this->wpdb->prepare("update wp_bhaa_leaguesummary set leaguesummary=
+		$SQL = $this->getWpdb()->prepare("update wp_bhaa_leaguesummary set leaguesummary=
 			getLeagueWTeamSummary(leagueparticipant,%d) where
 			league=%d and leaguedivision in ('W')",$this->leagueid,$this->leagueid);
 		//error_log($SQL);
-		$res = $this->wpdb->query($SQL);
+		$res = $this->getWpdb()->query($SQL);
 	}
 
 	function exportLeagueTopTen() {

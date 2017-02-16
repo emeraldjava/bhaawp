@@ -10,7 +10,7 @@ class RunnerModel extends BaseModel {
 	}
 
 	function getRegistrationRunnerDetails($status=array('M'),$limit=6000,&$resultCount) {
-		$this->wpdb->query('SET SQL_BIG_SELECTS=1');
+		$this->getWpdb()->query('SET SQL_BIG_SELECTS=1');
 
 		$IN = "'" . implode ( "', '", $status ) . "'";
 		//var_dump($IN);
@@ -40,8 +40,8 @@ class RunnerModel extends BaseModel {
 			where status.meta_value IN('.$IN.') order by lastname,firstname LIMIT '.$limit;//,$IN,$limit);
 		//var_dump($SQL);
 		//error_log($SQL);
-		$res = $this->wpdb->get_results($SQL);
-		$resultCount = $this->wpdb->num_rows;
+		$res = $this->getWpdb()->get_results($SQL);
+		$resultCount = $this->getWpdb()->num_rows;
 		return $res;
 	}
 
@@ -61,8 +61,8 @@ class RunnerModel extends BaseModel {
 	}
 
 	function getRunnersWithStandard($standard,$status='M') {
-		return $this->wpdb->get_results(
-			$this->wpdb->prepare('SELECT wp_users.id,wp_users.display_name from wp_users
+		return $this->getWpdb()->get_results(
+			$this->getWpdb()->prepare('SELECT wp_users.id,wp_users.display_name from wp_users
                 join wp_usermeta m_std
                   on (m_std.meta_value=%d and m_std.meta_key="bhaa_runner_standard" and m_std.user_id=wp_users.id)
                 join wp_usermeta m_status
@@ -75,7 +75,7 @@ class RunnerModel extends BaseModel {
 	 * A break down of the runners per membership status
 	 */
 	function getMembershipStatus() {
-		return $this->wpdb->get_results(
+		return $this->getWpdb()->get_results(
 			'SELECT status.meta_value as status,
 			COUNT(DISTINCT(status.user_id)) as count from wp_usermeta status
 			WHERE status.meta_key="bhaa_runner_status"

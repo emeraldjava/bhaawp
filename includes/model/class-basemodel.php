@@ -1,7 +1,7 @@
 <?php
 abstract class BaseModel implements Table
 {
-	protected $wpdb;
+	private $wpdb;
 	
 	function __construct() {
 		global $wpdb;

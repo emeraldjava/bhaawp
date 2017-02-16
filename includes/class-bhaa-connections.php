@@ -93,8 +93,8 @@ class Connections {
 			update_user_meta( $connection->p2p_to, Runner::BHAA_RUNNER_COMPANY, $connection->p2p_from);
 			//error_log("added HOUSE_TO_RUNNER ".$p2p_id);
 		} elseif($connection->p2p_type == Connections::RACE_ORGANISER) {
-			$raceResult = new RaceResult($connection->p2p_from);
-			$raceResult->addRaceOrganiser($connection->p2p_to);
+			$raceResult = new RaceResult();
+			$raceResult->addRaceOrganiser($connection->p2p_from,$connection->p2p_to);
 		} elseif($connection->p2p_type == Connections::TEAM_POINTS) {
 			$teamResult = new TeamResult($connection->p2p_from);
 			$res = $teamResult->addTeamOrganiserPoints($connection->p2p_to);
@@ -107,8 +107,8 @@ class Connections {
 		if( $connection->p2p_type == Connections::HOUSE_TO_RUNNER ) {
 			delete_user_meta( $connection->p2p_to, Runner::BHAA_RUNNER_COMPANY, $connection->p2p_from);
 		} elseif($connection->p2p_type == Connections::RACE_ORGANISER) {
-			$raceResult = new RaceResult($connection->p2p_from);
-			$raceResult->deleteRaceOrganiser($connection->p2p_to);
+			$raceResult = new RaceResult();
+			$raceResult->deleteRaceOrganiser($connection->p2p_from,$connection->p2p_to);
 		} elseif($connection->p2p_type == Connections::TEAM_POINTS) {
 			$teamResult = new TeamResult($connection->p2p_from);
 			$res = $teamResult->deleteTeamOrganiserPoints($connection->p2p_to);

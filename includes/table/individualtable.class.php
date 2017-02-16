@@ -20,8 +20,8 @@ class Individual_Table {
 
 	function renderTable($race) {
 
-		$raceResult = new RaceResult($race);
-		$results = $raceResult->getRaceResults();
+		$raceResult = new RaceResult();
+		$results = $raceResult->getRaceResults($race);
 
 		$isAdmin = current_user_can('manage_options');
 

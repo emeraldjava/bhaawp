@@ -13,7 +13,7 @@ class EventModel extends BaseModel {
 	}
 
 	function getNextEvent()	{
-		return $this->wpdb->get_row('select event_id,post_id,event_slug,
+		return $this->getWpdb()->get_row('select event_id,post_id,event_slug,
 				(select MAX(p2p_to) from wp_p2p where p2p_from=post_id) as race
 				from wp_em_events where event_start_date >= DATE(NOW())
 				order by event_start_date ASC limit 1');
@@ -21,7 +21,7 @@ class EventModel extends BaseModel {
 	}
 
 	function getNextRaces() {
-		return $this->wpdb->get_results("select e.event_id,e.post_id,e.event_slug,r.id,
+		return $this->getWpdb()->get_results("select e.event_id,e.post_id,e.event_slug,r.id,
 				r_dist.meta_value as dist,r_type.meta_value as type,r_unit.meta_value as unit
 				from wp_em_events e
 				join wp_p2p e2r on (e2r.p2p_type='event_to_race' and e.post_id=e2r.p2p_from)
@@ -38,7 +38,7 @@ class EventModel extends BaseModel {
 	 */
 	function listRegisteredRunners($limit=0,$class='RACE_REG',$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
 		// order by id,
-		$SQL = $this->wpdb->prepare("SELECT wp_bhaa_raceresult.id,runner,racenumber,race,
+		$SQL = $this->getWpdb()->prepare("SELECT wp_bhaa_raceresult.id,runner,racenumber,race,
 firstname.meta_value as firstname,lastname.meta_value as lastname,
 gender.meta_value as gender,dateofbirth.meta_value as dateofbirth,
 standard.meta_value as standard,status.meta_value as status,
@@ -66,8 +66,8 @@ order by ".$order,$class);// AND e2r.p2p_from=%d,$this->eventid);
 		if($limit!=0)
 			$SQL .= " limit ".$limit;
 		error_log($SQL);
-		$this->wpdb->query("SET SQL_BIG_SELECTS=1");
-		return $this->wpdb->get_results($SQL);
+		$this->getWpdb()->query("SET SQL_BIG_SELECTS=1");
+		return $this->getWpdb()->get_results($SQL);
 	}
 
 	function getRaces() {

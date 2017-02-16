@@ -44,21 +44,21 @@ class LeagueSummary extends BaseModel implements Table
 		//error_log('getDivisions() '.$type);
 		if($this->type == 'I')
 		{
-			$SQL = $this->wpdb->prepare("select * from wp_bhaa_division where type=%s",$this->type);
+			$SQL = $this->getWpdb()->prepare("select * from wp_bhaa_division where type=%s",$this->type);
  			//error_log($SQL);
-			return $this->wpdb->get_results($SQL,OBJECT);
+			return $this->getWpdb()->get_results($SQL,OBJECT);
 		}
 		else
 		{
-			$SQL = $this->wpdb->prepare("select * from wp_bhaa_division where ID in (%s)","9,13");
+			$SQL = $this->getWpdb()->prepare("select * from wp_bhaa_division where ID in (%s)","9,13");
 			//error_log($SQL);
-			return $this->wpdb->get_results($SQL,OBJECT);
+			return $this->getWpdb()->get_results($SQL,OBJECT);
 			//return array('M','W');
 		}
 	}
 
 	function getLeagueRaces($type='') {
-		$SQL = $this->wpdb->prepare("select l.ID as lid,l.post_title,
+		$SQL = $this->getWpdb()->prepare("select l.ID as lid,l.post_title,
 			e.ID as eid,e.post_title as etitle,LEFT(e.post_title,8) as etag,eme.event_start_date as edate,e.guid as eurl,
 			r.ID as rid,r.post_title as rtitle,r_type.meta_value as rtype
 			from wp_posts l
@@ -76,7 +76,7 @@ class LeagueSummary extends BaseModel implements Table
 		//echo $SQL;
 		//error_log($SQL);
 		// OBJECT, OBJECT_K, ARRAY_A, ARRAY_N
-		return $this->wpdb->get_results($SQL,OBJECT);
+		return $this->getWpdb()->get_results($SQL,OBJECT);
 	}
 	
 	// return a summary of the top x in each division
@@ -107,18 +107,18 @@ class LeagueSummary extends BaseModel implements Table
 	// get the specific of a league division and limit
 	function getDivisionSummary($division,$limit=100) {
 		if($this->type=='I') {
-			$SQL = $this->wpdb->prepare('select wp_bhaa_leaguesummary.*,wp_users.display_name,wp_posts.ID,wp_posts.post_title from wp_bhaa_leaguesummary
+			$SQL = $this->getWpdb()->prepare('select wp_bhaa_leaguesummary.*,wp_users.display_name,wp_posts.ID,wp_posts.post_title from wp_bhaa_leaguesummary
 				left join wp_users on wp_users.id=wp_bhaa_leaguesummary.leagueparticipant 
 				left join wp_posts on wp_posts.post_type="house" and wp_posts.id=
 					(select meta_value from wp_usermeta where user_id=wp_bhaa_leaguesummary.leagueparticipant and meta_key="bhaa_runner_company")
 				where league=%d and leaguedivision=%s and leagueposition<=%d and leaguescorecount>=2 order by leaguepoints desc',$this->leagueid,$division,$limit);
 		} else {
-			$SQL = $this->wpdb->prepare('select wp_bhaa_leaguesummary.*,wp_posts.post_title as display_name,wp_posts.ID,wp_posts.post_title from wp_bhaa_leaguesummary
+			$SQL = $this->getWpdb()->prepare('select wp_bhaa_leaguesummary.*,wp_posts.post_title as display_name,wp_posts.ID,wp_posts.post_title from wp_bhaa_leaguesummary
 				left join wp_posts on (wp_posts.post_type="house" and wp_posts.id=wp_bhaa_leaguesummary.leagueparticipant)
 				where league=%d and leaguedivision=%s and leagueposition<=%d and leaguescorecount>=2 order by leaguepoints desc',$this->leagueid,$division,$limit);
 		}
 		//error_log($division.' '.$SQL);
-		return $this->wpdb->get_results($SQL);
+		return $this->getWpdb()->get_results($SQL);
 	}	
 }
 ?>
