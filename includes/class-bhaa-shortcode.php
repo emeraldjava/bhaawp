@@ -3,7 +3,7 @@
  * Handles the BHAA shortcodes
  * @author oconnellp
  */
-class Bhaa_Shortcode{
+class Bhaa_Shortcode {
 	
 	protected static $instance = null;
 	
@@ -51,8 +51,6 @@ class Bhaa_Shortcode{
 		
 		// race related shortcodes
 		add_shortcode('bhaa_race_title',array(Bhaa_Shortcode::get_instance(),'bhaa_race_title'));
-		//add_shortcode('bhaa_race_results',array(Bhaa_Shortcode::get_instance(),'bhaa_race_results'));
-		add_shortcode('bhaa_race_edit_result',array(Bhaa_Shortcode::get_instance(),'bhaa_race_edit_result'));
 		
 		// booking email shortcodes
 		add_shortcode('bhaa_booking_details',array(Events_Manager::get_instance(),'bhaa_booking_details_shortcode'));
@@ -127,31 +125,6 @@ class Bhaa_Shortcode{
 	function bhaa_race_title() {
 		$race = new Race(get_the_ID());
 		return 'Race '.$race->getTitle().' on date '.$race->getDate();
-	}
-	
-	function bhaa_race_results($atts) {
-		var_dump($atts);
-
-		$attrs = shortcode_atts($atts['race']);
-
-		//Individual_Table::get_instance()->renderTable($race);
-
-//		$race = new RaceResult($attrs['race']);
-//		$results = $race->getRaceResults();
-//		return Bhaa_Mustache::get_instance()
-//			->loadTemplate('race.results.individual.html')
-//			->render(array('runners'=>$results)
-//		);
-		return 'race::'.$atts('race');//.' '.var_dump($atts);
-	}
-	
-	function bhaa_race_edit_result() {
-		if ( !current_user_can( 'manage_options' ) )  {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
-		return '<a href="'.post_permalink(get_query_var('bhaa_race')).'">'
-			.post_permalink(get_query_var('bhaa_race')).' '.get_query_var('bhaa_race').'</a><br/>'
-			.wp_get_form('raceResultForm');
 	}
 	
 	/**
