@@ -215,6 +215,10 @@ class Bhaa_Admin {
 
 		$model = new RunnerModel();
 		$membershipStatus = $model->getMembershipStatus();
+
+		$idRunners = RunnerAdmin::get_instance()->getRunnersWithIdOver30000();
+		$nextRunnerId = RunnerAdmin::get_instance()->getNextRunnerId();
+
 		include_once( 'views/bhaa_admin_main.php' );
 	}
 

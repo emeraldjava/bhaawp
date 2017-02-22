@@ -37,8 +37,28 @@
     </tbody>
 </table>
 
+<h2>BHAA User ID Moving</h2>
+<div>Auto Increment <?php echo RunnerAdmin::get_instance()->getAutoIncrementValue();?></div>
+<div>Max Runner <?php echo RunnerAdmin::get_instance()->getMaxRunnerValue();?></div>
+<div>Next Runner ID <?php echo RunnerAdmin::get_instance()->getNextRunnerId();?></div>
+    <table border="1">
+        <tbody>
+        <tr>
+            <th>ID</th>
+            <th>Membership Status</th>
+        </tr>
+        <?php
+        foreach($idRunners as $row) {
+            echo sprintf('<tr><td>%d</td><td>%d</td></tr>',
+                $row->ID,$nextRunnerId);
+        }
+        ?>
+        </tbody>
+    </table>
+
+
 <?php
 $link = admin_url('admin.php?action=bhaa_send_email');
-echo '<a href='.$link.'>Send Email</a>';
+//echo '<a href='.$link.'>Send Email</a>';
 ?>
 </div>

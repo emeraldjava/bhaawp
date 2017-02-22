@@ -118,5 +118,42 @@ class RunnerAdmin {
 		}
 		return $actions;
 	}
+
+	function getAutoIncrementValue() {
+		global $wpdb;
+		return $wpdb->get_var('SELECT `AUTO_INCREMENT`
+			FROM INFORMATION_SCHEMA.TABLES
+			WHERE TABLE_SCHEMA = "bhaaie_wp"
+			AND TABLE_NAME = "wp_users"');
+	}
+
+	function getMaxRunnerValue() {
+		global $wpdb;
+		return $wpdb->get_var('SELECT MAX(ID) FROM wp_users');
+	}
+
+	function getRunnersWithIdOver30000() {
+		global $wpdb;
+		return $wpdb->get_results('SELECT ID FROM wp_users WHERE ID>30000 ORDER BY ID DESC LIMIT 20');
+	}
+
+	/**
+	 * Return the next auto_increment value
+	 */
+	function getNextRunnerIdAutoInc() {
+		global $wpdb;
+		$sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";
+		return str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
+	}
+
+	function getNextRunnerId() {
+		global $wpdb;
+		return $wpdb->get_var('select l.id + 1
+			from wp_users as l
+			  left outer join wp_users as r on l.id + 1 = r.id
+			where r.id is null
+			and l.id>10000 and l.id<50000
+			limit 1');
+	}
 }
 ?>

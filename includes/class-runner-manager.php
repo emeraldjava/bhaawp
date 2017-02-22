@@ -29,6 +29,7 @@ class Runner_Manager {
 		add_action('admin_action_bhaa_runner_standard_action',array($this,'bhaa_runner_standard_action'));
 		add_action('admin_action_bhaa_runner_mobile_action',array($this,'bhaa_runner_mobile_action'));
 		add_action('admin_action_bhaa_runner_merge_action',array($this,'bhaa_runner_merge_action'));
+		add_action('admin_action_bhaa_runner_move_action',array($this,'bhaa_runner_move_action'));
 	}
 
 	function bhaa_runner_edit_standard_shortcode() {
@@ -326,19 +327,6 @@ class Runner_Manager {
 	}
 
 	/**
-	 * user id - email x_id@bhaa.ie
-	 * $sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";
-	 * select max(id) from wp_users
-	 *
-	 $user_login = str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
-	 */
-	public function getNextRunnerId() {
-		global $wpdb;
-		$sqlstat = "SHOW TABLE STATUS WHERE name='wp_users'";
-		return str_pad($wpdb->get_row($sqlstat)->Auto_increment , 5, 0, STR_PAD_LEFT);
-	}
-
-	/**
 	 * Does runner exist
 	 * @param unknown $id
 	 * @return Ambigous <mixed, NULL, multitype:>
@@ -348,12 +336,11 @@ class Runner_Manager {
 		return $wpdb->get_var($wpdb->prepare('select count(id) as isrunner from wp_users where id=%d',$id));
 	}
 
-	public function createNewUser($firstname,$surname,$email,$gender,$dateofbirth,$runner_id=NULL)
-	{
+	public function createNewUser($firstname,$surname,$email,$gender,$dateofbirth,$runner_id=NULL) {
 		require_once( ABSPATH . 'wp-includes/user.php' );
 
 		if($runner_id == '' || $runner_id == NULL) {
-			$id = $this->getNextRunnerId();
+			$id = RunnerAdmin::get_instance()->getNextRunnerId();
 			error_log('create new user with next id '.$id);
 		} else {
 			$id=$runner_id;
@@ -559,12 +546,29 @@ class Runner_Manager {
 			$this->mergeRunner($_POST['id'],$_POST['delete']);
 		}
 		wp_redirect(wp_get_referer());
-		exit();
+		//exit();
 	}
 
-	function mergeRunner($runner,$deleteRunner) {
+	function bhaa_runner_move_action() {
+		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_move_action')) {
+			$this->mergeRunner($_POST['id'],$_POST['delete'],true);
+		}
+		wp_redirect(wp_get_referer());
+		//exit();
+	}
+
+	function mergeRunner($runner,$deleteRunner,$update_wp_users=false) {
 		error_log('deleting runner '.$deleteRunner.' and merging to '.$runner);
 		global $wpdb;
+
+		if($update_wp_users) {
+			$wpdb->update(
+				'wp_users',
+				array('ID' => $runner),
+				array('ID' => $deleteRunner)
+			);
+		}
+
 		// update existing race results
 		$wpdb->update(
 			'wp_bhaa_raceresult',
