@@ -333,19 +333,19 @@ class Runner_Manager {
 	 */
 	public function runnerExists($id) {
 		global $wpdb;
-		return $wpdb->get_var($wpdb->prepare('select count(id) as isrunner from wp_users where id=%d',$id));
+		return $wpdb->get_var($wpdb->prepare("select count(id) as isrunner from wp_users where id=%d",$id));
 	}
 
-	public function createNewUser($firstname,$surname,$email,$gender,$dateofbirth,$runner_id=NULL) {
+	public function createNewUser($firstname,$surname,$email,$gender,$dateofbirth,$id) {
 		require_once( ABSPATH . 'wp-includes/user.php' );
 
-		if($runner_id == '' || $runner_id == NULL) {
-			$id = RunnerAdmin::get_instance()->getNextRunnerId();
-			error_log('create new user with next id '.$id);
-		} else {
-			$id=$runner_id;
-			error_log('import user '.$runner_id.' with id '.$id);
-		}
+//		if($runner_id == '' || $runner_id == NULL) {
+//			$id = RunnerAdmin::get_instance()->getNextRunnerId();
+//			error_log('create new user with next id '.$id);
+//		} else {
+//			$id=$runner_id;
+//			error_log('import user '.$runner_id.' with id '.$id);
+//		}
 
         $firstname = $this->formatDisplayName($firstname);
         $surname = $this->formatDisplayName($surname);
@@ -620,7 +620,8 @@ class Runner_Manager {
 			error_log('matched existing runner '.$match);
 			return $match;
 		} else {
-			$newRunner = $this->createNewUser($firstname,$lastname,$email,$gender,$dateofbirth);
+			$id = RunnerAdmin::get_instance()->getNextRunnerId();
+			$newRunner = $this->createNewUser($firstname,$lastname,$email,$gender,$dateofbirth,$id);
 			error_log('created new runner '.$match);
 			return $newRunner;
 		}
