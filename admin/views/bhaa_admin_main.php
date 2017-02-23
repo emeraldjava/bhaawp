@@ -44,13 +44,24 @@
     <table border="1">
         <tbody>
         <tr>
+            <th>Row</th>
             <th>ID</th>
-            <th>Membership Status</th>
+            <th>New Membership ID</th>
         </tr>
         <?php
+        $count=1;
         foreach($idRunners as $row) {
-            echo sprintf('<tr><td>%d</td><td>%d</td></tr>',
-                $row->ID,$nextRunnerId);
+
+            $link = add_query_arg(
+                array(
+                    'action'=>'bhaa_runner_move_action',
+                    'delete'=>$row->ID,
+                    'id' => $nextRunnerId
+                ),
+                admin_url('admin.php')
+            );
+            echo sprintf('<tr><td>%d</td><td>%d</td><td><a href="%s">%d</a></td></tr>',
+                $count++,$row->ID,$link,$nextRunnerId);
         }
         ?>
         </tbody>

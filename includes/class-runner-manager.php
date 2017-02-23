@@ -550,11 +550,12 @@ class Runner_Manager {
 	}
 
 	function bhaa_runner_move_action() {
-		if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_move_action')) {
-			$this->mergeRunner($_POST['id'],$_POST['delete'],true);
-		}
+		//if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_move_action')) {
+		error_log('bhaa_runner_move_action');
+			$this->mergeRunner($_GET['id'],$_GET['delete'],true);
+		//}
 		wp_redirect(wp_get_referer());
-		//exit();
+		exit();
 	}
 
 	function mergeRunner($runner,$deleteRunner,$update_wp_users=false) {
@@ -562,6 +563,7 @@ class Runner_Manager {
 		global $wpdb;
 
 		if($update_wp_users) {
+			error_log('move runner '.$deleteRunner.' and merging to '.$runner);
 			$wpdb->update(
 				'wp_users',
 				array('ID' => $runner),

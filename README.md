@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2017.02.23 Handle runner id's.
 - 2017.02.16 Update the handling of edit race results via the admin section of the site.
 - 2017.01.30 Format the day runner date of birth. Add top-ten league csv file export feature.
 - 2017.01.27 Updates to the runner json export endpoint.
@@ -169,3 +170,8 @@ http://wordpress.stackexchange.com/questions/17385/custom-post-type-templates-fr
 -- initialising
 http://tommcfarlin.com/instantiating-wordpress-plugins/
 http://jespervanengelen.com/different-ways-of-instantiating-wordpress-plugins/
+
+-- myisam
+
+https://dev.mysql.com/doc/refman/5.7/en/myisamchk-other-options.html
+http://stackoverflow.com/questions/2686032/resetting-auto-increment-on-myisam-without-rebuilding-the-table
