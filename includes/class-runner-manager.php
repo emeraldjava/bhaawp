@@ -563,12 +563,17 @@ class Runner_Manager {
 		global $wpdb;
 
 		if($update_wp_users) {
-			error_log('move runner '.$deleteRunner.' and merging to '.$runner);
+			$wpdb->update(
+				'wp_usermeta',
+				array('user_id' => $runner),
+				array('user_id' => $deleteRunner)
+			);
 			$wpdb->update(
 				'wp_users',
 				array('ID' => $runner),
 				array('ID' => $deleteRunner)
 			);
+			error_log('move runner '.$deleteRunner.' and merging to '.$runner);
 		}
 
 		// update existing race results
