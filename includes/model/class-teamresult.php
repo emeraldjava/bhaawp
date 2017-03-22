@@ -46,7 +46,7 @@ class TeamResult extends BaseModel
 				'std'=>$row[17],
 				'racetime'=>$row[16],
 				'company'=>$row[20],
-				'companyname'=>$row[14],
+				'companyname'=>substr($row[14],0,19),
 				'leaguepoints'=> $leaguepoints)
 		);
 	}
