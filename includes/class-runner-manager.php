@@ -554,7 +554,8 @@ class Runner_Manager {
 		error_log('bhaa_runner_move_action');
 			$this->mergeRunner($_GET['id'],$_GET['delete'],true);
 		//}
-		wp_redirect(wp_get_referer());
+		//wp_redirect(wp_get_referer());
+		wp_redirect(home_url().'/runner/?id='.$_GET['id']);
 		exit();
 	}
 
@@ -573,7 +574,12 @@ class Runner_Manager {
 				array('ID' => $runner),
 				array('ID' => $deleteRunner)
 			);
-			error_log('move runner '.$deleteRunner.' and merging to '.$runner);
+			$wpdb->update(
+				'wp_p2p',
+				array('p2p_to' => $runner),
+				array('p2p_to' => $deleteRunner)
+			);
+			error_log('merging runner from '.$deleteRunner.' to '.$runner);
 		}
 
 		// update existing race results

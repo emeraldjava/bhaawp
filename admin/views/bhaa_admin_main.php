@@ -41,31 +41,34 @@
 <div>Auto Increment <?php echo RunnerAdmin::get_instance()->getAutoIncrementValue();?></div>
 <div>Max Runner <?php echo RunnerAdmin::get_instance()->getMaxRunnerValue();?></div>
 <div>Next Runner ID <?php echo RunnerAdmin::get_instance()->getNextRunnerId();?></div>
-    <table border="1">
-        <tbody>
-        <tr>
-            <th>Row</th>
-            <th>ID</th>
-            <th>New Membership ID</th>
-        </tr>
-        <?php
-        $count=1;
-        foreach($idRunners as $row) {
-
-            $link = add_query_arg(
-                array(
-                    'action'=>'bhaa_runner_move_action',
-                    'delete'=>$row->ID,
-                    'id' => $nextRunnerId
-                ),
-                admin_url('admin.php')
-            );
-            echo sprintf('<tr><td>%d</td><td>%d</td><td><a href="%s">%d</a></td></tr>',
-                $count++,$row->ID,$link,$nextRunnerId);
-        }
-        ?>
-        </tbody>
-    </table>
+<table border="1">
+    <tbody>
+    <tr>
+        <th>Row</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>New Membership ID</th>
+    </tr>
+    <?php
+    $count=1;
+    foreach($idRunners as $row) {
+        $link = add_query_arg(
+            array(
+                'action'=>'bhaa_runner_move_action',
+                'delete'=>$row->ID,
+                'id' => $nextRunnerId
+            ),
+            admin_url('admin.php')
+        );
+        echo sprintf('<tr><td>%d</td><td><a target="_blank" href="%s">%d</a></td><td>%s</td><td>%s</td><td><a target="_blank" href="%s">%d</a></td></tr>',
+            $count++,
+            home_url().'/runner/?id='.$row->ID,
+            $row->ID,$row->display_name,$row->status,$link,$nextRunnerId);
+    }
+    ?>
+    </tbody>
+</table>
 
 
 <?php

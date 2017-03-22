@@ -78,13 +78,13 @@ class Raceday {
 	}
 
 	function registerRunner($race,$runner,$racenumber,$standard,$money) {
-		$raceResult = new RaceResult($race);
-		return $raceResult->registerRunner($runner,$racenumber,$standard,$money);
+		$raceResult = new RaceResult();
+		return $raceResult->registerRunner($runner,$race,$racenumber,$standard,$money);
 	}
 
 	function preRegisterRunner($race,$runner,$racenumber,$money) {
-		$raceResult = new RaceResult($race);
-		return $raceResult->preRegisterRunner($runner,$racenumber,$money);
+		$raceResult = new RaceResult();
+		return $raceResult->preRegisterRunner($runner,$race,$racenumber,$money);
 	}
 
     function renderPreRegisteredRunnerTable() {
@@ -123,18 +123,19 @@ class Raceday {
 	}
 
 	function bhaa_raceday_admin_delete_runner() {
-		$this->deleteRunner($_POST['runner'],$_POST['raceid']);
+		$this->deleteRunnerFromRace($_POST['runner'],$_POST['raceid']);
 	}
 
-	function deleteRunner($runner,$race) {
-		$raceResult = new RaceResult($race);
-		$raceResult->deleteRunner($runner);
+	function deleteRunnerFromRace($runner,$race) {
+		$raceResult = new RaceResult();
+		error_log('deleteRunnerFromRace()'.$runner.' '.$race);
+		$raceResult->deleteRunnerFromRace($runner,$race);
 		wp_redirect(get_home_url().'/raceday-admin');
 	}
 
 	function getRegistrationTypes($race) {
-		$raceResult = new RaceResult($race);
-		return $raceResult->getRegistrationTypes();
+		$raceResult = new RaceResult();
+		return $raceResult->getRegistrationTypes($race);
 	}
 
 	/**

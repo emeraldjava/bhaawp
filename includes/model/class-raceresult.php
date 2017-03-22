@@ -28,7 +28,7 @@ class RaceResult extends BaseModel implements Table {
 		return $this->getWpdb()->get_row("SELECT * FROM wp_bhaa_raceresult WHERE ID=".$racerresult);
 	}
 
-	public function registerRunner($runner,$racenumber,$standard=NULL,$money) {
+	public function registerRunner($runner,$race,$racenumber,$standard=NULL,$money) {
 
 		/* move validation code to the form */
 		/*$runnerCount = $this->getWpdb()->get_var(
@@ -61,7 +61,7 @@ class RaceResult extends BaseModel implements Table {
 		return $res;
 	}
 	
-	function preRegisterRunner($runner,$racenumber,$money)
+	function preRegisterRunner($runner,$race,$racenumber,$money)
 	{
 		$runnerCount = $this->getWpdb()->get_var(
 			$this->getWpdb()->prepare(
@@ -95,7 +95,7 @@ class RaceResult extends BaseModel implements Table {
 		return $res;
 	}
 	
-	public function deleteRunner($runner) {
+	public function deleteRunnerFromRace($runner,$race) {
 		return $this->getWpdb()->delete(
 				$this->getName(),
 				array('race' => $race,
@@ -119,7 +119,7 @@ class RaceResult extends BaseModel implements Table {
 		and class="RACE_REG"
 		group by standardscoringset;
 	 */
-	public function getRegistrationTypes() {
+	public function getRegistrationTypes($race) {
 		return $this->getWpdb()->get_results(
 			$this->getWpdb()->prepare('select standardscoringset as type, count(*) as count
 				from wp_bhaa_raceresult 

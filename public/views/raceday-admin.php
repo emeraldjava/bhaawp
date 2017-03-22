@@ -20,7 +20,7 @@ if(isset($_GET['action'])){
 	if($_GET['action']=='deleterunner') {
 		$runner = trim($_GET['runner']);
 		error_log("deleterunner ".$runner.' '.$race);
-		Raceday::get_instance()->deleteRunner($runner,$race);
+		Raceday::get_instance()->deleteRunnerFromRace($runner,$race);
 	} elseif($_GET['action']=='deleteall') {
 		error_log("deleteall ".$event.' '.$race);
 		$wpdb->query(

@@ -134,7 +134,9 @@ class RunnerAdmin {
 
 	function getRunnersWithIdOver30000() {
 		global $wpdb;
-		return $wpdb->get_results('SELECT ID FROM wp_users WHERE ID>30000 ORDER BY ID DESC LIMIT 400');
+		return $wpdb->get_results('SELECT ID,display_name,status.meta_value as status FROM wp_users
+			LEFT JOIN wp_usermeta status ON (status.user_id=wp_users.id AND status.meta_key = "bhaa_runner_status")
+			WHERE ID>30000 ORDER BY ID DESC LIMIT 400');
 	}
 
 	/**
