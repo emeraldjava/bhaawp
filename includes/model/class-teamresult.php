@@ -62,7 +62,7 @@ class TeamResult extends BaseModel
 		return $this->getWpdb()->get_results(
 			$this->getWpdb()->prepare('select wp_bhaa_teamresult.*,wp_users.display_name from wp_bhaa_teamresult
 				join wp_users on wp_users.id=wp_bhaa_teamresult.runner
-				where race=%d order by class, position',$this->race)
+				where race=%d order by class, position, pos',$this->race)
 		);
 	}
 	
