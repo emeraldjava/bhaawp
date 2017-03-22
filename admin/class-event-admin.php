@@ -16,9 +16,24 @@ class EventAdmin {
 		add_action("save_post",array(&$this,"bhaa_event_meta_save"));
 	}
 
-	function bhaa_event_meta(){
-		//add_meta_box("youtube", "YouTube", array(&$this,"youtube"), "event", "side", "low");
+	function bhaa_event_meta() {
+		add_meta_box("BHAA", "BHAA", array(&$this,"exportPreRegistered"), "event", "side", "low");
+		//add_meta_box("youtube", "YouTube", array(&$this,"exportPreRegistered"), "event", "side", "high");
 		//add_meta_box("flickr", "Flickr", array(&$this,"flickr_photoset"), "event", "side", "low");
+	}
+
+	function exportPreRegistered() {
+		echo implode('<br/>', $this->get_admin_url_links());
+	}
+
+	private function get_admin_url_links() {
+		global $post;
+		$link = admin_url('admin.php?action=bhaa_event_export_prereg&post_id='.$post->ID);
+		$url = '<a href='.$link.'>Export Pre-Reg Details</a>';
+		return array(
+			'bhaa_race_delete_results' => $url
+		);
+		// TODO add the action hander logic to export the SQL query result
 	}
 
 	function youtube() {
@@ -45,7 +60,7 @@ class EventAdmin {
 		global $post;
 		// to prevent metadata or custom fields from disappearing...
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
-			return $post_id;
+			return $post->ID;
 
 		if ( empty( $_POST ) )
 			return;
