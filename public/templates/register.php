@@ -3,9 +3,10 @@
  * Template Name: BHAA Raceday Register
  * A template used to demonstrate how to include the template using this plugin.
  */
+$file = get_option('bhaa_members_file_date');
 wp_register_script(
 		'bhaa_members',
-		plugins_url('/assets/js/bhaa_members.js',dirname(__FILE__)),
+		plugins_url('/assets/js/'.$file,dirname(__FILE__)),
 		array('jquery'),
 		null,
 		false
@@ -26,9 +27,9 @@ include_once 'header.php';
 
 <div class="panel-body">
 		<div class="row">
-				<div class="ui-widget input-group col-md-12">
-						<input type="text" id="memberfilter" class="search-query form-control" placeholder="Search by Name or ID"/>
-				</div>
+			<div class="ui-widget input-group col-md-12">
+				<input type="text" id="memberfilter" class="search-query form-control" placeholder="Search by Name or ID"/>
+			</div>
 		</div>
 		<div class="row">
 				<!-- http://stackoverflow.com/questions/23775272/bootstrap-modal-before-form-submit -->

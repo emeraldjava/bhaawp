@@ -164,6 +164,7 @@ class Bhaa_Admin {
 	public function register_settings() {
 		register_setting( 'bhaa', 'bhaa_registration_token');
 		register_setting( 'bhaa', 'bhaa_bookings_enabled');
+		//register_setting( 'bhaa', 'bhaa_bookings_enabled');
 	}
 
 	/**
@@ -229,36 +230,21 @@ class Bhaa_Admin {
 
 		require_once( ABSPATH . 'wp-includes/plugin.php' );
 
-		//$file = dirname(__FILE__).'/assets/js/bhaa_members.js';
-		//$plugin_url = plugin_dir_url($file);
-		//error_log("plugin_url:".$plugin_url,0);
-
-		//$plugin_path = plugin_dir_path($file);
-		//error_log("plugin_path:".$plugin_path,0);
+		// TODO check the date logic and delete an old file before creating a new one.
+		$date = date("Y-m-d");
+		$filename = 'bhaa_members_'.$date.".js";
+		update_option('bhaa_members_file_date',$filename);
 
 
-		$file = BHAA_PLUGIN_DIR.'/public/assets/js/bhaa_members.js';
-		//$file = plugin_dir_path('/admin/assets/js/bhaa_members.js');
+		$file = BHAA_PLUGIN_DIR.'/public/assets/js/'.$filename;
 		//error_log($file,0);
 
 		$content = 'var bhaa_members = ';
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json') {
-			//echo 'command '.$_POST['command'];
-			//error_log("write to file ".$_POST['command'],0);
-			//$model = new BaseModel();
-			// http://stackoverflow.com/questions/15494452/jqueryui-autocomplete-with-external-text-file-as-a-data-source
-			//$content = '[{ label:"POC", value:"7713"}, { label:"AAA", url:"1"}]';
-			// var bhaa_day_runners =
 			$user = new RunnerModel();
 			$content .= json_encode($user->getRegistrationRunnerDetails(array('M','I')));
-			//error_log('file '.$file);
-			if(file_exists($file)){
-				file_put_contents($file, $content);
-				error_log("write to file ".$file,0);
-			}
-			else {
-				error_log("file doesn't exist",0);
-			}
+            file_put_contents($file, $content);
+            error_log("write to file ".$file,0);
 		} else {
 			$content = file_get_contents($file);
 			error_log("get context");
