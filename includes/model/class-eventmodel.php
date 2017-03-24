@@ -36,7 +36,7 @@ class EventModel extends BaseModel {
 	/**
 	 * Return the details of all registered runner for the website and racetec export
 	 */
-	function listRegisteredRunners($limit=0,$class='RACE_REG',$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
+	function listRegisteredRunners($limit=0,$class,$order='wp_bhaa_raceresult.racetime desc, wp_bhaa_raceresult.id desc') {
 		// order by id,
 		$SQL = $this->getWpdb()->prepare("SELECT wp_bhaa_raceresult.id,runner,racenumber,race,
 firstname.meta_value as firstname,lastname.meta_value as lastname,
