@@ -154,6 +154,10 @@ class Raceday {
 					'delete from wp_bhaa_raceresult where class="PRE_REG" and race=%d',$race)
 			);
 			$wpdb->query(
+				$wpdb->prepare(
+					'delete from wp_bhaa_raceresult where class="RACE_REG" and race=%d',$race)
+			);
+			$wpdb->query(
 				$wpdb->prepare('insert into wp_bhaa_raceresult(race,runner,class)
 					select %d,person_id,"PRE_REG"
 					from wp_em_bookings
@@ -162,6 +166,30 @@ class Raceday {
 					and booking_status=1
 					order by display_name desc',$race,$event)
 			);
+
+//			// query the registered runners
+//			$orderedQuery = $wpdb->get_results(
+//				$wpdb->prepare('
+//					select %d as race,person_id as id,display_name
+//					from wp_em_bookings
+//					join wp_users on wp_users.id=wp_em_bookings.person_id
+//					where event_id=%d
+//					and booking_status=1
+//					order by display_name',$race,$event)
+//			);
+//
+//			// calculate the racenumber and insert the row
+//			$rn = 1;
+//			foreach($orderedQuery as $res) {
+//				error_log("preregimport ".$rn.' '.$res->id);
+//				$wpdb->insert('wp_bhaa_raceresult',
+//					array('race'=>$race,
+//						'runner'=>$res->id,
+//						'racenumber'=>$rn,
+//						'class'=>'RACE_REG'
+//					));
+//				$rn++;
+//			}
 		}
 		wp_redirect(get_home_url().'/raceday-prereg');
 	}
@@ -180,7 +208,7 @@ class Raceday {
 	 */
 	function export() {
 		//error_log("export");
-		$runners = $this->eventModel->listRegisteredRunners();
+		$runners = $this->eventModel->listRegisteredRunners(1000,'RACE_REG');
 
 		$output = "";
 		$columns = $runners[0];
