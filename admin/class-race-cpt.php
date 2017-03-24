@@ -56,8 +56,8 @@ class RaceCpt {
 		//add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
 		add_action('admin_action_bhaa_raceday_export',array(&$this,'bhaa_raceday_export'));
 
-		//add_action('admin_action_bhaa_race_result_edit',array(&$this,'bhaa_race_result_edit'));
-		add_action('admin_action_bhaa_save_race_result',array(&$this,'bhaa_save_race_result'));
+		add_action('admin_action_bhaa_race_result_save',array(&$this,'bhaa_race_result_save'));
+		add_action('admin_action_bhaa_race_result_delete',array(&$this,'bhaa_race_result_delete'));
 	}
 
 	/**
@@ -87,10 +87,9 @@ class RaceCpt {
 		include plugin_dir_path( __FILE__ ) . 'template/bhaa_race_edit_result.php';
 	}
 
-	public function bhaa_save_race_result() {
-		error_log("bhaa_save_race_result() ".$_POST['bhaa_race']);
-		//print_r($_POST);
-		$raceResult = new RaceResult();//$_POST['bhaa_race']);
+	public function bhaa_race_result_save() {
+		error_log("bhaa_race_result_save() ".$_POST['bhaa_race']);
+		$raceResult = new RaceResult();
 		$raceResult->updateRunnersRaceResultStandard(
 			$_POST['bhaa_raceresult_id'],
 			$_POST['bhaa_race'],
@@ -99,30 +98,16 @@ class RaceCpt {
 			$_POST['bhaa_pre_standard'],
 			$_POST['bhaa_post_standard']
 		);
-		wp_redirect(admin_url('edit.php?post_type=race&page=bhaa_race_edit_results&id='.$_POST['bhaa_race']));//$this->generate_edit_raceresult_link($_POST['bhaa_race']));
+		wp_redirect(admin_url('edit.php?post_type=race&page=bhaa_race_edit_results&id='.$_POST['bhaa_race']));
 	}
 
-//	function bhaa_race_result_edit() {
-//		// Do your stuff here
-//		$race_result_id = $_POST['race_result_id'];
-//		error_log('bhaa_race_result_edit '.$race_result_id);
-//
-////		return Bhaa_Mustache::get_instance()->loadTemplate('raceday-list')->render(
-////			array('$race_result_id' => $$race_result_id)
-////		);
-//
-//		// need to call the page, with a shortcode, which then loads the form. need to avoid the shortcode step!
-//
-//		return '<a href="'.get_permalink(get_query_var('bhaa_race')).'">'
-//			.post_permalink(get_query_var('bhaa_race')).' '.get_query_var('bhaa_race').'</a><br/>'
-//			.wp_get_form('raceResultForm');
-//
-////		wp_redirect( plugin_dir_url( '' ) );
-//		//include plugin_dir_path( __FILE__ ) . 'template/race_result_form.php';
-//
-////		wp_redirect( $_SERVER['HTTP_REFERER'] );
-//		//exit();
-//	}
+	public function bhaa_race_result_delete() {
+		error_log("bhaa_race_result_delete() ".$_POST['bhaa_race']);
+		$raceResult = new RaceResult();
+		$raceResult->deleteRaceResult($_POST['bhaa_raceresult_id']);
+		$raceResult->updatePositions($_POST['bhaa_race']);
+		wp_redirect(admin_url('edit.php?post_type=race&page=bhaa_race_edit_results&id='.$_POST['bhaa_race']));
+	}
 
 	function bhaa_race_render_cpt( $template ) {
 		// Our custom post type.

@@ -8,8 +8,17 @@ echo '<form action="'.$link.'" method="POST">
         <label>Time:<input type="text" id="bhaa_time" name="bhaa_time" value="'.$raceResult->racetime.'"/></label><br>
         <label>Pre Std:<input type="text" id="bhaa_pre_standard" name="bhaa_pre_standard" value="'.$raceResult->standard.'"/></label><br>
         <label>Post Std:<input type="text" id="bhaa_post_standard" name="bhaa_post_standard" value="'.$raceResult->poststandard.'"/></label><br>
-        <input type="hidden" name="action" value="bhaa_save_race_result"/>
+        <input type="hidden" name="action" value="bhaa_race_result_save"/>
         <input type="submit" name="submit" value="Update Race Result"/>
+    </fieldset>
+</form>';
+
+echo '<form action="'.$link.'" method="POST">
+    <fieldset>
+        <input type="hidden" id="bhaa_raceresult_id" name="bhaa_raceresult_id" value="'.$raceResult->id.'"/>
+        <input type="hidden" id="bhaa_race" name="bhaa_race" value="'.$raceResult->race.'"/>
+        <input type="hidden" name="action" value="bhaa_race_result_delete"/>
+        <input type="submit" name="submit" value="Delete Race Result"/>
     </fieldset>
 </form>';
 ?>

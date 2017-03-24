@@ -28,6 +28,10 @@ class RaceResult extends BaseModel implements Table {
 		return $this->getWpdb()->get_row("SELECT * FROM wp_bhaa_raceresult WHERE ID=".$racerresult);
 	}
 
+	public function deleteRaceResult($racerresult) {
+		return $this->getWpdb()->delete('wp_bhaa_raceresult', array( 'id' => $racerresult ), array('%d'));
+	}
+
 	public function registerRunner($runner,$race,$racenumber,$standard=NULL,$money) {
 
 		/* move validation code to the form */
