@@ -357,9 +357,9 @@ class Runner_Manager {
         $username = strtolower($username);
 
 		// check for a unique username
-		$user_id = username_exists($username);
-		if(!user_id) {
-			$username = $username.$id;
+		//$user_id = username_exists($username);
+		if(username_exists($username)) {
+			$username = $username.'.'.$username.$id;
 		}
 
 		if($email=='')
@@ -579,7 +579,7 @@ class Runner_Manager {
 				array('p2p_to' => $runner),
 				array('p2p_to' => $deleteRunner)
 			);
-			error_log('merging runner from '.$deleteRunner.' to '.$runner);
+			error_log('merging user meta data');
 		}
 
 		// update existing race results

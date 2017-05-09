@@ -188,7 +188,7 @@ class RaceResult extends BaseModel implements Table {
 		if(!$exists)
 		{
 			$dateofbirth = date("Y-m-d", strtotime(str_replace('/','-',$details[8])));
-			error_log('addRaceResult position '.$details[0].' number '.$details[1].', runner '.$runner_id.', exists '.$exists.'.');
+			//error_log('addRaceResult position '.$details[0].' number '.$details[1].', runner '.$runner_id.', exists '.$exists.'.');
 			//$match = $runner->matchRunner($details[5],$details[4],$dateofbirth);
 			//if($match!=0)
 			//{
@@ -197,15 +197,15 @@ class RaceResult extends BaseModel implements Table {
 			//}
 			//else
 			//{
-				$runner_id = RunnerAdmin::get_instance()->getNextRunnerId();
+				//$runner_id = RunnerAdmin::get_instance()->getNextRunnerId();
 				error_log('create new user with id "'.$runner_id.'" '.$details[5].' '.$details[4].' '.$dateofbirth);
 				$runner_id = Runner_Manager::get_instance()->createNewUser($details[5],$details[4],'',$details[6],$dateofbirth,$runner_id);
 				if($details[11]=='')
-					update_user_meta( $runner_id, "bhaa_runner_company",1);
+					//update_user_meta( $runner_id, "bhaa_runner_company",1);
 				error_log($details[0].' Created new runner '.$runner_id.', '.$details[5].' '.$details[4]);
 			//}
 		} else {
-			error_log($details[0].' Existing member '.$runner_id.', '.$details[5].' '.$details[4].' '.$runner_id);
+			error_log($details[0].' Existing member '.$runner_id.', '.$details[5].' '.$details[4]);
 		}
 		
 		// convert Senior to S
@@ -230,9 +230,13 @@ class RaceResult extends BaseModel implements Table {
 					'class' => RaceResult::RAN)
 			);
 		}
-		//$this->getWpdb()->print_error();
-		//$this->getWpdb()->hide_errors();
-		//error_log($res);
+
+//		if($runner_id>30000) {
+//			// move the new high users
+//			$newRunnerId = RunnerAdmin::get_instance()->getNextRunnerId();
+//			Runner_Manager::get_instance()->mergeRunner($newRunnerId,$runner_id,true);
+//		}
+
 		return $res;
 	}
 	
