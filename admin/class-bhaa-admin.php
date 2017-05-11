@@ -228,27 +228,26 @@ class Bhaa_Admin {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
-		require_once( ABSPATH . 'wp-includes/plugin.php' );
-
-		// TODO check the date logic and delete an old file before creating a new one.
-		$date = date("Y-m-d");
-		$filename = 'bhaa_members_'.$date.".js";
-		update_option('bhaa_members_file_date',$filename);
-
-
-		$file = BHAA_PLUGIN_DIR.'/public/assets/js/'.$filename;
-		//error_log($file,0);
-
 		$content = 'var bhaa_members = ';
+		$file = BHAA_PLUGIN_DIR.'/public/assets/js/'.get_option('bhaa_members_file_date');
 		if(isset($_POST['command']) && $_POST['command']=='bhaa_admin_members_json') {
+			error_log('reload json content');
+			unlink($file);
+
 			$user = new RunnerModel();
 			$content .= json_encode($user->getRegistrationRunnerDetails(array('M','I')));
-            file_put_contents($file, $content);
+
+			$date = date("Y-m-d");
+			$filename = 'bhaa_members_'.$date.".js";
+			update_option('bhaa_members_file_date',$filename);
+
+			file_put_contents($file, $content);
             error_log("write to file ".$file,0);
-		} else {
-			$content = file_get_contents($file);
-			error_log("get context");
 		}
+
+		$file = BHAA_PLUGIN_DIR.'/public/assets/js/'.get_option('bhaa_members_file_date');
+		$content = file_get_contents($file);
+		error_log("loading json context ".$file);
 		$_REQUEST['content']=$content;
 		include_once( 'views/bhaa_admin_members_json.php' );
 	}
