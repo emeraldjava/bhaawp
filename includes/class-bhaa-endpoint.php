@@ -18,7 +18,7 @@ class Bhaa_Endpoint {
     private function __construct() {
         add_action('wp_loaded',array($this,'bhaa_internal_rewrite'));
         add_filter('query_vars',array($this,'bhaa_internal_query_vars'));
-        add_action('parse_request',array($this,'bhaa_internal_rewrite_parse_request'));
+        //add_action('parse_request',array($this,'bhaa_internal_rewrite_parse_request'));
     }
 
     function bhaa_internal_rewrite(){
