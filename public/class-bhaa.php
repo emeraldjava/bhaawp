@@ -432,7 +432,8 @@ class Bhaa {
 	}
 
 	function bhaa_lost_password_message() {
-		$action = $_REQUEST['action'];
+		//$action = $_REQUEST['action'];
+		$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
 		if( $action == 'lostpassword' ) {
 			$message = '<p class="message"><b>Please enter your email address below</b><br/>- If there is an error it maybe the case that we do not have your email linked to your account, you should send an email to <a href="mailto:info@bhaa.ie?Subject=Email Reset">info@bhaa.ie</a> with your name and BHAA ID and we can fix this up.</p>';
 			return $message;

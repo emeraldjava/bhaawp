@@ -20,7 +20,7 @@ class WPFlashMessages {
 		$flash_messages = maybe_unserialize(get_option('wp_flash_messages', ''));
 
 		if(!is_array($flash_messages)) $flash_messages = array();
-		if(!is_array($flash_messages[$class])) $flash_messages[$class] = array();
+		//if(!is_array($flash_messages[$class])) $flash_messages[$class] = array();
 
 		$flash_messages[$class][] = $message;
 

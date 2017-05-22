@@ -549,13 +549,27 @@ class Runner_Manager {
 		//exit();
 	}
 
+//	function bhaa_runner_move_action() {
+//		//if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_move_action')) {
+//		error_log('bhaa_runner_move_action');
+//
+//			$this->mergeRunner($_GET['id'],$_GET['delete'],true);
+//		//}
+//		//wp_redirect(wp_get_referer());
+//		wp_redirect(home_url().'/runner/?id='.$_GET['id']);
+//		//exit();
+//	}
+
 	function bhaa_runner_move_action() {
 		//if(wp_verify_nonce($_REQUEST['_wpnonce'], 'bhaa_runner_move_action')) {
 		error_log('bhaa_runner_move_action');
-			$this->mergeRunner($_GET['id'],$_GET['delete'],true);
+		$nextRunnerId = RunnerAdmin::get_instance()->getNextRunnerId();
+		$this->mergeRunner($nextRunnerId,$_GET['delete'],true);
 		//}
 		//wp_redirect(wp_get_referer());
-		wp_redirect(home_url().'/runner/?id='.$_GET['id']);
+//		header( "refresh:5;url=wherever.php" );
+		//header('Location: '.home_url().'/runner/?id='.$nextRunnerId, true, 302);
+		wp_redirect(home_url().'/runner/?id='.$nextRunnerId);
 		exit();
 	}
 

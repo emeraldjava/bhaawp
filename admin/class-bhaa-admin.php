@@ -31,7 +31,8 @@ class Bhaa_Admin {
 
 		add_action('admin_action_bhaa_send_email',array($this,'bhaa_send_email'));
 		add_action('admin_action_bhaa_admin_send_text',array($this,'bhaa_admin_send_text'));
-		//add_action('admin_action_bhaa_admin_racetec_export',array($this,'bhaa_admin_racetec_export'));
+
+		add_action('admin_action_bhaa_admin_export_csv',array($this,'bhaa_admin_export_csv'));
 
 		Runner_Manager::get_instance();
 		RunnerAdmin::get_instance();
@@ -133,8 +134,14 @@ class Bhaa_Admin {
 	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
 	 */
 	public function add_plugin_admin_menu() {
-		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'main'));
+		add_menu_page('BHAA Admin Menu Title', 'BHAA', 'manage_options', 'bhaa', array(&$this, 'bhaa_admin_main'));
+//		add_submenu_page(null, 'BHAA', 'Registrar',
+//			'manage_options','bhaa_admin_export_csv',
+//			array(&$this, 'bhaa_admin_export_csv'));
+
 		add_submenu_page('bhaa', 'BHAA', 'Members JSON', 'manage_options', 'bhaa_admin_members_json', array(&$this, 'bhaa_admin_members_json'));
+
+
 		//add_submenu_page('bhaa', 'BHAA', 'Day JSON', 'manage_options', 'bhaa_admin_day_json', array(&$this, 'bhaa_admin_day_json'));
 		//add_submenu_page('bhaa', 'BHAA', 'ALL HTML', 'manage_options', 'bhaa_admin_all_html', array(&$this, 'bhaa_admin_all_html'));
 
@@ -209,7 +216,7 @@ class Bhaa_Admin {
 	 * BHAA Stuff
 	 */
 
-	function main() {
+	function bhaa_admin_main() {
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
@@ -250,6 +257,41 @@ class Bhaa_Admin {
 		error_log("loading json context ".$file);
 		$_REQUEST['content']=$content;
 		include_once( 'views/bhaa_admin_members_json.php' );
+	}
+
+	function bhaa_admin_export_csv() {
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+		error_log("bhaa_admin_export_csv ".$_GET['status']);
+
+		$user = new RunnerModel();
+		$memberDetails = $user->expectRaceMasterData(array('M','I','D'),20000,'ARRAY_A',$resultCount);
+		$csv_fields=array('id','displayname','firstname','lastname','email','status','gender','company','companyname','standard','dob');
+		$output_filename = 'bhaa_members_'.$_GET['status'].'.csv';
+
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Content-type: text/csv');
+		header('Content-Description: File Transfer' );
+		header('Content-Disposition: attachment; filename='.$output_filename);
+		header('Expires: 0' );
+		header('Pragma: public' );
+
+		// use fputcsv : http://imtheirwebguy.com/exporting-the-results-of-a-custom-wpdb-query-to-a-downloaded-csv/
+		$output_handle = @fopen( 'php://output', 'w' );
+		fputcsv( $output_handle, $csv_fields );
+
+		// Parse results to csv format
+		foreach ($memberDetails as $member) {
+			fputcsv( $output_handle, (array) $member);
+		}
+
+		//$end = round(microtime(true) * 1000);
+		error_log('bhaa_admin_export_csv ['.sizeof($memberDetails).']');
+
+		// Close output file stream
+		fclose( $output_handle );
+		die;
 	}
 
 	function bhaa_admin_day_json()
@@ -380,55 +422,6 @@ class Bhaa_Admin {
 
 		$texter->delCookie();
 		wp_redirect(admin_url('admin.php?page=bhaa_admin_text&result='.$sendMessageResult));
-		exit;
-	}
-
-	/**
-	 * Display the racetec export panel.
-	 */
-	function bhaa_admin_racetec(){
-		error_log('bhaa_admin_racetec');
-		include_once('views/bhaa_admin_racetec.php');
-	}
-
-	function bhaa_admin_racetec_export(){
-
-		//ini_set('max_execution_time', 480); //8 minutes
-
-		$limit = 30;
-		//error_log('bhaa_admin_racetec_export '.$limit);
-
-		$start = round(microtime(true) * 1000);
-		$athletes = Runner_Manager::get_instance()->exportRacetecAtheletes($limit);
-		error_log('bhaa_admin_racetec_export '.sizeof($athletes));
-
-		// Set header row values
-		$csv_fields=array('AthleteId','FirstName','LastName','Initials','IDNumber','RedworldIdNumber','DateOfBirth','AthleteStatusId','GenderId','LanguageId','CountryId','StateId','Address1','Address2','Address3','Address4','AddressPostalCode','PhoneHome','PhoneWork','PhoneFax','PhoneCell','EMail','MedicalAidName','MedicalAidNo','MedicalDetails','MedicalAllergies','MedicalMedication','Comments','ReplStatus','ReplDate','CreateDate','CreateUser','ModifyUser','ModifyDate','MergeAthleteId','MemberNo','AthleteClubId','uName');
-		$output_filename = 'Athlete.csv';
-		$output_handle = @fopen( 'php://output', 'w' );
-
-		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		header('Content-type: text/csv');
-		header('Content-Description: File Transfer' );
-		header('Content-Disposition: attachment; filename='.$output_filename);
-		header('Expires: 0' );
-		header('Pragma: public' );
-
-		// use fputcsv : http://imtheirwebguy.com/exporting-the-results-of-a-custom-wpdb-query-to-a-downloaded-csv/
-		fputcsv( $output_handle, $csv_fields );
-
-		// Parse results to csv format
-		foreach ($athletes as $Result) {
-			$leadArray = (array) $Result; // Cast the Object to an array
-			// Add row to file
-			fputcsv( $output_handle, $leadArray );
-		}
-
-		$end = round(microtime(true) * 1000);
-		error_log('bhaa_admin_racetec_export ['.sizeof($athletes).'] '.($end-$start).' ms');
-
-		// Close output file stream
-		fclose( $output_handle );
 		exit;
 	}
 }

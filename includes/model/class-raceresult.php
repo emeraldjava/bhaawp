@@ -197,7 +197,7 @@ class RaceResult extends BaseModel implements Table {
 			//}
 			//else
 			//{
-				//$runner_id = RunnerAdmin::get_instance()->getNextRunnerId();
+				$runner_id = RunnerAdmin::get_instance()->getNextRunnerId();
 				error_log('create new user with id "'.$runner_id.'" '.$details[5].' '.$details[4].' '.$dateofbirth);
 				$runner_id = Runner_Manager::get_instance()->createNewUser($details[5],$details[4],'',$details[6],$dateofbirth,$runner_id);
 				if($details[11]=='')

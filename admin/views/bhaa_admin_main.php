@@ -27,11 +27,26 @@
     <tr>
         <th>Membership Status</th>
         <th>Count</th>
+        <th>Export</th>
     </tr>
     <?php
     foreach($membershipStatus as $row) {
-        echo sprintf('<tr><td>%s</td><td>%d</td></tr>',
-            $row->status,$row->count);
+
+        $link = add_query_arg(
+            array(
+                'action' => 'bhaa_admin_export_csv', // as defined in the hidden page
+                'status' => $row->status
+            ),
+            admin_url('admin.php')
+        );
+
+        echo sprintf('<tr><td>%1$s</td><td>%2$s</td>
+            <td>
+                <a href="%3$s">Export CSV %1$s Members</a>
+            </td>
+            </tr>
+            ',
+            $row->status,$row->count,$link);
     }
     ?>
     </tbody>
@@ -56,15 +71,15 @@
         $link = add_query_arg(
             array(
                 'action'=>'bhaa_runner_move_action',
-                'delete'=>$row->ID,
-                'id' => $nextRunnerId
+                'delete'=>$row->ID//,
+               // 'id' => $nextRunnerId
             ),
             admin_url('admin.php')
         );
-        echo sprintf('<tr><td>%d</td><td><a target="_blank" href="%s">%d</a></td><td>%s</td><td>%s</td><td><a target="_blank" href="%s">%d</a></td></tr>',
+        echo sprintf('<tr><td>%d</td><td><a target="_blank" href="%s">%d</a></td><td>%s</td><td>%s</td><td><a target="_blank" href="%s">Move %d to %d</a></td></tr>',
             $count++,
             home_url().'/runner/?id='.$row->ID,
-            $row->ID,$row->display_name,$row->status,$link,$nextRunnerId);
+            $row->ID,$row->display_name,$row->status,$link,$row->ID,$nextRunnerId);
     }
     ?>
     </tbody>
