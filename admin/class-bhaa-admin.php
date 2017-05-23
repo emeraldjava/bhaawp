@@ -267,7 +267,7 @@ class Bhaa_Admin {
 
 		$user = new RunnerModel();
 		$memberDetails = $user->expectRaceMasterData(array('M','I','D'),20000,'ARRAY_A',$resultCount);
-		$csv_fields=array('id','displayname','firstname','lastname','email','status','gender','company','companyname','standard','dob');
+		$csv_fields=array('id','displayname','firstname','lastname','email','status','gender','company','companyname','standard','dob','paidonline');
 		$output_filename = 'bhaa_members_'.$_GET['status'].'.csv';
 
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
