@@ -61,7 +61,7 @@ class RaceMaster {
         $user = new RunnerModel();
         // array('M','I','D')
         $memberDetails = $user->exportPreRegisteredData($resultCount);
-        $csv_fields=array('id','displayname','firstname','lastname','email','status','gender','company','companyname','standard','dob');
+        $csv_fields=array('id','displayname','firstname','lastname','email','status','gender','company','companyname','standard','dob','paid');
         $output_filename = 'bhaa_pre_registered_runners.csv';
 
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

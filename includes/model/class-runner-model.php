@@ -97,7 +97,8 @@ class RunnerModel extends BaseModel {
 			company.meta_value as company,
 			TRIM(house.post_title) as companyname,
 			standard.meta_value as standard,
-			dob.meta_value as dob
+			dob.meta_value as dob,
+			wp_em_bookings.booking_price as paid
 			from wp_users
 			join wp_em_bookings ON (wp_users.id=wp_em_bookings.person_id AND wp_em_bookings.booking_status=1)
 			left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key="first_name")
