@@ -82,6 +82,47 @@ class RunnerModel extends BaseModel {
 		return $res;
 	}
 
+	function exportPreRegisteredData(&$resultCount) {
+		$this->getWpdb()->query('SET SQL_BIG_SELECTS=1');
+
+		$eventId = $this->getWpdb()->get_var( 'SELECT event_id FROM wp_em_events WHERE event_start_date > CURDATE() ORDER BY event_start_date ASC LIMIT 1');
+
+		$SQL = 'select TRIM(wp_users.id) as id,
+			TRIM(LOWER(REPLACE(wp_users.display_name," ","."))) as label,
+			TRIM(first_name.meta_value) as firstname,
+			TRIM(last_name.meta_value) as lastname,
+			wp_users.user_email as email,
+			status.meta_value as status,
+			gender.meta_value as gender,
+			company.meta_value as company,
+			TRIM(house.post_title) as companyname,
+			standard.meta_value as standard,
+			dob.meta_value as dob
+			from wp_users
+			join wp_em_bookings ON (wp_users.id=wp_em_bookings.person_id AND wp_em_bookings.booking_status=1)
+			left join wp_usermeta first_name on (first_name.user_id=wp_users.id and first_name.meta_key="first_name")
+			left join wp_usermeta last_name on (last_name.user_id=wp_users.id and last_name.meta_key="last_name")
+			left join wp_usermeta dob on (dob.user_id=wp_users.id and dob.meta_key="bhaa_runner_dateofbirth")
+			left join wp_usermeta status on (status.user_id=wp_users.id and status.meta_key="bhaa_runner_status")
+			left join wp_usermeta gender on (gender.user_id=wp_users.id and gender.meta_key="bhaa_runner_gender")
+			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
+			left join wp_posts house on (house.id=company.meta_value and house.post_type="house")
+			left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
+			where wp_em_bookings.event_id='.$eventId.' order by lastname,firstname';
+
+//		select %d,person_id,"PRE_REG"
+//					from wp_em_bookings
+//					join wp_users on wp_users.id=wp_em_bookings.person_id
+//					where event_id=%d
+//		and booking_status=1
+//					order by display_name desc',$race,$event)
+
+		//var_dump($SQL);
+		$res = $this->getWpdb()->get_results($SQL,'ARRAY_A');
+		$resultCount = $this->getWpdb()->num_rows;
+		return $res;
+	}
+
 
 
 	/**

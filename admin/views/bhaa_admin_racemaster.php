@@ -29,4 +29,10 @@
     ?>
     </tbody>
 </table>
+
+<?php
+$link = add_query_arg( array('action' => 'bhaa_admin_racemaster_preregistered'), admin_url('admin.php'));
+echo sprintf('<a href="%s">Export Pre-Registered Event Runners</a>',$link);
+?>
+
 </div>
