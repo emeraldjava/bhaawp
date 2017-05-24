@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2017.05.24 Support export formats for the RaceMaster test phase.
 - 2017.03.24 Add option to delete a specific race result. Add latest date to the generated membership json file.
 - 2017.02.23 Handle runner id's.
 - 2017.02.16 Update the handling of edit race results via the admin section of the site.
