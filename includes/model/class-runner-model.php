@@ -47,14 +47,15 @@ class RunnerModel extends BaseModel {
 		return $res;
 	}
 
-	function exportRaceMasterData($status=array('M','I','D'),$limit=16000,$output_type='OBJECT',&$resultCount) {
+	// $status=array('M','I','D')
+	function exportRaceMasterData($status,$limit=16000,$output_type='OBJECT',&$resultCount) {
 		$this->getWpdb()->query('SET SQL_BIG_SELECTS=1');
 
 		//$eventId = $this->getWpdb()->get_var( 'SELECT event_id FROM wp_em_events WHERE event_start_date > CURDATE() ORDER BY event_start_date ASC LIMIT 1');
 
 		$IN = "'" . implode ( "', '", $status ) . "'";
 		$SQL =	'select TRIM(wp_users.id) as id,
-			TRIM(wp_users.display_name) as label,
+			TRIM(LOWER(REPLACE(wp_users.display_name," ","."))) as label,
 			TRIM(first_name.meta_value) as firstname,
 			TRIM(last_name.meta_value) as lastname,
 			wp_users.user_email as email,
@@ -73,7 +74,7 @@ class RunnerModel extends BaseModel {
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts house on (house.id=company.meta_value and house.post_type="house")
 			left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
-			where status.meta_value IN('.$IN.') order by status.meta_value,lastname,firstname LIMIT '.$limit;
+			where status.meta_value IN('.$IN.') order by lastname,firstname LIMIT '.$limit;
 
 		//var_dump($SQL);
 		$res = $this->getWpdb()->get_results($SQL,$output_type);

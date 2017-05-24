@@ -23,7 +23,8 @@ class RaceMaster {
         error_log("bhaa_admin_racemaster_export_csv ".$_GET['status']);
 
         $user = new RunnerModel();
-        $memberDetails = $user->exportRaceMasterData(array('M','I','D'),20000,'ARRAY_A',$resultCount);
+        // array('M','I','D')
+        $memberDetails = $user->exportRaceMasterData(array($_GET['status']),20000,'ARRAY_A',$resultCount);
         $csv_fields=array('id','displayname','firstname','lastname','email','status','gender','company','companyname','standard','dob');
         $output_filename = 'bhaa_members_'.$_GET['status'].'.csv';
 
