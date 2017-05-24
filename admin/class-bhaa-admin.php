@@ -32,8 +32,7 @@ class Bhaa_Admin {
 		add_action('admin_action_bhaa_send_email',array($this,'bhaa_send_email'));
 		add_action('admin_action_bhaa_admin_send_text',array($this,'bhaa_admin_send_text'));
 
-		add_action('admin_action_bhaa_admin_export_csv',array($this,'bhaa_admin_export_csv'));
-
+		RaceMaster::get_instance();
 		Runner_Manager::get_instance();
 		RunnerAdmin::get_instance();
 		Raceday::get_instance()->registerAdminActions();
@@ -139,6 +138,8 @@ class Bhaa_Admin {
 //			'manage_options','bhaa_admin_export_csv',
 //			array(&$this, 'bhaa_admin_export_csv'));
 
+		add_submenu_page('bhaa', 'BHAA', 'RaceMaster', 'manage_options', 'bhaa_admin_racemaster', array(&$this, 'bhaa_admin_racemaster'));
+
 		add_submenu_page('bhaa', 'BHAA', 'Members JSON', 'manage_options', 'bhaa_admin_members_json', array(&$this, 'bhaa_admin_members_json'));
 
 
@@ -230,6 +231,15 @@ class Bhaa_Admin {
 		include_once( 'views/bhaa_admin_main.php' );
 	}
 
+	public function bhaa_admin_racemaster() {
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+		$model = new RunnerModel();
+		$membershipStatus = $model->getMembershipStatus();
+		include_once( 'views/bhaa_admin_racemaster.php' );
+	}
+
 	function bhaa_admin_members_json() {
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
@@ -257,41 +267,6 @@ class Bhaa_Admin {
 		error_log("loading json context ".$file);
 		$_REQUEST['content']=$content;
 		include_once( 'views/bhaa_admin_members_json.php' );
-	}
-
-	function bhaa_admin_export_csv() {
-		if ( !current_user_can( 'manage_options' ) )  {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
-		error_log("bhaa_admin_export_csv ".$_GET['status']);
-
-		$user = new RunnerModel();
-		$memberDetails = $user->expectRaceMasterData(array('M','I','D'),20000,'ARRAY_A',$resultCount);
-		$csv_fields=array('id','displayname','firstname','lastname','email','status','gender','company','companyname','standard','dob','paidonline');
-		$output_filename = 'bhaa_members_'.$_GET['status'].'.csv';
-
-		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		header('Content-type: text/csv');
-		header('Content-Description: File Transfer' );
-		header('Content-Disposition: attachment; filename='.$output_filename);
-		header('Expires: 0' );
-		header('Pragma: public' );
-
-		// use fputcsv : http://imtheirwebguy.com/exporting-the-results-of-a-custom-wpdb-query-to-a-downloaded-csv/
-		$output_handle = @fopen( 'php://output', 'w' );
-		fputcsv( $output_handle, $csv_fields );
-
-		// Parse results to csv format
-		foreach ($memberDetails as $member) {
-			fputcsv( $output_handle, (array) $member);
-		}
-
-		//$end = round(microtime(true) * 1000);
-		error_log('bhaa_admin_export_csv ['.sizeof($memberDetails).']');
-
-		// Close output file stream
-		fclose( $output_handle );
-		die;
 	}
 
 	function bhaa_admin_day_json()

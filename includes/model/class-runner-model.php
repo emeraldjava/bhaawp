@@ -47,7 +47,7 @@ class RunnerModel extends BaseModel {
 		return $res;
 	}
 
-	function expectRaceMasterData($status=array('M','I','D'),$limit=16000,$output_type='OBJECT',&$resultCount) {
+	function exportRaceMasterData($status=array('M','I','D'),$limit=16000,$output_type='OBJECT',&$resultCount) {
 		$this->getWpdb()->query('SET SQL_BIG_SELECTS=1');
 
 		$eventId = $this->getWpdb()->get_var( 'SELECT event_id FROM wp_em_events WHERE event_start_date > CURDATE() ORDER BY event_start_date ASC LIMIT 1');
