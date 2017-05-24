@@ -111,14 +111,6 @@ class RunnerModel extends BaseModel {
 			left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
 			where wp_em_bookings.event_id='.$eventId.' order by lastname,firstname';
 
-//		select %d,person_id,"PRE_REG"
-//					from wp_em_bookings
-//					join wp_users on wp_users.id=wp_em_bookings.person_id
-//					where event_id=%d
-//		and booking_status=1
-//					order by display_name desc',$race,$event)
-
-		//var_dump($SQL);
 		$res = $this->getWpdb()->get_results($SQL,'ARRAY_A');
 		$resultCount = $this->getWpdb()->num_rows;
 		return $res;
