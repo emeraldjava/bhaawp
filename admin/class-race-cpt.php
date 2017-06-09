@@ -54,10 +54,12 @@ class RaceCpt {
 		add_action('admin_action_bhaa_race_delete_team_results',array(&$this,'bhaa_race_delete_team_results'));
 		add_action('admin_action_bhaa_race_load_team_results',array(&$this,'bhaa_race_load_team_results'));
 		//add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
-		add_action('admin_action_bhaa_raceday_export',array(&$this,'bhaa_raceday_export'));
 
 		add_action('admin_action_bhaa_race_result_save',array(&$this,'bhaa_race_result_save'));
 		add_action('admin_action_bhaa_race_result_delete',array(&$this,'bhaa_race_result_delete'));
+
+		add_action('admin_action_bhaa_raceday_export',array(&$this,'bhaa_raceday_export'));
+		add_action('admin_action_bhaa_race_export_racemaster',array(&$this,'bhaa_race_export_racemaster'));
 	}
 
 	/**
@@ -242,8 +244,19 @@ class RaceCpt {
 		wp_redirect(wp_get_referer());
 		exit();
 	}
+
 	function bhaa_raceday_export() {
 		Raceday::get_instance()->export();
+		exit();
+	}
+
+	/**
+	 * Export the RaceMaster with data for this event.
+	 */
+	function bhaa_race_export_racemaster() {
+		RaceMaster::get_instance()->bhaa_admin_racemaster_export_csv();
+		queue_flash_message("bhaa_race_export_racemaster");
+		wp_redirect(wp_get_referer());
 		exit();
 	}
 
@@ -321,12 +334,6 @@ class RaceCpt {
 			case 'type' :
 				echo get_post_meta($post_id,RaceCpt::BHAA_RACE_TYPE,true);
 				break;
-			//case 'id' :
-			//	echo $post_id;
-			//	break;
-			//case 'count' :
-			//	echo new RaceResult()->getRunnersPerRace($post_id);
-			//	break;
 			default:
 		}
 	}
@@ -369,11 +376,8 @@ class RaceCpt {
 			'bhaa_race_all' => $this->generate_admin_url_link('bhaa_race_all',$post->ID,'All'),
 			'bhaa_race_delete_team_results' => $this->generate_admin_url_link('bhaa_race_delete_team_results',$post->ID,'Delete Teams'),
 			'bhaa_race_load_team_results' => $this->generate_admin_url_link('bhaa_race_load_team_results',$post->ID,'Load Teams'),
-			//'bhaa_race_add_result' => $this->generate_admin_url_link('bhaa_race_add_result',$post->ID,'Add Result'),
-			'bhaa_race_edit_results' => $this->generate_edit_raceresult_link($post->ID)
-
-			//
-//			'bhaa_race_edit_result' => $this->generate_admin_url_link('bhaa_race_edit_result',$post->ID,'Result')
+			'bhaa_race_edit_results' => $this->generate_edit_raceresult_link($post->ID),
+			'bhaa_race_export_racemaster' => $this->generate_admin_url_link('bhaa_race_export_racemaster',$post->ID,'Export RaceMaster')
 		);
 	}
 	
