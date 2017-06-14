@@ -17,6 +17,71 @@ class RaceMaster {
         add_action('admin_action_bhaa_admin_racemaster_preregistered',array($this,'bhaa_admin_racemaster_preregistered'));
     }
 
+    /**
+     * https://gist.github.com/steve-jansen/7589478
+     *
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+
+    function bhaa_admin_racemaster_export() {
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
+        error_log("bhaa_admin_racemaster_export " . $_GET['status']);
+
+        $spreadsheet = new PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Members');
+        $sheet->setCellValue('A1', 'Sheet 1');
+
+        $sheet = $spreadsheet->createSheet(1);
+        $sheet->setTitle('Inactive');
+        $sheet->setCellValue('A1', 'Sheet 2');
+
+        $sheet = $spreadsheet->createSheet(2);
+        $sheet->setTitle('Day');
+        $sheet->setCellValue('A1', 'Sheet 3');
+
+        $sheet = $spreadsheet->createSheet(3);
+        $sheet->setTitle('Pre-Registered');
+        $sheet->setCellValue('A1', 'Sheet 4');
+
+        $sheet = $spreadsheet->createSheet(4);
+        $sheet->setTitle('Event Details');
+        $sheet->setCellValue('A1', 'Name');
+        $sheet->setCellValue('A2', 'Event Date');
+        $sheet->setCellValue('A3', 'File Generated Date');
+
+        $writer = new PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+//        $writer->save('05featuredemo.xlsx');
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");// application/vnd.ms-excel.sheet.macroEnabled.12");//application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=05featuredemo.xlsx");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $writer->save('php://output');
+
+//        error_log(PhpOffice\PhpSpreadsheet\IOFactory::identify("/home/pauloconnell/projects/github/bhaawp/admin/BHAA.Race.Master.xlsm"));
+//        $spreadsheet = PhpOffice\PhpSpreadsheet\IOFactory::load("/home/pauloconnell/projects/github/bhaawp/admin/BHAA.Race.Master.xlsm");
+//        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
+//        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");// application/vnd.ms-excel.sheet.macroEnabled.12");//application/vnd.ms-excel");
+//        header("Content-Disposition: attachment; filename=05featuredemo.xlsm");
+//        header("Pragma: no-cache");
+//        header("Expires: 0");
+//        $writer->save('php://output');
+//
+
+        //
+        // Using https://github.com/infostreams/excel-merge
+        //
+
+//        $files = array("/home/pauloconnell/projects/github/bhaawp/admin/BHAA.Race.Master.xlsm",
+//            "/home/pauloconnell/projects/github/bhaawp/admin/clean-data-file.xlsx");
+//        $merged = new ExcelMerge\ExcelMerge($files);
+//        $merged->download("my-filename.xlsm");
+//        $filename = $merged->save("/home/pauloconnell/projects/github/bhaawp/admin/my-filename.xlsm");
+    }
+
     function bhaa_admin_racemaster_export_csv() {
         if ( !current_user_can( 'manage_options' ) )  {
             wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
