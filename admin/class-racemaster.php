@@ -35,51 +35,23 @@ class RaceMaster {
         $sheet->setTitle('Members');
 
         $user = new RunnerModel();
-        $memberDetails = $user->getRegistrationRunnerDetails(array('M'),20000,'OBJECT',$resultCount);
-        //error_log('results '.$resultCount);
-
-        $sheet->setCellValueByColumnAndRow(0,1,'BHAA_ID');
-        $sheet->setCellValueByColumnAndRow(1,1,'DISPLAY_NAME');
-        $sheet->setCellValueByColumnAndRow(2,1,'FIRST_NAME');
-        $sheet->setCellValueByColumnAndRow(3,1,'LAST_NAME');
-        $sheet->setCellValueByColumnAndRow(4,1,'STATUS');
-        $sheet->setCellValueByColumnAndRow(5,1,'EMAIL');
-        $sheet->setCellValueByColumnAndRow(6,1,'GENDER');
-        $sheet->setCellValueByColumnAndRow(7,1,'COMPANY');
-        $sheet->setCellValueByColumnAndRow(8,1,'COMPANYNAME');
-        $sheet->setCellValueByColumnAndRow(9,1,'STANDARD');
-        $sheet->setCellValueByColumnAndRow(10,1,'DATE_OF_BIRTH');
-
-        $row = 2;
-        foreach ($memberDetails as $member) {
-            $sheet->setCellValueByColumnAndRow(0,$row,$member->id);
-            $sheet->setCellValueByColumnAndRow(1,$row,$member->label);
-            $sheet->setCellValueByColumnAndRow(2,$row,$member->firstname);
-            $sheet->setCellValueByColumnAndRow(3,$row,$member->lastname);
-            $sheet->setCellValueByColumnAndRow(4,$row,$member->status);
-            $sheet->setCellValueByColumnAndRow(5,$row,$member->email);
-            $sheet->setCellValueByColumnAndRow(6,$row,$member->gender);
-            $sheet->setCellValueByColumnAndRow(7,$row,$member->company);
-            $sheet->setCellValueByColumnAndRow(8,$row,$member->companyname);
-            $sheet->setCellValueByColumnAndRow(9,$row,$member->standard);
-            $sheet->setCellValueByColumnAndRow(10,$row,$member->dob);
-            $row++;
-        }
-//        $sheet->setCellValueByColumnAndRow()
-  //      $csv_fields=array('id','displayname','firstname','lastname','email','status','gender','company','companyname','standard','dob');
-//        $sheet->setCellValue('A1', 'Sheet 1');
+        $memberDetails = $user->getRegistrationRunnerDetails(array('M'),2000,'OBJECT',$resultCount);
+        $this->populateSheet($sheet,$memberDetails);
 
         $sheet = $spreadsheet->createSheet(1);
         $sheet->setTitle('Inactive');
-        $sheet->setCellValue('A1', 'Sheet 2');
+        $memberDetails = $user->getRegistrationRunnerDetails(array('I'),10000,'OBJECT',$resultCount);
+        $this->populateSheet($sheet,$memberDetails);
 
         $sheet = $spreadsheet->createSheet(2);
         $sheet->setTitle('Day');
-        $sheet->setCellValue('A1', 'Sheet 3');
+        $memberDetails = $user->getRegistrationRunnerDetails(array('D'),10000,'OBJECT',$resultCount);
+        $this->populateSheet($sheet,$memberDetails);
 
         $sheet = $spreadsheet->createSheet(3);
         $sheet->setTitle('Pre-Registered');
-        $sheet->setCellValue('A1', 'Sheet 4');
+        $memberDetails = $user->exportPreRegisteredData($resultCount);
+        $this->populateSheet($sheet,$memberDetails);
 
         $sheet = $spreadsheet->createSheet(4);
         $sheet->setTitle('Event Details');
@@ -88,7 +60,6 @@ class RaceMaster {
         $sheet->setCellValue('A3', 'File Generated Date');
 
         $writer = new PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-//        $writer->save('05featuredemo.xlsx');
         header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");// application/vnd.ms-excel.sheet.macroEnabled.12");//application/vnd.ms-excel");
         header("Content-Disposition: attachment; filename=05featuredemo.xlsx");
         header("Pragma: no-cache");
@@ -114,6 +85,40 @@ class RaceMaster {
 //        $merged = new ExcelMerge\ExcelMerge($files);
 //        $merged->download("my-filename.xlsm");
 //        $filename = $merged->save("/home/pauloconnell/projects/github/bhaawp/admin/my-filename.xlsm");
+    }
+
+    private function populateSheet($sheet,$memberDetails) {
+
+        // set the header
+        $sheet->setCellValueByColumnAndRow(0,1,'BHAA_ID');
+        $sheet->setCellValueByColumnAndRow(1,1,'DISPLAY_NAME');
+        $sheet->setCellValueByColumnAndRow(2,1,'FIRST_NAME');
+        $sheet->setCellValueByColumnAndRow(3,1,'LAST_NAME');
+        $sheet->setCellValueByColumnAndRow(4,1,'STATUS');
+        $sheet->setCellValueByColumnAndRow(5,1,'EMAIL');
+        $sheet->setCellValueByColumnAndRow(6,1,'GENDER');
+        $sheet->setCellValueByColumnAndRow(7,1,'COMPANY');
+        $sheet->setCellValueByColumnAndRow(8,1,'COMPANYNAME');
+        $sheet->setCellValueByColumnAndRow(9,1,'STANDARD');
+        $sheet->setCellValueByColumnAndRow(10,1,'DATE_OF_BIRTH');
+        $sheet->setCellValueByColumnAndRow(11,1,'PAID');
+
+        $row = 2;
+        foreach ($memberDetails as $member) {
+            $sheet->setCellValueByColumnAndRow(0,$row,$member->id);
+            $sheet->setCellValueByColumnAndRow(1,$row,$member->label);
+            $sheet->setCellValueByColumnAndRow(2,$row,$member->firstname);
+            $sheet->setCellValueByColumnAndRow(3,$row,$member->lastname);
+            $sheet->setCellValueByColumnAndRow(4,$row,$member->status);
+            $sheet->setCellValueByColumnAndRow(5,$row,$member->email);
+            $sheet->setCellValueByColumnAndRow(6,$row,$member->gender);
+            $sheet->setCellValueByColumnAndRow(7,$row,$member->company);
+            $sheet->setCellValueByColumnAndRow(8,$row,$member->companyname);
+            $sheet->setCellValueByColumnAndRow(9,$row,$member->standard);
+            $sheet->setCellValueByColumnAndRow(10,$row,$member->dob);
+            $sheet->setCellValueByColumnAndRow(11,$row,$member->paid);
+            $row++;
+        }
     }
 
 //    function bhaa_admin_racemaster_export_csv() {
