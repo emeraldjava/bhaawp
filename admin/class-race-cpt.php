@@ -53,7 +53,7 @@ class RaceCpt {
 		add_action('admin_action_bhaa_race_all',array(&$this,'bhaa_race_all'));
 		add_action('admin_action_bhaa_race_delete_team_results',array(&$this,'bhaa_race_delete_team_results'));
 		add_action('admin_action_bhaa_race_load_team_results',array(&$this,'bhaa_race_load_team_results'));
-		//add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
+		add_action('admin_action_bhaa_race_add_result',array(&$this,'bhaa_race_add_result'));
 
 		add_action('admin_action_bhaa_race_result_save',array(&$this,'bhaa_race_result_save'));
 		add_action('admin_action_bhaa_race_result_delete',array(&$this,'bhaa_race_result_delete'));
@@ -91,8 +91,8 @@ class RaceCpt {
 
 	public function bhaa_race_result_save() {
 		error_log("bhaa_race_result_save() ".$_POST['bhaa_race']);
-		$raceResult = new RaceResult();
-		$raceResult->updateRunnersRaceResultStandard(
+		//$raceResult = new RaceResult();
+		RaceResult::get_instance()->updateRunnersRaceResultStandard(
 			$_POST['bhaa_raceresult_id'],
 			$_POST['bhaa_race'],
 			$_POST['bhaa_runner'],
@@ -105,7 +105,7 @@ class RaceCpt {
 
 	public function bhaa_race_result_delete() {
 		error_log("bhaa_race_result_delete() ".$_POST['bhaa_race']);
-		$raceResult = new RaceResult();
+		$raceResult = RaceResult::get_instance();
 		$raceResult->deleteRaceResult($_POST['bhaa_raceresult_id']);
 		$raceResult->updatePositions($_POST['bhaa_race']);
 		wp_redirect(admin_url('edit.php?post_type=race&page=bhaa_race_edit_results&id='.$_POST['bhaa_race']));
@@ -264,8 +264,7 @@ class RaceCpt {
 	 * Used to add an empty race result for a specific race.
 	 */
 	function bhaa_race_add_result() {
-		$raceResult = new RaceResult($_GET['post_id']);
-		$raceResult->addDefaultResult();
+		RaceResult::get_instance()->addDefaultResult($_POST['post_id']);
 		queue_flash_message("bhaa_race_add_result");
 		wp_redirect(wp_get_referer());
 		exit();

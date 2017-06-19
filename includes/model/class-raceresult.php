@@ -161,8 +161,8 @@ class RaceResult extends BaseModel implements Table {
 	/**
 	 * Insert a new result with default position and time, user will then edit
 	 */
-	function addDefaultResult() {
-		return $this->addRaceResult(array('1','1','1','00:00:01','','','','','','','','','','','',''));
+	function addDefaultResult($race) {
+		return $this->addRaceResult($race,array('1','1','1','00:00:01','','','','','','','','','','','',''));
 	}
 	
 	/**

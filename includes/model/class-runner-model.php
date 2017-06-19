@@ -37,7 +37,7 @@ class RunnerModel extends BaseModel {
 			left join wp_usermeta company on (company.user_id=wp_users.id and company.meta_key="bhaa_runner_company")
 			left join wp_posts house on (house.id=company.meta_value and house.post_type="house")
 			left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
-			where status.meta_value IN('.$IN.') order by status.meta_value,lastname,firstname LIMIT '.$limit;
+			where status.meta_value IN('.$IN.') AND TRIM(IFNULL(wp_users.display_name,"")) <> "" order by status.meta_value,lastname,firstname LIMIT '.$limit;
 		//var_dump($SQL);
 //		error_log($SQL);
 //		error_log('$output_type '.$output_type);
@@ -84,7 +84,7 @@ class RunnerModel extends BaseModel {
 	function exportPreRegisteredData(&$resultCount) {
 		$this->getWpdb()->query('SET SQL_BIG_SELECTS=1');
 
-		$eventId = $this->getWpdb()->get_var( 'SELECT event_id FROM wp_em_events WHERE event_start_date > CURDATE() ORDER BY event_start_date ASC LIMIT 1');
+		$eventId = $this->getWpdb()->get_var( 'SELECT event_id FROM wp_em_events WHERE event_start_date >= CURDATE() ORDER BY event_start_date ASC LIMIT 1');
 
 		$SQL = 'select TRIM(wp_users.id) as id,
 			TRIM(LOWER(REPLACE(wp_users.display_name," ","."))) as label,
@@ -110,7 +110,7 @@ class RunnerModel extends BaseModel {
 			left join wp_usermeta standard on (standard.user_id=wp_users.id and standard.meta_key="bhaa_runner_standard")
 			where wp_em_bookings.event_id='.$eventId.' order by lastname,firstname';
 
-		$res = $this->getWpdb()->get_results($SQL,'ARRAY_A');
+		$res = $this->getWpdb()->get_results($SQL,'OBJECT');
 		$resultCount = $this->getWpdb()->num_rows;
 		return $res;
 	}
