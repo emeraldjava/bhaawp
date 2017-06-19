@@ -229,14 +229,8 @@ class RaceResult extends BaseModel implements Table {
 					'standard' => ($details[7] == '') ? null : $details[7],
 					'class' => RaceResult::RAN)
 			);
+			$res = $this->getWpdb()->insert_id;
 		}
-
-//		if($runner_id>30000) {
-//			// move the new high users
-//			$newRunnerId = RunnerAdmin::get_instance()->getNextRunnerId();
-//			Runner_Manager::get_instance()->mergeRunner($newRunnerId,$runner_id,true);
-//		}
-
 		return $res;
 	}
 	

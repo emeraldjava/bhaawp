@@ -266,10 +266,10 @@ class RaceCpt {
 	 * Used to add an empty race result for a specific race.
 	 */
 	function bhaa_race_add_result() {
-		RaceResult::get_instance()->addDefaultResult($_POST['post_id']);
+		$newRaceResult = RaceResult::get_instance()->addDefaultResult($_POST['post_id']);
 		queue_flash_message("bhaa_race_add_result");
-		wp_redirect(wp_get_referer());
-		exit();
+		$url = admin_url('edit.php?post_type=race&page=bhaa_race_edit_result&raceresult='.$newRaceResult);
+		wp_redirect($url);
 	}
 
 	function bhaa_race_post_row_actions($actions, $post) {
