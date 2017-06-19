@@ -6,6 +6,7 @@ echo '<form action="'.$link.'" method="POST">
         <label>Runner:<input type="text" id="bhaa_runner" name="bhaa_runner" value="'.$raceResult->runner.'"/></label><br>
         <label>Race:<input type="text" readonly id="bhaa_race" name="bhaa_race" value="'.$raceResult->race.'"/></label><br>
         <label>Time:<input type="text" id="bhaa_time" name="bhaa_time" value="'.$raceResult->racetime.'"/></label><br>
+        <label>Number:<input type="text" id="bhaa_number" name="bhaa_number" value="'.$raceResult->racenumber.'"/></label><br>
         <label>Pre Std:<input type="text" id="bhaa_pre_standard" name="bhaa_pre_standard" value="'.$raceResult->standard.'"/></label><br>
         <label>Post Std:<input type="text" id="bhaa_post_standard" name="bhaa_post_standard" value="'.$raceResult->poststandard.'"/></label><br>
         <input type="hidden" name="action" value="bhaa_race_result_save"/>

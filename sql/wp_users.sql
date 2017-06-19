@@ -388,3 +388,19 @@ JOIN wp_usermeta AS standard ON (wp_users.ID = standard.user_id AND standard.met
 where status.meta_value='M' and standard.meta_value=30;
 
 
+SELECT *,
+	STR_TO_DATE(meta_value,'%d/%m/%Y') as dob,
+	DATE_FORMAT(STR_TO_DATE(meta_value,'%d/%m/%Y'),'%Y-%m-%d') as dob2
+FROM wp_usermeta
+WHERE meta_key='bhaa_runner_dateofbirth'
+			AND meta_value REGEXP '[[:digit:]]{1,2}/[[:digit:]]{1,2}/[[:digit:]]{4}'
+ORDER BY dob DESC;
+
+UPDATE wp_usermeta
+SET meta_key=DATE_FORMAT(STR_TO_DATE(meta_value,'%d/%m/%Y'),'%Y-%m-%d')
+WHERE meta_key='bhaa_runner_dateofbirth'
+			AND meta_value REGEXP '[[:digit:]]{1,2}/[[:digit:]]{1,2}/[[:digit:]]{4}'
+
+
+
+

@@ -98,8 +98,10 @@ class RaceCpt {
 			$_POST['bhaa_runner'],
 			$_POST['bhaa_time'],
 			$_POST['bhaa_pre_standard'],
-			$_POST['bhaa_post_standard']
+			$_POST['bhaa_post_standard'],
+			$_POST['bhaa_number']
 		);
+		RaceResult::get_instance()->updatePositions($_POST['bhaa_race']);
 		wp_redirect(admin_url('edit.php?post_type=race&page=bhaa_race_edit_results&id='.$_POST['bhaa_race']));
 	}
 

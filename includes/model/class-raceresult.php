@@ -331,7 +331,7 @@ class RaceResult extends BaseModel implements Table {
 	 * @param unknown $standard
 	 * @param unknown $poststandard
 	 */
-	function updateRunnersRaceResultStandard($id,$race,$runner,$time,$standard,$poststandard) {
+	function updateRunnersRaceResultStandard($id,$race,$runner,$time,$standard,$poststandard,$number=0) {
 		global $wpdb;
 		error_log(sprintf('updateRunnersRaceResultStandard %d,%d,%d,%s,%d,%d',$id,$race,$runner,$time,$standard,$poststandard));
 		if(isset($id)&&$id!=0) {
@@ -341,6 +341,7 @@ class RaceResult extends BaseModel implements Table {
 					'race'=>$race,
 					'standard' => $standard,
 					'poststandard'=>$poststandard,
+					'racenumber'=>$number,
 					'racetime'=>$time),
 				array('id' => $id)
 			);
