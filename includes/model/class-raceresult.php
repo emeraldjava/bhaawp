@@ -162,7 +162,7 @@ class RaceResult extends BaseModel implements Table {
 	 * Insert a new result with default position and time, user will then edit
 	 */
 	function addDefaultResult($race) {
-		return $this->addRaceResult($race,array('1','1','1','00:00:01','','','','','','','','','','','',''));
+		return $this->addRaceResult($race,array('-1','1','1','00:00:01','','','','','','','','','','','',''));
 	}
 	
 	/**
@@ -206,6 +206,8 @@ class RaceResult extends BaseModel implements Table {
 			//}
 		} else {
 			error_log($details[0].' Existing member '.$runner_id.', '.$details[5].' '.$details[4]);
+			$runner = new Runner($runner_id);
+			$details[7] = $runner->getStandard();
 		}
 		
 		// convert Senior to S
