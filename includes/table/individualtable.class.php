@@ -43,7 +43,12 @@ class Individual_Table {
 			->render(array(
 					'runners'=>$results,
 					'isAdmin'=>$isAdmin,
-					'formUrl'=>$link)
+					'formUrl'=>$link,
+					'racename'=>get_the_title($race),
+					'dist'=>get_post_meta($race,'bhaa_race_distance',true),
+					'unit'=>get_post_meta($race,'bhaa_race_unit',true),
+					'type'=>get_post_meta($race,'bhaa_race_type',true),
+				)
 		);
 	}
 
