@@ -205,9 +205,9 @@ class RaceResult extends BaseModel implements Table {
 				error_log($details[0].' Created new runner '.$runner_id.', '.$details[5].' '.$details[4]);
 			//}
 		} else {
-			error_log($details[0].' Existing member '.$runner_id.', '.$details[5].' '.$details[4]);
-			$runner = new Runner($runner_id);
-			$details[7] = $runner->getStandard();
+			//$runner = new Runner($runner_id);
+			//$details[7] = $runner->getStandard();
+			error_log($details[0].' Existing member '.$runner_id.', '.$details[5].' '.$details[4].''.$details[7]);
 		}
 		
 		// convert Senior to S
@@ -331,6 +331,13 @@ class RaceResult extends BaseModel implements Table {
 		global $wpdb;
 		error_log(sprintf('updateRunnersRaceResultStandard %d,%d,%d,%s,%d,%d',$id,$race,$runner,$time,$standard,$poststandard));
 		if(isset($id)&&$id!=0) {
+
+			// lookup the standard if not defined.
+			if($standard==0) {
+				$runnerObj = new Runner($runner);
+				$standard = $runnerObj->getStandard();
+			}
+
 			$res = $wpdb->update(
 				'wp_bhaa_raceresult',
 				array('runner' => $runner,
