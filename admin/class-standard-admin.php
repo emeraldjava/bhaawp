@@ -58,10 +58,10 @@ class StandardAdmin {
             $query->query_from = $query->query_from . ' LEFT OUTER JOIN (
                 SELECT runner, COUNT(race) as races
                 FROM wp_bhaa_raceresult
-				GROUP BY runner
+                GROUP BY runner
             ) rr ON (wp_users.ID = rr.runner)';
             $query->query_where = $query->query_where . ' AND rr.races > 0 ';
-            var_dump($query);
+            //var_dump($query);
         }
     }
 }
