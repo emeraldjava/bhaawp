@@ -44,6 +44,7 @@ class RunnerAdmin {
 		unset($column['posts']);
 		unset($column['role']);
 		$column[Runner::BHAA_RUNNER_STATUS] = __('Status', Runner::BHAA_RUNNER_STATUS);
+		$column[Runner::BHAA_RUNNER_GENDER] = __('Gender', Runner::BHAA_RUNNER_GENDER);
 		$column[Runner::BHAA_RUNNER_DATEOFRENEWAL] = __('Renewal', Runner::BHAA_RUNNER_DATEOFRENEWAL);
 		$column[Runner::BHAA_RUNNER_DATEOFBIRTH] = __('DoB', Runner::BHAA_RUNNER_DATEOFBIRTH);
 		$column[Runner::BHAA_RUNNER_COMPANY] = __('Company', Runner::BHAA_RUNNER_COMPANY);
@@ -57,6 +58,9 @@ class RunnerAdmin {
 		switch ($column_name) {
 			case Runner::BHAA_RUNNER_STATUS:
 				return get_user_meta($user_id,Runner::BHAA_RUNNER_STATUS,true);
+				break;
+			case Runner::BHAA_RUNNER_GENDER:
+				return get_user_meta($user_id,Runner::BHAA_RUNNER_GENDER,true);
 				break;
 			case Runner::BHAA_RUNNER_DATEOFRENEWAL:
 				return get_user_meta($user_id,Runner::BHAA_RUNNER_DATEOFRENEWAL,true);
