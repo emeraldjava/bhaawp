@@ -122,14 +122,12 @@ class Events_Manager {
 
 	
 	/**
+	 * The Events Manager Pro Form element displays the company field below.
 	 * http://eventsmanagerpro.com/support/questions/custom-form-select-options-using-wp_dropdown_pages/
+	 * https://stackoverflow.com/questions/22070100/remove-further-information-fields-from-wordpress-profiles
 	 */
 	function bhaa_emp_forms_output_field_input($html, $form, $field) {
-		//error_log('bhaa_emp_forms_output_field_input() field '.print_r($field,true));
-		
 		if($field['type']=='select' && $field['fieldid']==Runner::BHAA_RUNNER_COMPANY) {
-			
-			//error_log('bhaa_emp_forms_output_field_input() field '.print_r($field,true));
 			$sectorTeamQuery = new WP_Query(
 				array(
 					'post_type' => 'house',
@@ -146,17 +144,24 @@ class Events_Manager {
 					)
 				)
 			);
-			$csv = implode(',',array_map(function($val){return $val->ID;},$sectorTeamQuery->posts) );
+			$sectorTeamIds = implode(',',array_map(function($val){return $val->ID;},$sectorTeamQuery->posts) );
 			$args = array (
 				'id' => $field['fieldid'],
 				'name' => $field['fieldid'],
 				'echo' => 1,
 				'post_type' => 'house',
-				'exclude' => $csv
-			);
-				
-			global $current_user;
-			$selected = get_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,true);	
+				'exclude' => $sectorTeamIds);
+
+			// an admin user is editing a runner page via the profile or edit-user pages.
+			if (isset($_GET['user_id'])) {
+				$runnerId = $_GET['user_id'];
+				//error_log('user_id = '.$runnerId);
+			} else {
+				$runnerId = wp_get_current_user()->ID;
+				//error_log('no `user_id` is defined, using wp_get_current_user() '.$runnerId);
+			}
+
+			$selected = get_user_meta($runnerId,Runner::BHAA_RUNNER_COMPANY,true);
 			// set the correct defaults for new or existing user
 			if($selected==0||$selected=='') {
 				$args = array_merge( $args, array( 'show_option_none' => 'Please select a company' ) );
