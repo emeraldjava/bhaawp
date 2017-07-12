@@ -83,6 +83,9 @@ class Runner_Manager {
 	function bhaa_runner_edit_mobile_shortcode() {
 		if(current_user_can('edit_users')) {
 			$runner = new Runner(get_query_var('id'));
+
+			//$form = Connections::get_instance()->p2pDetails($runner->getID());
+
 			$form = '<div><form action="'.admin_url( 'admin.php' ).'" method="POST">'.
 					wp_nonce_field('bhaa_runner_mobile_action').'
 				<input type="text" size="10" name="mobilephone" value="'.$runner->getMobile().'"/>

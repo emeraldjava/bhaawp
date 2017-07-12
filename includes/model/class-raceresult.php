@@ -180,6 +180,10 @@ class RaceResult extends BaseModel implements Table {
     [11] => 94
     [12] => Gardai
     [13] => 94
+	 *
+	Place	RaceNo	MemberNo	Time	LastName	First Name	Gender	Standard	Date of Birth	Category	Company Name	Company No
+	1		3201	29256		16:4	Donagher	Kevin		M		4			08/06/1982		S			Day Runner		1
+
 	 */
 	public function addRaceResult($race,$details) {
 		// check if the runner exists
@@ -211,11 +215,52 @@ class RaceResult extends BaseModel implements Table {
 		}
 		
 		// convert Senior to S
-		$category = $details[9];
-		if($details[9]=='Senior'){
-			$category='S';
+		switch ($details[9]) {
+			case 'Senior':
+				$category = 'S';
+				break;
+			case 'A':
+				$category = '35';
+				break;
+			case '1':
+			case 'B':
+				$category = '40';
+				break;
+			case '2':
+			case 'C':
+				$category = '45';
+				break;
+			case '3':
+			case 'D':
+				$category = '50';
+				break;
+			case '4':
+			case 'E':
+				$category = '55';
+				break;
+			case '5':
+			case 'F':
+				$category = '60';
+				break;
+			case '6':
+			case 'G':
+				$category = '65';
+				break;
+			case '7':
+			case 'H':
+				$category = '70';
+				break;
+			case '8':
+			case 'I':
+				$category = '75';
+				break;
+			case '9':
+			case 'J':
+				$category = '80';
+				break;
+			default:
+				$category = 'S';
 		}
-			
 		//$this->getWpdb()->show_errors();
 		//error_log($race.''.print_r($details,true));
 		if($details[0]!=0) {

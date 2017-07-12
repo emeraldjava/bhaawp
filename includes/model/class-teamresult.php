@@ -20,9 +20,9 @@ class TeamResult extends BaseModel
 	 * [15]=> string(2) "20" [16]=> string(8) "00:14:10" [17]=> string(2) "15" [18]=> string(1) "W" [19]=> string(2) "21" 
 	 * [20]=> string(3) "431" [21]=> string(2) "48" [22]=> string(1) "1" [23]=> string(5) "5798 " }
 
-     * 0  ,1                  ,2       ,3   ,4  ,5         ,6     ,7         ,8        ,9        ,10      ,11    ,12  ,13    ,14     ,15         ,16         ,17 ,18   ,19     ,20        ,21    ,22     ,23
-	 * Pos,RaceName,EventDescr,TeamType,Team Pos,TeamTypeId,TeamId,TempTeamId,Team Time,Team Name,Team Std,RaceNo,Name,Gender,Company,Overall Pos,Finish Time,Std,Class,Team No,Company No,RaceId,EventId,MemberNo
-	 * 1,BHAA Dublin City Council 2013,Ladies 2 Mile,Womens,1,1,4,1,48,Accountants Ladies A,45,1789,Ann Marie Coughlan,Female,McInerney Saunders,11,00:13:32,15,W,21,549,48,1,7048
+     * 0  	,1				,2       	,3			,4  	,5         , 6     	,7         ,8		,9        ,10      ,11    ,12  ,13    ,14     ,15         ,16         ,17 ,18   ,19     ,20        ,21    ,22     ,23
+	 * Pos	,RaceName		,EventDescr	,TeamType	,TeamPos,TeamTypeId, TeamId	,TempTeamId,Team Time,Team Name,Team Std,RaceNo,Name,Gender,Company,Overall Pos,Finish Time,Std,Class,Team No,Company No,RaceId,EventId,MemberNo
+	 * 1	,BHAA DCC 2013	,L2 Mile,	 Womens		,1		,1			,4		,1			,4		8,Accountants Ladies A,45,1789,Ann Marie Coughlan,Female,McInerney Saunders,11,00:13:32,15,W,21,549,48,1,7048
 	 */
 	public function addResult($row) {
 		// calculate the team league points.

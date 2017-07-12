@@ -48,26 +48,26 @@ class Events_Manager {
 	}
 	
 	function bhaa_emp_form_validate_field($result, $field, $value, $EM_Form) {
-	    // if field has validation error and user is a user admin, ignore error
-	    if ($field['fieldid']==Runner::BHAA_RUNNER_COMPANY && $field['type']=='select') {
-	    	if($value==''|$value==0)
-	    		$value=1;
-	    	
-	    	global $current_user;
-	    	error_log('bhaa_emp_form_validate_field('.$current_user->ID.') type[select] bhaa_runner_company='.$value);
-	    	update_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,$value);
-	    	$result = false;
-	        array_pop($EM_Form->errors);
-	    }
-	    else if ($field['fieldid']==Runner::BHAA_RUNNER_COMPANY && $field['type']==Runner::BHAA_RUNNER_COMPANY) {
-	    	if($value==''|$value==0)
-	    		$value=1;
-	    	error_log('bhaa_emp_form_validate_field type[Runner::BHAA_RUNNER_COMPANY] Runner::BHAA_RUNNER_COMPANY='.$value.' RESULT '.print_r($result));
-	    	//error_log(print_r($field,true));
-	    	$result = false;
-	        array_pop($EM_Form->errors);
-	    }
-	    return $result;
+		// if field has validation error and user is a user admin, ignore error
+		if ($field['fieldid']==Runner::BHAA_RUNNER_COMPANY && $field['type']=='select') {
+			if($value==''|$value==0)
+				$value=1;
+
+			global $current_user;
+			//error_log('bhaa_emp_form_validate_field('.$current_user->ID.') type[select] bhaa_runner_company='.$value);
+			update_user_meta($current_user->ID,Runner::BHAA_RUNNER_COMPANY,$value);
+			$result = false;
+			array_pop($EM_Form->errors);
+		}
+		else if ($field['fieldid']==Runner::BHAA_RUNNER_COMPANY && $field['type']==Runner::BHAA_RUNNER_COMPANY) {
+			if($value==''|$value==0)
+				$value=1;
+			//error_log('bhaa_emp_form_validate_field type[Runner::BHAA_RUNNER_COMPANY] Runner::BHAA_RUNNER_COMPANY='.$value.' RESULT '.print_r($result));
+			//error_log(print_r($field,true));
+			$result = false;
+			array_pop($EM_Form->errors);
+		}
+		return $result;
 	}
 	
 	/**

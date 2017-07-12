@@ -152,7 +152,9 @@ class Connections {
 	}
 	
 	function p2pDetails($user_id) {
-		
+
+		//error_log('p2pDetails() '.$user_id);
+
 		$connected = get_posts( array(
 			'connected_type' => Connections::HOUSE_TO_RUNNER,
 			'connected_items' => $user_id,
@@ -161,7 +163,7 @@ class Connections {
 		) );
 		
 		//$connected = p2p_type(Connections::HOUSE_TO_RUNNER);
-		var_dump($connected);
+		//var_dump($connected);
 		//$connected->get_connected( $user_id );
 		
 		foreach ( $connected as $post )  {
