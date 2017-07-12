@@ -256,7 +256,7 @@ class RaceCpt {
 	 * Export the RaceMaster with data for this event.
 	 */
 	function bhaa_race_export_racemaster() {
-		RaceMaster::get_instance()->bhaa_admin_racemaster_export();
+		//RaceMaster::get_instance()->bhaa_admin_racemaster_export();
 		queue_flash_message("bhaa_race_export_racemaster");
 		wp_redirect(wp_get_referer());
 		exit();
