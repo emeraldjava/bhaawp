@@ -20,6 +20,7 @@ Shortcodes
 
 Change Log
 ==========
+- 2017.07.28 Test auto deployment webhook using deployhq.com
 - 2017.07.12 Update for exporting data and importing result to & from RaceMaster.
 - 2017.06.19 Support the RaceMaster export and editing of race results.
 - 2017.05.24 Support export formats for the RaceMaster test phase.
