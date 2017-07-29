@@ -1,1 +1,11 @@
 gh-pages/
+
+.idea/*
+
+vendor/*
+
+composer.lock
+
+build.properties
+
+.htaccess
