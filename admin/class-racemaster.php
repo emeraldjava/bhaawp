@@ -30,41 +30,41 @@ class RaceMaster {
         }
         error_log("bhaa_admin_racemaster_export " . $_GET['status']);
 
-//        $spreadsheet = new PhpOffice\PhpSpreadsheet\Spreadsheet();
-//        $sheet = $spreadsheet->getActiveSheet();
-//        $sheet->setTitle('Members');
-//
-//        $user = new RunnerModel();
-//        $memberDetails = $user->getRegistrationRunnerDetails(array('M'),2000,'OBJECT',$resultCount);
-//        $this->populateSheet($sheet,$memberDetails);
-//
-//        $sheet = $spreadsheet->createSheet(1);
-//        $sheet->setTitle('Inactive');
-//        $memberDetails = $user->getRegistrationRunnerDetails(array('I'),10000,'OBJECT',$resultCount);
-//        $this->populateSheet($sheet,$memberDetails);
-//
-//        $sheet = $spreadsheet->createSheet(2);
-//        $sheet->setTitle('Day');
-//        $memberDetails = $user->getRegistrationRunnerDetails(array('D'),10000,'OBJECT',$resultCount);
-//        $this->populateSheet($sheet,$memberDetails);
-//
-//        $sheet = $spreadsheet->createSheet(3);
-//        $sheet->setTitle('Pre-Registered');
-//        $memberDetails = $user->exportPreRegisteredData($resultCount);
-//        $this->populateSheet($sheet,$memberDetails);
-//
-//        $sheet = $spreadsheet->createSheet(4);
-//        $sheet->setTitle('Event Details');
-//        $sheet->setCellValue('A1', 'Name');
-//        $sheet->setCellValue('A2', 'Event Date');
-//        $sheet->setCellValue('A3', 'File Generated Date');
-//
-//        $writer = new PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-//        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");// application/vnd.ms-excel.sheet.macroEnabled.12");//application/vnd.ms-excel");
-//        header("Content-Disposition: attachment; filename=05featuredemo.xlsx");
-//        header("Pragma: no-cache");
-//        header("Expires: 0");
-//        $writer->save('php://output');
+        $user = new RunnerModel();
+
+        $spreadsheet = new PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Members');
+        $memberDetails = $user->getRegistrationRunnerDetails(array('M'),2000,'OBJECT',$resultCount);
+        $this->populateSheet($sheet,$memberDetails);
+
+        $sheet = $spreadsheet->createSheet(1);
+        $sheet->setTitle('Inactive');
+        $memberDetails = $user->getRegistrationRunnerDetails(array('I'),10000,'OBJECT',$resultCount);
+        $this->populateSheet($sheet,$memberDetails);
+
+        $sheet = $spreadsheet->createSheet(2);
+        $sheet->setTitle('Day');
+        $memberDetails = $user->getRegistrationRunnerDetails(array('D'),10000,'OBJECT',$resultCount);
+        $this->populateSheet($sheet,$memberDetails);
+
+        $sheet = $spreadsheet->createSheet(3);
+        $sheet->setTitle('Pre-Registered');
+        $memberDetails = $user->exportPreRegisteredData($resultCount);
+        $this->populateSheet($sheet,$memberDetails);
+
+        $sheet = $spreadsheet->createSheet(4);
+        $sheet->setTitle('Event Details');
+        $sheet->setCellValue('A1', 'Name');
+        $sheet->setCellValue('A2', 'Event Date');
+        $sheet->setCellValue('A3', 'File Generated Date');
+
+        $writer = new PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");// application/vnd.ms-excel.sheet.macroEnabled.12");//application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=05featuredemo.xlsx");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $writer->save('php://output');
     }
 
     private function populateSheet($sheet,$memberDetails) {

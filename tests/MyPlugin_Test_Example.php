@@ -3,7 +3,7 @@
 /**
  * An example test case.
  */
-class MyPlugin_Test_Example extends WP_UnitTestCase {
+class MyPlugin_Test_Example extends PHPUnit_Framework_TestCase {
  
     /**
      * An example test.

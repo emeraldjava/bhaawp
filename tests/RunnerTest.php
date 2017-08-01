@@ -2,7 +2,7 @@
  /**
  * Runner test case.
  */
-class RunnerTest extends WP_UnitTestCase {
+class RunnerTest extends PHPUnit_Framework_TestCase {
  
     function testGetStatus() {
         $r = new Runner(7713);

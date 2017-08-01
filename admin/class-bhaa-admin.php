@@ -228,6 +228,33 @@ class Bhaa_Admin {
 		$idRunners = RunnerAdmin::get_instance()->getRunnersWithIdOver30000();
 		$nextRunnerId = RunnerAdmin::get_instance()->getNextRunnerId();
 
+		// https://stackoverflow.com/questions/15302466/can-you-run-phpunit-tests-from-a-script
+//		try {
+//			error_log('phpunit');
+		//Run PHPUnit and log results to results.xml in junit format
+		// https://phpunit.de/manual/current/en/textui.html
+		// https://stackoverflow.com/questions/24082277/catchable-fatal-error-when-extending-phpunit
+		//$command = new PHPUnit_TextUI_Command();
+		// --coverage-text
+		//$command->run(array('phpunit','--verbose','--debug','/home/pauloconnell/projects/wordpress/bhaaie/wp-content/plugins/bhaawp/tests/'), true);
+
+//		$phpunit = new PHPUnit_TextUI_TestRunner();
+//			$resultPrinter = new PHPUnit_TextUI_ResultPrinter();
+//		$phpunit->setPrinter($resultPrinter);
+////		error_log(__DIR__);
+//
+//			$test_results = $phpunit->dorun($phpunit->getTest(__DIR__.'/../tests', '', 'Test.php'));
+//			error_log($test_results->count().' '.$test_results->failureCount());
+//
+////			$px = new PHPUnit_TextUI_ResultPrinter();
+//			$resultPrinter->printResult($test_results);
+//			$resultPrinter->flush();
+//
+//		} catch (PHPUnit_Framework_Exception $e) {
+//			print $e->getMessage() . "\n";
+//			error_log("Unit tests failed.");
+//		}
+
 		include_once( 'views/bhaa_admin_main.php' );
 	}
 

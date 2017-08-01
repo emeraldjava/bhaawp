@@ -2,7 +2,7 @@
  /**
  * Runner test case.
  */
-class RunnerManagerTest extends WP_UnitTestCase {
+class RunnerManagerTest extends PHPUnit_Framework_TestCase {
 
     private $runnerManager;
 

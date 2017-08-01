@@ -1,12 +1,13 @@
 <phpunit
-    bootstrap="wp-phpunit/bootstrap.php"
+    bootstrap="./../vendor/autoload.php"
+    xbootstrap="./../vendor/emeraldjava/wordpress-tests-core/bootstrap.php"
     backupGlobals="false"
-    colors="true"
-        >
-<!--
+    colors="false">
+
+    <!--
     bootstrap="./vendor/autoload.php"
     bootstrap="wp-phpunit/bootstrap.php"
--->
+    -->
 
     <!--<testsuites>-->
         <!-- Default test suite to run all tests -->
@@ -15,7 +16,7 @@
             <!--<file>SimpleTest.php</file>-->
             <!--<file>MyPlugin_Test_Example.php</file>-->
             <directory suffix=".php">./</directory>
-            <exclude>./wp-phpunit</exclude>
+            <!--<exclude>./wp-phpunit</exclude>-->
             <!-- 
             <exclude>tests/actions/closures.php</exclude>
             <exclude>tests/image/editor.php</exclude>
@@ -34,7 +35,7 @@
             <group>ajax</group>
         </exclude>
     </groups>-->
-    <logging>
-        <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
-    </logging>
+    <!--<logging>-->
+        <!--<log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>-->
+    <!--</logging>-->
 </phpunit>
