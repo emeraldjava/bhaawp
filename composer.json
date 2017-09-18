@@ -1,8 +1,7 @@
 {
   "require": {
-    "mustache/mustache": "2.11.1"
-    //"phpoffice/phpspreadsheet": "dev-develop", // needs php 5.6
-    //"infostreams/excel-merge": "^0.8.3"
+    "mustache/mustache": "2.11.1",
+    "phpoffice/phpspreadsheet": "dev-master"
   },
   "autoload": {
     "classmap": [

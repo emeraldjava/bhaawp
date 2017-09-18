@@ -9,3 +9,7 @@ composer.lock
 build.properties
 
 .htaccess
+
+bhaa.sql
+
+synch_bhaa_database.sh

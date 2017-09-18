@@ -77,8 +77,6 @@ class Bhaa {
 		add_action('admin_init',array($this,'bhaa_remove_subscriber_read'));
 		add_action('wp_head',array($this,'bhaa_hide_admin_bar'));
 		add_filter('wp_nav_menu_items',array($this,'bhaa_add_login_out_item_to_menu'), 50, 2 );
-
-		Bhaa_Endpoint::get_instance();
 	}
 
 	function bhaa_register_widgets() {

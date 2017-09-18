@@ -1,22 +1,12 @@
 Overview
 ========
 
-This project is a wordpress plugin for the Business Houses Athletic Assoication. It handles all aspects of
-runner registration, race results and individual/team league logic.
+This project is a wordpress plugin for the Business Houses Athletic Assoication. It handles all aspects of runner registration, race results and individual/team league logic.
 
 Website
 =======
 
 http://bhaa.ie
-
-Shortcodes
-==========
-
-|| Shortcode || Description ||
-| --------- | ----------- |
-|pdf|Embeds a PDF document in the html page|
-|bhaa_standard_table|Displays the standard table for races belongs to this event page|
-|bhaa_runner|Shows a runners race results|
 
 Change Log
 ==========

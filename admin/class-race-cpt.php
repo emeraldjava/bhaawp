@@ -1,13 +1,13 @@
 <?php
 class RaceCpt {
-	
+
 	const BHAA_RACE_DISTANCE = 'bhaa_race_distance';
 	const BHAA_RACE_UNIT = 'bhaa_race_unit';
 	const BHAA_RACE_TYPE = 'bhaa_race_type';
 	const BHAA_RACE_TEAM_RESULTS = 'bhaa_race_team_results';
 
 	protected static $instance = null;
-	
+
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
@@ -15,16 +15,16 @@ class RaceCpt {
 		}
 		return self::$instance;
 	}
-	
+
 	private function __construct() {
 		add_action( 'init', array(&$this,'bhaa_register_race_cpt'));
 
 		// custom meta
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_race_meta_data' ) );
 		add_action( 'add_meta_boxes', array( &$this, 'bhaa_team_meta_data' ) );
-		
+
 		add_action( 'save_post', array( &$this, 'bhaa_save_race_meta' ) );
-		
+
 		// custom admin columns
 		add_filter('manage_race_posts_columns',array($this,'bhaa_manage_race_posts_columns'));
 		add_filter('manage_race_posts_custom_column',array($this,'bhaa_manage_race_posts_custom_column'), 10, 3 );
@@ -152,7 +152,7 @@ class RaceCpt {
 		}
 		return $template;
 	}
-	
+
 	function bhaa_race_delete_results() {
 		$raceResult = new RaceResult();
 		$raceResult->deleteRaceResults($_GET['post_id']);
@@ -256,7 +256,7 @@ class RaceCpt {
 	 * Export the RaceMaster with data for this event.
 	 */
 	function bhaa_race_export_racemaster() {
-		//RaceMaster::get_instance()->bhaa_admin_racemaster_export();
+		RaceMaster::get_instance()->bhaa_admin_racemaster_export();
 		queue_flash_message("bhaa_race_export_racemaster");
 		wp_redirect(wp_get_referer());
 		exit();
@@ -278,7 +278,7 @@ class RaceCpt {
 		}
 		return $actions;
 	}
-		
+
 	public function bhaa_register_race_cpt() {
 		$raceLabels = array(
 			'name' => _x( 'Races', 'race' ),
@@ -315,7 +315,7 @@ class RaceCpt {
 		);
 		register_post_type( 'race', $raceArgs );
 	}
-	
+
 	function bhaa_manage_race_posts_columns( $column ) {
 		return array(
 			'title' => __('Title'),
@@ -326,7 +326,7 @@ class RaceCpt {
 			'date' => __('Date')
 		);
 	}
-	
+
 	function bhaa_manage_race_posts_custom_column( $column, $post_id ) {
 		switch ($column) {
 			case 'distance' :
@@ -350,9 +350,9 @@ class RaceCpt {
 			'race',
 			'side',
 			'high'
-		);	
+		);
 	}
-	
+
 	public function bhaa_team_meta_data() {
 		add_meta_box(
 			'bhaa-race-team-meta',
@@ -381,7 +381,7 @@ class RaceCpt {
 			'bhaa_race_export_racemaster' => $this->generate_admin_url_link('bhaa_race_export_racemaster',$post->ID,'Export RaceMaster')
 		);
 	}
-	
+
 	/**
 	 * Use the admin.php page as the hook point
 	 * http://shibashake.com/wordpress-theme/obscure-wordpress-errors-why-where-and-how
@@ -400,7 +400,7 @@ class RaceCpt {
 		// http://bhaaie/wp-admin/edit.php?post_type=race&page=bhaa_race_edit_results
 		return '<a href='.admin_url('edit.php?post_type=race&page=bhaa_race_edit_results&id='.$post_id).'>Edit Results</a>';
 	}
-	
+
 	/**
 	 * display the meta fields
 	 * http://www.netmagazine.com/tutorials/user-friendly-custom-fields-meta-boxes-wordpress
@@ -427,7 +427,7 @@ class RaceCpt {
 		echo '<option value="S" '.(($type[0]=='S')?'selected="selected"':"").'>S</option>';
 		echo '<option value="TRACK" '.(($type[0]=='TRACK')?'selected="selected"':"").'>TRACK</option>';
 		echo '</select></p>';
-		
+
 		echo implode('<br/>', $this->get_admin_url_links($post));
 	}
 
@@ -437,7 +437,7 @@ class RaceCpt {
 			 rows="20" cols="80" style="width:99%">'.$teamresults.'</textarea>';
 		//echo '<textarea rows="20" cols="80" name='.RaceCpt::BHAA_RACE_TEAM_RESULTS.' value="'.$teamresults.'" />';
 	}
-	
+
 	/**
 	 * Save the race meta data
 	 * @param unknown_type $post_id
@@ -463,7 +463,7 @@ class RaceCpt {
 			error_log($post_id .' -> '.RaceCpt::BHAA_RACE_TYPE.' -> '.$_POST[RaceCpt::BHAA_RACE_TYPE]);
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_TYPE, $_POST[RaceCpt::BHAA_RACE_TYPE] );
 		}
-		
+
 		if ( !empty($_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS])) {
 			error_log($post_id .' -> '.RaceCpt::BHAA_RACE_TEAM_RESULTS.' -> '.$_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS]);
 			update_post_meta( $post_id, RaceCpt::BHAA_RACE_TEAM_RESULTS, $_POST[RaceCpt::BHAA_RACE_TEAM_RESULTS] );
