@@ -1,0 +1,60 @@
+Change Log
+==========
+- 2018.01.03 Kicking off a new year.
+- 2017.07.28 Test auto deployment webhook using deployhq.com
+- 2017.07.12 Update for exporting data and importing result to & from RaceMaster.
+- 2017.06.19 Support the RaceMaster export and editing of race results.
+- 2017.05.24 Support export formats for the RaceMaster test phase.
+- 2017.03.24 Add option to delete a specific race result. Add latest date to the generated membership json file.
+- 2017.02.23 Handle runner id's.
+- 2017.02.16 Update the handling of edit race results via the admin section of the site.
+- 2017.01.30 Format the day runner date of birth. Add top-ten league csv file export feature.
+- 2017.01.27 Updates to the runner json export endpoint.
+- 2017.01.26 Add page to list runners by standard.
+- 2017.01.25 Update to use mustache templates in more places.
+- 2016.05.16 Add raceday-admin delete feature.
+- 2016.04.22 Refactor the raceday pages to use templates correctly.
+- 2016.04.03 Update to use the composer autoloader.
+- 2016.03.28 Add registrar admin page.
+- 2016.03.19 Add REST API user meta data support.
+- 2015.04.10 Convert 'Senior' category to 'S' on import.
+- 2015.02.24 Add sector team links.
+- 2015.01.26 Racetec Athlete export.
+- 2015.01.21 Add a text alert admin page.
+- 2015.01.14 Update the bhaa_runner_status_shortcode() logic to handle dates.
+- 2014.12.12 Add course cpt with p2p link to events. Tidy the race result table.
+- 2014.12.11 Edit runner standard shortcode.
+- 2014.12.10 Fix up age category and positions.
+- 2014.11.07 Split admin shortcodes for the renewal email.
+- 2014.11.03 Register the Race CPT via the public class and not the admin one.
+- 2014.10.23 Add renewal and edit name shortcode for registrar user.
+- 2014.10.10 Fix the team league point calculation and layout.
+- 2014.09.10 Use a template_redirect to grab a shortcode house page content.
+- 2014.09.09 Add jquery tablesorter support.
+- 2014.09.08 Start re-work to support generic bhaa shortcodes.
+- 2014.08.21 The individual league needs to update the race_details.
+- 2014.08.05 Split SQL function for generating the mens and womens team summary value.
+- 2014.08.01 Add sp's to calculate the correct inidividual and team league summary string.
+- 2014.07.23 Individual league delete and populate actions implements via SQL.
+- 2014.07.21 Fix the $postId reference in the Load Team Results action.
+- 2014.07.10 Merge all race admin code to a new class-race-cpt in the admin area. Add team league SQL logic.
+- 2014.07.09 Fix up the League CPT actions for GET and POST scenarios. Move the race CTP logic for columns
+- 2014.07.08 Drop the race dropdown from the raceday forms. Update versioning of members.js script.
+- 2014.06.23 Add user_register hook to set the default runner status and gender when a new user is added manually.
+- 2014.06.10 Table styling and use correct plugin name. Support editing a race time. Add a new race result which can then be editied.
+- 2014.05.15 Update the edit runner result form to use the ID.
+- 2014.04.15 Add a raceresult edit form so we can fix up the league results
+- 2014.04.07 New members form and the runner id. Make the raceday list page pretty. Set form autocomplete=off
+- 2014.03.28 Add 'admin_action' functions and link the 'post_row_actions' via Jquery to the same for the League CPT.
+- 2014.03.27 Update logic around getting the post_id for the race admin, needs more work.
+- 2014.03.25 Add GitHub Timeout
+- 2014.03.24 Add company name to autocomplete.Fix dob regex.Add page to edit a runners race result.
+- 2014.03.14 Fix up the raceday pages.
+- 2014.01.30 Update the raceday form layout.
+- 2014.01.29 Update the raceday registration pages.
+- 2014.01.21 Add company and sector dropdown for the registrar page with back end logic. Add a edit house url link for admin users to alter team members
+- 2014.01.20 Handle the login/logout links with wp_nav_menu_items(). Don't show subscribers the wp admin screen
+- 2014.01.14 Fix renewal email url link.Add support to edit the runners name and update display name. Display the runners company link.
+- 2014.01.13 Update the raceday registration form layout with bootstrap 3 css.
+- 2014.01.03 Add disable/enable booking option.
+- 2014.01.01 Refactored the plugin to follow a more structured format.
